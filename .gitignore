@@ -1,3 +1,10 @@
+# Ignore folder
+.vs/*
+Debug/*
+Release/*
+SpaghettiEngine/Debug/*
+SpaghettiEngine/Release/*
+
 # Prerequisites
 *.d
 
