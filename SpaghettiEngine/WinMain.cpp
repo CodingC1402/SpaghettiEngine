@@ -2,6 +2,9 @@
 #include <d3d9.h>
 #include <iostream>
 #include "Game.h"
+#include "KeyBoard.h"
+
+KeyBoard *g_kbKeyInput;
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
@@ -11,6 +14,10 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		PostQuitMessage( 0 );
 		break;
 	case WM_KEYDOWN:
+		KeyBoard::UpdateKeyState( wParam, lParam, true );
+		break;
+	case WM_KEYUP:
+		KeyBoard::UpdateKeyState( wParam, lParam, false );
 		break;
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
@@ -24,6 +31,9 @@ int WINAPI wWinMain(
 	int			nCmdShow
 )
 {
+	//Init input device
+	g_kbKeyInput = new KeyBoard();
+
 	const LPCWSTR pClassName = L"SpaghettiEngine";
 	//Register window class;
 	WNDCLASSEX wc = { 0 };
@@ -66,6 +76,8 @@ int WINAPI wWinMain(
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
 	}
+
+	delete g_kbKeyInput;
 
 	if ( iResult == -1 )
 		return -1;

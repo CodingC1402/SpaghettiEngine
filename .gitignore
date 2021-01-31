@@ -2,8 +2,10 @@
 .vs/*
 Debug/*
 Release/*
+x64/*
 SpaghettiEngine/Debug/*
 SpaghettiEngine/Release/*
+SpaghettiEngine/x64/*
 
 # Prerequisites
 *.d
