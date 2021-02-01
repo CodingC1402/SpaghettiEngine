@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Mathf.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="WStrUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Mathf.h" />

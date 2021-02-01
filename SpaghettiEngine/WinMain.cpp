@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Time.h"
 #include "KeyBoard.h"
+#include "Debug.h"
 
 KeyBoard *g_kbKeyInput;
 
@@ -72,11 +73,15 @@ int WINAPI wWinMain(
 	//Message pump
 	MSG msg;
 	BOOL iResult;
-	while ( (iResult = GetMessage( &msg, nullptr, 0, 0)) > 0 )
+	while ( (iResult = PeekMessage( &msg, nullptr, 0, 0, PM_NOREMOVE)) > 0 )
 	{
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
+		//=================================={Where you put your game loop}=======================================
 
+		Debug::LogB( KeyBoard::GetKeyDown( Keys::BACK ) );
+
+		//======================================================================================================
 		Time::UpdateTime();
 	}
 

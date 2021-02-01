@@ -32,10 +32,6 @@ void Time::UpdateTime()
     m_fSystemTime = Mathf::Clamp(m_fSystemTime, MAX_SYSTEM_TIME, 0);
 
     m_fDeltaTime *= m_fTimeScale;
-
-    PWSTR text = WStrUtils::ToString( m_fSystemTime );
-    OutputDebugString( text );
-    delete[] text;
 }
 
 float Time::SetTimeScale( float TimeScale )
