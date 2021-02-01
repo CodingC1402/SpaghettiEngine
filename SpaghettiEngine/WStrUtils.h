@@ -1,10 +1,12 @@
 #pragma once
 #include <Windows.h>
 #include <math.h>
+#include <string>
 
 class WStrUtils
 {
-	static PWSTR ToString( int number );
+public:
 	static PWSTR ToString( float number );
+	static LPWSTR ConvertString( const std::string& instr );
 };
 

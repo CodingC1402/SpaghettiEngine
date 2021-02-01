@@ -1,18 +1,13 @@
 #include "KeyBoard.h"
-#include <string>
+#include "WStrUtils.h"
 
 bool KeyBoard::m_bKeysDown[ NUMBER_OF_KEYS ];
-KeyPress** KeyBoard::m_kpKeysPress;
 std::map<int, Keys> KeyBoard::m_mVKeyToKey;
+std::vector<KeyPress> KeyBoard::m_vKeysPressDown;
+std::vector<KeyPress> KeyBoard::m_vKeysPressUp;
 
 KeyBoard::KeyBoard()
 {
-	m_kpKeysPress = new KeyPress * [ NUMBER_OF_KEYS ];
-	for ( int i = 0; i < NUMBER_OF_KEYS; i++ )
-	{
-		m_kpKeysPress[ i ] = new KeyPress();
-	}
-
 #pragma region KeyMap
 	m_mVKeyToKey[ (int)'~' ] = Keys::TILDE;
 	m_mVKeyToKey[ (int)'0' ] = Keys::NUM0;
@@ -93,20 +88,23 @@ KeyBoard::KeyBoard()
 
 KeyBoard::~KeyBoard()
 {
-	for ( int i = 0; i < NUMBER_OF_KEYS; i++ )
-	{
-		delete m_kpKeysPress[ i ];
-	}
-	delete[] m_kpKeysPress;
+
 }
 
-KeyPress* KeyBoard::GetKeyPress( Keys kCode )
+bool KeyBoard::GetKeyPressDown( Keys kCode )
 {
-	if ( m_kpKeysPress[ static_cast<int>(kCode) ] == nullptr )
+	return false;
+}
+
+bool KeyBoard::GetKeyPressUp( Keys kCode )
+{
+	for ( int i = 0; i < m_vKeysPressUp.size(); i++ )
 	{
-		OutputDebugString( L"Create obj of keyboard first" );
+		if ( m_vKeysPressUp[ i ].key == kCode )
+		{
+			return kCode;
+		}
 	}
-	return m_kpKeysPress[ static_cast<int>(kCode) ];
 }
 
 bool KeyBoard::GetKeyDown( Keys kCode )
@@ -116,6 +114,12 @@ bool KeyBoard::GetKeyDown( Keys kCode )
 
 void KeyBoard::UpdateKeyState( WPARAM wParam, LPARAM lParam, bool bKeyDown )
 {
+	if ( bKeyDown )
+	{
+		if ( !m_bKeysDown[ static_cast<int>(m_mVKeyToKey[ wParam ]) ] )
+		{
+			//Add key pressed
+		}
+	}
 	m_bKeysDown[ static_cast<int>(m_mVKeyToKey[ wParam ]) ] = bKeyDown;
-	OutputDebugString(	 );
 }

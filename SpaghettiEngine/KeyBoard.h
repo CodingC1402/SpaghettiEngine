@@ -20,16 +20,12 @@ static enum Keys
 class KeyPress
 {
 protected:
-	bool bPressed = false;
 	bool bHandled = false;
+	Keys key;
 public:
-	void Handled()
+	KeyPress( Keys key)
 	{
-		bHandled = true;
-	}
-	bool GetKeyState()
-	{
-		return bPressed;
+		this->key = key;
 	}
 	friend class KeyBoard;
 };
@@ -38,13 +34,15 @@ static class KeyBoard
 {
 protected:
 	static bool m_bKeysDown[ NUMBER_OF_KEYS ];
-	static KeyPress** m_kpKeysPress;
+	static std::vector<KeyPress> m_vKeysPressDown;
+	static std::vector<KeyPress> m_vKeysPressUp;
 	static std::map<int, Keys> m_mVKeyToKey;
 public:
 	KeyBoard();
 	~KeyBoard();
 
-	static KeyPress* GetKeyPress( Keys kCode );
+	static bool GetKeyPressDown( Keys kCode );
+	static bool GetKeyPressUp( Keys kCode );
 	static bool GetKeyDown( Keys kCode );
 	static void UpdateKeyState( WPARAM wParam, LPARAM lParam, bool bKeyDown );
 };
