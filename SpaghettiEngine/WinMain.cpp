@@ -2,6 +2,7 @@
 #include <d3d9.h>
 #include <iostream>
 #include "Game.h"
+#include "Time.h"
 #include "KeyBoard.h"
 
 KeyBoard *g_kbKeyInput;
@@ -75,6 +76,8 @@ int WINAPI wWinMain(
 	{
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
+
+		Time::UpdateTime();
 	}
 
 	delete g_kbKeyInput;

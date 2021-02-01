@@ -157,14 +157,18 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
+    <ClCompile Include="Mathf.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WStrUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="KeyBoard.h" />
+    <ClInclude Include="Mathf.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="WStrUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

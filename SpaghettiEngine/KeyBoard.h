@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <vector>
 #include <map>
+#include "Time.h"
 
 #define NUMBER_OF_KEYS 68
 
@@ -20,22 +21,26 @@ static enum Keys
 class KeyPress
 {
 protected:
-	bool bHandled = false;
+	bool m_bIsKeyDown = false;
+	float m_fRecordedTime;
 	Keys key;
 public:
 	KeyPress( Keys key)
 	{
+		m_fRecordedTime = Time::GetSystemTime();
 		this->key = key;
 	}
+	void SetKeyState( bool bIsKeyDown );
+	bool GetKeyHold();
+	bool GetKeyDown();
+	bool GetKeyUp();
 	friend class KeyBoard;
 };
 
 static class KeyBoard
 {
 protected:
-	static bool m_bKeysDown[ NUMBER_OF_KEYS ];
-	static std::vector<KeyPress> m_vKeysPressDown;
-	static std::vector<KeyPress> m_vKeysPressUp;
+	static KeyPress* m_kpKeys[ NUMBER_OF_KEYS ];
 	static std::map<int, Keys> m_mVKeyToKey;
 public:
 	KeyBoard();

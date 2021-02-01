@@ -1,13 +1,16 @@
 #include "KeyBoard.h"
 #include "WStrUtils.h"
 
-bool KeyBoard::m_bKeysDown[ NUMBER_OF_KEYS ];
+KeyPress* KeyBoard::m_kpKeys[ NUMBER_OF_KEYS ];
 std::map<int, Keys> KeyBoard::m_mVKeyToKey;
-std::vector<KeyPress> KeyBoard::m_vKeysPressDown;
-std::vector<KeyPress> KeyBoard::m_vKeysPressUp;
 
 KeyBoard::KeyBoard()
 {
+	for ( int i = 0; i < NUMBER_OF_KEYS; i++ )
+	{
+		m_kpKeys[ i ] = new KeyPress( static_cast<Keys>(i) );
+	}
+
 #pragma region KeyMap
 	m_mVKeyToKey[ (int)'~' ] = Keys::TILDE;
 	m_mVKeyToKey[ (int)'0' ] = Keys::NUM0;
@@ -93,33 +96,47 @@ KeyBoard::~KeyBoard()
 
 bool KeyBoard::GetKeyPressDown( Keys kCode )
 {
-	return false;
+	return m_kpKeys[ static_cast<int>(kCode) ]->GetKeyDown();
 }
 
 bool KeyBoard::GetKeyPressUp( Keys kCode )
 {
-	for ( int i = 0; i < m_vKeysPressUp.size(); i++ )
-	{
-		if ( m_vKeysPressUp[ i ].key == kCode )
-		{
-			return kCode;
-		}
-	}
+	return m_kpKeys[ static_cast<int>(kCode) ]->GetKeyUp();
 }
 
 bool KeyBoard::GetKeyDown( Keys kCode )
 {
-	return m_bKeysDown[ static_cast<int>(kCode) ];
+	return m_kpKeys[ static_cast<int>(kCode) ]->GetKeyHold();
 }
 
 void KeyBoard::UpdateKeyState( WPARAM wParam, LPARAM lParam, bool bKeyDown )
 {
-	if ( bKeyDown )
-	{
-		if ( !m_bKeysDown[ static_cast<int>(m_mVKeyToKey[ wParam ]) ] )
-		{
-			//Add key pressed
-		}
-	}
-	m_bKeysDown[ static_cast<int>(m_mVKeyToKey[ wParam ]) ] = bKeyDown;
+	m_kpKeys[ static_cast<int>(m_mVKeyToKey[ wParam ]) ]->SetKeyState(bKeyDown);
+}
+
+void KeyPress::SetKeyState(bool bIsKeyDown)
+{
+	m_bIsKeyDown = bIsKeyDown;
+	m_fRecordedTime = Time::GetSystemTime();
+}
+
+bool KeyPress::GetKeyHold()
+{
+	return m_bIsKeyDown;
+}
+
+bool KeyPress::GetKeyDown()
+{
+	if ( m_fRecordedTime == Time::GetSystemTime() )
+		return m_bIsKeyDown;
+	else
+		return false;
+}
+
+bool KeyPress::GetKeyUp()
+{
+	if ( m_fRecordedTime == Time::GetSystemTime() )
+		return !m_bIsKeyDown;
+	else
+		return false;
 }
