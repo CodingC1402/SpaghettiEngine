@@ -1,145 +1,109 @@
 #include "KeyBoard.h"
-#include "WStrUtils.h"
 
-KeyPress* KeyBoard::m_kpKeys[ NUMBER_OF_KEYS ];
-std::map<int, Keys> KeyBoard::m_mVKeyToKey;
-
-KeyBoard::KeyBoard()
+bool KeyBoard::KeyIsPress( unsigned char ucKeycode ) noexcept
 {
-	for ( int i = 0; i < NUMBER_OF_KEYS; i++ )
+	return m_bsKeyStates[ ucKeycode ];
+}
+
+KeyBoard::Event KeyBoard::ReadKey() noexcept
+{
+	if ( m_qKeyBuffer.size() > 0u )
 	{
-		m_kpKeys[ i ] = new KeyPress( static_cast<Keys>(i) );
+		KeyBoard::Event e = m_qKeyBuffer.front();
+		m_qCharBuffer.pop();
+		return e;
 	}
-
-#pragma region KeyMap
-	m_mVKeyToKey[ (int)'~' ] = Keys::TILDE;
-	m_mVKeyToKey[ (int)'0' ] = Keys::NUM0;
-	m_mVKeyToKey[ (int)'1' ] = Keys::NUM1;
-	m_mVKeyToKey[ (int)'2' ] = Keys::NUM2;
-	m_mVKeyToKey[ (int)'3' ] = Keys::NUM3;
-	m_mVKeyToKey[ (int)'4' ] = Keys::NUM4;
-	m_mVKeyToKey[ (int)'5' ] = Keys::NUM5;
-	m_mVKeyToKey[ (int)'6' ] = Keys::NUM6;
-	m_mVKeyToKey[ (int)'7' ] = Keys::NUM7;
-	m_mVKeyToKey[ (int)'8' ] = Keys::NUM8;
-	m_mVKeyToKey[ (int)'9' ] = Keys::NUM9;
-	m_mVKeyToKey[ (int)'9' ] = Keys::NUM9;
-
-	m_mVKeyToKey[ (int)'Q' ] = Keys::Q;
-	m_mVKeyToKey[ (int)'W' ] = Keys::W;
-	m_mVKeyToKey[ (int)'E' ] = Keys::E;
-	m_mVKeyToKey[ (int)'R' ] = Keys::R;
-	m_mVKeyToKey[ (int)'T' ] = Keys::T;
-	m_mVKeyToKey[ (int)'Y' ] = Keys::Y;
-	m_mVKeyToKey[ (int)'U' ] = Keys::U;
-	m_mVKeyToKey[ (int)'I' ] = Keys::I;
-	m_mVKeyToKey[ (int)'O' ] = Keys::O;
-	m_mVKeyToKey[ (int)'P' ] = Keys::P;
-	m_mVKeyToKey[ (int)'A' ] = Keys::A;
-	m_mVKeyToKey[ (int)'S' ] = Keys::S;
-	m_mVKeyToKey[ (int)'D' ] = Keys::D;
-	m_mVKeyToKey[ (int)'F' ] = Keys::F;
-	m_mVKeyToKey[ (int)'G' ] = Keys::G;
-	m_mVKeyToKey[ (int)'H' ] = Keys::H;
-	m_mVKeyToKey[ (int)'J' ] = Keys::J;
-	m_mVKeyToKey[ (int)'K' ] = Keys::K;
-	m_mVKeyToKey[ (int)'L' ] = Keys::L;
-	m_mVKeyToKey[ (int)'Z' ] = Keys::Z;
-	m_mVKeyToKey[ (int)'X' ] = Keys::X;
-	m_mVKeyToKey[ (int)'C' ] = Keys::C;
-	m_mVKeyToKey[ (int)'V' ] = Keys::V;
-	m_mVKeyToKey[ (int)'B' ] = Keys::B;
-	m_mVKeyToKey[ (int)'N' ] = Keys::N;
-	m_mVKeyToKey[ (int)'M' ] = Keys::M;
-
-	m_mVKeyToKey[ (int)'+' ] = Keys::PLUS;
-	m_mVKeyToKey[ (int)'_' ] = Keys::MINUS;
-	m_mVKeyToKey[ (int)'{' ] = Keys::OPENBRACE;
-	m_mVKeyToKey[ (int)'}' ] = Keys::CLOSEBRACE;
-	m_mVKeyToKey[ (int)'|' ] = Keys::PIPE;
-	m_mVKeyToKey[ (int)':' ] = Keys::COLON;
-	m_mVKeyToKey[ (int)'"' ] = Keys::QUOTE;
-	m_mVKeyToKey[ (int)'<' ] = Keys::LESSTHAN;
-	m_mVKeyToKey[ (int)'>' ] = Keys::GREATERTHAN;
-	m_mVKeyToKey[ (int)'?' ] = Keys::QUESTIONMARK;
-
-	m_mVKeyToKey[ VK_ESCAPE ] = Keys::ESC;
-	m_mVKeyToKey[ VK_BACK ] = Keys::BACK;
-	m_mVKeyToKey[ VK_TAB ] = Keys::TAB;
-	m_mVKeyToKey[ VK_CAPITAL ] = Keys::CAPS;
-	m_mVKeyToKey[ VK_ACCEPT ] = Keys::ENTER;
-	m_mVKeyToKey[ VK_LSHIFT ] = Keys::LSHIFT;
-	m_mVKeyToKey[ VK_RSHIFT ] = Keys::RSHIFT;
-	m_mVKeyToKey[ VK_LCONTROL ] = Keys::LCTRL;
-	m_mVKeyToKey[ VK_RCONTROL ] = Keys::RCTRL;
-	m_mVKeyToKey[ VK_LMENU ] = Keys::LALT;
-	m_mVKeyToKey[ VK_RMENU ] = Keys::RALT;
-
-	m_mVKeyToKey[ VK_INSERT ] = Keys::INSERT;
-	m_mVKeyToKey[ VK_HOME ] = Keys::HOME;
-	m_mVKeyToKey[ VK_PRIOR ] = Keys::PAGEUP;
-	m_mVKeyToKey[ VK_NEXT ] = Keys::PAGEDOWN;
-	m_mVKeyToKey[ VK_END ] = Keys::END;
-	m_mVKeyToKey[ VK_DELETE ] = Keys::DEL;
-
-	m_mVKeyToKey[ VK_UP ] = Keys::UP;
-	m_mVKeyToKey[ VK_DOWN ] = Keys::DOWN;
-	m_mVKeyToKey[ VK_LEFT ] = Keys::LEFT;
-	m_mVKeyToKey[ VK_RIGHT ] = Keys::RIGHT;
-#pragma endregion
-}
-
-KeyBoard::~KeyBoard()
-{
-
-}
-
-bool KeyBoard::GetKeyPressDown( Keys kCode )
-{
-	return m_kpKeys[ static_cast<int>(kCode) ]->GetKeyDown();
-}
-
-bool KeyBoard::GetKeyPressUp( Keys kCode )
-{
-	return m_kpKeys[ static_cast<int>(kCode) ]->GetKeyUp();
-}
-
-bool KeyBoard::GetKeyDown( Keys kCode )
-{
-	return m_kpKeys[ static_cast<int>(kCode) ]->GetKeyHold();
-}
-
-void KeyBoard::UpdateKeyState( WPARAM wParam, LPARAM lParam, bool bKeyDown )
-{
-	m_kpKeys[ static_cast<int>(m_mVKeyToKey[ wParam ]) ]->SetKeyState(bKeyDown);
-}
-
-void KeyPress::SetKeyState(bool bIsKeyDown)
-{
-	m_bIsKeyDown = bIsKeyDown;
-	if ( m_bIsKeyDown )
-		m_fRecordedKeyDownTime = Time::GetSystemTime();
 	else
-		m_fRecordedKeyUpTime = Time::GetSystemTime();
+	{
+		return KeyBoard::Event();
+	}
 }
 
-bool KeyPress::GetKeyHold()
+bool KeyBoard::KeyIsEmpty() noexcept
 {
-	return m_bIsKeyDown;
+	return m_qKeyBuffer.empty();
 }
 
-bool KeyPress::GetKeyDown()
+char KeyBoard::ReadChar() noexcept
 {
-	if ( m_fRecordedKeyDownTime == Time::GetSystemTime() )
-		return true;
+	if ( m_qCharBuffer.size() > 0u )
+	{
+		unsigned char ucCode = m_qCharBuffer.front();
+		m_qCharBuffer.pop();
+		return ucCode;
+	}
 	else
-		return false;
+	{
+		return 0;
+	}
 }
 
-bool KeyPress::GetKeyUp()
+bool KeyBoard::CharIsEmpty() noexcept
 {
-	if ( m_fRecordedKeyUpTime == Time::GetSystemTime() )
-		return true;
-	else
-		return false;
+	return m_qCharBuffer.empty();
+}
+
+void KeyBoard::ClearKey() noexcept
+{
+	m_qKeyBuffer = std::queue<Event>();
+}
+
+void KeyBoard::ClearChar() noexcept
+{
+	m_qCharBuffer = std::queue<char>();
+}
+
+void KeyBoard::Clear() noexcept
+{
+	ClearKey();
+	ClearChar();
+}
+
+void KeyBoard::EnableAutoRepeat() noexcept
+{
+	m_autoRepeatEnabled = true;
+}
+
+void KeyBoard::DisableAutoRepeat() noexcept
+{
+	m_autoRepeatEnabled = false;
+}
+
+bool KeyBoard::IsAutoRepeatEnabled() noexcept
+{
+	return m_autoRepeatEnabled;
+}
+
+void KeyBoard::OnKeyPressed( unsigned char ucKeycode ) noexcept
+{
+	m_bsKeyStates[ ucKeycode ] = true;
+	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode) );
+	TrimBuffer( m_qKeyBuffer );
+}
+
+void KeyBoard::OnKeyRelease( unsigned char ucKeycode ) noexcept
+{
+	m_bsKeyStates[ ucKeycode ] = false;
+	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode ) );
+	TrimBuffer( m_qKeyBuffer );
+}
+
+void KeyBoard::OnChar( char c ) noexcept
+{
+	m_qCharBuffer.push( c );
+	TrimBuffer( m_qCharBuffer );
+}
+
+void KeyBoard::ClearState() noexcept
+{
+	m_bsKeyStates.reset();
+}
+
+template<typename T>
+void KeyBoard::TrimBuffer( std::queue<T>& buffer ) noexcept
+{
+	while ( buffer.size() > m_bufferSize )
+	{
+		buffer.pop();
+	}
 }

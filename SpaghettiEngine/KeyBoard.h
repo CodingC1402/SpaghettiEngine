@@ -1,55 +1,75 @@
 #pragma once
-#include <Windows.h>
 #include <vector>
-#include <map>
-#include "Time.h"
+#include <bitset>
+#include <queue>
 
-#define NUMBER_OF_KEYS 68
-
-static enum Keys
+class KeyBoard
 {
-	ESC,
-	TILDE, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9, NUM0, MINUS, PLUS, BACK,
-	TAB, Q, W, E, R, T, Y, U, I, O, P, OPENBRACE, CLOSEBRACE, LEFTDASH, PIPE,
-	CAPS, A, S, D, F, G, H, J, K, L, COLON, QUOTE, ENTER,
-	LSHIFT, Z, X, C, V, B, N, M, LESSTHAN, GREATERTHAN, QUESTIONMARK, RSHIFT,
-	LCTRL, LALT, RALT, RCTRL,
-	UP, DOWN, LEFT, RIGHT,
-	INSERT, HOME, PAGEUP, PAGEDOWN, END, DEL
-};
-
-class KeyPress
-{
-protected:
-	bool m_bIsKeyDown = false;
-	float m_fRecordedKeyDownTime;
-	float m_fRecordedKeyUpTime;
-	Keys key;
+	friend class Window;
 public:
-	KeyPress( Keys key)
+	class Event
 	{
-		m_fRecordedKeyDownTime = Time::GetSystemTime();
-		m_fRecordedKeyUpTime = Time::GetSystemTime();
-		this->key = key;
-	}
-	void SetKeyState( bool bIsKeyDown );
-	bool GetKeyHold();
-	bool GetKeyDown();
-	bool GetKeyUp();
-	friend class KeyBoard;
-};
-
-static class KeyBoard
-{
-protected:
-	static KeyPress* m_kpKeys[ NUMBER_OF_KEYS ];
-	static std::map<int, Keys> m_mVKeyToKey;
+	public:
+		enum class Type
+		{
+			Press,
+			Release,
+			Invalid
+		};
+	private:
+		Type m_tType;
+		unsigned char m_ucCode;
+	public:
+		Event() noexcept : m_tType( Type::Invalid ), m_ucCode( 0u ) {}
+		Event( Type tType, unsigned char ucCode ) noexcept : m_tType( tType ), m_ucCode( ucCode ) {}
+		bool IsPress() const noexcept
+		{
+			return m_tType == Type::Press;
+		}
+		bool IsRelease() const noexcept
+		{
+			return m_tType == Type::Release;
+		}
+		bool IsValid() const noexcept
+		{
+			return m_tType == Type::Invalid;
+		}
+		unsigned char GetCode() const noexcept
+		{
+			return m_ucCode;
+		}
+	};
 public:
-	KeyBoard();
-	~KeyBoard();
+	KeyBoard() = default;
+	KeyBoard( const KeyBoard& ) = delete;
+	KeyBoard& operator=( const KeyBoard& ) = delete;
 
-	static bool GetKeyPressDown( Keys kCode );
-	static bool GetKeyPressUp( Keys kCode );
-	static bool GetKeyDown( Keys kCode );
-	static void UpdateKeyState( WPARAM wParam, LPARAM lParam, bool bKeyDown );
+	bool KeyIsPress( unsigned char ucKeycode ) noexcept;
+	Event ReadKey() noexcept;
+	bool KeyIsEmpty() noexcept;
+	void ClearKey() noexcept;
+
+	char ReadChar() noexcept;
+	bool CharIsEmpty() noexcept;
+	void ClearChar() noexcept;
+
+	void Clear() noexcept;
+
+	void EnableAutoRepeat() noexcept;
+	void DisableAutoRepeat() noexcept;
+	bool IsAutoRepeatEnabled() noexcept;
+private:
+	void OnKeyPressed( unsigned char ucKeycode ) noexcept;
+	void OnKeyRelease( unsigned char ucKeycode ) noexcept;
+	void OnChar( char  c ) noexcept;
+	void ClearState() noexcept;
+	template<typename T>
+	static void TrimBuffer( std::queue<T>& buffer ) noexcept;
+private:
+	static constexpr unsigned int m_uiKeys = 256u;
+	static constexpr unsigned int m_bufferSize = 16u;
+	bool m_autoRepeatEnabled = false;
+	std::bitset<m_uiKeys> m_bsKeyStates;
+	std::queue<Event> m_qKeyBuffer;
+	std::queue<char> m_qCharBuffer;
 };

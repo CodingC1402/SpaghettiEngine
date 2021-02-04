@@ -21,15 +21,13 @@ int WINAPI wWinMain(
 		DispatchMessage( &msg );
 		//=================================={Where you put your game loop}=======================================
 
-		if ( KeyBoard::GetKeyPressDown( Keys::BACK ) && KeyBoard::GetKeyPressDown( Keys::A ) )
+		if ( wndMain.m_kbKeyInput.KeyIsPress( VK_MENU ) )
 		{
-			Debug::Log( "True\n" );
-			wndMain.SetText( L"Down" );
+			MessageBox( nullptr, L"bruh", L"lol", 0 );
 		}
 		else
 		{
-			Debug::Log( "Faslse\n" );
-			wndMain.SetText( L"Up" );
+			wndMain.SetText( L"lol" );
 		}
 
 		//======================================================================================================

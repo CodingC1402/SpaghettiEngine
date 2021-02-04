@@ -38,7 +38,7 @@ private:
 	int m_iWidth;
 	int m_iHeight;
 	HWND m_hWnd;
-
-	KeyBoard m_kbInput;
+public:
+	KeyBoard m_kbKeyInput;
 };
 

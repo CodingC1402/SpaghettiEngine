@@ -97,12 +97,22 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_CLOSE:
 		PostQuitMessage( 0 );
 		break;
+	case WM_KILLFOCUS:
+		m_kbKeyInput.ClearState();
+		break;
+	//Key board message
+	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
-		KeyBoard::UpdateKeyState( wParam, lParam, true );
+		m_kbKeyInput.OnKeyPressed( static_cast<unsigned char>(wParam) );
 		break;
+	case WM_SYSKEYUP:
 	case WM_KEYUP:
-		KeyBoard::UpdateKeyState( wParam, lParam, false );
+		m_kbKeyInput.OnKeyRelease( static_cast<unsigned char>(wParam) );
 		break;
+	case WM_CHAR:
+		m_kbKeyInput.OnChar( static_cast<unsigned char>(wParam) );
+		break;
+	//Key message
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
