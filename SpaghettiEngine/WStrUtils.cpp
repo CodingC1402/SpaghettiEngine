@@ -23,3 +23,11 @@ LPWSTR WStrUtils::ConvertString( const std::string& instr )
 
     return widestr;
 }
+
+LPWSTR WStrUtils::Clone( LPCWSTR str )
+{
+    std::vector<wchar_t> thecopy( wcslen( str ) + 1 );
+    wcscpy_s( thecopy.data(), thecopy.size(), str );
+
+    return thecopy.data();
+}

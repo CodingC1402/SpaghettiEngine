@@ -22,12 +22,14 @@ class KeyPress
 {
 protected:
 	bool m_bIsKeyDown = false;
-	float m_fRecordedTime;
+	float m_fRecordedKeyDownTime;
+	float m_fRecordedKeyUpTime;
 	Keys key;
 public:
 	KeyPress( Keys key)
 	{
-		m_fRecordedTime = Time::GetSystemTime();
+		m_fRecordedKeyDownTime = Time::GetSystemTime();
+		m_fRecordedKeyUpTime = Time::GetSystemTime();
 		this->key = key;
 	}
 	void SetKeyState( bool bIsKeyDown );

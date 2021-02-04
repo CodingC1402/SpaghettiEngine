@@ -117,7 +117,10 @@ void KeyBoard::UpdateKeyState( WPARAM wParam, LPARAM lParam, bool bKeyDown )
 void KeyPress::SetKeyState(bool bIsKeyDown)
 {
 	m_bIsKeyDown = bIsKeyDown;
-	m_fRecordedTime = Time::GetSystemTime();
+	if ( m_bIsKeyDown )
+		m_fRecordedKeyDownTime = Time::GetSystemTime();
+	else
+		m_fRecordedKeyUpTime = Time::GetSystemTime();
 }
 
 bool KeyPress::GetKeyHold()
@@ -127,16 +130,16 @@ bool KeyPress::GetKeyHold()
 
 bool KeyPress::GetKeyDown()
 {
-	if ( m_fRecordedTime == Time::GetSystemTime() )
-		return m_bIsKeyDown;
+	if ( m_fRecordedKeyDownTime == Time::GetSystemTime() )
+		return true;
 	else
 		return false;
 }
 
 bool KeyPress::GetKeyUp()
 {
-	if ( m_fRecordedTime == Time::GetSystemTime() )
-		return !m_bIsKeyDown;
+	if ( m_fRecordedKeyUpTime == Time::GetSystemTime() )
+		return true;
 	else
 		return false;
 }
