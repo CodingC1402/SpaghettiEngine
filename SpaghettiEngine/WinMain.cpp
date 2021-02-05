@@ -1,5 +1,5 @@
-#include <d3d9.h>
 #include "Window.h"
+#include <string>
 
 //Entry point
 int WINAPI wWinMain(
@@ -9,6 +9,7 @@ int WINAPI wWinMain(
 	int			nCmdShow
 )
 {
+	std::wstring winname;
 	Window wndMain( 1600, 900, L"Spaghetti DirectX Engine" );
 	//Message pump
 	MSG msg;
@@ -21,14 +22,7 @@ int WINAPI wWinMain(
 		DispatchMessage( &msg );
 		//=================================={Where you put your game loop}=======================================
 
-		if ( wndMain.m_kbKeyInput.IsKeyPress( VK_MENU ) )
-		{
-			MessageBox( nullptr, L"bruh", L"lol", 0 );
-		}
-		else
-		{
-			wndMain.SetText( L"lol" );
-		}
+
 
 		//======================================================================================================
 	}

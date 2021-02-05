@@ -1,22 +1,27 @@
 #include "Mouse.h"
 
 #pragma region public
-inline bool Mouse::IsLeftPress()
+bool Mouse::IsLeftPress()
 {
 	return m_bLeftButtonPress;
 }
 
-inline bool Mouse::IsRightPress()
+bool Mouse::IsRightPress()
 {
 	return m_bRightButtonPress;
 }
 
-inline bool Mouse::IsMiddlePress()
+bool Mouse::IsMiddlePress()
 {
 	return m_bMiddleButtonPress;
 }
 
-inline bool Mouse::IsButtonPress( unsigned char ucCode )
+bool Mouse::IsInside()
+{
+	return m_bIsInside;
+}
+
+bool Mouse::IsButtonPress( unsigned char ucCode )
 {
 	switch (ucCode)
 	{
@@ -29,12 +34,12 @@ inline bool Mouse::IsButtonPress( unsigned char ucCode )
 	}
 }
 
-inline bool Mouse::IsEmpty() const noexcept
+bool Mouse::IsEmpty() const noexcept
 {
 	return m_qBuffer.empty();
 }
 
-inline Mouse::Event Mouse::Read() noexcept
+Mouse::Event Mouse::Read() noexcept
 {
 	if (!m_qBuffer.empty())
 	{
@@ -56,87 +61,99 @@ void Mouse::Clear() noexcept
 	}
 }
 
-inline Point Mouse::GetPosition() const noexcept
+Point Mouse::GetPosition() const noexcept
 {
 	return m_ptPosition;
 }
 
-inline int Mouse::GetPosX() const noexcept
+int Mouse::GetPosX() const noexcept
 {
 	return m_ptPosition.x;
 }
 
-inline int Mouse::GetPosY() const noexcept
+int Mouse::GetPosY() const noexcept
 {
 	return m_ptPosition.y;
 }
 #pragma endregion
 
 #pragma region window
-inline void Mouse::OnMove( const Point& ptPos ) noexcept
+void Mouse::OnMove( const Point& ptPos ) noexcept
 {
 	AddEvent( Event::Type::Move, ptPos );
 }
 
-inline void Mouse::OnLeftPress( const Point& ptPos ) noexcept
+void Mouse::OnLeave() noexcept
+{
+	m_bIsInside = false;
+	AddEvent( Event::Type::Leave );
+}
+
+void Mouse::OnEnter() noexcept
+{
+	m_bIsInside = true;
+	AddEvent( Event::Type::Enter );
+}
+
+void Mouse::OnLeftPress( const Point& ptPos ) noexcept
 {
 	m_bLeftButtonPress = true;
 	AddEvent( Event::Type::LPress, ptPos );
 }
 
-inline void Mouse::OnLeftRelease( const Point& ptPos ) noexcept
+void Mouse::OnLeftRelease( const Point& ptPos ) noexcept
 {
 	m_bLeftButtonPress = false;
 	AddEvent( Event::Type::LRelease, ptPos );
 }
 
-inline void Mouse::OnRightPress( const Point& ptPos ) noexcept
+void Mouse::OnRightPress( const Point& ptPos ) noexcept
 {
 	m_bRightButtonPress = true;
 	AddEvent( Event::Type::RPress );
 }
 
-inline void Mouse::OnRightRelease( const Point& ptPos ) noexcept
+void Mouse::OnRightRelease( const Point& ptPos ) noexcept
 {
 	m_bRightButtonPress = false;
 	AddEvent( Event::Type::RRelease, ptPos );
 }
 
-inline void Mouse::OnMiddlePress( const Point& ptPos ) noexcept
+void Mouse::OnMiddlePress( const Point& ptPos ) noexcept
 {
 	m_bMiddleButtonPress = true;
 	AddEvent( Event::Type::MPress, ptPos );
 }
 
-inline void Mouse::OnMiddleRelease( const Point& ptPos ) noexcept
+void Mouse::OnMiddleRelease( const Point& ptPos ) noexcept
 {
 	m_bMiddleButtonPress = false;
 	AddEvent( Event::Type::MRelease, ptPos );
 }
 
-inline void Mouse::OnWheelUp( const Point& ptPos ) noexcept
+void Mouse::OnWheelUp() noexcept
 {
 	AddEvent( Event::Type::WheelUp );
 }
 
-inline void Mouse::OnWheelDown( const Point& ptPos ) noexcept
+void Mouse::OnWheelDown() noexcept
 {
 	AddEvent( Event::Type::WheelDown );
 }
 
-inline void Mouse::AddEvent( const Event::Type& tEventType ) noexcept
+void Mouse::AddEvent( const Event::Type& tEventType ) noexcept
 {
-	m_qBuffer.push( Event( Event::Type::LPress, *this ) );
+	m_qBuffer.push( Event( tEventType, *this ) );
 	TrimBuffer();
 }
 
-inline void Mouse::AddEvent( const Event::Type& tEventType, const Point& ptPos ) noexcept
+void Mouse::AddEvent( const Event::Type& tEventType, const Point& ptPos ) noexcept
 {
 	m_ptPosition = ptPos;
 	AddEvent( tEventType );
 }
 
-inline void Mouse::TrimBuffer() noexcept
+void Mouse::TrimBuffer() noexcept
 {
 	while (m_qBuffer.size() > m_uiBufferSize)
 	{

@@ -27,23 +27,23 @@ Plane2D::Point::Point( const POINT& wpt )
 	y = wpt.y;
 }
 
-inline Point Point::operator+( const Point& pt )
+Point Point::operator+( const Point& pt )
 {
 	return Point( x + pt.x, y + pt.y );
 }
 
-inline Point Point::operator-( const Point& pt )
+Point Point::operator-( const Point& pt )
 {
 	return Point( x - pt.x, y - pt.y );
 }
 
-inline void  Point::operator= ( const Point& pt )
+void  Point::operator= ( const Point& pt )
 {
 	x = pt.x;
 	y = pt.y;
 }
 
-inline void Plane2D::Point::operator=( const POINT& wpt )
+void Plane2D::Point::operator=( const POINT& wpt )
 {
 	x = wpt.x;
 	y = wpt.y;
@@ -86,23 +86,23 @@ Plane2D::PointF::PointF( const POINT& wpt )
 	y = wpt.y;
 }
 
-inline PointF PointF::operator+( const PointF& pt )
+PointF PointF::operator+( const PointF& pt )
 {
 	return PointF( x + pt.x, y + pt.y );
 }
 
-inline PointF PointF::operator-( const PointF& pt )
+PointF PointF::operator-( const PointF& pt )
 {
 	return PointF( x - pt.x, y - pt.y );
 }
 
-inline void  PointF::operator= ( const PointF& pt )
+void  PointF::operator= ( const PointF& pt )
 {
 	x = pt.x;
 	y = pt.y;
 }
 
-inline void Plane2D::PointF::operator=( const POINT& wpt )
+void Plane2D::PointF::operator=( const POINT& wpt )
 {
 	x = wpt.x;
 	y = wpt.y;

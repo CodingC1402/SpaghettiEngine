@@ -24,6 +24,8 @@ public:
 			WheelUp,
 			WheelDown,
 			Move,
+			Enter,
+			Leave,
 			Invalid
 		};
 	private:
@@ -98,6 +100,7 @@ public:
 	bool	IsMiddlePress	();
 	// end
 
+	bool	IsInside		();
 	bool	IsButtonPress	( unsigned char ucCode );
 	bool	IsEmpty			() const noexcept;
 	Event	Read			() noexcept;
@@ -107,14 +110,16 @@ public:
 	int		GetPosY			() const noexcept;
 private:
 	void OnMove				( const Point& ptPos ) noexcept;
+	void OnLeave			() noexcept;
+	void OnEnter			() noexcept;
 	void OnLeftPress		( const Point& ptPos ) noexcept;
 	void OnLeftRelease		( const Point& ptPos ) noexcept;
 	void OnRightPress		( const Point& ptPos ) noexcept;
 	void OnRightRelease		( const Point& ptPos ) noexcept;
 	void OnMiddlePress		( const Point& ptPos ) noexcept;
 	void OnMiddleRelease	( const Point& ptPos ) noexcept;
-	void OnWheelUp			( const Point& ptPos ) noexcept;
-	void OnWheelDown		( const Point& ptPos ) noexcept;
+	void OnWheelUp			() noexcept;
+	void OnWheelDown		() noexcept;
 
 	void AddEvent			( const Event::Type& tEventType ) noexcept;
 	void AddEvent			( const Event::Type& tEventType, const Point& ptPos ) noexcept;
@@ -125,6 +130,7 @@ private:
 	bool m_bMiddleButtonPress	= false;
 	bool m_bLeftButtonPress		= false;
 	bool m_bRightButtonPress	= false;
+	bool m_bIsInside			= false;
 	std::queue<Event> m_qBuffer;
 };
 
