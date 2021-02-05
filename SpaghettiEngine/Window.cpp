@@ -1,0 +1,207 @@
+#include "Window.h"
+
+Window::WindowClass Window::WindowClass::m_wcWinClass;
+
+Window::WindowClass::WindowClass() noexcept
+	:
+	m_hInst( GetModuleHandle( nullptr ) )
+{
+	WNDCLASSEX wc = { 0 };
+	wc.style = CS_OWNDC;
+	wc.lpfnWndProc = Window::HandleMsgSetup;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.cbSize = sizeof( WNDCLASSEX );
+	wc.hInstance = GetInstance();
+	wc.hCursor = nullptr;
+	wc.hIcon = nullptr;
+	wc.hbrBackground = nullptr;
+	wc.lpszMenuName = nullptr;
+	wc.lpszClassName = GetName();
+	wc.hIconSm = nullptr;
+	RegisterClassEx( &wc );
+}
+
+Window::WindowClass::~WindowClass()
+{
+	UnregisterClass( GetName(), GetInstance() );
+}
+
+const wchar_t* Window::WindowClass::GetName() noexcept
+{
+	return m_pwcWndClassName;
+}
+
+HINSTANCE Window::WindowClass::GetInstance() noexcept
+{
+	return m_wcWinClass.m_hInst;
+}
+
+Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
+	:
+	m_iHeight	( iHeight ),
+	m_iWidth	( iWidth )
+{
+	RECT wr;
+	wr.left = 100;
+	wr.right = iWidth + wr.left;
+	wr.top = 100;
+	wr.bottom = iHeight + wr.top;
+	AdjustWindowRect( &wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE );
+
+	m_hWnd = CreateWindowEx(
+		0, WindowClass::GetName(),  wcWndName,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
+		nullptr, nullptr, WindowClass::GetInstance(), this
+	);
+
+	ShowWindow( m_hWnd, SW_SHOWDEFAULT );
+}
+
+Window::~Window()
+{
+	DestroyWindow( m_hWnd );
+}
+
+bool Window::SetText( const wchar_t* wcWndName )
+{
+	return SetWindowText( m_hWnd, wcWndName );
+}
+
+// Init handler
+LRESULT CALLBACK Window::HandleMsgSetup( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
+{
+	if ( msg == WM_NCCREATE )
+	{
+		const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
+		Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
+		SetWindowLongPtr( hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd) );
+		SetWindowLongPtr( hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk) );
+
+		return pWnd->HandleMsg( hWnd, msg, wParam, lParam );
+	}
+	
+	return DefWindowProc( hWnd, msg, wParam, lParam );
+}
+
+// Adapter from win32 to c++
+LRESULT CALLBACK Window::HandleMsgThunk( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
+{
+	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr( hWnd, GWLP_USERDATA ));
+	return pWnd->HandleMsg( hWnd, msg, wParam, lParam );
+}
+
+// C++ Handler
+LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
+{
+	switch ( msg )
+	{
+#pragma region MouseMessageHandler
+	case WM_MOUSEMOVE:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		if (ptPos.x >= 0 && ptPos.x < m_iWidth && ptPos.y >= 0 && ptPos.y < m_iHeight)
+		{
+			m_mMouseInput.OnMove( ptPos );
+			if (!m_mMouseInput.IsInside())
+			{
+				SetCapture( hWnd );
+				m_mMouseInput.OnEnter();
+			}
+		}
+		else
+		{
+			if (wParam & (VK_LBUTTON | VK_RBUTTON))
+			{
+				m_mMouseInput.OnMove( ptPos );
+			}
+			else
+			{
+				ReleaseCapture();
+				m_mMouseInput.OnLeave();
+			}
+		}
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnLeftPress( ptPos );
+		m_kbKeyInput.OnKeyPressed( VK_LBUTTON );
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnLeftRelease( ptPos );
+		m_kbKeyInput.OnKeyRelease( VK_LBUTTON );
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnRightPress( ptPos );
+		m_kbKeyInput.OnKeyPressed( VK_RBUTTON );
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnRightRelease( ptPos );
+		m_kbKeyInput.OnKeyRelease( VK_RBUTTON );
+		break;
+	}
+	case WM_MBUTTONDOWN:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnMiddlePress( ptPos );
+		m_kbKeyInput.OnKeyPressed( VK_MBUTTON );
+		break;
+	}
+	case WM_MBUTTONUP:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnMiddleRelease( ptPos );
+		m_kbKeyInput.OnKeyRelease( VK_MBUTTON );
+		break;
+	}
+	case WM_MOUSEWHEEL:
+	{
+		const Point ptPos = MAKEPOINTS( lParam );
+		if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
+		{
+			m_mMouseInput.OnWheelUp();
+		}
+		else if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
+		{
+			m_mMouseInput.OnWheelDown();
+		}
+		break;
+	}
+#pragma endregion
+
+#pragma region KeyBoardMessageHandler
+	//Key board message
+	case WM_SYSKEYDOWN:
+	case WM_KEYDOWN:
+		m_kbKeyInput.OnKeyPressed( static_cast<unsigned char>(wParam) );
+		break;
+	case WM_SYSKEYUP:
+	case WM_KEYUP:
+		m_kbKeyInput.OnKeyRelease( static_cast<unsigned char>(wParam) );
+		break;
+	case WM_CHAR:
+		m_kbKeyInput.OnChar( static_cast<unsigned char>(wParam) );
+		break;
+	//End key board message
+	case WM_CLOSE:
+		PostQuitMessage( 0 );
+		break;
+	case WM_KILLFOCUS:
+		m_kbKeyInput.ClearState();
+		break;
+#pragma endregion
+	}
+	return DefWindowProc( hWnd, msg, wParam, lParam );
+}
