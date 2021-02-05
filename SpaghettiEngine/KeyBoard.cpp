@@ -1,6 +1,6 @@
 #include "KeyBoard.h"
 
-bool KeyBoard::KeyIsPress( unsigned char ucKeycode ) noexcept
+bool KeyBoard::IsKeyPress( unsigned char ucKeycode ) noexcept
 {
 	return m_bsKeyStates[ ucKeycode ];
 }
@@ -19,7 +19,7 @@ KeyBoard::Event KeyBoard::ReadKey() noexcept
 	}
 }
 
-bool KeyBoard::KeyIsEmpty() noexcept
+bool KeyBoard::IsKeyEmpty() noexcept
 {
 	return m_qKeyBuffer.empty();
 }
@@ -38,7 +38,7 @@ char KeyBoard::ReadChar() noexcept
 	}
 }
 
-bool KeyBoard::CharIsEmpty() noexcept
+bool KeyBoard::IsCharEmpty() noexcept
 {
 	return m_qCharBuffer.empty();
 }

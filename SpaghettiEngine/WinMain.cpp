@@ -21,7 +21,7 @@ int WINAPI wWinMain(
 		DispatchMessage( &msg );
 		//=================================={Where you put your game loop}=======================================
 
-		if ( wndMain.m_kbKeyInput.KeyIsPress( VK_MENU ) )
+		if ( wndMain.m_kbKeyInput.IsKeyPress( VK_MENU ) )
 		{
 			MessageBox( nullptr, L"bruh", L"lol", 0 );
 		}

@@ -112,7 +112,55 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_CHAR:
 		m_kbKeyInput.OnChar( static_cast<unsigned char>(wParam) );
 		break;
-	//Key message
+	//End key board message
+
+	//Mouse message
+	case WM_MOUSEMOVE:
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnMove( ptPos );
+		break;
+	case WM_LBUTTONDOWN:
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnLeftPress( ptPos );
+		m_kbKeyInput.OnKeyPressed( VK_LBUTTON );
+		break;
+	case WM_LBUTTONUP:
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnLeftRelease( ptPos );
+		m_kbKeyInput.OnKeyRelease( VK_LBUTTON );
+		break;
+	case WM_RBUTTONDOWN:
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnRightPress( ptPos );
+		m_kbKeyInput.OnKeyPressed( VK_RBUTTON );
+		break;
+	case WM_RBUTTONUP:
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnRightRelease( ptPos );
+		m_kbKeyInput.OnKeyRelease( VK_RBUTTON );
+		break;
+	case WM_MBUTTONDOWN:
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnMiddlePress( ptPos );
+		m_kbKeyInput.OnKeyPressed( VK_MBUTTON );
+		break;
+	case WM_MBUTTONUP:
+		const Point ptPos = MAKEPOINTS( lParam );
+		m_mMouseInput.OnMiddleRelease( ptPos );
+		m_kbKeyInput.OnKeyRelease( VK_MBUTTON );
+		break;
+	case WM_MOUSEWHEEL:
+		const Point ptPos = MAKEPOINTS( lParam );
+		if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
+		{
+			m_mMouseInput.OnWheelUp( ptPos );
+		}
+		else if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
+		{
+			m_mMouseInput.OnWheelDown( ptPos );
+		}
+		break;
+	//End mouse message
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }

@@ -22,6 +22,7 @@ public:
 	public:
 		Event() noexcept : m_tType( Type::Invalid ), m_ucCode( 0u ) {}
 		Event( Type tType, unsigned char ucCode ) noexcept : m_tType( tType ), m_ucCode( ucCode ) {}
+
 		bool IsPress() const noexcept
 		{
 			return m_tType == Type::Press;
@@ -44,13 +45,13 @@ public:
 	KeyBoard( const KeyBoard& ) = delete;
 	KeyBoard& operator=( const KeyBoard& ) = delete;
 
-	bool KeyIsPress( unsigned char ucKeycode ) noexcept;
+	bool IsKeyPress( unsigned char ucKeycode ) noexcept;
+	bool IsKeyEmpty() noexcept;
 	Event ReadKey() noexcept;
-	bool KeyIsEmpty() noexcept;
 	void ClearKey() noexcept;
 
 	char ReadChar() noexcept;
-	bool CharIsEmpty() noexcept;
+	bool IsCharEmpty() noexcept;
 	void ClearChar() noexcept;
 
 	void Clear() noexcept;

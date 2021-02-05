@@ -159,6 +159,8 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Mathf.cpp" />
+    <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Plane2D.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -170,6 +172,8 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Mathf.h" />
+    <ClInclude Include="Mouse.h" />
+    <ClInclude Include="Plane2D.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SpaghettiWin.h" />
     <ClInclude Include="Time.h" />

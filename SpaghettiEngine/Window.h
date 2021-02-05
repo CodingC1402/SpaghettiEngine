@@ -1,6 +1,7 @@
 #pragma once
 #include "SpaghettiWin.h"
 #include "WStrUtils.h"
+#include "Mouse.h"
 #include "KeyBoard.h"
 #include "Debug.h"
 #include "Time.h"
@@ -40,5 +41,6 @@ private:
 	HWND m_hWnd;
 public:
 	KeyBoard m_kbKeyInput;
+	Mouse m_mMouseInput;
 };
 
