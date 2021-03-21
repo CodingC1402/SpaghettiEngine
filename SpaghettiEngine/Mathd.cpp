@@ -1,6 +1,6 @@
-#include "Mathf.h"
+#include "Mathd.h"
 
-float Mathf::Clamp( float value, float max, float min )
+double Mathd::Clamp( double value, double max, double min )
 {
     if ( value > max )
         value = max;
@@ -10,10 +10,10 @@ float Mathf::Clamp( float value, float max, float min )
     return value;
 }
 
-float Mathf::RoundToPrecision( float number, int precision )
+double Mathd::RoundToPrecision( double number, int precision )
 {
     precision = (int)Clamp( precision, 0, 7 );
     long long value = static_cast<int>(number * pow( 10, precision ));
-    number = value / (float)(pow( 10, precision ));
+    number = value / (double)(pow( 10, precision ));
     return number;
 }

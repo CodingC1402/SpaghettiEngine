@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpaghettiWin.h"
+#include "CornWnd.h"
 #include "Plane2D.h"
 #include <queue>
 

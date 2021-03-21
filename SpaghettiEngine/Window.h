@@ -1,10 +1,10 @@
 #pragma once
-#include "SpaghettiWin.h"
+#include "CornWnd.h"
 #include "WStrUtils.h"
 #include "Mouse.h"
 #include "KeyBoard.h"
 #include "Debug.h"
-#include "Time.h"
+#include "Timer.h"
 
 class Window
 {

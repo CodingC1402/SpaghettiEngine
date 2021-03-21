@@ -1,5 +1,5 @@
 #pragma once
-#include "SpaghettiWin.h"
+#include "CornWnd.h"
 
 namespace Plane2D
 {

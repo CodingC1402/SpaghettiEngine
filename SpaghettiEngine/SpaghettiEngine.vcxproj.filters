@@ -1,87 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{11d96ceb-1414-4fa6-a68f-bcfa1e7df00d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Core">
+      <UniqueIdentifier>{780a9544-4b45-4094-a149-cdb1b97f043e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Core\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="FrameWork\Core\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KeyBoard.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WStrUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mathf.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Plane2D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>FrameWork\Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>FrameWork\Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>FrameWork\Core\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mathd.cpp">
+      <Filter>FrameWork\Core\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KeyBoard.h">
-      <Filter>Header Files</Filter>
+      <Filter>FrameWork\Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
+      <Filter>FrameWork\Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WStrUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mathf.h">
-      <Filter>Header Files</Filter>
+      <Filter>FrameWork\Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpaghettiWin.h">
-      <Filter>Header Files</Filter>
+      <Filter>FrameWork\Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
+      <Filter>FrameWork\Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mouse.h">
-      <Filter>Header Files</Filter>
+      <Filter>FrameWork\Core\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Plane2D.h">
-      <Filter>Header Files</Filter>
+      <Filter>FrameWork\Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>FrameWork\Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>FrameWork\Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CornWnd.h">
+      <Filter>FrameWork\Core\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mathd.h">
+      <Filter>FrameWork\Core\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
