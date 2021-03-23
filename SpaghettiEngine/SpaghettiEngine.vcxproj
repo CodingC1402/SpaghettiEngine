@@ -157,12 +157,14 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="CornException.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Mathd.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Plane2D.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="WStrUtils.cpp" />
@@ -170,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="CornException.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Mathd.h" />
     <ClInclude Include="Mouse.h" />
@@ -177,6 +180,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="CornWnd.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WStrUtils.h" />
   </ItemGroup>

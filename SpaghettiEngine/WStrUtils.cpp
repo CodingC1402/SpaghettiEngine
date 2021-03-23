@@ -1,4 +1,5 @@
 #include "WStrUtils.h"
+#include <iterator>
 
 PWSTR WStrUtils::ToString( float number )
 { 
@@ -8,7 +9,7 @@ PWSTR WStrUtils::ToString( float number )
 
 LPWSTR WStrUtils::ConvertString( const std::string& instr )
 {
-    int bufferlen = ::MultiByteToWideChar( CP_ACP, 0, instr.c_str(), instr.size(), NULL, 0 );
+    int bufferlen = MultiByteToWideChar( CP_ACP, 0, instr.c_str(), instr.size(), NULL, 0 );
 
     if ( bufferlen == 0 )
     {
@@ -17,7 +18,7 @@ LPWSTR WStrUtils::ConvertString( const std::string& instr )
 
     LPWSTR widestr = new WCHAR[ bufferlen + 1 ];
 
-    ::MultiByteToWideChar( CP_ACP, 0, instr.c_str(), instr.size(), widestr, bufferlen );
+    MultiByteToWideChar( CP_ACP, 0, instr.c_str(), instr.size(), widestr, bufferlen );
 
     widestr[ bufferlen ] = 0;
 
@@ -31,3 +32,33 @@ LPWSTR WStrUtils::Clone( LPCWSTR str )
 
     return thecopy.data();
 }
+
+bool WStrUtils::ConvertString( std::string &s, const LPWSTR pw, UINT codepage = CP_ACP )
+{
+    bool res = false;
+    char *p = 0;
+    int bsz;
+
+    bsz = WideCharToMultiByte( codepage,
+        0,
+        pw, -1,
+        0, 0,
+        0, 0 );
+    if ( bsz > 0 ) {
+        p = new char[bsz];
+        int rc = WideCharToMultiByte( codepage,
+            0,
+            pw, -1,
+            p, bsz,
+            0, 0 );
+        if ( rc != 0 ) {
+            p[bsz - 1] = 0;
+            s = p;
+            res = true;
+        }
+    }
+    delete[] p;
+    return res;
+}
+
+

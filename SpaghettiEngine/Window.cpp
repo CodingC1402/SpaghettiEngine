@@ -205,3 +205,54 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
+
+Window::Exception::Exception( int line, const char *file, HRESULT hr ) noexcept
+	:
+	CornException( line, file ),
+	m_HResult( hr )
+{}
+
+const char *Window::Exception::what() const noexcept
+{
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "[Error Code] " << GetErrorCode() << std::endl
+		<< "[Description] " << GetErrorString() << std::endl
+		<< GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char *Window::Exception::GetType() const noexcept
+{
+	return "Corn Window Exception";
+}
+
+std::string Window::Exception::TranslateErrorCode( HRESULT hr ) noexcept
+{
+	char *msgBuf = nullptr;
+	DWORD msgLen = FormatMessage(
+		FORMAT_MESSAGE_ALLOCATE_BUFFER |
+		FORMAT_MESSAGE_FROM_SYSTEM |
+		FORMAT_MESSAGE_IGNORE_INSERTS,
+		nullptr, hr, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),
+		reinterpret_cast<LPWSTR>(&msgBuf), 0, nullptr
+	);
+	if ( msgLen == 0 )
+	{
+		return "Unidentified error code";
+	}
+	std::string errorString = msgBuf;
+	LocalFree( msgBuf );
+	return errorString;
+}
+
+HRESULT Window::Exception::GetErrorCode() const noexcept
+{
+	return m_HResult;
+}
+
+std::string Window::Exception::GetErrorString() const noexcept
+{
+	return TranslateErrorCode( m_HResult );
+}

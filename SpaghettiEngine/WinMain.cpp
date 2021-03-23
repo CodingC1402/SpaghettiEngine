@@ -10,20 +10,24 @@ int WINAPI wWinMain(
 )
 {
 	//Message pump
-	MSG msg;
-	BOOL iResult;
-	while ( (iResult = GetMessage( &msg, nullptr, 0, 0)) > 0 )
+	try
 	{
+		MSG msg;
+		BOOL iResult;
+		while ( (iResult = GetMessage( &msg, nullptr, 0, 0 )) > 0 )
+		{
+			TranslateMessage( &msg );
+			DispatchMessage( &msg );
+		}
 
-		TranslateMessage( &msg );
-		DispatchMessage( &msg );
-		//=================================={Where you put your game loop}=======================================
-
-		//======================================================================================================
+		if ( iResult == -1 )
+			return -1;
+		else
+			return msg.wParam;
 	}
-
-	if ( iResult == -1 )
-		return -1;
-	else
-		return msg.wParam;
+	catch ( const CornException& e )
+	{
+		
+	}
+	return 1;
 }

@@ -5,9 +5,23 @@
 #include "KeyBoard.h"
 #include "Debug.h"
 #include "Timer.h"
+#include "CornException.h"
 
 class Window
 {
+public:
+	class Exception : public CornException
+	{
+	public:
+		Exception( int line, const char *file, HRESULT hr ) noexcept;
+		const char *what() const noexcept override;
+		virtual const char *GetType() const noexcept;
+		static std::string TranslateErrorCode( HRESULT hr ) noexcept;
+		HRESULT GetErrorCode() const noexcept;
+		std::string GetErrorString() const noexcept;
+	private:
+		HRESULT m_HResult;
+	};
 private:
 	// Singleton class
 	class WindowClass
@@ -44,3 +58,5 @@ public:
 	Mouse m_mMouseInput;
 };
 
+#define CWND_EXCEPT( hr ) Window::Exception(__LINE__,__FILE__,hr)
+#define CWND_LAST_EXCEPT() Window::Exception(__LINE__,__FILE__,GetLastError())
