@@ -30,5 +30,5 @@ protected:
 
 	double deltaTimeSinceLastChange = 0;
 	double wndChangeDeltaTime = 0.1;
-	bool showInfo = false;
+	bool volatile showInfo = false;
 };
