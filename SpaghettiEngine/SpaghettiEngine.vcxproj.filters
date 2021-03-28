@@ -63,6 +63,9 @@
     <ClInclude Include="Framework\Window\StringConverter.h">
       <Filter>FrameWork\Window\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>FrameWork\Window\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Debug.cpp">
@@ -98,5 +101,18 @@
     <ClCompile Include="Framework\FrameWork\WinMain.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SpaghettiEngine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\Corny\Downloads\Icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="c:\users\corny\downloads\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

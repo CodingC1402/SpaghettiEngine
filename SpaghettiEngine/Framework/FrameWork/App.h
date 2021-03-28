@@ -6,6 +6,8 @@ class App
 protected:
 	void ChangeName();
 public:
+	App();
+
 	BOOL Go();
 	void DoFrame();
 	void Quit();
@@ -13,8 +15,12 @@ public:
 	void ShowExtraInfo();
 	void HideExtraInfo();
 protected:
-	Window *wnd;
-	Timer *timer;
+	Window* wnd;
+	Timer* timer;
+
+	const wchar_t** textAnimation;
+	int currentFrame = 0;
+	int numberofFrame = 20;
 
 	bool running;
 

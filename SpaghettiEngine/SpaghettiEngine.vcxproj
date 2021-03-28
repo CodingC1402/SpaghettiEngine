@@ -30,6 +30,7 @@
     <ClInclude Include="Framework\Window\StringConverter.h" />
     <ClInclude Include="Framework\Window\Timer.h" />
     <ClInclude Include="Framework\Window\Window.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\FrameWork\App.cpp" />
@@ -43,6 +44,13 @@
     <ClCompile Include="Framework\Window\StringConverter.cpp" />
     <ClCompile Include="Framework\Window\Timer.cpp" />
     <ClCompile Include="Framework\Window\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SpaghettiEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\Corny\Downloads\Icon.ico" />
+    <Image Include="c:\users\corny\downloads\icon2.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
