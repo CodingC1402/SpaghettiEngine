@@ -6,6 +6,7 @@
 #include "Timer.h"
 #include "CornException.h"
 #include "StringConverter.h"
+#include "..\..\resource.h"
 
 class Window
 {

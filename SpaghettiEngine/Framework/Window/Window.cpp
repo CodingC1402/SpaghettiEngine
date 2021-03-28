@@ -14,11 +14,11 @@ Window::WindowClass::WindowClass() noexcept
 	wc.cbSize = sizeof( WNDCLASSEX );
 	wc.hInstance = GetInstance();
 	wc.hCursor = nullptr;
-	wc.hIcon = nullptr;
+	wc.hIcon = static_cast<HICON>(LoadImage(this->m_hInst, MAKEINTRESOURCE( IDI_ENGINEICON ), IMAGE_ICON, 32, 32, 0));
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = nullptr;
+	wc.hIconSm = static_cast<HICON>(LoadImage(this->m_hInst, MAKEINTRESOURCE(IDI_ENGINEICON), IMAGE_ICON, 16, 16, 0));;
 	RegisterClassEx( &wc );
 }
 

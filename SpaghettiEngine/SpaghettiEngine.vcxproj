@@ -46,11 +46,10 @@
     <ClCompile Include="Framework\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="SpaghettiEngine.rc" />
+    <Image Include="Framework\Window\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\Users\Corny\Downloads\Icon.ico" />
-    <Image Include="c:\users\corny\downloads\icon2.ico" />
+    <ResourceCompile Include="SpaghettiEngine.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

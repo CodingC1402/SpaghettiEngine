@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="FrameWork">
       <UniqueIdentifier>{11d96ceb-1414-4fa6-a68f-bcfa1e7df00d}</UniqueIdentifier>
     </Filter>
@@ -27,6 +23,12 @@
     </Filter>
     <Filter Include="FrameWork\Engine\SourceFiles">
       <UniqueIdentifier>{f276f719-9ef6-481a-a099-6e0583e4a251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Window\Resource">
+      <UniqueIdentifier>{ab54e118-694e-4aa2-9f86-ea02e3f49172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Resource">
+      <UniqueIdentifier>{fc16ac28-7441-4030-8831-574bdebeeac1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,7 +66,7 @@
       <Filter>FrameWork\Window\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
+      <Filter>FrameWork\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,16 +105,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="SpaghettiEngine.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <Image Include="Framework\Window\Icon.ico">
+      <Filter>FrameWork\Window\Resource</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="C:\Users\Corny\Downloads\Icon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="c:\users\corny\downloads\icon2.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ResourceCompile Include="SpaghettiEngine.rc">
+      <Filter>FrameWork\Resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

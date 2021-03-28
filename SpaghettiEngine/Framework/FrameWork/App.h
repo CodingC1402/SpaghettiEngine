@@ -15,14 +15,14 @@ public:
 	void ShowExtraInfo();
 	void HideExtraInfo();
 protected:
-	Window* wnd;
-	Timer* timer;
+	Window* wnd = nullptr;
+	Timer* timer = nullptr;
 
-	const wchar_t** textAnimation;
+	const wchar_t** textAnimation = nullptr;
 	int currentFrame = 0;
-	int numberofFrame = 20;
+	int numberofFrame = 17;
 
-	bool running;
+	bool running = false;
 
 	double deltaTimeSinceLastChange = 0;
 	double wndChangeDeltaTime = 0.1;

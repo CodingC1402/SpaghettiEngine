@@ -21,27 +21,28 @@ void App::ChangeName()
 
 App::App()
 {
+	this->timer = nullptr;
+	this->wnd = nullptr;
+	this->textAnimation = nullptr;
+
 	textAnimation = new const wchar_t*[numberofFrame];
-	textAnimation[0] = L" (ﾒ￣‿￣)︻┻┳══━一				  ";
-	textAnimation[1] = L"(ﾒ￣▽￣)︻┻┳══━一 - ☆			  ";
-	textAnimation[2] = L"(ﾒ￣▽￣)︻┻┳══━一-- - ☆		  ";
-	textAnimation[3] = L"(ﾒ￣▽￣)︻┻┳══━一---- - ☆		  ";
-	textAnimation[4] = L" (ﾒ￣▽￣)︻┻┳══━一------☆		  ";
-	textAnimation[5] = L" (ﾒ￣▽￣)︻┻┳══━一--------☆	  ";
-	textAnimation[6] = L" (ﾒ￣▽￣)︻┻┳══━一・・--------☆ ";
-	textAnimation[7] = L" (ﾒ￣▽￣)︻┻┳══━一 ・・・--------";
-	textAnimation[8] = L" (ﾒ￣▽￣)︻┻┳══━一   ・・・------";
-	textAnimation[9] = L" (ﾒ￣▽￣)︻┻┳══━一     ・・・----";
-	textAnimation[10] = L" (ﾒ￣▽￣)︻┻┳══━一       ・・・--";
-	textAnimation[11] = L" (ﾒ￣▽￣)︻┻┳══━一         ・・・";
-	textAnimation[12] = L" (ﾒ￣▽￣)︻┻┳══━一           ・  ";
-	textAnimation[13] = L" (ﾒ￣‿￣)︻┻┳══━一				   ";
-	textAnimation[14] = L" (ﾒ￣‿￣)︻┻┳══━一				   ";
-	textAnimation[15] = L" (ﾒ￣‿￣)︻┻┳══━一				   ";
-	textAnimation[16] = L" (ﾒ￣‿￣)︻┻┳══━一				   ";
-	textAnimation[17] = L" (ﾒ￣‿￣)︻┻┳══━一				   ";
-	textAnimation[18] = L" (ﾒ￣‿￣)︻┻┳══━一				   ";
-	textAnimation[19] = L" (ﾒ￣‿￣)︻┻┳══━一				   ";
+	textAnimation[0]  = L"  (ﾒ￣‿￣)︻┻┳══━一				  ";
+	textAnimation[1]  = L"(ﾒ￣‿￣)︻┻┳══━一---☆			   ";
+	textAnimation[2]  = L"(ﾒ￣▽￣)︻┻┳══━一-----☆		   ";
+	textAnimation[3]  = L"(ﾒ￣▽￣)︻┻┳══━一-------☆		   ";
+	textAnimation[4]  = L" (ﾒ￣▽￣)︻┻┳══━一--------☆	   ";
+	textAnimation[5]  = L"  (ﾒ￣▽￣)︻┻┳══━一---------☆	   ";
+	textAnimation[6]  = L"  (ﾒ￣▽￣)︻┻┳══━一・・-------☆  ";
+	textAnimation[7]  = L"  (ﾒ￣▽￣)︻┻┳══━一 ・・・-------☆";
+	textAnimation[8]  = L"  (ﾒ￣▽￣)︻┻┳══━一   ・・・------";
+	textAnimation[9]  = L"  (ﾒ￣▽￣)︻┻┳══━一     ・・・----";
+	textAnimation[10] = L"  (ﾒ￣▽￣)︻┻┳══━一       ・・・--";
+	textAnimation[11] = L"  (ﾒ￣▽￣)︻┻┳══━一         ・・・";
+	textAnimation[12] = L"  (ﾒ￣▽￣)︻┻┳══━一           ・  ";
+	textAnimation[13] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
+	textAnimation[14] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
+	textAnimation[15] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
+	textAnimation[16] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
 }
 
 BOOL App::Go()
