@@ -1,10 +1,10 @@
 #pragma once
-#include "WStrUtils.h"
+#include <string>
 
 class Debug
 {
 public:
-	static void Log(std::string text);
+	static void Log(const wchar_t* text);
 	static void LogF( float number );
 	static void LogB( bool flag );
 };

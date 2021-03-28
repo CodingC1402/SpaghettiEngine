@@ -18,6 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Framework\FrameWork\App.h" />
+    <ClInclude Include="Framework\Window\CornException.h" />
+    <ClInclude Include="Framework\Window\CornWnd.h" />
+    <ClInclude Include="Framework\Window\Debug.h" />
+    <ClInclude Include="Framework\Window\KeyBoard.h" />
+    <ClInclude Include="Framework\Window\Mouse.h" />
+    <ClInclude Include="Framework\Window\Plane2D.h" />
+    <ClInclude Include="Framework\Window\Scene.h" />
+    <ClInclude Include="Framework\Window\StringConverter.h" />
+    <ClInclude Include="Framework\Window\Timer.h" />
+    <ClInclude Include="Framework\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Framework\FrameWork\App.cpp" />
+    <ClCompile Include="Framework\FrameWork\WinMain.cpp" />
+    <ClCompile Include="Framework\Window\CornException.cpp" />
+    <ClCompile Include="Framework\Window\Debug.cpp" />
+    <ClCompile Include="Framework\Window\KeyBoard.cpp" />
+    <ClCompile Include="Framework\Window\Mouse.cpp" />
+    <ClCompile Include="Framework\Window\Plane2D.cpp" />
+    <ClCompile Include="Framework\Window\Scene.cpp" />
+    <ClCompile Include="Framework\Window\StringConverter.cpp" />
+    <ClCompile Include="Framework\Window\Timer.cpp" />
+    <ClCompile Include="Framework\Window\Window.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -127,7 +153,8 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,36 +181,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="CornException.cpp" />
-    <ClCompile Include="KeyBoard.cpp" />
-    <ClCompile Include="Mathd.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Plane2D.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="WinMain.cpp" />
-    <ClCompile Include="WStrUtils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="App.h" />
-    <ClInclude Include="Debug.h" />
-    <ClInclude Include="CornException.h" />
-    <ClInclude Include="KeyBoard.h" />
-    <ClInclude Include="Mathd.h" />
-    <ClInclude Include="Mouse.h" />
-    <ClInclude Include="Plane2D.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="CornWnd.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="Utils.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="WStrUtils.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
