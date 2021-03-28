@@ -1,12 +1,25 @@
 ﻿#include "App.h"
+#include <iomanip>
 
 void App::ChangeName()
 {
 	if (deltaTimeSinceLastChange >= wndChangeDeltaTime)
 	{
+		CalculateFPS();
+
 		std::wostringstream os;
-		os << wnd->GetName() << ' ' << std::to_wstring(timer->GetSystemTime()).c_str() << " s";
-		os << textAnimation[currentFrame];
+
+		os << wnd->GetName();
+		os << " | FPS: " << std::left << std::setfill(L' ') << std::setw(6) << std::setprecision(5);
+		if (fps < 2000)
+		{
+			os << fps;
+		}
+		else
+		{
+			os << "2000+";
+		}
+		os << L" | " << textAnimation[currentFrame];
 		currentFrame++;
 		currentFrame %= numberofFrame;
 		wnd->SetName(os.str().c_str());
@@ -19,6 +32,12 @@ void App::ChangeName()
 	}
 }
 
+void App::CalculateFPS()
+{
+	fps = fps * 0.8 + (framePassed / deltaTimeSinceLastChange) * (0.2);
+	framePassed = 0;
+}
+
 App::App()
 {
 	this->timer = nullptr;
@@ -26,29 +45,29 @@ App::App()
 	this->textAnimation = nullptr;
 
 	textAnimation = new const wchar_t*[numberofFrame];
-	textAnimation[0]  = L"  (ﾒ￣‿￣)︻┻┳══━一				  ";
-	textAnimation[1]  = L"(ﾒ￣‿￣)︻┻┳══━一---☆			   ";
-	textAnimation[2]  = L"(ﾒ￣▽￣)︻┻┳══━一-----☆		   ";
-	textAnimation[3]  = L"(ﾒ￣▽￣)︻┻┳══━一-------☆		   ";
-	textAnimation[4]  = L" (ﾒ￣▽￣)︻┻┳══━一--------☆	   ";
-	textAnimation[5]  = L"  (ﾒ￣▽￣)︻┻┳══━一---------☆	   ";
-	textAnimation[6]  = L"  (ﾒ￣▽￣)︻┻┳══━一・・-------☆  ";
-	textAnimation[7]  = L"  (ﾒ￣▽￣)︻┻┳══━一 ・・・-------☆";
-	textAnimation[8]  = L"  (ﾒ￣▽￣)︻┻┳══━一   ・・・------";
-	textAnimation[9]  = L"  (ﾒ￣▽￣)︻┻┳══━一     ・・・----";
-	textAnimation[10] = L"  (ﾒ￣▽￣)︻┻┳══━一       ・・・--";
-	textAnimation[11] = L"  (ﾒ￣▽￣)︻┻┳══━一         ・・・";
-	textAnimation[12] = L"  (ﾒ￣▽￣)︻┻┳══━一           ・  ";
-	textAnimation[13] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
-	textAnimation[14] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
-	textAnimation[15] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
-	textAnimation[16] = L"  (ﾒ￣‿￣)︻┻┳══━一				";
+	textAnimation[0]  = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+	textAnimation[1]  = L"(ﾒ￣‿￣)︻┻┳══━一---☆					";
+	textAnimation[2]  = L"(ﾒ￣▽￣)︻┻┳══━一-----☆				";
+	textAnimation[3]  = L"(ﾒ￣▽￣)︻┻┳══━一-------☆				";
+	textAnimation[4]  = L" (ﾒ￣▽￣)︻┻┳══━一--------☆			";
+	textAnimation[5]  = L"  (ﾒ￣▽￣)︻┻┳══━一---------☆			";
+	textAnimation[6]  = L"  (ﾒ￣▽￣)︻┻┳══━一・・-------☆		";
+	textAnimation[7]  = L"  (ﾒ￣▽￣)︻┻┳══━一 ・・・-------☆	";
+	textAnimation[8]  = L"  (ﾒ￣▽￣)︻┻┳══━一   ・・・------		";
+	textAnimation[9]  = L"  (ﾒ￣▽￣)︻┻┳══━一     ・・・----		";
+	textAnimation[10] = L"  (ﾒ￣▽￣)︻┻┳══━一       ・・・--		";
+	textAnimation[11] = L"  (ﾒ￣▽￣)︻┻┳══━一         ・・・		";
+	textAnimation[12] = L"  (ﾒ￣▽￣)︻┻┳══━一           ・		";
+	textAnimation[13] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+	textAnimation[14] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+	textAnimation[15] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+	textAnimation[16] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 }
 
 BOOL App::Go()
 {
 	running = true;
-	wnd = new Window( 800, 600, L"spaghetti (￣▽￣)" );
+	wnd = new Window( 800, 600, L"Spaghetti" );
 	timer = new Timer();
 
 	timer->Start();
@@ -95,8 +114,10 @@ BOOL App::Go()
 
 void App::DoFrame()
 {
+	framePassed++;
 	if (showInfo)
 		ChangeName();
+
 }
 
 void App::Quit()

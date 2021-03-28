@@ -5,6 +5,7 @@ class App
 {
 protected:
 	void ChangeName();
+	void CalculateFPS();
 public:
 	App();
 
@@ -21,6 +22,9 @@ protected:
 	const wchar_t** textAnimation = nullptr;
 	int currentFrame = 0;
 	int numberofFrame = 17;
+
+	double fps = 0;
+	int framePassed = 0;
 
 	bool running = false;
 
