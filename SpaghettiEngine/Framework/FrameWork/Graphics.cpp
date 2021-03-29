@@ -1,6 +1,6 @@
 #include "Graphics.h"
 
-Graphics::Graphics(HWND hWnd)
+Graphics::Graphics(int iWidth, int iHeight, HWND hWnd) noexcept
 {
     d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
@@ -11,8 +11,8 @@ Graphics::Graphics(HWND hWnd)
     d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
     d3dpp.hDeviceWindow = hWnd;
     d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-    d3dpp.BackBufferWidth = SCREEN_WIDTH;
-    d3dpp.BackBufferHeight = SCREEN_HEIGHT;
+    d3dpp.BackBufferWidth = iWidth;
+    d3dpp.BackBufferHeight = iHeight;
 
     // create a device class using this information and the info from the d3dpp stuct
     d3d->CreateDevice(D3DADAPTER_DEFAULT,

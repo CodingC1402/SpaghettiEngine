@@ -74,6 +74,7 @@ BOOL App::Go()
 	running = true;
 	wnd = new Window( 800, 600, L"Spaghetti" );
 	timer = new Timer();
+	gfx = new Graphics(800, 600, );
 
 	timer->Start();
 	BOOL iResult = -1;
@@ -88,7 +89,6 @@ BOOL App::Go()
 			{
 				this->Quit();
 			}
-
 			DoFrame();
 		}
 

@@ -9,7 +9,7 @@ struct CUSTOMVERTEX { FLOAT X, Y, Z, RHW; DWORD COLOR; };
 class Graphics
 {
 public:
-    Graphics(HWND hWnd);
+    Graphics(int iWidth, int iHeight, HWND hWnd) noexcept;
     ~Graphics();
     void RenderFrame();
     void InitGraphics();
