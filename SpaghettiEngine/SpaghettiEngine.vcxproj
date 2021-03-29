@@ -35,8 +35,6 @@
     <ClInclude Include="Framework\Window\StringConverter.h" />
     <ClInclude Include="Framework\Window\Timer.h" />
     <ClInclude Include="Framework\Window\Window.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Graphics.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -56,8 +54,6 @@
     <ClCompile Include="Framework\Window\StringConverter.cpp" />
     <ClCompile Include="Framework\Window\Timer.cpp" />
     <ClCompile Include="Framework\Window\Window.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Graphics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico" />
@@ -176,6 +172,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -13,9 +13,9 @@ protected:
 	double systemTime = 0;
 	std::chrono::time_point<std::chrono::high_resolution_clock> previousTimePoint;
 public:
-	void Start ();
-	void Mark();
-	double GetSystemTime();
-	double GetDeltaTime();
+	void Start () noexcept;
+	void Mark() noexcept;
+	const double& GetSystemTime() noexcept;
+	const double& GetDeltaTime() noexcept;
 };
 

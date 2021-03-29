@@ -68,18 +68,6 @@
     <ClInclude Include="resource.h">
       <Filter>FrameWork\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\FrameWork\Game.h">
-      <Filter>FrameWork\Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\FrameWork\Graphics.h">
-      <Filter>FrameWork\Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\FrameWork\Input.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
@@ -87,6 +75,12 @@
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\FrameWork\Sound.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\FrameWork\Game.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\FrameWork\Graphics.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -124,18 +118,6 @@
     <ClCompile Include="Framework\FrameWork\WinMain.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\FrameWork\Game.cpp">
-      <Filter>FrameWork\Engine\SourceFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\FrameWork\Graphics.cpp">
-      <Filter>FrameWork\Engine\SourceFiles</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\FrameWork\Input.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
@@ -143,6 +125,12 @@
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Framework\FrameWork\Sound.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\FrameWork\Game.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\FrameWork\Graphics.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>
