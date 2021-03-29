@@ -47,6 +47,7 @@ public:
 
 	bool SetName( const wchar_t* wcWndName ) const noexcept;
 	const wchar_t* GetName() const noexcept;
+	HWND GetHWND();
 
 	static DWORD ProcessMessages();
 private:

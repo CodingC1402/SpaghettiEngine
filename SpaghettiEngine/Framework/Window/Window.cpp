@@ -75,6 +75,11 @@ const wchar_t *Window::GetName() const noexcept
 	return originalName.c_str();
 }
 
+HWND Window::GetHWND()
+{
+	return m_hWnd;
+}
+
 DWORD Window::ProcessMessages()
 {
 	MSG msg;
