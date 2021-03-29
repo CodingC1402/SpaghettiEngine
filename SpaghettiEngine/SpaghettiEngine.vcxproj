@@ -20,6 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\FrameWork\App.h" />
+    <ClInclude Include="Framework\FrameWork\Game.h" />
+    <ClInclude Include="Framework\FrameWork\Graphics.h" />
+    <ClInclude Include="Framework\FrameWork\Input.h" />
+    <ClInclude Include="Framework\FrameWork\Physic.h" />
+    <ClInclude Include="Framework\FrameWork\Sound.h" />
     <ClInclude Include="Framework\Window\CornException.h" />
     <ClInclude Include="Framework\Window\CornWnd.h" />
     <ClInclude Include="Framework\Window\Debug.h" />
@@ -34,6 +39,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\FrameWork\App.cpp" />
+    <ClCompile Include="Framework\FrameWork\Game.cpp" />
+    <ClCompile Include="Framework\FrameWork\Graphics.cpp" />
+    <ClCompile Include="Framework\FrameWork\Input.cpp" />
+    <ClCompile Include="Framework\FrameWork\Physic.cpp" />
+    <ClCompile Include="Framework\FrameWork\Sound.cpp" />
     <ClCompile Include="Framework\FrameWork\WinMain.cpp" />
     <ClCompile Include="Framework\Window\CornException.cpp" />
     <ClCompile Include="Framework\Window\Debug.cpp" />
@@ -162,6 +172,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
