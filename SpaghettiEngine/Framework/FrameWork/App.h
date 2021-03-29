@@ -4,31 +4,32 @@
 class App
 {
 protected:
-	void ChangeName();
-	void CalculateFPS();
+	void ChangeName() const noexcept;
+	void CalculateFPS() const noexcept;
 public:
-	App();
+	App() noexcept;
+	~App();
 
 	BOOL Go();
 	void DoFrame();
 	void Quit();
 
-	void ShowExtraInfo();
-	void HideExtraInfo();
+	void ShowExtraInfo() const noexcept;
+	void HideExtraInfo() const noexcept;
 protected:
 	Window* wnd = nullptr;
 	Timer* timer = nullptr;
 
 	const wchar_t** textAnimation = nullptr;
-	int currentFrame = 0;
-	int numberofFrame = 17;
+	mutable int currentFrame = 0;
+	const int numberofFrame = 17;
 
-	double fps = 0;
-	int framePassed = 0;
+	mutable double fps = 0;
+	mutable int framePassed = 0;
 
 	bool running = false;
 
-	double deltaTimeSinceLastChange = 0;
-	double wndChangeDeltaTime = 0.1;
-	bool volatile showInfo = false;
+	mutable double deltaTimeSinceLastChange = 0;
+	mutable double wndChangeDeltaTime = 0.1;
+	mutable bool volatile showInfo = false;
 };

@@ -1,7 +1,7 @@
 ﻿#include "App.h"
 #include <iomanip>
 
-void App::ChangeName()
+void App::ChangeName() const noexcept
 {
 	if (deltaTimeSinceLastChange >= wndChangeDeltaTime)
 	{
@@ -32,13 +32,13 @@ void App::ChangeName()
 	}
 }
 
-void App::CalculateFPS()
+void App::CalculateFPS() const noexcept
 {
 	fps = fps * 0.8 + (framePassed / deltaTimeSinceLastChange) * (0.2);
 	framePassed = 0;
 }
 
-App::App()
+App::App() noexcept
 {
 	this->timer = nullptr;
 	this->wnd = nullptr;
@@ -57,11 +57,16 @@ App::App()
 	textAnimation[9]  = L"  (ﾒ￣▽￣)︻┻┳══━一     ・・・----		";
 	textAnimation[10] = L"  (ﾒ￣▽￣)︻┻┳══━一       ・・・--		";
 	textAnimation[11] = L"  (ﾒ￣▽￣)︻┻┳══━一         ・・・		";
-	textAnimation[12] = L"  (ﾒ￣▽￣)︻┻┳══━一           ・		";
-	textAnimation[13] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+	textAnimation[12] = L"  (ﾒ￣▽￣)︻┻┳══━一           ・・		";
+	textAnimation[13] = L"  (ﾒ￣‿￣)︻┻┳══━一             ・		";
 	textAnimation[14] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[15] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[16] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+}
+
+App::~App()
+{
+	delete[] textAnimation;
 }
 
 BOOL App::Go()
@@ -87,6 +92,7 @@ BOOL App::Go()
 			DoFrame();
 		}
 
+		wnd->SetName(L"");
 		PostQuitMessage(1);
 		delete timer;
 		delete wnd;
@@ -125,12 +131,12 @@ void App::Quit()
 	running = false;
 }
 
-void App::ShowExtraInfo()
+void App::ShowExtraInfo() const noexcept
 {
 	showInfo = true;
 }
 
-void App::HideExtraInfo()
+void App::HideExtraInfo() const noexcept
 {
 	showInfo = false;
 	if (wnd != nullptr)
