@@ -75,7 +75,7 @@ BOOL App::Go()
 	wnd = new Window( 800, 600, L"Spaghetti" );
 	timer = new Timer();
 	gfx = new Graphics(800, 600, wnd->GetHWND());
-
+	
 	timer->Start();
 	BOOL iResult = -1;
 

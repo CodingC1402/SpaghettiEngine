@@ -83,6 +83,9 @@
     <ClInclude Include="Framework\FrameWork\Graphics.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\FrameWork\Sprite.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Debug.cpp">
@@ -133,10 +136,16 @@
     <ClCompile Include="Framework\FrameWork\Graphics.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\FrameWork\Sprite.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico">
       <Filter>FrameWork\Window\Resource</Filter>
+    </Image>
+    <Image Include="Mr.G.png">
+      <Filter>FrameWork\Resource</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

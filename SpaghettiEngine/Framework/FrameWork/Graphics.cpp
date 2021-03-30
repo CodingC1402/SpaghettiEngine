@@ -1,5 +1,4 @@
 #include "Graphics.h"
-
 Graphics::Graphics(int iWidth, int iHeight, HWND hWnd) noexcept
 {
     d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -21,8 +20,11 @@ Graphics::Graphics(int iWidth, int iHeight, HWND hWnd) noexcept
         D3DCREATE_SOFTWARE_VERTEXPROCESSING,
         &d3dpp,
         &d3ddev);
+    D3DXCreateSprite(d3ddev, &sprite_handler);
+    char* a = new char;
+    Kitty = Sprite(sprite_handler, a, 92, 60, 6, 3);
 
-    InitGraphics();    // call the function to initialize the triangle
+    //InitGraphics();    // call the function to initialize the triangle
 }
 
 Graphics::~Graphics()
@@ -38,14 +40,10 @@ void Graphics::RenderFrame()
 
     d3ddev->BeginScene();
 
-    // select which vertex format we are using
-    d3ddev->SetFVF(CUSTOMFVF);
+    Kitty.Render(back_buffer, _left, 100);
+    Kitty.Next();
+    _left = (_left + 10) % SCREEN_WIDTH;
 
-    // select the vertex buffer to display
-    d3ddev->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX));
-
-    // copy the vertex buffer to the back buffer
-    d3ddev->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
 
     d3ddev->EndScene();
 
