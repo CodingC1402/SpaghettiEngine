@@ -8,7 +8,9 @@
 #include "StringConverter.h"
 #include "..\..\resource.h"
 
-class Window
+#include <memory>
+
+typedef class Window
 {
 public:
 	class Exception : public CornException
@@ -40,7 +42,6 @@ private:
 		HINSTANCE m_hInst;
 	};
 public:
-	Window( int iWidth, int iHeight, const wchar_t* iName ) noexcept;
 	~Window();
 	Window( const Window& ) = delete;
 	Window& operator=( const Window& ) = delete;
@@ -48,8 +49,15 @@ public:
 	bool SetName( const wchar_t* wcWndName ) const noexcept;
 	const wchar_t* GetName() const noexcept;
 
+	KeyBoard& GetKeyBoard() const noexcept;
+	Mouse& GetMouse() const noexcept;
+
+	void Destroy();
+	static Window* Create(int iWidth, int iHeight, const wchar_t* iName);
 	static DWORD ProcessMessages();
 private:
+	Window(int iWidth, int iHeight, const wchar_t* iName) noexcept;
+
 	static LRESULT CALLBACK HandleMsgSetup( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	static LRESULT CALLBACK HandleMsgThunk( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
 	LRESULT CALLBACK HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
@@ -58,10 +66,12 @@ private:
 	int m_iWidth;
 	int m_iHeight;
 	HWND m_hWnd;
-public:
-	KeyBoard m_kbKeyInput;
-	Mouse m_mMouseInput;
-};
+	mutable KeyBoard m_kbKeyInput;
+	mutable Mouse m_mMouseInput;
+} *PWindow;
+
+typedef std::unique_ptr<Window> UWindow;
+typedef std::shared_ptr<Window> SWindow;
 
 #define CWND_EXCEPT( hr ) Window::Exception(__LINE__,__FILE__,hr)
 #define CWND_LAST_EXCEPT() Window::Exception(__LINE__,__FILE__,GetLastError())

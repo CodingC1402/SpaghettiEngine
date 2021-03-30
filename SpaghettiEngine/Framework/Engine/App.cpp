@@ -72,8 +72,8 @@ App::~App()
 BOOL App::Go()
 {
 	running = true;
-	wnd = new Window( 800, 600, L"Spaghetti" );
-	timer = new Timer();
+	wnd = SWindow(Window::Create(800, 600, L"SpaghettiEngine"));
+	timer = STimer(Timer::Create());
 
 	timer->Start();
 	BOOL iResult = -1;
@@ -92,13 +92,8 @@ BOOL App::Go()
 			DoFrame();
 		}
 
-		wnd->SetName(L"");
+		wnd->SetName(L""); 
 		PostQuitMessage(1);
-		delete timer;
-		delete wnd;
-
-		wnd = nullptr;
-		timer = nullptr;
 
 		iResult = 1;
 	}

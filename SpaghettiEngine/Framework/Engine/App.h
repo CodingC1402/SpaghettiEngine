@@ -1,5 +1,5 @@
 #pragma once
-#include "../Window/Window.h"
+#include "Window.h"
 #include "Graphics.h"
 #include "Input.h"
 #include "Physic.h"
@@ -21,8 +21,8 @@ public:
 	void ShowExtraInfo() const noexcept;
 	void HideExtraInfo() const noexcept;
 protected:
-	Window* wnd = nullptr;
-	Timer* timer = nullptr;
+	SWindow wnd = nullptr;
+	STimer timer = nullptr;
 	Graphics* gfx = nullptr;
 	Physic* pe = nullptr;
 	Input* input = nullptr;

@@ -19,40 +19,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework\FrameWork\App.h" />
-    <ClInclude Include="Framework\FrameWork\Game.h" />
-    <ClInclude Include="Framework\FrameWork\Graphics.h" />
-    <ClInclude Include="Framework\FrameWork\Input.h" />
-    <ClInclude Include="Framework\FrameWork\Physic.h" />
-    <ClInclude Include="Framework\FrameWork\Sound.h" />
+    <ClInclude Include="Framework\Engine\App.h" />
+    <ClInclude Include="Framework\Engine\Game.h" />
+    <ClInclude Include="Framework\Engine\Graphics.h" />
+    <ClInclude Include="Framework\Engine\Input.h" />
+    <ClInclude Include="Framework\Engine\InputSystem.h" />
+    <ClInclude Include="Framework\Engine\Physic.h" />
+    <ClInclude Include="Framework\Engine\Sound.h" />
+    <ClInclude Include="Framework\Utilities\Debug.h" />
+    <ClInclude Include="Framework\Utilities\Plane2D.h" />
+    <ClInclude Include="Framework\Utilities\StringConverter.h" />
+    <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Framework\Window\CornException.h" />
     <ClInclude Include="Framework\Window\CornWnd.h" />
-    <ClInclude Include="Framework\Window\Debug.h" />
     <ClInclude Include="Framework\Window\KeyBoard.h" />
     <ClInclude Include="Framework\Window\Mouse.h" />
-    <ClInclude Include="Framework\Window\Plane2D.h" />
-    <ClInclude Include="Framework\Window\Scene.h" />
-    <ClInclude Include="Framework\Window\StringConverter.h" />
-    <ClInclude Include="Framework\Window\Timer.h" />
     <ClInclude Include="Framework\Window\Window.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Framework\FrameWork\App.cpp" />
-    <ClCompile Include="Framework\FrameWork\Game.cpp" />
-    <ClCompile Include="Framework\FrameWork\Graphics.cpp" />
-    <ClCompile Include="Framework\FrameWork\Input.cpp" />
-    <ClCompile Include="Framework\FrameWork\Physic.cpp" />
-    <ClCompile Include="Framework\FrameWork\Sound.cpp" />
-    <ClCompile Include="Framework\FrameWork\WinMain.cpp" />
+    <ClCompile Include="Framework\Engine\App.cpp" />
+    <ClCompile Include="Framework\Engine\Game.cpp" />
+    <ClCompile Include="Framework\Engine\Graphics.cpp" />
+    <ClCompile Include="Framework\Engine\Input.cpp" />
+    <ClCompile Include="Framework\Engine\InputSystem.cpp" />
+    <ClCompile Include="Framework\Engine\Physic.cpp" />
+    <ClCompile Include="Framework\Engine\Sound.cpp" />
+    <ClCompile Include="Framework\Engine\WinMain.cpp" />
+    <ClCompile Include="Framework\Utilities\Debug.cpp" />
+    <ClCompile Include="Framework\Utilities\Plane2D.cpp" />
+    <ClCompile Include="Framework\Utilities\StringConverter.cpp" />
+    <ClCompile Include="Framework\Utilities\Timer.cpp" />
     <ClCompile Include="Framework\Window\CornException.cpp" />
-    <ClCompile Include="Framework\Window\Debug.cpp" />
     <ClCompile Include="Framework\Window\KeyBoard.cpp" />
     <ClCompile Include="Framework\Window\Mouse.cpp" />
-    <ClCompile Include="Framework\Window\Plane2D.cpp" />
-    <ClCompile Include="Framework\Window\Scene.cpp" />
-    <ClCompile Include="Framework\Window\StringConverter.cpp" />
-    <ClCompile Include="Framework\Window\Timer.cpp" />
     <ClCompile Include="Framework\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +172,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

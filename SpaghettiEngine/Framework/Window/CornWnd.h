@@ -47,4 +47,3 @@
 #define STRICT
 
 #include <Windows.h>
-

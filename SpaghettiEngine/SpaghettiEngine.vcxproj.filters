@@ -30,15 +30,18 @@
     <Filter Include="FrameWork\Resource">
       <UniqueIdentifier>{fc16ac28-7441-4030-8831-574bdebeeac1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Utilities">
+      <UniqueIdentifier>{9688644e-e7a1-4623-9913-164ed426aec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Utilities\Header Files">
+      <UniqueIdentifier>{8e04e15c-d81f-496d-8d2d-8533c1d3055d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Utilities\Source Files">
+      <UniqueIdentifier>{cc6aefe8-77c4-4df2-b533-9b7f2cbae2da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework\Window\Timer.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Window\Window.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Window\Debug.h">
       <Filter>FrameWork\Window\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Window\CornException.h">
@@ -47,60 +50,54 @@
     <ClInclude Include="Framework\Window\Mouse.h">
       <Filter>FrameWork\Window\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Window\Plane2D.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Window\CornWnd.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Window\Scene.h">
       <Filter>FrameWork\Window\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Window\KeyBoard.h">
       <Filter>FrameWork\Window\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\FrameWork\App.h">
-      <Filter>FrameWork\Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Window\StringConverter.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>FrameWork\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\FrameWork\Input.h">
+    <ClInclude Include="Framework\Utilities\Debug.h">
+      <Filter>FrameWork\Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Plane2D.h">
+      <Filter>FrameWork\Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\StringConverter.h">
+      <Filter>FrameWork\Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Timer.h">
+      <Filter>FrameWork\Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\App.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\FrameWork\Physic.h">
+    <ClInclude Include="Framework\Engine\Game.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\FrameWork\Sound.h">
+    <ClInclude Include="Framework\Engine\Graphics.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\FrameWork\Game.h">
+    <ClInclude Include="Framework\Engine\Input.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\FrameWork\Graphics.h">
+    <ClInclude Include="Framework\Engine\InputSystem.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Physic.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Sound.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Framework\Window\Debug.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Window\Window.cpp">
       <Filter>FrameWork\Window\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Window\CornException.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Window\Timer.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Window\Plane2D.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Window\Scene.cpp">
       <Filter>FrameWork\Window\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Window\Mouse.cpp">
@@ -109,28 +106,40 @@
     <ClCompile Include="Framework\Window\KeyBoard.cpp">
       <Filter>FrameWork\Window\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\FrameWork\App.cpp">
+    <ClCompile Include="Framework\Utilities\Debug.cpp">
+      <Filter>FrameWork\Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Plane2D.cpp">
+      <Filter>FrameWork\Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\StringConverter.cpp">
+      <Filter>FrameWork\Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Timer.cpp">
+      <Filter>FrameWork\Utilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\App.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Window\StringConverter.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\FrameWork\WinMain.cpp">
+    <ClCompile Include="Framework\Engine\Game.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\FrameWork\Input.cpp">
+    <ClCompile Include="Framework\Engine\Graphics.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\FrameWork\Physic.cpp">
+    <ClCompile Include="Framework\Engine\Input.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\FrameWork\Sound.cpp">
+    <ClCompile Include="Framework\Engine\InputSystem.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\FrameWork\Game.cpp">
+    <ClCompile Include="Framework\Engine\Physic.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\FrameWork\Graphics.cpp">
+    <ClCompile Include="Framework\Engine\Sound.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\WinMain.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>

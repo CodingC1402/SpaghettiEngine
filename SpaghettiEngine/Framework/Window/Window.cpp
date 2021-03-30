@@ -75,6 +75,21 @@ const wchar_t *Window::GetName() const noexcept
 	return originalName.c_str();
 }
 
+KeyBoard& Window::GetKeyBoard() const noexcept
+{
+	return m_kbKeyInput;
+}
+
+Mouse& Window::GetMouse() const noexcept
+{
+	return m_mMouseInput;
+}
+
+Window* Window::Create(int iWidth, int iHeight, const wchar_t* iName)
+{
+	return new Window(iWidth, iHeight, iName);
+}
+
 DWORD Window::ProcessMessages()
 {
 	MSG msg;
