@@ -2,6 +2,12 @@
 #include <vector>
 #include <bitset>
 #include <queue>
+#include <memory>
+
+class KeyBoard;
+
+typedef std::shared_ptr<KeyBoard> SKeyBoard;
+typedef KeyBoard* PKeyBoard;
 
 class KeyBoard
 {
@@ -41,7 +47,6 @@ public:
 		}
 	};
 public:
-	KeyBoard() = default;
 	KeyBoard( const KeyBoard& ) = delete;
 	KeyBoard& operator=( const KeyBoard& ) = delete;
 
@@ -60,12 +65,15 @@ public:
 	void DisableAutoRepeat() noexcept;
 	bool IsAutoRepeatEnabled() noexcept;
 private:
+	KeyBoard() = default;
 	void OnKeyPressed( unsigned char ucKeycode ) noexcept;
 	void OnKeyRelease( unsigned char ucKeycode ) noexcept;
 	void OnChar( char  c ) noexcept;
 	void ClearState() noexcept;
+
 	template<typename T>
 	static void TrimBuffer( std::queue<T>& buffer ) noexcept;
+	static PKeyBoard Create() noexcept;
 private:
 	static constexpr unsigned int m_uiKeys = 256u;
 	static constexpr unsigned int m_bufferSize = 16u;

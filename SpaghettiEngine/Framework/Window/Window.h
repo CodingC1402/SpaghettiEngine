@@ -49,10 +49,9 @@ public:
 	bool SetName( const wchar_t* wcWndName ) const noexcept;
 	const wchar_t* GetName() const noexcept;
 
-	KeyBoard& GetKeyBoard() const noexcept;
-	Mouse& GetMouse() const noexcept;
+	SKeyBoard& GetKeyBoard() const noexcept;
+	SMouse& GetMouse() const noexcept;
 
-	void Destroy();
 	static Window* Create(int iWidth, int iHeight, const wchar_t* iName);
 	static DWORD ProcessMessages();
 private:
@@ -66,8 +65,8 @@ private:
 	int m_iWidth;
 	int m_iHeight;
 	HWND m_hWnd;
-	mutable KeyBoard m_kbKeyInput;
-	mutable Mouse m_mMouseInput;
+	mutable SKeyBoard m_kbKeyInput;
+	mutable SMouse m_mMouseInput;
 } *PWindow;
 
 typedef std::unique_ptr<Window> UWindow;

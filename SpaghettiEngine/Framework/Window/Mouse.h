@@ -3,6 +3,11 @@
 #include "CornWnd.h"
 #include "Plane2D.h"
 #include <queue>
+#include <memory>
+
+class Mouse;
+typedef Mouse* PMouse;
+typedef std::shared_ptr<Mouse> SMouse;
 
 using Plane2D::Point;
 
@@ -89,7 +94,6 @@ public:
 		}
 	};
 public:
-	Mouse() = default;
 	Mouse( const Mouse& ) = delete;
 	Mouse& operator= ( const Mouse& ) = delete;
 
@@ -109,6 +113,7 @@ public:
 	int		GetPosX			() const noexcept;
 	int		GetPosY			() const noexcept;
 private:
+	Mouse() = default;
 	void OnMove				( const Point& ptPos ) noexcept;
 	void OnLeave			() noexcept;
 	void OnEnter			() noexcept;
@@ -124,6 +129,8 @@ private:
 	void AddEvent			( const Event::Type& tEventType ) noexcept;
 	void AddEvent			( const Event::Type& tEventType, const Point& ptPos ) noexcept;
 	void TrimBuffer			() noexcept;
+
+	static PMouse Create();
 private:
 	static constexpr unsigned int m_uiBufferSize = 16u;
 	Point m_ptPosition;
@@ -133,4 +140,3 @@ private:
 	bool m_bIsInside			= false;
 	std::queue<Event> m_qBuffer;
 };
-

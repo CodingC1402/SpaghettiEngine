@@ -1,13 +1,20 @@
 #pragma once
-#include "..\Window\Window.h"
+#include "Window.h"
+
+class InputSystem;
+typedef std::shared_ptr<InputSystem> SInputSystem;
+typedef std::unique_ptr<InputSystem> UInputSystem;
 
 class InputSystem
 {
+	friend class App;
+protected:
+	SKeyBoard keyBoard;
+	SMouse mouse;
 public:
-	KeyBoard *kb;
-public:
-	InputSystem* CreateInstance(KeyBoard& kb)
-	{
-		this->kb = &kb;
-	}
+
+protected:
+	static InputSystem* Create(const SWindow& wnd);
+	InputSystem(const SWindow& wnd);
 };
+

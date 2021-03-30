@@ -15,7 +15,6 @@ public:
 	const double& GetSystemTime() noexcept;
 	const double& GetDeltaTime() noexcept;
 
-	void Destroy() noexcept;
 	static Timer* Create() noexcept;
 protected:
 	Timer() {};

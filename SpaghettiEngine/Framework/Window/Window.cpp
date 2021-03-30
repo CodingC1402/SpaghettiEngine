@@ -41,7 +41,9 @@ Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
 	:
 	m_iHeight	( iHeight ),
 	m_iWidth	( iWidth ),
-	originalName (wcWndName)
+	originalName (wcWndName),
+	m_kbKeyInput (KeyBoard::Create()),
+	m_mMouseInput (Mouse::Create())
 {
 	RECT wr;
 	wr.left = 100;
@@ -75,12 +77,12 @@ const wchar_t *Window::GetName() const noexcept
 	return originalName.c_str();
 }
 
-KeyBoard& Window::GetKeyBoard() const noexcept
+SKeyBoard& Window::GetKeyBoard() const noexcept
 {
 	return m_kbKeyInput;
 }
 
-Mouse& Window::GetMouse() const noexcept
+SMouse& Window::GetMouse() const noexcept
 {
 	return m_mMouseInput;
 }
@@ -142,23 +144,23 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		const Point ptPos = MAKEPOINTS( lParam );
 		if (ptPos.x >= 0 && ptPos.x < m_iWidth && ptPos.y >= 0 && ptPos.y < m_iHeight)
 		{
-			m_mMouseInput.OnMove( ptPos );
-			if (!m_mMouseInput.IsInside())
+			m_mMouseInput->OnMove( ptPos );
+			if (!m_mMouseInput->IsInside())
 			{
 				SetCapture( hWnd );
-				m_mMouseInput.OnEnter();
+				m_mMouseInput->OnEnter();
 			}
 		}
 		else
 		{
 			if (wParam & (VK_LBUTTON | VK_RBUTTON))
 			{
-				m_mMouseInput.OnMove( ptPos );
+				m_mMouseInput->OnMove( ptPos );
 			}
 			else
 			{
 				ReleaseCapture();
-				m_mMouseInput.OnLeave();
+				m_mMouseInput->OnLeave();
 			}
 		}
 		break;
@@ -166,43 +168,43 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_LBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnLeftPress( ptPos );
-		m_kbKeyInput.OnKeyPressed( VK_LBUTTON );
+		m_mMouseInput->OnLeftPress( ptPos );
+		m_kbKeyInput->OnKeyPressed( VK_LBUTTON );
 		break;
 	}
 	case WM_LBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnLeftRelease( ptPos );
-		m_kbKeyInput.OnKeyRelease( VK_LBUTTON );
+		m_mMouseInput->OnLeftRelease( ptPos );
+		m_kbKeyInput->OnKeyRelease( VK_LBUTTON );
 		break;
 	}
 	case WM_RBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnRightPress( ptPos );
-		m_kbKeyInput.OnKeyPressed( VK_RBUTTON );
+		m_mMouseInput->OnRightPress( ptPos );
+		m_kbKeyInput->OnKeyPressed( VK_RBUTTON );
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnRightRelease( ptPos );
-		m_kbKeyInput.OnKeyRelease( VK_RBUTTON );
+		m_mMouseInput->OnRightRelease( ptPos );
+		m_kbKeyInput->OnKeyRelease( VK_RBUTTON );
 		break;
 	}
 	case WM_MBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnMiddlePress( ptPos );
-		m_kbKeyInput.OnKeyPressed( VK_MBUTTON );
+		m_mMouseInput->OnMiddlePress( ptPos );
+		m_kbKeyInput->OnKeyPressed( VK_MBUTTON );
 		break;
 	}
 	case WM_MBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnMiddleRelease( ptPos );
-		m_kbKeyInput.OnKeyRelease( VK_MBUTTON );
+		m_mMouseInput->OnMiddleRelease( ptPos );
+		m_kbKeyInput->OnKeyRelease( VK_MBUTTON );
 		break;
 	}
 	case WM_MOUSEWHEEL:
@@ -210,11 +212,11 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		const Point ptPos = MAKEPOINTS( lParam );
 		if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
 		{
-			m_mMouseInput.OnWheelUp();
+			m_mMouseInput->OnWheelUp();
 		}
 		else if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
 		{
-			m_mMouseInput.OnWheelDown();
+			m_mMouseInput->OnWheelDown();
 		}
 		break;
 	}
@@ -224,21 +226,21 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	//Key board message
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
-		m_kbKeyInput.OnKeyPressed( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnKeyPressed( static_cast<unsigned char>(wParam) );
 		break;
 	case WM_SYSKEYUP:
 	case WM_KEYUP:
-		m_kbKeyInput.OnKeyRelease( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnKeyRelease( static_cast<unsigned char>(wParam) );
 		break;
 	case WM_CHAR:
-		m_kbKeyInput.OnChar( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnChar( static_cast<unsigned char>(wParam) );
 		break;
 	//End key board message
 	case WM_CLOSE:
 		PostQuitMessage( 0 );
 		break;
 	case WM_KILLFOCUS:
-		m_kbKeyInput.ClearState();
+		m_kbKeyInput->ClearState();
 		break;
 #pragma endregion
 	}

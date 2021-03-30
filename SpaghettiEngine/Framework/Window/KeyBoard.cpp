@@ -74,6 +74,13 @@ bool KeyBoard::IsAutoRepeatEnabled() noexcept
 	return m_autoRepeatEnabled;
 }
 
+PKeyBoard KeyBoard::Create() noexcept
+{
+	return new KeyBoard;
+}
+
+
+
 void KeyBoard::OnKeyPressed( unsigned char ucKeycode ) noexcept
 {
 	m_bsKeyStates[ ucKeycode ] = true;

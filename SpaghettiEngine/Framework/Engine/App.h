@@ -1,7 +1,7 @@
 #pragma once
 #include "Window.h"
 #include "Graphics.h"
-#include "Input.h"
+#include "InputSystem.h"
 #include "Physic.h"
 #include "Sound.h"
 
@@ -23,9 +23,9 @@ public:
 protected:
 	SWindow wnd = nullptr;
 	STimer timer = nullptr;
+	SInputSystem input = nullptr;
 	Graphics* gfx = nullptr;
 	Physic* pe = nullptr;
-	Input* input = nullptr;
 
 	const wchar_t** textAnimation = nullptr;
 	mutable int currentFrame = 0;

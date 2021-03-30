@@ -160,4 +160,8 @@ void Mouse::TrimBuffer() noexcept
 		m_qBuffer.pop();
 	}
 }
+PMouse Mouse::Create()
+{
+	return new Mouse();
+}
 #pragma endregion

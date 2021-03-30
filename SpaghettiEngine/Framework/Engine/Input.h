@@ -1,6 +1,7 @@
 #pragma once
-#include "..\Window\CornWnd.h";
+#include "CornWnd.h";
 #include <string>
+#include <memory>
 
 using std::string;
 
@@ -13,3 +14,5 @@ class Input
 	string name;
 	
 };
+
+typedef std::shared_ptr<Input> SInput;
