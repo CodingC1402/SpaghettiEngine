@@ -1,20 +1,30 @@
 #pragma once
 #include "Window.h"
+#include "Input.h"
+#include <vector>
 
 class InputSystem;
-typedef std::shared_ptr<InputSystem> SInputSystem;
-typedef std::unique_ptr<InputSystem> UInputSystem;
+typedef InputSystem* PInputSystem;
 
 class InputSystem
 {
 	friend class App;
-protected:
-	SKeyBoard keyBoard;
-	SMouse mouse;
 public:
-
+	KeyCode GetFirstKeyPressCode();
 protected:
-	static InputSystem* Create(const SWindow& wnd);
-	InputSystem(const SWindow& wnd);
+	static PInputSystem GetInstance();
+	InputSystem();
+	void Update();
+protected:
+	PKeyBoard kb;
+	PMouse mouse;
+
+	KeyBoard::Event firstKeyPressEvent;
+	std::wstring charInput;
+	std::vector<SInput> inputs;
+
+	static PInputSystem instance;
+private:
+	~InputSystem() {};
 };
 

@@ -1,16 +1,13 @@
 #include "KeyBoard.h"
 
-bool KeyBoard::IsKeyPress( unsigned char ucKeycode ) noexcept
-{
-	return m_bsKeyStates[ ucKeycode ];
-}
+PKeyBoard KeyBoard::instance = nullptr;
 
 KeyBoard::Event KeyBoard::ReadKey() noexcept
 {
 	if ( m_qKeyBuffer.size() > 0u )
 	{
 		KeyBoard::Event e = m_qKeyBuffer.front();
-		m_qCharBuffer.pop();
+		m_qKeyBuffer.pop();
 		return e;
 	}
 	else
@@ -24,7 +21,7 @@ bool KeyBoard::IsKeyEmpty() noexcept
 	return m_qKeyBuffer.empty();
 }
 
-char KeyBoard::ReadChar() noexcept
+wchar_t KeyBoard::ReadChar() noexcept
 {
 	if ( m_qCharBuffer.size() > 0u )
 	{
@@ -50,7 +47,7 @@ void KeyBoard::ClearKey() noexcept
 
 void KeyBoard::ClearChar() noexcept
 {
-	m_qCharBuffer = std::queue<char>();
+	m_qCharBuffer = std::queue<wchar_t>();
 }
 
 void KeyBoard::Clear() noexcept
@@ -74,36 +71,37 @@ bool KeyBoard::IsAutoRepeatEnabled() noexcept
 	return m_autoRepeatEnabled;
 }
 
-PKeyBoard KeyBoard::Create() noexcept
-{
-	return new KeyBoard;
-}
-
 
 
 void KeyBoard::OnKeyPressed( unsigned char ucKeycode ) noexcept
 {
-	m_bsKeyStates[ ucKeycode ] = true;
 	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode) );
 	TrimBuffer( m_qKeyBuffer );
 }
 
 void KeyBoard::OnKeyRelease( unsigned char ucKeycode ) noexcept
 {
-	m_bsKeyStates[ ucKeycode ] = false;
 	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode ) );
 	TrimBuffer( m_qKeyBuffer );
 }
 
-void KeyBoard::OnChar( char c ) noexcept
+void KeyBoard::OnChar( wchar_t c ) noexcept
 {
 	m_qCharBuffer.push( c );
 	TrimBuffer( m_qCharBuffer );
 }
 
-void KeyBoard::ClearState() noexcept
+void KeyBoard::OnLostFocus() noexcept
 {
-	m_bsKeyStates.reset();
+	m_qKeyBuffer.push(Event());
+	TrimBuffer(m_qKeyBuffer);
+}
+
+PKeyBoard KeyBoard::GetInstance() noexcept
+{
+	if (instance == nullptr)
+		instance = new KeyBoard();
+	return instance;
 }
 
 template<typename T>

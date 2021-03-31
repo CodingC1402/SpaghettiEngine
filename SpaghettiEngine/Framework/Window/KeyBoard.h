@@ -5,7 +5,7 @@
 #include <memory>
 
 class KeyBoard;
-
+typedef int KeyCode;
 typedef std::shared_ptr<KeyBoard> SKeyBoard;
 typedef KeyBoard* PKeyBoard;
 
@@ -39,7 +39,7 @@ public:
 		}
 		bool IsValid() const noexcept
 		{
-			return m_tType == Type::Invalid;
+			return m_tType != Type::Invalid;
 		}
 		unsigned char GetCode() const noexcept
 		{
@@ -50,12 +50,11 @@ public:
 	KeyBoard( const KeyBoard& ) = delete;
 	KeyBoard& operator=( const KeyBoard& ) = delete;
 
-	bool IsKeyPress( unsigned char ucKeycode ) noexcept;
 	bool IsKeyEmpty() noexcept;
 	Event ReadKey() noexcept;
 	void ClearKey() noexcept;
 
-	char ReadChar() noexcept;
+	wchar_t ReadChar() noexcept;
 	bool IsCharEmpty() noexcept;
 	void ClearChar() noexcept;
 
@@ -64,21 +63,22 @@ public:
 	void EnableAutoRepeat() noexcept;
 	void DisableAutoRepeat() noexcept;
 	bool IsAutoRepeatEnabled() noexcept;
+
+	static PKeyBoard GetInstance() noexcept;
 private:
 	KeyBoard() = default;
 	void OnKeyPressed( unsigned char ucKeycode ) noexcept;
 	void OnKeyRelease( unsigned char ucKeycode ) noexcept;
-	void OnChar( char  c ) noexcept;
-	void ClearState() noexcept;
+	void OnChar( wchar_t  c ) noexcept;
+	void OnLostFocus() noexcept;
 
 	template<typename T>
 	static void TrimBuffer( std::queue<T>& buffer ) noexcept;
-	static PKeyBoard Create() noexcept;
 private:
-	static constexpr unsigned int m_uiKeys = 256u;
 	static constexpr unsigned int m_bufferSize = 16u;
 	bool m_autoRepeatEnabled = false;
-	std::bitset<m_uiKeys> m_bsKeyStates;
 	std::queue<Event> m_qKeyBuffer;
-	std::queue<char> m_qCharBuffer;
+	std::queue<wchar_t> m_qCharBuffer;
+
+	static PKeyBoard instance;
 };

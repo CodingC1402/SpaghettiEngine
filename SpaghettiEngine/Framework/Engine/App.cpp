@@ -22,7 +22,7 @@ void App::ChangeName() const noexcept
 		os << L" | " << textAnimation[currentFrame];
 		currentFrame++;
 		currentFrame %= numberofFrame;
-		wnd->SetName(os.str().c_str());
+		wnd->SetTempName(os.str().c_str());
 
 		deltaTimeSinceLastChange = 0;
 	}
@@ -72,7 +72,11 @@ App::~App()
 BOOL App::Go()
 {
 	running = true;
-	wnd = SWindow(Window::Create(800, 600, L"SpaghettiEngine"));
+	wnd = Window::GetInstance();
+	wnd->SetName(L"Spaghetti Engine");
+	
+	input = InputSystem::GetInstance();
+
 	timer = STimer(Timer::Create());
 
 	timer->Start();
@@ -118,6 +122,9 @@ void App::DoFrame()
 	framePassed++;
 	if (showInfo)
 		ChangeName();
+
+	input->Update();
+
 
 }
 

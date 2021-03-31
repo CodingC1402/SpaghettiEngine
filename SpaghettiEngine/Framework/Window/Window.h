@@ -7,19 +7,20 @@
 #include "CornException.h"
 #include "StringConverter.h"
 #include "..\..\resource.h"
-
 #include <memory>
 
-typedef class Window
+typedef class Window * PWindow;
+
+class Window
 {
 public:
 	class Exception : public CornException
 	{
 	public:
-		Exception( int line, const wchar_t *file, HRESULT hr ) noexcept;
-		virtual const wchar_t *GetType() const noexcept override;
-		virtual const wchar_t *What() const noexcept override;
-		static std::wstring TranslateErrorCode( HRESULT hr ) noexcept;
+		Exception(int line, const wchar_t* file, HRESULT hr) noexcept;
+		virtual const wchar_t* GetType() const noexcept override;
+		virtual const wchar_t* What() const noexcept override;
+		static std::wstring TranslateErrorCode(HRESULT hr) noexcept;
 		HRESULT GetErrorCode() const noexcept;
 		std::wstring GetErrorString() const noexcept;
 	private:
@@ -35,42 +36,42 @@ private:
 	private:
 		WindowClass() noexcept;
 		~WindowClass();
-		WindowClass( const WindowClass& ) = delete;
-		Window& operator=( const WindowClass& ) = delete;
+		WindowClass(const WindowClass&) = delete;
+		Window& operator=(const WindowClass&) = delete;
 		static constexpr const wchar_t* m_pwcWndClassName = L"SpaghettiEngine";
 		static WindowClass m_wcWinClass;
 		HINSTANCE m_hInst;
 	};
 public:
 	~Window();
-	Window( const Window& ) = delete;
-	Window& operator=( const Window& ) = delete;
+	Window(const Window&) = delete;
+	Window& operator=(const Window&) = delete;
 
-	bool SetName( const wchar_t* wcWndName ) const noexcept;
+	bool SetName(const wchar_t* wcWndName) noexcept;
+	bool SetTempName(const wchar_t* wcTempName) const noexcept;
 	const wchar_t* GetName() const noexcept;
 
-	SKeyBoard& GetKeyBoard() const noexcept;
-	SMouse& GetMouse() const noexcept;
+	PKeyBoard GetKeyBoard() const noexcept;
+	PMouse GetMouse() const noexcept;
 
-	static Window* Create(int iWidth, int iHeight, const wchar_t* iName);
+	static Window* GetInstance();
 	static DWORD ProcessMessages();
 private:
 	Window(int iWidth, int iHeight, const wchar_t* iName) noexcept;
 
-	static LRESULT CALLBACK HandleMsgSetup( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
-	static LRESULT CALLBACK HandleMsgThunk( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT CALLBACK HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
+	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	LRESULT CALLBACK HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 private:
 	std::wstring originalName;
 	int m_iWidth;
 	int m_iHeight;
 	HWND m_hWnd;
-	mutable SKeyBoard m_kbKeyInput;
-	mutable SMouse m_mMouseInput;
-} *PWindow;
+	mutable PKeyBoard m_kbKeyInput;
+	mutable PMouse m_mMouseInput;
 
-typedef std::unique_ptr<Window> UWindow;
-typedef std::shared_ptr<Window> SWindow;
+	static PWindow instance;
+};
 
 #define CWND_EXCEPT( hr ) Window::Exception(__LINE__,__FILE__,hr)
 #define CWND_LAST_EXCEPT() Window::Exception(__LINE__,__FILE__,GetLastError())

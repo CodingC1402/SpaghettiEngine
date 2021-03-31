@@ -1,5 +1,6 @@
 ﻿#include "Window.h"
 
+PWindow Window::instance = nullptr;
 Window::WindowClass Window::WindowClass::m_wcWinClass;
 
 Window::WindowClass::WindowClass() noexcept
@@ -42,8 +43,8 @@ Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
 	m_iHeight	( iHeight ),
 	m_iWidth	( iWidth ),
 	originalName (wcWndName),
-	m_kbKeyInput (KeyBoard::Create()),
-	m_mMouseInput (Mouse::Create())
+	m_kbKeyInput (KeyBoard::GetInstance()),
+	m_mMouseInput (Mouse::GetInstance())
 {
 	RECT wr;
 	wr.left = 100;
@@ -67,9 +68,15 @@ Window::~Window()
 	DestroyWindow( m_hWnd );
 }
 
-bool Window::SetName(const wchar_t* wcWndName) const noexcept
+bool Window::SetName(const wchar_t* wcWndName) noexcept
 {
+	originalName = wcWndName;
 	return SetWindowText(m_hWnd, wcWndName);
+}
+
+bool Window::SetTempName(const wchar_t* wcTempName) const noexcept
+{
+	return SetWindowText(m_hWnd, wcTempName);
 }
 
 const wchar_t *Window::GetName() const noexcept
@@ -77,19 +84,21 @@ const wchar_t *Window::GetName() const noexcept
 	return originalName.c_str();
 }
 
-SKeyBoard& Window::GetKeyBoard() const noexcept
+PKeyBoard Window::GetKeyBoard() const noexcept
 {
 	return m_kbKeyInput;
 }
 
-SMouse& Window::GetMouse() const noexcept
+PMouse Window::GetMouse() const noexcept
 {
 	return m_mMouseInput;
 }
 
-Window* Window::Create(int iWidth, int iHeight, const wchar_t* iName)
+Window* Window::GetInstance()
 {
-	return new Window(iWidth, iHeight, iName);
+	if (!instance)
+		instance = new Window(800, 600, L"Window");
+	return instance;
 }
 
 DWORD Window::ProcessMessages()
@@ -233,14 +242,14 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		m_kbKeyInput->OnKeyRelease( static_cast<unsigned char>(wParam) );
 		break;
 	case WM_CHAR:
-		m_kbKeyInput->OnChar( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnChar( static_cast<wchar_t>(wParam) );
 		break;
 	//End key board message
 	case WM_CLOSE:
 		PostQuitMessage( 0 );
 		break;
 	case WM_KILLFOCUS:
-		m_kbKeyInput->ClearState();
+		m_kbKeyInput->OnLostFocus();
 		break;
 #pragma endregion
 	}

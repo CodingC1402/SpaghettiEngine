@@ -21,9 +21,10 @@ public:
 	void ShowExtraInfo() const noexcept;
 	void HideExtraInfo() const noexcept;
 protected:
-	SWindow wnd = nullptr;
+	PWindow wnd = nullptr;
+	PInputSystem input = nullptr;
 	STimer timer = nullptr;
-	SInputSystem input = nullptr;
+
 	Graphics* gfx = nullptr;
 	Physic* pe = nullptr;
 
