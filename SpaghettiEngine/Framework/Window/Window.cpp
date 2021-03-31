@@ -107,7 +107,7 @@ DWORD Window::ProcessMessages()
 
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
 	{
-		if (msg.message == WM_QUIT)
+		if (msg.message == WM_QUIT || msg.message == WM_DESTROY)
 		{
 			return WM_QUIT;
 		}

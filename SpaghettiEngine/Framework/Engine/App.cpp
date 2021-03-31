@@ -90,7 +90,7 @@ BOOL App::Go()
 
 			if (Window::ProcessMessages() == WM_QUIT)
 			{
-				this->Quit();
+				this->CallQuit();
 			}
 
 			DoFrame();
@@ -98,6 +98,7 @@ BOOL App::Go()
 
 		wnd->SetName(L""); 
 		PostQuitMessage(1);
+		Quit();
 
 		iResult = 1;
 	}
@@ -124,13 +125,16 @@ void App::DoFrame()
 		ChangeName();
 
 	input->Update();
+}
 
-
+void App::CallQuit()
+{
+	running = false;
 }
 
 void App::Quit()
 {
-	running = false;
+	InputSystem::GetInstance()->Save();
 }
 
 void App::ShowExtraInfo() const noexcept

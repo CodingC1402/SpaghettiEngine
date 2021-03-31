@@ -16,6 +16,7 @@ public:
 
 	BOOL Go();
 	void DoFrame();
+	void CallQuit();
 	void Quit();
 
 	void ShowExtraInfo() const noexcept;

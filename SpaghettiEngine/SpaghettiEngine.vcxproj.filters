@@ -92,6 +92,9 @@
     <ClInclude Include="Framework\Engine\Sound.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Utilities\json.hpp">
+      <Filter>FrameWork\Utilities\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">

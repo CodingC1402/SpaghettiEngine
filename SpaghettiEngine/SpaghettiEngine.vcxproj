@@ -27,6 +27,7 @@
     <ClInclude Include="Framework\Engine\Physic.h" />
     <ClInclude Include="Framework\Engine\Sound.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
+    <ClInclude Include="Framework\Utilities\json.hpp" />
     <ClInclude Include="Framework\Utilities\Plane2D.h" />
     <ClInclude Include="Framework\Utilities\StringConverter.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
