@@ -1,6 +1,8 @@
 ﻿#include "App.h"
 #include <iomanip>
 
+PApp App::__instance = nullptr;
+
 void App::ChangeName() const noexcept
 {
 	if (deltaTimeSinceLastChange >= wndChangeDeltaTime)
@@ -40,10 +42,7 @@ void App::CalculateFPS() const noexcept
 
 App::App() noexcept
 {
-	this->timer = nullptr;
-	this->wnd = nullptr;
-	this->textAnimation = nullptr;
-
+#pragma region DumbStuffs
 	textAnimation = new const wchar_t*[numberofFrame];
 	textAnimation[0]  = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[1]  = L"(ﾒ￣‿￣)︻┻┳══━一---☆					";
@@ -62,6 +61,7 @@ App::App() noexcept
 	textAnimation[14] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[15] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[16] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+#pragma endregion
 }
 
 App::~App()
@@ -71,19 +71,22 @@ App::~App()
 
 BOOL App::Go()
 {
-	running = true;
-	wnd = Window::GetInstance();
-	wnd->SetName(L"Spaghetti Engine");
-	
-	input = InputSystem::GetInstance();
-
-	timer = STimer(Timer::Create());
-
-	timer->Start();
 	BOOL iResult = -1;
 
 	try
 	{
+		timer = STimer(Timer::Create());
+
+		wnd = Window::GetInstance();
+		wnd->SetName(L"Spaghetti Engine");
+
+		input = InputSystem::GetInstance();
+		gfx = Graphics::GetInstance();
+		gfx->Init(timer, 60);
+
+		timer->Start();
+		running = true;
+
 		while ( running )
 		{
 			timer->Mark();
@@ -112,7 +115,7 @@ BOOL App::Go()
 	}
 	catch ( ... )
 	{
-		MessageBox( nullptr, L"¯\_(ツ)_/¯ No detail ", L"UnknowException", MB_OK | MB_ICONEXCLAMATION );
+		MessageBox( nullptr, L"¯\\_(ツ)_/¯ No detail ", L"UnknowException", MB_OK | MB_ICONEXCLAMATION );
 	}
 
 	return iResult;
@@ -125,6 +128,12 @@ void App::DoFrame()
 		ChangeName();
 
 	input->Update();
+
+	/// <summary>
+	/// Put game logic here
+	/// </summary>
+
+	gfx->Render();
 }
 
 void App::CallQuit()
@@ -135,6 +144,8 @@ void App::CallQuit()
 void App::Quit()
 {
 	InputSystem::GetInstance()->Save();
+	__instance = nullptr;
+	delete this;
 }
 
 void App::ShowExtraInfo() const noexcept
@@ -149,4 +160,11 @@ void App::HideExtraInfo() const noexcept
 	{
 		wnd->SetName(wnd->GetName());
 	}
+}
+
+PApp App::GetInstance() noexcept
+{
+	if (!__instance)
+		__instance = new App();
+	return __instance;
 }

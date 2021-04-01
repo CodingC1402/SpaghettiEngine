@@ -77,9 +77,6 @@
     <ClInclude Include="Framework\Engine\Game.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Graphics.h">
-      <Filter>FrameWork\Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\Input.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
@@ -94,6 +91,15 @@
     </ClInclude>
     <ClInclude Include="Framework\Utilities\json.hpp">
       <Filter>FrameWork\Utilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Graphics.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Sprite.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Texture.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -127,9 +133,6 @@
     <ClCompile Include="Framework\Engine\Game.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Graphics.cpp">
-      <Filter>FrameWork\Engine\SourceFiles</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\Input.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
@@ -143,6 +146,15 @@
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\WinMain.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Graphics.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Sprite.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Texture.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>

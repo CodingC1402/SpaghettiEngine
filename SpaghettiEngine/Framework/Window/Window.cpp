@@ -84,6 +84,11 @@ const wchar_t *Window::GetName() const noexcept
 	return originalName.c_str();
 }
 
+HWND Window::GetHwnd() const noexcept
+{
+	return m_hWnd;
+}
+
 PKeyBoard Window::GetKeyBoard() const noexcept
 {
 	return m_kbKeyInput;
@@ -256,7 +261,7 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
 
-Window::Exception::Exception( int line, const wchar_t *file, HRESULT hr ) noexcept
+Window::Exception::Exception( int line, const char *file, HRESULT hr ) noexcept
 	:
 	CornException( line, file ),
 	m_HResult( hr )

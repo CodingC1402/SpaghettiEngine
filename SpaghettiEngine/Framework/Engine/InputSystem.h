@@ -22,12 +22,18 @@ class InputSystem
 public:
 	KeyCode GetFirstKeyPressCode();
 protected:
-	static PInputSystem GetInstance();
+	InputSystem(const InputSystem&) = delete;
+	InputSystem& operator=(const InputSystem&) = delete;
+
+	~InputSystem() {};
 	InputSystem();
+
 	void Update();
 
 	void Load();
 	void Save();
+
+	static PInputSystem GetInstance();
 protected:
 	PKeyBoard kb;
 	PMouse mouse;

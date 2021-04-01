@@ -11,6 +11,7 @@ typedef std::shared_ptr<Mouse> SMouse;
 
 using Plane2D::Point;
 
+//Singleton
 class Mouse
 {
 	friend class Window;
@@ -116,6 +117,8 @@ public:
 	static PMouse GetInstance() noexcept;
 private:
 	Mouse() = default;
+	~Mouse() = default;
+
 	void OnMove				( const Point& ptPos ) noexcept;
 	void OnLeave			() noexcept;
 	void OnEnter			() noexcept;

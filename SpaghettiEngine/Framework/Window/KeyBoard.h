@@ -9,6 +9,8 @@ typedef int KeyCode;
 typedef std::shared_ptr<KeyBoard> SKeyBoard;
 typedef KeyBoard* PKeyBoard;
 
+
+//Singleton
 class KeyBoard
 {
 	friend class Window;
@@ -67,6 +69,8 @@ public:
 	static PKeyBoard GetInstance() noexcept;
 private:
 	KeyBoard() = default;
+	~KeyBoard() = default;
+
 	void OnKeyPressed( unsigned char ucKeycode ) noexcept;
 	void OnKeyRelease( unsigned char ucKeycode ) noexcept;
 	void OnChar( wchar_t  c ) noexcept;

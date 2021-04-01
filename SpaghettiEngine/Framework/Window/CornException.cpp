@@ -5,10 +5,10 @@ const char *CornException::what() const noexcept
     return nullptr;
 }
 
-CornException::CornException( int line, const wchar_t *file ) noexcept
+CornException::CornException(int line, const char* file) noexcept
     :
-    m_Line( line),
-    m_File ( file )
+    m_Line(line),
+    m_File(StringConverter::StrToWStr(file))
 {}
 
 const wchar_t *CornException::What() const noexcept

@@ -26,6 +26,8 @@
     <ClInclude Include="Framework\Engine\InputSystem.h" />
     <ClInclude Include="Framework\Engine\Physic.h" />
     <ClInclude Include="Framework\Engine\Sound.h" />
+    <ClInclude Include="Framework\Engine\Sprite.h" />
+    <ClInclude Include="Framework\Engine\Texture.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
     <ClInclude Include="Framework\Utilities\json.hpp" />
     <ClInclude Include="Framework\Utilities\Plane2D.h" />
@@ -46,6 +48,8 @@
     <ClCompile Include="Framework\Engine\InputSystem.cpp" />
     <ClCompile Include="Framework\Engine\Physic.cpp" />
     <ClCompile Include="Framework\Engine\Sound.cpp" />
+    <ClCompile Include="Framework\Engine\Sprite.cpp" />
+    <ClCompile Include="Framework\Engine\Texture.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
     <ClCompile Include="Framework\Utilities\Debug.cpp" />
     <ClCompile Include="Framework\Utilities\Plane2D.cpp" />
@@ -122,9 +126,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -135,11 +141,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,13 +162,16 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -173,11 +185,12 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -191,13 +204,16 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
+      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

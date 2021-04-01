@@ -17,7 +17,7 @@ public:
 	class Exception : public CornException
 	{
 	public:
-		Exception(int line, const wchar_t* file, HRESULT hr) noexcept;
+		Exception(int line, const char* file, HRESULT hr) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
 		virtual const wchar_t* What() const noexcept override;
 		static std::wstring TranslateErrorCode(HRESULT hr) noexcept;
@@ -43,7 +43,6 @@ private:
 		HINSTANCE m_hInst;
 	};
 public:
-	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
@@ -51,6 +50,7 @@ public:
 	bool SetTempName(const wchar_t* wcTempName) const noexcept;
 	const wchar_t* GetName() const noexcept;
 
+	HWND GetHwnd() const noexcept;
 	PKeyBoard GetKeyBoard() const noexcept;
 	PMouse GetMouse() const noexcept;
 
@@ -58,6 +58,7 @@ public:
 	static DWORD ProcessMessages();
 private:
 	Window(int iWidth, int iHeight, const wchar_t* iName) noexcept;
+	~Window();
 
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
