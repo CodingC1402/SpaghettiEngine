@@ -8,8 +8,8 @@ int WINAPI wWinMain(
 	int			nCmdShow
 )
 {
-	App app;
-	app.ShowExtraInfo();
-	BOOL result = app.Go();
+	PApp app = App::GetInstance();
+	app->ShowExtraInfo();
+	BOOL result = app->Go();
 	return result;
 }

@@ -1,5 +1,7 @@
 #include "Mouse.h"
 
+PMouse Mouse::instance = nullptr;
+
 #pragma region public
 bool Mouse::IsLeftPress()
 {
@@ -159,5 +161,11 @@ void Mouse::TrimBuffer() noexcept
 	{
 		m_qBuffer.pop();
 	}
+}
+PMouse Mouse::GetInstance() noexcept
+{
+	if (!instance)
+		instance = new Mouse();
+	return instance;
 }
 #pragma endregion

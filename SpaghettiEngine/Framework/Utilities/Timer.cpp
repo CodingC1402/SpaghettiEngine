@@ -10,6 +10,11 @@ const double& Timer::GetDeltaTime() noexcept
     return deltaTime;
 }
 
+Timer* Timer::Create() noexcept
+{
+    return new Timer();
+}
+
 void Timer::Start() noexcept
 {
     previousTimePoint = std::chrono::high_resolution_clock::now();

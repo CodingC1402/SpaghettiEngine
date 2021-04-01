@@ -3,9 +3,15 @@
 #include "CornWnd.h"
 #include "Plane2D.h"
 #include <queue>
+#include <memory>
+
+class Mouse;
+typedef Mouse* PMouse;
+typedef std::shared_ptr<Mouse> SMouse;
 
 using Plane2D::Point;
 
+//Singleton
 class Mouse
 {
 	friend class Window;
@@ -89,7 +95,6 @@ public:
 		}
 	};
 public:
-	Mouse() = default;
 	Mouse( const Mouse& ) = delete;
 	Mouse& operator= ( const Mouse& ) = delete;
 
@@ -108,7 +113,12 @@ public:
 	Point	GetPosition		() const noexcept;
 	int		GetPosX			() const noexcept;
 	int		GetPosY			() const noexcept;
+
+	static PMouse GetInstance() noexcept;
 private:
+	Mouse() = default;
+	~Mouse() = default;
+
 	void OnMove				( const Point& ptPos ) noexcept;
 	void OnLeave			() noexcept;
 	void OnEnter			() noexcept;
@@ -132,5 +142,6 @@ private:
 	bool m_bRightButtonPress	= false;
 	bool m_bIsInside			= false;
 	std::queue<Event> m_qBuffer;
-};
 
+	static PMouse instance;
+};

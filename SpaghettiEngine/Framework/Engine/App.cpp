@@ -1,6 +1,8 @@
 ﻿#include "App.h"
 #include <iomanip>
 
+PApp App::__instance = nullptr;
+
 void App::ChangeName() const noexcept
 {
 	if (deltaTimeSinceLastChange >= wndChangeDeltaTime)
@@ -22,7 +24,7 @@ void App::ChangeName() const noexcept
 		os << L" | " << textAnimation[currentFrame];
 		currentFrame++;
 		currentFrame %= numberofFrame;
-		wnd->SetName(os.str().c_str());
+		wnd->SetTempName(os.str().c_str());
 
 		deltaTimeSinceLastChange = 0;
 	}
@@ -40,10 +42,7 @@ void App::CalculateFPS() const noexcept
 
 App::App() noexcept
 {
-	this->timer = nullptr;
-	this->wnd = nullptr;
-	this->textAnimation = nullptr;
-
+#pragma region DumbStuffs
 	textAnimation = new const wchar_t*[numberofFrame];
 	textAnimation[0]  = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[1]  = L"(ﾒ￣‿￣)︻┻┳══━一---☆					";
@@ -62,6 +61,7 @@ App::App() noexcept
 	textAnimation[14] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[15] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
 	textAnimation[16] = L"  (ﾒ￣‿￣)︻┻┳══━一					";
+#pragma endregion
 }
 
 App::~App()
@@ -71,34 +71,37 @@ App::~App()
 
 BOOL App::Go()
 {
-	running = true;
-	wnd = new Window( 800, 600, L"Spaghetti" );
-	timer = new Timer();
-
-	timer->Start();
 	BOOL iResult = -1;
 
 	try
 	{
+		timer = STimer(Timer::Create());
+
+		wnd = Window::GetInstance();
+		wnd->SetName(L"Spaghetti Engine");
+
+		input = InputSystem::GetInstance();
+		gfx = Graphics::GetInstance();
+		gfx->Init(timer, 60);
+
+		timer->Start();
+		running = true;
+
 		while ( running )
 		{
 			timer->Mark();
 
 			if (Window::ProcessMessages() == WM_QUIT)
 			{
-				this->Quit();
+				this->CallQuit();
 			}
 
 			DoFrame();
 		}
 
-		wnd->SetName(L"");
+		wnd->SetName(L""); 
 		PostQuitMessage(1);
-		delete timer;
-		delete wnd;
-
-		wnd = nullptr;
-		timer = nullptr;
+		Quit();
 
 		iResult = 1;
 	}
@@ -112,7 +115,7 @@ BOOL App::Go()
 	}
 	catch ( ... )
 	{
-		MessageBox( nullptr, L"¯\_(ツ)_/¯ No detail ", L"UnknowException", MB_OK | MB_ICONEXCLAMATION );
+		MessageBox( nullptr, L"¯\\_(ツ)_/¯ No detail ", L"UnknowException", MB_OK | MB_ICONEXCLAMATION );
 	}
 
 	return iResult;
@@ -124,11 +127,28 @@ void App::DoFrame()
 	if (showInfo)
 		ChangeName();
 
+	input->Update();
+
+	//Temp
+	Game::Update();
+	//Temp
+	/// <summary>
+	/// Put game logic here
+	/// </summary>
+
+	gfx->Render();
+}
+
+void App::CallQuit()
+{
+	__instance->running = false;
 }
 
 void App::Quit()
 {
-	running = false;
+	InputSystem::GetInstance()->Save();
+	__instance = nullptr;
+	delete this;
 }
 
 void App::ShowExtraInfo() const noexcept
@@ -143,4 +163,11 @@ void App::HideExtraInfo() const noexcept
 	{
 		wnd->SetName(wnd->GetName());
 	}
+}
+
+PApp App::GetInstance() noexcept
+{
+	if (!__instance)
+		__instance = new App();
+	return __instance;
 }

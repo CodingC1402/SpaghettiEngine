@@ -1,5 +1,6 @@
 ﻿#include "Window.h"
 
+PWindow Window::instance = nullptr;
 Window::WindowClass Window::WindowClass::m_wcWinClass;
 
 Window::WindowClass::WindowClass() noexcept
@@ -41,7 +42,9 @@ Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
 	:
 	m_iHeight	( iHeight ),
 	m_iWidth	( iWidth ),
-	originalName (wcWndName)
+	originalName (wcWndName),
+	m_kbKeyInput (KeyBoard::GetInstance()),
+	m_mMouseInput (Mouse::GetInstance())
 {
 	RECT wr;
 	wr.left = 100;
@@ -50,10 +53,14 @@ Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
 	wr.bottom = iHeight + wr.top;
 	AdjustWindowRect( &wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE );
 
+	iWidth = wr.right - wr.left;
+	iHeight = wr.bottom - wr.top;
+
 	m_hWnd = CreateWindowEx(
 		0, WindowClass::GetName(),  wcWndName,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
+		WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+		//WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		CW_USEDEFAULT, CW_USEDEFAULT, iWidth, iHeight,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
 
@@ -65,14 +72,47 @@ Window::~Window()
 	DestroyWindow( m_hWnd );
 }
 
-bool Window::SetName(const wchar_t* wcWndName) const noexcept
+bool Window::SetName(const wchar_t* wcWndName) noexcept
 {
+	originalName = wcWndName;
 	return SetWindowText(m_hWnd, wcWndName);
+}
+
+bool Window::SetTempName(const wchar_t* wcTempName) const noexcept
+{
+	return SetWindowText(m_hWnd, wcTempName);
 }
 
 const wchar_t *Window::GetName() const noexcept
 {
 	return originalName.c_str();
+}
+
+Point Window::GetSize() const noexcept
+{
+	return Point(m_iWidth, m_iHeight);
+}
+
+HWND Window::GetHwnd() const noexcept
+{
+	return m_hWnd;
+}
+
+PKeyBoard Window::GetKeyBoard() const noexcept
+{
+	return m_kbKeyInput;
+}
+
+PMouse Window::GetMouse() const noexcept
+{
+	return m_mMouseInput;
+}
+
+Window* Window::GetInstance()
+{
+	if (!instance)
+		instance = new Window(800, 600, L"Window");
+	return instance;
 }
 
 DWORD Window::ProcessMessages()
@@ -81,7 +121,7 @@ DWORD Window::ProcessMessages()
 
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) > 0)
 	{
-		if (msg.message == WM_QUIT)
+		if (msg.message == WM_QUIT || msg.message == WM_DESTROY)
 		{
 			return WM_QUIT;
 		}
@@ -127,23 +167,23 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		const Point ptPos = MAKEPOINTS( lParam );
 		if (ptPos.x >= 0 && ptPos.x < m_iWidth && ptPos.y >= 0 && ptPos.y < m_iHeight)
 		{
-			m_mMouseInput.OnMove( ptPos );
-			if (!m_mMouseInput.IsInside())
+			m_mMouseInput->OnMove( ptPos );
+			if (!m_mMouseInput->IsInside())
 			{
 				SetCapture( hWnd );
-				m_mMouseInput.OnEnter();
+				m_mMouseInput->OnEnter();
 			}
 		}
 		else
 		{
 			if (wParam & (VK_LBUTTON | VK_RBUTTON))
 			{
-				m_mMouseInput.OnMove( ptPos );
+				m_mMouseInput->OnMove( ptPos );
 			}
 			else
 			{
 				ReleaseCapture();
-				m_mMouseInput.OnLeave();
+				m_mMouseInput->OnLeave();
 			}
 		}
 		break;
@@ -151,43 +191,43 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_LBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnLeftPress( ptPos );
-		m_kbKeyInput.OnKeyPressed( VK_LBUTTON );
+		m_mMouseInput->OnLeftPress( ptPos );
+		m_kbKeyInput->OnKeyPressed( VK_LBUTTON );
 		break;
 	}
 	case WM_LBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnLeftRelease( ptPos );
-		m_kbKeyInput.OnKeyRelease( VK_LBUTTON );
+		m_mMouseInput->OnLeftRelease( ptPos );
+		m_kbKeyInput->OnKeyRelease( VK_LBUTTON );
 		break;
 	}
 	case WM_RBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnRightPress( ptPos );
-		m_kbKeyInput.OnKeyPressed( VK_RBUTTON );
+		m_mMouseInput->OnRightPress( ptPos );
+		m_kbKeyInput->OnKeyPressed( VK_RBUTTON );
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnRightRelease( ptPos );
-		m_kbKeyInput.OnKeyRelease( VK_RBUTTON );
+		m_mMouseInput->OnRightRelease( ptPos );
+		m_kbKeyInput->OnKeyRelease( VK_RBUTTON );
 		break;
 	}
 	case WM_MBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnMiddlePress( ptPos );
-		m_kbKeyInput.OnKeyPressed( VK_MBUTTON );
+		m_mMouseInput->OnMiddlePress( ptPos );
+		m_kbKeyInput->OnKeyPressed( VK_MBUTTON );
 		break;
 	}
 	case WM_MBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput.OnMiddleRelease( ptPos );
-		m_kbKeyInput.OnKeyRelease( VK_MBUTTON );
+		m_mMouseInput->OnMiddleRelease( ptPos );
+		m_kbKeyInput->OnKeyRelease( VK_MBUTTON );
 		break;
 	}
 	case WM_MOUSEWHEEL:
@@ -195,11 +235,11 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		const Point ptPos = MAKEPOINTS( lParam );
 		if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
 		{
-			m_mMouseInput.OnWheelUp();
+			m_mMouseInput->OnWheelUp();
 		}
 		else if (GET_WHEEL_DELTA_WPARAM( wParam ) > 0)
 		{
-			m_mMouseInput.OnWheelDown();
+			m_mMouseInput->OnWheelDown();
 		}
 		break;
 	}
@@ -209,28 +249,28 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	//Key board message
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
-		m_kbKeyInput.OnKeyPressed( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnKeyPressed( static_cast<unsigned char>(wParam) );
 		break;
 	case WM_SYSKEYUP:
 	case WM_KEYUP:
-		m_kbKeyInput.OnKeyRelease( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnKeyRelease( static_cast<unsigned char>(wParam) );
 		break;
 	case WM_CHAR:
-		m_kbKeyInput.OnChar( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnChar( static_cast<wchar_t>(wParam) );
 		break;
 	//End key board message
 	case WM_CLOSE:
 		PostQuitMessage( 0 );
 		break;
 	case WM_KILLFOCUS:
-		m_kbKeyInput.ClearState();
+		m_kbKeyInput->OnLostFocus();
 		break;
 #pragma endregion
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }
 
-Window::Exception::Exception( int line, const wchar_t *file, HRESULT hr ) noexcept
+Window::Exception::Exception( int line, const char *file, HRESULT hr ) noexcept
 	:
 	CornException( line, file ),
 	m_HResult( hr )
