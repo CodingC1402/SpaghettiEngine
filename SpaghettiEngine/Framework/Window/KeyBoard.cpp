@@ -81,7 +81,7 @@ void KeyBoard::OnKeyPressed( unsigned char ucKeycode ) noexcept
 
 void KeyBoard::OnKeyRelease( unsigned char ucKeycode ) noexcept
 {
-	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode ) );
+	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Release, ucKeycode ) );
 	TrimBuffer( m_qKeyBuffer );
 }
 

@@ -19,19 +19,20 @@ public:
 	{
 		KeyState,
 		KeyPress,
-		KeyUp
+		KeyUp,
+		Invalid
 	};
 public:
 	bool Check() const noexcept;
 protected:
-	Input(KeyCode keyCode, std::string name) noexcept;
+	Input(const KeyCode& keyCode, const std::string& name) noexcept;
 	Type GetType() const noexcept;
-	bool CheckName(std::string name) const noexcept;
-	virtual void Update(KeyBoard::Event e) noexcept = 0;
+	bool CheckName(const std::string& name) const noexcept;
+	virtual void Update(const KeyBoard::Event& e) noexcept = 0;
 	virtual void Reset() noexcept;
 	void LostFocus() noexcept;
 
-	static PInput Create(KeyCode keyCode, std::string name, Type t) noexcept;
+	static PInput Create(const KeyCode& keyCode, const std::string& name, const Type& t) noexcept;
 protected:
 	Type type;
 	std::string name;
@@ -44,8 +45,8 @@ class InputKeyState : public Input
 	friend class InputSystem;
 	friend class Input;
 protected:
-	InputKeyState(KeyCode keyCode, std::string name);
-	virtual void Update(KeyBoard::Event e) noexcept override;
+	InputKeyState(const KeyCode& keyCode, const std::string& name) noexcept;
+	virtual void Update(const KeyBoard::Event& e) noexcept override;
 	virtual void Reset() noexcept override;
 };
 
@@ -54,9 +55,9 @@ class InputKeyUp : public Input
 	friend class InputSystem;
 	friend class Input;
 protected:
-	InputKeyUp(KeyCode keyCode, std::string name);
+	InputKeyUp(const KeyCode& keyCode, const std::string& name) noexcept;
 	using Input::Input;
-	virtual void Update(KeyBoard::Event e) noexcept override;
+	virtual void Update(const KeyBoard::Event& e) noexcept override;
 };
 
 class InputKeyPress : public Input
@@ -64,7 +65,7 @@ class InputKeyPress : public Input
 	friend class InputSystem;
 	friend class Input;
 protected:
-	InputKeyPress(KeyCode keyCode, std::string name);
+	InputKeyPress(const KeyCode& keyCode, const std::string& name) noexcept;
 	using Input::Input;
-	virtual void Update(KeyBoard::Event e) noexcept override;
+	virtual void Update(const KeyBoard::Event& e) noexcept override;
 };

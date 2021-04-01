@@ -1,18 +1,31 @@
 #include "InputSystem.h"
 #include "Debug.h"
 
-PInputSystem InputSystem::instance = nullptr;
+PInputSystem InputSystem::__instance = nullptr;
 
 KeyCode InputSystem::GetFirstKeyPressCode()
 {
 	return KeyCode();
 }
 
+SInput InputSystem::GetInput(const string& name) noexcept
+{
+	for (int i = 0; i < __instance->inputs.size(); i++)
+	{
+		if (__instance->inputs[i]->CheckName(name))
+		{
+			return __instance->inputs[i];
+		}
+	}
+
+	return SInput();
+}
+
 PInputSystem InputSystem::GetInstance()
 {
-	if (!instance)
-		instance = new InputSystem();
-	return instance;
+	if (!__instance)
+		__instance = new InputSystem();
+	return __instance;
 }
 
 InputSystem::InputSystem()

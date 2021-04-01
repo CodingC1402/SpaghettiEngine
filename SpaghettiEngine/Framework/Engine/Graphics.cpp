@@ -45,15 +45,22 @@ void Graphics::Init(STimer timer, int fps)
 
 	ZeroMemory(&dxpp, sizeof(dxpp));
 
-	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
+	PWindow wnd = Window::GetInstance();
+	Point size = wnd->GetSize();
+
+	dxpp.Windowed = FALSE; // thể hiện ở chế độ cửa sổ
 	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	dxpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	dxpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+	dxpp.BackBufferCount = 1;
+	dxpp.BackBufferWidth = size.x;
+	dxpp.BackBufferHeight = size.y;
+	dxpp.hDeviceWindow = wnd->GetHwnd();
 
 	dx = Direct3DCreate9(D3D_SDK_VERSION);
 	dx->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
-		Window::GetInstance()->GetHwnd(),
+		wnd->GetHwnd(),
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&dxpp,
 		&dxdev
@@ -61,6 +68,8 @@ void Graphics::Init(STimer timer, int fps)
 
 	if (!dx)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
+	if (!dxdev)
+		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, most likely cause is that your window type is difference than what is in d3dPresent_parameters");
 }
 
 
@@ -102,16 +111,64 @@ void Graphics::Render()
 
 	dxdev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
 
-	if (dxdev->BeginScene() != 0)
+	if (Begin() != 0)
 	{
 		/// <summary>
 		/// Render here
 		/// </summary>
 
-		dxdev->EndScene();
+		if (!End())
+		{
+			Reset();
+		}
 	}
 
 	dxdev->Present(NULL, NULL, NULL, NULL);
+}
+
+HRESULT Graphics::Begin() noexcept
+{
+	return dxdev->BeginScene();
+}
+
+bool Graphics::End()
+{
+	// device alive
+	if (!isDeviceLost)
+	{
+		dxdev->EndScene();
+	}
+	HRESULT hr = dxdev->TestCooperativeLevel();
+	if (hr != D3D_OK)
+	{
+		if (hr == D3DERR_DEVICELOST)
+		{
+			isDeviceLost = true;
+		}
+		else if (hr == D3DERR_DRIVERINTERNALERROR)
+		{
+			PostQuitMessage(0);
+			throw GRAPHICS_EXCEPT(L"directX driver internal error");
+		}
+		return false;
+	}
+	return true;
+}
+
+bool Graphics::Reset()
+{
+	HRESULT hr = dxdev->TestCooperativeLevel();
+	if (hr == D3DERR_DEVICENOTRESET)
+	{
+		if (SUCCEEDED(dxdev->Reset(&dxpp)))
+		{
+			// reset success
+			isDeviceLost = false;
+			return true;
+		}
+	}
+	// failed to reset
+	return false;
 }
 
 Graphics::Graphics() noexcept

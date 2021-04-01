@@ -1,1 +1,23 @@
-{"Input0":{"KeyCode":87,"Name":"Up","Type":"KeyPress"},"Input1":{"KeyCode":83,"Name":"Down","Type":"KeyState"},"Input2":{"KeyCode":65,"Name":"Left","Type":"KeyUp"},"Input3":{"KeyCode":68,"Name":"Right","Type":"KeyPress"},"Size":4}
+{
+  "Input0": {
+    "KeyCode": 87,
+    "Name": "Up",
+    "Type": "KeyPress"
+  },
+  "Input1": {
+    "KeyCode": 83,
+    "Name": "Down",
+    "Type": "KeyState"
+  },
+  "Input2": {
+    "KeyCode": 65,
+    "Name": "Left",
+    "Type": "KeyUp"
+  },
+  "Input3": {
+    "KeyCode": 68,
+    "Name": "Right",
+    "Type": "KeyPress"
+  },
+  "Size": 4
+}

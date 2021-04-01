@@ -39,12 +39,18 @@ protected:
 	void Init(STimer timer, int fps);
 	void Render();
 
+	HRESULT Begin() noexcept;
+	bool End();
+	bool Reset();
+
 	Graphics() noexcept;
 	~Graphics() noexcept;
 protected:
 	DX dx = NULL;
 	DXDev dxdev = NULL;
 	DXPresentPara dxpp;
+
+	bool isDeviceLost = false;
 
 	STimer timer;
 	double delayPerFrame;

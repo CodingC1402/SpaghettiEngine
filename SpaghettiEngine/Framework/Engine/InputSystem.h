@@ -21,6 +21,8 @@ class InputSystem
 	friend class App;
 public:
 	KeyCode GetFirstKeyPressCode();
+
+	static SInput GetInput(const string& name) noexcept;
 protected:
 	InputSystem(const InputSystem&) = delete;
 	InputSystem& operator=(const InputSystem&) = delete;
@@ -42,6 +44,6 @@ protected:
 	std::wstring charInput;
 	std::vector<SInput> inputs;
 
-	static PInputSystem instance;
+	static PInputSystem __instance;
 };
 

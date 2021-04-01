@@ -3,28 +3,36 @@
 #include "Graphics.h"
 #include "InputSystem.h"
 #include "Physic.h"
+#include "Game.h"
 #include "Sound.h"
 
 typedef class App* PApp;
 
 class App
 {
+	friend int WINAPI wWinMain(
+		HINSTANCE	hInstance,
+		HINSTANCE	hPrevInstance,
+		PWSTR		pCmdLine,
+		int			nCmdShow
+	);
 protected:
 	void ChangeName() const noexcept;
 	void CalculateFPS() const noexcept;
 public:
+	static void CallQuit();
+protected:
+	App() noexcept;
+	~App() noexcept;
+
 	BOOL Go();
 	void DoFrame();
-	void CallQuit();
 	void Quit();
 
 	void ShowExtraInfo() const noexcept;
 	void HideExtraInfo() const noexcept;
 
 	static PApp GetInstance() noexcept;
-protected:
-	App() noexcept;
-	~App() noexcept;
 protected:
 	PWindow wnd = nullptr;
 	PInputSystem input = nullptr;

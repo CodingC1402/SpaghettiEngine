@@ -129,6 +129,9 @@ void App::DoFrame()
 
 	input->Update();
 
+	//Temp
+	Game::Update();
+	//Temp
 	/// <summary>
 	/// Put game logic here
 	/// </summary>
@@ -138,7 +141,7 @@ void App::DoFrame()
 
 void App::CallQuit()
 {
-	running = false;
+	__instance->running = false;
 }
 
 void App::Quit()

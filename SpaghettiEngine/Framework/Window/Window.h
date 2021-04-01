@@ -50,6 +50,7 @@ public:
 	bool SetTempName(const wchar_t* wcTempName) const noexcept;
 	const wchar_t* GetName() const noexcept;
 
+	Point GetSize() const noexcept;
 	HWND GetHwnd() const noexcept;
 	PKeyBoard GetKeyBoard() const noexcept;
 	PMouse GetMouse() const noexcept;

@@ -53,10 +53,14 @@ Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
 	wr.bottom = iHeight + wr.top;
 	AdjustWindowRect( &wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE );
 
+	iWidth = wr.right - wr.left;
+	iHeight = wr.bottom - wr.top;
+
 	m_hWnd = CreateWindowEx(
 		0, WindowClass::GetName(),  wcWndName,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
+		WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+		//WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		CW_USEDEFAULT, CW_USEDEFAULT, iWidth, iHeight,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
 
@@ -82,6 +86,11 @@ bool Window::SetTempName(const wchar_t* wcTempName) const noexcept
 const wchar_t *Window::GetName() const noexcept
 {
 	return originalName.c_str();
+}
+
+Point Window::GetSize() const noexcept
+{
+	return Point(m_iWidth, m_iHeight);
 }
 
 HWND Window::GetHwnd() const noexcept
