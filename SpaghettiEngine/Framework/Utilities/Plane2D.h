@@ -5,6 +5,7 @@ namespace Plane2D
 {
 	struct PointF;
 	struct Point;
+	struct Size;
 
 	struct PointF
 	{
@@ -44,6 +45,15 @@ namespace Plane2D
 		void	operator=	( const POINT& wpt );
 		void	operator=	( const POINTS& swpt );
 		operator PointF();
+	};
+
+	struct Size
+	{
+	public:
+		int width = 0;
+		int height = 0;
+	public:
+		Size(const int& width, const int& height);
 	};
 }
 

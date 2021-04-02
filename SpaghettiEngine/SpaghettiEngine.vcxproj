@@ -30,6 +30,7 @@
     <ClInclude Include="Framework\Engine\Texture.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
     <ClInclude Include="Framework\Utilities\json.hpp" />
+    <ClInclude Include="Framework\Utilities\Monitor.h" />
     <ClInclude Include="Framework\Utilities\Plane2D.h" />
     <ClInclude Include="Framework\Utilities\StringConverter.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
@@ -38,6 +39,7 @@
     <ClInclude Include="Framework\Window\KeyBoard.h" />
     <ClInclude Include="Framework\Window\Mouse.h" />
     <ClInclude Include="Framework\Window\Window.h" />
+    <ClInclude Include="GameWindow.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +54,7 @@
     <ClCompile Include="Framework\Engine\Texture.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
     <ClCompile Include="Framework\Utilities\Debug.cpp" />
+    <ClCompile Include="Framework\Utilities\Monitor.cpp" />
     <ClCompile Include="Framework\Utilities\Plane2D.cpp" />
     <ClCompile Include="Framework\Utilities\StringConverter.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />
@@ -59,6 +62,7 @@
     <ClCompile Include="Framework\Window\KeyBoard.cpp" />
     <ClCompile Include="Framework\Window\Mouse.cpp" />
     <ClCompile Include="Framework\Window\Window.cpp" />
+    <ClCompile Include="GameWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico" />

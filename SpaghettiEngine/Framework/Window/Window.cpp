@@ -40,8 +40,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 
 Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
 	:
-	m_iHeight	( iHeight ),
-	m_iWidth	( iWidth ),
+	wndSize(iWidth, iHeight),
 	originalName (wcWndName),
 	m_kbKeyInput (KeyBoard::GetInstance()),
 	m_mMouseInput (Mouse::GetInstance())
@@ -88,9 +87,9 @@ const wchar_t *Window::GetName() const noexcept
 	return originalName.c_str();
 }
 
-Point Window::GetSize() const noexcept
+Size Window::GetSize() const noexcept
 {
-	return Point(m_iWidth, m_iHeight);
+	return wndSize;
 }
 
 HWND Window::GetHwnd() const noexcept
@@ -111,7 +110,7 @@ PMouse Window::GetMouse() const noexcept
 Window* Window::GetInstance()
 {
 	if (!instance)
-		instance = new Window(800, 600, L"Window");
+		instance = new Window(1280, 1024, L"Window");
 	return instance;
 }
 
@@ -165,7 +164,7 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_MOUSEMOVE:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		if (ptPos.x >= 0 && ptPos.x < m_iWidth && ptPos.y >= 0 && ptPos.y < m_iHeight)
+		if (ptPos.x >= 0 && ptPos.x < wndSize.width && ptPos.y >= 0 && ptPos.y < wndSize.height)
 		{
 			m_mMouseInput->OnMove( ptPos );
 			if (!m_mMouseInput->IsInside())

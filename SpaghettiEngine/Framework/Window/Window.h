@@ -10,6 +10,7 @@
 #include <memory>
 
 typedef class Window * PWindow;
+using Plane2D::Size;
 
 class Window
 {
@@ -50,7 +51,7 @@ public:
 	bool SetTempName(const wchar_t* wcTempName) const noexcept;
 	const wchar_t* GetName() const noexcept;
 
-	Point GetSize() const noexcept;
+	Size GetSize() const noexcept;
 	HWND GetHwnd() const noexcept;
 	PKeyBoard GetKeyBoard() const noexcept;
 	PMouse GetMouse() const noexcept;
@@ -66,8 +67,7 @@ private:
 	LRESULT CALLBACK HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 private:
 	std::wstring originalName;
-	int m_iWidth;
-	int m_iHeight;
+	Size wndSize;
 	HWND m_hWnd;
 	mutable PKeyBoard m_kbKeyInput;
 	mutable PMouse m_mMouseInput;
