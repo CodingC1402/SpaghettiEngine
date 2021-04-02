@@ -46,14 +46,14 @@ void Graphics::Init(STimer timer, int fps)
 	ZeroMemory(&dxpp, sizeof(dxpp));
 
 	PWindow wnd = Window::GetInstance();
-	Point size = wnd->GetSize();
+	Size size = wnd->GetSize();
 
-	dxpp.Windowed = FALSE; // thể hiện ở chế độ cửa sổ
+	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
 	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	dxpp.BackBufferFormat = D3DFMT_X8R8G8B8;
 	dxpp.BackBufferCount = 1;
-	dxpp.BackBufferWidth = size.x;
-	dxpp.BackBufferHeight = size.y;
+	dxpp.BackBufferWidth = size.width;
+	dxpp.BackBufferHeight = size.height;
 	dxpp.hDeviceWindow = wnd->GetHwnd();
 
 	dx = Direct3DCreate9(D3D_SDK_VERSION);

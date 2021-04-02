@@ -57,8 +57,8 @@ Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
 
 	m_hWnd = CreateWindowEx(
 		0, WindowClass::GetName(),  wcWndName,
-		WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
-		//WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, iWidth, iHeight,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
@@ -110,7 +110,7 @@ PMouse Window::GetMouse() const noexcept
 Window* Window::GetInstance()
 {
 	if (!instance)
-		instance = new Window(1280, 1024, L"Window");
+		instance = new Window(800, 600, L"Window");
 	return instance;
 }
 

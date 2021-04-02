@@ -3,6 +3,7 @@
 #include "Window.h"
 #include "StringConverter.h"
 #include "Sprite.h"
+#include <vector>
 #include <d3d9.h>
 #include <memory>
 
@@ -14,6 +15,7 @@ typedef class Graphics* PGraphics;
 typedef LPDIRECT3D9 DX;
 typedef LPDIRECT3DDEVICE9 DXDev;
 typedef D3DPRESENT_PARAMETERS DXPresentPara;
+typedef D3DDISPLAYMODE DisplayMode;
 
 
 class Graphics
@@ -32,6 +34,8 @@ public:
 	};
 public:
 	static PGraphics GetInstance();
+	static void ToFullScreenMode();
+	static void ToWindowMode();
 protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
@@ -43,12 +47,19 @@ protected:
 	bool End();
 	bool Reset();
 
+	void GetDisplayModesOfCurrentScreen();
+
 	Graphics() noexcept;
 	~Graphics() noexcept;
 protected:
+	PWindow wnd;
+	RECT restoreRec;
+	bool isFullScreen = false;
+
 	DX dx = NULL;
 	DXDev dxdev = NULL;
 	DXPresentPara dxpp;
+	std::vector<DisplayMode> mode;
 
 	bool isDeviceLost = false;
 
