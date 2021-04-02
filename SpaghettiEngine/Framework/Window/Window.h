@@ -61,8 +61,8 @@ public:
 	const wchar_t* GetName() const noexcept;
 
 	bool IsVisible() const noexcept;
-	void Show() const noexcept;
-	void Hide() const noexcept;
+	void Show() noexcept;
+	void Hide() noexcept;
 
 	Size GetSize() const noexcept;
 	HWND GetHwnd() const noexcept;
@@ -83,7 +83,6 @@ private:
 private:
 	Point wndPos;
 	Size wndSize;
-	RECT restoreRect;
 	WindowMode mode;
 	bool isVisible = false;
 

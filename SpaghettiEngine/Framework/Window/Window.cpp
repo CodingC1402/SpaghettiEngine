@@ -1,5 +1,8 @@
 ﻿#include "Window.h"
 
+#define FULLSCREENSTYLE WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP
+#define WINDOWSTYLE WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU
+
 Window::WindowClass Window::WindowClass::m_wcWinClass;
 
 Window::WindowClass::WindowClass() noexcept
@@ -65,8 +68,7 @@ void Window::CreateWnd()
 	{
 		m_hWnd = CreateWindowEx(
 			0, WindowClass::GetName(), originalName.c_str(),
-			WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
-			//WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			FULLSCREENSTYLE,
 			wndPos.x, wndPos.y, wndSize.width, wndSize.height,
 			nullptr, nullptr, WindowClass::GetInstance(), this
 		);
@@ -78,7 +80,7 @@ void Window::CreateWnd()
 		wr.right = wndSize.width + wr.left;
 		wr.top = 0;
 		wr.bottom = wndSize.height + wr.top;
-		AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
 
 		m_hWnd = CreateWindowEx(
 			0, WindowClass::GetName(), originalName.c_str(),
@@ -95,12 +97,21 @@ void Window::ChangeWindowMode(WindowMode mode) noexcept
 	if (this->mode != mode)
 	{
 		this->mode = mode;
-		Destroy();
-		CreateWnd();
-
-		if (IsVisible())
+		if (mode == Window::WindowMode::FullScreen)
 		{
-			Show();
+			SetWindowLongPtrA(GetHwnd(), GWL_STYLE, FULLSCREENSTYLE);
+			SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wndPos.x + wndSize.width, wndPos.y + wndSize.height, SWP_DRAWFRAME);
+		}
+		else
+		{
+			SetWindowLongPtrA(GetHwnd(), GWL_STYLE, WINDOWSTYLE);
+			RECT wr;
+			wr.left = 0;
+			wr.right = wndSize.width + wr.left;
+			wr.top = 0;
+			wr.bottom = wndSize.height + wr.top;
+			AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+			SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
 		}
 	}
 }
@@ -126,18 +137,20 @@ bool Window::IsVisible() const noexcept
 	return isVisible;
 }
 
-void Window::Show() const noexcept
+void Window::Show() noexcept
 {
 	if (isVisible)
 		return;
 	ShowWindow(m_hWnd, SW_SHOWDEFAULT);
+	isVisible = true;
 }
 
-void Window::Hide() const noexcept
+void Window::Hide() noexcept
 {
 	if (!isVisible)
 		return;
 	ShowWindow(m_hWnd, SW_HIDE);
+	isVisible = false;
 }
 
 Size Window::GetSize() const noexcept

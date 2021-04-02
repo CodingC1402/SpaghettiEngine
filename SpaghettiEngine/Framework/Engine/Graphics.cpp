@@ -41,9 +41,7 @@ void Graphics::ToFullScreenMode()
 
 	__instance->isFullScreen = true;
 	__instance->ReleaseResource();
-	__instance->wnd->ChangeWindowMode(Window::WindowMode::FullScreen);
 	__instance->dxpp.Windowed = FALSE;
-	__instance->dxpp.hDeviceWindow = __instance->wnd->GetHwnd();
 	__instance->CreateResource();
 }
 
@@ -54,9 +52,7 @@ void Graphics::ToWindowMode()
 
 	__instance->isFullScreen = false;
 	__instance->ReleaseResource();
-	__instance->wnd->ChangeWindowMode(Window::WindowMode::Window);
 	__instance->dxpp.Windowed = TRUE;
-	__instance->dxpp.hDeviceWindow = __instance->wnd->GetHwnd();
 	__instance->CreateResource();
 }
 
@@ -104,7 +100,7 @@ void Graphics::Init(STimer timer, int fps)
 
 	ZeroMemory(&dxpp, sizeof(dxpp));
 
-	wnd = SWindow(Window::Create(1600, 900, Window::WindowMode::Window, L"SpaghettiE"));
+	wnd = SWindow(Window::Create(800, 600, Window::WindowMode::Window, L"SpaghettiE"));
 	Size size = wnd->GetSize();
 
 	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
