@@ -6,4 +6,12 @@ void Game::Update()
 	{
 		App::CallQuit();
 	}
+	if (InputSystem::GetInput("Up")->Check())
+	{
+		Graphics::ToFullScreenMode();
+	}
+	if (InputSystem::GetInput("Down")->Check())
+	{
+		Graphics::ToWindowMode();
+	}
 }

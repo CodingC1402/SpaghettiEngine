@@ -40,6 +40,11 @@ protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 
+	void CreateResource();
+	void ReleaseResource();
+
+	SWindow GetCurrentWindow() const noexcept;
+
 	void Init(STimer timer, int fps);
 	void Render();
 
@@ -52,7 +57,7 @@ protected:
 	Graphics() noexcept;
 	~Graphics() noexcept;
 protected:
-	PWindow wnd;
+	SWindow wnd;
 	RECT restoreRec;
 	bool isFullScreen = false;
 

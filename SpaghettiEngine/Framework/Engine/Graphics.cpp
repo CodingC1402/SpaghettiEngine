@@ -34,28 +34,34 @@ PGraphics Graphics::GetInstance()
 	return __instance;
 }
 
-void Graphics::Init(STimer timer, int fps)
+void Graphics::ToFullScreenMode()
 {
-	if (fps <= 0)
-		delayPerFrame = 0;
-	else
-		delayPerFrame = 1 / static_cast<double>(fps);
+	if (__instance->isFullScreen)
+		return;
 
-	this->timer = timer;
+	__instance->isFullScreen = true;
+	__instance->ReleaseResource();
+	__instance->wnd->ChangeWindowMode(Window::WindowMode::FullScreen);
+	__instance->dxpp.Windowed = FALSE;
+	__instance->dxpp.hDeviceWindow = __instance->wnd->GetHwnd();
+	__instance->CreateResource();
+}
 
-	ZeroMemory(&dxpp, sizeof(dxpp));
+void Graphics::ToWindowMode()
+{
+	if (!__instance->isFullScreen)
+		return;
 
-	PWindow wnd = Window::GetInstance();
-	Size size = wnd->GetSize();
+	__instance->isFullScreen = false;
+	__instance->ReleaseResource();
+	__instance->wnd->ChangeWindowMode(Window::WindowMode::Window);
+	__instance->dxpp.Windowed = TRUE;
+	__instance->dxpp.hDeviceWindow = __instance->wnd->GetHwnd();
+	__instance->CreateResource();
+}
 
-	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
-	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	dxpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	dxpp.BackBufferCount = 1;
-	dxpp.BackBufferWidth = size.width;
-	dxpp.BackBufferHeight = size.height;
-	dxpp.hDeviceWindow = wnd->GetHwnd();
-
+void Graphics::CreateResource()
+{
 	dx = Direct3DCreate9(D3D_SDK_VERSION);
 	dx->CreateDevice(
 		D3DADAPTER_DEFAULT,
@@ -70,6 +76,46 @@ void Graphics::Init(STimer timer, int fps)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
 	if (!dxdev)
 		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, most likely cause is that your window type is difference than what is in d3dPresent_parameters");
+}
+
+void Graphics::ReleaseResource()
+{
+	if (dx)
+		dx->Release();
+	dx = nullptr;
+	if (dxdev)
+		dxdev->Release();
+	dxdev = nullptr;
+}
+
+SWindow Graphics::GetCurrentWindow() const noexcept
+{
+	return wnd;
+}
+
+void Graphics::Init(STimer timer, int fps)
+{
+	if (fps <= 0)
+		delayPerFrame = 0;
+	else
+		delayPerFrame = 1 / static_cast<double>(fps);
+
+	this->timer = timer;
+
+	ZeroMemory(&dxpp, sizeof(dxpp));
+
+	wnd = SWindow(Window::Create(1600, 900, Window::WindowMode::Window, L"SpaghettiE"));
+	Size size = wnd->GetSize();
+
+	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
+	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	dxpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+	dxpp.BackBufferCount = 1;
+	dxpp.BackBufferWidth = size.width;
+	dxpp.BackBufferHeight = size.height;
+	dxpp.hDeviceWindow = wnd->GetHwnd();
+
+	CreateResource();
 }
 
 
@@ -178,8 +224,5 @@ Graphics::Graphics() noexcept
 
 Graphics::~Graphics() noexcept
 {
-	if (dx)
-		dx->Release();
-	if (dxdev)
-		dxdev->Release();
+	ReleaseResource();
 }

@@ -34,7 +34,7 @@ protected:
 
 	static PApp GetInstance() noexcept;
 protected:
-	PWindow wnd = nullptr;
+	SWindow wnd = nullptr;
 	PInputSystem input = nullptr;
 	PGraphics gfx = nullptr;
 	STimer timer = nullptr;

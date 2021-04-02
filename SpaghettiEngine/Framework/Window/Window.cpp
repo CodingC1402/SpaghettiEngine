@@ -1,6 +1,5 @@
 ﻿#include "Window.h"
 
-PWindow Window::instance = nullptr;
 Window::WindowClass Window::WindowClass::m_wcWinClass;
 
 Window::WindowClass::WindowClass() noexcept
@@ -38,37 +37,72 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return m_wcWinClass.m_hInst;
 }
 
-Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
+Window::Window( int x, int y, int iWidth, int iHeight, WindowMode mode, const wchar_t* wcWndName) noexcept
 	:
+	wndPos(x, y),
 	wndSize(iWidth, iHeight),
 	originalName (wcWndName),
+	mode(mode),
 	m_kbKeyInput (KeyBoard::GetInstance()),
 	m_mMouseInput (Mouse::GetInstance())
 {
-	RECT wr;
-	wr.left = 100;
-	wr.right = iWidth + wr.left;
-	wr.top = 100;
-	wr.bottom = iHeight + wr.top;
-	AdjustWindowRect( &wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE );
+	this->CreateWnd();
+}
 
-	iWidth = wr.right - wr.left;
-	iHeight = wr.bottom - wr.top;
-
-	m_hWnd = CreateWindowEx(
-		0, WindowClass::GetName(),  wcWndName,
-		//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, iWidth, iHeight,
-		nullptr, nullptr, WindowClass::GetInstance(), this
-	);
-
-	ShowWindow( m_hWnd, SW_SHOWDEFAULT );
+void Window::Destroy()
+{
+	DestroyWindow(m_hWnd);
 }
 
 Window::~Window()
 {
 	DestroyWindow( m_hWnd );
+}
+
+void Window::CreateWnd()
+{
+	if (mode == WindowMode::FullScreen)
+	{
+		m_hWnd = CreateWindowEx(
+			0, WindowClass::GetName(), originalName.c_str(),
+			WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+			//WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			wndPos.x, wndPos.y, wndSize.width, wndSize.height,
+			nullptr, nullptr, WindowClass::GetInstance(), this
+		);
+	}
+	else
+	{
+		RECT wr;
+		wr.left = 0;
+		wr.right = wndSize.width + wr.left;
+		wr.top = 0;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+
+		m_hWnd = CreateWindowEx(
+			0, WindowClass::GetName(), originalName.c_str(),
+			//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top,
+			nullptr, nullptr, WindowClass::GetInstance(), this
+		);
+	}
+}
+
+void Window::ChangeWindowMode(WindowMode mode) noexcept
+{
+	if (this->mode != mode)
+	{
+		this->mode = mode;
+		Destroy();
+		CreateWnd();
+
+		if (IsVisible())
+		{
+			Show();
+		}
+	}
 }
 
 bool Window::SetName(const wchar_t* wcWndName) noexcept
@@ -85,6 +119,25 @@ bool Window::SetTempName(const wchar_t* wcTempName) const noexcept
 const wchar_t *Window::GetName() const noexcept
 {
 	return originalName.c_str();
+}
+
+bool Window::IsVisible() const noexcept
+{
+	return isVisible;
+}
+
+void Window::Show() const noexcept
+{
+	if (isVisible)
+		return;
+	ShowWindow(m_hWnd, SW_SHOWDEFAULT);
+}
+
+void Window::Hide() const noexcept
+{
+	if (!isVisible)
+		return;
+	ShowWindow(m_hWnd, SW_HIDE);
 }
 
 Size Window::GetSize() const noexcept
@@ -107,11 +160,9 @@ PMouse Window::GetMouse() const noexcept
 	return m_mMouseInput;
 }
 
-Window* Window::GetInstance()
+Window* Window::Create(int iWidth, int iHeight, WindowMode mode, const wchar_t* name, int x, int y)
 {
-	if (!instance)
-		instance = new Window(800, 600, L"Window");
-	return instance;
+	return new Window(x, y, iWidth, iHeight, mode, name);
 }
 
 DWORD Window::ProcessMessages()
@@ -265,6 +316,10 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		m_kbKeyInput->OnLostFocus();
 		break;
 #pragma endregion
+	case WM_MOVE:
+		wndPos.x = (int)(short)LOWORD(lParam);
+		wndPos.y = (int)(short)HIWORD(lParam);
+		break;
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }

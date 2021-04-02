@@ -77,12 +77,12 @@ BOOL App::Go()
 	{
 		timer = STimer(Timer::Create());
 
-		wnd = Window::GetInstance();
-		wnd->SetName(L"Spaghetti Engine");
-
 		input = InputSystem::GetInstance();
 		gfx = Graphics::GetInstance();
 		gfx->Init(timer, 60);
+
+		wnd = gfx->GetCurrentWindow();
+		wnd->Show();
 
 		timer->Start();
 		running = true;
