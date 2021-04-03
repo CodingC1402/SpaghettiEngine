@@ -26,8 +26,8 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 	Window::OnSizeChanged(width, height);
 	
 	Size resolution = Setting::GetResolution();
-	double ratioW = width / resolution.width;
-	double ratioH = height / resolution.height;
+	double ratioW = width / (double)resolution.width;
+	double ratioH = height / (double)resolution.height;
 	int contentWidth;
 	int contentHeight;
 	int contentPosX;
@@ -35,14 +35,14 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 	if (ratioW > ratioH)
 	{
 		contentHeight = height;
-		contentWidth = (int)(width * ratioH + 0.5);
+		contentWidth = (int)(resolution.width * ratioH + 0.5);
 		contentPosY = 0;
 		contentPosX = (int)(((long long)width - contentWidth) / 2.0 + 0.5);
 	}
 	else
 	{
 		contentWidth = width;
-		contentHeight = (int)(height * ratioW + 0.5);
+		contentHeight = (int)(resolution.height * ratioW + 0.5);
 		contentPosY = (int)(((long long)height - contentHeight) / 2.0 + 0.5);
 		contentPosX = 0;
 	}
