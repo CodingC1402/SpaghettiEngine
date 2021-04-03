@@ -8,8 +8,10 @@
 #include "StringConverter.h"
 #include "..\..\resource.h"
 #include <memory>
+#include <vector>
 
-typedef class Window * PWindow;
+typedef class Window *PWindow;
+using Plane2D::Size;
 
 class Window
 {
@@ -23,17 +25,17 @@ public:
 		static std::wstring TranslateErrorCode(HRESULT hr) noexcept;
 		HRESULT GetErrorCode() const noexcept;
 		std::wstring GetErrorString() const noexcept;
-	private:
+	protected:
 		HRESULT m_HResult;
 	};
-private:
+protected:
 	// Singleton class
 	class WindowClass
 	{
 	public:
 		static const wchar_t* GetName() noexcept;
 		static HINSTANCE GetInstance() noexcept;
-	private:
+	protected:
 		WindowClass() noexcept;
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
@@ -43,37 +45,66 @@ private:
 		HINSTANCE m_hInst;
 	};
 public:
+	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
+	void ChangeWindowMode(bool isFullScreen);
+
+	void SetPos(int x, int y) noexcept;
+	void SetWidth(int w) noexcept;
+	void SetHeight(int h) noexcept;
+	void SetBGBrush(int r, int g, int b) noexcept;
 	bool SetName(const wchar_t* wcWndName) noexcept;
 	bool SetTempName(const wchar_t* wcTempName) const noexcept;
+
 	const wchar_t* GetName() const noexcept;
 
-	Point GetSize() const noexcept;
+	bool IsVisible() const noexcept;
+	void Show() noexcept;
+	void Hide() noexcept;
+
+	Point GetPos() const noexcept;
+	Size GetSize() const noexcept;
 	HWND GetHwnd() const noexcept;
 	PKeyBoard GetKeyBoard() const noexcept;
 	PMouse GetMouse() const noexcept;
 
-	static Window* GetInstance();
+	static Window* Create(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0);
 	static DWORD ProcessMessages();
-private:
-	Window(int iWidth, int iHeight, const wchar_t* iName) noexcept;
-	~Window();
+protected:
+	Window(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0) noexcept;
+	void Destroy();
+	void AddChild(PWindow child);
+
+	void virtual OnSizeChanged(UINT width, UINT height);
+	void virtual OnMove(UINT x, UINT y);
+
+	void CreateWnd();
 
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-private:
+protected:
+	Plane2D::Rectangle restoreRect;
+	Point wndPos;
+	Size wndSize;
+	bool isFullScreen = false;
+	bool isVisible = false;
+
+	HBRUSH bgBrush = nullptr;
+
+	PWindow parent;
+	std::vector<PWindow> children;
+
 	std::wstring originalName;
-	int m_iWidth;
-	int m_iHeight;
 	HWND m_hWnd;
 	mutable PKeyBoard m_kbKeyInput;
 	mutable PMouse m_mMouseInput;
-
-	static PWindow instance;
 };
+
+typedef std::shared_ptr<Window> SWindow;
+typedef std::unique_ptr<Window> UWindow;
 
 #define CWND_EXCEPT( hr ) Window::Exception(__LINE__,__FILE__,hr)
 #define CWND_LAST_EXCEPT() Window::Exception(__LINE__,__FILE__,GetLastError())

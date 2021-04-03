@@ -1,5 +1,7 @@
 ﻿#include "App.h"
+#include "json.hpp"
 #include <iomanip>
+#include <fstream>
 
 PApp App::__instance = nullptr;
 
@@ -77,12 +79,12 @@ BOOL App::Go()
 	{
 		timer = STimer(Timer::Create());
 
-		wnd = Window::GetInstance();
-		wnd->SetName(L"Spaghetti Engine");
-
 		input = InputSystem::GetInstance();
 		gfx = Graphics::GetInstance();
-		gfx->Init(timer, 60);
+		gfx->Init(timer, 60, Graphics::ColorFormat::RGB32Bit);
+
+		wnd = gfx->GetCurrentWindow();
+		wnd->Show();
 
 		timer->Start();
 		running = true;
@@ -104,6 +106,10 @@ BOOL App::Go()
 		Quit();
 
 		iResult = 1;
+	}
+	catch (const CornDiscriptionException& e)
+	{
+		MessageBox(nullptr, e.What(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
 	}
 	catch ( const CornException &e )
 	{

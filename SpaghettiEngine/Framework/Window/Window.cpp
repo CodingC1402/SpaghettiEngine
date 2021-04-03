@@ -1,6 +1,9 @@
 ﻿#include "Window.h"
+#include "Monitor.h"
 
-PWindow Window::instance = nullptr;
+#define FULLSCREENSTYLE WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP
+#define WINDOWSTYLE WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION
+
 Window::WindowClass Window::WindowClass::m_wcWinClass;
 
 Window::WindowClass::WindowClass() noexcept
@@ -38,38 +41,183 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return m_wcWinClass.m_hInst;
 }
 
-Window::Window( int iWidth, int iHeight, const wchar_t* wcWndName ) noexcept
+Window::Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow parent, int x, int y) noexcept
 	:
-	m_iHeight	( iHeight ),
-	m_iWidth	( iWidth ),
-	originalName (wcWndName),
-	m_kbKeyInput (KeyBoard::GetInstance()),
-	m_mMouseInput (Mouse::GetInstance())
+	wndPos(x, y),
+	wndSize(iWidth, iHeight),
+	originalName(wcWndName),
+	m_kbKeyInput(KeyBoard::GetInstance()),
+	m_mMouseInput(Mouse::GetInstance()),
+	parent(parent)
 {
-	RECT wr;
-	wr.left = 100;
-	wr.right = iWidth + wr.left;
-	wr.top = 100;
-	wr.bottom = iHeight + wr.top;
-	AdjustWindowRect( &wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE );
-
-	iWidth = wr.right - wr.left;
-	iHeight = wr.bottom - wr.top;
-
-	m_hWnd = CreateWindowEx(
-		0, WindowClass::GetName(),  wcWndName,
-		WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
-		//WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, iWidth, iHeight,
-		nullptr, nullptr, WindowClass::GetInstance(), this
-	);
-
-	ShowWindow( m_hWnd, SW_SHOWDEFAULT );
+	if (parent)
+		parent->AddChild(this);
+	this->CreateWnd();
 }
+
+void Window::Destroy()
+{
+	DestroyWindow(m_hWnd);
+	for (int i = 0; i < children.size(); i++)
+	{
+		delete children[i];
+	}
+}
+
+void Window::AddChild(PWindow child)
+{
+	children.push_back(child);
+}
+
+void Window::OnSizeChanged(UINT width, UINT height)
+{
+	wndSize.width = width;
+	wndSize.height = height;
+}
+
+void Window::OnMove(UINT x, UINT y)
+{
+	wndPos.x = x;
+	wndPos.y = y;
+}
+
 
 Window::~Window()
 {
 	DestroyWindow( m_hWnd );
+}
+
+void Window::CreateWnd()
+{
+	if (parent)
+	{
+		m_hWnd = CreateWindowEx(
+			0, WindowClass::GetName(), originalName.c_str(),
+			WS_VISIBLE | WS_CHILD,
+			wndPos.x, wndPos.y, wndSize.width, wndSize.height, parent->GetHwnd(), nullptr, WindowClass::GetInstance(), this
+		);
+	}
+	else
+	{
+		Plane2D::Rectangle monitor = Monitor::GetPrimaryMonitorInfo();
+
+		RECT wr;
+		wr.left = (monitor.w - wndSize.width) / 2;
+		wr.right = wndSize.width + wr.left;
+		wr.top = (monitor.h - wndSize.height) / 2;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+
+		m_hWnd = CreateWindowEx(
+			0, WindowClass::GetName(), originalName.c_str(),
+			//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top,
+			nullptr, nullptr, WindowClass::GetInstance(), this
+		);
+	}
+}
+
+void Window::ChangeWindowMode(bool isFullScreen)
+{
+	if (this->isFullScreen == isFullScreen)
+		return;
+
+	this->isFullScreen = isFullScreen;
+	if (isFullScreen)
+	{
+		restoreRect.x = wndPos.x;
+		restoreRect.y = wndPos.y;
+		restoreRect.h = wndSize.height;
+		restoreRect.w = wndSize.width;
+
+		auto monitor = Monitor::GetCurrentMonitorInfo(GetHwnd());
+		RECT wr;
+		wr.left = monitor.x;
+		wr.right = monitor.w + wr.left;
+		wr.top = monitor.y;
+		wr.bottom = monitor.h + wr.top;
+		//AdjustWindowRect(&wr, style, FALSE);
+		SetWindowLongPtrW(GetHwnd(), GWL_STYLE, WS_POPUP | WS_EX_TOPMOST | WS_VISIBLE);
+		SetWindowPos(GetHwnd(), HWND_TOPMOST, wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top, SWP_SHOWWINDOW);
+	}
+	else
+	{
+		wndPos.x = restoreRect.x;
+		wndPos.y = restoreRect.y;
+		wndSize.height = restoreRect.h;
+		wndSize.width = restoreRect.w;
+
+		RECT wr;
+		wr.left = wndPos.x;
+		wr.right = wndSize.width + wr.left;
+		wr.top = wndPos.y;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		SetWindowLongPtrW(GetHwnd(), GWL_STYLE, WINDOWSTYLE);
+		SetWindowPos(GetHwnd(), HWND_NOTOPMOST, wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top, SWP_SHOWWINDOW);
+	}
+}
+
+void Window::SetHeight(int h) noexcept
+{
+	wndSize.height = h;
+
+	if (isFullScreen)
+	{
+		restoreRect.h = h;
+	}
+	else
+	{
+		RECT wr;
+		wr.left = 0;
+		wr.right = wndSize.width + wr.left;
+		wr.top = 0;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
+	}
+}
+
+void Window::SetBGBrush(int r, int g, int b) noexcept
+{
+	COLORREF bgColor = RGB(r % 256, g % 256, b % 256);
+	if (bgBrush)
+		DeleteObject(bgBrush);
+	bgBrush = CreateSolidBrush(bgColor);
+	SetClassLongPtr(m_hWnd, GCLP_HBRBACKGROUND, (LONG)bgBrush);
+	InvalidateRect(m_hWnd, NULL, TRUE);
+}
+
+void Window::SetPos(int x, int y) noexcept
+{
+	int dx = x - wndPos.x;
+	int dy = y - wndPos.y;
+
+	wndPos.x = x;
+	wndPos.y = y;
+
+	SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wndSize.width, wndSize.height, SWP_DRAWFRAME);
+}
+
+void Window::SetWidth(int w) noexcept
+{
+	wndSize.width = w;
+
+	if (isFullScreen)
+	{
+		restoreRect.w = w;
+	}
+	else
+	{
+		RECT wr;
+		wr.left = 0;
+		wr.right = wndSize.width + wr.left;
+		wr.top = 0;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
+	}
 }
 
 bool Window::SetName(const wchar_t* wcWndName) noexcept
@@ -88,9 +236,35 @@ const wchar_t *Window::GetName() const noexcept
 	return originalName.c_str();
 }
 
-Point Window::GetSize() const noexcept
+bool Window::IsVisible() const noexcept
 {
-	return Point(m_iWidth, m_iHeight);
+	return isVisible;
+}
+
+void Window::Show() noexcept
+{
+	if (isVisible)
+		return;
+	ShowWindow(m_hWnd, SW_SHOWDEFAULT);
+	isVisible = true;
+}
+
+void Window::Hide() noexcept
+{
+	if (!isVisible)
+		return;
+	ShowWindow(m_hWnd, SW_HIDE);
+	isVisible = false;
+}
+
+Point Window::GetPos() const noexcept
+{
+	return wndPos;
+}
+
+Size Window::GetSize() const noexcept
+{
+	return wndSize;
 }
 
 HWND Window::GetHwnd() const noexcept
@@ -108,13 +282,10 @@ PMouse Window::GetMouse() const noexcept
 	return m_mMouseInput;
 }
 
-Window* Window::GetInstance()
+Window* Window::Create(int iWidth, int iHeight, const wchar_t* name, PWindow parent, int x, int y)
 {
-	if (!instance)
-		instance = new Window(800, 600, L"Window");
-	return instance;
+	return new Window(iWidth, iHeight, name, parent, x, y);
 }
-
 DWORD Window::ProcessMessages()
 {
 	MSG msg;
@@ -165,7 +336,7 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_MOUSEMOVE:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
-		if (ptPos.x >= 0 && ptPos.x < m_iWidth && ptPos.y >= 0 && ptPos.y < m_iHeight)
+		if (ptPos.x >= 0 && ptPos.x < wndSize.width && ptPos.y >= 0 && ptPos.y < wndSize.height)
 		{
 			m_mMouseInput->OnMove( ptPos );
 			if (!m_mMouseInput->IsInside())
@@ -266,6 +437,12 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		m_kbKeyInput->OnLostFocus();
 		break;
 #pragma endregion
+	case WM_MOVE:
+		OnMove((short)LOWORD(lParam), (short)HIWORD(lParam));
+		break;
+	case WM_SIZE:
+		OnSizeChanged(LOWORD(lParam), HIWORD(lParam));
+		break;
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }

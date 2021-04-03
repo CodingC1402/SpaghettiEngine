@@ -1,30 +1,21 @@
 ﻿#include "Graphics.h"
+#include "Monitor.h"
+#include "Setting.h"
+#include "json.hpp"
+#include <fstream>
+
+#define GRAPHICSPATH "Graphics.json"
 
 PGraphics Graphics::__instance = nullptr;
 
-Graphics::GraphicException::GraphicException(int line, const char* file, const wchar_t* discription) noexcept : CornException(line, file)
-{
-	this->discription = discription;
-}
+Graphics::GraphicException::GraphicException(int line, const char* file, std::wstring discription) noexcept
+	: 
+	CornDiscriptionException(line, file, discription)
+{}
 
 const wchar_t* Graphics::GraphicException::GetType() const noexcept
 {
 	return L"∑(O_O;) Graphic Exception";
-}
-
-const wchar_t* Graphics::GraphicException::What() const noexcept
-{
-	std::wostringstream oss;
-	oss << GetType() << std::endl
-		<< "[Description] " << GetErrorString() << std::endl
-		<< GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-std::wstring Graphics::GraphicException::GetErrorString() const noexcept
-{
-	return discription;
 }
 
 PGraphics Graphics::GetInstance()
@@ -34,33 +25,22 @@ PGraphics Graphics::GetInstance()
 	return __instance;
 }
 
-void Graphics::Init(STimer timer, int fps)
+void Graphics::ToFullScreenMode()
 {
-	if (fps <= 0)
-		delayPerFrame = 0;
-	else
-		delayPerFrame = 1 / static_cast<double>(fps);
+	__instance->FullScreen();
+}
 
-	this->timer = timer;
+void Graphics::ToWindowMode()
+{
+	__instance->Window();
+}
 
-	ZeroMemory(&dxpp, sizeof(dxpp));
-
-	PWindow wnd = Window::GetInstance();
-	Point size = wnd->GetSize();
-
-	dxpp.Windowed = FALSE; // thể hiện ở chế độ cửa sổ
-	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	dxpp.BackBufferFormat = D3DFMT_X8R8G8B8;
-	dxpp.BackBufferCount = 1;
-	dxpp.BackBufferWidth = size.x;
-	dxpp.BackBufferHeight = size.y;
-	dxpp.hDeviceWindow = wnd->GetHwnd();
-
-	dx = Direct3DCreate9(D3D_SDK_VERSION);
+void Graphics::CreateResource()
+{
 	dx->CreateDevice(
-		D3DADAPTER_DEFAULT,
+		videoAdapter,
 		D3DDEVTYPE_HAL,
-		wnd->GetHwnd(),
+		wnd->GetContentWndHandler(),
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&dxpp,
 		&dxdev
@@ -70,6 +50,64 @@ void Graphics::Init(STimer timer, int fps)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
 	if (!dxdev)
 		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, most likely cause is that your window type is difference than what is in d3dPresent_parameters");
+}
+
+void Graphics::ReleaseResource()
+{
+	if (dxdev)
+		dxdev->Release();
+	dxdev = nullptr;
+}
+
+bool Graphics::FullScreen()
+{
+	if (isFullScreen)
+		return false;
+
+	bool result = false;
+	isFullScreen = true;
+	wnd->ChangeWindowMode(true);
+	return result;
+}
+
+void Graphics::Window()
+{
+	if (!isFullScreen)
+		return;
+
+	isFullScreen = false;
+	wnd->ChangeWindowMode(false);
+}
+
+SGameWnd Graphics::GetCurrentWindow() const noexcept
+{
+	return wnd;
+}
+
+void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
+{
+	if (fps <= 0)
+		delayPerFrame = 0;
+	else
+		delayPerFrame = 1 / static_cast<double>(fps);
+
+	dx = Direct3DCreate9(D3D_SDK_VERSION);
+	this->timer = timer;
+	this->resolution = Setting::GetResolution();
+
+	ZeroMemory(&dxpp, sizeof(dxpp));
+
+	wnd = SGameWnd(GameWnd::Create(L"SpaghettiEngine"));
+
+	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
+	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	dxpp.BackBufferFormat = static_cast<D3DFORMAT>(colorFormat);
+	dxpp.BackBufferCount = 1;
+	dxpp.BackBufferWidth = resolution.width;
+	dxpp.BackBufferHeight = resolution.height;
+	dxpp.hDeviceWindow = wnd->GetContentWndHandler();
+
+	CreateResource();
 }
 
 
@@ -171,6 +209,32 @@ bool Graphics::Reset()
 	return false;
 }
 
+void Graphics::UpdateCurrentVideoAdapter()
+{
+	HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
+	D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
+	adapterMode.clear();
+	UINT adapterCount = dx->GetAdapterCount();
+	for (UINT i = 0; i < adapterCount; i++)
+	{
+		if (dx->GetAdapterMonitor(i) == monitor)
+		{
+			videoAdapter = i;
+			break;
+		}
+	}
+
+	UINT modeCount = dx->GetAdapterModeCount(videoAdapter, format);
+	for (UINT i = 0; i < modeCount; i++)
+	{
+		DisplayMode mode;
+		if (dx->EnumAdapterModes(videoAdapter, format, i, &mode) == D3D_OK)
+		{
+			adapterMode.push_back(mode);
+		}
+	}
+}
+
 Graphics::Graphics() noexcept
 {
 	ZeroMemory(&dxpp, sizeof(dxpp));
@@ -180,6 +244,6 @@ Graphics::~Graphics() noexcept
 {
 	if (dx)
 		dx->Release();
-	if (dxdev)
-		dxdev->Release();
+	dx = nullptr;
+	ReleaseResource();
 }

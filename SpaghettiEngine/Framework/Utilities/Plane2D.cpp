@@ -119,3 +119,17 @@ Plane2D::PointF::operator Point()
 	return Point( static_cast<int>(x), static_cast<int>(y) );
 }
 #pragma endregion
+
+Plane2D::Size::Size(const int& width, const int& height)
+{
+	this->width = width;
+	this->height = height;
+}
+
+Plane2D::Rectangle::Rectangle(const int& x, const int& y, const int& width, const int& height)
+	:
+	x(x),
+	y(y),
+	w(width),
+	h(height)
+{}

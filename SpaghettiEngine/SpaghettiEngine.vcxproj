@@ -21,15 +21,18 @@
   <ItemGroup>
     <ClInclude Include="Framework\Engine\App.h" />
     <ClInclude Include="Framework\Engine\Game.h" />
+    <ClInclude Include="Framework\Engine\GameWnd.h" />
     <ClInclude Include="Framework\Engine\Graphics.h" />
     <ClInclude Include="Framework\Engine\Input.h" />
     <ClInclude Include="Framework\Engine\InputSystem.h" />
     <ClInclude Include="Framework\Engine\Physic.h" />
+    <ClInclude Include="Framework\Engine\Setting.h" />
     <ClInclude Include="Framework\Engine\Sound.h" />
     <ClInclude Include="Framework\Engine\Sprite.h" />
     <ClInclude Include="Framework\Engine\Texture.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
     <ClInclude Include="Framework\Utilities\json.hpp" />
+    <ClInclude Include="Framework\Utilities\Monitor.h" />
     <ClInclude Include="Framework\Utilities\Plane2D.h" />
     <ClInclude Include="Framework\Utilities\StringConverter.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
@@ -43,15 +46,18 @@
   <ItemGroup>
     <ClCompile Include="Framework\Engine\App.cpp" />
     <ClCompile Include="Framework\Engine\Game.cpp" />
+    <ClCompile Include="Framework\Engine\GameWnd.cpp" />
     <ClCompile Include="Framework\Engine\Graphics.cpp" />
     <ClCompile Include="Framework\Engine\Input.cpp" />
     <ClCompile Include="Framework\Engine\InputSystem.cpp" />
     <ClCompile Include="Framework\Engine\Physic.cpp" />
+    <ClCompile Include="Framework\Engine\Setting.cpp" />
     <ClCompile Include="Framework\Engine\Sound.cpp" />
     <ClCompile Include="Framework\Engine\Sprite.cpp" />
     <ClCompile Include="Framework\Engine\Texture.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
     <ClCompile Include="Framework\Utilities\Debug.cpp" />
+    <ClCompile Include="Framework\Utilities\Monitor.cpp" />
     <ClCompile Include="Framework\Utilities\Plane2D.cpp" />
     <ClCompile Include="Framework\Utilities\StringConverter.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />
@@ -65,6 +71,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SpaghettiEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.json" />
+    <None Include="Input.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -142,7 +152,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Window;Framework\Utilities;Framework\Engine</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -163,7 +173,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Window;Framework\Utilities;Framework\Engine</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -185,7 +195,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Window;Framework\Utilities;Framework\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -205,7 +215,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Window;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Utilities;E:\Unity\Project\SpaghettiEngine\SpaghettiEngine\Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Window;Framework\Utilities;Framework\Engine</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
