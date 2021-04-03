@@ -1,7 +1,8 @@
 ﻿#include "Window.h"
+#include "Monitor.h"
 
 #define FULLSCREENSTYLE WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP
-#define WINDOWSTYLE WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU
+#define WINDOWSTYLE WS_SYSMENU | WS_MINIMIZEBOX | WS_CAPTION
 
 Window::WindowClass Window::WindowClass::m_wcWinClass;
 
@@ -40,22 +41,45 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return m_wcWinClass.m_hInst;
 }
 
-Window::Window( int x, int y, int iWidth, int iHeight, WindowMode mode, const wchar_t* wcWndName) noexcept
+Window::Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow, int x, int y) noexcept
 	:
 	wndPos(x, y),
 	wndSize(iWidth, iHeight),
-	originalName (wcWndName),
-	mode(mode),
-	m_kbKeyInput (KeyBoard::GetInstance()),
-	m_mMouseInput (Mouse::GetInstance())
+	originalName(wcWndName),
+	m_kbKeyInput(KeyBoard::GetInstance()),
+	m_mMouseInput(Mouse::GetInstance())
 {
+	if (parent)
+		parent->AddChild(this);
 	this->CreateWnd();
 }
 
 void Window::Destroy()
 {
 	DestroyWindow(m_hWnd);
+	for (int i = 0; i < children.size(); i++)
+	{
+		delete children[i];
+	}
 }
+
+void Window::AddChild(PWindow child)
+{
+	children.push_back(child);
+}
+
+void Window::OnSizeChanged(UINT width, UINT height)
+{
+	wndSize.width = width;
+	wndSize.height = height;
+}
+
+void Window::OnMove(UINT x, UINT y)
+{
+	wndPos.x = x;
+	wndPos.y = y;
+}
+
 
 Window::~Window()
 {
@@ -64,14 +88,84 @@ Window::~Window()
 
 void Window::CreateWnd()
 {
-	if (mode == WindowMode::FullScreen)
+	if (parent)
 	{
 		m_hWnd = CreateWindowEx(
 			0, WindowClass::GetName(), originalName.c_str(),
-			FULLSCREENSTYLE,
-			wndPos.x, wndPos.y, wndSize.width, wndSize.height,
+			//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			wndPos.x, wndPos.y, wndSize.width, wndSize.height, parent->GetHwnd(), nullptr, WindowClass::GetInstance(), this
+		);
+	}
+	else
+	{
+		Plane2D::Rectangle monitor = Monitor::GetPrimaryMonitorInfo();
+
+		RECT wr;
+		wr.left = (monitor.w - wndSize.width) / 2;
+		wr.right = wndSize.width + wr.left;
+		wr.top = (monitor.h - wndSize.height) / 2;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+
+		m_hWnd = CreateWindowEx(
+			0, WindowClass::GetName(), originalName.c_str(),
+			//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top,
 			nullptr, nullptr, WindowClass::GetInstance(), this
 		);
+	}
+}
+
+void Window::ChangeWindowMode(bool isFullScreen)
+{
+	if (this->isFullScreen == isFullScreen)
+		return;
+
+	this->isFullScreen = isFullScreen;
+	if (isFullScreen)
+	{
+		restoreRect.x = wndPos.x;
+		restoreRect.y = wndPos.y;
+		restoreRect.h = wndSize.height;
+		restoreRect.w = wndSize.width;
+
+		auto monitor = Monitor::GetCurrentMonitorInfo(GetHwnd());
+		RECT wr;
+		wr.left = monitor.x;
+		wr.right = monitor.w + wr.left;
+		wr.top = monitor.y;
+		wr.bottom = monitor.h + wr.top;
+		//AdjustWindowRect(&wr, style, FALSE);
+		SetWindowLongPtrW(GetHwnd(), GWL_STYLE, WS_POPUP | WS_EX_TOPMOST | WS_VISIBLE);
+		SetWindowPos(GetHwnd(), HWND_TOPMOST, wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top, SWP_SHOWWINDOW);
+	}
+	else
+	{
+		wndPos.x = restoreRect.x;
+		wndPos.y = restoreRect.y;
+		wndSize.height = restoreRect.h;
+		wndSize.width = restoreRect.w;
+
+		RECT wr;
+		wr.left = wndPos.x;
+		wr.right = wndSize.width + wr.left;
+		wr.top = wndPos.y;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		SetWindowLongPtrW(GetHwnd(), GWL_STYLE, WINDOWSTYLE);
+		SetWindowPos(GetHwnd(), HWND_NOTOPMOST, wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top, SWP_SHOWWINDOW);
+	}
+}
+
+void Window::SetHeight(int h) noexcept
+{
+	wndSize.height = h;
+
+	if (isFullScreen)
+	{
+		restoreRect.h = h;
 	}
 	else
 	{
@@ -81,38 +175,37 @@ void Window::CreateWnd()
 		wr.top = 0;
 		wr.bottom = wndSize.height + wr.top;
 		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
-
-		m_hWnd = CreateWindowEx(
-			0, WindowClass::GetName(), originalName.c_str(),
-			//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
-			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-			wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top,
-			nullptr, nullptr, WindowClass::GetInstance(), this
-		);
+		SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
 	}
 }
 
-void Window::ChangeWindowMode(WindowMode mode) noexcept
+void Window::SetBGBrush(int r, int g, int b) noexcept
 {
-	if (this->mode != mode)
+	COLORREF bgColor = RGB(r % 256, g % 256, b % 256);
+	if (bgBrush)
+		DeleteObject(bgBrush);
+	bgBrush = CreateSolidBrush(bgColor);
+	SetClassLongPtr(m_hWnd, GCLP_HBRBACKGROUND, (LONG)bgBrush);
+	InvalidateRect(m_hWnd, NULL, TRUE);
+}
+
+void Window::SetWidth(int w) noexcept
+{
+	wndSize.width = w;
+
+	if (isFullScreen)
 	{
-		this->mode = mode;
-		if (mode == Window::WindowMode::FullScreen)
-		{
-			SetWindowLongPtrA(GetHwnd(), GWL_STYLE, FULLSCREENSTYLE);
-			SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wndPos.x + wndSize.width, wndPos.y + wndSize.height, SWP_DRAWFRAME);
-		}
-		else
-		{
-			SetWindowLongPtrA(GetHwnd(), GWL_STYLE, WINDOWSTYLE);
-			RECT wr;
-			wr.left = 0;
-			wr.right = wndSize.width + wr.left;
-			wr.top = 0;
-			wr.bottom = wndSize.height + wr.top;
-			AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
-			SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
-		}
+		restoreRect.w = w;
+	}
+	else
+	{
+		RECT wr;
+		wr.left = 0;
+		wr.right = wndSize.width + wr.left;
+		wr.top = 0;
+		wr.bottom = wndSize.height + wr.top;
+		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
 	}
 }
 
@@ -173,11 +266,10 @@ PMouse Window::GetMouse() const noexcept
 	return m_mMouseInput;
 }
 
-Window* Window::Create(int iWidth, int iHeight, WindowMode mode, const wchar_t* name, int x, int y)
+Window* Window::Create(int iWidth, int iHeight, const wchar_t* name, PWindow parent, int x, int y)
 {
-	return new Window(x, y, iWidth, iHeight, mode, name);
+	return new Window(iWidth, iHeight, name, parent, x, y);
 }
-
 DWORD Window::ProcessMessages()
 {
 	MSG msg;
@@ -330,8 +422,10 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		break;
 #pragma endregion
 	case WM_MOVE:
-		wndPos.x = (int)(short)LOWORD(lParam);
-		wndPos.y = (int)(short)HIWORD(lParam);
+		OnMove((short)LOWORD(lParam), (short)HIWORD(lParam));
+		break;
+	case WM_SIZE:
+		OnSizeChanged(LOWORD(lParam), HIWORD(lParam));
 		break;
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );

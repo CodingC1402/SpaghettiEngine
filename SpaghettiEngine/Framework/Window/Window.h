@@ -8,6 +8,7 @@
 #include "StringConverter.h"
 #include "..\..\resource.h"
 #include <memory>
+#include <vector>
 
 typedef class Window *PWindow;
 using Plane2D::Size;
@@ -15,12 +16,6 @@ using Plane2D::Size;
 class Window
 {
 public:
-	enum class WindowMode
-	{
-		FullScreen,
-		Window
-	};
-
 	class Exception : public CornException
 	{
 	public:
@@ -30,17 +25,17 @@ public:
 		static std::wstring TranslateErrorCode(HRESULT hr) noexcept;
 		HRESULT GetErrorCode() const noexcept;
 		std::wstring GetErrorString() const noexcept;
-	private:
+	protected:
 		HRESULT m_HResult;
 	};
-private:
+protected:
 	// Singleton class
 	class WindowClass
 	{
 	public:
 		static const wchar_t* GetName() noexcept;
 		static HINSTANCE GetInstance() noexcept;
-	private:
+	protected:
 		WindowClass() noexcept;
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
@@ -54,10 +49,14 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
-	void ChangeWindowMode(WindowMode mode) noexcept;
+	void ChangeWindowMode(bool isFullScreen);
 
+	void SetWidth(int w) noexcept;
+	void SetHeight(int h) noexcept;
+	void SetBGBrush(int r, int g, int b) noexcept;
 	bool SetName(const wchar_t* wcWndName) noexcept;
 	bool SetTempName(const wchar_t* wcTempName) const noexcept;
+
 	const wchar_t* GetName() const noexcept;
 
 	bool IsVisible() const noexcept;
@@ -69,22 +68,32 @@ public:
 	PKeyBoard GetKeyBoard() const noexcept;
 	PMouse GetMouse() const noexcept;
 
-	static Window* Create(int iWidth = 800, int iHeight = 600, WindowMode mode = WindowMode::Window, const wchar_t* name = L"DefaultWindow", int x = 0, int y = 0);
+	static Window* Create(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0);
 	static DWORD ProcessMessages();
-private:
-	Window(int x, int y,int iWidth, int iHeight, WindowMode mode, const wchar_t* iName) noexcept;
+protected:
+	Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow, int x, int y) noexcept;
 	void Destroy();
+	void AddChild(PWindow child);
+
+	void virtual OnSizeChanged(UINT width, UINT height);
+	void virtual OnMove(UINT x, UINT y);
 
 	void CreateWnd();
 
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-private:
+protected:
+	Plane2D::Rectangle restoreRect;
 	Point wndPos;
 	Size wndSize;
-	WindowMode mode;
+	bool isFullScreen = false;
 	bool isVisible = false;
+
+	HBRUSH bgBrush = nullptr;
+
+	PWindow parent;
+	std::vector<PWindow> children;
 
 	std::wstring originalName;
 	HWND m_hWnd;

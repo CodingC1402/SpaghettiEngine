@@ -1,7 +1,6 @@
 #pragma once
 #include "CornException.h"
 #include "Window.h"
-#include "StringConverter.h"
 #include "Sprite.h"
 #include <vector>
 #include <d3d9.h>
@@ -22,13 +21,17 @@ class Graphics
 {
 	friend class App;
 public:
-	class GraphicException : public CornException
+	enum class ColorFormat
+	{
+		ARGB32Bit = 21,
+		RGB32Bit = 22,
+	};
+
+	class GraphicException : public CornDiscriptionException
 	{
 	public:
-		GraphicException(int line, const char* file, const wchar_t* discription) noexcept;
+		GraphicException(int line, const char* file, std::wstring discription) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
-		virtual const wchar_t* What() const noexcept override;
-		std::wstring GetErrorString() const noexcept;
 	private:
 		const wchar_t* discription;
 	};
@@ -43,16 +46,19 @@ protected:
 	void CreateResource();
 	void ReleaseResource();
 
+	bool FullScreen();
+	void Window();
 	SWindow GetCurrentWindow() const noexcept;
 
-	void Init(STimer timer, int fps);
+	void Init(STimer timer, int fps, ColorFormat colorFormat);
+	void Load();
 	void Render();
 
 	HRESULT Begin() noexcept;
 	bool End();
 	bool Reset();
 
-	void GetDisplayModesOfCurrentScreen();
+	void UpdateCurrentVideoAdapter();
 
 	Graphics() noexcept;
 	~Graphics() noexcept;
@@ -60,11 +66,14 @@ protected:
 	SWindow wnd;
 	RECT restoreRec;
 	bool isFullScreen = false;
+	Size resolution;
 
 	DX dx = NULL;
 	DXDev dxdev = NULL;
 	DXPresentPara dxpp;
-	std::vector<DisplayMode> mode;
+	ColorFormat colorFormat = ColorFormat::RGB32Bit;
+	UINT videoAdapter = D3DADAPTER_DEFAULT;
+	std::vector<DisplayMode> adapterMode;
 
 	bool isDeviceLost = false;
 

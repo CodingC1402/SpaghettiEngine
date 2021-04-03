@@ -125,3 +125,11 @@ Plane2D::Size::Size(const int& width, const int& height)
 	this->width = width;
 	this->height = height;
 }
+
+Plane2D::Rectangle::Rectangle(const int& x, const int& y, const int& width, const int& height)
+	:
+	x(x),
+	y(y),
+	w(width),
+	h(height)
+{}

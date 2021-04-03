@@ -1,30 +1,20 @@
 ﻿#include "Graphics.h"
+#include "Monitor.h"
+#include "json.hpp"
+#include <fstream>
+
+#define GRAPHICSPATH "Graphics.json"
 
 PGraphics Graphics::__instance = nullptr;
 
-Graphics::GraphicException::GraphicException(int line, const char* file, const wchar_t* discription) noexcept : CornException(line, file)
-{
-	this->discription = discription;
-}
+Graphics::GraphicException::GraphicException(int line, const char* file, std::wstring discription) noexcept
+	: 
+	CornDiscriptionException(line, file, discription)
+{}
 
 const wchar_t* Graphics::GraphicException::GetType() const noexcept
 {
 	return L"∑(O_O;) Graphic Exception";
-}
-
-const wchar_t* Graphics::GraphicException::What() const noexcept
-{
-	std::wostringstream oss;
-	oss << GetType() << std::endl
-		<< "[Description] " << GetErrorString() << std::endl
-		<< GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-std::wstring Graphics::GraphicException::GetErrorString() const noexcept
-{
-	return discription;
 }
 
 PGraphics Graphics::GetInstance()
@@ -36,31 +26,18 @@ PGraphics Graphics::GetInstance()
 
 void Graphics::ToFullScreenMode()
 {
-	if (__instance->isFullScreen)
-		return;
-
-	__instance->isFullScreen = true;
-	__instance->ReleaseResource();
-	__instance->dxpp.Windowed = FALSE;
-	__instance->CreateResource();
+	__instance->FullScreen();
 }
 
 void Graphics::ToWindowMode()
 {
-	if (!__instance->isFullScreen)
-		return;
-
-	__instance->isFullScreen = false;
-	__instance->ReleaseResource();
-	__instance->dxpp.Windowed = TRUE;
-	__instance->CreateResource();
+	__instance->Window();
 }
 
 void Graphics::CreateResource()
 {
-	dx = Direct3DCreate9(D3D_SDK_VERSION);
 	dx->CreateDevice(
-		D3DADAPTER_DEFAULT,
+		videoAdapter,
 		D3DDEVTYPE_HAL,
 		wnd->GetHwnd(),
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
@@ -76,12 +53,29 @@ void Graphics::CreateResource()
 
 void Graphics::ReleaseResource()
 {
-	if (dx)
-		dx->Release();
-	dx = nullptr;
 	if (dxdev)
 		dxdev->Release();
 	dxdev = nullptr;
+}
+
+bool Graphics::FullScreen()
+{
+	if (isFullScreen)
+		return false;
+
+	bool result = false;
+	isFullScreen = true;
+	wnd->ChangeWindowMode(true);
+	return result;
+}
+
+void Graphics::Window()
+{
+	if (!isFullScreen)
+		return;
+
+	isFullScreen = false;
+	wnd->ChangeWindowMode(false);
 }
 
 SWindow Graphics::GetCurrentWindow() const noexcept
@@ -89,29 +83,63 @@ SWindow Graphics::GetCurrentWindow() const noexcept
 	return wnd;
 }
 
-void Graphics::Init(STimer timer, int fps)
+void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
 {
+	Load();
+
 	if (fps <= 0)
 		delayPerFrame = 0;
 	else
 		delayPerFrame = 1 / static_cast<double>(fps);
 
+	dx = Direct3DCreate9(D3D_SDK_VERSION);
 	this->timer = timer;
 
 	ZeroMemory(&dxpp, sizeof(dxpp));
 
-	wnd = SWindow(Window::Create(800, 600, Window::WindowMode::Window, L"SpaghettiE"));
-	Size size = wnd->GetSize();
+	wnd = SWindow(Window::Create(resolution.width, resolution.height, L"SpaghettiE"));
 
 	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
 	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	dxpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+	dxpp.BackBufferFormat = static_cast<D3DFORMAT>(colorFormat);
 	dxpp.BackBufferCount = 1;
-	dxpp.BackBufferWidth = size.width;
-	dxpp.BackBufferHeight = size.height;
+	dxpp.BackBufferWidth = resolution.width;
+	dxpp.BackBufferHeight = resolution.height;
 	dxpp.hDeviceWindow = wnd->GetHwnd();
 
 	CreateResource();
+}
+
+void Graphics::Load()
+{
+	using namespace nlohmann;
+
+	std::ifstream jsonFile(GRAPHICSPATH);
+	if (!jsonFile.is_open())
+	{
+		std::wostringstream os;
+		os << L"File ";
+		os << GRAPHICSPATH;
+		os << L" Doesn't exist";
+		throw GRAPHICS_EXCEPT(os.str().c_str());
+	}
+
+	try
+	{
+		json file;
+		jsonFile >> file;
+
+		resolution.width = file["Resolution"]["Width"].get<int>();
+		resolution.height = file["Resolution"]["Height"].get<int>();
+	}
+	catch (...)
+	{
+		std::wostringstream os;
+		os << L"File ";
+		os << GRAPHICSPATH;
+		os << L" doesn't have the right format";
+		throw GRAPHICS_EXCEPT(os.str());
+	}
 }
 
 
@@ -213,6 +241,32 @@ bool Graphics::Reset()
 	return false;
 }
 
+void Graphics::UpdateCurrentVideoAdapter()
+{
+	HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
+	D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
+	adapterMode.clear();
+	UINT adapterCount = dx->GetAdapterCount();
+	for (UINT i = 0; i < adapterCount; i++)
+	{
+		if (dx->GetAdapterMonitor(i) == monitor)
+		{
+			videoAdapter = i;
+			break;
+		}
+	}
+
+	UINT modeCount = dx->GetAdapterModeCount(videoAdapter, format);
+	for (UINT i = 0; i < modeCount; i++)
+	{
+		DisplayMode mode;
+		if (dx->EnumAdapterModes(videoAdapter, format, i, &mode) == D3D_OK)
+		{
+			adapterMode.push_back(mode);
+		}
+	}
+}
+
 Graphics::Graphics() noexcept
 {
 	ZeroMemory(&dxpp, sizeof(dxpp));
@@ -220,5 +274,8 @@ Graphics::Graphics() noexcept
 
 Graphics::~Graphics() noexcept
 {
+	if (dx)
+		dx->Release();
+	dx = nullptr;
 	ReleaseResource();
 }

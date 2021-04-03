@@ -53,7 +53,18 @@ namespace Plane2D
 		int width = 0;
 		int height = 0;
 	public:
-		Size(const int& width, const int& height);
+		Size(const int& width = 0, const int& height = 0);
+	};
+
+	struct Rectangle
+	{
+	public:
+		int x = 0;
+		int y = 0;
+		int w = 0;
+		int h = 0;
+	public:
+		Rectangle(const int& width = 0, const int& height = 0, const int& x = 0, const int& y = 0);
 	};
 }
 

@@ -42,3 +42,28 @@ std::wstring CornException::GetOriginString() const noexcept
         << "[Line] " << m_Line;
     return oss.str();
 }
+
+CornDiscriptionException::CornDiscriptionException(int line, const char* file, std::wstring discription) noexcept : CornException(line, file)
+{
+    this->discription = discription;
+}
+
+const wchar_t* CornDiscriptionException::GetType() const noexcept
+{
+    return L" 	＼(º □ º l|l)/ Exception with discription";
+}
+
+const wchar_t* CornDiscriptionException::What() const noexcept
+{
+    std::wostringstream oss;
+    oss << GetType() << std::endl
+        << "[Description] " << GetErrorString() << std::endl
+        << GetOriginString();
+    whatBuffer = oss.str();
+    return whatBuffer.c_str();
+}
+
+std::wstring CornDiscriptionException::GetErrorString() const noexcept
+{
+    return discription;
+}

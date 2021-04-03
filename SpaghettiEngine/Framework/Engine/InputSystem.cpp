@@ -1,5 +1,15 @@
-#include "InputSystem.h"
+﻿#include "InputSystem.h"
 #include "Debug.h"
+#include "json.hpp"
+#include "StringConverter.h"
+#include <fstream>
+
+#define INPUTPATH "Input.json"
+#define INPUTTEXT "Input"
+#define SIZETEXT "Size"
+#define TYPETEXT "Type"
+#define NAMETEXT "Name"
+#define CODETEXT "KeyCode"
 
 PInputSystem InputSystem::__instance = nullptr;
 
@@ -71,18 +81,37 @@ void InputSystem::Load()
 	using namespace nlohmann;
 
 	std::ifstream jsonStream(INPUTPATH);
-	json file;
-	jsonStream >> file;
-	int size = file[SIZETEXT].get<int>();
-
-	std::string inputIndex;
-	for (int i = 0; i < size; i++)
+	if (!jsonStream.is_open())
 	{
-		inputIndex = INPUTTEXT + std::to_string(i);
-		Input::Type type = file[inputIndex.c_str()][TYPETEXT].get<Input::Type>();
-		std::string name = file[inputIndex.c_str()][NAMETEXT].get<std::string>();
-		KeyCode code = file[inputIndex.c_str()][CODETEXT].get<KeyCode>();
-		inputs.push_back(SInput(Input::Create(code, name, type)));
+		std::wostringstream oss;
+		oss << L"File ";
+		oss << INPUTPATH;
+		oss << L" doesn't exist";
+		throw INPUTSYS_EXCEPT(oss.str().c_str());
+	}
+	json file;
+	try
+	{
+		jsonStream >> file;
+		int size = file[SIZETEXT].get<int>();
+
+		std::string inputIndex;
+		for (int i = 0; i < size; i++)
+		{
+			inputIndex = INPUTTEXT + std::to_string(i);
+			Input::Type type = file[inputIndex.c_str()][TYPETEXT].get<Input::Type>();
+			std::string name = file[inputIndex.c_str()][NAMETEXT].get<std::string>();
+			KeyCode code = file[inputIndex.c_str()][CODETEXT].get<KeyCode>();
+			inputs.push_back(SInput(Input::Create(code, name, type)));
+		}
+	}
+	catch (...)
+	{
+		std::wostringstream oss;
+		oss << L"File ";
+		oss << INPUTPATH;
+		oss << L" is in the wrong format";
+		throw INPUTSYS_EXCEPT(oss.str());
 	}
 }
 
@@ -113,4 +142,14 @@ void InputSystem::Save()
 	oFile.open(INPUTPATH, std::ios_base::trunc);
 	oFile << j;
 	oFile.close();
+}
+
+InputSystem::InputSysException::InputSysException(int line, const char* file, std::wstring discription) noexcept
+	:
+	CornDiscriptionException(line, file, discription)
+{}
+
+const wchar_t* InputSystem::InputSysException::GetType() const noexcept
+{
+	return L"Σ(°△°|||) Input system exception";
 }

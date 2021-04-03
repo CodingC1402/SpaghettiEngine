@@ -37,7 +37,6 @@
 #define NOMCX
 #define NORPC
 #define NOPROXYSTUB
-#define NOIMAGE
 #define NOTAPE
 #endif
 

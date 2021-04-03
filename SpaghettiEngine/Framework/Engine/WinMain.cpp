@@ -9,7 +9,7 @@ int WINAPI wWinMain(
 )
 {
 	PApp app = App::GetInstance();
-	app->ShowExtraInfo();
+	//app->ShowExtraInfo();
 	BOOL result = app->Go();
 	return result;
 }

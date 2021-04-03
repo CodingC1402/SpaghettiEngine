@@ -101,9 +101,6 @@
     <ClInclude Include="Framework\Engine\Texture.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameWindow.h">
-      <Filter>FrameWork\Window\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Utilities\Monitor.h">
       <Filter>FrameWork\Utilities\Header Files</Filter>
     </ClInclude>
@@ -162,9 +159,6 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Texture.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="GameWindow.cpp">
-      <Filter>FrameWork\Window\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Utilities\Monitor.cpp">
       <Filter>FrameWork\Utilities\Source Files</Filter>

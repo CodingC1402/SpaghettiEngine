@@ -39,7 +39,6 @@
     <ClInclude Include="Framework\Window\KeyBoard.h" />
     <ClInclude Include="Framework\Window\Mouse.h" />
     <ClInclude Include="Framework\Window\Window.h" />
-    <ClInclude Include="GameWindow.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
@@ -62,7 +61,6 @@
     <ClCompile Include="Framework\Window\KeyBoard.cpp" />
     <ClCompile Include="Framework\Window\Mouse.cpp" />
     <ClCompile Include="Framework\Window\Window.cpp" />
-    <ClCompile Include="GameWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico" />
