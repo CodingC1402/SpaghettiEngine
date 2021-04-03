@@ -41,13 +41,14 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return m_wcWinClass.m_hInst;
 }
 
-Window::Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow, int x, int y) noexcept
+Window::Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow parent, int x, int y) noexcept
 	:
 	wndPos(x, y),
 	wndSize(iWidth, iHeight),
 	originalName(wcWndName),
 	m_kbKeyInput(KeyBoard::GetInstance()),
-	m_mMouseInput(Mouse::GetInstance())
+	m_mMouseInput(Mouse::GetInstance()),
+	parent(parent)
 {
 	if (parent)
 		parent->AddChild(this);
@@ -92,8 +93,7 @@ void Window::CreateWnd()
 	{
 		m_hWnd = CreateWindowEx(
 			0, WindowClass::GetName(), originalName.c_str(),
-			//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
-			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+			WS_VISIBLE | WS_CHILD,
 			wndPos.x, wndPos.y, wndSize.width, wndSize.height, parent->GetHwnd(), nullptr, WindowClass::GetInstance(), this
 		);
 	}
@@ -189,6 +189,17 @@ void Window::SetBGBrush(int r, int g, int b) noexcept
 	InvalidateRect(m_hWnd, NULL, TRUE);
 }
 
+void Window::SetPos(int x, int y) noexcept
+{
+	int dx = x - wndPos.x;
+	int dy = y - wndPos.y;
+
+	wndPos.x = x;
+	wndPos.y = y;
+
+	SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wndSize.width, wndSize.height, SWP_DRAWFRAME);
+}
+
 void Window::SetWidth(int w) noexcept
 {
 	wndSize.width = w;
@@ -244,6 +255,11 @@ void Window::Hide() noexcept
 		return;
 	ShowWindow(m_hWnd, SW_HIDE);
 	isVisible = false;
+}
+
+Point Window::GetPos() const noexcept
+{
+	return wndPos;
 }
 
 Size Window::GetSize() const noexcept

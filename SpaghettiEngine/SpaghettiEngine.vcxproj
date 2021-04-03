@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClInclude Include="Framework\Engine\App.h" />
     <ClInclude Include="Framework\Engine\Game.h" />
+    <ClInclude Include="Framework\Engine\GameWnd.h" />
     <ClInclude Include="Framework\Engine\Graphics.h" />
     <ClInclude Include="Framework\Engine\Input.h" />
     <ClInclude Include="Framework\Engine\InputSystem.h" />
     <ClInclude Include="Framework\Engine\Physic.h" />
+    <ClInclude Include="Framework\Engine\Setting.h" />
     <ClInclude Include="Framework\Engine\Sound.h" />
     <ClInclude Include="Framework\Engine\Sprite.h" />
     <ClInclude Include="Framework\Engine\Texture.h" />
@@ -44,10 +46,12 @@
   <ItemGroup>
     <ClCompile Include="Framework\Engine\App.cpp" />
     <ClCompile Include="Framework\Engine\Game.cpp" />
+    <ClCompile Include="Framework\Engine\GameWnd.cpp" />
     <ClCompile Include="Framework\Engine\Graphics.cpp" />
     <ClCompile Include="Framework\Engine\Input.cpp" />
     <ClCompile Include="Framework\Engine\InputSystem.cpp" />
     <ClCompile Include="Framework\Engine\Physic.cpp" />
+    <ClCompile Include="Framework\Engine\Setting.cpp" />
     <ClCompile Include="Framework\Engine\Sound.cpp" />
     <ClCompile Include="Framework\Engine\Sprite.cpp" />
     <ClCompile Include="Framework\Engine\Texture.cpp" />
@@ -67,6 +71,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SpaghettiEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.json" />
+    <None Include="Input.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

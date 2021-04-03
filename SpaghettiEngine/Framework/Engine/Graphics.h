@@ -1,10 +1,9 @@
 #pragma once
 #include "CornException.h"
-#include "Window.h"
+#include "GameWnd.h"
 #include "Sprite.h"
 #include <vector>
 #include <d3d9.h>
-#include <memory>
 
 /// <summary>
 /// Singleton directx9 wrapper
@@ -32,8 +31,6 @@ public:
 	public:
 		GraphicException(int line, const char* file, std::wstring discription) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
-	private:
-		const wchar_t* discription;
 	};
 public:
 	static PGraphics GetInstance();
@@ -48,10 +45,9 @@ protected:
 
 	bool FullScreen();
 	void Window();
-	SWindow GetCurrentWindow() const noexcept;
+	SGameWnd GetCurrentWindow() const noexcept;
 
 	void Init(STimer timer, int fps, ColorFormat colorFormat);
-	void Load();
 	void Render();
 
 	HRESULT Begin() noexcept;
@@ -63,7 +59,7 @@ protected:
 	Graphics() noexcept;
 	~Graphics() noexcept;
 protected:
-	SWindow wnd;
+	SGameWnd wnd;
 	RECT restoreRec;
 	bool isFullScreen = false;
 	Size resolution;

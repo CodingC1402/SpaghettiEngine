@@ -51,6 +51,7 @@ public:
 
 	void ChangeWindowMode(bool isFullScreen);
 
+	void SetPos(int x, int y) noexcept;
 	void SetWidth(int w) noexcept;
 	void SetHeight(int h) noexcept;
 	void SetBGBrush(int r, int g, int b) noexcept;
@@ -63,6 +64,7 @@ public:
 	void Show() noexcept;
 	void Hide() noexcept;
 
+	Point GetPos() const noexcept;
 	Size GetSize() const noexcept;
 	HWND GetHwnd() const noexcept;
 	PKeyBoard GetKeyBoard() const noexcept;
@@ -71,7 +73,7 @@ public:
 	static Window* Create(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0);
 	static DWORD ProcessMessages();
 protected:
-	Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow, int x, int y) noexcept;
+	Window(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0) noexcept;
 	void Destroy();
 	void AddChild(PWindow child);
 

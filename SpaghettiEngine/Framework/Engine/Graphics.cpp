@@ -1,5 +1,6 @@
 ﻿#include "Graphics.h"
 #include "Monitor.h"
+#include "Setting.h"
 #include "json.hpp"
 #include <fstream>
 
@@ -39,7 +40,7 @@ void Graphics::CreateResource()
 	dx->CreateDevice(
 		videoAdapter,
 		D3DDEVTYPE_HAL,
-		wnd->GetHwnd(),
+		wnd->GetContentWndHandler(),
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&dxpp,
 		&dxdev
@@ -78,15 +79,13 @@ void Graphics::Window()
 	wnd->ChangeWindowMode(false);
 }
 
-SWindow Graphics::GetCurrentWindow() const noexcept
+SGameWnd Graphics::GetCurrentWindow() const noexcept
 {
 	return wnd;
 }
 
 void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
 {
-	Load();
-
 	if (fps <= 0)
 		delayPerFrame = 0;
 	else
@@ -94,10 +93,11 @@ void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
 
 	dx = Direct3DCreate9(D3D_SDK_VERSION);
 	this->timer = timer;
+	this->resolution = Setting::GetResolution();
 
 	ZeroMemory(&dxpp, sizeof(dxpp));
 
-	wnd = SWindow(Window::Create(resolution.width, resolution.height, L"SpaghettiE"));
+	wnd = SGameWnd(GameWnd::Create(L"SpaghettiEngine"));
 
 	dxpp.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
 	dxpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
@@ -105,41 +105,9 @@ void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
 	dxpp.BackBufferCount = 1;
 	dxpp.BackBufferWidth = resolution.width;
 	dxpp.BackBufferHeight = resolution.height;
-	dxpp.hDeviceWindow = wnd->GetHwnd();
+	dxpp.hDeviceWindow = wnd->GetContentWndHandler();
 
 	CreateResource();
-}
-
-void Graphics::Load()
-{
-	using namespace nlohmann;
-
-	std::ifstream jsonFile(GRAPHICSPATH);
-	if (!jsonFile.is_open())
-	{
-		std::wostringstream os;
-		os << L"File ";
-		os << GRAPHICSPATH;
-		os << L" Doesn't exist";
-		throw GRAPHICS_EXCEPT(os.str().c_str());
-	}
-
-	try
-	{
-		json file;
-		jsonFile >> file;
-
-		resolution.width = file["Resolution"]["Width"].get<int>();
-		resolution.height = file["Resolution"]["Height"].get<int>();
-	}
-	catch (...)
-	{
-		std::wostringstream os;
-		os << L"File ";
-		os << GRAPHICSPATH;
-		os << L" doesn't have the right format";
-		throw GRAPHICS_EXCEPT(os.str());
-	}
 }
 
 

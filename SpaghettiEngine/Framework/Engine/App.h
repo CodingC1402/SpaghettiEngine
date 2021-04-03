@@ -1,5 +1,5 @@
 #pragma once
-#include "Window.h"
+#include "GameWnd.h"
 #include "Graphics.h"
 #include "InputSystem.h"
 #include "Physic.h"
@@ -16,12 +16,12 @@ class App
 		PWSTR		pCmdLine,
 		int			nCmdShow
 	);
-protected:
-	void ChangeName() const noexcept;
-	void CalculateFPS() const noexcept;
 public:
 	static void CallQuit();
 protected:
+	void ChangeName() const noexcept;
+	void CalculateFPS() const noexcept;
+
 	App() noexcept;
 	~App() noexcept;
 
@@ -34,12 +34,15 @@ protected:
 
 	static PApp GetInstance() noexcept;
 protected:
-	SWindow wnd = nullptr;
+	SGameWnd wnd = nullptr;
 	PInputSystem input = nullptr;
 	PGraphics gfx = nullptr;
 	STimer timer = nullptr;
 
 	Physic* pe = nullptr;
+
+	Size resolution;
+	std::wstring appName;
 
 	const wchar_t** textAnimation = nullptr;
 	mutable int currentFrame = 0;

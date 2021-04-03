@@ -104,6 +104,12 @@
     <ClInclude Include="Framework\Utilities\Monitor.h">
       <Filter>FrameWork\Utilities\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\GameWnd.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Setting.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -163,6 +169,12 @@
     <ClCompile Include="Framework\Utilities\Monitor.cpp">
       <Filter>FrameWork\Utilities\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Engine\GameWnd.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Setting.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico">
@@ -173,5 +185,13 @@
     <ResourceCompile Include="SpaghettiEngine.rc">
       <Filter>FrameWork\Resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.json">
+      <Filter>FrameWork\Resource</Filter>
+    </None>
+    <None Include="Input.json">
+      <Filter>FrameWork\Resource</Filter>
+    </None>
   </ItemGroup>
 </Project>

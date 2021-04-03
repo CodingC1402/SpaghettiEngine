@@ -23,6 +23,7 @@ public:
 		Invalid
 	};
 public:
+	~Input() = default;
 	bool Check() const noexcept;
 protected:
 	Input(const KeyCode& keyCode, const std::string& name) noexcept;
