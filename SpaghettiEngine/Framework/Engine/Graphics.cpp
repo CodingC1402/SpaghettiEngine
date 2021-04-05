@@ -33,7 +33,7 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::Render(const SSprite& renderSprite, const Plane2D::Rect& desRect)
+void Graphics::DrawSprite(const SSprite& renderSprite, const Plane2D::Rect& desRect)
 {
 	__instance->buffer.push(renderSprite);
 	__instance->desRects.push(desRect);
@@ -158,6 +158,25 @@ void Graphics::Render()
 		/// <summary>
 		/// Render here
 		/// </summary>
+		
+		LPDIRECT3DSURFACE9 backBuffer;
+		dxdev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
+		SSprite sprite;
+		RECT desRect;
+		Plane2D::Rect rect;
+		while (!buffer.empty())
+		{
+			sprite = buffer.front();
+			rect = desRects.front();
+			desRect.left = rect.x;
+			desRect.top = rect.y;
+			desRect.right = desRect.left + rect.w;
+			desRect.bottom = desRect.top + rect.h;
+			dxdev->StretchRect(sprite->source->image, &(sprite->sourceRect), backBuffer, &desRect, D3DTEXF_NONE);
+			desRects.pop();
+			buffer.pop();
+		}
+
 
 		if (!End())
 		{

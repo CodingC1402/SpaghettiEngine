@@ -36,7 +36,7 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void Render(const SSprite& renderSprite, const Plane2D::Rect& desRect); // Render Sprite
+	static void DrawSprite(const SSprite& renderSprite, const Plane2D::Rect& desRect); // Render Sprite
 protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
@@ -49,9 +49,9 @@ protected:
 	SGameWnd GetCurrentWindow() const noexcept;
 
 	void Init(STimer timer, int fps, ColorFormat colorFormat);
-	void Render();
 
 	HRESULT Begin() noexcept;
+	void Render();
 	bool End();
 	bool Reset();
 
@@ -79,7 +79,7 @@ protected:
 	double timeSinceLastFrame;
 
 	std::queue<SSprite> buffer;
-	std::queue<RECT> desRects;
+	std::queue <Plane2D::Rect> desRects;
 
 	// Temp
 	int index = 2;
