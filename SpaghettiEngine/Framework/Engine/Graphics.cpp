@@ -4,8 +4,6 @@
 #include "json.hpp"
 #include <fstream>
 
-#define GRAPHICSPATH "Graphics.json"
-
 PGraphics Graphics::__instance = nullptr;
 
 Graphics::GraphicException::GraphicException(int line, const char* file, std::wstring discription) noexcept

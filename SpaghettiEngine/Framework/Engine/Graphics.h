@@ -36,6 +36,7 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
+	static void Render(const SSprite& renderSprite, const Plane2D::Rect& DesRect); // Render Sprite
 protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;

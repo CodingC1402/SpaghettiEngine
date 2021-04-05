@@ -56,7 +56,7 @@ namespace Plane2D
 		Size(const int& width = 0, const int& height = 0);
 	};
 
-	struct Rectangle
+	typedef struct Rectangle
 	{
 	public:
 		int x = 0;
@@ -65,7 +65,7 @@ namespace Plane2D
 		int h = 0;
 	public:
 		Rectangle(const int& width = 0, const int& height = 0, const int& x = 0, const int& y = 0);
-	};
+	} Rect;
 }
 
 

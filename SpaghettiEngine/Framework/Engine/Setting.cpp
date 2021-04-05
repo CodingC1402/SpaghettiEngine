@@ -2,9 +2,8 @@
 #include "json.hpp"
 #include "App.h"
 #include "StringConverter.h"
+#include "SpaghettiEnginePath.h"
 #include <fstream>
-
-#define APPJSONPATH "App.json"
 
 Setting* Setting::__instance = nullptr;
 
