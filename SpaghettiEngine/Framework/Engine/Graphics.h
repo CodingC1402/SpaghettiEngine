@@ -36,7 +36,7 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void Render(const SSprite& renderSprite, const Plane2D::Rect& DesRect); // Render Sprite
+	static void Render(const SSprite& renderSprite, const Plane2D::Rect& desRect); // Render Sprite
 protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
@@ -77,7 +77,9 @@ protected:
 	STimer timer;
 	double delayPerFrame;
 	double timeSinceLastFrame;
-	std::queue<Sprite> buffer;
+
+	std::queue<SSprite> buffer;
+	std::queue<RECT> desRects;
 
 	// Temp
 	int index = 2;

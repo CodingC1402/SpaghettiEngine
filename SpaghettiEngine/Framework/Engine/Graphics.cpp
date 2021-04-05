@@ -33,6 +33,12 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
+void Graphics::Render(const SSprite& renderSprite, const Plane2D::Rect& desRect)
+{
+	__instance->buffer.push(renderSprite);
+	__instance->desRects.push(desRect);
+}
+
 void Graphics::CreateResource()
 {
 	dx->CreateDevice(

@@ -119,6 +119,12 @@
     <ClInclude Include="Framework\Engine\SpaghettiEnginePath.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\GameObj.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Animation.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -188,6 +194,12 @@
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\SceneManager.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameObj.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Animation.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>

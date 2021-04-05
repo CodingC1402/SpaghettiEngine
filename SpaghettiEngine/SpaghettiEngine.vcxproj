@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Framework\Engine\Animation.h" />
     <ClInclude Include="Framework\Engine\App.h" />
     <ClInclude Include="Framework\Engine\Game.h" />
+    <ClInclude Include="Framework\Engine\GameObj.h" />
     <ClInclude Include="Framework\Engine\GameWnd.h" />
     <ClInclude Include="Framework\Engine\Graphics.h" />
     <ClInclude Include="Framework\Engine\Input.h" />
@@ -47,8 +49,10 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Framework\Engine\Animation.cpp" />
     <ClCompile Include="Framework\Engine\App.cpp" />
     <ClCompile Include="Framework\Engine\Game.cpp" />
+    <ClCompile Include="Framework\Engine\GameObj.cpp" />
     <ClCompile Include="Framework\Engine\GameWnd.cpp" />
     <ClCompile Include="Framework\Engine\Graphics.cpp" />
     <ClCompile Include="Framework\Engine\Input.cpp" />
