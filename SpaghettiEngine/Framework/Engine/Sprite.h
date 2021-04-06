@@ -6,27 +6,27 @@ typedef class Sprite* PSprite;
 typedef std::shared_ptr<Sprite> SSprite;
 typedef std::unique_ptr<Sprite> USprite;
 
+class Texture;
+typedef std::shared_ptr<Texture> STexture;
+
 class Sprite
 {
-	friend class Scene;
-	friend class Graphics;
 public:
-	bool CheckName(const std::string& name);
-	static SSprite& GetSprite(const std::string& name);
+	static bool GetSprite(SSprite& rSprite, const std::string& path);
+	static void AddSprite(const std::string& path);
 protected:
-	Sprite(const STexture& texture, const RECT& sourceRect, const std::string& name);
-	static void AddSprite(const STexture& texture, const RECT& sourceRect, const std::string& name);
-	static void RemoveSprite(const std::string& name);
+	Sprite(const std::string&  path);
+	static void RemoveSprite(const std::string& path);
+	static void ClearUnusedSprite();
+	static void ClearSprite();
 
-	static void AddSceneSprite(const STexture& texture, const RECT& sourceRect, const std::string& name);
-	static void ClearSceneSprite();
+	bool CheckPath(const std::string& path);
 protected:
 	Plane2D::Size size;
 	Plane2D::Point position;
 	STexture source;
-	std::string name;
+	std::string path;
 
-	static std::vector<SSprite> sceneSprite;
-	static std::vector<SSprite> sceneIndependentSprite;
+	static std::list<SSprite> sprite;
 };
 

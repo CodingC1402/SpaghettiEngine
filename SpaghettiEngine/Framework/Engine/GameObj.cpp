@@ -1,11 +1,24 @@
 #include "GameObj.h"
 
+void GameObj::Start()
+{
+
+}
+
 void GameObj::Update()
 {
-	for (int i = 0; i < scripts.size(); i++)
+	int i = scripts.size();
+	auto script = scripts.begin();
+	while (i > 0)
 	{
-		scripts[i]->Update();
+		(*script)->Update();
+		std::advance(script, 1);
+		i--;
 	}
+}
+
+void GameObj::End()
+{
 }
 
 const char* GameObj::GetTag()
@@ -26,4 +39,11 @@ const char* GameObj::GetName()
 void GameObj::SetName(const char* name)
 {
 	this->name = name;
+}
+
+GameObj::~GameObj()
+{
+	int size = children.size();
+	auto iterator = children.begin();
+
 }

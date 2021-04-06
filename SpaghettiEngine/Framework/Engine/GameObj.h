@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <vector>
+#include <list>
 #include "Sprite.h"
 #include "Animation.h"
 
@@ -12,28 +12,43 @@ typedef class ScriptBase* PScriptBase;
 typedef class std::shared_ptr<ScriptBase> SScriptBase;
 typedef class std::unique_ptr<ScriptBase> UScriptBase;
 
+
+
 class GameObj
 {
 public:
-	void virtual Update();
+	void Start();
+	void Update();
+	void End();
+
 	const char* GetTag();
-	void SetTag(const char* tag);
 	const char* GetName();
+
+	void SetTag(const char* tag);
 	void SetName(const char* name);
 protected:
-	SSprite sprite;
-	SAnimation animation;
+	~GameObj();
+	void Load(const std::string& path);
+protected:
+	PGameObj parent;
+	std::list<PGameObj> children;
 
 	std::string name;
 	std::string tag;
 
-	std::vector<SScriptBase> scripts;
+	std::list<SScriptBase> scripts;
 };
 
 class ScriptBase
 {
+	friend class GameObj;
 public:
-	virtual void Update() = 0;
+	virtual void Start() {};
+	virtual void Update() {};
+	virtual void End() {};
+private:
+	virtual void Load(const std::string* input) {};
 protected:
 	PGameObj owner;
+
 };

@@ -21,6 +21,7 @@ protected:
 	Setting();
 	void Load();
 protected:
+	Plane2D::Size resolution;
 	std::wstring name;
 
 	static Setting* __instance;

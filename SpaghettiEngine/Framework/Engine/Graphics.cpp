@@ -41,6 +41,39 @@ void Graphics::DrawSprite(const SSprite& renderSprite, const Plane2D::Rect& desR
 	__instance->desRects.push(desRect);
 }
 
+void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const D3DCOLOR &keyColor)
+{
+	HRESULT result;
+	std::wstring wPath = StringConverter::StrToWStr(path);
+	D3DXIMAGE_INFO info;
+
+	result = D3DXGetImageInfoFromFile(wPath.c_str(), &info); 
+
+	if (result != D3D_OK)
+		throw GRAPHICS_EXCEPT_CODE(result);
+
+	PGraphics gfx = __instance;
+	result = D3DXCreateTextureFromFileEx(
+		gfx->dxdev,
+		wPath.c_str(),
+		info.Width,
+		info.Height,
+		1,
+		D3DPOOL_DEFAULT,
+		D3DFMT_UNKNOWN,
+		D3DPOOL_DEFAULT,
+		D3DX_DEFAULT,
+		D3DX_DEFAULT,
+		keyColor,
+		&info,
+		NULL,
+		&rTexture
+		);
+
+	if (result != D3D_OK)
+		throw GRAPHICS_EXCEPT_CODE(result);
+}
+
 void Graphics::CreateResource()
 {
 	dx->CreateDevice(
@@ -55,7 +88,7 @@ void Graphics::CreateResource()
 	if (!dx)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
 	if (!dxdev)
-		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, most likely cause is that your window type is difference than what is in d3dPresent_parameters");
+		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev");
 }
 
 void Graphics::ReleaseResource()
@@ -174,7 +207,6 @@ void Graphics::Render()
 			desRect.top = rect.y;
 			desRect.right = desRect.left + rect.w;
 			desRect.bottom = desRect.top + rect.h;
-			dxdev->StretchRect(sprite->source->image, &(sprite->sourceRect), backBuffer, &desRect, D3DTEXF_NONE);
 			desRects.pop();
 			buffer.pop();
 		}
@@ -271,4 +303,49 @@ Graphics::~Graphics() noexcept
 		dx->Release();
 	dx = nullptr;
 	ReleaseResource();
+}
+
+Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, HRESULT code) noexcept
+	:
+	CornException(line, file),
+	code(code)
+{}
+
+const wchar_t* Graphics::GraphicCodeException::GetType() const noexcept
+{
+	return L"∑(O_O;) Graphic Exception";
+}
+
+const wchar_t* Graphics::GraphicCodeException::What() const noexcept
+{
+	std::wostringstream os;
+	os << GetType() << std::endl;
+	os << "[Discription] " << Translate() << std::endl;
+	os << GetOriginString();
+	whatBuffer = os.str();
+	return whatBuffer.c_str();
+}
+
+const wchar_t* Graphics::GraphicCodeException::Translate() const noexcept
+{
+	switch (code)
+	{
+	case D3DERR_NOTAVAILABLE:
+		return L"File is not available";
+	case D3DERR_OUTOFVIDEOMEMORY:
+		return L"Out of video memory(gpu)";
+	case D3DERR_INVALIDCALL:
+		return L"Invalid call";
+	case D3DXERR_INVALIDDATA:
+		return L"Invalid data";
+	case E_OUTOFMEMORY:
+		return L"Out of memory(ram)";
+	default:
+		return L": ^)";
+	}
+}
+
+const HRESULT Graphics::GraphicCodeException::GetErrorCode() noexcept
+{
+	return code;
 }

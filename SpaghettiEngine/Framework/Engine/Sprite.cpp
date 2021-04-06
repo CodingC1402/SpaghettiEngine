@@ -1,61 +1,60 @@
 #include "Sprite.h"
 
-std::vector<SSprite> Sprite::sceneSprite(32);
-std::vector<SSprite> Sprite::sceneIndependentSprite(16);
+std::list<SSprite> Sprite::sprite;
 
-bool Sprite::CheckName(const std::string& name)
+bool Sprite::GetSprite(SSprite& rSprite, const std::string& path)
 {
-	return this->name == name;
+	return false;
 }
 
-SSprite& Sprite::GetSprite(const std::string& name)
+Sprite::Sprite(const std::string& path)
 {
-	for (int i = 0; i < sceneSprite.size(); i++)
+	this->path = path;
+}
+
+void Sprite::RemoveSprite(const std::string& path)
+{
+	int size = sprite.size();
+	auto iterator = sprite.begin();
+	while (size > 0)
 	{
-		if (sceneSprite[i]->CheckName(name))
+		if ((*iterator)->CheckPath(path))
 		{
-			return sceneSprite[i];
-		}
-	}
-	for (int i = 0; i < sceneIndependentSprite.size(); i++)
-	{
-		if (sceneIndependentSprite[i]->CheckName(name))
-		{
-			return sceneIndependentSprite[i];
-		}
-	}
-}
-
-Sprite::Sprite(const STexture& texture, const RECT& sourceRect, const std::string& name)
-{
-	source = texture;
-	this->name = name;
-	this->sourceRect = sourceRect;
-}
-
-void Sprite::AddSprite(const STexture& texture, const RECT& sourceRect, const std::string& name)
-{
-	sceneIndependentSprite.push_back(SSprite(new Sprite(texture, sourceRect, name)));
-}
-
-void Sprite::RemoveSprite(const std::string& name)
-{
-	for (int i = 0; i < sceneIndependentSprite.size(); i++)
-	{
-		if (sceneIndependentSprite[i]->CheckName(name))
-		{
-			sceneIndependentSprite.erase(sceneIndependentSprite.begin() + i);
+			sprite.erase(iterator);
 			break;
 		}
+		size--;
 	}
 }
 
-void Sprite::AddSceneSprite(const STexture& texture, const RECT& sourceRect, const std::string& name)
+void Sprite::AddSprite(const std::string& path)
 {
-	sceneSprite.push_back(SSprite(new Sprite(texture, sourceRect, name)));
+	SSprite newSprite = SSprite(new Sprite(path));
+	sprite.push_back(newSprite);
 }
 
-void Sprite::ClearSceneSprite()
+void Sprite::ClearUnusedSprite()
 {
-	sceneSprite.clear();
+	int size = sprite.size();
+	auto iterator = sprite.begin();
+	while (size > 0)
+	{
+		if (iterator->use_count() == 1)
+		{
+			auto eraseIterator = iterator;
+			std::advance(iterator, 1);
+			sprite.erase(eraseIterator);
+		}
+		size--;
+	}
+}
+
+void Sprite::ClearSprite()
+{
+	sprite.clear();
+}
+
+bool Sprite::CheckPath(const std::string& path)
+{
+	return this->path == path;
 }

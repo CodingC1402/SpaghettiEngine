@@ -3,7 +3,7 @@
 #include <string>
 #include <d3d9.h>
 #include <memory>
-#include <vector>
+#include <list>
 
 typedef class Texture* PTexture;
 typedef std::shared_ptr<Texture> STexture;
@@ -13,24 +13,23 @@ typedef LPDIRECT3DTEXTURE9 PDx9Texture;
 
 class Texture
 {
-	friend class Scene;
-	friend class Graphics;
 public:
-	static STexture& GetTexture(const std::string& name) noexcept;
+	static bool GetTexture(STexture& texture, const std::string& path) noexcept;
+	static void AddTexture(const std::string& path);
 	~Texture();
 protected:
-	Texture(const PDx9Texture& image, const std::string& name);
-	static void AddSceneTexture(const PDx9Texture& image, const std::string& name);
-	static void ClearSceneTexture();
+	Texture(const std::string& path);
+	static void RemoveTexture(const std::string& path);
+	static void ClearUnusedTexture();
+	static void ClearTexture();
 
-	static void AddTexture(const PDx9Texture& image, const std::string& name);
-	static void RemoveTexture(const std::string& name);
-
-	bool CheckName(const std::string& name);
+	void Load();
+	bool CheckPath(const std::string& path);
 protected:
 	PDx9Texture image;
-	std::string name;
+	std::string path;
 
-	static std::vector<STexture> sceneTexture;
-	static std::vector<STexture> sceneIndependentTexture;
+	std::list<SSprite>
+
+	static std::list<STexture> texture;
 };

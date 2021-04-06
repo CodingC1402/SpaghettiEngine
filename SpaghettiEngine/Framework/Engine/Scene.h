@@ -4,6 +4,7 @@
 #include <vector>
 #include "Texture.h"
 #include "Sprite.h"
+#include "GameObj.h"
 
 typedef class Scene* PScene;
 typedef std::shared_ptr<Scene> SScene;
@@ -18,4 +19,7 @@ protected:
 	bool Unload();
 protected:
 	std::string path = "";
+
+	std::list<SGameObj> prefab;
+	std::list<SGameObj> instances;
 };

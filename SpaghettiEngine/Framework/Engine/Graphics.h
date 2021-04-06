@@ -22,8 +22,10 @@ class Graphics
 public:
 	enum class ColorFormat
 	{
+		DEFAULT = 0,
+
 		ARGB32Bit = 21,
-		RGB32Bit = 22,
+		RGB32Bit = 22
 	};
 
 	class GraphicException : public CornDiscriptionException
@@ -32,11 +34,23 @@ public:
 		GraphicException(int line, const char* file, std::wstring discription) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
 	};
+	class GraphicCodeException : public CornException
+	{
+	public:
+		GraphicCodeException(int line, const char* file, HRESULT code) noexcept;
+		virtual const wchar_t* GetType() const noexcept override;
+		virtual const wchar_t* What() const noexcept override;
+		virtual const wchar_t* Translate() const noexcept;
+		virtual const HRESULT GetErrorCode() noexcept;
+	private:
+		HRESULT code;
+	};
 public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
 	static void DrawSprite(const SSprite& renderSprite, const Plane2D::Rect& desRect); // Render Sprite
+	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const D3DCOLOR& keyColor);
 protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
@@ -92,3 +106,4 @@ protected:
 };
 
 #define GRAPHICS_EXCEPT(discription) Graphics::GraphicException(__LINE__,__FILE__,discription)
+#define GRAPHICS_EXCEPT_CODE(code) Graphics::GraphicCodeException(__LINE__,__FILE__,code)

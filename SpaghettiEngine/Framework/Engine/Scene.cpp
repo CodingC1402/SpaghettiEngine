@@ -12,6 +12,5 @@ bool Scene::Load()
 
 bool Scene::Unload()
 {
-	Sprite::ClearSceneSprite();
-	Texture::ClearSceneTexture();
+	return false;
 }

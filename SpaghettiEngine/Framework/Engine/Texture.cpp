@@ -1,61 +1,82 @@
 #include "Texture.h"
 
-std::vector<STexture> Texture::sceneTexture(16);
-std::vector<STexture> Texture::sceneIndependentTexture(16);
+std::list<STexture> Texture::texture;
 
-bool Texture::CheckName(const std::string& name)
+void Texture::Load()
 {
-	return this->name == name;
+
 }
 
-STexture& Texture::FindTexture(const std::string& name) noexcept
+bool Texture::CheckPath(const std::string& path)
 {
-	for (int i = 0; i < sceneTexture.size(); i++)
+	return this->path == path;
+}
+
+bool Texture::GetTexture(STexture& rTexture, const std::string& path) noexcept
+{
+	int size = texture.size();
+	auto iterator= texture.begin();
+	while (size > 0)
 	{
-		if (sceneTexture[i]->CheckName(name))
-			return sceneTexture[i];
+		if ((*iterator)->CheckPath(path))
+		{
+			rTexture = (*iterator);
+			return true;
+		}
+		size--;
 	}
+	return false;
 }
 
 Texture::~Texture()
 {
 	image->Release();
 	image = nullptr;
-
-	sceneTexture.clear();
-	sceneIndependentTexture.clear();
 }
 
-Texture::Texture(const PDx9Texture& image, const std::string& name)
+Texture::Texture(const std::string& path)
 {
-	this->image = image;
-	this->name = name;
+	this->path = path;
 }
 
-void Texture::AddSceneTexture(const PDx9Texture& image, const std::string& name)
+void Texture::AddTexture(const std::string& path)
 {
-	sceneTexture.push_back(STexture(new Texture(image, name)));
+	texture.push_back(STexture(new Texture(path)));
 }
 
-void Texture::ClearSceneTexture()
+void Texture::RemoveTexture(const std::string& path)
 {
-	sceneTexture.clear();
-}
-
-void Texture::AddTexture(const PDx9Texture& image, const std::string& name)
-{
-	sceneIndependentTexture.push_back(STexture(new Texture(image, name)));
-}
-
-void Texture::RemoveTexture(const std::string& name)
-{
-	for (int i = 0; i < sceneIndependentTexture.size(); i++)
+	auto iterator = texture.begin();
+	int size = texture.size();
+	while (size > 0)
 	{
-		if (sceneIndependentTexture[i]->CheckName(name))
+		if ((*iterator)->CheckPath(path))
 		{
-			sceneIndependentTexture.erase(sceneIndependentTexture.begin() + i);
+			texture.erase(iterator);
 			break;
 		}
+		size--;
 	}
+}
+
+void Texture::ClearUnusedTexture()
+{
+	int size = texture.size();
+	auto iterator = texture.begin();
+	while (size > 0)
+	{
+		if (iterator->use_count() == 1)
+		{
+			auto eraseIterator = iterator;
+			std::advance(iterator, 1);
+			texture.erase(eraseIterator);
+		}
+		size--;
+	}
+}
+
+void Texture::ClearTexture()
+{
+	texture.clear();
 }
 
