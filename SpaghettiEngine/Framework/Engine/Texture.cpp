@@ -1,41 +1,61 @@
 #include "Texture.h"
 
-std::vector<STexture> Texture::loadedTexture(16);
+std::vector<STexture> Texture::sceneTexture(16);
+std::vector<STexture> Texture::sceneIndependentTexture(16);
 
 bool Texture::CheckName(const std::string& name)
 {
 	return this->name == name;
 }
 
+STexture& Texture::FindTexture(const std::string& name) noexcept
+{
+	for (int i = 0; i < sceneTexture.size(); i++)
+	{
+		if (sceneTexture[i]->CheckName(name))
+			return sceneTexture[i];
+	}
+}
+
 Texture::~Texture()
 {
 	image->Release();
 	image = nullptr;
+
+	sceneTexture.clear();
+	sceneIndependentTexture.clear();
 }
 
-Texture::Texture(PSurface image, std::string name)
+Texture::Texture(const PDx9Texture& image, const std::string& name)
 {
 	this->image = image;
 	this->name = name;
 }
 
-void Texture::AddTexture(PSurface image, std::string name)
+void Texture::AddSceneTexture(const PDx9Texture& image, const std::string& name)
 {
-	loadedTexture.push_back(STexture(new Texture(image, name)));
+	sceneTexture.push_back(STexture(new Texture(image, name)));
 }
 
-void Texture::RemoveTexture(std::string name)
+void Texture::ClearSceneTexture()
 {
-	for (int i = 0; i < loadedTexture.size(); i++)
+	sceneTexture.clear();
+}
+
+void Texture::AddTexture(const PDx9Texture& image, const std::string& name)
+{
+	sceneIndependentTexture.push_back(STexture(new Texture(image, name)));
+}
+
+void Texture::RemoveTexture(const std::string& name)
+{
+	for (int i = 0; i < sceneIndependentTexture.size(); i++)
 	{
-		if (loadedTexture[i]->CheckName(name))
+		if (sceneIndependentTexture[i]->CheckName(name))
 		{
-			loadedTexture.erase(loadedTexture.begin() + i);
+			sceneIndependentTexture.erase(sceneIndependentTexture.begin() + i);
+			break;
 		}
 	}
 }
 
-void Texture::ClearTexture()
-{
-	loadedTexture.clear();
-}

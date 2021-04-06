@@ -3,6 +3,8 @@
 #include "Setting.h"
 #include "json.hpp"
 #include <fstream>
+#include <d3dx9.h>
+#include <d3dx9math.h>
 
 PGraphics Graphics::__instance = nullptr;
 

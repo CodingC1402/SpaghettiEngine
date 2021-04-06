@@ -8,6 +8,10 @@ typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
 typedef std::unique_ptr<GameObj> UGameObjl;
 
+typedef class ScriptBase* PScriptBase;
+typedef class std::shared_ptr<ScriptBase> SScriptBase;
+typedef class std::unique_ptr<ScriptBase> UScriptBase;
+
 class GameObj
 {
 public:
@@ -25,10 +29,6 @@ protected:
 
 	std::vector<SScriptBase> scripts;
 };
-
-typedef class ScriptBase* PScriptBase;
-typedef class std::shared_ptr<ScriptBase> SScriptBase;
-typedef class std::unique_ptr<ScriptBase> UScriptBase;
 
 class ScriptBase
 {

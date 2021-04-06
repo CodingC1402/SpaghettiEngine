@@ -102,15 +102,14 @@ void Window::CreateWnd()
 		Plane2D::Rectangle monitor = Monitor::GetPrimaryMonitorInfo();
 
 		RECT wr;
-		wr.left = (monitor.w - wndSize.width) / 2;
+		wr.left = 100;
 		wr.right = wndSize.width + wr.left;
-		wr.top = (monitor.h - wndSize.height) / 2;
+		wr.top = 100;
 		wr.bottom = wndSize.height + wr.top;
 		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
 
 		m_hWnd = CreateWindowEx(
 			0, WindowClass::GetName(), originalName.c_str(),
-			//WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
 			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 			wr.left, wr.top, wr.right - wr.left, wr.bottom - wr.top,
 			nullptr, nullptr, WindowClass::GetInstance(), this
@@ -174,7 +173,16 @@ void Window::SetHeight(int h) noexcept
 		wr.right = wndSize.width + wr.left;
 		wr.top = 0;
 		wr.bottom = wndSize.height + wr.top;
-		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		
+		if (parent)
+		{
+			AdjustWindowRect(&wr, FULLSCREENSTYLE, FALSE);
+		}
+		else
+		{
+			AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		}
+
 		SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
 	}
 }
@@ -215,7 +223,15 @@ void Window::SetWidth(int w) noexcept
 		wr.right = wndSize.width + wr.left;
 		wr.top = 0;
 		wr.bottom = wndSize.height + wr.top;
-		AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+
+		if (parent)
+		{
+			AdjustWindowRect(&wr, FULLSCREENSTYLE, FALSE);
+		}
+		else
+		{
+			AdjustWindowRect(&wr, WINDOWSTYLE, FALSE);
+		}
 		SetWindowPos(GetHwnd(), HWND_TOP, wndPos.x, wndPos.y, wr.right - wr.left, wr.bottom - wr.top, SWP_DRAWFRAME);
 	}
 }

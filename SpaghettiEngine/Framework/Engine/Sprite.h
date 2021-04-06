@@ -8,20 +8,25 @@ typedef std::unique_ptr<Sprite> USprite;
 
 class Sprite
 {
+	friend class Scene;
 	friend class Graphics;
 public:
 	bool CheckName(const std::string& name);
-	static SSprite GetSprite(const std::string& name);
+	static SSprite& GetSprite(const std::string& name);
 protected:
 	Sprite(const STexture& texture, const RECT& sourceRect, const std::string& name);
 	static void AddSprite(const STexture& texture, const RECT& sourceRect, const std::string& name);
 	static void RemoveSprite(const std::string& name);
-	static void ClearSprite();
+
+	static void AddSceneSprite(const STexture& texture, const RECT& sourceRect, const std::string& name);
+	static void ClearSceneSprite();
 protected:
-	RECT sourceRect;
+	Plane2D::Size size;
+	Plane2D::Point position;
 	STexture source;
 	std::string name;
 
-	static std::vector<SSprite> loadedSprite;
+	static std::vector<SSprite> sceneSprite;
+	static std::vector<SSprite> sceneIndependentSprite;
 };
 

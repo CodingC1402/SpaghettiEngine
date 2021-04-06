@@ -7,10 +7,11 @@ Scene::Scene(std::string path)
 
 bool Scene::Load()
 {
-
+	return false;
 }
 
 bool Scene::Unload()
 {
-	return false;
+	Sprite::ClearSceneSprite();
+	Texture::ClearSceneTexture();
 }

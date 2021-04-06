@@ -17,5 +17,5 @@ protected:
 	bool Load();
 	bool Unload();
 protected:
-	std::string path;
+	std::string path = "";
 };

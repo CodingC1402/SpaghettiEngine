@@ -79,8 +79,7 @@ void SceneManager::Load()
 		{
 			scenes.push_back(file[std::to_string(i)].get<std::string>());
 		}
-		int start = file["Start"].get<int>();
-		LoadScene(start);
+		sceneIndex = file["Start"].get<int>();
 	}
 	catch (...)
 	{
@@ -94,5 +93,6 @@ void SceneManager::Load()
 
 void SceneManager::Init()
 {
-
+	Load();
+	scenes[sceneIndex].Load();
 }

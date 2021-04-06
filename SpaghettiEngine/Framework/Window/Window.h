@@ -89,6 +89,7 @@ protected:
 	Plane2D::Rectangle restoreRect;
 	Point wndPos;
 	Size wndSize;
+	Size wndContentSize;
 	bool isFullScreen = false;
 	bool isVisible = false;
 

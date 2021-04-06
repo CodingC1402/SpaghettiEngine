@@ -39,6 +39,15 @@
     <Filter Include="FrameWork\Utilities\Source Files">
       <UniqueIdentifier>{cc6aefe8-77c4-4df2-b533-9b7f2cbae2da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{5171b50b-020f-4f2f-a64b-a0b52ea4d5aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Source Files">
+      <UniqueIdentifier>{267084b3-fe85-45d2-823a-3a09a971c41a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Header Files">
+      <UniqueIdentifier>{615871ca-dacb-45e0-b359-b35d32dd6191}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Window\Window.h">
@@ -125,6 +134,9 @@
     <ClInclude Include="Framework\Engine\Animation.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Scripts\SpriteRenderer.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -201,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Animation.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp">
+      <Filter>Scripts\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
