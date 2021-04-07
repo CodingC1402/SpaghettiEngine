@@ -4,8 +4,14 @@
 #include <string>
 #include <map>
 
+
+class ScriptBase;
+
 typedef class GameObj* PGameObj;
-typedef std::map<std::string, ScriptBase* (*)()> ScriptTypes;
+typedef std::map<std::string, void* (*)()> ScriptTypes;
+
+template<typename T>
+void* CreateT() { return new T; }
 
 class ScriptFactory
 {
@@ -18,9 +24,10 @@ private:
 };
 
 template<typename T>
-struct DerivedRegister : ScriptFactory {
-	DerivedRegister(std::string const& scriptName) {
-		GetMap()->insert(std::make_pair(scriptName, &CreateInstance<T>));
+struct DerivedRegister : public ScriptFactory {
+	DerivedRegister(std::string const& scriptName) 
+	{
+		GetMap()->insert(std::make_pair(scriptName, &CreateT<T>));
 	}
 };
 
@@ -30,12 +37,15 @@ struct DerivedRegister : ScriptFactory {
 class ScriptBase
 {
 	friend class GameObj;
+	friend 	ScriptBase* CreateT();
 public:
+	ScriptBase() = default;
 	virtual void Start() {};
 	virtual void Update() {};
 	virtual void End() {};
 protected:
 	virtual void Load(const std::string* input) {};
+	virtual void Unload() {};
 protected:
 	PGameObj owner;
 };

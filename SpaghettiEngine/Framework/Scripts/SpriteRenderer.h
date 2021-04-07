@@ -3,7 +3,8 @@
 
 class SpriteRenderer : ScriptBase
 {
-
+private:
+	std::string name = "SpriteRenderer";;
 private:
 	REGISTER_START(SpriteRenderer);
 };

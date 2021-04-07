@@ -15,5 +15,5 @@ ScriptBase* ScriptFactory::CreateInstance(std::string const& typeName)
 	auto iterator = map->find(typeName);
 	if (iterator == GetMap()->end())
 		return nullptr;
-	return iterator->second();
+	return static_cast<ScriptBase*>(iterator->second());
 }

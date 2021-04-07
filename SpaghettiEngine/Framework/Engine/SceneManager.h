@@ -20,6 +20,7 @@ public:
 	static void LoadScene(int index);
 	static void LoadPreviousScene();
 
+	static SScene& GetCurrentScene();
 	static int GetCurrentSceneIndex();
 	static int GetNumberOfScene();
 protected:
@@ -30,7 +31,7 @@ protected:
 
 	int sceneIndex;
 
-	std::vector<Scene> scenes;
+	std::vector<SScene> scenes;
 
 	static PSceneManager __instance;
 };

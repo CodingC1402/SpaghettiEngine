@@ -85,7 +85,6 @@ void Graphics::CreateResource()
 		&dxdev
 	);
 
-	dxdev = nullptr;
 	if (!dx)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
 	if (!dxdev)

@@ -32,9 +32,14 @@ void SceneManager::LoadScene(int index)
 	if (index < 0 || index > __instance->scenes.size())
 		return;
 
-	__instance->scenes[__instance->sceneIndex].Unload();
+	__instance->scenes[__instance->sceneIndex]->Unload();
 	__instance->sceneIndex = index;
-	__instance->scenes[index].Load();
+	__instance->scenes[index]->Load();
+}
+
+SScene& SceneManager::GetCurrentScene()
+{
+	return __instance->scenes[__instance->sceneIndex];
 }
 
 int SceneManager::GetCurrentSceneIndex()
@@ -77,7 +82,7 @@ void SceneManager::Load()
 		int size = file["Size"].get<int>();
 		for (int i = 0; i < size; i++)
 		{
-			scenes.push_back(file[std::to_string(i)].get<std::string>());
+			scenes.push_back(SScene(new Scene(file[std::to_string(i)].get<std::string>())));
 		}
 		sceneIndex = file["Start"].get<int>();
 	}
@@ -94,5 +99,5 @@ void SceneManager::Load()
 void SceneManager::Init()
 {
 	Load();
-	scenes[sceneIndex].Load();
+	scenes[sceneIndex]->Load();
 }
