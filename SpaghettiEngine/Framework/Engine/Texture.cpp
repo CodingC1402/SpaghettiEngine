@@ -1,12 +1,57 @@
-#include "Texture.h"
+﻿#include "Texture.h"
 #include "json.hpp"
 #include <fstream>
+#include <sstream>
+#include "Graphics.h"
 
 std::list<STexture> Texture::textures;
 
 void Texture::Load()
 {
+	using namespace nlohmann;
 
+	std::ifstream jsonFile(path);
+	if (!jsonFile.is_open()) 
+	{
+		std::wostringstream os;
+		os << L"File ";
+		os << path.c_str();
+		os << L" Doesn't exist";
+		throw TEXTURE_EXCEPT(os.str());
+	}
+
+	try
+	{
+		json file;
+		jsonFile >> file;
+
+		D3DCOLOR keyColor = file["KeyColor"].get<D3DCOLOR>();
+		Graphics::LoadTexture(image, path, keyColor);
+
+		int size = file["Size"].get<int>();
+		int x;
+		int y;
+		int w;
+		int h;
+		std::string index;
+		for (int i = 0; i < size; i++)
+		{
+			index = static_cast<char>('0' + i);
+			x = file[index]['X'].get<int>();
+			y = file[index]['Y'].get<int>();
+			w = file[index]['W'].get<int>();
+			h = file[index]['H'].get<int>();
+			sprites.push_back(SSprite(new Sprite(this, x, y, w, h)));
+		}
+	}
+	catch (...)
+	{
+		std::wostringstream os;
+		os << L"File ";
+		os << path.c_str();
+		os << L" doesn't have the right format";
+		throw TEXTURE_EXCEPT(os.str());
+	}
 }
 
 bool Texture::CheckPath(const std::string& path)
@@ -93,3 +138,12 @@ void Texture::ClearTexture()
 	textures.clear();
 }
 
+Texture::TextureException::TextureException(int line, const char* file, std::wstring discription)
+	:
+	CornDiscriptionException(line, file, discription)
+{}
+
+const wchar_t* Texture::TextureException::GetType() const noexcept
+{
+	return L"Texture Exception  ( ◕▿◕ )՞";
+}

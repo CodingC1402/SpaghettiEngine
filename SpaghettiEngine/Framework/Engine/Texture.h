@@ -1,6 +1,7 @@
 #pragma once
 #include "json.hpp"
 #include "Sprite.h"
+#include "CornException.h"
 #include <string>
 #include <d3d9.h>
 #include <memory>
@@ -18,6 +19,13 @@ typedef LPDIRECT3DTEXTURE9 PDx9Texture;
 
 class Texture
 {
+public:
+	class TextureException : public CornDiscriptionException
+	{
+	public:
+		TextureException(int line, const char* file, std::wstring discription);
+		virtual const wchar_t* GetType() const noexcept override;
+	};
 public:
 	static bool GetTexture(STexture& texture, const std::string& path) noexcept;
 	static void AddTexture(const std::string& path);
@@ -38,3 +46,5 @@ protected:
 	std::list<SSprite>sprites;
 	static std::list<STexture> textures;
 };
+
+#define TEXTURE_EXCEPT(discription) Texture::TextureException(__LINE__,__FILE__,discription)

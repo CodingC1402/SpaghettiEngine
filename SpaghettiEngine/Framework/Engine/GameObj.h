@@ -3,6 +3,7 @@
 #include <list>
 #include "Sprite.h"
 #include "Animation.h"
+#include "ScriptBase.h"
 
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
@@ -11,8 +12,6 @@ typedef std::unique_ptr<GameObj> UGameObjl;
 typedef class ScriptBase* PScriptBase;
 typedef class std::shared_ptr<ScriptBase> SScriptBase;
 typedef class std::unique_ptr<ScriptBase> UScriptBase;
-
-
 
 class GameObj
 {
@@ -28,6 +27,7 @@ public:
 	void SetName(const char* name);
 protected:
 	~GameObj();
+	void AddScript(const std::string& scriptName, const std::string* arg);
 	void Load(const std::string& path);
 protected:
 	PGameObj parent;
@@ -37,18 +37,4 @@ protected:
 	std::string tag;
 
 	std::list<SScriptBase> scripts;
-};
-
-class ScriptBase
-{
-	friend class GameObj;
-public:
-	virtual void Start() {};
-	virtual void Update() {};
-	virtual void End() {};
-private:
-	virtual void Load(const std::string* input) {};
-protected:
-	PGameObj owner;
-
 };
