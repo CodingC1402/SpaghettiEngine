@@ -85,10 +85,11 @@ void Graphics::CreateResource()
 		&dxdev
 	);
 
+	dxdev = nullptr;
 	if (!dx)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
 	if (!dxdev)
-		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev");
+		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, and there is no error code for this so... good luck fixing this ヽ(￣ω￣(。。 )ゝ ");
 }
 
 void Graphics::ReleaseResource()

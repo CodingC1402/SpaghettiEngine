@@ -1,6 +1,8 @@
 #include "Texture.h"
+#include "json.hpp"
+#include <fstream>
 
-std::list<STexture> Texture::texture;
+std::list<STexture> Texture::textures;
 
 void Texture::Load()
 {
@@ -14,8 +16,8 @@ bool Texture::CheckPath(const std::string& path)
 
 bool Texture::GetTexture(STexture& rTexture, const std::string& path) noexcept
 {
-	int size = texture.size();
-	auto iterator= texture.begin();
+	int size = textures.size();
+	auto iterator= textures.begin();
 	while (size > 0)
 	{
 		if ((*iterator)->CheckPath(path))
@@ -41,18 +43,29 @@ Texture::Texture(const std::string& path)
 
 void Texture::AddTexture(const std::string& path)
 {
-	texture.push_back(STexture(new Texture(path)));
+	textures.push_back(STexture(new Texture(path)));
+}
+
+bool Texture::GetSprite(SSprite& sprite, const int& index) noexcept
+{
+	if (index >= sprites.size())
+		return false;
+
+	auto iterator = sprites.begin();
+	std::advance(iterator, index);
+	sprite = (*iterator);
+	return true;
 }
 
 void Texture::RemoveTexture(const std::string& path)
 {
-	auto iterator = texture.begin();
-	int size = texture.size();
+	auto iterator = textures.begin();
+	int size = textures.size();
 	while (size > 0)
 	{
 		if ((*iterator)->CheckPath(path))
 		{
-			texture.erase(iterator);
+			textures.erase(iterator);
 			break;
 		}
 		size--;
@@ -61,15 +74,15 @@ void Texture::RemoveTexture(const std::string& path)
 
 void Texture::ClearUnusedTexture()
 {
-	int size = texture.size();
-	auto iterator = texture.begin();
+	int size = textures.size();
+	auto iterator = textures.begin();
 	while (size > 0)
 	{
 		if (iterator->use_count() == 1)
 		{
 			auto eraseIterator = iterator;
 			std::advance(iterator, 1);
-			texture.erase(eraseIterator);
+			textures.erase(eraseIterator);
 		}
 		size--;
 	}
@@ -77,6 +90,6 @@ void Texture::ClearUnusedTexture()
 
 void Texture::ClearTexture()
 {
-	texture.clear();
+	textures.clear();
 }
 

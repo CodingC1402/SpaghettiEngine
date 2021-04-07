@@ -1,60 +1,21 @@
 #include "Sprite.h"
 
-std::list<SSprite> Sprite::sprite;
-
-bool Sprite::GetSprite(SSprite& rSprite, const std::string& path)
+STexture& Sprite::GetSource()
 {
-	return false;
+	return source;
 }
 
-Sprite::Sprite(const std::string& path)
+RECT& Sprite::GetSourceRect()
 {
-	this->path = path;
+	return srcRect;
 }
 
-void Sprite::RemoveSprite(const std::string& path)
+Sprite::Sprite(const STexture& source, const Size& size, const Point& position)
 {
-	int size = sprite.size();
-	auto iterator = sprite.begin();
-	while (size > 0)
-	{
-		if ((*iterator)->CheckPath(path))
-		{
-			sprite.erase(iterator);
-			break;
-		}
-		size--;
-	}
-}
+	srcRect.left = position.x;
+	srcRect.right = position.y;
+	srcRect.right = srcRect.left + size.width;
+	srcRect.bottom = srcRect.top + size.height;
 
-void Sprite::AddSprite(const std::string& path)
-{
-	SSprite newSprite = SSprite(new Sprite(path));
-	sprite.push_back(newSprite);
-}
-
-void Sprite::ClearUnusedSprite()
-{
-	int size = sprite.size();
-	auto iterator = sprite.begin();
-	while (size > 0)
-	{
-		if (iterator->use_count() == 1)
-		{
-			auto eraseIterator = iterator;
-			std::advance(iterator, 1);
-			sprite.erase(eraseIterator);
-		}
-		size--;
-	}
-}
-
-void Sprite::ClearSprite()
-{
-	sprite.clear();
-}
-
-bool Sprite::CheckPath(const std::string& path)
-{
-	return this->path == path;
+	this->source = source;
 }

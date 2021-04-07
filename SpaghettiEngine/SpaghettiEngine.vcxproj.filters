@@ -107,9 +107,6 @@
     <ClInclude Include="Framework\Engine\Sprite.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Texture.h">
-      <Filter>FrameWork\Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Utilities\Monitor.h">
       <Filter>FrameWork\Utilities\Header Files</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h">
       <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Texture.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

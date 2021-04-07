@@ -1,6 +1,8 @@
 #pragma once
-#include "Texture.h"
 #include "Plane2D.h"
+#include "Texture.h"
+#include <memory>
+#include <string>
 
 typedef class Sprite* PSprite;
 typedef std::shared_ptr<Sprite> SSprite;
@@ -9,24 +11,19 @@ typedef std::unique_ptr<Sprite> USprite;
 class Texture;
 typedef std::shared_ptr<Texture> STexture;
 
+using Plane2D::Size;
+using Plane2D::Point;
+
 class Sprite
 {
+	friend class Texture;
 public:
-	static bool GetSprite(SSprite& rSprite, const std::string& path);
-	static void AddSprite(const std::string& path);
+	STexture& GetSource();
+	RECT& GetSourceRect();
 protected:
-	Sprite(const std::string&  path);
-	static void RemoveSprite(const std::string& path);
-	static void ClearUnusedSprite();
-	static void ClearSprite();
-
-	bool CheckPath(const std::string& path);
+	Sprite(const STexture& source, const Size& size, const Point& position);
 protected:
-	Plane2D::Size size;
-	Plane2D::Point position;
+	RECT srcRect;
 	STexture source;
-	std::string path;
-
-	static std::list<SSprite> sprite;
 };
 
