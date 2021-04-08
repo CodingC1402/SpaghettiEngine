@@ -23,7 +23,7 @@ protected:
 	void RemoveGameObject(PGameObj gameObj);
 	void AddGameObject(PGameObj gameObj);
 	bool Load();
-	bool Unload();
+	void Unload();
 protected:
 	std::string path = "";
 

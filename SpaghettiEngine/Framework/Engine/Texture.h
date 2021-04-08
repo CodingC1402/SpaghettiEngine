@@ -19,6 +19,7 @@ typedef LPDIRECT3DTEXTURE9 PDx9Texture;
 
 class Texture
 {
+	friend class Scene;
 public:
 	class TextureException : public CornDiscriptionException
 	{
@@ -28,7 +29,7 @@ public:
 	};
 public:
 	static bool GetTexture(STexture& texture, const std::string& path) noexcept;
-	static void AddTexture(const std::string& path);
+	static void LoadTexture(const std::string& path);
 	bool GetSprite(SSprite& sprite, const int& index) noexcept;
 	~Texture();
 protected:

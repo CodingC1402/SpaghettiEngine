@@ -96,7 +96,7 @@ bool Scene::Load()
 	}
 }
 
-bool Scene::Unload()
+void Scene::Unload()
 {
 	size_t instanceSize = instances.size();
 	auto iterator = instances.begin();

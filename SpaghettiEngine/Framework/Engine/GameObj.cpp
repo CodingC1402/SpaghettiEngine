@@ -35,6 +35,32 @@ const char* GameObj::GetPath()
 	return path.c_str();
 }
 
+void GameObj::Translate(const Vector3& vector)
+{
+	position += vector;
+	size_t size = children.size();
+	auto iterator = children.begin();
+	while (size > 0)
+	{
+		(*iterator)->Translate(vector);
+		std::advance(iterator, 1);
+		size--;
+	}
+}
+
+void GameObj::Move(const Vector3& newPosition)
+{
+	position = newPosition;
+	size_t size = children.size();
+	auto iterator = children.begin();
+	while (size > 0)
+	{
+		(*iterator)->Move(newPosition);
+		std::advance(iterator, 1);
+		size--;
+	}
+}
+
 void GameObj::RemoveParent()
 {
 	if (ownerScene)
@@ -65,11 +91,16 @@ GameObj::~GameObj()
 
 }
 
-void GameObj::AddScript(const std::string& scriptName, const std::string* arg)
+void GameObj::AddScript(const std::string& scriptName, const std::string* arg, int argSize)
 {
 	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName);
-	newScript->Load(arg);
+	newScript->Load(arg, argSize);
 	scripts.push_back(SScriptBase(newScript));
+}
+
+void GameObj::AddScript(const PScriptBase script)
+{
+	scripts.push_back(SScriptBase(script));
 }
 
 #define CHILDREN "Children"
@@ -132,7 +163,7 @@ void GameObj::Load()
 				argIndex = static_cast<char>('0' + arg);
 				tempArgInput[arg] = jsonFile[index][arg].get<std::string>();
 			}
-			AddScript(jsonFile[index]["Name"].get<std::string>(), tempArgInput);
+			AddScript(jsonFile[index]["Name"].get<std::string>(), tempArgInput, inputArgSize);
 			delete[] tempArgInput;
 		}
 	}

@@ -57,10 +57,19 @@ void SceneManager::LoadPreviousScene()
 	LoadScene(__instance->sceneIndex - 1);
 }
 
+SScene& SceneManager::GetConstScene()
+{
+	return __instance->constScene;
+}
+
 SceneManager::SceneManager()
 	:
 	sceneIndex(-1)
 {}
+
+#define CONSTSCENE "ConstScene"
+#define SIZE "Size"
+#define START "Start"
 
 void SceneManager::Load()
 {
@@ -79,12 +88,13 @@ void SceneManager::Load()
 	try
 	{
 		jsonStream >> file;
-		int size = file["Size"].get<int>();
+		int size = file[SIZE].get<int>();
 		for (int i = 0; i < size; i++)
 		{
 			scenes.push_back(SScene(new Scene(file[std::to_string(i)].get<std::string>())));
 		}
-		sceneIndex = file["Start"].get<int>();
+		sceneIndex = file[START].get<int>();
+		constScene = SScene(new Scene(file[CONSTSCENE]));
 	}
 	catch (...)
 	{
@@ -100,4 +110,5 @@ void SceneManager::Init()
 {
 	Load();
 	scenes[sceneIndex]->Load();
+	constScene->Load();
 }

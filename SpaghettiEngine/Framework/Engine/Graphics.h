@@ -1,20 +1,15 @@
 #pragma once
+#define FULLGRAPHIC
+
 #include "CornException.h"
 #include "GameWnd.h"
 #include "Sprite.h"
 #include <vector>
-#include <d3d9.h>
+#include <CornDirectX.h>
 
 /// <summary>
 /// Singleton directx9 wrapper
 /// </summary>
-
-typedef class Graphics* PGraphics;
-typedef LPDIRECT3D9 DX;
-typedef LPDIRECT3DDEVICE9 DXDev;
-typedef D3DPRESENT_PARAMETERS DXPresentPara;
-typedef D3DDISPLAYMODE DisplayMode;
-
 
 class Graphics
 {
@@ -79,9 +74,9 @@ protected:
 	bool isFullScreen = false;
 	Size resolution;
 
-	DX dx = NULL;
-	DXDev dxdev = NULL;
-	DXPresentPara dxpp;
+	Renderer renderer= NULL;
+	RenderDevice renderDevice = NULL;
+	PresentParam presentParam;
 	ColorFormat colorFormat = ColorFormat::RGB32Bit;
 	UINT videoAdapter = D3DADAPTER_DEFAULT;
 	std::vector<DisplayMode> adapterMode;
@@ -92,8 +87,7 @@ protected:
 	double delayPerFrame;
 	double timeSinceLastFrame;
 
-	std::queue<SSprite> buffer;
-	std::queue <Plane2D::Rect> desRects;
+	std::queue<std::pair<SSprite, D3DXVECTOR3>> buffer;
 
 	// Temp
 	int index = 2;

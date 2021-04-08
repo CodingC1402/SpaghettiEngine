@@ -72,6 +72,8 @@ bool Texture::GetTexture(STexture& rTexture, const std::string& path) noexcept
 		}
 		size--;
 	}
+	
+	LoadTexture(path);
 	return false;
 }
 
@@ -86,9 +88,10 @@ Texture::Texture(const std::string& path)
 	this->path = path;
 }
 
-void Texture::AddTexture(const std::string& path)
+void Texture::LoadTexture(const std::string& path)
 {
 	textures.push_back(STexture(new Texture(path)));
+	textures.back()->Load();
 }
 
 bool Texture::GetSprite(SSprite& sprite, const int& index) noexcept

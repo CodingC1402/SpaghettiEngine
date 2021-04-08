@@ -44,7 +44,7 @@ public:
 	virtual void Update() {};
 	virtual void End() {};
 protected:
-	virtual void Load(const std::string* input) {};
+	virtual void Load(const std::string* inputArg, int argS) {};
 	virtual void Unload() {};
 protected:
 	PGameObj owner;
