@@ -1,27 +1,31 @@
 #include "StringConverter.h"
-
-std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> StringConverter::converter;
+#include <fstream>
+#include <sstream>
 
 std::wstring StringConverter::StrToWStr(const std::string& str) noexcept
 {
-    std::wstring wstr = converter.from_bytes(str);
-    return wstr;
+    std::wostringstream os;
+    os << str.c_str();
+    return os.str();
 }
 
 std::string StringConverter::WStrToStr(const std::wstring& wstr) noexcept
 {
-    std::string str = converter.to_bytes(wstr);
-    return str;
+    std::wostringstream os;
+    std::string rStr = "";
+    for (int i = 0; i < wstr.size(); i++)
+    {
+        rStr += os.narrow(wstr[i], 'ø');
+    }
+    return rStr;
 }
 
 std::wstring StringConverter::WcsToMbs(const char* str) noexcept
 {
-    std::wstring wstr = converter.from_bytes(str);
-    return wstr;
+    return StrToWStr(std::string(str));
 }
 
 std::string StringConverter::MbsToWcs(const wchar_t* wstr) noexcept
 {
-    std::string str = converter.to_bytes(wstr);
-    return str;
+    return WStrToStr(std::wstring(wstr));
 }

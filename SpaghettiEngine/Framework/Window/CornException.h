@@ -34,3 +34,4 @@ private:
 	std::wstring discription;
 };
 
+#define CORN_EXCEPT_WITH_DISCRIPTION(discription) CornDiscriptionException(__LINE__,__FILE__,discription)

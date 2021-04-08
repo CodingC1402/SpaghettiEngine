@@ -3,6 +3,7 @@
 
 PGameWnd GameWnd::__instance = nullptr;
 
+
 HWND GameWnd::GetContentWndHandler()
 {
 	return contentWnd->GetHwnd();
@@ -30,8 +31,8 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 		Size resolution = Setting::GetResolution();
 		double ratioW = width / (double)resolution.width;
 		double ratioH = height / (double)resolution.height;
-		int contentWidth;
-		int contentHeight;
+		int contentWidth = width;
+		int contentHeight = height;
 		int contentPosX;
 		int contentPosY;
 		if (ratioW > ratioH)

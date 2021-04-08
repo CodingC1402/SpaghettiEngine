@@ -2,9 +2,9 @@
 #include "Debug.h"
 #include "json.hpp"
 #include "StringConverter.h"
+#include "SpaghettiEnginePath.h"
 #include <fstream>
 
-#define INPUTPATH "Input.json"
 #define INPUTTEXT "Input"
 #define SIZETEXT "Size"
 #define TYPETEXT "Type"
