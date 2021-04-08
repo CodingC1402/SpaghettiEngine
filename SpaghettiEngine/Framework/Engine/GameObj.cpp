@@ -25,6 +25,31 @@ void GameObj::End()
 	throw EXCEPTION_ACCESS_VIOLATION;
 }
 
+const PGameObj GameObj::GetParent()
+{
+	return parent;
+}
+
+const PGameObj GameObj::GetChild(UINT index)
+{
+	if (index >= children.size())
+		return nullptr;
+
+	auto iterator = children.begin();
+	std::advance(iterator, index);
+	return *iterator;
+}
+
+const SScriptBase& GameObj::GetScript(UINT index)
+{
+	if (index >= scripts.size())
+		return nullptr;
+
+	auto iterator = scripts.begin();
+	std::advance(iterator, index);
+	return *iterator;
+}
+
 const char* GameObj::GetTag()
 {
 	return tag.c_str();
@@ -94,6 +119,7 @@ GameObj::~GameObj()
 void GameObj::AddScript(const std::string& scriptName, const std::string* arg, int argSize)
 {
 	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName);
+	newScript->owner = this;
 	newScript->Load(arg, argSize);
 	scripts.push_back(SScriptBase(newScript));
 }
@@ -109,6 +135,7 @@ void GameObj::AddScript(const PScriptBase script)
 
 GameObj::GameObj(const std::string path, const PScene ownerScene)
 	:
+	parent(nullptr),
 	path(path),
 	ownerScene(ownerScene)
 {}
@@ -146,7 +173,12 @@ void GameObj::Load()
 			this->AddChild(child);
 			child->parent = this;
 			child->Load();
+			child->position += this->position;
 		}
+
+		position.x = jsonFile["X"].get<int>();
+		position.y = jsonFile["Y"].get<int>();
+		position.z = jsonFile["Z"].get<int>();
 
 		int size = jsonFile["Size"].get<int>();
 		char index;
@@ -187,6 +219,7 @@ void GameObj::Destroy()
 		std::advance(itChild, 1);
 		size--;
 	}
+	children.clear();
 	size = scripts.size();
 	auto itScript = scripts.begin();
 	while (size > 0)
@@ -195,6 +228,7 @@ void GameObj::Destroy()
 		std::advance(itScript, 1);
 		size--;
 	}
+	delete this;
 }
 
 void GameObj::AddChild(PGameObj obj)

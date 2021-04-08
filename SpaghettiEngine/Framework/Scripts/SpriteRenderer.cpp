@@ -33,3 +33,8 @@ void SpriteRenderer::Load(const std::string* inputArg, int argS)
 	tranformMatrix._11 = std::stoi(inputArg[ScaleX]);
 	tranformMatrix._22 = std::stoi(inputArg[ScaleY]);
 }
+
+void SpriteRenderer::Update()
+{
+
+}

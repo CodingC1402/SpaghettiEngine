@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Framework\Engine\Animation.h" />
     <ClInclude Include="Framework\Engine\App.h" />
+    <ClInclude Include="Framework\Engine\CornDirectX.h" />
     <ClInclude Include="Framework\Engine\Game.h" />
     <ClInclude Include="Framework\Engine\GameObj.h" />
     <ClInclude Include="Framework\Engine\GameWnd.h" />

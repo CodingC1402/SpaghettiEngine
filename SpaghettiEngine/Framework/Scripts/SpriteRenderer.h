@@ -8,8 +8,8 @@ class SpriteRenderer : ScriptBase
 public:
 	SpriteRenderer();
 	virtual void Load(const std::string* inputArg, int argS) override;
+	virtual void Update() override;
 protected:
-	std::string name = "SpriteRenderer";
 	Matrix tranformMatrix;
 	SSprite sprite;
 private:

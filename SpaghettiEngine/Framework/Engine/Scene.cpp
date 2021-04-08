@@ -4,23 +4,6 @@
 #include <sstream>
 #include <fstream>
 
-bool Scene::GetGameObj(PGameObj& gameObj, const std::string& path)
-{
-	size_t size = instances.size();
-	auto iterator = instances.begin();
-	while (size > 0)
-	{
-		if ((*iterator)->GetPath() == path)
-		{
-			gameObj = (*iterator);
-			return true;
-		}
-		std::advance(iterator, 1);
-		size--;
-	}
-	return false;
-}
-
 Scene::Scene(std::string path)
 	:
 	path(path)

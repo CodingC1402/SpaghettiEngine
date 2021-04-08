@@ -28,6 +28,9 @@ public:
 	void Update();
 	void End();
 
+	const PGameObj GetParent();
+	const PGameObj GetChild(UINT index);
+	const SScriptBase& GetScript(UINT index);
 	const char* GetTag();
 	const char* GetPath();
 

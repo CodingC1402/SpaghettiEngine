@@ -16,8 +16,6 @@ class Scene
 {
 	friend class SceneManager;
 	friend class GameObj;
-public:
-	bool GetGameObj(PGameObj& gameObj, const std::string& path);
 protected:
 	Scene(std::string path);
 	void RemoveGameObject(PGameObj gameObj);
