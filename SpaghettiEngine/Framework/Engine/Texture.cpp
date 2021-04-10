@@ -6,6 +6,11 @@
 
 std::list<STexture> Texture::textures;
 
+PDx9Texture Texture::GetImage()
+{
+	return image;
+}
+
 void Texture::Load()
 {
 	using namespace nlohmann;

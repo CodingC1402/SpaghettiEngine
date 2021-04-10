@@ -5,6 +5,16 @@ PTexture& Sprite::GetSource()
 	return source;
 }
 
+int Sprite::GetWidth()
+{
+	return srcRect.right - srcRect.left;
+}
+
+int Sprite::GetHeight()
+{
+	return srcRect.bottom - srcRect.top;
+}
+
 RECT& Sprite::GetSourceRect()
 {
 	return srcRect;

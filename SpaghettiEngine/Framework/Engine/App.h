@@ -1,12 +1,11 @@
 #pragma once
 #include "GameWnd.h"
-#include "Graphics.h"
-#include "InputSystem.h"
 #include "Physic.h"
-#include "Game.h"
 #include "Sound.h"
+#include "Game.h"
 
 typedef class App* PApp;
+typedef class Game* PGame;
 
 class App
 {
@@ -34,12 +33,10 @@ protected:
 
 	static PApp GetInstance() noexcept;
 protected:
-	SGameWnd wnd = nullptr;
-	PInputSystem input = nullptr;
-	PGraphics gfx = nullptr;
-	STimer timer = nullptr;
-
-	Physic* pe = nullptr;
+	SGameWnd wnd = NULL;
+	STimer timer = NULL;
+	PGraphics gfx = NULL;
+	PGame game = NULL;
 
 	Size resolution;
 	std::wstring appName;

@@ -4,23 +4,6 @@
 #include <sstream>
 #include <fstream>
 
-bool Scene::GetGameObj(PGameObj& gameObj, const std::string& path)
-{
-	size_t size = instances.size();
-	auto iterator = instances.begin();
-	while (size > 0)
-	{
-		if ((*iterator)->GetPath() == path)
-		{
-			gameObj = (*iterator);
-			return true;
-		}
-		std::advance(iterator, 1);
-		size--;
-	}
-	return false;
-}
-
 Scene::Scene(std::string path)
 	:
 	path(path)
@@ -46,6 +29,27 @@ void Scene::RemoveGameObject(PGameObj gameObj)
 void Scene::AddGameObject(PGameObj gameObj)
 {
 	instances.push_back(gameObj);
+}
+
+void Scene::Instantiate(PGameObj gameObj)
+{
+	if (gameObj->GetParent())
+		throw CORN_EXCEPT_WITH_DISCRIPTION(L"You are trying to instantiate an object with parent");
+	PGameObj newInstance = new GameObj(*gameObj);
+	newInstance->ownerScene = this;
+	instances.push_back(newInstance);
+}
+
+void Scene::Update()
+{
+	size_t size = instances.size();
+	auto iterator = instances.begin();
+	for (int i = 0; i < size; i++)
+	{
+		(*iterator)->Update();
+		std::advance(iterator, 1);
+		size--;
+	}
 }
 
 #define SIZE "Size"
@@ -93,6 +97,15 @@ bool Scene::Load()
 		os << path.c_str();
 		os << L" doesn't have the right format";
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+	}
+
+	size_t startSize = instances.size();
+	auto itStart = instances.begin();
+	while (startSize > 0)
+	{
+		(*itStart)->Start();
+		std::advance(itStart, 1);
+		startSize--;
 	}
 }
 

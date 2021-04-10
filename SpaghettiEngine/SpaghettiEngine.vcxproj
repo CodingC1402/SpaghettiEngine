@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Framework\Engine\Animation.h" />
     <ClInclude Include="Framework\Engine\App.h" />
+    <ClInclude Include="Framework\Engine\CornDirectX.h" />
     <ClInclude Include="Framework\Engine\Game.h" />
     <ClInclude Include="Framework\Engine\GameObj.h" />
     <ClInclude Include="Framework\Engine\GameWnd.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="Framework\Engine\SpaghettiEnginePath.h" />
     <ClInclude Include="Framework\Engine\Sprite.h" />
     <ClInclude Include="Framework\Engine\Texture.h" />
+    <ClInclude Include="Framework\Scripts\Camera.h" />
     <ClInclude Include="Framework\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
@@ -67,6 +69,7 @@
     <ClCompile Include="Framework\Engine\Sprite.cpp" />
     <ClCompile Include="Framework\Engine\Texture.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
+    <ClCompile Include="Framework\Scripts\Camera.cpp" />
     <ClCompile Include="Framework\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Utilities\Debug.cpp" />

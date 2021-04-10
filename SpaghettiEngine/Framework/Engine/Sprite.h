@@ -18,6 +18,8 @@ class Sprite
 	friend class Texture;
 public:
 	PTexture& GetSource();
+	int GetWidth();
+	int GetHeight();
 	RECT& GetSourceRect();
 protected:
 	Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h);

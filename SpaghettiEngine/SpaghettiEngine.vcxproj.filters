@@ -140,6 +140,12 @@
     <ClInclude Include="Framework\Scripts\ScriptBase.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\CornDirectX.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scripts\Camera.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -221,6 +227,9 @@
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Scripts\ScriptBase.cpp">
+      <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\Camera.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

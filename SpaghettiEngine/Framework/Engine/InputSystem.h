@@ -9,7 +9,7 @@ typedef InputSystem* PInputSystem;
 
 class InputSystem
 {
-	friend class App;
+	friend class Game;
 public:
 	class InputSysException : public CornDiscriptionException
 	{
