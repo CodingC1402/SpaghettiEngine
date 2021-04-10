@@ -31,6 +31,15 @@ void Scene::AddGameObject(PGameObj gameObj)
 	instances.push_back(gameObj);
 }
 
+void Scene::Instantiate(PGameObj gameObj)
+{
+	if (gameObj->GetParent())
+		throw CORN_EXCEPT_WITH_DISCRIPTION(L"You are trying to instantiate an object with parent");
+	PGameObj newInstance = new GameObj(*gameObj);
+	newInstance->ownerScene = this;
+	instances.push_back(newInstance);
+}
+
 #define SIZE "Size"
 
 bool Scene::Load()

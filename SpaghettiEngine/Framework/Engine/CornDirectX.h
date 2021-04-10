@@ -1,14 +1,21 @@
 #pragma once
-
-#ifdef FULLGRAPHIC
+#include <d3dx9.h>
 #include <d3d9.h>
+
+#define ALPHABLEND D3DXSPRITE_ALPHABLEND 
+#define NOTAVAILABLE D3DERR_NOTAVAILABLE
+#define OUTOFVIDEOMEMORY D3DERR_OUTOFVIDEOMEMORY
+#define INVALIDCALL D3DERR_INVALIDCALL
+#define INVALIDDATA D3DXERR_INVALIDDATA
+#define OUTOFMEMORY E_OUTOFMEMORY
+
 typedef class Graphics* PGraphics;
 typedef LPDIRECT3D9 Renderer;
 typedef LPDIRECT3DDEVICE9 RenderDevice;
 typedef D3DPRESENT_PARAMETERS PresentParam;
 typedef D3DDISPLAYMODE DisplayMode;
-#endif
+typedef LPD3DXSPRITE SpriteHandler;
 
-#include <d3dx9.h>
 typedef D3DXVECTOR3 Vector3;
 typedef D3DXMATRIX Matrix;
+typedef LPD3DXMATRIX PMatrix;

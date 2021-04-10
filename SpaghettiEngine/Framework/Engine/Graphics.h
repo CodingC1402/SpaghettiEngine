@@ -1,15 +1,19 @@
 #pragma once
-#define FULLGRAPHIC
 
+#include "CornDirectX.h";
 #include "CornException.h"
 #include "GameWnd.h"
-#include "Sprite.h"
+#include "SpriteRenderer.h"
+#include "Camera.h"
 #include <vector>
-#include <CornDirectX.h>
 
 /// <summary>
 /// Singleton directx9 wrapper
 /// </summary>
+
+typedef class Camera* PCamera;
+typedef class SpriteRenderer* PSpriteRenderer;
+typedef class Graphics* PGraphics;
 
 class Graphics
 {
@@ -44,8 +48,10 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void DrawSprite(const SSprite& renderSprite, const Plane2D::Rect& desRect); // Render Sprite
+	static void Draw(const PSpriteRenderer renderScript); // Render Sprite
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const D3DCOLOR& keyColor);
+	static void AddCamera(PCamera camera);
+	static void RemoveCamera(PCamera camera);
 protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
@@ -74,9 +80,10 @@ protected:
 	bool isFullScreen = false;
 	Size resolution;
 
-	Renderer renderer= NULL;
+	Renderer renderer = NULL;
 	RenderDevice renderDevice = NULL;
 	PresentParam presentParam;
+	SpriteHandler spriteHandler = NULL;
 	ColorFormat colorFormat = ColorFormat::RGB32Bit;
 	UINT videoAdapter = D3DADAPTER_DEFAULT;
 	std::vector<DisplayMode> adapterMode;
@@ -87,7 +94,8 @@ protected:
 	double delayPerFrame;
 	double timeSinceLastFrame;
 
-	std::queue<std::pair<SSprite, D3DXVECTOR3>> buffer;
+	std::list<PCamera> cameraList;
+	std::list<PSpriteRenderer> renderBuffer;
 
 	// Temp
 	int index = 2;

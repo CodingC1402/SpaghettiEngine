@@ -30,7 +30,9 @@ public:
 public:
 	static bool GetTexture(STexture& texture, const std::string& path) noexcept;
 	static void LoadTexture(const std::string& path);
+
 	bool GetSprite(SSprite& sprite, const int& index) noexcept;
+	PDx9Texture GetImage();
 	~Texture();
 protected:
 	Texture(const std::string& path);

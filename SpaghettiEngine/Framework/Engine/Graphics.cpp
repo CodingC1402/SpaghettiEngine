@@ -35,10 +35,9 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::DrawSprite(const SSprite& renderSprite, const Plane2D::Rect& desRect)
+void Graphics::Draw(const PSpriteRenderer renderScript)
 {
-	__instance->buffer.push(renderSprite);
-	__instance->desRects.push(desRect);
+	__instance->renderBuffer.push_back(renderScript);
 }
 
 void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const D3DCOLOR &keyColor)
@@ -74,6 +73,24 @@ void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const
 		throw GRAPHICS_EXCEPT_CODE(result);
 }
 
+void Graphics::AddCamera(PCamera camera)
+{
+	__instance->cameraList.push_back(camera);
+}
+
+void Graphics::RemoveCamera(PCamera camera)
+{
+	size_t size = __instance->cameraList.size();
+	auto iterator = __instance->cameraList.begin();
+	while (size > 0)
+	{
+		if (*iterator == camera)
+			__instance->cameraList.erase(iterator);
+		std::advance(iterator, 1);
+		size--;
+	}
+}
+
 void Graphics::CreateResource()
 {
 	renderer->CreateDevice(
@@ -85,6 +102,10 @@ void Graphics::CreateResource()
 		&renderDevice
 	);
 
+	HRESULT result = D3DXCreateSprite(renderDevice, &spriteHandler);
+	if (FAILED(result))
+		throw GRAPHICS_EXCEPT_CODE(result);
+
 	if (!renderer)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
 	if (!renderDevice)
@@ -95,6 +116,8 @@ void Graphics::ReleaseResource()
 {
 	if (renderDevice)
 		renderDevice->Release();
+	if (spriteHandler)
+		spriteHandler->Release();
 	renderDevice = nullptr;
 }
 
@@ -155,9 +178,7 @@ void Graphics::Render()
 	timeSinceLastFrame += timer->GetDeltaTime();
 	if (timeSinceLastFrame < delayPerFrame)
 	{
-		while (!buffer.empty())
-			buffer.pop();
-		return;
+		renderBuffer.clear();
 	}
 	else
 	{
@@ -193,29 +214,46 @@ void Graphics::Render()
 		/// <summary>
 		/// Render here
 		/// </summary>
-		
-		LPDIRECT3DSURFACE9 backBuffer;
-		renderDevice->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
-		SSprite sprite;
-		RECT desRect;
-		Plane2D::Rect rect;
-		while (!buffer.empty())
-		{
-			sprite = buffer.front();
-			rect = desRects.front();
-			desRect.left = rect.x;
-			desRect.top = rect.y;
-			desRect.right = desRect.left + rect.w;
-			desRect.bottom = desRect.top + rect.h;
-			desRects.pop();
-			buffer.pop();
-		}
 
+		PSpriteRenderer renderScript;
+		Vector3 position;
+		size_t renderSize = renderBuffer.size();
+		size_t cameraSize = cameraList.size();
+		auto itRender = renderBuffer.begin();
+		auto itCamera = cameraList.begin();
+
+		PMatrix screenMatrix;
+		PMatrix cameraMatrix;
+		PMatrix renderMatrix;
+
+		spriteHandler->Begin(ALPHABLEND);
+		for (size_t camera = 0; camera < cameraSize; camera++)
+		{
+			itRender = renderBuffer.begin();
+			cameraMatrix = (*itCamera)->GetMatrix();
+			screenMatrix = (*itCamera)->GetScreenMatrix();
+			
+			if (screenMatrix)
+			{
+				for (size_t render = 0; render < renderSize; render++)
+				{
+					renderScript = (*itRender);
+
+					spriteHandler->SetTransform(&renderScript->GetTransform());
+					spriteHandler->Draw(
+						renderScript->GetTexture(),
+						&renderScript->GetSourceRect(),
+						NULL,
+						&renderScript->GetPosition(),
+						NULL
+					);
+				}
+			}
+		}
+		spriteHandler->End();
 
 		if (!End())
-		{
 			Reset();
-		}
 	}
 
 	renderDevice->Present(NULL, NULL, NULL, NULL);
@@ -239,6 +277,7 @@ bool Graphics::End()
 		if (hr == D3DERR_DEVICELOST)
 		{
 			isDeviceLost = true;
+			spriteHandler->OnLostDevice();
 		}
 		else if (hr == D3DERR_DRIVERINTERNALERROR)
 		{
@@ -258,6 +297,7 @@ bool Graphics::Reset()
 		if (SUCCEEDED(renderDevice->Reset(&presentParam)))
 		{
 			// reset success
+			spriteHandler->OnResetDevice();
 			isDeviceLost = false;
 			return true;
 		}
@@ -330,15 +370,15 @@ const wchar_t* Graphics::GraphicCodeException::Translate() const noexcept
 {
 	switch (code)
 	{
-	case D3DERR_NOTAVAILABLE:
+	case NOTAVAILABLE:
 		return L"File is not available";
-	case D3DERR_OUTOFVIDEOMEMORY:
+	case OUTOFVIDEOMEMORY:
 		return L"Out of video memory(gpu)";
-	case D3DERR_INVALIDCALL:
+	case INVALIDCALL:
 		return L"Invalid call";
-	case D3DXERR_INVALIDDATA:
+	case INVALIDDATA:
 		return L"Invalid data";
-	case E_OUTOFMEMORY:
+	case OUTOFMEMORY:
 		return L"Out of memory(ram)";
 	default:
 		return L": ^)";

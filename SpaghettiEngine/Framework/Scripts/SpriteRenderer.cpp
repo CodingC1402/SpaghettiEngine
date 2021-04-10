@@ -5,10 +5,19 @@ REGISTER_FINISH(SpriteRenderer);
 
 SpriteRenderer::SpriteRenderer()
 {
-	tranformMatrix._11 = 1;
-	tranformMatrix._22 = 1;
-	tranformMatrix._33 = 1;
-	tranformMatrix._44 = 1;
+	transformMatrix._11 = 1;
+	transformMatrix._22 = 1;
+	transformMatrix._33 = 1;
+	transformMatrix._44 = 1;
+
+	name = TYPE_NAME(SpriteRenderer);
+}
+
+bool SpriteRenderer::Copy(const PScriptBase script)
+{
+	SpriteRenderer* copyScript = static_cast<SpriteRenderer*>(script);
+	this->transformMatrix = copyScript->transformMatrix;
+	this->sprite = copyScript->sprite;
 }
 
 #define TexturePath 0
@@ -28,13 +37,41 @@ void SpriteRenderer::Load(const std::string* inputArg, int argS)
 			<< L" is out of bound";
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 	}
-	tranformMatrix._41 = std::stoi(inputArg[OffSetX]);
-	tranformMatrix._42 = std::stoi(inputArg[OffSetY]);
-	tranformMatrix._11 = std::stoi(inputArg[ScaleX]);
-	tranformMatrix._22 = std::stoi(inputArg[ScaleY]);
+	transformMatrix._41 = std::stoi(inputArg[OffSetX]);
+	transformMatrix._42 = std::stoi(inputArg[OffSetY]);
+	transformMatrix._11 = std::stoi(inputArg[ScaleX]);
+	transformMatrix._22 = std::stoi(inputArg[ScaleY]);
+}
+
+Matrix& SpriteRenderer::GetTransform()
+{
+	return transformMatrix;
+}
+
+SSprite& SpriteRenderer::GetSprite()
+{
+	return sprite;
+}
+
+Vector3 SpriteRenderer::GetPosition()
+{
+	Vector3 position = owner->GetPosition();
+	position.x -= sprite->GetWidth() / 2;
+	position.y -= sprite->GetHeight() / 2;
+	return position;
+}
+
+PDx9Texture SpriteRenderer::GetTexture()
+{
+	return sprite->GetSource()->GetImage();
+}
+
+RECT SpriteRenderer::GetSourceRect()
+{
+	return sprite->GetSourceRect();
 }
 
 void SpriteRenderer::Update()
 {
-
+	Graphics::Draw(this);
 }

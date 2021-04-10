@@ -8,6 +8,8 @@
 
 typedef class GameObj* PGameObj;
 
+typedef class SceneManager* PSceneManager;
+
 typedef class Scene* PScene;
 typedef std::shared_ptr<Scene> SScene;
 typedef std::unique_ptr<Scene> UScene;
@@ -20,6 +22,7 @@ protected:
 	Scene(std::string path);
 	void RemoveGameObject(PGameObj gameObj);
 	void AddGameObject(PGameObj gameObj);
+	void Instantiate(PGameObj gameObj);
 	bool Load();
 	void Unload();
 protected:

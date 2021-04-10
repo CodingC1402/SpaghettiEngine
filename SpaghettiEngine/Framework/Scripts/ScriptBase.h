@@ -5,7 +5,7 @@
 #include <map>
 
 
-class ScriptBase;
+typedef class ScriptBase* PScriptBase;
 
 typedef class GameObj* PGameObj;
 typedef std::map<std::string, void* (*)()> ScriptTypes;
@@ -16,7 +16,8 @@ void* CreateT() { return new T; }
 class ScriptFactory
 {
 public:
-	static ScriptBase* CreateInstance(std::string const& typeName);
+	static PScriptBase CreateInstance(std::string const& typeName);
+	static PScriptBase CopyInstance(const PScriptBase instance);
 protected:
 	static ScriptTypes* GetMap();
 private:
@@ -33,6 +34,7 @@ struct DerivedRegister : public ScriptFactory {
 
 #define REGISTER_START(NAME) static DerivedRegister<NAME> reg
 #define REGISTER_FINISH(NAME) DerivedRegister<NAME> NAME::reg(#NAME)
+#define TYPE_NAME(TYPE) #TYPE
 
 class ScriptBase
 {
@@ -40,12 +42,21 @@ class ScriptBase
 	friend 	ScriptBase* CreateT();
 public:
 	ScriptBase() = default;
+	const char* GetName();
+	virtual bool Copy(const PScriptBase script);
 	virtual void Start() {};
 	virtual void Update() {};
 	virtual void End() {};
+	virtual void Disable();
+	virtual void Enable();
+	virtual void OnCollision() {};
+	virtual void OnDisabled() {};
+	virtual void OnEnabled() {};
 protected:
 	virtual void Load(const std::string* inputArg, int argS) {};
 	virtual void Unload() {};
 protected:
+	bool isDisabled = false;
 	PGameObj owner;
+	std::string name;
 };
