@@ -55,13 +55,11 @@ public:
 protected:
 	~GameObj();
 
-	void AddScript(const std::string& scriptName, const std::string* arg, int argSize);
+	void AddScript(const std::string& scriptName, const std::string& arg);
 	void AddScript(const PScriptBase script);
 	void AddChild(PGameObj obj);
 
 	void RemoveChild(PGameObj obj);
-	void CallDisableEvent();
-	void CallEnableEvent();
 protected:
 	PScene ownerScene;
 	PGameObj parent;

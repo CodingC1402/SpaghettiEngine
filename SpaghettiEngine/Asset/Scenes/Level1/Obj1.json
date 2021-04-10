@@ -1,19 +1,12 @@
 {
-  "Children": {
-    "Size": 0
-  },
-  "X": 100,
-  "Y": 100,
-  "Z": 100,
-  "Size": 1,
-  "0": {
-    "Name": "SpriteRenderer",
-    "Size": 6,
-    "0": "Asset/Textures/Stage1.png",
-    "1": "0",
-    "2": "0",
-    "3": "0",
-    "4": "1",
-    "5": "1"
-  }
+  "Children": [
+
+  ],
+  "Position": [100, 100, 100],
+  "Scripts": [
+    {
+      "Name": "SpriteRenderer",
+      "Input": "Asset/Textures/Stage1.png 0 0 0 1 1"
+    }
+  ]
 }

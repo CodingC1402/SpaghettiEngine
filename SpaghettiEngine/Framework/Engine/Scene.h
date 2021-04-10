@@ -25,7 +25,7 @@ protected:
 	void RemoveGameObject(PGameObj gameObj);
 	void AddGameObject(PGameObj gameObj);
 	void Instantiate(PGameObj gameObj);
-	bool Load();
+	void Load();
 	void Unload();
 protected:
 	std::string path = "";

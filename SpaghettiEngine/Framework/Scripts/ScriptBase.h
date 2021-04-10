@@ -53,10 +53,10 @@ public:
 	virtual void OnDisabled() {};
 	virtual void OnEnabled() {};
 protected:
-	virtual void Load(const std::string* inputArg, int argS) {};
+	virtual void Load(const std::string* inputArg) {};
 	virtual void Unload() {};
 protected:
 	bool isDisabled = false;
-	PGameObj owner;
+	PGameObj owner = NULL;
 	std::string name;
 };

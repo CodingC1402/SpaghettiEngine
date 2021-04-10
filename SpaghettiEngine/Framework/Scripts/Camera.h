@@ -19,7 +19,7 @@ public:
 	virtual void OnDisabled() override;
 	virtual void OnEnabled() override;
 protected:
-	virtual void Load(const std::string* inputArg, int argS) override;
+	virtual void Load(const std::string* inputArg) override;
 protected:
 	PMatrix cameraMatrix;
 	PMatrix screenMatrix;

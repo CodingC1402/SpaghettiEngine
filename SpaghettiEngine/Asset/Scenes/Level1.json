@@ -1,4 +1,5 @@
 {
-  "Size": 1,
-  "0": "Asset/Scenes/Level1/Obj1.json"
+  "GameObjects": [
+    "Asset/Scenes/Level1/Obj1.json"
+  ]
 }

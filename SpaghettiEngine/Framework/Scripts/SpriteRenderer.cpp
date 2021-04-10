@@ -1,5 +1,6 @@
 #include "SpriteRenderer.h"
 #include "CornException.h"
+#include "StringConverter.h"
 
 REGISTER_FINISH(SpriteRenderer);
 
@@ -22,29 +23,6 @@ bool SpriteRenderer::Copy(const PScriptBase script)
 	this->transformMatrix = copyScript->transformMatrix;
 	this->sprite = copyScript->sprite;
 	return true;
-}
-
-#define TexturePath 0
-#define SpriteIndex 1
-#define OffSetX 2
-#define OffSetY 3
-#define ScaleX 4
-#define ScaleY 5
-void SpriteRenderer::Load(const std::string* inputArg, int argS)
-{
-	STexture texture;
-	Texture::GetTexture(texture, inputArg[TexturePath]);
-	if (texture->GetSprite(sprite, std::stoi(inputArg[SpriteIndex])))
-	{
-		std::wostringstream os;
-		os	<< L"Index " << inputArg[1].c_str() << L" of texture file " << inputArg[TexturePath].c_str()
-			<< L" is out of bound";
-		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
-	}
-	transformMatrix._41 = std::stoi(inputArg[OffSetX]);
-	transformMatrix._42 = std::stoi(inputArg[OffSetY]);
-	transformMatrix._11 = std::stoi(inputArg[ScaleX]);
-	transformMatrix._22 = std::stoi(inputArg[ScaleY]);
 }
 
 Matrix& SpriteRenderer::GetTransform()
@@ -78,4 +56,36 @@ RECT SpriteRenderer::GetSourceRect()
 void SpriteRenderer::Update()
 {
 	Graphics::Draw(this);
+}
+
+#define TexturePath 0
+#define SpriteIndex 1
+#define OffSetX 2
+#define OffSetY 3
+#define ScaleX 4
+#define ScaleY 5
+
+void SpriteRenderer::Load(const std::string* inputArg)
+{
+	try
+	{
+		TokenizedStr input = StringConverter::Tokenize(inputArg, ' ');
+		STexture texture;
+		Texture::GetTexture(&texture, input[TexturePath]);
+		if (!texture->GetSprite(&sprite, std::stoi(input[SpriteIndex])))
+		{
+			std::wostringstream os;
+			os << L"Index " << input[1].c_str() << L" of texture file " << input[TexturePath].c_str()
+				<< L" is out of bound";
+			throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+		}
+		transformMatrix._41 = std::stof(input[OffSetX]);
+		transformMatrix._42 = std::stof(input[OffSetY]);
+		transformMatrix._11 = std::stof(input[ScaleX]);
+		transformMatrix._22 = std::stof(input[ScaleY]);
+	}
+	catch (CornException& e)
+	{
+		throw e;
+	}
 }

@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "CornException.h"
 #include "Setting.h"
+#include "CornException.h"
 
 REGISTER_FINISH(Camera);
 
@@ -91,13 +92,21 @@ void Camera::OnEnabled()
 	Graphics::AddCamera(this);
 }
 
-void Camera::Load(const std::string* inputArg, int argS)
+void Camera::Load(const std::string* inputArg)
 {
-	if (!argS)
+	if (*inputArg == "")
 		return;
-	screenMatrix = new Matrix();
-	screenMatrix->_41 = std::stoi(inputArg[0]);
-	screenMatrix->_42 = std::stoi(inputArg[1]);
-	screenMatrix->_11 = std::stof(inputArg[2]);
-	screenMatrix->_22 = std::stof(inputArg[3]);
+
+	try
+	{
+		screenMatrix = new Matrix();
+		screenMatrix->_41 = std::stoi(inputArg[0]);
+		screenMatrix->_42 = std::stoi(inputArg[1]);
+		screenMatrix->_11 = std::stof(inputArg[2]);
+		screenMatrix->_22 = std::stof(inputArg[3]);
+	}
+	catch (...)
+	{
+		throw CORN_EXCEPT_WITH_DISCRIPTION(L"Input arguments for cemera script is in a wrong format");
+	}
 }

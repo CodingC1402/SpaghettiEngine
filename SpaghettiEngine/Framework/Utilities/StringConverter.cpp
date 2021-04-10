@@ -29,3 +29,17 @@ std::string StringConverter::MbsToWcs(const wchar_t* wstr) noexcept
 {
     return WStrToStr(std::wstring(wstr));
 }
+
+std::vector<std::string> StringConverter::Tokenize(const std::string* str, char tokenChar)
+{
+    std::stringstream strStream(*str);
+    std::string token;
+    std::vector<std::string> rTokens;
+
+    while (std::getline(strStream, token, tokenChar))
+    {
+        rTokens.push_back(token);
+    }
+
+    return rTokens;
+}

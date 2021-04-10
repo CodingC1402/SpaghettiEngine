@@ -1,6 +1,7 @@
 ﻿#include "SceneManager.h"
 #include "SpaghettiEnginePath.h"
 #include "json.hpp"
+#include "CornException.h"
 #include <fstream>
 
 PSceneManager SceneManager::__instance = nullptr;
@@ -33,10 +34,20 @@ void SceneManager::LoadNextScene()
 	LoadScene(__instance->sceneIndex + 1);
 }
 
-void SceneManager::LoadScene(int index)
+void SceneManager::LoadScene(UINT index)
 {
-	if (index < 0 || index > __instance->scenes.size())
+	if (index == __instance->sceneIndex)
 		return;
+
+	if (index > __instance->scenes.size())
+	{
+		std::wostringstream os;
+		os << L"LoadScene called with index ";
+		os << index << std::endl;
+		os << L"But the number of scenes is ";
+		os << __instance->scenes.size() << std::endl;
+		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+	}
 
 	__instance->scenes[__instance->sceneIndex]->Unload();
 	__instance->sceneIndex = index;
@@ -75,7 +86,7 @@ SceneManager::SceneManager()
 {}
 
 #define CONSTSCENE "ConstScene"
-#define SIZE "Size"
+#define SCENES "Scenes"
 #define START "Start"
 
 void SceneManager::Load()
@@ -95,11 +106,9 @@ void SceneManager::Load()
 	try
 	{
 		jsonStream >> file;
-		int size = file[SIZE].get<int>();
-		for (int i = 0; i < size; i++)
-		{
-			scenes.push_back(SScene(new Scene(file[std::to_string(i)].get<std::string>())));
-		}
+		for (const auto& scene : file[SCENES])
+			scenes.push_back(SScene(new Scene(scene.get<std::string>())));
+
 		sceneIndex = file[START].get<int>();
 		constScene = SScene(new Scene(file[CONSTSCENE].get<std::string>()));
 	}

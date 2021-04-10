@@ -23,7 +23,7 @@ public:
 	};
 public:
 	static void LoadNextScene();
-	static void LoadScene(int index);
+	static void LoadScene(UINT index);
 	static void LoadPreviousScene();
 
 	static SScene& GetConstScene();

@@ -28,10 +28,10 @@ public:
 		virtual const wchar_t* GetType() const noexcept override;
 	};
 public:
-	static bool GetTexture(STexture& texture, const std::string& path) noexcept;
+	static bool GetTexture(STexture* texture, const std::string& path);
 	static void LoadTexture(const std::string& path);
 
-	bool GetSprite(SSprite& sprite, const int& index) noexcept;
+	bool GetSprite(SSprite* sprite, const int& index) noexcept;
 	PDx9Texture GetImage();
 	~Texture();
 protected:
