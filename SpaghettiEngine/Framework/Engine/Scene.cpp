@@ -80,15 +80,6 @@ bool Scene::Load()
 			index = static_cast<char>('0' + i);
 			instances.push_back(new GameObj(path, this));
 		}
-
-		size_t instanceSize = instances.size();
-		auto iterator = instances.begin();
-		while (instanceSize > 0)
-		{
-			(*iterator)->Load();
-			std::advance(iterator, 1);
-			instanceSize--;
-		}
 	}
 	catch (...)
 	{
@@ -97,6 +88,15 @@ bool Scene::Load()
 		os << path.c_str();
 		os << L" doesn't have the right format";
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+	}
+
+	size_t instanceSize = instances.size();
+	auto iterator = instances.begin();
+	while (instanceSize > 0)
+	{
+		(*iterator)->Load();
+		std::advance(iterator, 1);
+		instanceSize--;
 	}
 
 	size_t startSize = instances.size();

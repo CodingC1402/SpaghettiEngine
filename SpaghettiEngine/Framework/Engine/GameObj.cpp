@@ -213,10 +213,6 @@ void GameObj::AddScript(const PScriptBase script)
 	scripts.push_back(SScriptBase(script));
 }
 
-#define CHILDREN "Children"
-#define SIZE "Size"
-#define NAME "Name"
-
 GameObj::GameObj(const GameObj& obj)
 {
 	parent = obj.parent;
@@ -253,6 +249,9 @@ GameObj::GameObj(const std::string path, const PScene ownerScene)
 	ownerScene(ownerScene)
 {}
 
+#define CHILDREN "Children"
+#define SIZE "Size"
+#define NAME "Name"
 void GameObj::Load()
 {
 	if (loaded)
@@ -301,7 +300,7 @@ void GameObj::Load()
 		{
 			index = static_cast<char>('0' + i);
 
-			int inputArgSize = jsonFile[index]["Size"].get<int>();
+			int inputArgSize = jsonFile[index][SIZE].get<int>();
 			tempArgInput = new std::string[inputArgSize];
 			for (int arg = 0; arg < inputArgSize; arg++)
 			{
@@ -312,12 +311,14 @@ void GameObj::Load()
 			delete[] tempArgInput;
 		}
 	}
-	catch (...)
+	catch (const std::exception& e)
 	{
 		std::wostringstream os;
 		os << L"File ";
 		os << path.c_str();
-		os << L" doesn't have the right format";
+		os << L" doesn't have the right format" << std::endl;
+		os << L"Exception: " << e.what();
+
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 	}
 }

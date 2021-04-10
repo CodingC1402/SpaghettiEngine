@@ -24,6 +24,7 @@
     <ClInclude Include="Framework\Engine\CornDirectX.h" />
     <ClInclude Include="Framework\Engine\Game.h" />
     <ClInclude Include="Framework\Engine\GameObj.h" />
+    <ClInclude Include="Framework\Engine\GameTimer.h" />
     <ClInclude Include="Framework\Engine\GameWnd.h" />
     <ClInclude Include="Framework\Engine\Graphics.h" />
     <ClInclude Include="Framework\Engine\Input.h" />
@@ -57,6 +58,7 @@
     <ClCompile Include="Framework\Engine\App.cpp" />
     <ClCompile Include="Framework\Engine\Game.cpp" />
     <ClCompile Include="Framework\Engine\GameObj.cpp" />
+    <ClCompile Include="Framework\Engine\GameTimer.cpp" />
     <ClCompile Include="Framework\Engine\GameWnd.cpp" />
     <ClCompile Include="Framework\Engine\Graphics.cpp" />
     <ClCompile Include="Framework\Engine\Input.cpp" />
@@ -91,6 +93,7 @@
   <ItemGroup>
     <None Include="App.json" />
     <None Include="Input.json" />
+    <None Include="SpaghettiSettings\SceneManager.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

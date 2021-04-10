@@ -101,7 +101,7 @@ void SceneManager::Load()
 			scenes.push_back(SScene(new Scene(file[std::to_string(i)].get<std::string>())));
 		}
 		sceneIndex = file[START].get<int>();
-		constScene = SScene(new Scene(file[CONSTSCENE]));
+		constScene = SScene(new Scene(file[CONSTSCENE].get<std::string>()));
 	}
 	catch (...)
 	{

@@ -217,6 +217,7 @@ void Graphics::Render()
 
 		PSpriteRenderer renderScript;
 		Vector3 position;
+		RECT srcRect;
 		size_t renderSize = renderBuffer.size();
 		size_t cameraSize = cameraList.size();
 		auto itRender = renderBuffer.begin();
@@ -238,13 +239,15 @@ void Graphics::Render()
 				for (size_t render = 0; render < renderSize; render++)
 				{
 					renderScript = (*itRender);
+					position = renderScript->GetPosition();
+					srcRect = renderScript->GetSourceRect();
 
 					spriteHandler->SetTransform(&renderScript->GetTransform());
 					spriteHandler->Draw(
 						renderScript->GetTexture(),
-						&renderScript->GetSourceRect(),
+						&srcRect,
 						NULL,
-						&renderScript->GetPosition(),
+						&position,
 						NULL
 					);
 				}

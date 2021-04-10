@@ -14,6 +14,7 @@ void Game::Init()
 void Game::Update()
 {
 	timer->Mark();
+	input->Update();
 
 	if (InputSystem::GetInput("Left")->Check())
 	{
@@ -28,7 +29,6 @@ void Game::Update()
 		Graphics::ToWindowMode();
 	}
 
-	input->Update();
 	sceneManager->Update();
 }
 

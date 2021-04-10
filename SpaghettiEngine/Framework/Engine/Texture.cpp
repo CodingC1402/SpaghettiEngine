@@ -15,7 +15,7 @@ void Texture::Load()
 {
 	using namespace nlohmann;
 
-	std::ifstream jsonFile(path);
+	std::ifstream jsonFile(path + ".json");
 	if (!jsonFile.is_open()) 
 	{
 		std::wostringstream os;

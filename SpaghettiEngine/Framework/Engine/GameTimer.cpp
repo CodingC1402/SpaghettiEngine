@@ -29,6 +29,11 @@ PGameTimer GameTimer::GetInstance()
 	return __instance;
 }
 
+GameTimer::GameTimer()
+{
+	timer = Timer::Create();
+}
+
 void GameTimer::Start()
 {
 	timer->Start();

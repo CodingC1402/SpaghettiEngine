@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "CornException.h"
+#include "Setting.h"
 
 REGISTER_FINISH(Camera);
 
@@ -32,6 +33,9 @@ Camera::~Camera()
 
 bool Camera::Copy(const PScriptBase script)
 {
+	if (!ScriptBase::Copy(script))
+		return false;
+
 	PCamera copyScript = static_cast<PCamera>(script);
 	if (cameraMatrix)
 		delete cameraMatrix;
@@ -46,7 +50,15 @@ bool Camera::Copy(const PScriptBase script)
 	else
 		screenMatrix = NULL;
 
+	cameraMatrix = new Matrix();
+
+	cameraMatrix->_11 = 1;
+	cameraMatrix->_22 = -1;
+	cameraMatrix->_33 = 1;
+	cameraMatrix->_44 = 1;
+
 	*cameraMatrix = *copyScript->cameraMatrix;
+	return true;
 }
 
 void Camera::Start()
@@ -57,9 +69,10 @@ void Camera::Start()
 
 PMatrix Camera::GetMatrix()
 {
+	Size resolution = Setting::GetResolution();
 	Vector3 ownerPos = owner->GetPosition();
-	cameraMatrix->_41 = -ownerPos.x;
-	cameraMatrix->_42 = -ownerPos.y;
+	cameraMatrix->_41 = -(ownerPos.x - resolution.width / 2.0);
+	cameraMatrix->_42 = -(ownerPos.y + resolution.height / 2.0);
 	return cameraMatrix;
 }
 

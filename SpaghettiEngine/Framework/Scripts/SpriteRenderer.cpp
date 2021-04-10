@@ -15,9 +15,13 @@ SpriteRenderer::SpriteRenderer()
 
 bool SpriteRenderer::Copy(const PScriptBase script)
 {
+	if (!ScriptBase::Copy(script))
+		return false;
+
 	SpriteRenderer* copyScript = static_cast<SpriteRenderer*>(script);
 	this->transformMatrix = copyScript->transformMatrix;
 	this->sprite = copyScript->sprite;
+	return true;
 }
 
 #define TexturePath 0
@@ -57,7 +61,7 @@ Vector3 SpriteRenderer::GetPosition()
 {
 	Vector3 position = owner->GetPosition();
 	position.x -= sprite->GetWidth() / 2;
-	position.y -= sprite->GetHeight() / 2;
+	position.y += sprite->GetHeight() / 2;
 	return position;
 }
 
