@@ -18,6 +18,8 @@ class Scene
 {
 	friend class SceneManager;
 	friend class GameObj;
+public:
+	void Update();
 protected:
 	Scene(std::string path);
 	void RemoveGameObject(PGameObj gameObj);

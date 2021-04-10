@@ -69,6 +69,13 @@ App::App() noexcept
 App::~App()
 {
 	delete[] textAnimation;
+	if (game)
+		delete game;
+	if (gfx)
+		delete gfx;
+
+	game = NULL;
+	gfx = NULL;
 }
 
 BOOL App::Go()
@@ -78,10 +85,11 @@ BOOL App::Go()
 	try
 	{
 		timer = STimer(Timer::Create());
-
-		input = InputSystem::GetInstance();
 		gfx = Graphics::GetInstance();
 		gfx->Init(timer, 60, Graphics::ColorFormat::RGB32Bit);
+
+		game = Game::GetInstance();
+		game->Init();
 
 		wnd = gfx->GetCurrentWindow();
 		wnd->Show();
@@ -133,16 +141,7 @@ void App::DoFrame()
 	if (showInfo)
 		ChangeName();
 
-	input->Update();
-
-	//Temp
-	Game::Update();
-	//Temp
-	/// <summary>
-	/// Put game logic here
-	/// </summary>
-
-	gfx->Render();
+	game->Update();
 }
 
 void App::CallQuit()
@@ -152,7 +151,6 @@ void App::CallQuit()
 
 void App::Quit()
 {
-	InputSystem::GetInstance()->Save();
 	__instance = nullptr;
 	delete this;
 }

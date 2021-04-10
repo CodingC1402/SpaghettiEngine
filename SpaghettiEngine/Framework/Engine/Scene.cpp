@@ -40,6 +40,18 @@ void Scene::Instantiate(PGameObj gameObj)
 	instances.push_back(newInstance);
 }
 
+void Scene::Update()
+{
+	size_t size = instances.size();
+	auto iterator = instances.begin();
+	for (int i = 0; i < size; i++)
+	{
+		(*iterator)->Update();
+		std::advance(iterator, 1);
+		size--;
+	}
+}
+
 #define SIZE "Size"
 
 bool Scene::Load()
@@ -85,6 +97,15 @@ bool Scene::Load()
 		os << path.c_str();
 		os << L" doesn't have the right format";
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+	}
+
+	size_t startSize = instances.size();
+	auto itStart = instances.begin();
+	while (startSize > 0)
+	{
+		(*itStart)->Start();
+		std::advance(itStart, 1);
+		startSize--;
 	}
 }
 

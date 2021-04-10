@@ -15,6 +15,12 @@ const wchar_t* SceneManager::SceneManagerException::GetType() const noexcept
 	return L"Scene manager exception |ʘ‿ʘ)╯";
 }
 
+void SceneManager::Update()
+{
+	__instance->currentScene->Update();
+	__instance->constScene->Update();
+}
+
 PSceneManager SceneManager::GetInstance()
 {
 	if (!__instance)
@@ -34,12 +40,13 @@ void SceneManager::LoadScene(int index)
 
 	__instance->scenes[__instance->sceneIndex]->Unload();
 	__instance->sceneIndex = index;
-	__instance->scenes[index]->Load();
+	__instance->currentScene = __instance->scenes[index];
+	__instance->currentScene->Load();
 }
 
 SScene& SceneManager::GetCurrentScene()
 {
-	return __instance->scenes[__instance->sceneIndex];
+	return __instance->currentScene;
 }
 
 int SceneManager::GetCurrentSceneIndex()

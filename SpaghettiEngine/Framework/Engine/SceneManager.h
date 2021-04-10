@@ -13,7 +13,7 @@ typedef class GameObj* PGameObj;
 
 class SceneManager
 {
-	friend class App;
+	friend class Game;
 public:
 	class SceneManagerException : public CornDiscriptionException
 	{
@@ -33,14 +33,17 @@ public:
 	static int GetNumberOfScene();
 protected:
 	static PSceneManager GetInstance();
+
 	SceneManager();
+	void Update();
 	void Load();
 	void Init();
-
+protected:
 	int sceneIndex;
 
 	std::vector<SScene> scenes;
 	SScene constScene;
+	SScene currentScene;
 
 	static PSceneManager __instance;
 };

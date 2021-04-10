@@ -1,7 +1,20 @@
 #include "Game.h"
 
+Game* Game::__instance = NULL;
+
+void Game::Init()
+{
+	timer = GameTimer::GetInstance();
+	timer->Start();
+	sceneManager = SceneManager::GetInstance();
+	sceneManager->Init();
+	input = InputSystem::GetInstance();
+}
+
 void Game::Update()
 {
+	timer->Mark();
+
 	if (InputSystem::GetInput("Left")->Check())
 	{
 		App::CallQuit();
@@ -14,4 +27,25 @@ void Game::Update()
 	{
 		Graphics::ToWindowMode();
 	}
+
+	input->Update();
+	sceneManager->Update();
+}
+
+Game::~Game()
+{
+	if (input)
+		delete input;
+	if (timer)
+		delete timer;
+
+	input = NULL;
+	timer = NULL;
+}
+
+Game* Game::GetInstance()
+{
+	if (!__instance)
+		__instance = new Game();
+	return __instance;
 }

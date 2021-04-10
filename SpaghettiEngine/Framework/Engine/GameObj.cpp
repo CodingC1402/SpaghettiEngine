@@ -5,7 +5,26 @@
 
 void GameObj::Start()
 {
+	if (isDisabled)
+		return;
 
+	size_t i = scripts.size();
+	auto script = scripts.begin();
+	while (i > 0)
+	{
+		(*script)->Start();
+		std::advance(script, 1);
+		i--;
+	}
+
+	i = children.size();
+	auto itChild = children.begin();
+	while (i > 0)
+	{
+		(*itChild)->Start();
+		std::advance(itChild, 1);
+		i--;
+	}
 }
 
 void GameObj::Update()
