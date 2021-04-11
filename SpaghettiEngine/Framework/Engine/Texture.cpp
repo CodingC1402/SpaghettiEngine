@@ -112,7 +112,7 @@ bool Texture::GetSprite(SSprite* sprite, const int& index) noexcept
 void Texture::RemoveTexture(const std::string& path)
 {
 	auto iterator = textures.begin();
-	int size = textures.size();
+	size_t size = textures.size();
 	while (size > 0)
 	{
 		if ((*iterator)->CheckPath(path))
