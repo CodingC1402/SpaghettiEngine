@@ -126,7 +126,7 @@ void Texture::RemoveTexture(const std::string& path)
 
 void Texture::ClearUnusedTexture()
 {
-	int size = textures.size();
+	size_t size = textures.size();
 	auto iterator = textures.begin();
 	while (size > 0)
 	{

@@ -33,6 +33,8 @@ bool Mouse::IsButtonPress( unsigned char ucCode )
 		return m_bRightButtonPress;
 	case VK_MBUTTON:
 		return m_bMiddleButtonPress;
+	default:
+		return false;
 	}
 }
 

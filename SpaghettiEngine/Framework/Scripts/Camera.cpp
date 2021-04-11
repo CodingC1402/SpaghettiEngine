@@ -51,8 +51,8 @@ const PMatrix Camera::GetMatrix()
 {
 	Size resolution = Setting::GetResolution();
 	Vector3 ownerPos = *owner->GetPosition();
-	cameraMatrix->_41 = -(ownerPos.x - resolution.width / 2.0);
-	cameraMatrix->_42 = +(ownerPos.y + resolution.height / 2.0);
+	cameraMatrix->_41 = -(ownerPos.x - resolution.width / 2.0f);
+	cameraMatrix->_42 = +(ownerPos.y + resolution.height / 2.0f);
 	return cameraMatrix;
 }
 

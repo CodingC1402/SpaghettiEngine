@@ -1,12 +1,10 @@
 #pragma once
-#include <memory>
-#include <list>
-#include "Sprite.h"
-#include "Animation.h"
 #include "ScriptBase.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "CornDirectX.h"
+#include <memory>
+#include <list>
 
 typedef class Scene* PScene;
 

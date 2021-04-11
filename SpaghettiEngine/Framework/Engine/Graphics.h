@@ -1,5 +1,4 @@
 #pragma once
-
 #include "CornDirectX.h";
 #include "CornException.h"
 #include "GameWnd.h"
