@@ -5,8 +5,7 @@
 #include "SpaghettiEnginePath.h"
 #include <fstream>
 
-#define INPUTTEXT "Input"
-#define SIZETEXT "Size"
+#define INPUTTEXT "Inputs"
 #define TYPETEXT "Type"
 #define NAMETEXT "Name"
 #define CODETEXT "KeyCode"
@@ -93,15 +92,11 @@ void InputSystem::Load()
 	try
 	{
 		jsonStream >> file;
-		int size = file[SIZETEXT].get<int>();
-
-		std::string inputIndex;
-		for (int i = 0; i < size; i++)
+		for (const auto& input : file[INPUTTEXT])
 		{
-			inputIndex = INPUTTEXT + std::to_string(i);
-			Input::Type type = file[inputIndex.c_str()][TYPETEXT].get<Input::Type>();
-			std::string name = file[inputIndex.c_str()][NAMETEXT].get<std::string>();
-			KeyCode code = file[inputIndex.c_str()][CODETEXT].get<KeyCode>();
+			Input::Type type = input[TYPETEXT].get<Input::Type>();
+			std::string name = input[NAMETEXT].get<std::string>();
+			KeyCode		code = input[CODETEXT].get<KeyCode>();
 			inputs.push_back(SInput(Input::Create(code, name, type)));
 		}
 	}
@@ -126,16 +121,14 @@ void InputSystem::Save()
 	using namespace nlohmann;
 
 	json j;
-	j[SIZETEXT] = inputs.size();
-
-	std::string obj;
 	for (int i = 0; i < inputs.size(); i++)
 	{
-		obj = INPUTTEXT + std::to_string(i);
+		j[INPUTTEXT].push_back({});
+		auto input = j[INPUTTEXT].back();
 
-		j[obj.c_str()][CODETEXT] = inputs[i]->keyCode;
-		j[obj.c_str()][NAMETEXT] = inputs[i]->name;
-		j[obj.c_str()][TYPETEXT] = inputs[i]->GetType();
+		input[CODETEXT] = inputs[i]->keyCode;
+		input[NAMETEXT] = inputs[i]->name;
+		input[TYPETEXT] = inputs[i]->GetType();
 	}
 
 	std::ofstream oFile;
