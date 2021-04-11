@@ -8,23 +8,11 @@ void GameObj::Start()
 	if (isDisabled)
 		return;
 
-	size_t i = scripts.size();
-	auto script = scripts.begin();
-	while (i > 0)
-	{
-		(*script)->Start();
-		std::advance(script, 1);
-		i--;
-	}
+	for (const auto& script : scripts)
+		script->Start();
 
-	i = children.size();
-	auto itChild = children.begin();
-	while (i > 0)
-	{
-		(*itChild)->Start();
-		std::advance(itChild, 1);
-		i--;
-	}
+	for (const auto& child : children)
+		child->Start();
 }
 
 void GameObj::Update()
@@ -32,23 +20,12 @@ void GameObj::Update()
 	if (isDisabled)
 		return;
 
-	size_t i = scripts.size();
-	auto script = scripts.begin();
-	while (i > 0)
-	{
-		(*script)->Update();
-		std::advance(script, 1);
-		i--;
-	}
 
-	i = children.size();
-	auto itChild = children .begin();
-	while (i > 0)
-	{
-		(*itChild)->Update();
-		std::advance(itChild, 1);
-		i--;
-	}
+	for (const auto& script : scripts)
+		script->Update();
+
+	for (const auto& child : children)
+		child->Update();
 }
 
 void GameObj::End()
@@ -81,9 +58,9 @@ const SScriptBase& GameObj::GetScript(UINT index)
 	return *iterator;
 }
 
-const Vector3& GameObj::GetPosition()
+const Vector3* GameObj::GetPosition()
 {
-	return position;
+	return &position;
 }
 
 const char* GameObj::GetTag()
@@ -103,55 +80,43 @@ bool GameObj::IsDisabled()
 
 void GameObj::Disable()
 {
+	if (isDisabled)
+		return;
+
 	isDisabled = true;
-	size_t size = scripts.size();
-	auto iterator = scripts.begin();
-	while (size > 0)
-	{
-		(*iterator)->OnDisabled();
-		std::advance(iterator, 1);
-		size--;
-	}
+	for (const auto& script : scripts)
+		script->OnDisabled();
+
+	for (const auto& child : children)
+		child->Disable();
 }
 
 void GameObj::Enable()
 {
+	if (!isDisabled)
+		return;
+
 	isDisabled = false;
-	size_t size = scripts.size();
-	auto iterator = scripts.begin();
-	while (size > 0)
-	{
-		(*iterator)->OnEnabled();
-		std::advance(iterator, 1);
-		size--;
-	}
+	for (const auto& script : scripts)
+		script->OnEnabled();
+
+	for (const auto& child : children)
+		child->Enable();
 }
 
 void GameObj::Translate(const Vector3& vector)
 {
 	position += vector;
-	size_t size = children.size();
-	auto iterator = children.begin();
-	while (size > 0)
-	{
-		(*iterator)->Translate(vector);
-		std::advance(iterator, 1);
-		size--;
-	}
+	for (const auto& child : children)
+		child->Translate(vector);
 }
 
 void GameObj::Move(const Vector3& newPosition)
 {
 	Vector3 delta = newPosition - position;
 	position = newPosition;
-	size_t size = children.size();
-	auto iterator = children.begin();
-	while (size > 0)
-	{
-		(*iterator)->Translate(delta);
-		std::advance(iterator, 1);
-		size--;
-	}
+	for (const auto& child : children)
+		child->Translate(delta);
 }
 
 void GameObj::RemoveParent()
@@ -200,11 +165,11 @@ GameObj::~GameObj()
 
 }
 
-void GameObj::AddScript(const std::string& scriptName, const std::string* arg, int argSize)
+void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
 {
 	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName);
 	newScript->owner = this;
-	newScript->Load(arg, argSize);
+	newScript->Load(&arg);
 	scripts.push_back(SScriptBase(newScript));
 }
 
@@ -213,10 +178,6 @@ void GameObj::AddScript(const PScriptBase script)
 	scripts.push_back(SScriptBase(script));
 }
 
-#define CHILDREN "Children"
-#define SIZE "Size"
-#define NAME "Name"
-
 GameObj::GameObj(const GameObj& obj)
 {
 	parent = obj.parent;
@@ -224,25 +185,15 @@ GameObj::GameObj(const GameObj& obj)
 	tag = obj.tag;
 	loaded = obj.loaded;
 	position = obj.position;
-	size_t size = obj.children.size();
-	auto itChild = obj.children.begin();
-	while (size > 0)
-	{
-		children.push_back(new GameObj(*(*itChild)));
-		std::advance(itChild, 1);
-		size--;
-	}
+	for (const auto& child : obj.children)
+		children.push_back(new GameObj(*child));
 
-	size = obj.scripts.size();
-	auto itScript = obj.scripts.begin();
 	PScriptBase copyScript;
-	while (size > 0)
+	for (const auto& script : obj.scripts)
 	{
-		copyScript = ScriptFactory::CopyInstance(itScript->get());
+		copyScript = ScriptFactory::CopyInstance(script.get());
 		copyScript->owner = this;
 		scripts.push_back(SScriptBase(copyScript));
-		std::advance(itScript, 1);
-		size--;
 	}
 }
 
@@ -253,6 +204,12 @@ GameObj::GameObj(const std::string path, const PScene ownerScene)
 	ownerScene(ownerScene)
 {}
 
+#define NAME "Name"
+#define TAG "Tag"
+#define POSITION "Position"
+#define CHILDREN "Children"
+#define SCRIPTS "Scripts"
+#define NAME "Name"
 void GameObj::Load()
 {
 	if (loaded)
@@ -276,71 +233,48 @@ void GameObj::Load()
 		json jsonFile;
 		file >> jsonFile;
 
-		int childSize = jsonFile[CHILDREN][SIZE].get<int>();
-		char childIndex;
-		PGameObj child;
-		for (int i = 0; i < childSize; i++)
+		tag = jsonFile[TAG].get<std::string>();
+
+		PGameObj newChild;
+		for (const auto& child : jsonFile[CHILDREN])
 		{
-			childIndex = static_cast<char>('0' + i);
-			child = new GameObj(jsonFile[CHILDREN][SIZE][childIndex].get<std::string>(), ownerScene);
-			this->AddChild(child);
-			child->parent = this;
-			child->Load();
-			child->position += this->position;
+			newChild = new GameObj(child.get<std::string>(), ownerScene);
+			this->AddChild(newChild);
+			newChild->parent = this;
+			newChild->Load();
+			newChild->position += this->position;
 		}
 
-		position.x = jsonFile["X"].get<int>();
-		position.y = jsonFile["Y"].get<int>();
-		position.z = jsonFile["Z"].get<int>();
+		position.x = jsonFile[POSITION][0].get<int>();
+		position.y = jsonFile[POSITION][1].get<int>();
+		position.z = jsonFile[POSITION][2].get<int>();
 
-		int size = jsonFile["Size"].get<int>();
-		char index;
-		char argIndex;
-		std::string* tempArgInput;
-		for (int i = 0; i < size; i++)
+		for (const auto& script : jsonFile[SCRIPTS])
 		{
-			index = static_cast<char>('0' + i);
-
-			int inputArgSize = jsonFile[index]["Size"].get<int>();
-			tempArgInput = new std::string[inputArgSize];
-			for (int arg = 0; arg < inputArgSize; arg++)
-			{
-				argIndex = static_cast<char>('0' + arg);
-				tempArgInput[arg] = jsonFile[index][arg].get<std::string>();
-			}
-			AddScript(jsonFile[index]["Name"].get<std::string>(), tempArgInput, inputArgSize);
-			delete[] tempArgInput;
+			AddScript(script["Name"].get<std::string>(), script["Input"].get<std::string>());
 		}
 	}
-	catch (...)
+	catch (const std::exception& e)
 	{
 		std::wostringstream os;
 		os << L"File ";
 		os << path.c_str();
-		os << L" doesn't have the right format";
+		os << L" doesn't have the right format" << std::endl;
+		os << L"Exception: " << e.what();
+
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 	}
 }
 
 void GameObj::Destroy()
 {
-	size_t size = children.size();
-	auto itChild = children.begin();
-	while (size > 0)
-	{
-		(*itChild)->Destroy();
-		std::advance(itChild, 1);
-		size--;
-	}
+	for (const auto& child : children)
+		child->Destroy();
 	children.clear();
-	size = scripts.size();
-	auto itScript = scripts.begin();
-	while (size > 0)
-	{
-		(*itScript)->Unload();
-		std::advance(itScript, 1);
-		size--;
-	}
+
+	for (const auto& script : scripts)
+		script->Unload();
+	scripts.clear();
 	delete this;
 }
 
@@ -363,12 +297,4 @@ void GameObj::RemoveChild(PGameObj obj)
 		std::advance(itChild, 1);
 		size--;
 	}
-}
-
-void GameObj::CallDisableEvent()
-{
-}
-
-void GameObj::CallEnableEvent()
-{
 }

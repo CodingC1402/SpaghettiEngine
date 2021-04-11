@@ -20,7 +20,7 @@ public:
 	PTexture& GetSource();
 	int GetWidth();
 	int GetHeight();
-	RECT& GetSourceRect();
+	const RECT* GetSourceRect();
 protected:
 	Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h);
 	Sprite(const PTexture& source, const Size& size, const Point& position);

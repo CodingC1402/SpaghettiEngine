@@ -42,19 +42,13 @@ void Scene::Instantiate(PGameObj gameObj)
 
 void Scene::Update()
 {
-	size_t size = instances.size();
-	auto iterator = instances.begin();
-	for (int i = 0; i < size; i++)
-	{
-		(*iterator)->Update();
-		std::advance(iterator, 1);
-		size--;
-	}
+	for (const auto& instance : instances)
+		instance->Update();
 }
 
-#define SIZE "Size"
+#define GAMEOBJS "GameObjects"
 
-bool Scene::Load()
+void Scene::Load()
 {
 	using namespace nlohmann;
 
@@ -73,21 +67,9 @@ bool Scene::Load()
 		json jsonFile;
 		file >> jsonFile;
 
-		int size = jsonFile[SIZE].get<int>();
-		char index;
-		for (int i = 0; i < size; i++)
+		for (const auto& gameObj : jsonFile[GAMEOBJS])
 		{
-			index = static_cast<char>('0' + i);
-			instances.push_back(new GameObj(path, this));
-		}
-
-		size_t instanceSize = instances.size();
-		auto iterator = instances.begin();
-		while (instanceSize > 0)
-		{
-			(*iterator)->Load();
-			std::advance(iterator, 1);
-			instanceSize--;
+			instances.push_back(new GameObj(gameObj.get<std::string>(), this));
 		}
 	}
 	catch (...)
@@ -99,24 +81,17 @@ bool Scene::Load()
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 	}
 
-	size_t startSize = instances.size();
-	auto itStart = instances.begin();
-	while (startSize > 0)
-	{
-		(*itStart)->Start();
-		std::advance(itStart, 1);
-		startSize--;
-	}
+	for (const auto& instance : instances)
+		instance->Load();
+
+	for (const auto& instance : instances)
+		instance->Start();
 }
 
 void Scene::Unload()
 {
-	size_t instanceSize = instances.size();
-	auto iterator = instances.begin();
-	while (instanceSize > 0)
-	{
-		(*iterator)->Destroy();
-		std::advance(iterator, 1);
-		instanceSize--;
-	}
+	for (const auto& instance : instances)
+		instance->Destroy();
+
+	Texture::ClearUnusedTexture();
 }

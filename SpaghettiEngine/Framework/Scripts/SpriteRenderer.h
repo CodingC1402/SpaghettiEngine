@@ -12,16 +12,19 @@ class SpriteRenderer : public ScriptBase
 public:
 	SpriteRenderer();
 	virtual bool Copy(const PScriptBase script) override;
-	virtual void Load(const std::string* inputArg, int argS) override;
-	virtual Matrix& GetTransform();
+	virtual const PMatrix GetTransform();
+	virtual const Vector3* GetPosition();
+	virtual const Vector3* GetCenter();
 	virtual SSprite& GetSprite();
-	virtual Vector3 GetPosition();
 	virtual PDx9Texture GetTexture();
-	virtual RECT GetSourceRect();
+	virtual const RECT* GetSourceRect();
 	virtual void Update() override;
+protected:
+	virtual void Load(const std::string* inputArg) override;
 protected:
 	Matrix transformMatrix;
 	SSprite sprite;
+	Vector3 center;
 private:
 	REGISTER_START(SpriteRenderer);
 };

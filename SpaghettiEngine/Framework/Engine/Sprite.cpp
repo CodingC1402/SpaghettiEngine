@@ -15,15 +15,15 @@ int Sprite::GetHeight()
 	return srcRect.bottom - srcRect.top;
 }
 
-RECT& Sprite::GetSourceRect()
+const RECT* Sprite::GetSourceRect()
 {
-	return srcRect;
+	return &srcRect;
 }
 
 Sprite::Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h)
 {
 	srcRect.left = x;
-	srcRect.right = y;
+	srcRect.top = y;
 	srcRect.right = srcRect.left + w;
 	srcRect.bottom = srcRect.top + h;
 

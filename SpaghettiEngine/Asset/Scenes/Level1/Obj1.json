@@ -1,0 +1,13 @@
+{
+  "Tag": "Test1",
+  "Children": [
+
+  ],
+  "Position": [ 100, 100, 1 ],
+  "Scripts": [
+    {
+      "Name": "SpriteRenderer",
+      "Input": "Asset/Textures/Stage1.png 0 0 0 1 1"
+    }
+  ]
+}

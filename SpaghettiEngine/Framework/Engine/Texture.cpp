@@ -11,11 +11,18 @@ PDx9Texture Texture::GetImage()
 	return image;
 }
 
+#define KEYCOLOR "KeyColor"
+#define Sprites "Sprites"
+#define SpritePosX 0
+#define SpritePosY 1
+#define SpriteWidth 2
+#define SpriteHeight 3
+
 void Texture::Load()
 {
 	using namespace nlohmann;
 
-	std::ifstream jsonFile(path);
+	std::ifstream jsonFile(path + ".json");
 	if (!jsonFile.is_open()) 
 	{
 		std::wostringstream os;
@@ -30,22 +37,16 @@ void Texture::Load()
 		json file;
 		jsonFile >> file;
 
-		D3DCOLOR keyColor = file["KeyColor"].get<D3DCOLOR>();
+		D3DCOLOR keyColor = file[KEYCOLOR].get<D3DCOLOR>();
 		Graphics::LoadTexture(image, path, keyColor);
 
-		int size = file["Size"].get<int>();
-		int x;
-		int y;
-		int w;
-		int h;
-		std::string index;
-		for (int i = 0; i < size; i++)
+		int x, y, w, h;
+		for (const auto& sprite : file["Sprites"])
 		{
-			index = static_cast<char>('0' + i);
-			x = file[index]['X'].get<int>();
-			y = file[index]['Y'].get<int>();
-			w = file[index]['W'].get<int>();
-			h = file[index]['H'].get<int>();
+			x = sprite[SpritePosX].get<int>();
+			y = sprite[SpritePosY].get<int>();
+			w = sprite[SpriteWidth].get<int>();
+			h = sprite[SpriteHeight].get<int>();
 			sprites.push_back(SSprite(new Sprite(this, x, y, w, h)));
 		}
 	}
@@ -64,21 +65,19 @@ bool Texture::CheckPath(const std::string& path)
 	return this->path == path;
 }
 
-bool Texture::GetTexture(STexture& rTexture, const std::string& path) noexcept
+bool Texture::GetTexture(STexture* rTexture, const std::string& path)
 {
-	int size = textures.size();
-	auto iterator= textures.begin();
-	while (size > 0)
+	for (const auto& texture : textures)
 	{
-		if ((*iterator)->CheckPath(path))
+		if (texture->CheckPath(path))
 		{
-			rTexture = (*iterator);
+			*rTexture = texture;
 			return true;
 		}
-		size--;
 	}
 	
 	LoadTexture(path);
+	GetTexture(rTexture, path);
 	return false;
 }
 
@@ -99,14 +98,14 @@ void Texture::LoadTexture(const std::string& path)
 	textures.back()->Load();
 }
 
-bool Texture::GetSprite(SSprite& sprite, const int& index) noexcept
+bool Texture::GetSprite(SSprite* sprite, const int& index) noexcept
 {
 	if (index >= sprites.size())
 		return false;
 
 	auto iterator = sprites.begin();
 	std::advance(iterator, index);
-	sprite = (*iterator);
+	*sprite = (*iterator);
 	return true;
 }
 

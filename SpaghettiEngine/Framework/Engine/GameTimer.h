@@ -15,7 +15,7 @@ public:
 protected:
 	static PGameTimer GetInstance();
 	
-	GameTimer() = default;
+	GameTimer();
 	~GameTimer() = default;
 	void Start();
 	void Mark();

@@ -14,15 +14,11 @@ public:
 	~Camera();
 	virtual void Start() override;
 	virtual bool Copy(const PScriptBase script) override;
-	virtual PMatrix GetMatrix();
-	virtual PMatrix GetScreenMatrix();
+	virtual const PMatrix GetMatrix();
 	virtual void OnDisabled() override;
 	virtual void OnEnabled() override;
 protected:
-	virtual void Load(const std::string* inputArg, int argS) override;
-protected:
 	PMatrix cameraMatrix;
-	PMatrix screenMatrix;
 private:
 	REGISTER_START(Camera);
 };
