@@ -41,6 +41,7 @@
     <ClInclude Include="Framework\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
+    <ClInclude Include="Framework\Utilities\GraphicsMath.h" />
     <ClInclude Include="Framework\Utilities\json.hpp" />
     <ClInclude Include="Framework\Utilities\Monitor.h" />
     <ClInclude Include="Framework\Utilities\Plane2D.h" />
@@ -75,6 +76,7 @@
     <ClCompile Include="Framework\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Utilities\Debug.cpp" />
+    <ClCompile Include="Framework\Utilities\GraphicsMath.cpp" />
     <ClCompile Include="Framework\Utilities\Monitor.cpp" />
     <ClCompile Include="Framework\Utilities\Plane2D.cpp" />
     <ClCompile Include="Framework\Utilities\StringConverter.cpp" />

@@ -2,9 +2,13 @@
 #include "Monitor.h"
 #include "Setting.h"
 #include "json.hpp"
+#include "GraphicsMath.h"
 #include <fstream>
-#include <d3dx9.h>
-#include <d3dx9math.h>
+#include <DirectXMath.h>
+
+#ifdef DEBUG
+#include "Debug.h"
+#endif
 
 PGraphics Graphics::__instance = nullptr;
 
@@ -175,10 +179,14 @@ void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
 
 void Graphics::Render()
 {
+	if (cameraList.size() == 0)
+		return;
+
 	timeSinceLastFrame += timer->GetDeltaTime();
 	if (timeSinceLastFrame < delayPerFrame)
 	{
 		renderBuffer.clear();
+		return;
 	}
 	else
 	{
@@ -215,45 +223,34 @@ void Graphics::Render()
 		/// Render here
 		/// </summary>
 
-		PSpriteRenderer renderScript;
-		Vector3 position;
-		RECT srcRect;
-		size_t renderSize = renderBuffer.size();
-		size_t cameraSize = cameraList.size();
-		auto itRender = renderBuffer.begin();
-		auto itCamera = cameraList.begin();
+#ifdef DEBUG
+		if (cameraList.size() > 1)
+			Debug::Log(L"there are two or more camera in a scene");
+#endif
 
-		PMatrix screenMatrix;
 		PMatrix cameraMatrix;
-		PMatrix renderMatrix;
+		auto camera = cameraList.begin();
+		cameraMatrix = (*camera)->GetMatrix();
 
 		spriteHandler->Begin(ALPHABLEND);
-		for (size_t camera = 0; camera < cameraSize; camera++)
-		{
-			itRender = renderBuffer.begin();
-			cameraMatrix = (*itCamera)->GetMatrix();
-			screenMatrix = (*itCamera)->GetScreenMatrix();
-			
-			if (screenMatrix)
-			{
-				for (size_t render = 0; render < renderSize; render++)
-				{
-					renderScript = (*itRender);
-					position = renderScript->GetPosition();
-					srcRect = renderScript->GetSourceRect();
 
-					spriteHandler->SetTransform(&renderScript->GetTransform());
-					spriteHandler->Draw(
-						renderScript->GetTexture(),
-						&srcRect,
-						NULL,
-						&position,
-						NULL
-					);
-				}
-			}
+		Vector3 screenPosition;
+		for (const auto& renderScript : renderBuffer)
+		{
+			GraphicsMath::TransformVector3(&screenPosition, renderScript->GetPosition(), cameraMatrix);
+
+			spriteHandler->SetTransform(renderScript->GetTransform());
+			spriteHandler->Draw(
+				renderScript->GetTexture(),
+				renderScript->GetSourceRect(),
+				renderScript->GetCenter(),
+				&screenPosition,
+				D3DCOLOR_XRGB(255, 255, 255)
+			);
 		}
 		spriteHandler->End();
+
+		renderBuffer.clear();
 
 		if (!End())
 			Reset();

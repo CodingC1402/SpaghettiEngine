@@ -58,9 +58,9 @@ const SScriptBase& GameObj::GetScript(UINT index)
 	return *iterator;
 }
 
-const Vector3& GameObj::GetPosition()
+const Vector3* GameObj::GetPosition()
 {
-	return position;
+	return &position;
 }
 
 const char* GameObj::GetTag()
@@ -204,6 +204,8 @@ GameObj::GameObj(const std::string path, const PScene ownerScene)
 	ownerScene(ownerScene)
 {}
 
+#define NAME "Name"
+#define TAG "Tag"
 #define POSITION "Position"
 #define CHILDREN "Children"
 #define SCRIPTS "Scripts"
@@ -230,6 +232,8 @@ void GameObj::Load()
 	{
 		json jsonFile;
 		file >> jsonFile;
+
+		tag = jsonFile[TAG].get<std::string>();
 
 		PGameObj newChild;
 		for (const auto& child : jsonFile[CHILDREN])

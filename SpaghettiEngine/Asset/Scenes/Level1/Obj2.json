@@ -1,13 +1,13 @@
 {
-  "Children": {
-    "Size": 0
-  },
-  "X": 100,
-  "Y": 100,
-  "Z": 100,
-  "Size": 1,
-  "0": {
-    "Name": "Camera",
-    "Size": 0
-  }
+  "Tag": "Test2",
+  "Children": [
+
+  ],
+  "Position": [ 50, 50, 0 ],
+  "Scripts": [
+    {
+      "Name": "Camera",
+      "Input": ""
+    }
+  ]
 }

@@ -142,6 +142,7 @@ void App::DoFrame()
 		ChangeName();
 
 	game->Update();
+	gfx->Render();
 }
 
 void App::CallQuit()

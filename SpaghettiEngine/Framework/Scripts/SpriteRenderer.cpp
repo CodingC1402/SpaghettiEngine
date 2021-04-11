@@ -1,11 +1,14 @@
 #include "SpriteRenderer.h"
 #include "CornException.h"
 #include "StringConverter.h"
+#include "GraphicsMath.h"
 
 REGISTER_FINISH(SpriteRenderer);
 
 SpriteRenderer::SpriteRenderer()
 {
+	GraphicsMath::ZeroMatrix(&transformMatrix);
+
 	transformMatrix._11 = 1;
 	transformMatrix._22 = 1;
 	transformMatrix._33 = 1;
@@ -25,9 +28,9 @@ bool SpriteRenderer::Copy(const PScriptBase script)
 	return true;
 }
 
-Matrix& SpriteRenderer::GetTransform()
+const PMatrix SpriteRenderer::GetTransform()
 {
-	return transformMatrix;
+	return &transformMatrix;
 }
 
 SSprite& SpriteRenderer::GetSprite()
@@ -35,12 +38,14 @@ SSprite& SpriteRenderer::GetSprite()
 	return sprite;
 }
 
-Vector3 SpriteRenderer::GetPosition()
+const Vector3* SpriteRenderer::GetPosition()
 {
-	Vector3 position = owner->GetPosition();
-	position.x -= sprite->GetWidth() / 2;
-	position.y += sprite->GetHeight() / 2;
-	return position;
+	return owner->GetPosition();
+}
+
+const Vector3* SpriteRenderer::GetCenter()
+{
+	return &center;
 }
 
 PDx9Texture SpriteRenderer::GetTexture()
@@ -48,7 +53,7 @@ PDx9Texture SpriteRenderer::GetTexture()
 	return sprite->GetSource()->GetImage();
 }
 
-RECT SpriteRenderer::GetSourceRect()
+const RECT* SpriteRenderer::GetSourceRect()
 {
 	return sprite->GetSourceRect();
 }
@@ -83,6 +88,10 @@ void SpriteRenderer::Load(const std::string* inputArg)
 		transformMatrix._42 = std::stof(input[OffSetY]);
 		transformMatrix._11 = std::stof(input[ScaleX]);
 		transformMatrix._22 = std::stof(input[ScaleY]);
+
+		center.x = sprite->GetWidth() / 2.0;
+		center.y = sprite->GetHeight() / 2.0;
+		center.z = 0;
 	}
 	catch (CornException& e)
 	{

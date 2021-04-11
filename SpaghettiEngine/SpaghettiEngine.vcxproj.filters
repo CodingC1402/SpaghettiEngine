@@ -149,6 +149,9 @@
     <ClInclude Include="Framework\Engine\GameTimer.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Utilities\GraphicsMath.h">
+      <Filter>FrameWork\Utilities\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -237,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameTimer.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\GraphicsMath.cpp">
+      <Filter>FrameWork\Utilities\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

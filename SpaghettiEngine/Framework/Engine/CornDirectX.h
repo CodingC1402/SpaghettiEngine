@@ -16,6 +16,7 @@ typedef D3DPRESENT_PARAMETERS PresentParam;
 typedef D3DDISPLAYMODE DisplayMode;
 typedef LPD3DXSPRITE SpriteHandler;
 
+typedef D3DXVECTOR4 Vector4;
 typedef D3DXVECTOR3 Vector3;
 typedef D3DXMATRIX Matrix;
 typedef LPD3DXMATRIX PMatrix;

@@ -1,7 +1,7 @@
 {
+  "Name": "SpaghettiEngine",
   "Resolution": {
     "Width": 256,
     "Height": 224
-  },
-  "Name": "SpaghettiEngine"
+  }
 }

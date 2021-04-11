@@ -126,5 +126,6 @@ void SceneManager::Init()
 {
 	Load();
 	scenes[sceneIndex]->Load();
+	currentScene = scenes[sceneIndex];
 	constScene->Load();
 }

@@ -34,7 +34,7 @@ public:
 	const PGameObj GetParent();
 	const PGameObj GetChild(UINT index);
 	const SScriptBase& GetScript(UINT index);
-	const Vector3& GetPosition();
+	const Vector3* GetPosition();
 	const char* GetTag();
 	const char* GetPath();
 
