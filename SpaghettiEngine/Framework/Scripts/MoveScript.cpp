@@ -1,6 +1,12 @@
 #include "MoveScript.h"
+#include "GameTimer.h"
 
 REGISTER_FINISH(MoveScript);
+
+MoveScript::MoveScript()
+{
+	name = TYPE_NAME(MoveScript);
+}
 
 void MoveScript::Start()
 {
@@ -25,8 +31,8 @@ void MoveScript::Update()
 	if (right->Check())
 		move.x -= 1;
 
-	move.x *= movementSpeed;
-	move.y *= movementSpeed;
+	move.x *= movementSpeed * GameTimer::GetDeltaTime();
+	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
 	owner->Translate(move);
 }

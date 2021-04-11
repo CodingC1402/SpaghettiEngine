@@ -5,6 +5,7 @@
 class MoveScript : public ScriptBase
 {
 public:
+	MoveScript();
 	virtual void Start() override;
 	virtual void Update() override;
 protected:
@@ -14,7 +15,7 @@ protected:
 	SInput right;
 
 	Vector3 move;
-	float movementSpeed = 2;
+	float movementSpeed = 20;
 private:
 	REGISTER_START(MoveScript);
 };

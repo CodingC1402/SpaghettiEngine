@@ -38,6 +38,7 @@
     <ClInclude Include="Framework\Engine\Sprite.h" />
     <ClInclude Include="Framework\Engine\Texture.h" />
     <ClInclude Include="Framework\Scripts\Camera.h" />
+    <ClInclude Include="Framework\Scripts\MoveScript.h" />
     <ClInclude Include="Framework\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Ultilities\Debug.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="Framework\Engine\Texture.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
     <ClCompile Include="Framework\Scripts\Camera.cpp" />
+    <ClCompile Include="Framework\Scripts\MoveScript.cpp" />
     <ClCompile Include="Framework\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Ultilities\Debug.cpp" />
