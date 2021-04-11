@@ -67,7 +67,7 @@ int SceneManager::GetCurrentSceneIndex()
 
 int SceneManager::GetNumberOfScene()
 {
-	return __instance->scenes.size();
+	return static_cast<int>(__instance->scenes.size());
 }
 
 void SceneManager::LoadPreviousScene()

@@ -19,26 +19,26 @@
       "KeyCode": 68,
       "Name": "Right",
       "Type": "KeyPress"
-    }
+    },
     {
       "KeyCode": 37,
       "Name": "MoveLeft",
-      "Type": "KeyPress"
-    }
+      "Type": "KeyState"
+    },
     {
       "KeyCode": 38,
       "Name": "MoveUp",
-      "Type": "KeyPress"
-    }
+      "Type": "KeyState"
+    },
     {
       "KeyCode": 39,
       "Name": "MoveRight",
-      "Type": "KeyPress"
-    }
+      "Type": "KeyState"
+    },
     {
       "KeyCode": 40,
       "Name": "MoveDown",
-      "Type": "KeyPress"
+      "Type": "KeyState"
     }
   ]
 }

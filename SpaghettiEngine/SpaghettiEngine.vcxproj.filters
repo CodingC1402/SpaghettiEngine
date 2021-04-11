@@ -30,15 +30,6 @@
     <Filter Include="FrameWork\Resource">
       <UniqueIdentifier>{fc16ac28-7441-4030-8831-574bdebeeac1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\Utilities">
-      <UniqueIdentifier>{9688644e-e7a1-4623-9913-164ed426aec7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Utilities\Header Files">
-      <UniqueIdentifier>{8e04e15c-d81f-496d-8d2d-8533c1d3055d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Utilities\Source Files">
-      <UniqueIdentifier>{cc6aefe8-77c4-4df2-b533-9b7f2cbae2da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scripts">
       <UniqueIdentifier>{5171b50b-020f-4f2f-a64b-a0b52ea4d5aa}</UniqueIdentifier>
     </Filter>
@@ -47,6 +38,15 @@
     </Filter>
     <Filter Include="Scripts\Header Files">
       <UniqueIdentifier>{615871ca-dacb-45e0-b359-b35d32dd6191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Ultilities">
+      <UniqueIdentifier>{9688644e-e7a1-4623-9913-164ed426aec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Ultilities\Header Files">
+      <UniqueIdentifier>{8e04e15c-d81f-496d-8d2d-8533c1d3055d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Ultilities\Source Files">
+      <UniqueIdentifier>{cc6aefe8-77c4-4df2-b533-9b7f2cbae2da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,18 +68,6 @@
     <ClInclude Include="resource.h">
       <Filter>FrameWork\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Utilities\Debug.h">
-      <Filter>FrameWork\Utilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Utilities\Plane2D.h">
-      <Filter>FrameWork\Utilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Utilities\StringConverter.h">
-      <Filter>FrameWork\Utilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Utilities\Timer.h">
-      <Filter>FrameWork\Utilities\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\App.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
@@ -98,17 +86,11 @@
     <ClInclude Include="Framework\Engine\Sound.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Utilities\json.hpp">
-      <Filter>FrameWork\Utilities\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\Graphics.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Sprite.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Utilities\Monitor.h">
-      <Filter>FrameWork\Utilities\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\GameWnd.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
@@ -149,8 +131,29 @@
     <ClInclude Include="Framework\Engine\GameTimer.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Utilities\GraphicsMath.h">
-      <Filter>FrameWork\Utilities\Header Files</Filter>
+    <ClInclude Include="Framework\Ultilities\Monitor.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\Plane2D.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\StringConverter.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\Timer.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\GraphicsMath.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\json.hpp">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\Debug.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scripts\MoveScript.h">
+      <Filter>Scripts\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -165,18 +168,6 @@
     </ClCompile>
     <ClCompile Include="Framework\Window\KeyBoard.cpp">
       <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Utilities\Debug.cpp">
-      <Filter>FrameWork\Utilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Utilities\Plane2D.cpp">
-      <Filter>FrameWork\Utilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Utilities\StringConverter.cpp">
-      <Filter>FrameWork\Utilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Utilities\Timer.cpp">
-      <Filter>FrameWork\Utilities\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\App.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
@@ -208,9 +199,6 @@
     <ClCompile Include="Framework\Engine\Texture.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Utilities\Monitor.cpp">
-      <Filter>FrameWork\Utilities\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameWnd.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
@@ -241,8 +229,26 @@
     <ClCompile Include="Framework\Engine\GameTimer.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Utilities\GraphicsMath.cpp">
-      <Filter>FrameWork\Utilities\Source Files</Filter>
+    <ClCompile Include="Framework\Ultilities\Debug.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\GraphicsMath.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\Monitor.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\Plane2D.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\StringConverter.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\Timer.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\MoveScript.cpp">
+      <Filter>Scripts\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

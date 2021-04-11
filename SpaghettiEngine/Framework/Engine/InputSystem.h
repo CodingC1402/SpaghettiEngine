@@ -1,6 +1,6 @@
 #pragma once
-#include "Window.h"
 #include "Input.h"
+#include "CornException.h"
 #include <vector>
 #include <string>
 

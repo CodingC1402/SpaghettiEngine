@@ -1,12 +1,10 @@
 #pragma once
-#include <memory>
-#include <list>
-#include "Sprite.h"
-#include "Animation.h"
 #include "ScriptBase.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "CornDirectX.h"
+#include <memory>
+#include <list>
 
 typedef class Scene* PScene;
 
@@ -33,7 +31,7 @@ public:
 
 	const PGameObj GetParent();
 	const PGameObj GetChild(UINT index);
-	const SScriptBase& GetScript(UINT index);
+	const SScriptBase GetScript(UINT index);
 	const Vector3* GetPosition();
 	const char* GetTag();
 	const char* GetPath();

@@ -43,5 +43,5 @@ void GameTimer::Mark()
 {
 	timer->Mark();
 	realTime = timer->GetSystemTime();
-	deltaTime = realTime * timeScale;
+	deltaTime = timer->GetDeltaTime() * timeScale;
 }

@@ -6,9 +6,9 @@ void Game::Init()
 {
 	timer = GameTimer::GetInstance();
 	timer->Start();
+	input = InputSystem::GetInstance();
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->Init();
-	input = InputSystem::GetInstance();
 }
 
 void Game::Update()

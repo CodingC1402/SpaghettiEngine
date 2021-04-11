@@ -89,8 +89,8 @@ void SpriteRenderer::Load(const std::string* inputArg)
 		transformMatrix._11 = std::stof(input[ScaleX]);
 		transformMatrix._22 = std::stof(input[ScaleY]);
 
-		center.x = sprite->GetWidth() / 2.0;
-		center.y = sprite->GetHeight() / 2.0;
+		center.x = sprite->GetWidth() / 2.0f;
+		center.y = sprite->GetHeight() / 2.0f;
 		center.z = 0;
 	}
 	catch (CornException& e)

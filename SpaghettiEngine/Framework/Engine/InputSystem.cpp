@@ -3,6 +3,7 @@
 #include "json.hpp"
 #include "StringConverter.h"
 #include "SpaghettiEnginePath.h"
+#include <sstream>
 #include <fstream>
 
 #define INPUTTEXT "Inputs"

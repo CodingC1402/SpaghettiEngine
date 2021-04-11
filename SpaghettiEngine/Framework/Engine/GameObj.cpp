@@ -48,7 +48,7 @@ const PGameObj GameObj::GetChild(UINT index)
 	return *iterator;
 }
 
-const SScriptBase& GameObj::GetScript(UINT index)
+const SScriptBase GameObj::GetScript(UINT index)
 {
 	if (index >= scripts.size())
 		return nullptr;
