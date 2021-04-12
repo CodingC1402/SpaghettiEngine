@@ -24,10 +24,27 @@ const wchar_t* Setting::GetAppName()
 	return GetInstance()->name.c_str();
 }
 
+bool Setting::IsPixelPerfect()
+{
+	return GetInstance()->isPixelPerfect;
+}
+
+float Setting::GetFps()
+{
+	return GetInstance()->fps;
+}
+
 Setting::Setting()
 {
     Load();
 }
+
+#define RESOLUTION "Resolution"
+#define FPS "Fps"
+#define NAME "Name"
+#define WIDTH "Width"
+#define HEIGHT "Height"
+#define PIXELPERFECT "PixelPerfect"
 
 void Setting::Load()
 {
@@ -48,9 +65,11 @@ void Setting::Load()
 		json file;
 		jsonFile >> file;
 
-		resolution.width = file["Resolution"]["Width"].get<int>();
-		resolution.height = file["Resolution"]["Height"].get<int>();
-		name = StringConverter::StrToWStr(file["Name"].get<std::string>());
+		resolution.width = file[RESOLUTION][WIDTH].get<int>();
+		resolution.height = file[RESOLUTION][HEIGHT].get<int>();
+		name = StringConverter::StrToWStr(file[NAME].get<std::string>());
+		isPixelPerfect = file[PIXELPERFECT].get<bool>();
+		fps = file[FPS].get<float>();
 	}
 	catch (...)
 	{

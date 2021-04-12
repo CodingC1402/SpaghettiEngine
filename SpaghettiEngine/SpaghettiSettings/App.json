@@ -1,7 +1,9 @@
 {
   "Name": "SpaghettiEngine",
+  "Fps": 60,
   "Resolution": {
     "Width": 256,
     "Height": 224
-  }
+  },
+  "PixelPerfect": true
 }

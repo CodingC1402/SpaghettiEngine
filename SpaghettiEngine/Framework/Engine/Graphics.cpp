@@ -150,8 +150,9 @@ SGameWnd Graphics::GetCurrentWindow() const noexcept
 	return wnd;
 }
 
-void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
+void Graphics::Init(STimer timer, ColorFormat colorFormat)
 {
+	int fps = Setting::GetFps();
 	if (fps <= 0)
 		delayPerFrame = 0;
 	else
@@ -172,6 +173,8 @@ void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
 	presentParam.BackBufferWidth = resolution.width;
 	presentParam.BackBufferHeight = resolution.height;
 	presentParam.hDeviceWindow = wnd->GetContentWndHandler();
+
+	isPixelPerfect = Setting::IsPixelPerfect();
 
 	CreateResource();
 }
@@ -238,6 +241,8 @@ void Graphics::Render()
 		for (const auto& renderScript : renderBuffer)
 		{
 			GraphicsMath::TransformVector3(&screenPosition, renderScript->GetPosition(), cameraMatrix);
+			if (isPixelPerfect)
+				GraphicsMath::RoundVector3(&screenPosition);
 
 			spriteHandler->SetTransform(renderScript->GetTransform());
 			spriteHandler->Draw(

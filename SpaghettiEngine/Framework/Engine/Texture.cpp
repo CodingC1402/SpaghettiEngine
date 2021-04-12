@@ -12,6 +12,9 @@ PDx9Texture Texture::GetImage()
 }
 
 #define KEYCOLOR "KeyColor"
+#define RED "Red"
+#define GREEN "Green"
+#define BLUE "Blue"
 #define Sprites "Sprites"
 #define SpritePosX 0
 #define SpritePosY 1
@@ -37,7 +40,10 @@ void Texture::Load()
 		json file;
 		jsonFile >> file;
 
-		D3DCOLOR keyColor = file[KEYCOLOR].get<D3DCOLOR>();
+		UINT red = file[KEYCOLOR][RED].get<int>();
+		UINT green = file[KEYCOLOR][GREEN].get<int>();
+		UINT blue = file[KEYCOLOR][BLUE].get<int>();
+		D3DCOLOR keyColor = RGB(red, green, blue);
 		Graphics::LoadTexture(image, path, keyColor);
 
 		int x, y, w, h;

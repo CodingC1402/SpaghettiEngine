@@ -86,7 +86,7 @@ BOOL App::Go()
 	{
 		timer = STimer(Timer::Create());
 		gfx = Graphics::GetInstance();
-		gfx->Init(timer, 60, Graphics::ColorFormat::RGB32Bit);
+		gfx->Init(timer, Graphics::ColorFormat::RGB32Bit);
 
 		game = Game::GetInstance();
 		game->Init();

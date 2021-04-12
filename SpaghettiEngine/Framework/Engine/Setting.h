@@ -16,6 +16,8 @@ public:
 	static Setting* GetInstance();
 	static Plane2D::Size GetResolution();
 	static const wchar_t* GetAppName();
+	static bool IsPixelPerfect();
+	static float GetFps();
 protected:
 	~Setting() = default;
 	Setting();
@@ -23,6 +25,8 @@ protected:
 protected:
 	Plane2D::Size resolution;
 	std::wstring name;
+	bool isPixelPerfect = false;
+	float fps;
 
 	static Setting* __instance;
 };

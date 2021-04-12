@@ -12,4 +12,5 @@ public:
 	static void TransformVector3(Vector3* outVec, const Vector3* inVec, PMatrix transformMatrix);
 	static PMatrix NewMatrix(); // Just WHY?, for god sake >:(
 	static void ZeroMatrix(Matrix* outMatrix);
+	static void RoundVector3(Vector3* vec);
 };

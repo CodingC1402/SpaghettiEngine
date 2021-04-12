@@ -62,7 +62,7 @@ protected:
 	void Window();
 	SGameWnd GetCurrentWindow() const noexcept;
 
-	void Init(STimer timer, int fps, ColorFormat colorFormat);
+	void Init(STimer timer, ColorFormat colorFormat);
 
 	HRESULT Begin() noexcept;
 	void Render();
@@ -93,6 +93,7 @@ protected:
 	double delayPerFrame;
 	double timeSinceLastFrame;
 
+	bool isPixelPerfect = false;
 	std::list<PCamera> cameraList;
 	std::list<PSpriteRenderer> renderBuffer;
 
