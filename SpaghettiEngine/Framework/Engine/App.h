@@ -37,6 +37,7 @@ protected:
 	STimer timer = NULL;
 	PGraphics gfx = NULL;
 	PGame game = NULL;
+	PPhysic physic = NULL;
 
 	Size resolution;
 	std::wstring appName;

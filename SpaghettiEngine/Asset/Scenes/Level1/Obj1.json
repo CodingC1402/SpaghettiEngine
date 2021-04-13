@@ -12,6 +12,10 @@
     {
       "Name": "MoveScript",
       "Input": ""
+    },
+    {
+      "Name": "RigidBody",
+      "Input": ""
     }
   ]
 }

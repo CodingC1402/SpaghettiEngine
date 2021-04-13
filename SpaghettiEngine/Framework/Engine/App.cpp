@@ -96,6 +96,8 @@ BOOL App::Go()
 		game = Game::GetInstance();
 		game->Init();
 
+		physic = Physic::GetInstance();
+
 		wnd = gfx->GetCurrentWindow();
 		wnd->Show();
 
@@ -147,6 +149,7 @@ void App::DoFrame()
 		ChangeName();
 
 	game->Update();
+	physic->Update();
 	gfx->Render();
 }
 
