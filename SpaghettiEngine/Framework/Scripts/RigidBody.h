@@ -16,8 +16,8 @@ protected:
 	SInput down;
 
 	Vector3 fall;
-	float movementSpeed = 10;
-	float gravity = 0.1;
+	float movementSpeed = 0;
+	float gravity = 10;
 private:
 	REGISTER_START(RigidBody);
 };

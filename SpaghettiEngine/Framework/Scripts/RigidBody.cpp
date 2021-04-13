@@ -20,5 +20,8 @@ void RigidBody::Update()
 	fall.z = 0;
 
 	fall.y *= movementSpeed * GameTimer::GetDeltaTime();
+
+	movementSpeed += gravity * GameTimer::GetDeltaTime();
+
 	owner->Translate(&fall);
 }
