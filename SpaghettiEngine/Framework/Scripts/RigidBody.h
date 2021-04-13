@@ -1,21 +1,23 @@
 #pragma once
 #include "ScriptBase.h"
 #include "Physic.h"
-#include "CornDirectX.h"
+#include "InputSystem.h"
 
 class Physic;
 
-class Rigidbody : public ScriptBase
+class RigidBody : public ScriptBase
 {
 	friend class Physic;
 public:
-	Rigidbody();
+	RigidBody();
+	virtual void Start() override;
 	virtual void Update() override;
 protected:
+	SInput down;
 
-	Vector3 fall = Vector3(0.f, 1.f, 0.f);
-	float movementSpeed = 0;
-	float gravity = 10;
+	Vector3 fall;
+	float movementSpeed = 10;
+	float gravity = 0.1;
 private:
-	REGISTER_START(Rigidbody);
+	REGISTER_START(RigidBody);
 };

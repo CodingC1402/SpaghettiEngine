@@ -3,7 +3,7 @@
 #include <list>
 #include <vector>
 
-typedef class Rigidbody* PRigidbody;
+typedef class RigidBody* PRigidBody;
 typedef class Physic* PPhysic;
 
 class Physic
@@ -18,5 +18,5 @@ protected:
 	~Physic();
 	static PPhysic __instance;
 private:
-	std::list<PRigidbody> renderBuffer;
+	std::list<PRigidBody> renderBuffer;
 };

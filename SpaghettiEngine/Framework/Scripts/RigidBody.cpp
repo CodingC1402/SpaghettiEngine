@@ -1,16 +1,27 @@
 #include "Rigidbody.h"
 #include "GameTimer.h"
 
-REGISTER_FINISH(Rigidbody);
+REGISTER_FINISH(RigidBody);
 
-Rigidbody::Rigidbody()
+RigidBody::RigidBody()
 {
-	name = TYPE_NAME(Rigidbody);
+	name = TYPE_NAME(RigidBody);
 }
 
-void Rigidbody::Update()
+void RigidBody::Start()
 {
+	down = InputSystem::GetInput("MoveDown");
+}
+
+void RigidBody::Update()
+{
+	fall.x = 0;
+	fall.y = 0;
+	fall.z = 0;
+
+	if (down->Check())
+		fall.y -= 1;
+
 	fall.x *= movementSpeed * GameTimer::GetDeltaTime();
-	movementSpeed += gravity * GameTimer::GetDeltaTime() * GameTimer::GetDeltaTime() / 2;
 	owner->Translate(&fall);
 }
