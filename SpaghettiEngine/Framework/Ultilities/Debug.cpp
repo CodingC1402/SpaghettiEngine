@@ -1,5 +1,6 @@
 #include "Debug.h"
 #include "CornWnd.h"
+#include <sstream>
 
 void Debug::Log(const wchar_t* text)
 {
@@ -8,7 +9,9 @@ void Debug::Log(const wchar_t* text)
 
 void Debug::LogF( float number )
 {
-	Log( std::to_wstring(number).c_str() + L'\n');
+	std::wostringstream oss;
+	oss << number << std::endl;
+	Log(oss.str().c_str());
 }
 
 void Debug::LogB( bool flag )

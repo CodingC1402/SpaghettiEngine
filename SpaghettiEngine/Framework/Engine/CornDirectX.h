@@ -9,12 +9,18 @@
 #define INVALIDDATA D3DXERR_INVALIDDATA
 #define OUTOFMEMORY E_OUTOFMEMORY
 
+#define XRGB D3DCOLOR_XRGB
+#define ARGB(r, g, b, alpha) static_cast<Color>(0|(alpha<<24)|(r<<16)|(g<<8)|b)
+
 typedef class Graphics* PGraphics;
 typedef LPDIRECT3D9 Renderer;
 typedef LPDIRECT3DDEVICE9 RenderDevice;
 typedef D3DPRESENT_PARAMETERS PresentParam;
 typedef D3DDISPLAYMODE DisplayMode;
 typedef LPD3DXSPRITE SpriteHandler;
+typedef D3DCOLOR Color;
+typedef D3DXIMAGE_INFO ImageInfo;
+typedef LPD3DXFONT FontHandler;
 
 typedef D3DXVECTOR4 Vector4;
 typedef D3DXVECTOR3 Vector3;

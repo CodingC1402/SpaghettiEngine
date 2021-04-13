@@ -1,5 +1,6 @@
 #include "MoveScript.h"
 #include "GameTimer.h"
+#include "Debug.h"
 
 REGISTER_FINISH(MoveScript);
 
@@ -27,9 +28,9 @@ void MoveScript::Update()
 	if (down->Check())
 		move.y -= 1;
 	if (left->Check())
-		move.x += 1;
-	if (right->Check())
 		move.x -= 1;
+	if (right->Check())
+		move.x += 1;
 
 	move.x *= movementSpeed * GameTimer::GetDeltaTime();
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();

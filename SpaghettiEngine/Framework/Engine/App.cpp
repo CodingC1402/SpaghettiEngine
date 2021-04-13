@@ -1,7 +1,10 @@
 ﻿#include "App.h"
 #include "json.hpp"
+#include "Setting.h"
+#include "Debug.h"
 #include <iomanip>
 #include <fstream>
+#include <thread>
 
 PApp App::__instance = nullptr;
 
@@ -84,9 +87,11 @@ BOOL App::Go()
 
 	try
 	{
+		delayBetweenLoops = 1 / Setting::GetCappedLoop();
+
 		timer = STimer(Timer::Create());
 		gfx = Graphics::GetInstance();
-		gfx->Init(timer, 60, Graphics::ColorFormat::RGB32Bit);
+		gfx->Init(timer, Graphics::ColorFormat::RGB32Bit);
 
 		game = Game::GetInstance();
 		game->Init();

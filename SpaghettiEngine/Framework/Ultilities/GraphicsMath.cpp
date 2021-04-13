@@ -29,3 +29,10 @@ void GraphicsMath::ZeroMatrix(Matrix* outMatrix)
 		outMatrix[i][3] = 0;
 	}
 }
+
+void GraphicsMath::RoundVector3(Vector3* vec)
+{
+	vec->x = static_cast<int>(vec->x + 0.5f);
+	vec->y = static_cast<int>(vec->y + 0.5f);
+	vec->z = static_cast<int>(vec->z + 0.5f);
+}

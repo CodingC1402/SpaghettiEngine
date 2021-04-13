@@ -6,7 +6,7 @@
 #include <fstream>
 #include <DirectXMath.h>
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #include "Debug.h"
 #endif
 
@@ -44,11 +44,11 @@ void Graphics::Draw(const PSpriteRenderer renderScript)
 	__instance->renderBuffer.push_back(renderScript);
 }
 
-void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const D3DCOLOR &keyColor)
+void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
 {
 	HRESULT result;
 	std::wstring wPath = StringConverter::StrToWStr(path);
-	D3DXIMAGE_INFO info;
+	ImageInfo info;
 
 	result = D3DXGetImageInfoFromFile(wPath.c_str(), &info); 
 
@@ -101,7 +101,7 @@ void Graphics::CreateResource()
 		videoAdapter,
 		D3DDEVTYPE_HAL,
 		wnd->GetContentWndHandler(),
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+		D3DCREATE_HARDWARE_VERTEXPROCESSING,
 		&presentParam,
 		&renderDevice
 	);
@@ -110,10 +110,23 @@ void Graphics::CreateResource()
 	if (FAILED(result))
 		throw GRAPHICS_EXCEPT_CODE(result);
 
+	if (FAILED(result))
+		throw GRAPHICS_EXCEPT_CODE(result);
+
 	if (!renderer)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
 	if (!renderDevice)
 		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, and there is no error code for this so... good luck fixing this ヽ(￣ω￣(。。 )ゝ ");
+
+#ifdef _DEBUG
+	result = D3DXCreateFont(
+		renderDevice,
+		15, 10, 0, 0, 0, 0, 0, 0, 0, L"Calibri", &fpsFont
+	);
+	if (FAILED(result))
+		throw GRAPHICS_EXCEPT_CODE(result);
+#endif // DEBUG
+
 }
 
 void Graphics::ReleaseResource()
@@ -150,8 +163,18 @@ SGameWnd Graphics::GetCurrentWindow() const noexcept
 	return wnd;
 }
 
-void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
+void Graphics::Init(STimer timer, ColorFormat colorFormat)
 {
+#ifdef _DEBUG // For counting fps
+	fpsTimer->Start();
+	fpsRect.left = 3;
+	fpsRect.top = 3;
+	fpsRect.right = 50;
+	fpsRect.bottom = 20;
+#endif
+
+	int fps = Setting::GetFps();
+	fps = fps;
 	if (fps <= 0)
 		delayPerFrame = 0;
 	else
@@ -173,6 +196,8 @@ void Graphics::Init(STimer timer, int fps, ColorFormat colorFormat)
 	presentParam.BackBufferHeight = resolution.height;
 	presentParam.hDeviceWindow = wnd->GetContentWndHandler();
 
+	isPixelPerfect = Setting::IsPixelPerfect();
+
 	CreateResource();
 }
 
@@ -188,45 +213,33 @@ void Graphics::Render()
 		renderBuffer.clear();
 		return;
 	}
-	else
-	{
-		timeSinceLastFrame -= delayPerFrame * static_cast<int>(timeSinceLastFrame / delayPerFrame);
 
-		rgb[index] += delta;
-		if (!(rgb[index] & 0xFF))
+	rgb[index] += delta;
+	if (!(rgb[index] & 0xFF))
+	{
+		if (jump)
 		{
-			if (jump)
-			{
-				index += 2;
-				index %= 3;
-				rgb[index] += 1;
-				delta = 1;
-				jump = false;
-			}
-			else
-			{
-				rgb[index] -= 1;
-				index -= 1;
-				if (index < 0)
-					index = 2;
-				delta = -1;
-				jump = true;
-			}
+			index += 2;
+			index %= 3;
+			rgb[index] += 1;
+			delta = 1;
+			jump = false;
+		}
+		else
+		{
+			rgb[index] -= 1;
+			index -= 1;
+			if (index < 0)
+				index = 2;
+			delta = -1;
+			jump = true;
 		}
 	}
 
-	renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
-
 	if (Begin() != 0)
 	{
-		/// <summary>
-		/// Render here
-		/// </summary>
-
-#ifdef DEBUG
-		if (cameraList.size() > 1)
-			Debug::Log(L"there are two or more camera in a scene");
-#endif
+		timeSinceLastFrame -= delayPerFrame * static_cast<int>(timeSinceLastFrame / delayPerFrame);
+		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
 
 		PMatrix cameraMatrix;
 		auto camera = cameraList.begin();
@@ -238,6 +251,8 @@ void Graphics::Render()
 		for (const auto& renderScript : renderBuffer)
 		{
 			GraphicsMath::TransformVector3(&screenPosition, renderScript->GetPosition(), cameraMatrix);
+			if (isPixelPerfect)
+				GraphicsMath::RoundVector3(&screenPosition);
 
 			spriteHandler->SetTransform(renderScript->GetTransform());
 			spriteHandler->Draw(
@@ -248,15 +263,34 @@ void Graphics::Render()
 				D3DCOLOR_XRGB(255, 255, 255)
 			);
 		}
+
+#ifdef _DEBUG // For counting fps
+		if (cameraList.size() > 1)
+			Debug::Log(L"there are two or more camera in a scene");
+
+		UpdateFPS();
+		std::wostringstream os;
+		os << (int)fps << std::endl;
+		std::wstring str = os.str();
+
+		fpsFont->DrawTextW(
+			spriteHandler,
+			str.c_str(),
+			str.size(),
+			&fpsRect,
+			DT_CHARSTREAM,
+			XRGB(255, 255, 255)
+		);
+#endif
 		spriteHandler->End();
 
 		renderBuffer.clear();
 
 		if (!End())
 			Reset();
-	}
 
-	renderDevice->Present(NULL, NULL, NULL, NULL);
+		renderDevice->Present(NULL, NULL, NULL, NULL);
+	}
 }
 
 HRESULT Graphics::Begin() noexcept
