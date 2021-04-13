@@ -89,7 +89,10 @@ void Graphics::RemoveCamera(PCamera camera)
 	while (size > 0)
 	{
 		if (*iterator == camera)
+		{
 			__instance->cameraList.erase(iterator);
+			break;
+		}
 		std::advance(iterator, 1);
 		size--;
 	}
@@ -196,7 +199,7 @@ void Graphics::Init(STimer timer, ColorFormat colorFormat)
 	presentParam.BackBufferHeight = resolution.height;
 	presentParam.hDeviceWindow = wnd->GetContentWndHandler();
 
-	isPixelPerfect = Setting::IsPixelPerfect();
+	isPixelPerfect = Setting::IsWorldPointPixelPerfect;
 
 	CreateResource();
 }
@@ -214,6 +217,7 @@ void Graphics::Render()
 		return;
 	}
 
+#ifdef _DEBUG
 	rgb[index] += delta;
 	if (!(rgb[index] & 0xFF))
 	{
@@ -235,11 +239,17 @@ void Graphics::Render()
 			jump = true;
 		}
 	}
+#endif
 
 	if (Begin() != 0)
 	{
 		timeSinceLastFrame -= delayPerFrame * static_cast<int>(timeSinceLastFrame / delayPerFrame);
-		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
+
+#ifndef _DEBUG
+		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
+#else
+		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
+#endif
 
 		PMatrix cameraMatrix;
 		auto camera = cameraList.begin();
@@ -260,7 +270,7 @@ void Graphics::Render()
 				renderScript->GetSourceRect(),
 				renderScript->GetCenter(),
 				&screenPosition,
-				D3DCOLOR_XRGB(255, 255, 255)
+				WHITE
 			);
 		}
 
@@ -279,7 +289,7 @@ void Graphics::Render()
 			str.size(),
 			&fpsRect,
 			DT_CHARSTREAM,
-			XRGB(255, 255, 255)
+			MAGENTA
 		);
 #endif
 		spriteHandler->End();

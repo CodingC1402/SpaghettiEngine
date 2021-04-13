@@ -29,9 +29,14 @@ int Setting::GetCappedLoop()
 	return GetInstance()->cappedLoop;
 }
 
-bool Setting::IsPixelPerfect()
+bool Setting::IsResolutionPixelPerfect()
 {
-	return GetInstance()->isPixelPerfect;
+	return GetInstance()->isResolutionPixelPerfect;
+}
+
+bool Setting::IsWorldPointPixelPerfect()
+{
+	return GetInstance()->isWorldPointPixelPerfect;
 }
 
 float Setting::GetFps()
@@ -49,7 +54,8 @@ Setting::Setting()
 #define NAME "Name"
 #define WIDTH "Width"
 #define HEIGHT "Height"
-#define PIXELPERFECT "PixelPerfect"
+#define PIXELPERFECT_RESOLUTION "PixelPerfectResolution"
+#define PIXELPERFECT_WORLDPOINT "PixelPerfectWorldPoint"
 #define CAPPEDLOOP "CappedLoop"
 
 void Setting::Load()
@@ -74,7 +80,8 @@ void Setting::Load()
 		resolution.width = file[RESOLUTION][WIDTH].get<int>();
 		resolution.height = file[RESOLUTION][HEIGHT].get<int>();
 		name = StringConverter::StrToWStr(file[NAME].get<std::string>());
-		isPixelPerfect = file[PIXELPERFECT].get<bool>();
+		isResolutionPixelPerfect = file[PIXELPERFECT_RESOLUTION].get<bool>();
+		isWorldPointPixelPerfect = file[PIXELPERFECT_WORLDPOINT].get<bool>();
 		fps = file[FPS].get<float>();
 		cappedLoop = file[CAPPEDLOOP].get<int>();
 	}

@@ -104,19 +104,19 @@ void GameObj::Enable()
 		child->Enable();
 }
 
-void GameObj::Translate(const Vector3& vector)
+void GameObj::Translate(const Vector3* vector)
 {
-	position += vector;
+	position += *vector;
 	for (const auto& child : children)
 		child->Translate(vector);
 }
 
-void GameObj::Move(const Vector3& newPosition)
+void GameObj::Move(const Vector3* newPosition)
 {
-	Vector3 delta = newPosition - position;
-	position = newPosition;
+	Vector3 delta = *newPosition - position;
+	position = *newPosition;
 	for (const auto& child : children)
-		child->Translate(delta);
+		child->Translate(&delta);
 }
 
 void GameObj::RemoveParent()
@@ -235,6 +235,10 @@ void GameObj::Load()
 
 		tag = jsonFile[TAG].get<std::string>();
 
+		position.x = jsonFile[POSITION][0].get<int>();
+		position.y = jsonFile[POSITION][1].get<int>();
+		position.z = jsonFile[POSITION][2].get<int>();
+
 		PGameObj newChild;
 		for (const auto& child : jsonFile[CHILDREN])
 		{
@@ -242,12 +246,8 @@ void GameObj::Load()
 			this->AddChild(newChild);
 			newChild->parent = this;
 			newChild->Load();
-			newChild->position += this->position;
+			newChild->Translate(this->GetPosition());
 		}
-
-		position.x = jsonFile[POSITION][0].get<int>();
-		position.y = jsonFile[POSITION][1].get<int>();
-		position.z = jsonFile[POSITION][2].get<int>();
 
 		for (const auto& script : jsonFile[SCRIPTS])
 		{

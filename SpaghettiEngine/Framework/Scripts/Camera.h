@@ -17,6 +17,7 @@ public:
 	virtual const PMatrix GetMatrix();
 	virtual void OnDisabled() override;
 	virtual void OnEnabled() override;
+	virtual void Unload() override;
 protected:
 	PMatrix cameraMatrix;
 private:

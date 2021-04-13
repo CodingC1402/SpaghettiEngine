@@ -97,13 +97,6 @@ protected:
 	std::list<PCamera> cameraList;
 	std::list<PSpriteRenderer> renderBuffer;
 
-	// Temp
-	int index = 2;
-	int delta = -1;
-	int rgb[3] = { 255, 0, 1 };
-	bool jump = true;
-	// EndTemp
-
 	static PGraphics __instance;
 private:
 #ifdef _DEBUG
@@ -113,11 +106,14 @@ private:
 	RECT fpsRect;
 	FontHandler fpsFont = NULL;
 
+	int index = 2;
+	int delta = -1;
+	int rgb[3] = { 255, 0, 1 };
+	bool jump = true;
+
 	void UpdateFPS() {
 		fpsTimer->Mark();
-		double delta = fpsTimer->GetDeltaTime();
-		Debug::LogF(delta);
-		fps = fps * 0.8 + 0.2 * (1 / delta);
+		fps = fps * 0.8 + 0.2 * (1 / fpsTimer->GetDeltaTime());
 	}
 #endif
 };

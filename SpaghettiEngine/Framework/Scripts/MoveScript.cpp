@@ -35,5 +35,5 @@ void MoveScript::Update()
 	move.x *= movementSpeed * GameTimer::GetDeltaTime();
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
-	owner->Translate(move);
+	owner->Translate(&move);
 }

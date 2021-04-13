@@ -1,0 +1,13 @@
+{
+  "Tag": "Test2",
+  "Children": [
+
+  ],
+  "Position": [ 0, 0, 0 ],
+  "Scripts": [
+    {
+      "Name": "Camera",
+      "Input": ""
+    }
+  ]
+}

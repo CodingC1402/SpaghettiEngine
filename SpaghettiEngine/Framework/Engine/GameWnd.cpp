@@ -29,26 +29,32 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 	if (isFullScreen)
 	{
 		Size resolution = Setting::GetResolution();
+		bool isPixelPerfect = Setting::IsResolutionPixelPerfect();
 		double ratioW = width / (double)resolution.width;
 		double ratioH = height / (double)resolution.height;
+		if (isPixelPerfect)
+		{
+			ratioW = (int)ratioW;
+			ratioH = (int)ratioH;
+		}
+
 		int contentWidth = width;
 		int contentHeight = height;
 		int contentPosX;
 		int contentPosY;
 		if (ratioW > ratioH)
 		{
-			contentHeight = height;
+			contentHeight = (int)(resolution.height * ratioH + 0.5);
 			contentWidth = (int)(resolution.width * ratioH + 0.5);
-			contentPosY = 0;
-			contentPosX = (int)(((long long)width - contentWidth) / 2.0 + 0.5);
 		}
 		else
 		{
-			contentWidth = width;
+			contentWidth = (int)(resolution.width * ratioW + 0.5);;
 			contentHeight = (int)(resolution.height * ratioW + 0.5);
-			contentPosY = (int)(((long long)height - contentHeight) / 2.0 + 0.5);
-			contentPosX = 0;
 		}
+		contentPosY = (int)(((long long)height - contentHeight) / 2.0 + 0.5);;
+		contentPosX = (int)(((long long)width - contentWidth) / 2.0 + 0.5);
+
 		contentWnd->SetPos(contentPosX, contentPosY);
 		contentWnd->SetWidth(contentWidth);
 		contentWnd->SetHeight(contentHeight);

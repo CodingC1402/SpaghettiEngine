@@ -40,8 +40,8 @@ public:
 	void Disable();
 	void Enable();
 
-	void Translate(const Vector3& vector);
-	void Move(const Vector3& newPosition);
+	void Translate(const Vector3* vector);
+	void Move(const Vector3* newPosition);
 
 	void RemoveParent();
 	void AddParent(const PGameObj& gameObj);

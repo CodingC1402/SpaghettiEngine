@@ -65,3 +65,8 @@ void Camera::OnEnabled()
 {
 	Graphics::AddCamera(this);
 }
+
+void Camera::Unload()
+{
+	Graphics::RemoveCamera(this);
+}
