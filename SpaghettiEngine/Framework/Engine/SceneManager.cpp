@@ -18,6 +18,8 @@ const wchar_t* SceneManager::SceneManagerException::GetType() const noexcept
 
 void SceneManager::Update()
 {
+	if (callLoadSceneIndex != sceneIndex)
+		StartLoadScene(callLoadSceneIndex);
 	__instance->currentScene->Update();
 	__instance->constScene->Update();
 }
@@ -29,30 +31,35 @@ PSceneManager SceneManager::GetInstance()
 	return __instance;
 }
 
-void SceneManager::LoadNextScene()
+void SceneManager::StartLoadScene(UINT index)
 {
-	LoadScene(__instance->sceneIndex + 1);
-}
-
-void SceneManager::LoadScene(UINT index)
-{
-	if (index == __instance->sceneIndex)
+	if (index == sceneIndex)
 		return;
 
-	if (index > __instance->scenes.size())
+	if (index > scenes.size())
 	{
 		std::wostringstream os;
 		os << L"LoadScene called with index ";
 		os << index << std::endl;
 		os << L"But the number of scenes is ";
-		os << __instance->scenes.size() << std::endl;
+		os << scenes.size() << std::endl;
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 	}
 
-	__instance->scenes[__instance->sceneIndex]->Unload();
-	__instance->sceneIndex = index;
-	__instance->currentScene = __instance->scenes[index];
-	__instance->currentScene->Load();
+	scenes[sceneIndex]->Unload();
+	sceneIndex = index;
+	currentScene = scenes[index];
+	currentScene->Load();
+}
+
+void SceneManager::CallLoadNextScene()
+{
+	GetInstance()->callLoadSceneIndex = GetInstance()->sceneIndex + 1;
+}
+
+void SceneManager::CallLoadScene(UINT index)
+{
+	GetInstance()->callLoadSceneIndex = index;
 }
 
 SScene& SceneManager::GetCurrentScene()
@@ -70,9 +77,9 @@ int SceneManager::GetNumberOfScene()
 	return static_cast<int>(__instance->scenes.size());
 }
 
-void SceneManager::LoadPreviousScene()
+void SceneManager::CallLoadPreviousScene()
 {
-	LoadScene(__instance->sceneIndex - 1);
+	GetInstance()->callLoadSceneIndex = GetInstance()->sceneIndex - 1;
 }
 
 SScene& SceneManager::GetConstScene()
@@ -82,7 +89,8 @@ SScene& SceneManager::GetConstScene()
 
 SceneManager::SceneManager()
 	:
-	sceneIndex(-1)
+	sceneIndex(-1),
+	callLoadSceneIndex(-1)
 {}
 
 #define CONSTSCENE "ConstScene"
@@ -110,6 +118,7 @@ void SceneManager::Load()
 			scenes.push_back(SScene(new Scene(scene.get<std::string>())));
 
 		sceneIndex = file[START].get<int>();
+		callLoadSceneIndex = sceneIndex;
 		constScene = SScene(new Scene(file[CONSTSCENE].get<std::string>()));
 	}
 	catch (...)

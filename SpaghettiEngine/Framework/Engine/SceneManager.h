@@ -22,9 +22,9 @@ public:
 		virtual const wchar_t* GetType() const noexcept override;
 	};
 public:
-	static void LoadNextScene();
-	static void LoadScene(UINT index);
-	static void LoadPreviousScene();
+	static void CallLoadNextScene();
+	static void CallLoadScene(UINT index);
+	static void CallLoadPreviousScene();
 
 	static SScene& GetConstScene();
 
@@ -33,6 +33,7 @@ public:
 	static int GetNumberOfScene();
 protected:
 	static PSceneManager GetInstance();
+	void StartLoadScene(UINT index);
 
 	SceneManager();
 	void Update();
@@ -40,6 +41,7 @@ protected:
 	void Init();
 protected:
 	int sceneIndex;
+	int callLoadSceneIndex;
 
 	std::vector<SScene> scenes;
 	SScene constScene;

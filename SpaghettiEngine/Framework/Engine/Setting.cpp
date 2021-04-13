@@ -84,6 +84,8 @@ void Setting::Load()
 		isWorldPointPixelPerfect = file[PIXELPERFECT_WORLDPOINT].get<bool>();
 		fps = file[FPS].get<float>();
 		cappedLoop = file[CAPPEDLOOP].get<int>();
+
+		jsonFile.close();
 	}
 	catch (...)
 	{
