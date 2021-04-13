@@ -10,7 +10,17 @@
 #define OUTOFMEMORY E_OUTOFMEMORY
 
 #define XRGB D3DCOLOR_XRGB
+#define RGB XRGB
 #define ARGB(r, g, b, alpha) static_cast<Color>(0|(alpha<<24)|(r<<16)|(g<<8)|b)
+
+// decrease drag time but increase memory use so use wisely :v,
+// jk like I know shit :v
+#define BLACK	XRGB(0, 0, 0)
+#define WHITE	XRGB(255, 255, 255)
+#define MAGENTA XRGB(255, 0, 255)
+#define BLUE	XRGB(0, 0, 255)
+#define GREEN	XRGB(0, 255, 0)
+#define RED		XRGB(255, 0, 0)
 
 typedef class Graphics* PGraphics;
 typedef LPDIRECT3D9 Renderer;

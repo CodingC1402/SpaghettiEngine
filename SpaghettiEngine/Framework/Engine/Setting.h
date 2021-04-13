@@ -17,7 +17,8 @@ public:
 	static Plane2D::Size GetResolution();
 	static const wchar_t* GetAppName();
 	static int GetCappedLoop();
-	static bool IsPixelPerfect();
+	static bool IsResolutionPixelPerfect();
+	static bool IsWorldPointPixelPerfect();
 	static float GetFps();
 protected:
 	~Setting() = default;
@@ -26,7 +27,8 @@ protected:
 protected:
 	Plane2D::Size resolution;
 	std::wstring name;
-	bool isPixelPerfect = false;
+	bool isResolutionPixelPerfect = false;
+	bool isWorldPointPixelPerfect = false;
 	float fps;
 	int cappedLoop;
 

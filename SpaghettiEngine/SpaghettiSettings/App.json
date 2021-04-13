@@ -6,5 +6,6 @@
     "Width": 256,
     "Height": 224
   },
-  "PixelPerfect": true
+  "PixelPerfectResolution": true,
+  "PixelPerfectWorldPoint": true
 }

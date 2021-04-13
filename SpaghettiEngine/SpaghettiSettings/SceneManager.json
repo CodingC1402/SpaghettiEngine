@@ -1,6 +1,7 @@
 {
   "Scenes": [
-    "Asset/Scenes/Level1.json"
+    "Asset/Scenes/Level1.json",
+    "Asset/Scenes/Level2.json"
   ],
   "Start": 0,
   "ConstScene": "Asset/Scenes/Static.json"

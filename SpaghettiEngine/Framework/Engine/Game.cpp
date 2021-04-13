@@ -28,6 +28,10 @@ void Game::Update()
 	{
 		Graphics::ToWindowMode();
 	}
+	if (InputSystem::GetInput("Right")->Check())
+	{
+		SceneManager::LoadNextScene();
+	}
 
 	sceneManager->Update();
 }
