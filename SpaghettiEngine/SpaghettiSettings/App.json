@@ -1,6 +1,7 @@
 {
   "Name": "SpaghettiEngine",
-  "Fps": 60,
+  "CappedLoop":  480,
+  "Fps": 30,
   "Resolution": {
     "Width": 256,
     "Height": 224

@@ -47,6 +47,7 @@ protected:
 
 	mutable double fps = 0;
 	mutable int framePassed = 0;
+	double delayBetweenLoops = 0;
 
 	bool running = false;
 

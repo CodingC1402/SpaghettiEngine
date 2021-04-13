@@ -1,5 +1,6 @@
 {
   "GameObjects": [
-    "Asset/Scenes/Level1/Obj1.json"
+    "Asset/Scenes/Level1/Obj1.json",
+    "Asset/Scenes/Level1/Obj3.json"
   ]
 }

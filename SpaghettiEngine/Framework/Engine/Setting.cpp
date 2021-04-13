@@ -24,6 +24,11 @@ const wchar_t* Setting::GetAppName()
 	return GetInstance()->name.c_str();
 }
 
+int Setting::GetCappedLoop()
+{
+	return GetInstance()->cappedLoop;
+}
+
 bool Setting::IsPixelPerfect()
 {
 	return GetInstance()->isPixelPerfect;
@@ -45,6 +50,7 @@ Setting::Setting()
 #define WIDTH "Width"
 #define HEIGHT "Height"
 #define PIXELPERFECT "PixelPerfect"
+#define CAPPEDLOOP "CappedLoop"
 
 void Setting::Load()
 {
@@ -70,6 +76,7 @@ void Setting::Load()
 		name = StringConverter::StrToWStr(file[NAME].get<std::string>());
 		isPixelPerfect = file[PIXELPERFECT].get<bool>();
 		fps = file[FPS].get<float>();
+		cappedLoop = file[CAPPEDLOOP].get<int>();
 	}
 	catch (...)
 	{

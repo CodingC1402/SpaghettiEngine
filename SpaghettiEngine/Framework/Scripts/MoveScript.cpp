@@ -35,9 +35,5 @@ void MoveScript::Update()
 	move.x *= movementSpeed * GameTimer::GetDeltaTime();
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
-	std::wostringstream os;
-	os << "X:" << move.x << " Y:" << move.y << " Z:" << move.z << std::endl;
-	Debug::Log(os.str().c_str());
-
 	owner->Translate(move);
 }

@@ -48,7 +48,7 @@ public:
 	static void ToFullScreenMode();
 	static void ToWindowMode();
 	static void Draw(const PSpriteRenderer renderScript); // Render Sprite
-	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const D3DCOLOR& keyColor);
+	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
 protected:
@@ -105,6 +105,21 @@ protected:
 	// EndTemp
 
 	static PGraphics __instance;
+private:
+#ifdef _DEBUG
+#include "Timer.h"
+	float fps = 0;
+	PTimer fpsTimer = Timer::Create();
+	RECT fpsRect;
+	FontHandler fpsFont = NULL;
+
+	void UpdateFPS() {
+		fpsTimer->Mark();
+		double delta = fpsTimer->GetDeltaTime();
+		Debug::LogF(delta);
+		fps = fps * 0.8 + 0.2 * (1 / delta);
+	}
+#endif
 };
 
 #define GRAPHICS_EXCEPT(discription) Graphics::GraphicException(__LINE__,__FILE__,discription)

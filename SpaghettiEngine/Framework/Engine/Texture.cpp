@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "Graphics.h"
+#include "GraphicsMath.h"
 
 std::list<STexture> Texture::textures;
 
@@ -43,7 +44,7 @@ void Texture::Load()
 		UINT red = file[KEYCOLOR][RED].get<int>();
 		UINT green = file[KEYCOLOR][GREEN].get<int>();
 		UINT blue = file[KEYCOLOR][BLUE].get<int>();
-		D3DCOLOR keyColor = RGB(red, green, blue);
+		Color keyColor = ARGB(red, green, blue, 255);
 		Graphics::LoadTexture(image, path, keyColor);
 
 		int x, y, w, h;

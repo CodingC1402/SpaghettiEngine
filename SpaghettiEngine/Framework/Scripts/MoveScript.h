@@ -15,7 +15,7 @@ protected:
 	SInput right;
 
 	Vector3 move;
-	float movementSpeed = 20;
+	float movementSpeed = 50;
 private:
 	REGISTER_START(MoveScript);
 };
