@@ -16,12 +16,9 @@ void RigidBody::Start()
 void RigidBody::Update()
 {
 	fall.x = 0;
-	fall.y = 0;
+	fall.y = -1;
 	fall.z = 0;
 
-	if (down->Check())
-		fall.y -= 1;
-
-	fall.x *= movementSpeed * GameTimer::GetDeltaTime();
+	fall.y *= movementSpeed * GameTimer::GetDeltaTime();
 	owner->Translate(&fall);
 }
