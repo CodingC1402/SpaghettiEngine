@@ -71,6 +71,8 @@ void Scene::Load()
 		{
 			instances.push_back(new GameObj(gameObj.get<std::string>(), this));
 		}
+
+		file.close();
 	}
 	catch (...)
 	{
@@ -92,6 +94,7 @@ void Scene::Unload()
 {
 	for (const auto& instance : instances)
 		instance->Destroy();
+	instances.clear();
 
 	Texture::ClearUnusedTexture();
 }

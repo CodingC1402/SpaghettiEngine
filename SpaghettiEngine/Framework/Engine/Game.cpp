@@ -18,7 +18,7 @@ void Game::Update()
 
 	if (InputSystem::GetInput("Left")->Check())
 	{
-		App::CallQuit();
+		SceneManager::CallLoadPreviousScene();
 	}
 	if (InputSystem::GetInput("Up")->Check())
 	{
@@ -30,7 +30,7 @@ void Game::Update()
 	}
 	if (InputSystem::GetInput("Right")->Check())
 	{
-		SceneManager::LoadNextScene();
+		SceneManager::CallLoadNextScene();
 	}
 
 	sceneManager->Update();

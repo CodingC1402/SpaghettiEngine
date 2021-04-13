@@ -7,6 +7,7 @@ REGISTER_FINISH(SpriteRenderer);
 
 SpriteRenderer::SpriteRenderer()
 {
+	transformMatrix._11 = 1;
 	GraphicsMath::ZeroMatrix(&transformMatrix);
 
 	transformMatrix._11 = 1;

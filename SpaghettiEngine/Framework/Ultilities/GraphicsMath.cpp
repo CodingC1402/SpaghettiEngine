@@ -23,10 +23,22 @@ void GraphicsMath::ZeroMatrix(Matrix* outMatrix)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		outMatrix[i][0] = 0;
-		outMatrix[i][1] = 0;
-		outMatrix[i][2] = 0;
-		outMatrix[i][3] = 0;
+		outMatrix->_11 = 0;
+		outMatrix->_21 = 0;
+		outMatrix->_31 = 0;
+		outMatrix->_41 = 0;
+		outMatrix->_12 = 0;
+		outMatrix->_22 = 0;
+		outMatrix->_32 = 0;
+		outMatrix->_42 = 0;
+		outMatrix->_13 = 0;
+		outMatrix->_23 = 0;
+		outMatrix->_33 = 0;
+		outMatrix->_43 = 0;
+		outMatrix->_14 = 0;
+		outMatrix->_24 = 0;
+		outMatrix->_34 = 0;
+		outMatrix->_44 = 0;
 	}
 }
 

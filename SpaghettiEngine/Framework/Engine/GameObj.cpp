@@ -253,6 +253,8 @@ void GameObj::Load()
 		{
 			AddScript(script["Name"].get<std::string>(), script["Input"].get<std::string>());
 		}
+
+		file.close();
 	}
 	catch (const std::exception& e)
 	{
