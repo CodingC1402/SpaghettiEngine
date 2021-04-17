@@ -15,7 +15,10 @@ public:
 	void Init();
 	void Update();
 	static Physic* GetInstance();
+	void AddBoxCollider(PBoxCollider newCollider);
+	void AddRigidBody(PRigidBody newRigidBody);
 protected:
+	void Unload();
 	void CheckCollision(PBoxCollider object, PBoxCollider other);
 protected:
 	Physic() = default;

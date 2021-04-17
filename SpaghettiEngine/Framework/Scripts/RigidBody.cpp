@@ -22,5 +22,17 @@ void RigidBody::Update()
 
 	vy += gravity * GameTimer::GetDeltaTime();
 
-	owner->Translate(&fall);
+	//owner->Translate(&fall);
+}
+
+void RigidBody::Load(const std::string* inputArg)
+{
+	try
+	{
+		Physic::GetInstance()->AddRigidBody(this);
+	}
+	catch (CornException& e)
+	{
+		throw e;
+	}
 }

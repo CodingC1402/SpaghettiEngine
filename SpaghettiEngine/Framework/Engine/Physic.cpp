@@ -35,6 +35,23 @@ Physic* Physic::GetInstance()
 	return __instance;
 }
 
+void Physic::AddBoxCollider(PBoxCollider newCollider)
+{
+	boxColliders.push_back(newCollider);
+}
+
+void Physic::AddRigidBody(PRigidBody newRigidBody)
+{
+	rigidBodis.push_back(newRigidBody);
+}
+
+
+void Physic::Unload()
+{
+	rigidBodis.clear();
+	boxColliders.clear();
+}
+
 void Physic::CheckCollision(PBoxCollider object, PBoxCollider other)
 {
 	float left = other->owner->GetPosition()->x - (object->owner->GetPosition()->x + object->width);

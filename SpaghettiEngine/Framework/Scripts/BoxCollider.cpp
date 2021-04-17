@@ -27,6 +27,7 @@ void BoxCollider::Load(const std::string* inputArg)
 		TokenizedStr input = StringConverter::Tokenize(inputArg, ' ');
 		width = std::stof(input[Width]);
 		height = std::stof(input[Height]);
+		Physic::GetInstance()->AddBoxCollider(this);
 	}
 	catch (CornException& e)
 	{
