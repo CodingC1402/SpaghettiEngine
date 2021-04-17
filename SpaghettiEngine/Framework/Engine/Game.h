@@ -22,6 +22,7 @@ private:
 	PGameTimer timer = NULL;
 	PInputSystem input = NULL;
 	PSceneManager sceneManager = NULL;
+	PPhysic physic = NULL;
 
 	static Game* __instance;
 };

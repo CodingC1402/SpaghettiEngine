@@ -37,6 +37,7 @@
     <ClInclude Include="Framework\Engine\SpaghettiEnginePath.h" />
     <ClInclude Include="Framework\Engine\Sprite.h" />
     <ClInclude Include="Framework\Engine\Texture.h" />
+    <ClInclude Include="Framework\Scripts\BoxCollider.h" />
     <ClInclude Include="Framework\Scripts\Camera.h" />
     <ClInclude Include="Framework\Scripts\MoveScript.h" />
     <ClInclude Include="Framework\Scripts\RigidBody.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="Framework\Engine\Sprite.cpp" />
     <ClCompile Include="Framework\Engine\Texture.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
+    <ClCompile Include="Framework\Scripts\BoxCollider.cpp" />
     <ClCompile Include="Framework\Scripts\Camera.cpp" />
     <ClCompile Include="Framework\Scripts\MoveScript.cpp" />
     <ClCompile Include="Framework\Scripts\RigidBody.cpp" />

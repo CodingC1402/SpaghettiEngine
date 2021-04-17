@@ -3,7 +3,7 @@
   "Children": [
     "Asset/Scenes/Level1/Obj2.json"
   ],
-  "Position": [ 100, 100, 1 ],
+  "Position": [ 100, 150, 1 ],
   "Scripts": [
     {
       "Name": "SpriteRenderer",
@@ -16,6 +16,10 @@
     {
       "Name": "RigidBody",
       "Input": ""
+    },
+    {
+      "Name": "BoxCollider",
+      "Input": "16 16"
     }
   ]
 }

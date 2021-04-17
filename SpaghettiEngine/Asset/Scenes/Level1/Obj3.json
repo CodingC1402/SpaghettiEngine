@@ -8,6 +8,10 @@
     {
       "Name": "SpriteRenderer",
       "Input": "Asset/Textures/Stage1.png 0 0 0 1 1"
+    },
+    {
+      "Name": "BoxCollider",
+      "Input": "200 16"
     }
   ]
 }

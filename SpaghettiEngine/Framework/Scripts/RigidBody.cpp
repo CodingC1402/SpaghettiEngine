@@ -10,7 +10,6 @@ RigidBody::RigidBody()
 
 void RigidBody::Start()
 {
-	down = InputSystem::GetInput("MoveDown");
 }
 
 void RigidBody::Update()
@@ -19,9 +18,9 @@ void RigidBody::Update()
 	fall.y = -1;
 	fall.z = 0;
 
-	fall.y *= movementSpeed * GameTimer::GetDeltaTime();
+	fall.y *= vy * GameTimer::GetDeltaTime();
 
-	movementSpeed += gravity * GameTimer::GetDeltaTime();
+	vy += gravity * GameTimer::GetDeltaTime();
 
 	owner->Translate(&fall);
 }

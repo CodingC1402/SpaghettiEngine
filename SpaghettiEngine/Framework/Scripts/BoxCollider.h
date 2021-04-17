@@ -4,18 +4,18 @@
 
 class Physic;
 
-class RigidBody : public ScriptBase
+class BoxCollider : public ScriptBase
 {
 	friend class Physic;
 public:
-	RigidBody();
+	BoxCollider();
 	virtual void Start() override;
 	virtual void Update() override;
 protected:
-	Vector3 fall;
-	float vx = 0;
-	float vy = 0;
-	float gravity = 10;
+	virtual void Load(const std::string* inputArg) override;
+protected:
+	float width;
+	float height;
 private:
-	REGISTER_START(RigidBody);
+	REGISTER_START(BoxCollider);
 };
