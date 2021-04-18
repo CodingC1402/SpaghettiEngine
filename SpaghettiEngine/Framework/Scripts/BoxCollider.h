@@ -16,6 +16,10 @@ protected:
 protected:
 	float width;
 	float height;
+	float x;
+	float y;
+	float vx;
+	float vy;
 private:
 	REGISTER_START(BoxCollider);
 };

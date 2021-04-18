@@ -13,6 +13,12 @@ void Physic::Update()
 	{
 		rigidbody->Update();
 	}
+
+	for (const auto& boxCollider : boxColliders)
+	{
+		boxCollider->Update();
+	}
+
 	for (const auto& object : boxColliders)
 	{
 		for (const auto& other : boxColliders)
@@ -54,10 +60,10 @@ void Physic::Unload()
 
 void Physic::CheckCollision(PBoxCollider object, PBoxCollider other)
 {
-	float left = other->owner->GetPosition()->x - (object->owner->GetPosition()->x + object->width);
-	float top = (other->owner->GetPosition()->y + other->height) - object->owner->GetPosition()->y;
-	float right = (other->owner->GetPosition()->x + other->width) - object->owner->GetPosition()->x;
-	float bottom = other->owner->GetPosition()->y - (object->owner->GetPosition()->y + object->height);
+	float left = other->x - (object->x + object->width - object->width / 2);
+	float top = (other->y + other->height) - (object->y - object->height / 2);
+	float right = (other->x + other->width) - (object->x - object->width / 2);
+	float bottom = other->y - (object->y + object->height - object->height / 2);
 
 	if (!(left > 0 || right < 0 || top < 0 || bottom > 0))
 	{

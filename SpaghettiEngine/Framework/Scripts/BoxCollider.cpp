@@ -15,6 +15,8 @@ void BoxCollider::Start()
 
 void BoxCollider::Update()
 {
+	x = owner->GetPosition()->x - width / 2;
+	y = owner->GetPosition()->y - height / 2;
 }
 
 #define Width 0
