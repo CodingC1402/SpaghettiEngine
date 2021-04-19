@@ -54,18 +54,19 @@ void Physic::Unload()
 
 bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 {
-	Box broadphasebox = GetSweptBroadphaseBox(box);
-
-	if (AABBCheck(broadphasebox, block))
-	{
-		float normalx, normaly;
-		float collisiontime = SweptAABB(box, block, out normalx, out normaly);
-		box.x += box.vx * collisiontime;
-		box.y += box.vy * collisiontime;
-		if (collisiontime < 1.0f)
-		{
-			// perform response here 
-		}
-	}
+	//Box broadphasebox = GetSweptBroadphaseBox(box);
+	//
+	//if (AABBCheck(broadphasebox, block))
+	//{
+	//	float normalx, normaly;
+	//	float collisiontime = SweptAABB(box, block, out normalx, out normaly);
+	//	box.x += box.vx * collisiontime;
+	//	box.y += box.vy * collisiontime;
+	//	if (collisiontime < 1.0f)
+	//	{
+	//		// perform response here 
+	//	}
+	//}
+	return false;
 }
 

@@ -1,6 +1,6 @@
 #include "PhysicMath.h"
 
-Rect PhysicMath::getSweptBroadphaseRect(const Rect& object)
+PhysicMath::Rect PhysicMath::getSweptBroadphaseRect(const Rect& object)
 {
 	float x = object.vx > 0 ? object.x : object.x + object.vx;
 	float y = object.vy > 0 ? object.y : object.y + object.vy;

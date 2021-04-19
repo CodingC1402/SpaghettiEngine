@@ -4,6 +4,7 @@
 
 class PhysicMath
 {
+public:
 	class Rect
 	{
 	public:
@@ -16,12 +17,24 @@ class PhysicMath
 		float vx;
 		float vy;
 
+		Rect(float x, float y, float width, float height, float vx, float vy)
+		{
+			this->x = x;
+			this->y = y;
+			this->width = width;
+			this->height = height;
+			this->vx = vx;
+			this->vy = vy;
+		}
+
 		Rect(float x, float y, float width, float height)
 		{
 			this->x = x;
 			this->y = y;
 			this->width = width;
 			this->height = height;
+			this->vx = 0;
+			this->vy = 0;
 		}
 	};
 public:
