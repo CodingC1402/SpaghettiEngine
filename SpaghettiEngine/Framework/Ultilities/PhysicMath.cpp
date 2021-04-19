@@ -2,10 +2,10 @@
 
 PhysicMath::Rect PhysicMath::getSweptBroadphaseRect(const Rect& object)
 {
-	float x = object.vx > 0 ? object.x : object.x + object.vx;
-	float y = object.vy > 0 ? object.y : object.y + object.vy;
-	float w = object.vx > 0 ? object.vx + object.width : object.width - object.vx;
-	float h = object.vy > 0 ? object.vy + object.height : object.height - object.vy;
+	float x = object.x + object.vx;
+	float y = object.y + object.vy;
+	float w = object.width + abs(object.vx);
+	float h = object.height + abs(object.vy);
 
 	return Rect(x, y, w, h);
 }

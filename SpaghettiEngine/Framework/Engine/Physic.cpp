@@ -76,11 +76,12 @@ bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 	
 		float remainingtime = 1.0f - collisiontime;
 	
-		if (collisiontime < 1.0f)
+		if (collisiontime < 1.0f || PhysicMath::AABBCheck(obj, blk))
 		{
-			obj.vx *= direction->x;
-			obj.vy *= direction->y;
-			object->owner->Translate(new Vector3(obj.vx, obj.vy * 100, 0));
+			obj.vx = -obj.vx;
+			obj.vy = -obj.vy;
+
+			object->owner->Translate(new Vector3(obj.vx, obj.vy, 0));
 		}
 	}
 

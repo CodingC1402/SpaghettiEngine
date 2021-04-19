@@ -14,14 +14,14 @@ void RigidBody::Start()
 
 void RigidBody::Update()
 {
-	fall.x = 0;
-	fall.y = -1;
-	fall.z = 0;
-
-	fall.y *= vy * GameTimer::GetDeltaTime();
-	vy += gravity * GameTimer::GetDeltaTime();
-
-	owner->Translate(&fall);
+	//fall.x = 0;
+	//fall.y = -1;
+	//fall.z = 0;
+	//
+	//fall.y *= vy * GameTimer::GetDeltaTime();
+	//vy += gravity * GameTimer::GetDeltaTime();
+	//
+	//owner->Translate(&fall);
 }
 
 void RigidBody::UpdateVelocity(Vector3 v)
