@@ -67,6 +67,7 @@ float PhysicMath::sweptAABB(const Rect& object, const Rect& block, Vector3*& res
 
 	if (entryTime > exitTime || (txEntry < 0.0f && tyEntry < 0.0f) || txEntry > 1.0f || tyEntry > 1.0f)
 	{
+		result = new Vector3(0, 0, 0);
 		return 1.0f;
 	}
 
@@ -98,5 +99,10 @@ float PhysicMath::sweptAABB(const Rect& object, const Rect& block, Vector3*& res
 
 bool PhysicMath::AABBCheck(Rect object, Rect block)
 {
-	return !(object.x + object.width < block.x || object.x > block.x + block.width || object.y + object.height < block.y || object.y > block.y + block.height);
+	float left = block.x - (object.x + object.width);
+	float top = (block.y + block.height) - object.y;
+	float right = (block.x + block.width) - object.x;
+	float bottom = block.y - (object.y + object.height);
+
+	return !(left > 0 || right < 0 || top < 0 || bottom > 0);
 }

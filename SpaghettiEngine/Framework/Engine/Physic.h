@@ -3,7 +3,6 @@
 #include "RigidBody.h"
 #include "BoxCollider.h"
 #include <memory.h>
-#include <vector>
 
 typedef class BoxCollider* PBoxCollider;
 typedef class RigidBody* PRigidBody;

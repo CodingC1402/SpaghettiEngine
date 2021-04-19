@@ -9,6 +9,7 @@ void Game::Init()
 	input = InputSystem::GetInstance();
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->Init();
+	physic = Physic::GetInstance();
 }
 
 void Game::Update()
@@ -30,10 +31,12 @@ void Game::Update()
 	}
 	if (InputSystem::GetInput("Right")->Check())
 	{
+		physic->Unload();
 		SceneManager::CallLoadNextScene();
 	}
 
 	sceneManager->Update();
+	physic->Update();
 }
 
 Game::~Game()

@@ -9,18 +9,15 @@ void Physic::Init()
 
 void Physic::Update()
 {
-	for (const auto& rigidbody : rigidBodis)
+	for (auto object = boxColliders.begin(); object != boxColliders.end(); ++object)
 	{
-		rigidbody->Update();
-	}
-
-	for (const auto& object : boxColliders)
-	{
-		for (const auto& block : boxColliders)
+		auto temp = object;
+		std::advance(temp, 1);
+		for (auto block = temp; block != boxColliders.end(); ++block)
 		{
 			if (object == block)
 				continue;
-			CheckCollision(object, block);
+			CheckCollision(*object, *block);
 		}
 	}
 }
@@ -54,19 +51,39 @@ void Physic::Unload()
 
 bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 {
-	//Box broadphasebox = GetSweptBroadphaseBox(box);
-	//
-	//if (AABBCheck(broadphasebox, block))
-	//{
-	//	float normalx, normaly;
-	//	float collisiontime = SweptAABB(box, block, out normalx, out normaly);
-	//	box.x += box.vx * collisiontime;
-	//	box.y += box.vy * collisiontime;
-	//	if (collisiontime < 1.0f)
-	//	{
-	//		// perform response here 
-	//	}
-	//}
+	PhysicMath::Rect obj = PhysicMath::Rect(object->GetPosition().x,
+		object->GetPosition().y,
+		object->width,
+		object->height,
+		std::static_pointer_cast<RigidBody>(object->owner->GetScript("RigidBody")).get()->vx,
+		std::static_pointer_cast<RigidBody>(object->owner->GetScript("RigidBody")).get()->vy);
+	
+	PhysicMath::Rect broadphasebox = PhysicMath::getSweptBroadphaseRect(obj);
+	
+	PhysicMath::Rect blk = PhysicMath::Rect(block->GetPosition().x,
+		block->GetPosition().y,
+		block->width,
+		block->height,
+		0,
+		0);
+
+	if (PhysicMath::AABBCheck(broadphasebox, blk))
+	{
+		Vector3* direction;
+		float collisiontime = PhysicMath::sweptAABB(obj, blk, direction);
+		obj.x += obj.vx * collisiontime;
+		obj.y += obj.vy * collisiontime;
+	
+		float remainingtime = 1.0f - collisiontime;
+	
+		if (collisiontime < 1.0f)
+		{
+			obj.vx *= direction->x;
+			obj.vy *= direction->y;
+			object->owner->Translate(new Vector3(obj.vx, obj.vy * 100, 0));
+		}
+	}
+
 	return false;
 }
 

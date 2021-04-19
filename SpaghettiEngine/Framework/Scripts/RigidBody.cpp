@@ -19,10 +19,15 @@ void RigidBody::Update()
 	fall.z = 0;
 
 	fall.y *= vy * GameTimer::GetDeltaTime();
-
 	vy += gravity * GameTimer::GetDeltaTime();
 
-	//owner->Translate(&fall);
+	owner->Translate(&fall);
+}
+
+void RigidBody::UpdateVelocity(Vector3 v)
+{
+	this->vx = v.x;
+	this->vy = v.y;
 }
 
 void RigidBody::Load(const std::string* inputArg)

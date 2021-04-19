@@ -29,8 +29,8 @@ public:
 	void Update();
 	void End();
 
-	const SScriptBase GetScript(UINT index) noexcept;
-	const SScriptBase GetScript(std::string name) noexcept;
+	const SScriptBase GetScript(UINT index);
+	const SScriptBase GetScript(std::string name);
 	const std::list<SScriptBase> GetAllScripts(std::string name) noexcept;
 
 	const PGameObj GetParent();

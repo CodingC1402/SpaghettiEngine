@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptBase.h"
 #include "InputSystem.h"
+#include "Physic.h"
 
 class MoveScript : public ScriptBase
 {

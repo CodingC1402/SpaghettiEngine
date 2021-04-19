@@ -11,6 +11,7 @@ public:
 	RigidBody();
 	virtual void Start() override;
 	virtual void Update() override;
+	void UpdateVelocity(Vector3 v);
 protected:
 	virtual void Load(const std::string* inputArg) override;
 protected:
