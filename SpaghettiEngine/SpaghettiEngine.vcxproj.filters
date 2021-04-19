@@ -152,8 +152,8 @@
     <ClInclude Include="Framework\Ultilities\Debug.h">
       <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Scripts\MoveScript.h">
-      <Filter>Scripts\Header Files</Filter>
+    <ClInclude Include="Framework\Engine\WinMain.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -246,9 +246,6 @@
     </ClCompile>
     <ClCompile Include="Framework\Ultilities\Timer.cpp">
       <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\MoveScript.cpp">
-      <Filter>Scripts\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

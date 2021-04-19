@@ -9,12 +9,7 @@ typedef class Game* PGame;
 
 class App
 {
-	friend int WINAPI wWinMain(
-		HINSTANCE	hInstance,
-		HINSTANCE	hPrevInstance,
-		PWSTR		pCmdLine,
-		int			nCmdShow
-	);
+	friend class WinMain;
 public:
 	static void CallQuit();
 protected:

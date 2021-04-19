@@ -24,11 +24,6 @@ const wchar_t* Setting::GetAppName()
 	return GetInstance()->name.c_str();
 }
 
-int Setting::GetCappedLoop()
-{
-	return GetInstance()->cappedLoop;
-}
-
 bool Setting::IsResolutionPixelPerfect()
 {
 	return GetInstance()->isResolutionPixelPerfect;
