@@ -15,8 +15,16 @@ void BoxCollider::Start()
 
 void BoxCollider::Update()
 {
-	x = owner->GetPosition()->x - width / 2;
-	y = owner->GetPosition()->y - height / 2;
+
+}
+
+Vector3 BoxCollider::GetPosition()
+{
+	Vector3 pos;
+	pos.x = owner->GetPosition()->x - width / 2;
+	pos.y = owner->GetPosition()->y - height / 2;
+	pos.z = owner->GetPosition()->z;
+	return pos;
 }
 
 #define Width 0

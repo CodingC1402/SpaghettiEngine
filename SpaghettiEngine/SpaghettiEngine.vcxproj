@@ -47,6 +47,7 @@
     <ClInclude Include="Framework\Ultilities\GraphicsMath.h" />
     <ClInclude Include="Framework\Ultilities\json.hpp" />
     <ClInclude Include="Framework\Ultilities\Monitor.h" />
+    <ClInclude Include="Framework\Ultilities\PhysicMath.h" />
     <ClInclude Include="Framework\Ultilities\Plane2D.h" />
     <ClInclude Include="Framework\Ultilities\StringConverter.h" />
     <ClInclude Include="Framework\Ultilities\Timer.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="Framework\Ultilities\Debug.cpp" />
     <ClCompile Include="Framework\Ultilities\GraphicsMath.cpp" />
     <ClCompile Include="Framework\Ultilities\Monitor.cpp" />
+    <ClCompile Include="Framework\Ultilities\PhysicMath.cpp" />
     <ClCompile Include="Framework\Ultilities\Plane2D.cpp" />
     <ClCompile Include="Framework\Ultilities\StringConverter.cpp" />
     <ClCompile Include="Framework\Ultilities\Timer.cpp" />
@@ -158,6 +160,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -166,7 +169,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

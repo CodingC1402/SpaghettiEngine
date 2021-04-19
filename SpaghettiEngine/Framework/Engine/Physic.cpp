@@ -14,18 +14,13 @@ void Physic::Update()
 		rigidbody->Update();
 	}
 
-	for (const auto& boxCollider : boxColliders)
-	{
-		boxCollider->Update();
-	}
-
 	for (const auto& object : boxColliders)
 	{
-		for (const auto& other : boxColliders)
+		for (const auto& block : boxColliders)
 		{
-			if (object == other)
+			if (object == block)
 				continue;
-			CheckCollision(object, other);
+			CheckCollision(object, block);
 		}
 	}
 }
@@ -51,23 +46,26 @@ void Physic::AddRigidBody(PRigidBody newRigidBody)
 	rigidBodis.push_back(newRigidBody);
 }
 
-
 void Physic::Unload()
 {
 	rigidBodis.clear();
 	boxColliders.clear();
 }
 
-void Physic::CheckCollision(PBoxCollider object, PBoxCollider other)
+bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 {
-	float left = other->x - (object->x + object->width - object->width / 2);
-	float top = (other->y + other->height) - (object->y - object->height / 2);
-	float right = (other->x + other->width) - (object->x - object->width / 2);
-	float bottom = other->y - (object->y + object->height - object->height / 2);
+	Box broadphasebox = GetSweptBroadphaseBox(box);
 
-	if (!(left > 0 || right < 0 || top < 0 || bottom > 0))
+	if (AABBCheck(broadphasebox, block))
 	{
-		object->owner->Translate(new Vector3(0, 1, 0));
-		other->owner->Translate(new Vector3(0, -1, 0));
+		float normalx, normaly;
+		float collisiontime = SweptAABB(box, block, out normalx, out normaly);
+		box.x += box.vx * collisiontime;
+		box.y += box.vy * collisiontime;
+		if (collisiontime < 1.0f)
+		{
+			// perform response here 
+		}
 	}
 }
+

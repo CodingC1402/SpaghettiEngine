@@ -1,4 +1,5 @@
 #pragma once
+#include "PhysicMath.h"
 #include "RigidBody.h"
 #include "BoxCollider.h"
 #include <memory.h>
@@ -19,7 +20,7 @@ public:
 	void AddRigidBody(PRigidBody newRigidBody);
 protected:
 	void Unload();
-	void CheckCollision(PBoxCollider object, PBoxCollider other);
+	bool CheckCollision(PBoxCollider object, PBoxCollider block);
 protected:
 	Physic() = default;
 	~Physic();

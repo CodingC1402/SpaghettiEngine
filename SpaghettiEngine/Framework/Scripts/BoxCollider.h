@@ -11,13 +11,12 @@ public:
 	BoxCollider();
 	virtual void Start() override;
 	virtual void Update() override;
+	Vector3 GetPosition();
 protected:
 	virtual void Load(const std::string* inputArg) override;
 protected:
 	float width;
 	float height;
-	float x;
-	float y;
 	float vx;
 	float vy;
 private:
