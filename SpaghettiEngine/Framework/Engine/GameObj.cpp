@@ -58,6 +58,26 @@ const SScriptBase GameObj::GetScript(UINT index)
 	return *iterator;
 }
 
+const SScriptBase GameObj::GetScript(std::string name)
+{
+	for (const auto& script : scripts)
+	{
+		if (script->GetName() == name)
+			return script;
+	}
+}
+
+const std::list<SScriptBase> GameObj::GetAllScripts(std::string name) noexcept
+{
+	std::list<SScriptBase> rList;
+	for (const auto& script : scripts)
+	{
+		if (script->GetName() == name)
+			rList.push_back(script);
+	}
+	return rList;
+}
+
 const Vector3* GameObj::GetPosition()
 {
 	return &position;

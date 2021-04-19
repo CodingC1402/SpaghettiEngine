@@ -87,8 +87,6 @@ BOOL App::Go()
 
 	try
 	{
-		delayBetweenLoops = 1 / Setting::GetCappedLoop();
-
 		timer = STimer(Timer::Create());
 		gfx = Graphics::GetInstance();
 		gfx->Init(timer, Graphics::ColorFormat::RGB32Bit);

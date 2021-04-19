@@ -29,9 +29,12 @@ public:
 	void Update();
 	void End();
 
+	const SScriptBase GetScript(UINT index) noexcept;
+	const SScriptBase GetScript(std::string name) noexcept;
+	const std::list<SScriptBase> GetAllScripts(std::string name) noexcept;
+
 	const PGameObj GetParent();
 	const PGameObj GetChild(UINT index);
-	const SScriptBase GetScript(UINT index);
 	const Vector3* GetPosition();
 	const char* GetTag();
 	const char* GetPath();
