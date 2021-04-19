@@ -24,9 +24,9 @@ void MoveScript::Update()
 	move.z = 0;
 
 	if (up->Check())
-		move.y -= 1;
-	if (down->Check())
 		move.y += 1;
+	if (down->Check())
+		move.y -= 1;
 	if (left->Check())
 		move.x -= 1;
 	if (right->Check())

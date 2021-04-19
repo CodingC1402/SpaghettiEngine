@@ -15,6 +15,11 @@ int Sprite::GetHeight()
 	return srcRect.bottom - srcRect.top;
 }
 
+const Vector3* Sprite::GetCenter()
+{
+	return &center;
+}
+
 const RECT* Sprite::GetSourceRect()
 {
 	return &srcRect;
@@ -27,6 +32,10 @@ Sprite::Sprite(const PTexture& source, const int& x, const int& y, const int& w,
 	srcRect.right = srcRect.left + w;
 	srcRect.bottom = srcRect.top + h;
 
+	center.x = (int)w / 2;
+	center.y = (int)w / 2;
+	center.z = 0;
+
 	this->source = source;
 }
 
@@ -36,6 +45,10 @@ Sprite::Sprite(const PTexture& source, const Size& size, const Point& position)
 	srcRect.right = position.y;
 	srcRect.right = srcRect.left + size.width;
 	srcRect.bottom = srcRect.top + size.height;
+
+	center.x = (int)size.width / 2;
+	center.y = (int)size.height / 2;
+	center.z = 0;
 
 	this->source = source;
 }

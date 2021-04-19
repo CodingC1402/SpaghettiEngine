@@ -46,7 +46,7 @@ const Vector3* SpriteRenderer::GetPosition()
 
 const Vector3* SpriteRenderer::GetCenter()
 {
-	return &center;
+	return sprite->GetCenter();
 }
 
 PDx9Texture SpriteRenderer::GetTexture()

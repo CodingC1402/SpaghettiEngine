@@ -20,6 +20,7 @@ public:
 	PTexture& GetSource();
 	int GetWidth();
 	int GetHeight();
+	const Vector3 GetCenter();
 	const RECT* GetSourceRect();
 protected:
 	Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h);
@@ -27,5 +28,6 @@ protected:
 protected:
 	RECT srcRect;
 	PTexture source;
+	Vector3 center;
 };
 

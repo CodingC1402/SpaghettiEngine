@@ -1,4 +1,6 @@
 #include "Animation.h"
+#include "json.hpp"
+#include <fstream>
 
 std::list<SAnimation> Animation::__loadedAnimation;
 
@@ -63,9 +65,49 @@ Animation::Animation(const std::string& path)
 	_path = path;
 }
 
+#define TEXTUREPATH "TexturePath"
+#define	FRAME "Frames"
+#define LOOP "loop"
+#define SPRITEINDEX 0
+#define DELAY 1
 void Animation::Load()
 {
+	using namespace nlohmann;
 
+	std::ifstream file(_path);
+	if (!file.is_open())
+	{
+		std::wostringstream os;
+		os << L"File ";
+		os << _path.c_str();
+		os << L" Doesn't exist";
+		throw TEXTURE_EXCEPT(os.str());
+	}
+
+	try
+	{
+		json jsonFile;
+		file >> jsonFile;
+
+		std::string texturePath = jsonFile[TEXTUREPATH].get<std::string>();
+		STexture texture;
+		Texture::GetTexture(&texture, texturePath);
+		Frame loadedFrame;
+		for (const auto& frame : jsonFile[FRAME])
+		{
+			texture->GetSprite(&loadedFrame.sprite, frame[SPRITEINDEX].get<int>());
+			_frames.push_back(loadedFrame);
+		}
+		this->isLoop = jsonFile[LOOP].get<bool>();
+	}
+	catch (...)
+	{
+		std::wostringstream os;
+		os << L"File ";
+		os << _path.c_str();
+		os << L" doesn't have the right format";
+		throw TEXTURE_EXCEPT(os.str());
+	}
 }
 
 void Animation::RemoveAnimation(const std::string& path)
