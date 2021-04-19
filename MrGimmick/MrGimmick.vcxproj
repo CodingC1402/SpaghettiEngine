@@ -18,115 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Framework\Engine\Animation.h" />
-    <ClInclude Include="Framework\Engine\App.h" />
-    <ClInclude Include="Framework\Engine\CornDirectX.h" />
-    <ClInclude Include="Framework\Engine\Game.h" />
-    <ClInclude Include="Framework\Engine\GameObj.h" />
-    <ClInclude Include="Framework\Engine\GameTimer.h" />
-    <ClInclude Include="Framework\Engine\GameWnd.h" />
-    <ClInclude Include="Framework\Engine\Graphics.h" />
-    <ClInclude Include="Framework\Engine\Input.h" />
-    <ClInclude Include="Framework\Engine\InputSystem.h" />
-    <ClInclude Include="Framework\Engine\Physic.h" />
-    <ClInclude Include="Framework\Engine\Scene.h" />
-    <ClInclude Include="Framework\Engine\SceneManager.h" />
-    <ClInclude Include="Framework\Engine\Setting.h" />
-    <ClInclude Include="Framework\Engine\Sound.h" />
-    <ClInclude Include="Framework\Engine\SpaghettiEnginePath.h" />
-    <ClInclude Include="Framework\Engine\Sprite.h" />
-    <ClInclude Include="Framework\Engine\Texture.h" />
-    <ClInclude Include="Framework\Engine\WinMain.h" />
-    <ClInclude Include="Framework\Scripts\Camera.h" />
-    <ClInclude Include="Framework\Scripts\ScriptBase.h" />
-    <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
-    <ClInclude Include="Framework\Ultilities\Debug.h" />
-    <ClInclude Include="Framework\Ultilities\GraphicsMath.h" />
-    <ClInclude Include="Framework\Ultilities\json.hpp" />
-    <ClInclude Include="Framework\Ultilities\Monitor.h" />
-    <ClInclude Include="Framework\Ultilities\Plane2D.h" />
-    <ClInclude Include="Framework\Ultilities\StringConverter.h" />
-    <ClInclude Include="Framework\Ultilities\Timer.h" />
-    <ClInclude Include="Framework\Window\CornException.h" />
-    <ClInclude Include="Framework\Window\CornWnd.h" />
-    <ClInclude Include="Framework\Window\KeyBoard.h" />
-    <ClInclude Include="Framework\Window\Mouse.h" />
-    <ClInclude Include="Framework\Window\Window.h" />
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Framework\Engine\Animation.cpp" />
-    <ClCompile Include="Framework\Engine\App.cpp" />
-    <ClCompile Include="Framework\Engine\Game.cpp" />
-    <ClCompile Include="Framework\Engine\GameObj.cpp" />
-    <ClCompile Include="Framework\Engine\GameTimer.cpp" />
-    <ClCompile Include="Framework\Engine\GameWnd.cpp" />
-    <ClCompile Include="Framework\Engine\Graphics.cpp" />
-    <ClCompile Include="Framework\Engine\Input.cpp" />
-    <ClCompile Include="Framework\Engine\InputSystem.cpp" />
-    <ClCompile Include="Framework\Engine\Physic.cpp" />
-    <ClCompile Include="Framework\Engine\Scene.cpp" />
-    <ClCompile Include="Framework\Engine\SceneManager.cpp" />
-    <ClCompile Include="Framework\Engine\Setting.cpp" />
-    <ClCompile Include="Framework\Engine\Sound.cpp" />
-    <ClCompile Include="Framework\Engine\Sprite.cpp" />
-    <ClCompile Include="Framework\Engine\Texture.cpp" />
-    <ClCompile Include="Framework\Engine\WinMain.cpp" />
-    <ClCompile Include="Framework\Scripts\Camera.cpp" />
-    <ClCompile Include="Framework\Scripts\ScriptBase.cpp" />
-    <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />
-    <ClCompile Include="Framework\Ultilities\Debug.cpp" />
-    <ClCompile Include="Framework\Ultilities\GraphicsMath.cpp" />
-    <ClCompile Include="Framework\Ultilities\Monitor.cpp" />
-    <ClCompile Include="Framework\Ultilities\Plane2D.cpp" />
-    <ClCompile Include="Framework\Ultilities\StringConverter.cpp" />
-    <ClCompile Include="Framework\Ultilities\Timer.cpp" />
-    <ClCompile Include="Framework\Window\CornException.cpp" />
-    <ClCompile Include="Framework\Window\KeyBoard.cpp" />
-    <ClCompile Include="Framework\Window\Mouse.cpp" />
-    <ClCompile Include="Framework\Window\Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Framework\Window\Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="SpaghettiEngine.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.json" />
-    <None Include="Input.json" />
-    <None Include="SpaghettiSettings\SceneManager.json" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{160a16fc-44ec-4db1-a7bd-f6738dfbc3b5}</ProjectGuid>
-    <RootNamespace>SpaghettiEngine</RootNamespace>
+    <ProjectGuid>{32117c33-95d3-44e1-812b-74f31cdcd448}</ProjectGuid>
+    <RootNamespace>MrGimmick</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -152,21 +72,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -174,17 +88,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Scripts;..\SpaghettiEngine\Framework\Ultilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -195,12 +106,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Scripts;..\SpaghettiEngine\Framework\Ultilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -208,6 +115,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -216,17 +124,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Scripts;..\SpaghettiEngine\Framework\Ultilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -237,12 +142,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Scripts;..\SpaghettiEngine\Framework\Ultilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -250,8 +151,21 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpaghettiEngine\SpaghettiEngine.vcxproj">
+      <Project>{160a16fc-44ec-4db1-a7bd-f6738dfbc3b5}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MoveScript.cpp" />
+    <ClCompile Include="WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MoveScript.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

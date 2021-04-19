@@ -16,8 +16,8 @@ typedef std::list<Frame>::iterator ItFrame;
 class Animation
 {
 public:
-	static constexpr SAnimation GetAnimation(int index);
-	static constexpr SAnimation GetAnimation(const std::string& path);
+	static SAnimation GetAnimation(int index);
+	static SAnimation GetAnimation(const std::string& path);
 	static SAnimation LoadAnimation(const std::string& path);
 
 	int GetNumberOfFrames() const noexcept;

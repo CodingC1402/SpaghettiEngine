@@ -1,5 +1,7 @@
 #include "Animation.h"
 
+std::list<SAnimation> Animation::__loadedAnimation;
+
 SAnimation Animation::GetAnimation(int index)
 {
 	auto it = __loadedAnimation.begin();
@@ -7,7 +9,7 @@ SAnimation Animation::GetAnimation(int index)
 	return *it;
 }
 
-constexpr SAnimation Animation::GetAnimation(const std::string& path)
+SAnimation Animation::GetAnimation(const std::string& path)
 {
 	for (const auto& animation : __loadedAnimation)
 	{

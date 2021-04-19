@@ -48,7 +48,7 @@ const PGameObj GameObj::GetChild(UINT index)
 	return *iterator;
 }
 
-const SScriptBase GameObj::GetScript(UINT index)
+const SScriptBase GameObj::GetScript(UINT index) noexcept
 {
 	if (index >= scripts.size())
 		return nullptr;
@@ -58,7 +58,7 @@ const SScriptBase GameObj::GetScript(UINT index)
 	return *iterator;
 }
 
-const SScriptBase GameObj::GetScript(std::string name)
+const SScriptBase GameObj::GetScript(std::string name) noexcept
 {
 	for (const auto& script : scripts)
 	{
