@@ -7,7 +7,6 @@ void Game::Init()
 	timer = GameTimer::GetInstance();
 	timer->Start();
 	input = InputSystem::GetInstance();
-	physic = Physic::GetInstance();
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->Init();
 }
@@ -19,7 +18,7 @@ void Game::Update()
 
 	if (InputSystem::GetInput("Left")->Check())
 	{
-		App::CallQuit();
+		SceneManager::CallLoadPreviousScene();
 	}
 	if (InputSystem::GetInput("Up")->Check())
 	{
@@ -31,12 +30,10 @@ void Game::Update()
 	}
 	if (InputSystem::GetInput("Right")->Check())
 	{
-		physic->Unload();
-		SceneManager::LoadNextScene();
+		SceneManager::CallLoadNextScene();
 	}
 
 	sceneManager->Update();
-	physic->Update();
 }
 
 Game::~Game()

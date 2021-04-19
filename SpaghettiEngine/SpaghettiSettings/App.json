@@ -1,7 +1,6 @@
 {
-  "Name": "SpaghettiEngine",
-  "CappedLoop":  480,
-  "Fps": 30,
+  "Name": "Mr Gimmick",
+  "Fps": 60,
   "Resolution": {
     "Width": 256,
     "Height": 224

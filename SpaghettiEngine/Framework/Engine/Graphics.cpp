@@ -124,7 +124,7 @@ void Graphics::CreateResource()
 #ifdef _DEBUG
 	result = D3DXCreateFont(
 		renderDevice,
-		15, 10, 0, 0, 0, 0, 0, 0, 0, L"Calibri", &fpsFont
+		16, 8, 0, 0, 0, 0, 0, 0, 0, L"Calibri", &fpsFont
 	);
 	if (FAILED(result))
 		throw GRAPHICS_EXCEPT_CODE(result);
@@ -280,7 +280,7 @@ void Graphics::Render()
 
 		UpdateFPS();
 		std::wostringstream os;
-		os << (int)fps << std::endl;
+		os << (int)(fps + 0.5) << std::endl;
 		std::wstring str = os.str();
 
 		fpsFont->DrawTextW(

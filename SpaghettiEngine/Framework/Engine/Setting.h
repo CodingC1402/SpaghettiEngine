@@ -16,7 +16,6 @@ public:
 	static Setting* GetInstance();
 	static Plane2D::Size GetResolution();
 	static const wchar_t* GetAppName();
-	static int GetCappedLoop();
 	static bool IsResolutionPixelPerfect();
 	static bool IsWorldPointPixelPerfect();
 	static float GetFps();
@@ -30,7 +29,6 @@ protected:
 	bool isResolutionPixelPerfect = false;
 	bool isWorldPointPixelPerfect = false;
 	float fps;
-	int cappedLoop;
 
 	static Setting* __instance;
 };

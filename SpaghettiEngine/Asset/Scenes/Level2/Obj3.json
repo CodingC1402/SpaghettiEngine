@@ -7,7 +7,7 @@
   "Scripts": [
     {
       "Name": "SpriteRenderer",
-      "Input": "Asset/Textures/Stage1.png 2 0 0 1 1"
+      "Input": "Asset/Textures/Stage2.jpg 0 0 0 1 1"
     }
   ]
 }
