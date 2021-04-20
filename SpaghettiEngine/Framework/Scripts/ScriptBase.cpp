@@ -50,3 +50,8 @@ void ScriptBase::Enable()
 	isDisabled = false;
 	OnEnabled();
 }
+
+void ScriptBase::Destroy()
+{
+	delete this;
+}

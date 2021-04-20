@@ -95,6 +95,4 @@ void Scene::Unload()
 	for (const auto& instance : instances)
 		instance->Destroy();
 	instances.clear();
-
-	Texture::ClearUnusedTexture();
 }

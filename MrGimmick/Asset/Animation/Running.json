@@ -1,0 +1,10 @@
+{
+  "TexturePath": "Asset/Textures/MainCharacter.png",
+  "Frames": [
+    [ 4, 0.15 ],
+    [ 5, 0.15 ],
+    [ 6, 0.15 ],
+    [ 7, 0.15 ]
+  ],
+  "Loop": true
+}

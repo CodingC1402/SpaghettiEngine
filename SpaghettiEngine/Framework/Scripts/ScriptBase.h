@@ -55,6 +55,7 @@ public:
 protected:
 	virtual void Load(const std::string* inputArg) {};
 	virtual void Unload() {};
+	void Destroy();
 protected:
 	bool isDisabled = false;
 	PGameObj owner = NULL;

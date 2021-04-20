@@ -98,6 +98,11 @@ void Graphics::RemoveCamera(PCamera camera)
 	}
 }
 
+void Graphics::ClearRenderBuffer()
+{
+	renderBuffer.clear();
+}
+
 void Graphics::CreateResource()
 {
 	renderer->CreateDevice(
@@ -263,7 +268,6 @@ void Graphics::Render()
 			GraphicsMath::TransformVector3(&screenPosition, renderScript->GetPosition(), cameraMatrix);
 			if (isPixelPerfect)
 				GraphicsMath::RoundVector3(&screenPosition);
-
 			spriteHandler->SetTransform(renderScript->GetTransform());
 			spriteHandler->Draw(
 				renderScript->GetTexture(),

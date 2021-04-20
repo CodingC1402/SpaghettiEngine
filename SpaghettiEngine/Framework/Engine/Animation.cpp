@@ -11,20 +11,21 @@ SAnimation Animation::GetAnimation(int index)
 	return *it;
 }
 
-SAnimation Animation::GetAnimation(const std::string& path)
+SAnimation Animation::GetAnimation(const std::string* path)
 {
 	for (const auto& animation : __loadedAnimation)
 	{
-		if (animation->_path == path)
+		if (animation->_path == *path)
 			return animation;
 	}
 
 	return LoadAnimation(path);
 }
 
-SAnimation Animation::LoadAnimation(const std::string& path)
+SAnimation Animation::LoadAnimation(const std::string* path)
 {
 	SAnimation newAnimation(new Animation(path));
+	newAnimation->Load();
 	__loadedAnimation.push_back(newAnimation);
 	return newAnimation;
 }
@@ -34,40 +35,40 @@ int Animation::GetNumberOfFrames() const noexcept
 	return _frames.size();
 }
 
-ItFrame Animation::Begin()
+SSprite Animation::GetSpriteOfFrame(const UINT* frame)
 {
-	return _frames.begin();
+	return _frames[*frame].sprite;
 }
 
-void Animation::Advance(ItFrame& itFrame, double& time)
+void Animation::Advance(UINT* frame, double* time)
 {
-	ItFrame nextFrame = itFrame;
-	while (time >= 0)
+	UINT nextFrame = *frame;
+	while (*time >= 0)
 	{
-		itFrame = nextFrame;
-		std::advance(nextFrame, 1);
+		*frame = nextFrame;
+		nextFrame++;
 
-		if (nextFrame == _frames.end())
+		if (nextFrame == _frames.size())
 		{
 			if (isLoop)
-				nextFrame = _frames.begin();
+				nextFrame = 0;
 			else
 				return;
 		}
 
-		time -= nextFrame->delay;
+		*time -= _frames[nextFrame].delay;
 	}
-	time += nextFrame->delay;
+	*time += _frames[nextFrame].delay;
 }
 
-Animation::Animation(const std::string& path)
+Animation::Animation(const std::string* path)
 {
-	_path = path;
+	_path = *path;
 }
 
 #define TEXTUREPATH "TexturePath"
-#define	FRAME "Frames"
-#define LOOP "loop"
+#define	FRAMES "Frames"
+#define LOOP "Loop"
 #define SPRITEINDEX 0
 #define DELAY 1
 void Animation::Load()
@@ -93,9 +94,10 @@ void Animation::Load()
 		STexture texture;
 		Texture::GetTexture(&texture, texturePath);
 		Frame loadedFrame;
-		for (const auto& frame : jsonFile[FRAME])
+		for (const auto& frame : jsonFile[FRAMES])
 		{
 			texture->GetSprite(&loadedFrame.sprite, frame[SPRITEINDEX].get<int>());
+			loadedFrame.delay = frame[DELAY].get<double>();
 			_frames.push_back(loadedFrame);
 		}
 		this->isLoop = jsonFile[LOOP].get<bool>();
@@ -110,11 +112,11 @@ void Animation::Load()
 	}
 }
 
-void Animation::RemoveAnimation(const std::string& path)
+void Animation::RemoveAnimation(const std::string* path)
 {
 	for (auto it = __loadedAnimation.begin(); it != __loadedAnimation.end(); std::advance(it, 1))
 	{
-		if ((*it)->_path == path)
+		if ((*it)->_path == *path)
 		{
 			__loadedAnimation.erase(it);
 			return;
@@ -124,15 +126,17 @@ void Animation::RemoveAnimation(const std::string& path)
 
 void Animation::ClearUnusedAnimation()
 {
-	for (auto it = __loadedAnimation.begin(); it != __loadedAnimation.end(); std::advance(it, 1))
+	size_t size = __loadedAnimation.size();
+	auto iterator = __loadedAnimation.begin();
+	while (size > 0)
 	{
-		if ((*it).use_count() == 1)
+		if (iterator->use_count() <= 1)
 		{
-			auto eraseIt = it;
-			std::advance(it, 1);
-			__loadedAnimation.erase(eraseIt);
-			return;
+			auto eraseIterator = iterator;
+			std::advance(iterator, 1);
+			__loadedAnimation.erase(eraseIterator);
 		}
+		size--;
 	}
 }
 

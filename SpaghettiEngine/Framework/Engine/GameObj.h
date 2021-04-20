@@ -29,9 +29,9 @@ public:
 	void Update();
 	void End();
 
-	const SScriptBase GetScript(UINT index) noexcept;
-	const SScriptBase GetScript(std::string name) noexcept;
-	const std::list<SScriptBase> GetAllScripts(std::string name) noexcept;
+	const PScriptBase GetScript(const UINT index) noexcept;
+	const PScriptBase GetScript(const std::string* name) noexcept;
+	const std::list<PScriptBase> GetAllScripts(const std::string* name) noexcept;
 
 	const PGameObj GetParent();
 	const PGameObj GetChild(UINT index);
@@ -73,5 +73,5 @@ protected:
 
 	Vector3 position;
 
-	std::list<SScriptBase> scripts;
+	std::list<PScriptBase> scripts;
 };

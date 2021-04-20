@@ -17,6 +17,7 @@ typedef class Graphics* PGraphics;
 class Graphics
 {
 	friend class App;
+	friend class SceneManager;
 public:
 	enum class ColorFormat
 	{
@@ -54,6 +55,8 @@ public:
 protected:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
+
+	void ClearRenderBuffer();
 
 	void CreateResource();
 	void ReleaseResource();

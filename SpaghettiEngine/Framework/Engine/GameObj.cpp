@@ -48,7 +48,7 @@ const PGameObj GameObj::GetChild(UINT index)
 	return *iterator;
 }
 
-const SScriptBase GameObj::GetScript(UINT index) noexcept
+const PScriptBase GameObj::GetScript(UINT index) noexcept
 {
 	if (index >= scripts.size())
 		return nullptr;
@@ -58,21 +58,21 @@ const SScriptBase GameObj::GetScript(UINT index) noexcept
 	return *iterator;
 }
 
-const SScriptBase GameObj::GetScript(std::string name) noexcept
+const PScriptBase GameObj::GetScript(const std::string* name) noexcept
 {
 	for (const auto& script : scripts)
 	{
-		if (script->GetName() == name)
+		if (script->GetName() == *name)
 			return script;
 	}
 }
 
-const std::list<SScriptBase> GameObj::GetAllScripts(std::string name) noexcept
+const std::list<PScriptBase> GameObj::GetAllScripts(const std::string* name) noexcept
 {
-	std::list<SScriptBase> rList;
+	std::list<PScriptBase> rList;
 	for (const auto& script : scripts)
 	{
-		if (script->GetName() == name)
+		if (script->GetName() == *name)
 			rList.push_back(script);
 	}
 	return rList;
@@ -190,12 +190,12 @@ void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
 	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName);
 	newScript->owner = this;
 	newScript->Load(&arg);
-	scripts.push_back(SScriptBase(newScript));
+	scripts.push_back(newScript);
 }
 
 void GameObj::AddScript(const PScriptBase script)
 {
-	scripts.push_back(SScriptBase(script));
+	scripts.push_back(script);
 }
 
 GameObj::GameObj(const GameObj& obj)
@@ -211,9 +211,9 @@ GameObj::GameObj(const GameObj& obj)
 	PScriptBase copyScript;
 	for (const auto& script : obj.scripts)
 	{
-		copyScript = ScriptFactory::CopyInstance(script.get());
+		copyScript = ScriptFactory::CopyInstance(script);
 		copyScript->owner = this;
-		scripts.push_back(SScriptBase(copyScript));
+		scripts.push_back(copyScript);
 	}
 }
 
@@ -294,8 +294,11 @@ void GameObj::Destroy()
 		child->Destroy();
 	children.clear();
 
-	for (const auto& script : scripts)
+	for (auto& script : scripts)
+	{
 		script->Unload();
+		script->Destroy();
+	}
 	scripts.clear();
 	delete this;
 }

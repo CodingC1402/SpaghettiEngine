@@ -1,6 +1,7 @@
 #pragma once
 #include "Plane2D.h"
 #include "Texture.h"
+#include "CornDirectX.h"
 #include <memory>
 #include <string>
 
@@ -20,7 +21,7 @@ public:
 	PTexture& GetSource();
 	int GetWidth();
 	int GetHeight();
-	const Vector3 GetCenter();
+	const Vector3* GetCenter();
 	const RECT* GetSourceRect();
 protected:
 	Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h);

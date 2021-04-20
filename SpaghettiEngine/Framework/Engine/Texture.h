@@ -19,7 +19,7 @@ typedef LPDIRECT3DTEXTURE9 PDx9Texture;
 
 class Texture
 {
-	friend class Scene;
+	friend class SceneManager;
 public:
 	class TextureException : public CornDiscriptionException
 	{
@@ -40,6 +40,7 @@ protected:
 	static void ClearUnusedTexture();
 	static void ClearTexture();
 
+	bool IsAllSpriteUnused();
 	void Load();
 	bool CheckPath(const std::string& path);
 protected:

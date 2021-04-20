@@ -22,6 +22,16 @@ PDx9Texture Texture::GetImage()
 #define SpriteWidth 2
 #define SpriteHeight 3
 
+bool Texture::IsAllSpriteUnused()
+{
+	for (const auto& sprite : sprites)
+	{
+		if (sprite.use_count() > 1)
+			return false;
+	}
+	return true;
+}
+
 void Texture::Load()
 {
 	using namespace nlohmann;
@@ -137,15 +147,19 @@ void Texture::ClearUnusedTexture()
 	auto iterator = textures.begin();
 	while (size > 0)
 	{
-		if (iterator->use_count() == 1)
+		if (iterator->use_count() <= 1)
 		{
-			auto eraseIterator = iterator;
-			std::advance(iterator, 1);
-			textures.erase(eraseIterator);
+			if ((*iterator)->IsAllSpriteUnused())
+			{
+				auto eraseIterator = iterator;
+				std::advance(iterator, 1);
+				textures.erase(eraseIterator);
+			}
 		}
 		size--;
 	}
 }
+
 
 void Texture::ClearTexture()
 {
