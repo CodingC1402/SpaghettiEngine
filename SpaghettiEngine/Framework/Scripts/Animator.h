@@ -5,7 +5,6 @@
 class Animator : public SpriteRenderer
 {
 public:
-	~Animator() override;
 	Animator();
 	virtual void Update() override;
 	virtual void Load(const std::string* inputArg) override;

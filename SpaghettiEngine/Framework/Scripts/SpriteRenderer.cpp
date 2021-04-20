@@ -95,8 +95,3 @@ void SpriteRenderer::Load(const std::string* inputArg)
 		throw e;
 	}
 }
-
-void SpriteRenderer::Unload()
-{
-	sprite.reset();
-}

@@ -21,7 +21,6 @@ public:
 	virtual void Update() override;
 protected:
 	virtual void Load(const std::string* inputArg) override;
-	virtual void Unload() override;
 protected:
 	Matrix transformMatrix;
 	SSprite sprite;
