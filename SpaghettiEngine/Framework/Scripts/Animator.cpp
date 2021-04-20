@@ -4,6 +4,11 @@
 REGISTER_FINISH(Animator);
 SAnimation* Animator::test;
 
+Animator::~Animator()
+{
+	_ani.use_count();
+}
+
 Animator::Animator()
 {
 	name = TYPE_NAME(Animator);
@@ -27,5 +32,5 @@ void Animator::Load(const std::string* inputArg)
 void Animator::Unload()
 {
 	SpriteRenderer::Unload();
-	_ani.reset();
+	//_ani.reset();
 }

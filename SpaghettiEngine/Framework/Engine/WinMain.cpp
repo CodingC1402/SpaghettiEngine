@@ -21,11 +21,6 @@ void WinMain::RegisterSpaghettiScripts()
 	ScriptBase* dummyScript;
 
 	dummyScript = new Camera();
-	delete dummyScript;
-
 	dummyScript = new SpriteRenderer();
-	delete dummyScript;
-
 	dummyScript = new Animator();
-	delete dummyScript;
 }

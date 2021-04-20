@@ -52,10 +52,11 @@ public:
 	virtual void OnCollision() {};
 	virtual void OnDisabled() {};
 	virtual void OnEnabled() {};
+	void Destroy();
 protected:
+	virtual ~ScriptBase() {};
 	virtual void Load(const std::string* inputArg) {};
 	virtual void Unload() {};
-	void Destroy();
 protected:
 	bool isDisabled = false;
 	PGameObj owner = NULL;

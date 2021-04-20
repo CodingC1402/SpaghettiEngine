@@ -26,7 +26,9 @@ SAnimation Animation::LoadAnimation(const std::string* path)
 {
 	SAnimation newAnimation(new Animation(path));
 	newAnimation->Load();
+	newAnimation.use_count();
 	__loadedAnimation.push_back(newAnimation);
+	newAnimation.use_count();
 	return newAnimation;
 }
 
