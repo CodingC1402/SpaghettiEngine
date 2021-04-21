@@ -158,6 +158,9 @@
     <ClInclude Include="Framework\Scripts\Animator.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\Transform.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -252,6 +255,12 @@
     </ClCompile>
     <ClCompile Include="Framework\Scripts\Animator.cpp">
       <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Transform.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\CornDirectX .cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

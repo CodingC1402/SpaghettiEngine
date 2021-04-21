@@ -1,4 +1,5 @@
 #include "GraphicsMath.h"
+#include <cmath>
 
 void GraphicsMath::TransformVector3(Vector3* outVec, const Vector3* inVec, PMatrix transformMatrix)
 {
@@ -44,7 +45,35 @@ void GraphicsMath::ZeroMatrix(Matrix* outMatrix)
 
 void GraphicsMath::RoundVector3(Vector3* vec)
 {
-	vec->x = static_cast<int>(vec->x + 0.5f);
-	vec->y = static_cast<int>(vec->y + 0.5f);
-	vec->z = static_cast<int>(vec->z + 0.5f);
+	vec->x = std::lround(vec->x);
+	vec->y = std::lround(vec->y);
+	vec->z = std::lround(vec->z);
+}
+
+void GraphicsMath::TranslateMatrix(Matrix& matrix, const Vector3& vec)
+{
+	matrix._41 += vec.x;
+	matrix._42 += vec.y;
+	matrix._43 += vec.z;
+}
+
+void GraphicsMath::MoveMatrix(Matrix& matrix, const Vector3& vec)
+{
+	matrix._41 = vec.x;
+	matrix._42 = vec.y;
+	matrix._43 = vec.z;
+}
+
+void GraphicsMath::TranslateMatrix(Matrix& matrix, const float& x, const float& y, const float& z)
+{
+	matrix._41 += x;
+	matrix._42 += y;
+	matrix._43 += z;
+}
+
+void GraphicsMath::MoveMatrix(Matrix& matrix, const float& x, const float& y, const float& z)
+{
+	matrix._41 = x;
+	matrix._42 = y;
+	matrix._43 = z;
 }

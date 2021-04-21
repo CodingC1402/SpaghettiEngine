@@ -13,4 +13,8 @@ public:
 	static PMatrix NewMatrix(); // Just WHY?, for god sake >:(
 	static void ZeroMatrix(Matrix* outMatrix);
 	static void RoundVector3(Vector3* vec);
+	static void TranslateMatrix(Matrix& matrix, const Vector3& vec);
+	static void MoveMatrix(Matrix& matrix, const Vector3& vec);
+	static void TranslateMatrix(Matrix& matrix, const float& x, const float& y, const float& z);
+	static void MoveMatrix(Matrix& matrix, const float& x, const float& y, const float& z);
 };

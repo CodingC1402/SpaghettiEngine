@@ -1,6 +1,7 @@
 #include "GameObj.h"
 #include "json.hpp"
 #include "CornException.h"
+#include "GraphicsMath.h"
 #include <fstream>
 
 void GameObj::Start()
@@ -28,17 +29,18 @@ void GameObj::Update()
 		child->Update();
 }
 
-void GameObj::End()
+void GameObj::End() const
 {
-	throw EXCEPTION_ACCESS_VIOLATION;
+	for (const auto& script : scripts)
+		script->End();
 }
 
-const PGameObj GameObj::GetParent()
+PGameObj GameObj::GetParent() const
 {
 	return parent;
 }
 
-const PGameObj GameObj::GetChild(UINT index)
+PGameObj GameObj::GetChild(UINT index) const
 {
 	if (index >= children.size())
 		return nullptr;
@@ -48,7 +50,7 @@ const PGameObj GameObj::GetChild(UINT index)
 	return *iterator;
 }
 
-const PScriptBase GameObj::GetScript(UINT index) noexcept
+PScriptBase GameObj::GetScript(UINT index) const noexcept
 {
 	if (index >= scripts.size())
 		return nullptr;
@@ -58,16 +60,17 @@ const PScriptBase GameObj::GetScript(UINT index) noexcept
 	return *iterator;
 }
 
-const PScriptBase GameObj::GetScript(const std::string* name) noexcept
+PScriptBase GameObj::GetScript(const std::string* name) const noexcept
 {
 	for (const auto& script : scripts)
 	{
 		if (script->GetName() == *name)
 			return script;
 	}
+	return nullptr;
 }
 
-const std::list<PScriptBase> GameObj::GetAllScripts(const std::string* name) noexcept
+std::list<PScriptBase> GameObj::GetAllScripts(const std::string* name) const noexcept
 {
 	std::list<PScriptBase> rList;
 	for (const auto& script : scripts)
@@ -78,22 +81,30 @@ const std::list<PScriptBase> GameObj::GetAllScripts(const std::string* name) noe
 	return rList;
 }
 
-const Vector3* GameObj::GetPosition()
+Matrix GameObj::GetTransformMatrix() const
 {
-	return &position;
+	if (parent != nullptr)
+		return this->_transformMatrix * parent->GetTransformMatrix();
+	else
+		return this->_transformMatrix;
 }
 
-const char* GameObj::GetTag()
+Vector3 GameObj::GetPosition() const
 {
-	return tag.c_str();
+	return Vector3(GetTransformMatrix());
 }
 
-const char* GameObj::GetPath()
+std::string GameObj::GetTag() const
 {
-	return path.c_str();
+	return tag;
 }
 
-bool GameObj::IsDisabled()
+std::string GameObj::GetPath() const
+{
+	return path;
+}
+
+bool GameObj::IsDisabled() const
 {
 	return isDisabled;
 }
@@ -124,19 +135,29 @@ void GameObj::Enable()
 		child->Enable();
 }
 
-void GameObj::Translate(const Vector3* vector)
+void GameObj::Translate(const Vector3& vector)
 {
-	position += *vector;
+	GraphicsMath::TranslateMatrix(_transformMatrix ,vector);
 	for (const auto& child : children)
 		child->Translate(vector);
 }
 
-void GameObj::Move(const Vector3* newPosition)
+void GameObj::Translate(const float& x, const float& y, const float& z)
 {
-	Vector3 delta = *newPosition - position;
-	position = *newPosition;
+	GraphicsMath::TranslateMatrix(_transformMatrix, x, y, z);
 	for (const auto& child : children)
-		child->Translate(&delta);
+		child->Translate(x, y, z);
+}
+
+void GameObj::Move(const Vector3& newPosition)
+{
+	Vector3 delta = newPosition;
+	delta.x -= _transformMatrix._41;
+	delta.y -= _transformMatrix._42;
+	delta.z -= _transformMatrix._43;
+	GraphicsMath::MoveMatrix(_transformMatrix, newPosition);
+	for (const auto& child : children)
+		child->Translate(delta);
 }
 
 void GameObj::RemoveParent()
@@ -144,6 +165,7 @@ void GameObj::RemoveParent()
 	if (ownerScene)
 		ownerScene->AddGameObject(this);
 
+	
 	parent->RemoveChild(this);
 	parent = nullptr;
 }
@@ -154,7 +176,9 @@ void GameObj::AddParent(const PGameObj& gameObj)
 		ownerScene->RemoveGameObject(this);
 
 	parent = gameObj;
-	gameObj->AddChild(this);
+	Matrix parentMatrix = gameObj->GetTransformMatrix();
+	_transformMatrix /= ;
+	parent->AddChild(this);
 }
 
 void GameObj::BecomeCurrentSceneObj()
@@ -173,16 +197,9 @@ void GameObj::BecomeConstSceneObj()
 	SceneManager::GetConstScene()->AddGameObject(this);
 }
 
-void GameObj::SetTag(const char* tag)
+void GameObj::SetTag(const char* newTag)
 {
-	this->tag = tag;
-}
-
-GameObj::~GameObj()
-{
-	int size = children.size();
-	auto iterator = children.begin();
-
+	this->tag = newTag;
 }
 
 void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
@@ -193,23 +210,24 @@ void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
 	scripts.push_back(newScript);
 }
 
-void GameObj::AddScript(const PScriptBase script)
+void GameObj::AddScript(const PScriptBase& script)
 {
 	scripts.push_back(script);
 }
 
 GameObj::GameObj(const GameObj& obj)
+	:
+	ownerScene(nullptr),
+	parent(obj.parent),
+	loaded(obj.loaded),
+	path(obj.path),
+	tag(obj.tag),
+	_transformMatrix(obj._transformMatrix)
 {
-	parent = obj.parent;
-	path = obj.path;
-	tag = obj.tag;
-	loaded = obj.loaded;
-	position = obj.position;
 	for (const auto& child : obj.children)
 		children.push_back(new GameObj(*child));
 
-	PScriptBase copyScript;
-	for (const auto& script : obj.scripts)
+	for (PScriptBase copyScript; const auto& script : obj.scripts)
 	{
 		copyScript = ScriptFactory::CopyInstance(script);
 		copyScript->owner = this;
@@ -217,19 +235,15 @@ GameObj::GameObj(const GameObj& obj)
 	}
 }
 
-GameObj::GameObj(const std::string path, const PScene ownerScene)
+GameObj::GameObj(const std::string& path, const PScene& ownerScene)
 	:
+	ownerScene(ownerScene),
 	parent(nullptr),
-	path(path),
-	ownerScene(ownerScene)
-{}
+	path(path)
+{
+	GraphicsMath::ZeroMatrix(&_transformMatrix);
+}
 
-#define NAME "Name"
-#define TAG "Tag"
-#define POSITION "Position"
-#define CHILDREN "Children"
-#define SCRIPTS "Scripts"
-#define NAME "Name"
 void GameObj::Load()
 {
 	if (loaded)
@@ -253,14 +267,13 @@ void GameObj::Load()
 		json jsonFile;
 		file >> jsonFile;
 
-		tag = jsonFile[TAG].get<std::string>();
+		tag = jsonFile["Tag"].get<std::string>();
 
-		position.x = jsonFile[POSITION][0].get<int>();
-		position.y = jsonFile[POSITION][1].get<int>();
-		position.z = jsonFile[POSITION][2].get<int>();
-
-		PGameObj newChild;
-		for (const auto& child : jsonFile[CHILDREN])
+		_transformMatrix._41 = jsonFile["Position"][0].get<float>();
+		_transformMatrix._42 = jsonFile["Position"][1].get<float>();
+		_transformMatrix._43 = jsonFile["Position"][2].get<float>();
+		
+		for (PGameObj newChild; const auto& child : jsonFile["Children"])
 		{
 			newChild = new GameObj(child.get<std::string>(), ownerScene);
 			this->AddChild(newChild);
@@ -269,7 +282,7 @@ void GameObj::Load()
 			newChild->Translate(this->GetPosition());
 		}
 
-		for (const auto& script : jsonFile[SCRIPTS])
+		for (const auto& script : jsonFile["Scripts"])
 		{
 			AddScript(script["Name"].get<std::string>(), script["Input"].get<std::string>());
 		}
@@ -290,6 +303,8 @@ void GameObj::Load()
 
 void GameObj::Destroy()
 {
+	End();
+	
 	for (const auto& child : children)
 		child->Destroy();
 	children.clear();
@@ -303,23 +318,17 @@ void GameObj::Destroy()
 	delete this;
 }
 
-void GameObj::AddChild(PGameObj obj)
+void GameObj::AddChild(PGameObj child)
 {
-	children.push_back(obj);
+	children.push_back(child);
 }
 
-void GameObj::RemoveChild(PGameObj obj)
+void GameObj::CalculateWorldMatrix()
 {
-	size_t size = children.size();
-	auto itChild = children.begin();
-	while (size > 0)
-	{
-		if ((*itChild) == obj)
-		{
-			children.erase(itChild);
-			return;
-		}
-		std::advance(itChild, 1);
-		size--;
-	}
+	_worldMatrix = _scaleMatrix * _rotationMatrix * _transformMatrix;
+}
+
+void GameObj::RemoveChild(PGameObj child)
+{
+	children.remove(child);
 }
