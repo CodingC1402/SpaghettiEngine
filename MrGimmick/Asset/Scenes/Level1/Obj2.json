@@ -3,7 +3,9 @@
   "Children": [
 
   ],
-  "Position": [ 50, 50, 0 ],
+  "Transform": [ 0, 0, 0 ],
+  "Rotation": [ 0, 0, 0 ],
+  "Scale": [ 1, 1, 1 ],
   "Scripts": [
     {
       "Name": "Camera",

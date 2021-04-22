@@ -18,45 +18,47 @@ SpriteRenderer::SpriteRenderer()
 	name = TYPE_NAME(SpriteRenderer);
 }
 
+Matrix SpriteRenderer::GetWorldMatrix()
+{
+	return owner->GetWorldMatrix();
+}
+
+#pragma region Get
+Matrix SpriteRenderer::GetTransform()  const noexcept
+{
+	return transformMatrix;
+}
+SSprite SpriteRenderer::GetSprite()  const noexcept
+{
+	return sprite;
+}
+Vector3 SpriteRenderer::GetPosition() const noexcept
+{
+	return owner->GetWorldTransform();
+}
+Vector3 SpriteRenderer::GetCenter() const noexcept
+{
+	return sprite->GetCenter();
+}
+PDx9Texture SpriteRenderer::GetTexture() const noexcept
+{
+	return sprite->GetSource()->GetImage();
+}
+RECT SpriteRenderer::GetSourceRect() const noexcept
+{
+	return sprite->GetSourceRect();
+}
+#pragma endregion 
+
 bool SpriteRenderer::Copy(const PScriptBase script)
 {
 	if (!ScriptBase::Copy(script))
 		return false;
 
-	SpriteRenderer* copyScript = static_cast<SpriteRenderer*>(script);
+	const auto copyScript = dynamic_cast<SpriteRenderer*>(script);
 	this->transformMatrix = copyScript->transformMatrix;
 	this->sprite = copyScript->sprite;
 	return true;
-}
-
-const PMatrix SpriteRenderer::GetTransform()
-{
-	return &transformMatrix;
-}
-
-SSprite& SpriteRenderer::GetSprite()
-{
-	return sprite;
-}
-
-const Vector3* SpriteRenderer::GetPosition()
-{
-	return owner->GetPosition();
-}
-
-const Vector3* SpriteRenderer::GetCenter()
-{
-	return &center;
-}
-
-PDx9Texture SpriteRenderer::GetTexture()
-{
-	return sprite->GetSource()->GetImage();
-}
-
-const RECT* SpriteRenderer::GetSourceRect()
-{
-	return sprite->GetSourceRect();
 }
 
 void SpriteRenderer::Update()
@@ -64,21 +66,20 @@ void SpriteRenderer::Update()
 	Graphics::Draw(this);
 }
 
-#define TexturePath 0
-#define SpriteIndex 1
-#define OffSetX 2
-#define OffSetY 3
-#define ScaleX 4
-#define ScaleY 5
-
 void SpriteRenderer::Load(const std::string* inputArg)
 {
 	try
 	{
+		constexpr int TexturePath = 0;
+		constexpr int OffSetX = 2;
+		constexpr int OffSetY = 3;
+		constexpr int ScaleX = 4;
+		constexpr int ScaleY = 5;
 		TokenizedStr input = StringConverter::Tokenize(inputArg, ' ');
+		
 		STexture texture;
 		Texture::GetTexture(&texture, input[TexturePath]);
-		if (!texture->GetSprite(&sprite, std::stoi(input[SpriteIndex])))
+		if (constexpr int SpriteIndex = 1; !texture->GetSprite(&sprite, std::stoi(input[SpriteIndex])))
 		{
 			std::wostringstream os;
 			os << L"Index " << input[1].c_str() << L" of texture file " << input[TexturePath].c_str()
@@ -89,13 +90,16 @@ void SpriteRenderer::Load(const std::string* inputArg)
 		transformMatrix._42 = std::stof(input[OffSetY]);
 		transformMatrix._11 = std::stof(input[ScaleX]);
 		transformMatrix._22 = std::stof(input[ScaleY]);
-
-		center.x = sprite->GetWidth() / 2.0f;
-		center.y = sprite->GetHeight() / 2.0f;
-		center.z = 0;
 	}
 	catch (CornException& e)
 	{
-		throw e;
+		std::wostringstream os;
+		os << L"Input of sprite renderer script is in the wrong format\n";
+		os << L"[Error] " << e.What();
+		if (owner != nullptr)
+		{
+			os << L"[Path] ";
+			os << owner->GetPath().c_str();
+		}
 	}
 }

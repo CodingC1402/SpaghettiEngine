@@ -1,13 +1,15 @@
 {
   "Tag": "Test1",
   "Children": [
-    "Asset/Scenes/Level1/Obj2.json"
+    "Asset/Scenes/Level1/Obj4.json"
   ],
-  "Position": [ 100, 100, 1 ],
+  "Transform": [ 0, 0, 0 ],
+  "Rotation": [ 0, 0, 0 ],
+  "Scale": [ 1, 1, 1 ],
   "Scripts": [
     {
-      "Name": "SpriteRenderer",
-      "Input": "Asset/Textures/Stage1.png 1 0 0 1 1"
+      "Name": "Animator",
+      "Input": "Asset/Animation/Running.json"
     },
     {
       "Name": "MoveScript",

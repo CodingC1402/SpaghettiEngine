@@ -2,8 +2,8 @@
 #include "json.hpp"
 #include "Sprite.h"
 #include "CornException.h"
+#include "CornDirectX.h"
 #include <string>
-#include <d3d9.h>
 #include <memory>
 #include <list>
 
@@ -19,7 +19,7 @@ typedef LPDIRECT3DTEXTURE9 PDx9Texture;
 
 class Texture
 {
-	friend class Scene;
+	friend class SceneManager;
 public:
 	class TextureException : public CornDiscriptionException
 	{
@@ -40,6 +40,7 @@ protected:
 	static void ClearUnusedTexture();
 	static void ClearTexture();
 
+	bool IsAllSpriteUnused();
 	void Load();
 	bool CheckPath(const std::string& path);
 protected:

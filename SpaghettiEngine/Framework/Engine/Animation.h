@@ -15,27 +15,28 @@ typedef std::list<Frame>::iterator ItFrame;
 
 class Animation
 {
+	friend class SceneManager;
 public:
 	static SAnimation GetAnimation(int index);
-	static SAnimation GetAnimation(const std::string& path);
-	static SAnimation LoadAnimation(const std::string& path);
+	static SAnimation GetAnimation(const std::string* path);
+	static SAnimation LoadAnimation(const std::string* path);
 
 	int GetNumberOfFrames() const noexcept;
-	ItFrame Begin();
 
-	// Take in iterator to frame and time passed, it will change to next frame
+	// Take in index to frame and time passed, it will change to next frame
 	// acordingly and return time left.
-	void Advance(ItFrame &itFrame, double& time);
+	SSprite GetSpriteOfFrame(const UINT* frame);
+	void Advance(UINT* frame, double* time);
 protected:
-	Animation(const std::string& path);
+	Animation(const std::string* path);
 	void Load();
 
-	static void RemoveAnimation(const std::string& path);
+	static void RemoveAnimation(const std::string* path);
 	static void ClearUnusedAnimation();
 	static void ClearAnimation();
 protected:
 	std::string _path;
-	std::list<Frame> _frames;
+	std::vector<Frame> _frames;
 	bool isLoop;
 
 	static std::list<SAnimation> __loadedAnimation;

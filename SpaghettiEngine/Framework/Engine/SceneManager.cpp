@@ -2,6 +2,8 @@
 #include "SpaghettiEnginePath.h"
 #include "json.hpp"
 #include "CornException.h"
+#include "Animation.h"
+#include "Graphics.h"
 #include <fstream>
 
 PSceneManager SceneManager::__instance = nullptr;
@@ -46,10 +48,14 @@ void SceneManager::StartLoadScene(UINT index)
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 	}
 
-	scenes[sceneIndex]->Unload();
-	sceneIndex = index;
+	Graphics::GetInstance()->ClearRenderBuffer();
 	currentScene = scenes[index];
 	currentScene->Load();
+	scenes[sceneIndex]->Unload();
+	sceneIndex = index;
+
+	Animation::ClearUnusedAnimation();
+	Texture::ClearUnusedTexture();
 }
 
 void SceneManager::CallLoadNextScene()

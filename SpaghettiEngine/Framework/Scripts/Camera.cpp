@@ -9,21 +9,17 @@ REGISTER_FINISH(Camera);
 Camera::Camera()
 {
 	name = TYPE_NAME(Camera);
+	GraphicsMath::ZeroMatrix(&viewMatrix);
+	viewMatrix._11 = 1;
+	viewMatrix._22 = -1;
+	viewMatrix._33 = 1;
+	viewMatrix._44 = 1;
 
-	cameraMatrix = GraphicsMath::NewMatrix();
-	cameraMatrix->_11 = 1;
-	cameraMatrix->_22 = -1;
-	cameraMatrix->_33 = 1;
-	cameraMatrix->_44 = 1;
-}
-
-Camera::~Camera()
-{
-	if (cameraMatrix)
-	{
-		delete cameraMatrix;
-		cameraMatrix = NULL;
-	}
+	GraphicsMath::ZeroMatrix(&flipYMatrix);
+	flipYMatrix._11 = 1;
+	flipYMatrix._22 = -1;
+	flipYMatrix._33 = 1;
+	flipYMatrix._44 = 1;
 }
 
 bool Camera::Copy(const PScriptBase script)
@@ -31,29 +27,40 @@ bool Camera::Copy(const PScriptBase script)
 	if (!ScriptBase::Copy(script))
 		return false;
 
-	PCamera copyScript = static_cast<PCamera>(script);
-	if (cameraMatrix)
-		delete cameraMatrix;
+	const PCamera copyScript = dynamic_cast<PCamera>(script);
+	GraphicsMath::ZeroMatrix(&cameraMatrix);
 
-	cameraMatrix = GraphicsMath::NewMatrix();
-
-	*cameraMatrix = *copyScript->cameraMatrix;
+	cameraMatrix = copyScript->cameraMatrix;
 	return true;
 }
 
-void Camera::Start()
+Matrix Camera::GetMatrix(const Matrix& originalMatrix)
+{
+	if (needRecalculateMatrix)
+	{
+		needRecalculateMatrix = false;
+		GraphicsMath::Inverse(owner->GetWorldMatrix(), cameraMatrix);
+		cameraMatrix *= viewMatrix;
+	}
+	return flipYMatrix * originalMatrix * cameraMatrix;
+}
+
+void Camera::Load(const std::string* inputArg)
 {
 	if (!isDisabled)
 		Graphics::AddCamera(this);
 }
 
-const PMatrix Camera::GetMatrix()
+void Camera::Update()
 {
-	Size resolution = Setting::GetResolution();
-	Vector3 ownerPos = *owner->GetPosition();
-	cameraMatrix->_41 = -(ownerPos.x - resolution.width / 2.0f);
-	cameraMatrix->_42 = +(ownerPos.y + resolution.height / 2.0f);
-	return cameraMatrix;
+	if (_followingObj != nullptr)
+	{
+		const Vector3 delta = _followingObj->GetWorldTransform() - owner->GetWorldTransform();
+		owner->Translate(delta * _dragFactor);
+	}
+	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
+	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
+	needRecalculateMatrix = true;
 }
 
 void Camera::OnDisabled()
@@ -69,4 +76,19 @@ void Camera::OnEnabled()
 void Camera::Unload()
 {
 	Graphics::RemoveCamera(this);
+}
+
+void Camera::SetFollow(PGameObj followObj)
+{
+	_followingObj = followObj;
+}
+
+PGameObj Camera::GetFollow()
+{
+	return _followingObj;
+}
+
+void Camera::RemoveFollow()
+{
+	_followingObj = nullptr;
 }

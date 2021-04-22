@@ -12,9 +12,9 @@
 
 PGraphics Graphics::__instance = nullptr;
 
-Graphics::GraphicException::GraphicException(int line, const char* file, std::wstring discription) noexcept
+Graphics::GraphicException::GraphicException(const int line, const char* file, std::wstring description) noexcept
 	: 
-	CornDiscriptionException(line, file, discription)
+	CornDiscriptionException(line, file, std::move(description))
 {}
 
 const wchar_t* Graphics::GraphicException::GetType() const noexcept
@@ -39,23 +39,22 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::Draw(const PSpriteRenderer renderScript)
+void Graphics::Draw(SpriteRenderer* renderScript)
 {
 	__instance->renderBuffer.push_back(renderScript);
 }
 
 void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
 {
-	HRESULT result;
-	std::wstring wPath = StringConverter::StrToWStr(path);
+	const std::wstring wPath = StringConverter::StrToWStr(path);
 	ImageInfo info;
 
-	result = D3DXGetImageInfoFromFile(wPath.c_str(), &info); 
+	HRESULT result = D3DXGetImageInfoFromFile(wPath.c_str(), &info);
 
 	if (result != D3D_OK)
 		throw GRAPHICS_EXCEPT_CODE(result);
 
-	PGraphics gfx = __instance;
+	const auto gfx = __instance;
 	result = D3DXCreateTextureFromFileEx(
 		gfx->renderDevice,
 		wPath.c_str(),
@@ -69,7 +68,7 @@ void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const
 		D3DX_DEFAULT,
 		keyColor,
 		&info,
-		NULL,
+		nullptr,
 		&rTexture
 		);
 
@@ -96,6 +95,17 @@ void Graphics::RemoveCamera(PCamera camera)
 		std::advance(iterator, 1);
 		size--;
 	}
+}
+
+void Graphics::SetActiveCamera(PCamera setCamera)
+{
+	__instance->cameraList.remove(setCamera);
+	__instance->cameraList.push_front(setCamera);
+}
+
+void Graphics::ClearRenderBuffer()
+{
+	renderBuffer.clear();
 }
 
 void Graphics::CreateResource()
@@ -129,7 +139,6 @@ void Graphics::CreateResource()
 	if (FAILED(result))
 		throw GRAPHICS_EXCEPT_CODE(result);
 #endif // DEBUG
-
 }
 
 void Graphics::ReleaseResource()
@@ -141,15 +150,13 @@ void Graphics::ReleaseResource()
 	renderDevice = nullptr;
 }
 
-bool Graphics::FullScreen()
+void Graphics::FullScreen()
 {
 	if (isFullScreen)
-		return false;
+		return;
 
-	bool result = false;
 	isFullScreen = true;
 	wnd->ChangeWindowMode(true);
-	return result;
 }
 
 void Graphics::Window()
@@ -166,7 +173,12 @@ SGameWnd Graphics::GetCurrentWindow() const noexcept
 	return wnd;
 }
 
-void Graphics::Init(STimer timer, ColorFormat colorFormat)
+PCamera Graphics::GetActiveCamera()
+{
+	return *(__instance->cameraList.begin());
+}
+
+void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 {
 #ifdef _DEBUG // For counting fps
 	fpsTimer->Start();
@@ -175,13 +187,11 @@ void Graphics::Init(STimer timer, ColorFormat colorFormat)
 	fpsRect.right = 50;
 	fpsRect.bottom = 20;
 #endif
-
-	int fps = Setting::GetFps();
-	fps = fps;
-	if (fps <= 0)
+	
+	if (const float fps = Setting::GetFps(); fps <= 0)
 		delayPerFrame = 0;
 	else
-		delayPerFrame = 1 / static_cast<double>(fps);
+		delayPerFrame = 1 / fps;
 
 	renderer = Direct3DCreate9(D3D_SDK_VERSION);
 	this->timer = timer;
@@ -191,7 +201,7 @@ void Graphics::Init(STimer timer, ColorFormat colorFormat)
 
 	wnd = SGameWnd(GameWnd::Create(L"SpaghettiEngine"));
 
-	presentParam.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
+	presentParam.Windowed = TRUE;
 	presentParam.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	presentParam.BackBufferFormat = static_cast<D3DFORMAT>(colorFormat);
 	presentParam.BackBufferCount = 1;
@@ -207,7 +217,7 @@ void Graphics::Init(STimer timer, ColorFormat colorFormat)
 
 void Graphics::Render()
 {
-	if (cameraList.size() == 0)
+	if (cameraList.empty())
 		return;
 
 	timeSinceLastFrame += timer->GetDeltaTime();
@@ -248,28 +258,32 @@ void Graphics::Render()
 #ifndef _DEBUG
 		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
 #else
-		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
+		renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
 #endif
 
-		PMatrix cameraMatrix;
-		auto camera = cameraList.begin();
-		cameraMatrix = (*camera)->GetMatrix();
-
 		spriteHandler->Begin(ALPHABLEND);
-
-		Vector3 screenPosition;
+		const auto cameraScript = cameraList.begin();
 		for (const auto& renderScript : renderBuffer)
 		{
-			GraphicsMath::TransformVector3(&screenPosition, renderScript->GetPosition(), cameraMatrix);
+			if (renderScript->owner->GetTag() == "Test4")
+			{
+				RECT srcRect = renderScript->GetSourceRect();
+			}
+			RECT srcRect = renderScript->GetSourceRect();
+			Vector3 center = renderScript->GetCenter();
+			Matrix transform = (*cameraScript)->GetMatrix(renderScript->GetWorldMatrix());
 			if (isPixelPerfect)
-				GraphicsMath::RoundVector3(&screenPosition);
-
-			spriteHandler->SetTransform(renderScript->GetTransform());
+			{
+				transform._41 = std::round(transform._41);
+				transform._42 = std::round(transform._42);
+			}
+			
+			spriteHandler->SetTransform(&transform);
 			spriteHandler->Draw(
 				renderScript->GetTexture(),
-				renderScript->GetSourceRect(),
-				renderScript->GetCenter(),
-				&screenPosition,
+				&srcRect,
+				&center,
+				nullptr,
 				WHITE
 			);
 		}
@@ -280,9 +294,16 @@ void Graphics::Render()
 
 		UpdateFPS();
 		std::wostringstream os;
-		os << (int)(fps + 0.5) << std::endl;
-		std::wstring str = os.str();
+		os << std::floor(fps + 0.5) << std::endl;
+		const std::wstring str = os.str();
 
+		const auto temp = GraphicsMath::NewMatrix();
+		temp->_11 = 1;
+		temp->_22 = 1;
+		temp->_33 = 1;
+		temp->_44 = 1;
+		
+		spriteHandler->SetTransform(temp);
 		fpsFont->DrawTextW(
 			spriteHandler,
 			str.c_str(),
@@ -291,6 +312,7 @@ void Graphics::Render()
 			DT_CHARSTREAM,
 			MAGENTA
 		);
+		delete temp;
 #endif
 		spriteHandler->End();
 
@@ -299,11 +321,11 @@ void Graphics::Render()
 		if (!End())
 			Reset();
 
-		renderDevice->Present(NULL, NULL, NULL, NULL);
+		renderDevice->Present(nullptr, nullptr, nullptr, nullptr);
 	}
 }
 
-HRESULT Graphics::Begin() noexcept
+HRESULT Graphics::Begin() const noexcept
 {
 	return renderDevice->BeginScene();
 }
@@ -315,8 +337,7 @@ bool Graphics::End()
 	{
 		renderDevice->EndScene();
 	}
-	HRESULT hr = renderDevice->TestCooperativeLevel();
-	if (hr != D3D_OK)
+	if (const HRESULT hr = renderDevice->TestCooperativeLevel(); hr != D3D_OK)
 	{
 		if (hr == D3DERR_DEVICELOST)
 		{
@@ -335,8 +356,7 @@ bool Graphics::End()
 
 bool Graphics::Reset()
 {
-	HRESULT hr = renderDevice->TestCooperativeLevel();
-	if (hr == D3DERR_DEVICENOTRESET)
+	if (renderDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 	{
 		if (SUCCEEDED(renderDevice->Reset(&presentParam)))
 		{
@@ -352,10 +372,10 @@ bool Graphics::Reset()
 
 void Graphics::UpdateCurrentVideoAdapter()
 {
-	HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
-	D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
+	const HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
+	const D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
 	adapterMode.clear();
-	UINT adapterCount = renderer->GetAdapterCount();
+	const UINT adapterCount = renderer->GetAdapterCount();
 	for (UINT i = 0; i < adapterCount; i++)
 	{
 		if (renderer->GetAdapterMonitor(i) == monitor)
@@ -365,7 +385,7 @@ void Graphics::UpdateCurrentVideoAdapter()
 		}
 	}
 
-	UINT modeCount = renderer->GetAdapterModeCount(videoAdapter, format);
+	const UINT modeCount = renderer->GetAdapterModeCount(videoAdapter, format);
 	for (UINT i = 0; i < modeCount; i++)
 	{
 		DisplayMode mode;
@@ -380,7 +400,6 @@ Graphics::Graphics() noexcept
 {
 	ZeroMemory(&presentParam, sizeof(presentParam));
 }
-
 Graphics::~Graphics() noexcept
 {
 	if (renderer)
@@ -388,28 +407,25 @@ Graphics::~Graphics() noexcept
 	renderer = nullptr;
 	ReleaseResource();
 }
-
+#pragma region  Exception
 Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, HRESULT code) noexcept
 	:
 	CornException(line, file),
 	code(code)
 {}
-
 const wchar_t* Graphics::GraphicCodeException::GetType() const noexcept
 {
 	return L"∑(O_O;) Graphic Exception";
 }
-
 const wchar_t* Graphics::GraphicCodeException::What() const noexcept
 {
 	std::wostringstream os;
 	os << GetType() << std::endl;
-	os << "[Discription] " << Translate() << std::endl;
+	os << "[Description] " << Translate() << std::endl;
 	os << GetOriginString();
 	whatBuffer = os.str();
 	return whatBuffer.c_str();
 }
-
 const wchar_t* Graphics::GraphicCodeException::Translate() const noexcept
 {
 	switch (code)
@@ -428,8 +444,8 @@ const wchar_t* Graphics::GraphicCodeException::Translate() const noexcept
 		return L": ^)";
 	}
 }
-
-const HRESULT Graphics::GraphicCodeException::GetErrorCode() noexcept
+HRESULT Graphics::GraphicCodeException::GetErrorCode() noexcept
 {
 	return code;
 }
+#pragma endregion

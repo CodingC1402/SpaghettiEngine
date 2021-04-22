@@ -1,6 +1,7 @@
 #pragma once
 #include "Plane2D.h"
 #include "Texture.h"
+#include "CornDirectX.h"
 #include <memory>
 #include <string>
 
@@ -18,14 +19,16 @@ class Sprite
 	friend class Texture;
 public:
 	PTexture& GetSource();
-	int GetWidth();
-	int GetHeight();
-	const RECT* GetSourceRect();
+	int		GetWidth() const;
+	int		GetHeight() const;
+	Vector3 GetCenter() const;
+	RECT	GetSourceRect() const;
 protected:
 	Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h);
 	Sprite(const PTexture& source, const Size& size, const Point& position);
 protected:
 	RECT srcRect;
 	PTexture source;
+	Vector3 center;
 };
 

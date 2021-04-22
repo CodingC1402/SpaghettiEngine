@@ -22,6 +22,16 @@ PDx9Texture Texture::GetImage()
 #define SpriteWidth 2
 #define SpriteHeight 3
 
+bool Texture::IsAllSpriteUnused()
+{
+	for (const auto& sprite : sprites)
+	{
+		if (sprite.use_count() > 1)
+			return false;
+	}
+	return true;
+}
+
 void Texture::Load()
 {
 	using namespace nlohmann;
@@ -44,11 +54,10 @@ void Texture::Load()
 		UINT red = file[KEYCOLOR][RED].get<int>();
 		UINT green = file[KEYCOLOR][GREEN].get<int>();
 		UINT blue = file[KEYCOLOR][BLUE].get<int>();
-		Color keyColor = ARGB(red, green, blue, 255);
+		auto keyColor = ARGB(red, green, blue, 255);
 		Graphics::LoadTexture(image, path, keyColor);
 
-		int x, y, w, h;
-		for (const auto& sprite : file["Sprites"])
+		for (int x, y, w, h; const auto& sprite : file["Sprites"])
 		{
 			x = sprite[SpritePosX].get<int>();
 			y = sprite[SpritePosY].get<int>();
@@ -137,15 +146,19 @@ void Texture::ClearUnusedTexture()
 	auto iterator = textures.begin();
 	while (size > 0)
 	{
-		if (iterator->use_count() == 1)
+		if (iterator->use_count() <= 1)
 		{
-			auto eraseIterator = iterator;
-			std::advance(iterator, 1);
-			textures.erase(eraseIterator);
+			if ((*iterator)->IsAllSpriteUnused())
+			{
+				auto eraseIterator = iterator;
+				std::advance(iterator, 1);
+				textures.erase(eraseIterator);
+			}
 		}
 		size--;
 	}
 }
+
 
 void Texture::ClearTexture()
 {
