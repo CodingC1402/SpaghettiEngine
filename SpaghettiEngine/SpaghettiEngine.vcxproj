@@ -60,7 +60,6 @@
   <ItemGroup>
     <ClCompile Include="Framework\Engine\Animation.cpp" />
     <ClCompile Include="Framework\Engine\App.cpp" />
-    <ClCompile Include="Framework\Engine\CornDirectX .cpp" />
     <ClCompile Include="Framework\Engine\Game.cpp" />
     <ClCompile Include="Framework\Engine\GameObj.cpp" />
     <ClCompile Include="Framework\Engine\GameTimer.cpp" />

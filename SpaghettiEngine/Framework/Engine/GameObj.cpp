@@ -4,6 +4,182 @@
 #include "GraphicsMath.h"
 #include <fstream>
 
+#pragma region Get
+Matrix GameObj::GetWorldMatrix()
+{
+	CalculateWorldMatrix();
+	return _worldMatrix;
+}
+Vector3 GameObj::GetWorldTransform() const
+{
+	if (parent != nullptr)
+		return _transform + parent->GetWorldTransform();
+	else
+		return _transform;
+}
+Vector3 GameObj::GetWorldRotation() const
+{
+	if (parent != nullptr)
+		return _rotation + parent->GetWorldRotation();
+	else
+		return _rotation;
+}
+Vector3 GameObj::GetWorldScale() const
+{
+	Vector3 rValue = _scale;
+	if (parent != nullptr)
+	{
+		const Vector3 parentValue = parent->GetWorldScale();
+		rValue = Vector3(rValue.x * parentValue.x, rValue.y * parentValue.y, rValue.y * parentValue.y);
+	}
+	return rValue;
+}
+Vector3 GameObj::GetTransform() const
+{
+	return _transform;
+}
+Vector3 GameObj::GetRotation() const
+{
+	return _rotation;
+}
+Vector3 GameObj::GetScale() const
+{
+	return _scale;
+}
+PGameObj GameObj::GetParent() const
+{
+	return parent;
+}
+PGameObj GameObj::GetChild(UINT index) const
+{
+	if (index >= children.size())
+		return nullptr;
+
+	auto iterator = children.begin();
+	std::advance(iterator, index);
+	return *iterator;
+}
+PScriptBase GameObj::GetScript(UINT index) const noexcept
+{
+	if (index >= scripts.size())
+		return nullptr;
+
+	auto iterator = scripts.begin();
+	std::advance(iterator, index);
+	return *iterator;
+}
+PScriptBase GameObj::GetScript(const std::string* name) const noexcept
+{
+	for (const auto& script : scripts)
+	{
+		if (script->GetName() == *name)
+			return script;
+	}
+	return nullptr;
+}
+std::list<PScriptBase> GameObj::GetAllScripts(const std::string* name) const noexcept
+{
+	std::list<PScriptBase> rList;
+	for (const auto& script : scripts)
+	{
+		if (script->GetName() == *name)
+			rList.push_back(script);
+	}
+	return rList;
+}
+std::string GameObj::GetTag() const
+{
+	return tag;
+}
+std::string GameObj::GetPath() const
+{
+	return path;
+}
+bool GameObj::IsDisabled() const
+{
+	return isDisabled;
+}
+#pragma endregion
+#pragma region Set
+void GameObj::SetTag(const char* newTag)
+{
+	this->tag = newTag;
+}
+void GameObj::SetRotation(const float& x, const float& y, const float& z)
+{
+	SetRotation(Vector3(x, y, z));
+}
+void GameObj::SetRotation(const Vector3& vec3)
+{
+	if (_rotation == vec3)
+	{
+		_rotation = vec3;
+		GraphicsMath::Modulo(_rotation, 360.0f);
+		_isRotationChanged = true;
+		ForceRecalculateMatrix();
+	}
+}
+void GameObj::SetScale(const float& x, const float& y, const float& z)
+{
+	SetScale(Vector3(x, y, z));
+}
+void GameObj::SetScale(const Vector3& vec3)
+{
+	if (_scale != vec3)
+	{
+		_scale = vec3;
+		_isScaleChanged = true;
+		ForceRecalculateMatrix();
+	}
+}
+void GameObj::SetTransform(const float& x, const float& y, const float& z)
+{
+	SetTransform(Vector3(x, y, z));
+}
+void GameObj::SetTransform(const Vector3& vec3)
+{
+	if (_transform != vec3)
+	{
+		_transform = vec3;
+		_isTransformChanged = true;
+		ForceRecalculateMatrix();
+	}
+}
+void GameObj::Rotate(const float& x, const float& y, const float& z)
+{
+	Rotate(Vector3(x, y, z));
+}
+void GameObj::Rotate(const Vector3& rotation)
+{
+	if (rotation == Vector3(0, 0, 0))
+		return;
+	
+	_rotation += rotation;
+	GraphicsMath::Modulo(_rotation, 360.0f);
+	_isRotationChanged = true;
+	ForceRecalculateMatrix();
+}
+void GameObj::Translate(const float& x, const float& y, const float& z)
+{
+	Translate(Vector3(x, y, z));
+}
+void GameObj::Translate(const Vector3& vector)
+{
+	if (vector == Vector3(0, 0, 0))
+		return;
+	
+	_transform += vector;
+	_isTransformChanged = true;
+	ForceRecalculateMatrix();
+}
+void GameObj::ForceRecalculateMatrix()
+{
+	this->_isChanged = true;
+	for (const auto& child : children)
+		child->_isChanged = true;
+}
+#pragma endregion
+#pragma region Obj Event
 void GameObj::Start()
 {
 	if (isDisabled)
@@ -15,7 +191,6 @@ void GameObj::Start()
 	for (const auto& child : children)
 		child->Start();
 }
-
 void GameObj::Update()
 {
 	if (isDisabled)
@@ -28,86 +203,12 @@ void GameObj::Update()
 	for (const auto& child : children)
 		child->Update();
 }
-
 void GameObj::End() const
 {
 	for (const auto& script : scripts)
 		script->End();
 }
-
-PGameObj GameObj::GetParent() const
-{
-	return parent;
-}
-
-PGameObj GameObj::GetChild(UINT index) const
-{
-	if (index >= children.size())
-		return nullptr;
-
-	auto iterator = children.begin();
-	std::advance(iterator, index);
-	return *iterator;
-}
-
-PScriptBase GameObj::GetScript(UINT index) const noexcept
-{
-	if (index >= scripts.size())
-		return nullptr;
-
-	auto iterator = scripts.begin();
-	std::advance(iterator, index);
-	return *iterator;
-}
-
-PScriptBase GameObj::GetScript(const std::string* name) const noexcept
-{
-	for (const auto& script : scripts)
-	{
-		if (script->GetName() == *name)
-			return script;
-	}
-	return nullptr;
-}
-
-std::list<PScriptBase> GameObj::GetAllScripts(const std::string* name) const noexcept
-{
-	std::list<PScriptBase> rList;
-	for (const auto& script : scripts)
-	{
-		if (script->GetName() == *name)
-			rList.push_back(script);
-	}
-	return rList;
-}
-
-Matrix GameObj::GetTransformMatrix() const
-{
-	if (parent != nullptr)
-		return this->_transformMatrix * parent->GetTransformMatrix();
-	else
-		return this->_transformMatrix;
-}
-
-Vector3 GameObj::GetPosition() const
-{
-	return Vector3(GetTransformMatrix());
-}
-
-std::string GameObj::GetTag() const
-{
-	return tag;
-}
-
-std::string GameObj::GetPath() const
-{
-	return path;
-}
-
-bool GameObj::IsDisabled() const
-{
-	return isDisabled;
-}
+#pragma endregion 
 
 void GameObj::Disable()
 {
@@ -121,7 +222,6 @@ void GameObj::Disable()
 	for (const auto& child : children)
 		child->Disable();
 }
-
 void GameObj::Enable()
 {
 	if (!isDisabled)
@@ -135,49 +235,45 @@ void GameObj::Enable()
 		child->Enable();
 }
 
-void GameObj::Translate(const Vector3& vector)
-{
-	GraphicsMath::TranslateMatrix(_transformMatrix ,vector);
-	for (const auto& child : children)
-		child->Translate(vector);
-}
-
-void GameObj::Translate(const float& x, const float& y, const float& z)
-{
-	GraphicsMath::TranslateMatrix(_transformMatrix, x, y, z);
-	for (const auto& child : children)
-		child->Translate(x, y, z);
-}
-
-void GameObj::Move(const Vector3& newPosition)
-{
-	Vector3 delta = newPosition;
-	delta.x -= _transformMatrix._41;
-	delta.y -= _transformMatrix._42;
-	delta.z -= _transformMatrix._43;
-	GraphicsMath::MoveMatrix(_transformMatrix, newPosition);
-	for (const auto& child : children)
-		child->Translate(delta);
-}
-
 void GameObj::RemoveParent()
 {
 	if (ownerScene)
 		ownerScene->AddGameObject(this);
 
+	_transform += parent->GetWorldTransform();
+	_rotation  += parent->GetWorldRotation();
+	const Vector3 parentScale = parent->GetWorldScale();
+	_scale.x *= parentScale.x;
+	_scale.y *= parentScale.y;
+	_scale.z *= parentScale.z;
+
+	_isTransformChanged = true;
+	_isRotationChanged = true;
+	_isScaleChanged = true;
+	ForceRecalculateMatrix();
 	
 	parent->RemoveChild(this);
 	parent = nullptr;
 }
-
 void GameObj::AddParent(const PGameObj& gameObj)
 {
 	if (ownerScene)
 		ownerScene->RemoveGameObject(this);
 
 	parent = gameObj;
-	Matrix parentMatrix = gameObj->GetTransformMatrix();
-	_transformMatrix /= ;
+
+	_transform -= parent->GetWorldTransform();
+	_rotation  -= parent->GetWorldRotation();
+	const Vector3 parentScale = parent->GetWorldScale();
+	_scale.x /= parentScale.x;
+	_scale.y /= parentScale.y;
+	_scale.z /= parentScale.z;
+
+	_isTransformChanged = true;
+	_isRotationChanged = true;
+	_isScaleChanged = true;
+	ForceRecalculateMatrix();
+	
 	parent->AddChild(this);
 }
 
@@ -195,11 +291,6 @@ void GameObj::BecomeConstSceneObj()
 		ownerScene->RemoveGameObject(this);
 
 	SceneManager::GetConstScene()->AddGameObject(this);
-}
-
-void GameObj::SetTag(const char* newTag)
-{
-	this->tag = newTag;
 }
 
 void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
@@ -222,7 +313,12 @@ GameObj::GameObj(const GameObj& obj)
 	loaded(obj.loaded),
 	path(obj.path),
 	tag(obj.tag),
-	_transformMatrix(obj._transformMatrix)
+	_transform(obj._transform),
+	_rotation(obj._rotation),
+	_scale(obj._scale),
+	_transformMatrix(obj._transformMatrix),
+	_rotationMatrix(obj._rotationMatrix),
+	_scaleMatrix(obj._scaleMatrix)
 {
 	for (const auto& child : obj.children)
 		children.push_back(new GameObj(*child));
@@ -233,15 +329,25 @@ GameObj::GameObj(const GameObj& obj)
 		copyScript->owner = this;
 		scripts.push_back(copyScript);
 	}
+
+	loaded = true;
 }
 
 GameObj::GameObj(const std::string& path, const PScene& ownerScene)
 	:
 	ownerScene(ownerScene),
-	parent(nullptr),
-	path(path)
+	parent(nullptr)
 {
+	this->path = path;
+	const Vector3 zeroVec = Vector3(0, 0, 0);
+	_transform	= zeroVec;
+	_rotation	= zeroVec;
+	_scale		= zeroVec;
+	
 	GraphicsMath::ZeroMatrix(&_transformMatrix);
+	GraphicsMath::ZeroMatrix(&_rotationMatrix);
+	GraphicsMath::ZeroMatrix(&_scaleMatrix);
+	GraphicsMath::ZeroMatrix(&_worldMatrix);
 }
 
 void GameObj::Load()
@@ -261,17 +367,34 @@ void GameObj::Load()
 		os << L" Doesn't exist";
 		throw CORN_EXCEPT_WITH_DISCRIPTION (os.str());
 	}
-
+	
 	try
 	{
+		constexpr const char* Transform	= "Transform";
+		constexpr const char* Rotation	= "Rotation";
+		constexpr const char* Scale		= "Scale";
+		
 		json jsonFile;
 		file >> jsonFile;
 
 		tag = jsonFile["Tag"].get<std::string>();
 
-		_transformMatrix._41 = jsonFile["Position"][0].get<float>();
-		_transformMatrix._42 = jsonFile["Position"][1].get<float>();
-		_transformMatrix._43 = jsonFile["Position"][2].get<float>();
+		_transform.x = jsonFile[Transform][0].get<float>();
+		_transform.y = jsonFile[Transform][1].get<float>();
+		_transform.z = jsonFile[Transform][2].get<float>();
+		
+		_rotation.x = jsonFile[Rotation][0].get<float>();
+		_rotation.y = jsonFile[Rotation][1].get<float>();
+		_rotation.z = jsonFile[Rotation][2].get<float>();
+
+		_scale.x = jsonFile[Scale][0].get<float>();
+		_scale.y = jsonFile[Scale][1].get<float>();
+		_scale.z = jsonFile[Scale][2].get<float>();
+
+		_isTransformChanged = true;
+		_isRotationChanged	= true;
+		_isScaleChanged		= true;
+		_isChanged			= true;
 		
 		for (PGameObj newChild; const auto& child : jsonFile["Children"])
 		{
@@ -279,7 +402,7 @@ void GameObj::Load()
 			this->AddChild(newChild);
 			newChild->parent = this;
 			newChild->Load();
-			newChild->Translate(this->GetPosition());
+			newChild->Translate(this->GetTransform());
 		}
 
 		for (const auto& script : jsonFile["Scripts"])
@@ -323,10 +446,84 @@ void GameObj::AddChild(PGameObj child)
 	children.push_back(child);
 }
 
+#pragma region Matrix Calculation
+void GameObj::CalculateRotationMatrix()
+{
+	if (!_isRotationChanged)
+		return;
+	
+	Matrix XAxis;
+	Matrix YAxis;
+	Matrix ZAxis;
+	float rad;
+	
+	GraphicsMath::ZeroMatrix(&XAxis);
+	XAxis._11 = 1;
+	XAxis._44 = 1;
+	rad = GraphicsMath::ToRad(_rotation.x);
+	XAxis._22 = std::cosf(rad);
+	XAxis._23 = std::sinf(rad);
+	XAxis._32 = -std::sinf(rad);
+	XAxis._33 = std::cosf(rad);
+	
+	GraphicsMath::ZeroMatrix(&YAxis);
+	YAxis._22 = 1;
+	YAxis._44 = 1;
+	rad = GraphicsMath::ToRad(_rotation.y);
+	YAxis._11 = std::cosf(rad);
+	YAxis._13 = -std::sinf(rad);
+	YAxis._31 = std::sinf(rad);
+	YAxis._33 = std::cosf(rad);
+
+	GraphicsMath::ZeroMatrix(&ZAxis);
+	ZAxis._33 = 1;
+	ZAxis._44 = 1;
+	rad = GraphicsMath::ToRad(_rotation.z);
+	ZAxis._11 = std::cosf(rad);
+	ZAxis._12 = std::sinf(rad);
+	ZAxis._21 = -std::sinf(rad);
+	ZAxis._22 = std::cosf(rad);
+
+	_rotationMatrix = XAxis * ZAxis * YAxis;
+	_isRotationChanged = false;
+}
+void GameObj::CalculateTransformMatrix()
+{
+	if (!_isTransformChanged)
+		return;
+
+	_transformMatrix._41 = _transform.x;
+	_transformMatrix._42 = _transform.y;
+	_transformMatrix._43 = _transform.z;
+	_isTransformChanged = false;
+}
+void GameObj::CalculateScaleMatrix()
+{
+	if (!_isScaleChanged)
+		return;
+
+	_scaleMatrix._11 = _scale.x;
+	_scaleMatrix._22 = _scale.y;
+	_scaleMatrix._33 = _scale.z;
+	_isScaleChanged = false;
+}
 void GameObj::CalculateWorldMatrix()
 {
-	_worldMatrix = _scaleMatrix * _rotationMatrix * _transformMatrix;
+	if (!_isChanged)
+		return;
+	
+	CalculateRotationMatrix();
+	CalculateTransformMatrix();
+	CalculateScaleMatrix();
+	
+	if (parent != nullptr)
+		_worldMatrix = (_scaleMatrix * _rotationMatrix * _transformMatrix) * parent->GetWorldMatrix();
+	else
+		_worldMatrix = _transformMatrix;
+
+	_isChanged = false;
 }
+#pragma endregion
 
 void GameObj::RemoveChild(PGameObj child)
 {

@@ -12,9 +12,9 @@
 
 PGraphics Graphics::__instance = nullptr;
 
-Graphics::GraphicException::GraphicException(int line, const char* file, std::wstring discription) noexcept
+Graphics::GraphicException::GraphicException(int line, const char* file, std::wstring description) noexcept
 	: 
-	CornDiscriptionException(line, file, discription)
+	CornDiscriptionException(line, file, std::move(description))
 {}
 
 const wchar_t* Graphics::GraphicException::GetType() const noexcept
@@ -46,16 +46,15 @@ void Graphics::Draw(const PSpriteRenderer renderScript)
 
 void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
 {
-	HRESULT result;
-	std::wstring wPath = StringConverter::StrToWStr(path);
+	const std::wstring wPath = StringConverter::StrToWStr(path);
 	ImageInfo info;
 
-	result = D3DXGetImageInfoFromFile(wPath.c_str(), &info); 
+	HRESULT result = D3DXGetImageInfoFromFile(wPath.c_str(), &info);
 
 	if (result != D3D_OK)
 		throw GRAPHICS_EXCEPT_CODE(result);
 
-	PGraphics gfx = __instance;
+	const auto gfx = __instance;
 	result = D3DXCreateTextureFromFileEx(
 		gfx->renderDevice,
 		wPath.c_str(),
@@ -69,7 +68,7 @@ void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const
 		D3DX_DEFAULT,
 		keyColor,
 		&info,
-		NULL,
+		nullptr,
 		&rTexture
 		);
 
@@ -134,7 +133,6 @@ void Graphics::CreateResource()
 	if (FAILED(result))
 		throw GRAPHICS_EXCEPT_CODE(result);
 #endif // DEBUG
-
 }
 
 void Graphics::ReleaseResource()
@@ -146,15 +144,13 @@ void Graphics::ReleaseResource()
 	renderDevice = nullptr;
 }
 
-bool Graphics::FullScreen()
+void Graphics::FullScreen()
 {
 	if (isFullScreen)
-		return false;
+		return;
 
-	bool result = false;
 	isFullScreen = true;
 	wnd->ChangeWindowMode(true);
-	return result;
 }
 
 void Graphics::Window()
@@ -212,7 +208,7 @@ void Graphics::Init(STimer timer, ColorFormat colorFormat)
 
 void Graphics::Render()
 {
-	if (cameraList.size() == 0)
+	if (cameraList.empty())
 		return;
 
 	timeSinceLastFrame += timer->GetDeltaTime();
@@ -256,26 +252,14 @@ void Graphics::Render()
 		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
 #endif
 
-		PMatrix cameraMatrix;
-		auto camera = cameraList.begin();
-		cameraMatrix = (*camera)->GetMatrix();
+		const auto camera = cameraList.begin();
+		const Matrix cameraMatrix = std::move((*camera)->GetMatrix());
 
 		spriteHandler->Begin(ALPHABLEND);
 
-		Vector3 screenPosition;
 		for (const auto& renderScript : renderBuffer)
 		{
-			GraphicsMath::TransformVector3(&screenPosition, renderScript->GetPosition(), cameraMatrix);
-			if (isPixelPerfect)
-				GraphicsMath::RoundVector3(&screenPosition);
-			spriteHandler->SetTransform(renderScript->GetTransform());
-			spriteHandler->Draw(
-				renderScript->GetTexture(),
-				renderScript->GetSourceRect(),
-				renderScript->GetCenter(),
-				&screenPosition,
-				WHITE
-			);
+			renderScript->Draw(spriteHandler, cameraMatrix, isPixelPerfect);
 		}
 
 #ifdef _DEBUG // For counting fps
@@ -284,8 +268,8 @@ void Graphics::Render()
 
 		UpdateFPS();
 		std::wostringstream os;
-		os << (int)(fps + 0.5) << std::endl;
-		std::wstring str = os.str();
+		os << std::floor(fps + 0.5) << std::endl;
+		const std::wstring str = os.str();
 
 		fpsFont->DrawTextW(
 			spriteHandler,
@@ -303,11 +287,11 @@ void Graphics::Render()
 		if (!End())
 			Reset();
 
-		renderDevice->Present(NULL, NULL, NULL, NULL);
+		renderDevice->Present(nullptr, nullptr, nullptr, nullptr);
 	}
 }
 
-HRESULT Graphics::Begin() noexcept
+HRESULT Graphics::Begin() const noexcept
 {
 	return renderDevice->BeginScene();
 }
@@ -319,8 +303,7 @@ bool Graphics::End()
 	{
 		renderDevice->EndScene();
 	}
-	HRESULT hr = renderDevice->TestCooperativeLevel();
-	if (hr != D3D_OK)
+	if (const HRESULT hr = renderDevice->TestCooperativeLevel(); hr != D3D_OK)
 	{
 		if (hr == D3DERR_DEVICELOST)
 		{
@@ -339,8 +322,7 @@ bool Graphics::End()
 
 bool Graphics::Reset()
 {
-	HRESULT hr = renderDevice->TestCooperativeLevel();
-	if (hr == D3DERR_DEVICENOTRESET)
+	if (renderDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
 	{
 		if (SUCCEEDED(renderDevice->Reset(&presentParam)))
 		{
@@ -356,10 +338,10 @@ bool Graphics::Reset()
 
 void Graphics::UpdateCurrentVideoAdapter()
 {
-	HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
-	D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
+	const HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
+	const D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
 	adapterMode.clear();
-	UINT adapterCount = renderer->GetAdapterCount();
+	const UINT adapterCount = renderer->GetAdapterCount();
 	for (UINT i = 0; i < adapterCount; i++)
 	{
 		if (renderer->GetAdapterMonitor(i) == monitor)
@@ -369,7 +351,7 @@ void Graphics::UpdateCurrentVideoAdapter()
 		}
 	}
 
-	UINT modeCount = renderer->GetAdapterModeCount(videoAdapter, format);
+	const UINT modeCount = renderer->GetAdapterModeCount(videoAdapter, format);
 	for (UINT i = 0; i < modeCount; i++)
 	{
 		DisplayMode mode;
@@ -384,7 +366,6 @@ Graphics::Graphics() noexcept
 {
 	ZeroMemory(&presentParam, sizeof(presentParam));
 }
-
 Graphics::~Graphics() noexcept
 {
 	if (renderer)
@@ -392,28 +373,25 @@ Graphics::~Graphics() noexcept
 	renderer = nullptr;
 	ReleaseResource();
 }
-
+#pragma region  Exception
 Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, HRESULT code) noexcept
 	:
 	CornException(line, file),
 	code(code)
 {}
-
 const wchar_t* Graphics::GraphicCodeException::GetType() const noexcept
 {
 	return L"∑(O_O;) Graphic Exception";
 }
-
 const wchar_t* Graphics::GraphicCodeException::What() const noexcept
 {
 	std::wostringstream os;
 	os << GetType() << std::endl;
-	os << "[Discription] " << Translate() << std::endl;
+	os << "[Description] " << Translate() << std::endl;
 	os << GetOriginString();
 	whatBuffer = os.str();
 	return whatBuffer.c_str();
 }
-
 const wchar_t* Graphics::GraphicCodeException::Translate() const noexcept
 {
 	switch (code)
@@ -432,8 +410,8 @@ const wchar_t* Graphics::GraphicCodeException::Translate() const noexcept
 		return L": ^)";
 	}
 }
-
-const HRESULT Graphics::GraphicCodeException::GetErrorCode() noexcept
+HRESULT Graphics::GraphicCodeException::GetErrorCode() noexcept
 {
 	return code;
 }
+#pragma endregion

@@ -259,9 +259,6 @@
     <ClCompile Include="Framework\Engine\Transform.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\CornDirectX .cpp">
-      <Filter>FrameWork\Engine\SourceFiles</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico">

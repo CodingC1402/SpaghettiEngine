@@ -1,5 +1,16 @@
 #include "GraphicsMath.h"
-#include <cmath>
+
+float GraphicsMath::ToRad(const float& degree)
+{
+	return degree * (pi / 180.0f);
+}
+
+bool GraphicsMath::CompareFloat(float x, float y, float epsilon)
+{
+	if (fabs(x - y) < epsilon)
+		return true;
+	return false;
+}
 
 void GraphicsMath::TransformVector3(Vector3* outVec, const Vector3* inVec, PMatrix transformMatrix)
 {
@@ -45,9 +56,9 @@ void GraphicsMath::ZeroMatrix(Matrix* outMatrix)
 
 void GraphicsMath::RoundVector3(Vector3* vec)
 {
-	vec->x = std::lround(vec->x);
-	vec->y = std::lround(vec->y);
-	vec->z = std::lround(vec->z);
+	vec->x = std::round(vec->x);
+	vec->y = std::round(vec->y);
+	vec->z = std::round(vec->z);
 }
 
 void GraphicsMath::TranslateMatrix(Matrix& matrix, const Vector3& vec)
@@ -76,4 +87,11 @@ void GraphicsMath::MoveMatrix(Matrix& matrix, const float& x, const float& y, co
 	matrix._41 = x;
 	matrix._42 = y;
 	matrix._43 = z;
+}
+
+void GraphicsMath::Modulo(Vector3& out, const float& f)
+{
+	out.x = exmath::modulo(out.x, f);
+	out.y = exmath::modulo(out.y, f);
+	out.z = exmath::modulo(out.z, f);
 }

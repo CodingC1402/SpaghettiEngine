@@ -5,24 +5,24 @@ PTexture& Sprite::GetSource()
 	return source;
 }
 
-int Sprite::GetWidth()
+int Sprite::GetWidth() const
 {
 	return srcRect.right - srcRect.left;
 }
 
-int Sprite::GetHeight()
+int Sprite::GetHeight() const
 {
 	return srcRect.bottom - srcRect.top;
 }
 
-const Vector3* Sprite::GetCenter()
+Vector3 Sprite::GetCenter() const
 {
-	return &center;
+	return center;
 }
 
-const RECT* Sprite::GetSourceRect()
+RECT Sprite::GetSourceRect() const
 {
-	return &srcRect;
+	return srcRect;
 }
 
 Sprite::Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h)
