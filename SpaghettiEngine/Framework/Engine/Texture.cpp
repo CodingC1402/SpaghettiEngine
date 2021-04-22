@@ -54,11 +54,10 @@ void Texture::Load()
 		UINT red = file[KEYCOLOR][RED].get<int>();
 		UINT green = file[KEYCOLOR][GREEN].get<int>();
 		UINT blue = file[KEYCOLOR][BLUE].get<int>();
-		Color keyColor = ARGB(red, green, blue, 255);
+		auto keyColor = ARGB(red, green, blue, 255);
 		Graphics::LoadTexture(image, path, keyColor);
 
-		int x, y, w, h;
-		for (const auto& sprite : file["Sprites"])
+		for (int x, y, w, h; const auto& sprite : file["Sprites"])
 		{
 			x = sprite[SpritePosX].get<int>();
 			y = sprite[SpritePosY].get<int>();

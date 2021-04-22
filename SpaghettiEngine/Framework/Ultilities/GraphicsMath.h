@@ -13,6 +13,12 @@ namespace exmath
 	{
 		return f1 - std::floor(f1 / f2) * f2;
 	}
+	inline bool compare(const float& f1, const float& f2, const float& epsilon = 0.00001f)
+	{
+		if (fabs(f1 - f2) < epsilon)
+			return true;
+		return false;
+	}
 }
 
 class GraphicsMath
@@ -29,6 +35,11 @@ public:
 	static void		TranslateMatrix(Matrix& matrix, const float& x, const float& y, const float& z);
 	static void		MoveMatrix(Matrix& matrix, const float& x, const float& y, const float& z);
 	static void		Modulo(Vector3& out, const float& f);
+
+	static bool		Inverse(const Matrix& matrix, Matrix& inverseMatrix);
+	static void		GetCFactor(const Matrix& in, Matrix& out, int p, int q, int n);
+	static float	GetDet(const Matrix& matrix, int n);
+	static void 	GetAdj(const Matrix& in, Matrix& out);
 public:
 	static constexpr float pi = 3.141592f;
 };

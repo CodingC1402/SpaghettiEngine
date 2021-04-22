@@ -11,7 +11,7 @@
 
 #define XRGB D3DCOLOR_XRGB
 #define RGB XRGB
-#define ARGB(r, g, b, alpha) static_cast<Color>(0|alpha<<24|r<<16|g<<8)|b)
+#define ARGB(r, g, b, alpha) static_cast<Color>((alpha<<24)|(r<<16)|(g<<8)|b)
 
 // decrease drag time but increase memory use so use wisely :v,
 // jk like I know shit :v

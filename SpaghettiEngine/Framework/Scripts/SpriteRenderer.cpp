@@ -63,11 +63,14 @@ void SpriteRenderer::Update()
 
 void SpriteRenderer::Draw(const SpriteHandler& handler, const Matrix& cameraMatrix, const bool& isPixelPerfect)
 {
-	handler->SetTransform(&(owner->GetWorldMatrix() * cameraMatrix));
+	RECT srcRect = GetSourceRect();
+	Vector3 center = GetCenter();
+	Matrix transform = owner->GetWorldMatrix() * cameraMatrix;
+	handler->SetTransform(&transform);
 	handler->Draw(
 		GetTexture(),
-		&GetSourceRect(),
-		&GetCenter(),
+		&srcRect,
+		&center,
 		nullptr,
 		WHITE
 	);
