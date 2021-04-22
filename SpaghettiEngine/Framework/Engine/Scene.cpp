@@ -40,6 +40,13 @@ void Scene::Instantiate(PGameObj gameObj)
 	instances.push_back(newInstance);
 }
 
+PGameObj Scene::GetObj(UINT index[], UINT size)
+{
+	auto it = instances.begin();
+	std::advance(it, index[0]);
+	return (*it)->GetChild(index, 0, size);
+}
+
 void Scene::Update()
 {
 	for (const auto& instance : instances)

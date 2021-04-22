@@ -15,6 +15,9 @@ void MoveScript::Start()
 	down = InputSystem::GetInput("MoveDown");
 	left = InputSystem::GetInput("MoveLeft");
 	right = InputSystem::GetInput("MoveRight");
+
+	cam = Graphics::GetActiveCamera();
+	cam->SetFollow(owner);
 }
 
 void MoveScript::Update()
@@ -28,9 +31,23 @@ void MoveScript::Update()
 	if (down->Check())
 		move.y -= 1;
 	if (left->Check())
+	{
 		move.x -= 1;
+		if (!isFlipped)
+		{
+			owner->SetScale(-1, 1, 1);
+			isFlipped = true;
+		}
+	}
 	if (right->Check())
+	{
 		move.x += 1;
+		if (isFlipped)
+		{
+			owner->SetScale(1, 1, 1);
+			isFlipped = false;
+		}
+	}
 
 	move.x *= movementSpeed * GameTimer::GetDeltaTime();
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();

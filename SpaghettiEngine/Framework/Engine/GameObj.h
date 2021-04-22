@@ -34,6 +34,7 @@ public:
 	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string* name) const noexcept;
 	[[nodiscard]] PGameObj			GetParent() const;
 	[[nodiscard]] PGameObj			GetChild(UINT index) const;
+	[[nodiscard]] PGameObj			GetChild(UINT index[], UINT level, UINT size) const;
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetPath() const;
 	[[nodiscard]] bool				IsDisabled() const;

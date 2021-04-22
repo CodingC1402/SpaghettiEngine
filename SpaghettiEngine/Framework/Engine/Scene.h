@@ -20,11 +20,12 @@ class Scene
 	friend class GameObj;
 public:
 	void Update();
+	void Instantiate(PGameObj gameObj);
+	PGameObj GetObj(UINT index[],UINT size);
 protected:
 	Scene(std::string path);
 	void RemoveGameObject(PGameObj gameObj);
 	void AddGameObject(PGameObj gameObj);
-	void Instantiate(PGameObj gameObj);
 	void Load();
 	void Unload();
 protected:

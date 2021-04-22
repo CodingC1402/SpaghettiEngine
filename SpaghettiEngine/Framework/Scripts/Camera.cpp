@@ -45,17 +45,22 @@ Matrix Camera::GetMatrix(const Matrix& originalMatrix)
 	return flipYMatrix * originalMatrix * cameraMatrix;
 }
 
-void Camera::Update()
-{
-	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
-	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
-	needRecalculateMatrix = true;
-}
-
-void Camera::Start()
+void Camera::Load(const std::string* inputArg)
 {
 	if (!isDisabled)
 		Graphics::AddCamera(this);
+}
+
+void Camera::Update()
+{
+	if (_followingObj != nullptr)
+	{
+		const Vector3 delta = _followingObj->GetWorldTransform() - owner->GetWorldTransform();
+		owner->Translate(delta * _dragFactor);
+	}
+	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
+	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
+	needRecalculateMatrix = true;
 }
 
 void Camera::OnDisabled()
@@ -71,4 +76,19 @@ void Camera::OnEnabled()
 void Camera::Unload()
 {
 	Graphics::RemoveCamera(this);
+}
+
+void Camera::SetFollow(PGameObj followObj)
+{
+	_followingObj = followObj;
+}
+
+PGameObj Camera::GetFollow()
+{
+	return _followingObj;
+}
+
+void Camera::RemoveFollow()
+{
+	_followingObj = nullptr;
 }

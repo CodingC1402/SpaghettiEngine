@@ -54,6 +54,9 @@ public:
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
+
+	static void SetActiveCamera(PCamera setCamera);
+	[[nodiscard]] static PCamera GetActiveCamera();
 protected:
 	void ClearRenderBuffer();
 
@@ -63,7 +66,7 @@ protected:
 	void FullScreen();
 	void Window();
 	[[nodiscard]] SGameWnd GetCurrentWindow() const noexcept;
-
+	
 	void Init(const STimer& timer, const ColorFormat& colorFormat);
 
 	HRESULT Begin() const noexcept;

@@ -12,16 +12,24 @@ class Camera : public ScriptBase
 public:
 	Camera();
 	virtual Matrix	GetMatrix(const Matrix& originalMatrix);
+	virtual void	Load(const std::string* inputArg) override;
 	virtual void	Update() override;
-	virtual void	Start() override;
+
 	virtual bool	Copy(const PScriptBase script) override;
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
 	virtual void	Unload() override;
+
+	virtual void	SetFollow(PGameObj followObj);
+	virtual [[nodiscard]] PGameObj	GetFollow();
+	virtual void	RemoveFollow();
 protected:
 	Matrix cameraMatrix;
 	Matrix viewMatrix;
 	Matrix flipYMatrix;
+	
+	PGameObj _followingObj;
+	float _dragFactor = 0.7f;
 	
 	int oldW = 0;
 	int oldH = 0;

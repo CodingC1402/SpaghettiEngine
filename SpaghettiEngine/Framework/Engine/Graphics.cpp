@@ -97,6 +97,12 @@ void Graphics::RemoveCamera(PCamera camera)
 	}
 }
 
+void Graphics::SetActiveCamera(PCamera setCamera)
+{
+	__instance->cameraList.remove(setCamera);
+	__instance->cameraList.push_front(setCamera);
+}
+
 void Graphics::ClearRenderBuffer()
 {
 	renderBuffer.clear();
@@ -165,6 +171,11 @@ void Graphics::Window()
 SGameWnd Graphics::GetCurrentWindow() const noexcept
 {
 	return wnd;
+}
+
+PCamera Graphics::GetActiveCamera()
+{
+	return *(__instance->cameraList.begin());
 }
 
 void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)

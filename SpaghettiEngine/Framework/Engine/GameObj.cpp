@@ -59,6 +59,16 @@ PGameObj GameObj::GetChild(UINT index) const
 	std::advance(iterator, index);
 	return *iterator;
 }
+PGameObj GameObj::GetChild(UINT index[], UINT level, UINT size) const
+{
+	auto iterator = children.begin();
+	std::advance(iterator, index[level]);
+	
+	if (level == size - 1)
+		return *iterator;
+	else
+		return (*iterator)->GetChild(index, level + 1, size);
+}
 PScriptBase GameObj::GetScript(UINT index) const noexcept
 {
 	if (index >= scripts.size())
@@ -364,27 +374,67 @@ void GameObj::Load()
 	if (!file.is_open())
 	{
 		std::wostringstream os;
-		os << L"File ";
+		os << L"Obj file ";
 		os << path.c_str();
 		os << L" Doesn't exist";
 		throw CORN_EXCEPT_WITH_DISCRIPTION (os.str());
 	}
 	
+	constexpr const char* Prefab = "Prefab";
+	constexpr const char* Transform = "Transform";
+	constexpr const char* Rotation = "Rotation";
+	constexpr const char* Scale = "Scale";
+	constexpr const char* Scripts = "Scripts";
+	constexpr const char* Children = "Children";
+	
+	json jsonFile;
+	file >> jsonFile;
+	if (jsonFile[Prefab] != nullptr)
+	{
+		const std::string prefabPath = jsonFile[Prefab].get<std::string>();
+		std::ifstream prefab(prefabPath);
+		json jsonPrefab;
+		prefab >> jsonPrefab;
+		if (!prefab.is_open())
+		{
+			std::wostringstream os;
+			os << L"Prefab file ";
+			os << path.c_str();
+			os << L" Doesn't exist";
+			throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+		}
+
+		try
+		{
+			if (jsonFile[Transform] == nullptr)
+				jsonFile[Transform] = jsonPrefab[Transform];
+			if (jsonFile[Rotation] == nullptr)
+				jsonFile[Rotation] = jsonPrefab[Rotation];
+			if (jsonFile[Scale] == nullptr)
+				jsonFile[Scale] = jsonPrefab[Scale];
+			for (const auto& script : jsonPrefab[Scripts])
+				jsonFile[Scripts].push_back(script);
+			for (const auto& child : jsonPrefab[Children])
+				jsonFile[Children].push_back(child);
+		}
+		catch (const std::exception& e)
+		{
+			std::wostringstream os;
+			os << L"Prefab file ";
+			os << prefabPath.c_str();
+			os << L" doesn't have the right format for" << std::endl;
+			os << L"Obj file" << path.c_str() << std::endl;
+			os << L"Exception: " << e.what();
+
+			throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+		}
+	}
+	
 	try
 	{
-		constexpr const char* Transform	= "Transform";
-		constexpr const char* Rotation	= "Rotation";
-		constexpr const char* Scale		= "Scale";
-		constexpr const char* Tag		= "Tag";
-		
-		json jsonFile;
-		file >> jsonFile;
+		constexpr const char* Tag = "Tag";
 
 		tag = jsonFile[Tag].get<std::string>();
-
-		_transform.x	= jsonFile[Transform][0].get<float>();
-		_transform.y	= jsonFile[Transform][1].get<float>();
-		_transform.z	= jsonFile[Transform][2].get<float>();
 		
 		_rotation.x		= jsonFile[Rotation][0].get<float>();
 		_rotation.y		= jsonFile[Rotation][1].get<float>();
@@ -399,7 +449,7 @@ void GameObj::Load()
 		_isScaleChanged		= true;
 		_isChanged			= true;
 		
-		for (PGameObj newChild; const auto& child : jsonFile["Children"])
+		for (PGameObj newChild; const auto& child : jsonFile[Children])
 		{
 			newChild = new GameObj(child.get<std::string>(), ownerScene);
 			this->AddChild(newChild);
@@ -407,7 +457,7 @@ void GameObj::Load()
 			newChild->Load();
 		}
 
-		for (const auto& script : jsonFile["Scripts"])
+		for (const auto& script : jsonFile[Scripts])
 		{
 			AddScript(script["Name"].get<std::string>(), script["Input"].get<std::string>());
 		}
