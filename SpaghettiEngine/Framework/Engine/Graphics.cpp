@@ -12,7 +12,7 @@
 
 PGraphics Graphics::__instance = nullptr;
 
-Graphics::GraphicException::GraphicException(int line, const char* file, std::wstring description) noexcept
+Graphics::GraphicException::GraphicException(const int line, const char* file, std::wstring description) noexcept
 	: 
 	CornDiscriptionException(line, file, std::move(description))
 {}
@@ -39,7 +39,7 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::Draw(const PSpriteRenderer renderScript)
+void Graphics::Draw(SpriteRenderer* renderScript)
 {
 	__instance->renderBuffer.push_back(renderScript);
 }
@@ -167,7 +167,7 @@ SGameWnd Graphics::GetCurrentWindow() const noexcept
 	return wnd;
 }
 
-void Graphics::Init(STimer timer, ColorFormat colorFormat)
+void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 {
 #ifdef _DEBUG // For counting fps
 	fpsTimer->Start();
@@ -177,12 +177,10 @@ void Graphics::Init(STimer timer, ColorFormat colorFormat)
 	fpsRect.bottom = 20;
 #endif
 
-	int fps = Setting::GetFps();
-	fps = fps;
-	if (fps <= 0)
+	if (const float fps = Setting::GetFps(); fps <= 0)
 		delayPerFrame = 0;
 	else
-		delayPerFrame = 1 / static_cast<double>(fps);
+		delayPerFrame = 1 / fps;
 
 	renderer = Direct3DCreate9(D3D_SDK_VERSION);
 	this->timer = timer;
@@ -192,7 +190,7 @@ void Graphics::Init(STimer timer, ColorFormat colorFormat)
 
 	wnd = SGameWnd(GameWnd::Create(L"SpaghettiEngine"));
 
-	presentParam.Windowed = TRUE; // thể hiện ở chế độ cửa sổ
+	presentParam.Windowed = TRUE;
 	presentParam.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	presentParam.BackBufferFormat = static_cast<D3DFORMAT>(colorFormat);
 	presentParam.BackBufferCount = 1;
@@ -249,12 +247,13 @@ void Graphics::Render()
 #ifndef _DEBUG
 		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
 #else
-		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
+		renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
 #endif
 
 		const auto camera = cameraList.begin();
-		const Matrix cameraMatrix = std::move((*camera)->GetMatrix());
-
+		Matrix cameraMatrix; 
+		GraphicsMath::Inverse((*camera)->GetMatrix(), cameraMatrix);
+		
 		spriteHandler->Begin(ALPHABLEND);
 
 		for (const auto& renderScript : renderBuffer)

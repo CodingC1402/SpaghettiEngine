@@ -50,7 +50,7 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void Draw(const PSpriteRenderer renderScript); // Render Sprite
+	static void Draw(const SpriteRenderer* renderScript); // Render Sprite
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
@@ -64,7 +64,7 @@ protected:
 	void Window();
 	[[nodiscard]] SGameWnd GetCurrentWindow() const noexcept;
 
-	void Init(STimer timer, ColorFormat colorFormat);
+	void Init(const STimer& timer, const ColorFormat& colorFormat);
 
 	HRESULT Begin() const noexcept;
 	void Render();
