@@ -18,6 +18,11 @@ SpriteRenderer::SpriteRenderer()
 	name = TYPE_NAME(SpriteRenderer);
 }
 
+Matrix SpriteRenderer::GetWorldMatrix()
+{
+	return owner->GetWorldMatrix();
+}
+
 #pragma region Get
 Matrix SpriteRenderer::GetTransform()  const noexcept
 {
@@ -50,7 +55,7 @@ bool SpriteRenderer::Copy(const PScriptBase script)
 	if (!ScriptBase::Copy(script))
 		return false;
 
-	SpriteRenderer* copyScript = static_cast<SpriteRenderer*>(script);
+	const auto copyScript = dynamic_cast<SpriteRenderer*>(script);
 	this->transformMatrix = copyScript->transformMatrix;
 	this->sprite = copyScript->sprite;
 	return true;
@@ -59,21 +64,6 @@ bool SpriteRenderer::Copy(const PScriptBase script)
 void SpriteRenderer::Update()
 {
 	Graphics::Draw(this);
-}
-
-void SpriteRenderer::Draw(const SpriteHandler& handler, const Matrix& cameraMatrix, const bool& isPixelPerfect)
-{
-	RECT srcRect = GetSourceRect();
-	Vector3 center = GetCenter();
-	Matrix transform = owner->GetWorldMatrix() * cameraMatrix;
-	handler->SetTransform(&transform);
-	handler->Draw(
-		GetTexture(),
-		&srcRect,
-		&center,
-		nullptr,
-		WHITE
-	);
 }
 
 void SpriteRenderer::Load(const std::string* inputArg)

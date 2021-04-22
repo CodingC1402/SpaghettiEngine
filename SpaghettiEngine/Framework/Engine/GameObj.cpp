@@ -127,7 +127,9 @@ void GameObj::SetScale(const Vector3& vec3)
 {
 	if (_scale != vec3)
 	{
-		_scale = vec3;
+		_scale.x = vec3.x;
+		_scale.y = vec3.y;
+		_scale.z = vec3.z;
 		_isScaleChanged = true;
 		ForceRecalculateMatrix();
 	}
@@ -373,23 +375,24 @@ void GameObj::Load()
 		constexpr const char* Transform	= "Transform";
 		constexpr const char* Rotation	= "Rotation";
 		constexpr const char* Scale		= "Scale";
+		constexpr const char* Tag		= "Tag";
 		
 		json jsonFile;
 		file >> jsonFile;
 
-		tag = jsonFile["Tag"].get<std::string>();
+		tag = jsonFile[Tag].get<std::string>();
 
-		_transform.x = jsonFile[Transform][0].get<float>();
-		_transform.y = jsonFile[Transform][1].get<float>();
-		_transform.z = jsonFile[Transform][2].get<float>();
+		_transform.x	= jsonFile[Transform][0].get<float>();
+		_transform.y	= jsonFile[Transform][1].get<float>();
+		_transform.z	= jsonFile[Transform][2].get<float>();
 		
-		_rotation.x = jsonFile[Rotation][0].get<float>();
-		_rotation.y = jsonFile[Rotation][1].get<float>();
-		_rotation.z = jsonFile[Rotation][2].get<float>();
+		_rotation.x		= jsonFile[Rotation][0].get<float>();
+		_rotation.y		= jsonFile[Rotation][1].get<float>();
+		_rotation.z		= jsonFile[Rotation][2].get<float>();
 
-		_scale.x = jsonFile[Scale][0].get<float>();
-		_scale.y = jsonFile[Scale][1].get<float>();
-		_scale.z = jsonFile[Scale][2].get<float>();
+		_scale.x		= jsonFile[Scale][0].get<float>();
+		_scale.y		= jsonFile[Scale][1].get<float>();
+		_scale.z		= jsonFile[Scale][2].get<float>();
 
 		_isTransformChanged = true;
 		_isRotationChanged	= true;
@@ -402,7 +405,6 @@ void GameObj::Load()
 			this->AddChild(newChild);
 			newChild->parent = this;
 			newChild->Load();
-			newChild->Translate(this->GetTransform());
 		}
 
 		for (const auto& script : jsonFile["Scripts"])
@@ -452,38 +454,10 @@ void GameObj::CalculateRotationMatrix()
 	if (!_isRotationChanged)
 		return;
 	
-	Matrix XAxis;
-	Matrix YAxis;
-	Matrix ZAxis;
-	float rad;
+	const Matrix XAxis = GraphicsMath::GetXAxisRotateMatrix(_rotation.x);
+	const Matrix YAxis = GraphicsMath::GetYAxisRotateMatrix(_rotation.y);
+	const Matrix ZAxis = GraphicsMath::GetZAxisRotateMatrix(_rotation.z);
 	
-	GraphicsMath::ZeroMatrix(&XAxis);
-	XAxis._11 = 1;
-	XAxis._44 = 1;
-	rad = GraphicsMath::ToRad(_rotation.x);
-	XAxis._22 = std::cosf(rad);
-	XAxis._23 = std::sinf(rad);
-	XAxis._32 = -std::sinf(rad);
-	XAxis._33 = std::cosf(rad);
-	
-	GraphicsMath::ZeroMatrix(&YAxis);
-	YAxis._22 = 1;
-	YAxis._44 = 1;
-	rad = GraphicsMath::ToRad(_rotation.y);
-	YAxis._11 = std::cosf(rad);
-	YAxis._13 = -std::sinf(rad);
-	YAxis._31 = std::sinf(rad);
-	YAxis._33 = std::cosf(rad);
-
-	GraphicsMath::ZeroMatrix(&ZAxis);
-	ZAxis._33 = 1;
-	ZAxis._44 = 1;
-	rad = GraphicsMath::ToRad(_rotation.z);
-	ZAxis._11 = std::cosf(rad);
-	ZAxis._12 = std::sinf(rad);
-	ZAxis._21 = -std::sinf(rad);
-	ZAxis._22 = std::cosf(rad);
-
 	_rotationMatrix = XAxis * ZAxis * YAxis;
 	_isRotationChanged = false;
 }
@@ -495,6 +469,10 @@ void GameObj::CalculateTransformMatrix()
 	_transformMatrix._41 = _transform.x;
 	_transformMatrix._42 = _transform.y;
 	_transformMatrix._43 = _transform.z;
+	_transformMatrix._11 = 1;
+	_transformMatrix._22 = 1;
+	_transformMatrix._33 = 1;
+	_transformMatrix._44 = 1;
 	_isTransformChanged = false;
 }
 void GameObj::CalculateScaleMatrix()
@@ -505,6 +483,7 @@ void GameObj::CalculateScaleMatrix()
 	_scaleMatrix._11 = _scale.x;
 	_scaleMatrix._22 = _scale.y;
 	_scaleMatrix._33 = _scale.z;
+	_scaleMatrix._44 = 1;
 	_isScaleChanged = false;
 }
 void GameObj::CalculateWorldMatrix()
@@ -517,9 +496,9 @@ void GameObj::CalculateWorldMatrix()
 	CalculateScaleMatrix();
 	
 	if (parent != nullptr)
-		_worldMatrix = (_scaleMatrix * _rotationMatrix * _transformMatrix) * parent->GetWorldMatrix();
+		_worldMatrix = _scaleMatrix * _rotationMatrix * _transformMatrix * parent->GetWorldMatrix();
 	else
-		_worldMatrix = _transformMatrix;
+		_worldMatrix = _scaleMatrix * _rotationMatrix * _transformMatrix;
 
 	_isChanged = false;
 }

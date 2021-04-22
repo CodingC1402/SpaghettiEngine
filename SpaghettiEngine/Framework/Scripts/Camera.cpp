@@ -9,12 +9,17 @@ REGISTER_FINISH(Camera);
 Camera::Camera()
 {
 	name = TYPE_NAME(Camera);
+	GraphicsMath::ZeroMatrix(&viewMatrix);
+	viewMatrix._11 = 1;
+	viewMatrix._22 = -1;
+	viewMatrix._33 = 1;
+	viewMatrix._44 = 1;
 
-	GraphicsMath::ZeroMatrix(&cameraMatrix);
-	cameraMatrix._11 = 1;
-	cameraMatrix._22 = -1;
-	cameraMatrix._33 = 1;
-	cameraMatrix._44 = 1;
+	GraphicsMath::ZeroMatrix(&flipYMatrix);
+	flipYMatrix._11 = 1;
+	flipYMatrix._22 = -1;
+	flipYMatrix._33 = 1;
+	flipYMatrix._44 = 1;
 }
 
 bool Camera::Copy(const PScriptBase script)
@@ -29,19 +34,28 @@ bool Camera::Copy(const PScriptBase script)
 	return true;
 }
 
+Matrix Camera::GetMatrix(const Matrix& originalMatrix)
+{
+	if (needRecalculateMatrix)
+	{
+		needRecalculateMatrix = false;
+		GraphicsMath::Inverse(owner->GetWorldMatrix(), cameraMatrix);
+		cameraMatrix *= viewMatrix;
+	}
+	return flipYMatrix * originalMatrix * cameraMatrix;
+}
+
+void Camera::Update()
+{
+	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
+	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
+	needRecalculateMatrix = true;
+}
+
 void Camera::Start()
 {
 	if (!isDisabled)
 		Graphics::AddCamera(this);
-}
-
-Matrix Camera::GetMatrix()
-{
-	cameraMatrix = owner->GetWorldMatrix();
-	const Size resolution = Setting::GetResolution();
-	cameraMatrix._41 = -(static_cast<float>(resolution.width) / 2.0f);
-	cameraMatrix._42 = +(static_cast<float>(resolution.height) / 2.0f);
-	return cameraMatrix;
 }
 
 void Camera::OnDisabled()

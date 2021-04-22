@@ -36,6 +36,10 @@ public:
 	static void		MoveMatrix(Matrix& matrix, const float& x, const float& y, const float& z);
 	static void		Modulo(Vector3& out, const float& f);
 
+	static Matrix	GetXAxisRotateMatrix(const float& degree);
+	static Matrix	GetYAxisRotateMatrix(const float& degree);
+	static Matrix	GetZAxisRotateMatrix(const float& degree);
+	
 	static bool		Inverse(const Matrix& matrix, Matrix& inverseMatrix);
 	static void		GetCFactor(const Matrix& in, Matrix& out, int p, int q, int n);
 	static float	GetDet(const Matrix& matrix, int n);

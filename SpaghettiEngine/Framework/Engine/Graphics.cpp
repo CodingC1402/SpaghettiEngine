@@ -176,7 +176,7 @@ void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 	fpsRect.right = 50;
 	fpsRect.bottom = 20;
 #endif
-
+	
 	if (const float fps = Setting::GetFps(); fps <= 0)
 		delayPerFrame = 0;
 	else
@@ -250,15 +250,27 @@ void Graphics::Render()
 		renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
 #endif
 
-		const auto camera = cameraList.begin();
-		Matrix cameraMatrix; 
-		GraphicsMath::Inverse((*camera)->GetMatrix(), cameraMatrix);
-		
 		spriteHandler->Begin(ALPHABLEND);
-
+		const auto cameraScript = cameraList.begin();
 		for (const auto& renderScript : renderBuffer)
 		{
-			renderScript->Draw(spriteHandler, cameraMatrix, isPixelPerfect);
+			RECT srcRect = renderScript->GetSourceRect();
+			Vector3 center = renderScript->GetCenter();
+			Matrix transform = (*cameraScript)->GetMatrix(renderScript->GetWorldMatrix());
+			if (isPixelPerfect)
+			{
+				transform._41 = std::round(transform._41);
+				transform._42 = std::round(transform._42);
+			}
+			
+			spriteHandler->SetTransform(&transform);
+			spriteHandler->Draw(
+				renderScript->GetTexture(),
+				&srcRect,
+				&center,
+				nullptr,
+				WHITE
+			);
 		}
 
 #ifdef _DEBUG // For counting fps
@@ -270,6 +282,13 @@ void Graphics::Render()
 		os << std::floor(fps + 0.5) << std::endl;
 		const std::wstring str = os.str();
 
+		const auto temp = GraphicsMath::NewMatrix();
+		temp->_11 = 1;
+		temp->_22 = 1;
+		temp->_33 = 1;
+		temp->_44 = 1;
+		
+		spriteHandler->SetTransform(temp);
 		fpsFont->DrawTextW(
 			spriteHandler,
 			str.c_str(),
@@ -278,6 +297,7 @@ void Graphics::Render()
 			DT_CHARSTREAM,
 			MAGENTA
 		);
+		delete temp;
 #endif
 		spriteHandler->End();
 

@@ -3,7 +3,9 @@
   "Children": [
     "Asset/Scenes/Level1/Obj2.json"
   ],
-  "Position": [ 100, 100, 1 ],
+  "Transform": [ 100, 100, 0 ],
+  "Rotation": [ 0, 0, 0 ],
+  "Scale": [1, 1, 1],
   "Scripts": [
     {
       "Name": "SpriteRenderer",

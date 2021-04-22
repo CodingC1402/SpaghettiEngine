@@ -35,7 +35,7 @@ public:
 	class GraphicCodeException : public CornException
 	{
 	public:
-		GraphicCodeException(int line, const char* file, HRESULT code) noexcept;
+		GraphicCodeException(const int line, const char* file, HRESULT code) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
 		virtual const wchar_t* What() const noexcept override;
 		virtual const wchar_t* Translate() const noexcept;
@@ -50,7 +50,7 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void Draw(const SpriteRenderer* renderScript); // Render Sprite
+	static void Draw(SpriteRenderer* renderScript); // Render Sprite
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);

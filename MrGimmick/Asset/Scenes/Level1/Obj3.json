@@ -3,7 +3,9 @@
   "Children": [
 
   ],
-  "Position": [ 100, 200, 1 ],
+  "Transform": [ 100, 200, 0 ],
+  "Rotation": [ 0, 0, 90 ],
+  "Scale": [ 1, 1, 1 ],
   "Scripts": [
     {
       "Name": "Animator",

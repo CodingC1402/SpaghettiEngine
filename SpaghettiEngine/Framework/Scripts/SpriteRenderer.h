@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "Sprite.h"
 #include "CornDirectX.h"
+#include "Camera.h"
 
 class Graphics;
 
@@ -12,6 +13,7 @@ class SpriteRenderer : public ScriptBase
 public:
 	SpriteRenderer();
 	
+	[[nodiscard]] virtual Matrix		GetWorldMatrix();
 	[[nodiscard]] virtual Matrix		GetTransform()	const noexcept;
 	[[nodiscard]] virtual Vector3		GetPosition()	const noexcept;
 	[[nodiscard]] virtual Vector3		GetCenter()		const noexcept;
@@ -22,7 +24,6 @@ public:
 	virtual bool Copy(const PScriptBase script) override;
 	virtual void Update() override;
 protected:
-	virtual void Draw(const SpriteHandler& handler, const Matrix& cameraMatrix, const bool& isPixelPerfect);
 	virtual void Load(const std::string* inputArg) override;
 protected:
 	Matrix transformMatrix;

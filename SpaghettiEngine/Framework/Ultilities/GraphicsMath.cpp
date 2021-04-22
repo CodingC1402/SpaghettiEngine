@@ -160,3 +160,45 @@ void GraphicsMath::Modulo(Vector3& out, const float& f)
 	out.y = exmath::modulo(out.y, f);
 	out.z = exmath::modulo(out.z, f);
 }
+
+Matrix GraphicsMath::GetXAxisRotateMatrix(const float& degree)
+{
+	Matrix XAxis;
+	GraphicsMath::ZeroMatrix(&XAxis);
+	XAxis._11 = 1;
+	XAxis._44 = 1;
+	const float rad = GraphicsMath::ToRad(degree);
+	XAxis._22 = std::cosf(rad);
+	XAxis._23 = std::sinf(rad);
+	XAxis._32 = -std::sinf(rad);
+	XAxis._33 = std::cosf(rad);
+	return XAxis;
+}
+
+Matrix GraphicsMath::GetYAxisRotateMatrix(const float& degree)
+{
+	Matrix YAxis;
+	GraphicsMath::ZeroMatrix(&YAxis);
+	YAxis._22 = 1;
+	YAxis._44 = 1;
+	const float rad = GraphicsMath::ToRad(degree);
+	YAxis._11 = std::cosf(rad);
+	YAxis._13 = -std::sinf(rad);
+	YAxis._31 = std::sinf(rad);
+	YAxis._33 = std::cosf(rad);
+	return YAxis;
+}
+
+Matrix GraphicsMath::GetZAxisRotateMatrix(const float& degree)
+{
+	Matrix ZAxis;
+	GraphicsMath::ZeroMatrix(&ZAxis);
+	ZAxis._33 = 1;
+	ZAxis._44 = 1;
+	const float rad = GraphicsMath::ToRad(degree);
+	ZAxis._11 = std::cosf(rad);
+	ZAxis._12 = std::sinf(rad);
+	ZAxis._21 = -std::sinf(rad);
+	ZAxis._22 = std::cosf(rad);
+	return ZAxis;
+}
