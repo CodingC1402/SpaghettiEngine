@@ -265,6 +265,10 @@ void Graphics::Render()
 		const auto cameraScript = cameraList.begin();
 		for (const auto& renderScript : renderBuffer)
 		{
+			if (renderScript->owner->GetTag() == "Test4")
+			{
+				RECT srcRect = renderScript->GetSourceRect();
+			}
 			RECT srcRect = renderScript->GetSourceRect();
 			Vector3 center = renderScript->GetCenter();
 			Matrix transform = (*cameraScript)->GetMatrix(renderScript->GetWorldMatrix());

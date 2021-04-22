@@ -435,6 +435,10 @@ void GameObj::Load()
 		constexpr const char* Tag = "Tag";
 
 		tag = jsonFile[Tag].get<std::string>();
+
+		_transform.x = jsonFile[Transform][0].get<float>();
+		_transform.y = jsonFile[Transform][1].get<float>();
+		_transform.z = jsonFile[Transform][2].get<float>();
 		
 		_rotation.x		= jsonFile[Rotation][0].get<float>();
 		_rotation.y		= jsonFile[Rotation][1].get<float>();
