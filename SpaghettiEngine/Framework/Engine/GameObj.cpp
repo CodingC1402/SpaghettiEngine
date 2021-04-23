@@ -221,7 +221,6 @@ void GameObj::End() const
 		script->End();
 }
 #pragma endregion 
-
 void GameObj::Disable()
 {
 	if (isDisabled)
@@ -246,7 +245,7 @@ void GameObj::Enable()
 	for (const auto& child : children)
 		child->Enable();
 }
-
+#pragma region Parent methods
 void GameObj::RemoveParent()
 {
 	if (ownerScene)
@@ -288,6 +287,7 @@ void GameObj::AddParent(const PGameObj& gameObj)
 	
 	parent->AddChild(this);
 }
+#pragma endregion
 
 void GameObj::BecomeCurrentSceneObj()
 {
@@ -296,7 +296,6 @@ void GameObj::BecomeCurrentSceneObj()
 
 	SceneManager::GetCurrentScene()->AddGameObject(this);
 }
-
 void GameObj::BecomeConstSceneObj()
 {
 	if (ownerScene)
@@ -312,12 +311,11 @@ void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
 	newScript->Load(&arg);
 	scripts.push_back(newScript);
 }
-
 void GameObj::AddScript(const PScriptBase& script)
 {
 	scripts.push_back(script);
 }
-
+#pragma region Constructors
 GameObj::GameObj(const GameObj& obj)
 	:
 	ownerScene(nullptr),
@@ -344,7 +342,6 @@ GameObj::GameObj(const GameObj& obj)
 
 	loaded = true;
 }
-
 GameObj::GameObj(const std::string& path, const PScene& ownerScene)
 	:
 	ownerScene(ownerScene),
@@ -361,7 +358,7 @@ GameObj::GameObj(const std::string& path, const PScene& ownerScene)
 	GraphicsMath::ZeroMatrix(&_scaleMatrix);
 	GraphicsMath::ZeroMatrix(&_worldMatrix);
 }
-
+#pragma endregion 
 void GameObj::Load()
 {
 	if (loaded)

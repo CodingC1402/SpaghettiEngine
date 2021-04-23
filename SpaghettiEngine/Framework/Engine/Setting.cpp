@@ -44,15 +44,6 @@ Setting::Setting()
     Load();
 }
 
-#define RESOLUTION "Resolution"
-#define FPS "Fps"
-#define NAME "Name"
-#define WIDTH "Width"
-#define HEIGHT "Height"
-#define PIXELPERFECT_RESOLUTION "PixelPerfectResolution"
-#define PIXELPERFECT_WORLDPOINT "PixelPerfectWorldPoint"
-#define CAPPEDLOOP "CappedLoop"
-
 void Setting::Load()
 {
 	using namespace nlohmann;
@@ -69,6 +60,15 @@ void Setting::Load()
 
 	try
 	{
+		constexpr const char* RESOLUTION = "Resolution";
+		constexpr const char* FPS = "Fps";
+		constexpr const char* NAME = "Name";
+		constexpr const char* WIDTH = "Width";
+		constexpr const char* HEIGHT = "Height";
+		constexpr const char* PIXELPERFECT_RESOLUTION = "PixelPerfectResolution";
+		constexpr const char* PIXELPERFECT_WORLDPOINT = "PixelPerfectWorldPoint";
+		constexpr const char* CAPPEDLOOP = "CappedLoop";
+		
 		json file;
 		jsonFile >> file;
 
