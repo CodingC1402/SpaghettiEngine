@@ -8,13 +8,14 @@
 
 typedef class Scene* PScene;
 
-typedef class GameObj* PGameObj;
-typedef std::shared_ptr<GameObj> SGameObj;
-typedef std::unique_ptr<GameObj> UGameObjl;
-
 typedef class ScriptBase* PScriptBase;
+typedef const ScriptBase* CPScriptBase;
 typedef class std::shared_ptr<ScriptBase> SScriptBase;
 typedef class std::unique_ptr<ScriptBase> UScriptBase;
+
+typedef class GameObj* PGameObj;
+typedef std::shared_ptr<GameObj> SGameObj;
+typedef std::unique_ptr<GameObj> UGameObj;
 
 using std::string;
 using std::list;

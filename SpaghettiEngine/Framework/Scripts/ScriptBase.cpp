@@ -25,9 +25,19 @@ PScriptBase ScriptFactory::CopyInstance(CPScriptBase instance)
 	return copyScript;
 }
 
-const char* ScriptBase::GetName() const
+const char* ScriptBase::GetName() const noexcept
 {
 	return  name.c_str();
+}
+
+Matrix ScriptBase::GetWorldMatrix() noexcept
+{
+	return owner->GetWorldMatrix();
+}
+
+Vector3 ScriptBase::GetTransform() const noexcept
+{
+	return owner->GetWorldTransform();
 }
 
 bool ScriptBase::Copy(CPScriptBase script)
@@ -51,7 +61,7 @@ void ScriptBase::Enable()
 	OnEnabled();
 }
 
-void ScriptBase::Destroy()
+void ScriptBase::Destroy() const
 {
 	delete this;
 }

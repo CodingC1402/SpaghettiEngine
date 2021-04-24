@@ -2,6 +2,7 @@
 #include "CornException.h"
 #include "StringConverter.h"
 #include "GraphicsMath.h"
+#include "Setting.h"
 
 REGISTER_FINISH(SpriteRenderer);
 
@@ -18,23 +19,15 @@ SpriteRenderer::SpriteRenderer()
 	name = TYPE_NAME(SpriteRenderer);
 }
 
-Matrix SpriteRenderer::GetWorldMatrix()
-{
-	return owner->GetWorldMatrix();
-}
-
-#pragma region Get
-Matrix SpriteRenderer::GetTransform()  const noexcept
+Matrix SpriteRenderer::GetSpriteMatrix() const noexcept
 {
 	return transformMatrix;
 }
+
+#pragma region Get
 SSprite SpriteRenderer::GetSprite()  const noexcept
 {
 	return sprite;
-}
-Vector3 SpriteRenderer::GetPosition() const noexcept
-{
-	return owner->GetWorldTransform();
 }
 Vector3 SpriteRenderer::GetCenter() const noexcept
 {
@@ -50,20 +43,36 @@ RECT SpriteRenderer::GetSourceRect() const noexcept
 }
 #pragma endregion 
 
-bool SpriteRenderer::Copy(const PScriptBase script)
+bool SpriteRenderer::Copy(CPScriptBase script)
 {
 	if (!ScriptBase::Copy(script))
 		return false;
 
-	const auto copyScript = dynamic_cast<SpriteRenderer*>(script);
+	const auto copyScript = dynamic_cast<const SpriteRenderer*>(script);
 	this->transformMatrix = copyScript->transformMatrix;
 	this->sprite = copyScript->sprite;
 	return true;
 }
 
-void SpriteRenderer::Update()
+void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 {
-	Graphics::Draw(this);
+	RECT srcRect = GetSourceRect();
+	Vector3 center = GetCenter();
+	Matrix transform = camera->GetMatrix(GetWorldMatrix());
+	if (Setting::IsWorldPointPixelPerfect())
+	{
+		transform._41 = std::round(transform._41);
+		transform._42 = std::round(transform._42);
+	}
+
+	handler->SetTransform(&transform);
+	handler->Draw(
+		GetTexture(),
+		&srcRect,
+		&center,
+		nullptr,
+		WHITE
+	);
 }
 
 void SpriteRenderer::Load(const std::string* inputArg)

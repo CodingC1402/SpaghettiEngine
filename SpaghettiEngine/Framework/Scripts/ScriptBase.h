@@ -5,10 +5,9 @@
 #include <map>
 
 
+typedef class GameObj* PGameObj;
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
-
-typedef class GameObj* PGameObj;
 typedef std::map<std::string, void* (*)()> ScriptTypes;
 
 template<typename T>
@@ -43,7 +42,9 @@ class ScriptBase
 	friend 	ScriptBase* CreateT();
 public:
 	ScriptBase() = default;
-	[[nodiscard]] const char* GetName() const;
+	[[nodiscard]] const char*		GetName() const noexcept;
+	[[nodiscard]] virtual Matrix	GetWorldMatrix() noexcept;
+	[[nodiscard]] virtual Vector3	GetTransform()	const noexcept;
 	virtual bool Copy(CPScriptBase script);
 	virtual void Start() {}
 	virtual void Update() {}
@@ -53,7 +54,7 @@ public:
 	virtual void OnCollision() {}
 	virtual void OnDisabled() {}
 	virtual void OnEnabled() {}
-	void Destroy();
+	void Destroy() const;
 protected:
 	virtual ~ScriptBase() = default;
 	virtual void Load(const std::string* inputArg) {}

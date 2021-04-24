@@ -22,12 +22,12 @@ Camera::Camera()
 	flipYMatrix._44 = 1;
 }
 
-bool Camera::Copy(const PScriptBase script)
+bool Camera::Copy(CPScriptBase script)
 {
 	if (!ScriptBase::Copy(script))
 		return false;
 
-	const PCamera copyScript = dynamic_cast<PCamera>(script);
+	CPCamera copyScript = dynamic_cast<CPCamera>(script);
 	GraphicsMath::ZeroMatrix(&cameraMatrix);
 
 	cameraMatrix = copyScript->cameraMatrix;
