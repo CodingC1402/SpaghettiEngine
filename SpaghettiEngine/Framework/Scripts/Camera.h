@@ -1,10 +1,9 @@
 #pragma once
 #include "ScriptBase.h"
-#include "Graphics.h"
 #include "CornDirectX.h"
 
-class Graphics;
 typedef class Camera* PCamera;
+typedef const Camera* CPCamera;
 
 class Camera : public ScriptBase
 {
@@ -15,7 +14,7 @@ public:
 	virtual void	Load(const std::string* inputArg) override;
 	virtual void	Update() override;
 
-	virtual bool	Copy(const PScriptBase script) override;
+	virtual bool	Copy(CPScriptBase script) override;
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
 	virtual void	Unload() override;

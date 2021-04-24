@@ -4,11 +4,6 @@
 #include <vector>
 
 typedef class SceneManager* PSceneManager;
-
-typedef class Scene* PScene;
-typedef std::shared_ptr<Scene> SScene;
-typedef std::unique_ptr<Scene> UScene;
-
 typedef class GameObj* PGameObj;
 
 class SceneManager

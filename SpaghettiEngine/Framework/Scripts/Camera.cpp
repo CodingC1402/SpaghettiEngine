@@ -1,7 +1,6 @@
 #include "Camera.h"
-#include "CornException.h"
 #include "Setting.h"
-#include "CornException.h"
+#include "Graphics.h"
 #include "GraphicsMath.h"
 
 REGISTER_FINISH(Camera);
@@ -22,12 +21,12 @@ Camera::Camera()
 	flipYMatrix._44 = 1;
 }
 
-bool Camera::Copy(const PScriptBase script)
+bool Camera::Copy(CPScriptBase script)
 {
 	if (!ScriptBase::Copy(script))
 		return false;
 
-	const PCamera copyScript = dynamic_cast<PCamera>(script);
+	const CPCamera copyScript = dynamic_cast<CPCamera>(script);
 	GraphicsMath::ZeroMatrix(&cameraMatrix);
 
 	cameraMatrix = copyScript->cameraMatrix;

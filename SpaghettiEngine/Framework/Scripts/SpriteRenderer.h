@@ -1,28 +1,21 @@
 #pragma once
-#include "ScriptBase.h"
-#include "Graphics.h"
 #include "Sprite.h"
-#include "CornDirectX.h"
-#include "Camera.h"
+#include "Render2DScriptBase.h"
 
-class Graphics;
-
-class SpriteRenderer : public ScriptBase
+class SpriteRenderer : public Render2DScriptBase
 {
 	friend class Graphics;
 public:
 	SpriteRenderer();
 	
-	[[nodiscard]] virtual Matrix		GetWorldMatrix();
-	[[nodiscard]] virtual Matrix		GetTransform()	const noexcept;
-	[[nodiscard]] virtual Vector3		GetPosition()	const noexcept;
+	[[nodiscard]] virtual Matrix		GetSpriteMatrix()	const noexcept;
 	[[nodiscard]] virtual Vector3		GetCenter()		const noexcept;
 	[[nodiscard]] virtual SSprite		GetSprite()		const noexcept;
 	[[nodiscard]] virtual PDx9Texture	GetTexture()	const noexcept;
 	[[nodiscard]] virtual RECT			GetSourceRect() const noexcept;
 	
-	virtual bool Copy(const PScriptBase script) override;
-	virtual void Update() override;
+	virtual bool Copy(CPScriptBase script) override;
+	virtual void Draw(SpriteHandler handler, PCamera camera) override;
 protected:
 	virtual void Load(const std::string* inputArg) override;
 protected:

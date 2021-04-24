@@ -3,6 +3,7 @@
 #include "Setting.h"
 #include "json.hpp"
 #include "GraphicsMath.h"
+#include "Render2DScriptBase.h"
 #include <fstream>
 #include <DirectXMath.h>
 
@@ -39,9 +40,9 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::Draw(SpriteRenderer* renderScript)
+void Graphics::Draw(Render2DScriptBase* renderScript)
 {
-	__instance->renderBuffer.push_back(renderScript);
+	__instance->_renderBuffer2D.push_back(renderScript);
 }
 
 void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
@@ -103,9 +104,14 @@ void Graphics::SetActiveCamera(PCamera setCamera)
 	__instance->cameraList.push_front(setCamera);
 }
 
+void Graphics::ClearRenderBuffer2D()
+{
+	_renderBuffer2D.clear();
+}
+
 void Graphics::ClearRenderBuffer()
 {
-	renderBuffer.clear();
+	_renderBuffer2D.clear();
 }
 
 void Graphics::CreateResource()
@@ -223,11 +229,11 @@ void Graphics::Render()
 	timeSinceLastFrame += timer->GetDeltaTime();
 	if (timeSinceLastFrame < delayPerFrame)
 	{
-		renderBuffer.clear();
+		ClearRenderBuffer2D();
 		return;
 	}
 
-#ifdef _DEBUG
+#ifdef _DEBUG // For RGB background
 	rgb[index] += delta;
 	if (!(rgb[index] & 0xFF))
 	{
@@ -262,30 +268,10 @@ void Graphics::Render()
 #endif
 
 		spriteHandler->Begin(ALPHABLEND);
-		const auto cameraScript = cameraList.begin();
-		for (const auto& renderScript : renderBuffer)
+		const auto cameraScript = *cameraList.begin();
+		for (const auto& renderScript2D : _renderBuffer2D)
 		{
-			if (renderScript->owner->GetTag() == "Test4")
-			{
-				RECT srcRect = renderScript->GetSourceRect();
-			}
-			RECT srcRect = renderScript->GetSourceRect();
-			Vector3 center = renderScript->GetCenter();
-			Matrix transform = (*cameraScript)->GetMatrix(renderScript->GetWorldMatrix());
-			if (isPixelPerfect)
-			{
-				transform._41 = std::round(transform._41);
-				transform._42 = std::round(transform._42);
-			}
-			
-			spriteHandler->SetTransform(&transform);
-			spriteHandler->Draw(
-				renderScript->GetTexture(),
-				&srcRect,
-				&center,
-				nullptr,
-				WHITE
-			);
+			renderScript2D->Draw(spriteHandler, cameraScript);
 		}
 
 #ifdef _DEBUG // For counting fps
@@ -316,7 +302,7 @@ void Graphics::Render()
 #endif
 		spriteHandler->End();
 
-		renderBuffer.clear();
+		ClearRenderBuffer2D();
 
 		if (!End())
 			Reset();

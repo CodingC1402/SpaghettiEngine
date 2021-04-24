@@ -1,7 +1,9 @@
 #include "GameObj.h"
 #include "json.hpp"
 #include "CornException.h"
+#include "SceneManager.h"
 #include "GraphicsMath.h"
+#include "ScriptBase.h"
 #include <fstream>
 
 #pragma region Get
@@ -220,7 +222,8 @@ void GameObj::End() const
 	for (const auto& script : scripts)
 		script->End();
 }
-#pragma endregion 
+#pragma endregion
+#pragma region Enable/Disable
 void GameObj::Disable()
 {
 	if (isDisabled)
@@ -245,6 +248,7 @@ void GameObj::Enable()
 	for (const auto& child : children)
 		child->Enable();
 }
+#pragma endregion 
 #pragma region Parent methods
 void GameObj::RemoveParent()
 {
@@ -288,7 +292,6 @@ void GameObj::AddParent(const PGameObj& gameObj)
 	parent->AddChild(this);
 }
 #pragma endregion
-
 void GameObj::BecomeCurrentSceneObj()
 {
 	if (ownerScene)
@@ -303,7 +306,7 @@ void GameObj::BecomeConstSceneObj()
 
 	SceneManager::GetConstScene()->AddGameObject(this);
 }
-
+#pragma region Scripts
 void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
 {
 	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName);
@@ -315,6 +318,7 @@ void GameObj::AddScript(const PScriptBase& script)
 {
 	scripts.push_back(script);
 }
+#pragma endregion 
 #pragma region Constructors
 GameObj::GameObj(const GameObj& obj)
 	:
@@ -358,7 +362,7 @@ GameObj::GameObj(const std::string& path, const PScene& ownerScene)
 	GraphicsMath::ZeroMatrix(&_scaleMatrix);
 	GraphicsMath::ZeroMatrix(&_worldMatrix);
 }
-#pragma endregion 
+#pragma endregion
 void GameObj::Load()
 {
 	if (loaded)
@@ -377,7 +381,6 @@ void GameObj::Load()
 		throw CORN_EXCEPT_WITH_DISCRIPTION (os.str());
 	}
 	
-	constexpr const char* Prefab = "Prefab";
 	constexpr const char* Transform = "Transform";
 	constexpr const char* Rotation = "Rotation";
 	constexpr const char* Scale = "Scale";
@@ -386,9 +389,10 @@ void GameObj::Load()
 	
 	json jsonFile;
 	file >> jsonFile;
-	if (jsonFile[Prefab] != nullptr)
+#pragma region Load prefab
+	if (constexpr const char* Prefab = "Prefab"; jsonFile[Prefab] != nullptr)
 	{
-		const std::string prefabPath = jsonFile[Prefab].get<std::string>();
+		const auto prefabPath = jsonFile[Prefab].get<std::string>();
 		std::ifstream prefab(prefabPath);
 		json jsonPrefab;
 		prefab >> jsonPrefab;
@@ -426,7 +430,8 @@ void GameObj::Load()
 			throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 		}
 	}
-	
+#pragma endregion
+#pragma region  GameObj
 	try
 	{
 		constexpr const char* Tag = "Tag";
@@ -475,8 +480,8 @@ void GameObj::Load()
 
 		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
 	}
+#pragma endregion 
 }
-
 void GameObj::Destroy()
 {
 	End();
@@ -493,12 +498,16 @@ void GameObj::Destroy()
 	scripts.clear();
 	delete this;
 }
-
+#pragma region  Child
 void GameObj::AddChild(PGameObj child)
 {
 	children.push_back(child);
 }
-
+void GameObj::RemoveChild(PGameObj child)
+{
+	children.remove(child);
+}
+#pragma endregion 
 #pragma region Matrix Calculation
 void GameObj::CalculateRotationMatrix()
 {
@@ -554,8 +563,3 @@ void GameObj::CalculateWorldMatrix()
 	_isChanged = false;
 }
 #pragma endregion
-
-void GameObj::RemoveChild(PGameObj child)
-{
-	children.remove(child);
-}

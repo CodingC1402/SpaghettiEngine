@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "json.hpp"
 #include "CornException.h"
+#include "GameObj.h"
 #include <sstream>
 #include <fstream>
 

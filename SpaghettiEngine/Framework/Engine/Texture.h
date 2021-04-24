@@ -1,6 +1,5 @@
 #pragma once
 #include "json.hpp"
-#include "Sprite.h"
 #include "CornException.h"
 #include "CornDirectX.h"
 #include <string>

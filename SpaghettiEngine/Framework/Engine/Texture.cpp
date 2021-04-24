@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "Graphics.h"
-#include "GraphicsMath.h"
+#include "Sprite.h"
 
 std::list<STexture> Texture::textures;
 

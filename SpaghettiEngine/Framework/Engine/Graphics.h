@@ -2,16 +2,15 @@
 #include "CornDirectX.h"
 #include "CornException.h"
 #include "GameWnd.h"
-#include "SpriteRenderer.h"
-#include "Camera.h"
+#include "Texture.h"
 #include <vector>
 
 /// <summary>
 /// Singleton directx9 wrapper
 /// </summary>
 
+typedef class Render2DScriptBase* PRender2DScriptBase;
 typedef class Camera* PCamera;
-typedef class SpriteRenderer* PSpriteRenderer;
 typedef class Graphics* PGraphics;
 
 class Graphics
@@ -50,7 +49,7 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void Draw(SpriteRenderer* renderScript); // Render Sprite
+	static void Draw(Render2DScriptBase* renderScript); // Render Sprite
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
@@ -58,7 +57,8 @@ public:
 	static void SetActiveCamera(PCamera setCamera);
 	[[nodiscard]] static PCamera GetActiveCamera();
 protected:
-	void ClearRenderBuffer();
+	void ClearRenderBuffer2D();
+	void ClearRenderBuffer(); // for later if we want to add a 3D renderer
 
 	void CreateResource();
 	void ReleaseResource();
@@ -100,7 +100,7 @@ protected:
 
 	bool isPixelPerfect = false;
 	std::list<PCamera> cameraList;
-	std::list<PSpriteRenderer> renderBuffer;
+	std::list<PRender2DScriptBase> _renderBuffer2D;
 
 	static PGraphics __instance;
 private:
