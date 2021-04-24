@@ -3,6 +3,7 @@
 #include "Setting.h"
 #include "json.hpp"
 #include "GraphicsMath.h"
+#include "Render2DScriptBase.h"
 #include <fstream>
 #include <DirectXMath.h>
 

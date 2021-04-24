@@ -1,11 +1,10 @@
 #pragma once
 
 #include "GameObj.h"
+#include "CornDirectX.h"
 #include <string>
 #include <map>
 
-
-typedef class GameObj* PGameObj;
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
 typedef std::map<std::string, void* (*)()> ScriptTypes;

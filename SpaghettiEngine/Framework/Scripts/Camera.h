@@ -1,9 +1,7 @@
 #pragma once
 #include "ScriptBase.h"
-#include "Graphics.h"
 #include "CornDirectX.h"
 
-class Graphics;
 typedef class Camera* PCamera;
 typedef const Camera* CPCamera;
 

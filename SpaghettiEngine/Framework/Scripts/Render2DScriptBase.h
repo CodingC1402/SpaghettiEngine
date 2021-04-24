@@ -1,9 +1,7 @@
 #pragma  once
 #include "ScriptBase.h"
 #include "CornDirectX.h"
-#include "Graphics.h"
-
-typedef class Graphics* PGraphics;
+#include "Camera.h"
 
 class Render2DScriptBase : public ScriptBase
 {

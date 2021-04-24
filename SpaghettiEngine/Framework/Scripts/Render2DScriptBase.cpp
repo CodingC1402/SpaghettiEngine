@@ -1,5 +1,5 @@
 #include "Render2DScriptBase.h"
-#include "GraphicsMath.h"
+#include "Graphics.h"
 
 REGISTER_FINISH(Render2DScriptBase);
 

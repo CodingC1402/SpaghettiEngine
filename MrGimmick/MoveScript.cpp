@@ -1,5 +1,6 @@
 #include "MoveScript.h"
 #include "GameTimer.h"
+#include "Graphics.h"
 #include "Debug.h"
 
 REGISTER_FINISH(MoveScript);

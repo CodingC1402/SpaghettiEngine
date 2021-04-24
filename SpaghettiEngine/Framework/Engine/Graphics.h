@@ -2,8 +2,7 @@
 #include "CornDirectX.h"
 #include "CornException.h"
 #include "GameWnd.h"
-#include "Render2DScriptBase.h"
-#include "Camera.h"
+#include "Texture.h"
 #include <vector>
 
 /// <summary>

@@ -1,7 +1,6 @@
 #include "Camera.h"
-#include "CornException.h"
 #include "Setting.h"
-#include "CornException.h"
+#include "Graphics.h"
 #include "GraphicsMath.h"
 
 REGISTER_FINISH(Camera);
@@ -27,7 +26,7 @@ bool Camera::Copy(CPScriptBase script)
 	if (!ScriptBase::Copy(script))
 		return false;
 
-	CPCamera copyScript = dynamic_cast<CPCamera>(script);
+	const CPCamera copyScript = dynamic_cast<CPCamera>(script);
 	GraphicsMath::ZeroMatrix(&cameraMatrix);
 
 	cameraMatrix = copyScript->cameraMatrix;

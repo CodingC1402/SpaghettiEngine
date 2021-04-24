@@ -1,7 +1,9 @@
 #include "GameObj.h"
 #include "json.hpp"
 #include "CornException.h"
+#include "SceneManager.h"
 #include "GraphicsMath.h"
+#include "ScriptBase.h"
 #include <fstream>
 
 #pragma region Get
