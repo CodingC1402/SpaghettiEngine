@@ -4,7 +4,6 @@
 #include "CornException.h"
 #include "Animation.h"
 #include "Graphics.h"
-#include "Physic.h"
 #include <fstream>
 
 PSceneManager SceneManager::__instance = nullptr;
@@ -49,7 +48,6 @@ void SceneManager::StartLoadScene(UINT index)
 		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}
 
-	Physic::GetInstance()->Unload();
 	Graphics::GetInstance()->ClearRenderBuffer();
 	currentScene = scenes[index];
 	currentScene->Load();
