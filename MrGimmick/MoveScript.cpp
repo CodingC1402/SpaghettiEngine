@@ -35,6 +35,6 @@ void MoveScript::Update()
 	move.x *= movementSpeed * GameTimer::GetDeltaTime();
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
-	owner->Translate(&move);
-	std::static_pointer_cast<RigidBody>(owner->GetScript("RigidBody")).get()->UpdateVelocity(move);
+	owner->Translate(move);
+	//std::static_pointer_cast<RigidBody>(owner->GetScript("RigidBody")).get()->UpdateVelocity(move);
 }

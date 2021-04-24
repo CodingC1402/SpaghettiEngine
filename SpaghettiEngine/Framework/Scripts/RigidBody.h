@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptBase.h"
+#include "CornException.h"
 #include "Physic.h"
 
 class Physic;

@@ -49,14 +49,16 @@ void Physic::Unload()
 	boxColliders.clear();
 }
 
+const string* RIGIDBODY = (string*)("RigidBody");
+
 bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 {
 	PhysicMath::Rect obj = PhysicMath::Rect(object->GetPosition().x,
 		object->GetPosition().y,
 		object->width,
 		object->height,
-		std::static_pointer_cast<RigidBody>(object->owner->GetScript("RigidBody")).get()->vx,
-		std::static_pointer_cast<RigidBody>(object->owner->GetScript("RigidBody")).get()->vy);
+		dynamic_cast<PRigidBody>(object->owner->GetScript(RIGIDBODY))->vx,
+		dynamic_cast<PRigidBody>(object->owner->GetScript(RIGIDBODY))->vy);
 	
 	PhysicMath::Rect broadphasebox = PhysicMath::getSweptBroadphaseRect(obj);
 	
@@ -81,7 +83,7 @@ bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 			obj.vx = -obj.vx;
 			obj.vy = -obj.vy;
 
-			object->owner->Translate(new Vector3(obj.vx, obj.vy, 0));
+			object->owner->Translate(Vector3(obj.vx, obj.vy, 0));
 		}
 	}
 

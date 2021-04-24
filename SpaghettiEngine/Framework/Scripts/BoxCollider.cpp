@@ -21,9 +21,9 @@ void BoxCollider::Update()
 Vector3 BoxCollider::GetPosition()
 {
 	Vector3 pos;
-	pos.x = owner->GetPosition()->x - width / 2;
-	pos.y = owner->GetPosition()->y - height / 2;
-	pos.z = owner->GetPosition()->z;
+	pos.x = owner->GetWorldTransform().x - width / 2;
+	pos.y = owner->GetWorldTransform().y - height / 2;
+	pos.z = owner->GetWorldTransform().z;
 	return pos;
 }
 
