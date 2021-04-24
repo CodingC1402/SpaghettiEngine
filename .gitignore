@@ -6,6 +6,9 @@ x64/*
 SpaghettiEngine/Debug/*
 SpaghettiEngine/Release/*
 SpaghettiEngine/x64/*
+MrGimmick/Debug/*
+MrGimmick/Release/*
+MrGimmick/x64/*
 
 # Prerequisites
 *.d

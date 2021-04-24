@@ -1,18 +1,14 @@
 #pragma once
+
+#include "CornWnd.h"
 #include <string>
+#include <list>
 #include <memory>
-#include <vector>
-#include "Texture.h"
-#include "Sprite.h"
-#include "GameObj.h"
 
 typedef class GameObj* PGameObj;
-
-typedef class SceneManager* PSceneManager;
-
 typedef class Scene* PScene;
-typedef std::shared_ptr<Scene> SScene;
 typedef std::unique_ptr<Scene> UScene;
+typedef std::shared_ptr<Scene> SScene;
 
 class Scene
 {
@@ -20,11 +16,12 @@ class Scene
 	friend class GameObj;
 public:
 	void Update();
+	PGameObj GetObj(UINT index[],UINT size);
 protected:
 	Scene(std::string path);
+	void Instantiate(PGameObj gameObj);
 	void RemoveGameObject(PGameObj gameObj);
 	void AddGameObject(PGameObj gameObj);
-	void Instantiate(PGameObj gameObj);
 	void Load();
 	void Unload();
 protected:

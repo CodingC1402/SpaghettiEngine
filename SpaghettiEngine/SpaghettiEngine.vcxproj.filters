@@ -152,7 +152,16 @@
     <ClInclude Include="Framework\Ultilities\Debug.h">
       <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Scripts\MoveScript.h">
+    <ClInclude Include="Framework\Engine\WinMain.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scripts\Animator.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Transform.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scripts\Render2DScriptBase.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Scripts\RigidBody.h">
@@ -256,7 +265,13 @@
     <ClCompile Include="Framework\Ultilities\Timer.cpp">
       <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Scripts\MoveScript.cpp">
+    <ClCompile Include="Framework\Scripts\Animator.cpp">
+      <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Transform.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Scripts\RigidBody.cpp">

@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "json.hpp"
 #include "CornException.h"
+#include "GameObj.h"
 #include <sstream>
 #include <fstream>
 
@@ -38,6 +39,13 @@ void Scene::Instantiate(PGameObj gameObj)
 	PGameObj newInstance = new GameObj(*gameObj);
 	newInstance->ownerScene = this;
 	instances.push_back(newInstance);
+}
+
+PGameObj Scene::GetObj(UINT index[], UINT size)
+{
+	auto it = instances.begin();
+	std::advance(it, index[0]);
+	return (*it)->GetChild(index, 0, size);
 }
 
 void Scene::Update()
@@ -95,6 +103,4 @@ void Scene::Unload()
 	for (const auto& instance : instances)
 		instance->Destroy();
 	instances.clear();
-
-	Texture::ClearUnusedTexture();
 }

@@ -1,13 +1,12 @@
 #pragma once
 
 #include "GameObj.h"
+#include "CornDirectX.h"
 #include <string>
 #include <map>
 
-
 typedef class ScriptBase* PScriptBase;
-
-typedef class GameObj* PGameObj;
+typedef const ScriptBase* CPScriptBase;
 typedef std::map<std::string, void* (*)()> ScriptTypes;
 
 template<typename T>
@@ -17,7 +16,7 @@ class ScriptFactory
 {
 public:
 	static PScriptBase CreateInstance(std::string const& typeName);
-	static PScriptBase CopyInstance(const PScriptBase instance);
+	static PScriptBase CopyInstance(CPScriptBase instance);
 protected:
 	static ScriptTypes* GetMap();
 private:
@@ -42,21 +41,25 @@ class ScriptBase
 	friend 	ScriptBase* CreateT();
 public:
 	ScriptBase() = default;
-	const char* GetName();
-	virtual bool Copy(const PScriptBase script);
-	virtual void Start() {};
-	virtual void Update() {};
-	virtual void End() {};
+	[[nodiscard]] const char*		GetName() const noexcept;
+	[[nodiscard]] virtual Matrix	GetWorldMatrix() noexcept;
+	[[nodiscard]] virtual Vector3	GetTransform()	const noexcept;
+	virtual bool Copy(CPScriptBase script);
+	virtual void Start() {}
+	virtual void Update() {}
+	virtual void End() {}
 	virtual void Disable();
 	virtual void Enable();
-	virtual void OnCollision() {};
-	virtual void OnDisabled() {};
-	virtual void OnEnabled() {};
+	virtual void OnCollision() {}
+	virtual void OnDisabled() {}
+	virtual void OnEnabled() {}
+	void Destroy() const;
 protected:
-	virtual void Load(const std::string* inputArg) {};
-	virtual void Unload() {};
+	virtual ~ScriptBase() = default;
+	virtual void Load(const std::string* inputArg) {}
+	virtual void Unload() {}
 protected:
 	bool isDisabled = false;
-	PGameObj owner = NULL;
+	PGameObj owner = nullptr;
 	std::string name;
 };
