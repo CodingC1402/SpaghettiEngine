@@ -3,6 +3,7 @@
 #include "GameTimer.h"
 #include "InputSystem.h"
 #include "Graphics.h"
+#include "Physic.h"
 
 Game* Game::__instance = nullptr;
 
@@ -13,6 +14,7 @@ void Game::Init()
 	input = InputSystem::GetInstance();
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->Init();
+	physic = Physic::GetInstance();
 }
 
 void Game::Update() const
@@ -38,6 +40,7 @@ void Game::Update() const
 	}
 
 	sceneManager->Update();
+	physic->Update();
 }
 
 Game::~Game()
