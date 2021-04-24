@@ -54,6 +54,7 @@ void SceneManager::StartLoadScene(UINT index)
 	scenes[sceneIndex]->Unload();
 	sceneIndex = index;
 
+	
 	Animation::ClearUnusedAnimation();
 	Texture::ClearUnusedTexture();
 }
