@@ -41,11 +41,13 @@ void BoxCollider::Load(const std::string* inputArg)
 			height = std::stof(input[Height]);
 			Physic::GetInstance()->AddBoxCollider(this);
 		}
-		catch (CornException& e)
+		catch (std::exception& e)
 		{
 			std::wostringstream os;
 			os << L"Width " << input[Width].c_str() << L" Height " << input[Height].c_str()
 				<< L" is out of bound";
+			os << std::endl;
+			os << e.what();
 			throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 		}
 	}
