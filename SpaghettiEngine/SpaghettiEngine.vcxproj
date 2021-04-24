@@ -40,6 +40,7 @@
     <ClInclude Include="Framework\Engine\Transform.h" />
     <ClInclude Include="Framework\Engine\WinMain.h" />
     <ClInclude Include="Framework\Scripts\Animator.h" />
+    <ClInclude Include="Framework\Scripts\Base2DRenderScript.h" />
     <ClInclude Include="Framework\Scripts\Camera.h" />
     <ClInclude Include="Framework\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
@@ -77,6 +78,7 @@
     <ClCompile Include="Framework\Engine\Transform.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
     <ClCompile Include="Framework\Scripts\Animator.cpp" />
+    <ClCompile Include="Framework\Scripts\Base2DRenderScript.cpp" />
     <ClCompile Include="Framework\Scripts\Camera.cpp" />
     <ClCompile Include="Framework\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />

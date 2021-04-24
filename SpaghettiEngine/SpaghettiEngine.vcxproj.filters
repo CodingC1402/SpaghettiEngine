@@ -161,6 +161,9 @@
     <ClInclude Include="Framework\Engine\Transform.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Scripts\Base2DRenderScript.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -258,6 +261,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Transform.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\Base2DRenderScript.cpp">
+      <Filter>Scripts\Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,25 +12,25 @@ ScriptTypes* ScriptFactory::GetMap()
 
 ScriptBase* ScriptFactory::CreateInstance(std::string const& typeName)
 {
-	auto iterator = map->find(typeName);
+	const auto iterator = map->find(typeName);
 	if (iterator == GetMap()->end())
 		return nullptr;
 	return static_cast<PScriptBase>(iterator->second());
 }
 
-PScriptBase ScriptFactory::CopyInstance(const PScriptBase instance)
+PScriptBase ScriptFactory::CopyInstance(CPScriptBase instance)
 {
 	PScriptBase copyScript = CreateInstance(instance->GetName());
 	copyScript->Copy(instance);
 	return copyScript;
 }
 
-const char* ScriptBase::GetName()
+const char* ScriptBase::GetName() const
 {
 	return  name.c_str();
 }
 
-bool ScriptBase::Copy(const PScriptBase script)
+bool ScriptBase::Copy(CPScriptBase script)
 {
 	return this->name == script->name;
 }

@@ -2,7 +2,7 @@
 #include "CornDirectX.h"
 #include "CornException.h"
 #include "GameWnd.h"
-#include "SpriteRenderer.h"
+#include "Base2DRenderScript.h"
 #include "Camera.h"
 #include <vector>
 
@@ -10,6 +10,8 @@
 /// Singleton directx9 wrapper
 /// </summary>
 
+typedef class Base2DRenderScript* PBase2DRenderScript;
+typedef const Base2DRenderScript* CPBase2DRenderScript;
 typedef class Camera* PCamera;
 typedef class SpriteRenderer* PSpriteRenderer;
 typedef class Graphics* PGraphics;
