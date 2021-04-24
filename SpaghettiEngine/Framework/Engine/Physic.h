@@ -11,6 +11,7 @@ typedef class Physic* PPhysic;
 class Physic
 {
 	friend class Game;
+	friend class SceneManager;
 public:
 	void Init();
 	void Update();

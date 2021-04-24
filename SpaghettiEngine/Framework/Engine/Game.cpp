@@ -36,7 +36,6 @@ void Game::Update() const
 	}
 	if (InputSystem::GetInput("Right")->Check())
 	{
-		physic->Unload();
 		SceneManager::CallLoadNextScene();
 	}
 
