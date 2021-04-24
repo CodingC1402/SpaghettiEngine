@@ -12,7 +12,9 @@ public:
 	RigidBody();
 	virtual void Start() override;
 	virtual void Update() override;
-	void UpdateVelocity(Vector3 v);
+	void SetVelocity(Vector3 v);
+	void SetVelocityByDelta(Vector3 delta);
+	Vector3 GetVelocity();
 protected:
 	virtual void Load(const std::string* inputArg) override;
 protected:

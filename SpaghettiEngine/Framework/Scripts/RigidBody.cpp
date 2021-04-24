@@ -24,10 +24,21 @@ void RigidBody::Update()
 	//owner->Translate(&fall);
 }
 
-void RigidBody::UpdateVelocity(Vector3 v)
+void RigidBody::SetVelocity(Vector3 v)
 {
 	this->vx = v.x;
 	this->vy = v.y;
+}
+
+void RigidBody::SetVelocityByDelta(Vector3 delta)
+{
+	this->vx += delta.x;
+	this->vy += delta.y;
+}
+
+Vector3 RigidBody::GetVelocity()
+{
+	return Vector3(vx, vy, 1);
 }
 
 void RigidBody::Load(const std::string* inputArg)
