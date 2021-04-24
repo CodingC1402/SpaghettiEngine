@@ -25,8 +25,8 @@ public:
 	[[nodiscard]] Vector3			GetRotation() const;
 	[[nodiscard]] Vector3			GetScale() const;
 	[[nodiscard]] PScriptBase		GetScript(const UINT index) const noexcept;
-	[[nodiscard]] PScriptBase		GetScript(const std::string* name) const noexcept;
-	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string* name) const noexcept;
+	[[nodiscard]] PScriptBase		GetScript(const std::string& name) const noexcept;
+	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
 	[[nodiscard]] PGameObj			GetParent() const;
 	[[nodiscard]] PGameObj			GetChild(UINT index) const;
 	[[nodiscard]] PGameObj			GetChild(UINT index[], UINT level, UINT size) const;

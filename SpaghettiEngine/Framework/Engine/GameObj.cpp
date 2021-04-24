@@ -80,21 +80,21 @@ PScriptBase GameObj::GetScript(UINT index) const noexcept
 	std::advance(iterator, index);
 	return *iterator;
 }
-PScriptBase GameObj::GetScript(const std::string* name) const noexcept
+PScriptBase GameObj::GetScript(const std::string& name) const noexcept
 {
 	for (const auto& script : scripts)
 	{
-		if (script->GetName() == *name)
+		if (script->GetName() == name)
 			return script;
 	}
 	return nullptr;
 }
-std::list<PScriptBase> GameObj::GetAllScripts(const std::string* name) const noexcept
+std::list<PScriptBase> GameObj::GetAllScripts(const std::string& name) const noexcept
 {
 	std::list<PScriptBase> rList;
 	for (const auto& script : scripts)
 	{
-		if (script->GetName() == *name)
+		if (script->GetName() == name)
 			rList.push_back(script);
 	}
 	return rList;
