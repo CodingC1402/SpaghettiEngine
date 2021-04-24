@@ -2,7 +2,6 @@
 #include "ScriptBase.h"
 #include "Camera.h"
 #include "InputSystem.h"
-#include "Physic.h"
 
 class MoveScript : public ScriptBase
 {
