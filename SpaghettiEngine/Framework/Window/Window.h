@@ -33,19 +33,20 @@ protected:
 	class WindowClass
 	{
 	public:
+		WindowClass(const WindowClass&) = delete;
+		Window& operator=(const WindowClass&) = delete;
+		
 		static const wchar_t* GetName() noexcept;
 		static HINSTANCE GetInstance() noexcept;
 	protected:
 		WindowClass() noexcept;
 		~WindowClass();
-		WindowClass(const WindowClass&) = delete;
-		Window& operator=(const WindowClass&) = delete;
 		static constexpr const wchar_t* m_pwcWndClassName = L"SpaghettiEngine";
 		static WindowClass m_wcWinClass;
 		HINSTANCE m_hInst;
 	};
 public:
-	~Window();
+	virtual ~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
@@ -73,7 +74,7 @@ public:
 	static Window* Create(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0);
 	static DWORD ProcessMessages();
 protected:
-	Window(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0) noexcept;
+	Window(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0);
 	void Destroy();
 	void AddChild(PWindow child);
 

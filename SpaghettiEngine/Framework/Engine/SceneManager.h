@@ -10,10 +10,10 @@ class SceneManager
 {
 	friend class Game;
 public:
-	class SceneManagerException : public CornDiscriptionException
+	class SceneManagerException : public CornDescriptionException
 	{
 	public:
-		SceneManagerException(int line, const char* file, std::wstring discription) noexcept;
+		SceneManagerException(int line, const char* file, std::wstring description) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
 	};
 public:
@@ -45,4 +45,4 @@ protected:
 	static PSceneManager __instance;
 };
 
-#define SCENEMANAGER_EXCEPT(discription) SceneManager::SceneManagerException(__LINE__,__FILE__,discription)
+#define SCENEMANAGER_EXCEPT(description) SceneManager::SceneManagerException(__LINE__,__FILE__,description)

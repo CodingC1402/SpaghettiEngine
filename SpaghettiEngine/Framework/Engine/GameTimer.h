@@ -17,10 +17,10 @@ protected:
 	
 	GameTimer();
 	~GameTimer() = default;
-	void Start();
+	void Start() const;
 	void Mark();
 protected:
-	PTimer timer = NULL;
+	PTimer timer = nullptr;
 	double timeScale = 1;
 	double deltaTime = 0;
 	double realTime = 0;

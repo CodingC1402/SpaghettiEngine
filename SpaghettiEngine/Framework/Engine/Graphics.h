@@ -25,7 +25,7 @@ public:
 		RGB32Bit = 22
 	};
 
-	class GraphicException : public CornDiscriptionException
+	class GraphicException : public CornDescriptionException
 	{
 	public:
 		GraphicException(int line, const char* file, std::wstring description) noexcept;
@@ -123,5 +123,5 @@ private:
 #endif
 };
 
-#define GRAPHICS_EXCEPT(discription) Graphics::GraphicException(__LINE__,__FILE__,discription)
+#define GRAPHICS_EXCEPT(description) Graphics::GraphicException(__LINE__,__FILE__,description)
 #define GRAPHICS_EXCEPT_CODE(code) Graphics::GraphicCodeException(__LINE__,__FILE__,code)

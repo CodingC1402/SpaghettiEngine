@@ -34,7 +34,7 @@ GameTimer::GameTimer()
 	timer = Timer::Create();
 }
 
-void GameTimer::Start()
+void GameTimer::Start() const
 {
 	timer->Start();
 }

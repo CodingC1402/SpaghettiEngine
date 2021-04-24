@@ -41,7 +41,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 	return m_wcWinClass.m_hInst;
 }
 
-Window::Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow parent, int x, int y) noexcept
+Window::Window(int iWidth, int iHeight, const wchar_t* wcWndName, PWindow parent, int x, int y)
 	:
 	wndPos(x, y),
 	wndSize(iWidth, iHeight),

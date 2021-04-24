@@ -92,9 +92,9 @@ void Setting::Load()
 }
 
 
-Setting::AppSettingException::AppSettingException(int line, const char* file, std::wstring discription) noexcept
+Setting::AppSettingException::AppSettingException(int line, const char* file, std::wstring description) noexcept
 	:
-	CornDiscriptionException(line, file, discription)
+	CornDescriptionException(line, file, description)
 {}
 
 const wchar_t* Setting::AppSettingException::GetType() const noexcept

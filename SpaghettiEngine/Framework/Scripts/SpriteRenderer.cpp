@@ -93,7 +93,7 @@ void SpriteRenderer::Load(const std::string* inputArg)
 			std::wostringstream os;
 			os << L"Index " << input[1].c_str() << L" of texture file " << input[TexturePath].c_str()
 				<< L" is out of bound";
-			throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+			throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 		}
 		transformMatrix._41 = std::stof(input[OffSetX]);
 		transformMatrix._42 = std::stof(input[OffSetY]);
