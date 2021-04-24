@@ -42,7 +42,7 @@ Sprite::Sprite(const PTexture& source, const int& x, const int& y, const int& w,
 Sprite::Sprite(const PTexture& source, const Size& size, const Point& position)
 {
 	srcRect.left = position.x;
-	srcRect.right = position.y;
+	srcRect.top = position.y;
 	srcRect.right = srcRect.left + size.width;
 	srcRect.bottom = srcRect.top + size.height;
 

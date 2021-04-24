@@ -11,21 +11,20 @@ class InputSystem
 {
 	friend class Game;
 public:
-	class InputSysException : public CornDiscriptionException
+	class InputSysException : public CornDescriptionException
 	{
 	public:
-		InputSysException(int line, const char* file, std::wstring discription) noexcept;
+		InputSysException(int line, const char* file, std::wstring description) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
 	};
 public:
-	KeyCode GetFirstKeyPressCode();
-
-	static SInput GetInput(const string& name) noexcept;
-protected:
 	InputSystem(const InputSystem&) = delete;
 	InputSystem& operator=(const InputSystem&) = delete;
-
-	~InputSystem() {};
+	
+	static KeyCode GetFirstKeyPressCode();
+	static SInput GetInput(const string& name) noexcept;
+protected:
+	~InputSystem() = default;
 	InputSystem();
 
 	void Update();
@@ -45,4 +44,4 @@ protected:
 	static PInputSystem __instance;
 };
 
-#define INPUTSYS_EXCEPT( discription ) InputSystem::InputSysException(__LINE__,__FILE__,discription);
+#define INPUTSYS_EXCEPT( description ) InputSystem::InputSysException(__LINE__,__FILE__,description);

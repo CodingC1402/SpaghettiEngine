@@ -1,6 +1,10 @@
 #include "Game.h"
+#include "SceneManager.h"
+#include "GameTimer.h"
+#include "InputSystem.h"
+#include "Graphics.h"
 
-Game* Game::__instance = NULL;
+Game* Game::__instance = nullptr;
 
 void Game::Init()
 {
@@ -11,7 +15,7 @@ void Game::Init()
 	sceneManager->Init();
 }
 
-void Game::Update()
+void Game::Update() const
 {
 	timer->Mark();
 	input->Update();
@@ -38,13 +42,10 @@ void Game::Update()
 
 Game::~Game()
 {
-	if (input)
-		delete input;
-	if (timer)
-		delete timer;
-
-	input = NULL;
-	timer = NULL;
+	delete input;
+	delete timer;
+	input = nullptr;
+	timer = nullptr;
 }
 
 Game* Game::GetInstance()

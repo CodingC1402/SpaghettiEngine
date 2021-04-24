@@ -1,27 +1,27 @@
 #pragma once
-#include "InputSystem.h"
-#include "Graphics.h"
-#include "SceneManager.h"
-#include "GameTimer.h"
-#include "App.h"
 
-class App;
+typedef class GameTimer* PGameTimer;
+typedef class InputSystem* PInputSystem;
+typedef class SceneManager* PSceneManager;
 
 class Game
 {
 	friend class App;
 public:
+	Game(const Game&) = delete;
+	Game& operator=(const Game&) = delete;
+	
 	void Init();
-	void Update();
+	void Update() const;
 protected:
 	Game() = default;
 	~Game();
 
 	static Game* GetInstance();
 private:
-	PGameTimer timer = NULL;
-	PInputSystem input = NULL;
-	PSceneManager sceneManager = NULL;
+	PGameTimer timer = nullptr;
+	PInputSystem input = nullptr;
+	PSceneManager sceneManager = nullptr;
 
 	static Game* __instance;
 };

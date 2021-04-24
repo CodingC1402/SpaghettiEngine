@@ -35,8 +35,8 @@ void Scene::AddGameObject(PGameObj gameObj)
 void Scene::Instantiate(PGameObj gameObj)
 {
 	if (gameObj->GetParent())
-		throw CORN_EXCEPT_WITH_DISCRIPTION(L"You are trying to instantiate an object with parent");
-	PGameObj newInstance = new GameObj(*gameObj);
+		throw CORN_EXCEPT_WITH_DESCRIPTION(L"You are trying to instantiate an object with parent");
+	const auto newInstance = new GameObj(*gameObj);
 	newInstance->ownerScene = this;
 	instances.push_back(newInstance);
 }
@@ -67,7 +67,7 @@ void Scene::Load()
 		os << L"File ";
 		os << path.c_str();
 		os << L" Doesn't exist";
-		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}
 
 	try
@@ -88,7 +88,7 @@ void Scene::Load()
 		os << L"File ";
 		os << path.c_str();
 		os << L" doesn't have the right format";
-		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}
 
 	for (const auto& instance : instances)

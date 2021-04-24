@@ -20,10 +20,10 @@ class Texture
 {
 	friend class SceneManager;
 public:
-	class TextureException : public CornDiscriptionException
+	class TextureException : public CornDescriptionException
 	{
 	public:
-		TextureException(int line, const char* file, std::wstring discription);
+		TextureException(int line, const char* file, std::wstring description);
 		virtual const wchar_t* GetType() const noexcept override;
 	};
 public:
@@ -50,4 +50,4 @@ protected:
 	static std::list<STexture> textures;
 };
 
-#define TEXTURE_EXCEPT(discription) Texture::TextureException(__LINE__,__FILE__,discription)
+#define TEXTURE_EXCEPT(description) Texture::TextureException(__LINE__,__FILE__,description)

@@ -6,10 +6,10 @@
 class Setting
 {
 public:
-	class AppSettingException : public CornDiscriptionException
+	class AppSettingException : public CornDescriptionException
 	{
 	public:
-		AppSettingException(int line, const char* file, std::wstring discription) noexcept;
+		AppSettingException(int line, const char* file, std::wstring description) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
 	};
 public:
@@ -33,4 +33,4 @@ protected:
 	static Setting* __instance;
 };
 
-#define APPSETTING_EXCEPT(discription) Setting::AppSettingException(__LINE__,__FILE__,discription)
+#define APPSETTING_EXCEPT(description) Setting::AppSettingException(__LINE__,__FILE__,description)

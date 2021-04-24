@@ -1,11 +1,11 @@
 #include "Timer.h"
 
-const double& Timer::GetSystemTime() noexcept
+const double& Timer::GetSystemTime() const noexcept
 {
     return systemTime;
 }
 
-const double& Timer::GetDeltaTime() noexcept
+const double& Timer::GetDeltaTime() const noexcept
 {
     return deltaTime;
 }
@@ -22,8 +22,8 @@ void Timer::Start() noexcept
 
 void Timer::Mark() noexcept
 {
-    auto currentTimePoint = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> dif = currentTimePoint - previousTimePoint;
+    const auto currentTimePoint = std::chrono::high_resolution_clock::now();
+    const std::chrono::duration<double> dif = currentTimePoint - previousTimePoint;
 
     deltaTime = dif.count();
     previousTimePoint = currentTimePoint;

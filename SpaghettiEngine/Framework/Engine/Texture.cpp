@@ -150,7 +150,7 @@ void Texture::ClearUnusedTexture()
 		{
 			if ((*iterator)->IsAllSpriteUnused())
 			{
-				auto eraseIterator = iterator;
+				const auto eraseIterator = iterator;
 				std::advance(iterator, 1);
 				textures.erase(eraseIterator);
 			}
@@ -165,9 +165,9 @@ void Texture::ClearTexture()
 	textures.clear();
 }
 
-Texture::TextureException::TextureException(int line, const char* file, std::wstring discription)
+Texture::TextureException::TextureException(int line, const char* file, std::wstring description)
 	:
-	CornDiscriptionException(line, file, discription)
+	CornDescriptionException(line, file, std::move(description))
 {}
 
 const wchar_t* Texture::TextureException::GetType() const noexcept

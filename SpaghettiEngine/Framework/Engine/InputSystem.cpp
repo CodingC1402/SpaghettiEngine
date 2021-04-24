@@ -1,15 +1,13 @@
 ﻿#include "InputSystem.h"
-#include "Debug.h"
 #include "json.hpp"
-#include "StringConverter.h"
 #include "SpaghettiEnginePath.h"
 #include <sstream>
 #include <fstream>
 
-#define INPUTTEXT "Inputs"
-#define TYPETEXT "Type"
-#define NAMETEXT "Name"
-#define CODETEXT "KeyCode"
+constexpr const char* InputText = "Inputs";
+constexpr const char* TypeText = "Type";
+constexpr const char* NameText = "Name";
+constexpr const char* CodeText = "KeyCode";
 
 PInputSystem InputSystem::__instance = nullptr;
 
@@ -20,13 +18,9 @@ KeyCode InputSystem::GetFirstKeyPressCode()
 
 SInput InputSystem::GetInput(const string& name) noexcept
 {
-	for (int i = 0; i < __instance->inputs.size(); i++)
-	{
-		if (__instance->inputs[i]->CheckName(name))
-		{
-			return __instance->inputs[i];
-		}
-	}
+	for (const auto& input : __instance->inputs)
+		if (input->CheckName(name))
+			return input;
 
 	return SInput();
 }
@@ -49,10 +43,8 @@ InputSystem::InputSystem()
 void InputSystem::Update()
 {
 	charInput = L"";
-	for (int i = 0; i < inputs.size(); i++)
-	{
-		inputs[i]->Reset();
-	}
+	for (const auto& input : inputs)
+		input->Reset();
 
 	KeyBoard::Event e;
 	while (!kb->IsKeyEmpty())
@@ -60,17 +52,13 @@ void InputSystem::Update()
 		e = kb->ReadKey();
 		if (!e.IsValid())
 		{
-			for (int i = 0; i < inputs.size(); i++)
-			{
-				inputs[i]->LostFocus();
-			}
+			for (const auto& input : inputs)
+				input->LostFocus();
 		}
 		else
 		{
-			for (int i = 0; i < inputs.size(); i++)
-			{
-				inputs[i]->Update(e);
-			}
+			for (const auto& input : inputs)
+				input->Update(e);
 		}
 		charInput += kb->ReadChar();
 	}
@@ -87,17 +75,18 @@ void InputSystem::Load()
 		oss << L"File ";
 		oss << INPUTPATH;
 		oss << L" doesn't exist";
-		throw INPUTSYS_EXCEPT(oss.str().c_str());
+		throw INPUTSYS_EXCEPT(oss.str());
 	}
-	json file;
 	try
 	{
+		json file;
 		jsonStream >> file;
-		for (const auto& input : file[INPUTTEXT])
+		
+		for (const auto& input : file[InputText])
 		{
-			Input::Type type = input[TYPETEXT].get<Input::Type>();
-			std::string name = input[NAMETEXT].get<std::string>();
-			KeyCode		code = input[CODETEXT].get<KeyCode>();
+			auto type = input[TypeText].get<Input::Type>();
+			auto name = input[NameText].get<std::string>();
+			auto code = input[CodeText].get<KeyCode>();
 			inputs.push_back(SInput(Input::Create(code, name, type)));
 		}
 	}
@@ -122,14 +111,14 @@ void InputSystem::Save()
 	using namespace nlohmann;
 
 	json j;
-	for (int i = 0; i < inputs.size(); i++)
+	for (const auto& loadedInput : inputs)
 	{
-		j[INPUTTEXT].push_back({});
-		auto input = j[INPUTTEXT].back();
+		j[InputText].push_back({});
+		auto input = j[InputText].back();
 
-		input[CODETEXT] = inputs[i]->keyCode;
-		input[NAMETEXT] = inputs[i]->name;
-		input[TYPETEXT] = inputs[i]->GetType();
+		input[CodeText] = loadedInput->keyCode;
+		input[NameText] = loadedInput->name;
+		input[TypeText] = loadedInput->GetType();
 	}
 
 	std::ofstream oFile;
@@ -138,9 +127,9 @@ void InputSystem::Save()
 	oFile.close();
 }
 
-InputSystem::InputSysException::InputSysException(int line, const char* file, std::wstring discription) noexcept
+InputSystem::InputSysException::InputSysException(int line, const char* file, std::wstring description) noexcept
 	:
-	CornDiscriptionException(line, file, discription)
+	CornDescriptionException(line, file, std::move(description))
 {}
 
 const wchar_t* InputSystem::InputSysException::GetType() const noexcept

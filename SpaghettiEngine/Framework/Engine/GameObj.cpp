@@ -378,7 +378,7 @@ void GameObj::Load()
 		os << L"Obj file ";
 		os << path.c_str();
 		os << L" Doesn't exist";
-		throw CORN_EXCEPT_WITH_DISCRIPTION (os.str());
+		throw CORN_EXCEPT_WITH_DESCRIPTION (os.str());
 	}
 	
 	constexpr const char* Transform = "Transform";
@@ -402,7 +402,7 @@ void GameObj::Load()
 			os << L"Prefab file ";
 			os << path.c_str();
 			os << L" Doesn't exist";
-			throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+			throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 		}
 
 		try
@@ -427,7 +427,7 @@ void GameObj::Load()
 			os << L"Obj file" << path.c_str() << std::endl;
 			os << L"Exception: " << e.what();
 
-			throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+			throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 		}
 	}
 #pragma endregion
@@ -478,7 +478,7 @@ void GameObj::Load()
 		os << L" doesn't have the right format" << std::endl;
 		os << L"Exception: " << e.what();
 
-		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}
 #pragma endregion 
 }

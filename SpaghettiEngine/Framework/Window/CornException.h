@@ -23,15 +23,15 @@ protected:
 	mutable std::wstring whatBuffer;
 };
 
-class CornDiscriptionException : CornException
+class CornDescriptionException : CornException
 {
 public:
-	CornDiscriptionException(int line, const char* file, std::wstring discription) noexcept;
+	CornDescriptionException(int line, const char* file, std::wstring description) noexcept;
 	virtual const wchar_t* GetType() const noexcept override;
 	virtual const wchar_t* What() const noexcept override;
 	std::wstring GetErrorString() const noexcept;
 private:
-	std::wstring discription;
+	std::wstring description;
 };
 
-#define CORN_EXCEPT_WITH_DISCRIPTION(discription) CornDiscriptionException(__LINE__,__FILE__,discription)
+#define CORN_EXCEPT_WITH_DESCRIPTION(description) CornDescriptionException(__LINE__,__FILE__,description)

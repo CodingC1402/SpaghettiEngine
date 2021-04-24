@@ -8,9 +8,9 @@
 
 PSceneManager SceneManager::__instance = nullptr;
 
-SceneManager::SceneManagerException::SceneManagerException(int line, const char* file, std::wstring discription) noexcept
+SceneManager::SceneManagerException::SceneManagerException(int line, const char* file, std::wstring description) noexcept
 	:
-	CornDiscriptionException(line, file, discription)
+	CornDescriptionException(line, file, description)
 {}
 
 const wchar_t* SceneManager::SceneManagerException::GetType() const noexcept
@@ -45,7 +45,7 @@ void SceneManager::StartLoadScene(UINT index)
 		os << index << std::endl;
 		os << L"But the number of scenes is ";
 		os << scenes.size() << std::endl;
-		throw CORN_EXCEPT_WITH_DISCRIPTION(os.str());
+		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}
 
 	Graphics::GetInstance()->ClearRenderBuffer();

@@ -1,6 +1,5 @@
 #pragma once
 #include <chrono>
-#include "CornWnd.h"
 #include <memory>
 
 #define TIME_PRECISION 3
@@ -12,8 +11,8 @@ public:
 	~Timer() {};
 	void Start() noexcept;
 	void Mark() noexcept;
-	const double& GetSystemTime() noexcept;
-	const double& GetDeltaTime() noexcept;
+	const double& GetSystemTime() const noexcept;
+	const double& GetDeltaTime() const noexcept;
 
 	static Timer* Create() noexcept;
 protected:

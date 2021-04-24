@@ -15,7 +15,7 @@ PGraphics Graphics::__instance = nullptr;
 
 Graphics::GraphicException::GraphicException(const int line, const char* file, std::wstring description) noexcept
 	: 
-	CornDiscriptionException(line, file, std::move(description))
+	CornDescriptionException(line, file, std::move(description))
 {}
 
 const wchar_t* Graphics::GraphicException::GetType() const noexcept
