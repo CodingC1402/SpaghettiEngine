@@ -4,12 +4,16 @@
 #include <string>
 #include <list>
 #include <memory>
+#include <json.hpp>
+#include <TileObj.h>
 
 typedef class GameObj* PGameObj;
+typedef class TileObj* PTileObj;
 typedef class Scene* PScene;
 typedef std::unique_ptr<Scene> UScene;
 typedef std::shared_ptr<Scene> SScene;
 
+using namespace nlohmann;
 class Scene
 {
 	friend class SceneManager;
@@ -25,6 +29,7 @@ protected:
 	void Load();
 	void Unload();
 protected:
+	void LoadTileMap(json tileMap);
 	std::string path = "";
 
 	std::list<PGameObj> instances;
