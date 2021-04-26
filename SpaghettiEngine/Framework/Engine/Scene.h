@@ -5,7 +5,6 @@
 #include <list>
 #include <memory>
 #include <json.hpp>
-#include <TileObj.h>
 
 typedef class GameObj* PGameObj;
 typedef class TileObj* PTileObj;
@@ -29,7 +28,6 @@ protected:
 	void Load();
 	void Unload();
 protected:
-	void LoadTileMap(json tileMap);
 	std::string path = "";
 
 	std::list<PGameObj> instances;

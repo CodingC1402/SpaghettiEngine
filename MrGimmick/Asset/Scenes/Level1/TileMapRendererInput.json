@@ -1,0 +1,11 @@
+{
+  "Texture": "Asset/Textures/Stage1.png",
+  "Width": 24,
+  "Height": 64,
+  "Data": [
+    23,23,23,23,23,23,23,23,23,23,23,23,23
+  ],
+  "Animations": [
+
+  ]
+}
