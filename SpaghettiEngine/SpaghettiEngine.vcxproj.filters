@@ -164,6 +164,12 @@
     <ClInclude Include="Framework\Scripts\Render2DScriptBase.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\TileObj.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scripts\TileSpriteRenderer.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -263,6 +269,12 @@
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp">
+      <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\TileObj.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\TileSpriteRenderer.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
