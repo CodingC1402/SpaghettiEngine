@@ -5,12 +5,22 @@
 #include "Graphics.h"
 #include "Sprite.h"
 
-std::map<unsigned long long, STexture> Texture::textures;
+std::list<STexture> Texture::textures;
 
-PDx9Texture Texture::GetImage() const
+PDx9Texture Texture::GetImage()
 {
 	return image;
 }
+
+#define KEYCOLOR "KeyColor"
+#define RED "Red"
+#define GREEN "Green"
+#define BLUE "Blue"
+#define Sprites "Sprites"
+#define SpritePosX 0
+#define SpritePosY 1
+#define SpriteWidth 2
+#define SpriteHeight 3
 
 bool Texture::IsAllSpriteUnused()
 {
@@ -23,43 +33,32 @@ bool Texture::IsAllSpriteUnused()
 }
 
 void Texture::Load()
-{	
+{
 	using namespace nlohmann;
 
-	std::ifstream jsonFile(_path + ".json");
+	std::ifstream jsonFile(path + ".json");
 	if (!jsonFile.is_open()) 
 	{
 		std::wostringstream os;
 		os << L"File ";
-		os << _path.c_str();
+		os << path.c_str();
 		os << L" Doesn't exist";
 		throw TEXTURE_EXCEPT(os.str());
 	}
 
 	try
 	{
-		constexpr const char* KeyColor = "KeyColor";
-		constexpr const char* Sprites = "Sprites";
-		constexpr const char* Red = "Red";
-		constexpr const char* Green = "Green";
-		constexpr const char* Blue = "Blue";
-		
 		json file;
 		jsonFile >> file;
 
-		UINT red = file[KeyColor][Red].get<int>();
-		UINT green = file[KeyColor][Green].get<int>();
-		UINT blue = file[KeyColor][Blue].get<int>();
+		UINT red = file[KEYCOLOR][RED].get<int>();
+		UINT green = file[KEYCOLOR][GREEN].get<int>();
+		UINT blue = file[KEYCOLOR][BLUE].get<int>();
 		auto keyColor = ARGB(red, green, blue, 255);
-		Graphics::LoadTexture(image, _path, keyColor);
+		Graphics::LoadTexture(image, path, keyColor);
 
 		for (int x, y, w, h; const auto& sprite : file["Sprites"])
 		{
-			constexpr int SpritePosX = 0;
-			constexpr int SpritePosY = 1;
-			constexpr int SpriteWidth = 2;
-			constexpr int SpriteHeight = 3;
-			
 			x = sprite[SpritePosX].get<int>();
 			y = sprite[SpritePosY].get<int>();
 			w = sprite[SpriteWidth].get<int>();
@@ -71,31 +70,31 @@ void Texture::Load()
 	{
 		std::wostringstream os;
 		os << L"File ";
-		os << _path.c_str();
+		os << path.c_str();
 		os << L" doesn't have the right format";
 		throw TEXTURE_EXCEPT(os.str());
 	}
 }
 
-bool Texture::CheckPath(const std::string& path) const
+bool Texture::CheckPath(const std::string& path)
 {
-	return this->_path == path;
+	return this->path == path;
 }
 
 bool Texture::GetTexture(STexture* rTexture, const std::string& path)
 {
-	bool haveToLoadNew = false;
-	const unsigned long long findHash = StringConverter::HashStr(path);
-	auto texture = textures.find(findHash);
-	if (texture == textures.end())
+	for (const auto& texture : textures)
 	{
-		LoadTexture(path);
-		texture = textures.find(findHash);
-		haveToLoadNew = true;
+		if (texture->CheckPath(path))
+		{
+			*rTexture = texture;
+			return true;
+		}
 	}
-	*rTexture = texture->second;
 	
-	return haveToLoadNew;
+	LoadTexture(path);
+	GetTexture(rTexture, path);
+	return false;
 }
 
 Texture::~Texture()
@@ -106,29 +105,18 @@ Texture::~Texture()
 
 Texture::Texture(const std::string& path)
 {
-	this->image = nullptr;
-	this->_path = path;
-	this->_hash = StringConverter::HashStr(path);
+	this->path = path;
 }
 
 void Texture::LoadTexture(const std::string& path)
 {
-	STexture newTexture = std::make_shared<Texture>(path);
-	if (const auto rValue = textures.emplace(newTexture->_hash, newTexture); !rValue.second)
-	{
-		std::wostringstream os;
-		os << L"[Path]" << newTexture->_path.c_str() << std::endl;
-		os << L"[Path]" << rValue.first->second->_path.c_str() << std::endl;
-		os << L"Have the same hash number please consider using another name";
-		throw TEXTURE_EXCEPT(os.str());
-	}
-	
-	newTexture->Load();
+	textures.push_back(STexture(new Texture(path)));
+	textures.back()->Load();
 }
 
 bool Texture::GetSprite(SSprite* sprite, const int& index) noexcept
 {
-	if (index >= static_cast<const int>(sprites.size()))
+	if (index >= sprites.size())
 		return false;
 
 	auto iterator = sprites.begin();
@@ -139,19 +127,36 @@ bool Texture::GetSprite(SSprite* sprite, const int& index) noexcept
 
 void Texture::RemoveTexture(const std::string& path)
 {
-	const unsigned long long eraseHash = StringConverter::HashStr(path);
-	textures.erase(eraseHash);
+	auto iterator = textures.begin();
+	size_t size = textures.size();
+	while (size > 0)
+	{
+		if ((*iterator)->CheckPath(path))
+		{
+			textures.erase(iterator);
+			break;
+		}
+		size--;
+	}
 }
 
 void Texture::ClearUnusedTexture()
 {
-	std::list<STexture> unusedTextures;
-	for(const auto& texture : textures)
-		if (texture.second.use_count() <= 1)
-			if (texture.second->IsAllSpriteUnused())
-				unusedTextures.push_back(texture.second);
-	for (const auto& texture : unusedTextures)
-		textures.erase(texture->_hash);
+	size_t size = textures.size();
+	auto iterator = textures.begin();
+	while (size > 0)
+	{
+		if (iterator->use_count() <= 1)
+		{
+			if ((*iterator)->IsAllSpriteUnused())
+			{
+				const auto eraseIterator = iterator;
+				std::advance(iterator, 1);
+				textures.erase(eraseIterator);
+			}
+		}
+		size--;
+	}
 }
 
 
