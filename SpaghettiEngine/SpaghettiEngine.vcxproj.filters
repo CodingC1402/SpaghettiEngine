@@ -164,11 +164,11 @@
     <ClInclude Include="Framework\Scripts\Render2DScriptBase.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\TileMapObj.h">
-      <Filter>FrameWork\Engine\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Scripts\TileMapRenderer.h">
       <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\ExMath.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -271,11 +271,11 @@
     <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\TileMapObj.cpp">
-      <Filter>FrameWork\Engine\SourceFiles</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Scripts\TileMapRenderer.cpp">
       <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\ExMath.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

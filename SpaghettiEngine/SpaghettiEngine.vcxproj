@@ -37,7 +37,6 @@
     <ClInclude Include="Framework\Engine\SpaghettiEnginePath.h" />
     <ClInclude Include="Framework\Engine\Sprite.h" />
     <ClInclude Include="Framework\Engine\Texture.h" />
-    <ClInclude Include="Framework\Engine\TileMapObj.h" />
     <ClInclude Include="Framework\Engine\Transform.h" />
     <ClInclude Include="Framework\Engine\WinMain.h" />
     <ClInclude Include="Framework\Scripts\Animator.h" />
@@ -47,6 +46,7 @@
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Scripts\TileMapRenderer.h" />
     <ClInclude Include="Framework\Ultilities\Debug.h" />
+    <ClInclude Include="Framework\Ultilities\ExMath.h" />
     <ClInclude Include="Framework\Ultilities\GraphicsMath.h" />
     <ClInclude Include="Framework\Ultilities\json.hpp" />
     <ClInclude Include="Framework\Ultilities\Monitor.h" />
@@ -77,7 +77,6 @@
     <ClCompile Include="Framework\Engine\Sound.cpp" />
     <ClCompile Include="Framework\Engine\Sprite.cpp" />
     <ClCompile Include="Framework\Engine\Texture.cpp" />
-    <ClCompile Include="Framework\Engine\TileMapObj.cpp" />
     <ClCompile Include="Framework\Engine\Transform.cpp" />
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
     <ClCompile Include="Framework\Scripts\Animator.cpp" />
@@ -87,6 +86,7 @@
     <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Scripts\TileMapRenderer.cpp" />
     <ClCompile Include="Framework\Ultilities\Debug.cpp" />
+    <ClCompile Include="Framework\Ultilities\ExMath.cpp" />
     <ClCompile Include="Framework\Ultilities\GraphicsMath.cpp" />
     <ClCompile Include="Framework\Ultilities\Monitor.cpp" />
     <ClCompile Include="Framework\Ultilities\Plane2D.cpp" />

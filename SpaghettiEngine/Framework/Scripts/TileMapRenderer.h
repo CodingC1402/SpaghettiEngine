@@ -49,7 +49,7 @@ protected:
 	int height;
 	int tileWidth;
 	int tileHeight;
-	std::vector<PTile> tiles;
+	std::vector<std::vector<Tile*>> tiles;
 	std::list<PAnimatedTile> animatedTiles;
 	
 	REGISTER_START(TileMapRenderer);

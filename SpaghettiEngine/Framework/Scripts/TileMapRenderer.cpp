@@ -2,6 +2,7 @@
 #include "json.hpp"
 #include "GameTimer.h"
 #include "Animation.h"
+#include "ExMath.h"
 #include <fstream>
 #include <Setting.h>
 
@@ -36,8 +37,6 @@ void AnimatedTile::Update()
 
 void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
 {
-	if (index == -2)
-		int i = index;
 	animation = Animation::GetAnimation(data["Animations"][abs(index + 1)].get<string>());
 }
 
@@ -91,8 +90,21 @@ void TileMapRenderer::Load(const string* inputArg)
 		tileWidth = jsonFile["TileWidth"].get<int>();
 		tileHeight = jsonFile["TileHeight"].get<int>();
 		
+		int row = 0;
+		int col = 0;
+		tiles.reserve(height);
+		tiles.emplace_back(std::vector<Tile*>());
+		tiles[0].reserve(width);
 		for (Tile* newTile; int index : jsonFile["Data"])
 		{
+			if (col == width)
+			{
+				tiles.emplace_back(std::vector<Tile*>());
+				col = 0;
+				row++;
+				tiles[row].reserve(width);
+			}
+
 			if (index > 0)
 				newTile = new NormalTile;
 			else if (index < 0)
@@ -102,8 +114,11 @@ void TileMapRenderer::Load(const string* inputArg)
 			}
 			else
 				newTile = new Tile();
+			
 			newTile->Load(index, texture.get(), jsonFile);
-			tiles.push_back(newTile);
+			tiles[row].emplace_back(newTile);
+
+			col++;
 		}
 		
 		file.close();
@@ -120,7 +135,17 @@ void TileMapRenderer::Load(const string* inputArg)
 
 void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 {
+	using ExMath::ToFloat;
+	using ExMath::ToInt;
+	using ExMath::ceili;
+	
+	const float halfHeightPx = (ToFloat(height) / 2.0f) * ToFloat(tileHeight);
+	const float halfWidthPx = (ToFloat(width) / 2.0f) * ToFloat(tileWidth);
+
+	//Set tiles map transform
 	Matrix transform = camera->GetMatrix(GetWorldMatrix());
+	transform._42 -= halfHeightPx;
+	transform._41 -= halfWidthPx;
 	if (Setting::IsWorldPointPixelPerfect())
 	{
 		transform._41 = std::round(transform._41);
@@ -128,22 +153,50 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 	}
 	handler->SetTransform(&transform);
 
-	int k = 0;
+	//get screen height and width then divide them by 2;
+	Size viewPort = Setting::GetResolution();
+	viewPort.height /= 2;
+	viewPort.width /= 2;
+	
+	Vector3 topLeft = owner->GetTransform();
+	topLeft.x -= std::round(halfWidthPx);
+	topLeft.y += std::round(halfHeightPx);
 
-	for (int px, py, x, y; const auto& tile : tiles)
+	//Get camera position based on tiles map
+	Vector3 delta = camera->GetTransform();
+	delta.x = delta.x - topLeft.x;
+	delta.y = topLeft.y - delta.y;
+	
+	int startRow =	ceili((delta.y - ToFloat(viewPort.height)) / ToFloat(tileWidth)) - 1;
+	int endRow =	ceili((delta.y + ToFloat(viewPort.height)) / ToFloat(tileWidth)) + 1;
+	int startCol =	ceili((delta.x - ToFloat(viewPort.width)) / ToFloat(tileWidth)) - 1;
+	int endCol =	ceili((delta.x + ToFloat(viewPort.width)) / ToFloat(tileWidth)) + 1;
+	
+	startRow = startRow < 0 ? 0 : startRow;
+	endRow = endRow < height ? endRow : height;
+	startCol = startCol < 0 ? 0 : startCol;
+	endCol = endCol < width ? endCol : width;
+
+	//int startRow = 0;
+	//int endRow = height;
+	//int startCol = 0;
+	//int endCol = width;
+	Vector3 position;
+	position.z = 0;
+	for (int row = startRow; row < endRow; row++)
 	{
-		x = k % width;
-		y = (k / width);
-		k++;
-		px = x * tileWidth;
-		py = y * tileHeight;
-		Vector3 pos(px, py, 0);
-		tile->Draw(handler, texture.get(), pos);
+		position.y = static_cast<float>(row * tileHeight);
+		for (int col = startCol; col < endCol; col++)
+		{
+			position.x = static_cast<float>(col * tileWidth);
+			tiles[row][col]->Draw(handler, texture.get(), position);
+		}
 	}
 }
 
 TileMapRenderer::~TileMapRenderer()
 {
-	for (const auto& tile : tiles)
-		delete tile;
+	for (const auto& row : tiles)
+		for (const auto& col : row)
+			delete col;
 }
