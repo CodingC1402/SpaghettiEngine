@@ -7,14 +7,19 @@
 #include <GameTimer.h>
 #include <Setting.h>
 #include <Texture.h>
+#include <Debug.h>
 
 using namespace nlohmann;
 using namespace std;
 
-struct AnimationTile
+class AnimationTile
 {
+public:
+	AnimationTile():animation(nullptr), frame(0), sprite(nullptr) {}
 	SAnimation animation;
+	SSprite sprite;
 	UINT frame;
+	double time;
 };
 
 class TileMapRenderer : public Render2DScriptBase
@@ -32,9 +37,8 @@ private:
 	int height;
 	vector<int> data;
 	vector<AnimationTile*> animations;
-
+	
 	UINT frame = 0;
-	double time = 0;
 
 	REGISTER_START(TileMapRenderer);
 };

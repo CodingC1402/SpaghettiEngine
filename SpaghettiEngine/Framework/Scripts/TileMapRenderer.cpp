@@ -9,11 +9,14 @@ TileMapRenderer::TileMapRenderer() : height(0), width(0)
 
 void TileMapRenderer::Update()
 {
-	time += GameTimer::GetDeltaTime();
+	
 	for (auto ani : animations)
 	{
-		ani->animation->Advance(&ani->frame, &time);
+		ani->time += GameTimer::GetDeltaTime();
+		ani->animation->Advance(&(ani->frame), &(ani->time));
+		ani->sprite = ani->animation->GetSpriteOfFrame(&(ani->frame));
 	}
+	Render2DScriptBase::Update();
 }
 
 void TileMapRenderer::Load(const string* inputArg)
@@ -48,9 +51,9 @@ void TileMapRenderer::Load(const string* inputArg)
 			SAnimation ani = Animation::GetAnimation(&aniPath);
 			AnimationTile* a = new AnimationTile();
 			a->animation = ani;
-			a->frame = 0;
 			animations.push_back(a);
 		}
+		
 		file.close();
 	}
 	catch (...)
@@ -77,8 +80,9 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 
 	for (int index : data)
 	{
-		int x = k % height;
-		int y = (k / height);
+		int x = k % width;
+		int y = (k / width);
+		k++;
 		SSprite sprite;
 		if (index > 0)
 		{
@@ -86,9 +90,12 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 		}
 		else if (index < 0)
 		{
-			SAnimation a = animations[abs(index + 1)]->animation;
-			UINT f = animations[abs(index + 1)]->frame;
-			sprite = a->GetSpriteOfFrame(&f);
+			sprite = animations[abs(index + 1)]->sprite;
+			Debug::LogF((float)animations[abs(index + 1)]->frame);
+		}
+		else if (index == 0)
+		{
+			continue;
 		}
 
 		RECT srcRect = sprite->GetSourceRect();
@@ -104,8 +111,5 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 			&pos,
 			WHITE
 		);
-
-		k++;
 	}
-
 }

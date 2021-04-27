@@ -1,0 +1,10 @@
+{
+  "TexturePath": "Asset/Textures/Stage1.png",
+  "Frames": [
+    [ 140, 0.2 ],
+    [ 141, 0.2 ],
+    [ 142, 0.2 ],
+    [ 143, 0.2 ]
+  ],
+  "Loop": true
+}
