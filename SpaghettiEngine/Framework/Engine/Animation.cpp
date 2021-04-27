@@ -11,18 +11,18 @@ SAnimation Animation::GetAnimation(int index)
 	return *it;
 }
 
-SAnimation Animation::GetAnimation(const std::string* path)
+SAnimation Animation::GetAnimation(const std::string& path)
 {
 	for (const auto& animation : __loadedAnimation)
 	{
-		if (animation->_path == *path)
+		if (animation->_path == path)
 			return animation;
 	}
 
 	return LoadAnimation(path);
 }
 
-SAnimation Animation::LoadAnimation(const std::string* path)
+SAnimation Animation::LoadAnimation(const std::string& path)
 {
 	SAnimation newAnimation(new Animation(path));
 	newAnimation->Load();
@@ -63,9 +63,9 @@ void Animation::Advance(UINT* frame, double* time)
 	*time += _frames[nextFrame].delay;
 }
 
-Animation::Animation(const std::string* path)
+Animation::Animation(const std::string& path)
 {
-	_path = *path;
+	_path = path;
 }
 
 #define TEXTUREPATH "TexturePath"

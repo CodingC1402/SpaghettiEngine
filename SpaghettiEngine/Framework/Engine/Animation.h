@@ -18,8 +18,8 @@ class Animation
 	friend class SceneManager;
 public:
 	static SAnimation GetAnimation(int index);
-	static SAnimation GetAnimation(const std::string* path);
-	static SAnimation LoadAnimation(const std::string* path);
+	static SAnimation GetAnimation(const std::string& path);
+	static SAnimation LoadAnimation(const std::string& path);
 
 	int GetNumberOfFrames() const noexcept;
 
@@ -28,7 +28,7 @@ public:
 	SSprite GetSpriteOfFrame(const UINT* frame);
 	void Advance(UINT* frame, double* time);
 protected:
-	Animation(const std::string* path);
+	Animation(const std::string& path);
 	void Load();
 
 	static void RemoveAnimation(const std::string* path);

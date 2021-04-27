@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "json.hpp"
 #include "CornException.h"
 #include "GameObj.h"
 #include <sstream>
@@ -55,11 +54,9 @@ void Scene::Update()
 }
 
 #define GAMEOBJS "GameObjects"
-
+#define TILEMAP "TileMap"
 void Scene::Load()
 {
-	using namespace nlohmann;
-
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
