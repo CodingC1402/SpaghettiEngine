@@ -62,7 +62,6 @@ TileMapRenderer::TileMapRenderer() : width(0), height(0)
 
 void TileMapRenderer::Update()
 {
-	
 	for (const auto& tile : animatedTiles)
 		tile->Update();
 	Render2DScriptBase::Update();
@@ -92,12 +91,15 @@ void TileMapRenderer::Load(const string* inputArg)
 		tileWidth = jsonFile["TileWidth"].get<int>();
 		tileHeight = jsonFile["TileHeight"].get<int>();
 		
-		for (PTile newTile; int index : jsonFile["Data"])
+		for (Tile* newTile; int index : jsonFile["Data"])
 		{
 			if (index > 0)
 				newTile = new NormalTile;
 			else if (index < 0)
+			{
 				newTile = new AnimatedTile();
+				animatedTiles.push_back(dynamic_cast<AnimatedTile*>(newTile));
+			}
 			else
 				newTile = new Tile();
 			newTile->Load(index, texture.get(), jsonFile);
