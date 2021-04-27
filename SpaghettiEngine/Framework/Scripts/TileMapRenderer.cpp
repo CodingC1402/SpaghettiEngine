@@ -91,7 +91,7 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 		else if (index < 0)
 		{
 			sprite = animations[abs(index + 1)]->sprite;
-			Debug::LogF((float)animations[abs(index + 1)]->frame);
+			
 		}
 		else if (index == 0)
 		{
