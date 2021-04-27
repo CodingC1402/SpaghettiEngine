@@ -1,40 +1,32 @@
-#include <fstream>
-#include <sstream>
-#include <CornException.h>
-#include <json.hpp>
-#include <Render2DScriptBase.h>
-#include <Animation.h>
-#include <GameTimer.h>
-#include <Setting.h>
-#include <Texture.h>
-#include <Debug.h>
+#pragma once
 
-using namespace nlohmann;
-using namespace std;
+#include "Sprite.h"
+#include "Animation.h"
+#include <Render2DScriptBase.h>
+#include <vector>
 
 typedef class TileMapRenderer* PTileMapRenderer;
 
 typedef class Tile
 {
 public:
-	virtual void Load(const int& index, Texture* texture, const json& data = nullptr) {}
+	virtual void Load(const int& index, Texture* texture, const nlohmann::json& data = nullptr) {}
 	virtual void Draw(SpriteHandler handler, Texture* texture, const Vector3& position) {}
 	virtual ~Tile() = default;
 protected:
-	SSprite sprite;
 }*PTile;
 typedef class NormalTile : public Tile
 {
-	virtual void Load(const int& index, Texture* texture, const json& data = nullptr) override;
+	virtual void Load(const int& index, Texture* texture, const nlohmann::json& data = nullptr) override;
 	virtual void Draw(SpriteHandler handler, Texture* texture, const Vector3& position) override;
 protected:
 	SSprite sprite;
-};
+}*PNormalTile;
 typedef class AnimatedTile : public Tile
 {
 public:
 	void Update();
-	virtual void Load(const int& index, Texture* texture, const json& data) override;
+	virtual void Load(const int& index, Texture* texture, const nlohmann::json& data) override;
 	virtual void Draw(SpriteHandler handler, Texture* texture, const Vector3& position) override;
 protected:
 	SAnimation animation = nullptr;
@@ -57,8 +49,8 @@ protected:
 	int height;
 	int tileWidth;
 	int tileHeight;
-	vector<PTile> tiles;
-	list<PAnimatedTile> animatedTiles;
+	std::vector<PTile> tiles;
+	std::list<PAnimatedTile> animatedTiles;
 	
 	REGISTER_START(TileMapRenderer);
 };

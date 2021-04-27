@@ -1,4 +1,12 @@
 #include "TileMapRenderer.h"
+#include "json.hpp"
+#include "GameTimer.h"
+#include "Animation.h"
+#include <fstream>
+#include <Setting.h>
+
+using namespace nlohmann;
+using namespace std;
 
 REGISTER_FINISH(TileMapRenderer);
 
