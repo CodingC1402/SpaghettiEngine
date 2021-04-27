@@ -91,8 +91,16 @@ void TileMapRenderer::Load(const string* inputArg)
 		tileWidth = jsonFile["TileWidth"].get<int>();
 		tileHeight = jsonFile["TileHeight"].get<int>();
 		
+		int row = 0;
+		int col = 0;
+		tiles.reserve(height);
 		for (Tile* newTile; int index : jsonFile["Data"])
 		{
+			if (col == 0)
+				tiles.push_back(std::vector<Tile*>());
+
+			if (col = 0)
+
 			if (index > 0)
 				newTile = new NormalTile;
 			else if (index < 0)
@@ -103,7 +111,11 @@ void TileMapRenderer::Load(const string* inputArg)
 			else
 				newTile = new Tile();
 			newTile->Load(index, texture.get(), jsonFile);
-			tiles.push_back(newTile);
+			tiles[row].push_back(newTile);
+
+			col++;
+			row += col % width;
+			col %= width;
 		}
 		
 		file.close();
@@ -128,22 +140,17 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 	}
 	handler->SetTransform(&transform);
 
-	int k = 0;
-
-	for (int px, py, x, y; const auto& tile : tiles)
-	{
-		x = k % width;
-		y = (k / width);
-		k++;
-		px = x * tileWidth;
-		py = y * tileHeight;
-		Vector3 pos(px, py, 0);
-		tile->Draw(handler, texture.get(), pos);
-	}
+	Size viewPort = Setting::GetResolution();
+	Vector3 delta = camera->GetTransform() - owner->GetTransform();
+	int startRow = (delta.y - viewPort.height) / tileWidth;
+	int endRow = (delta.y + viewPort.height) / tileWidth;
+	int startCol = (delta.x - viewPort.width) / tileWidth;
+	int endCol = (delta.x + viewPort.width) / tileWidth;
 }
 
 TileMapRenderer::~TileMapRenderer()
 {
-	for (const auto& tile : tiles)
-		delete tile;
+	for (const auto& row : tiles)
+		for (const auto& col : row)
+			delete col;
 }
