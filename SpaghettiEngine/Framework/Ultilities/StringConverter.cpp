@@ -43,3 +43,8 @@ std::vector<std::string> StringConverter::Tokenize(const std::string* str, char 
 
     return rTokens;
 }
+
+unsigned long long StringConverter::HashStr(const std::string& str) noexcept
+{
+    return std::hash<std::string>{}(str);
+}
