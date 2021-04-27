@@ -4,7 +4,7 @@
 #include "CornDirectX.h"
 #include <string>
 #include <memory>
-#include <list>
+#include <map>
 
 typedef class Texture* PTexture;
 typedef std::shared_ptr<Texture> STexture;
@@ -31,23 +31,24 @@ public:
 	static void LoadTexture(const std::string& path);
 
 	bool GetSprite(SSprite* sprite, const int& index) noexcept;
-	PDx9Texture GetImage();
+	[[nodiscard]]PDx9Texture GetImage() const;
+	Texture(const std::string& path);
 	~Texture();
 protected:
-	Texture(const std::string& path);
 	static void RemoveTexture(const std::string& path);
 	static void ClearUnusedTexture();
 	static void ClearTexture();
 
 	bool IsAllSpriteUnused();
 	void Load();
-	bool CheckPath(const std::string& path);
+	bool CheckPath(const std::string& path) const;
 protected:
 	PDx9Texture image;
-	std::string path;
-
+	std::string _path;
+	unsigned long long _hash;
+	
 	std::list<SSprite>sprites;
-	static std::list<STexture> textures;
+	static std::map<unsigned long long, STexture> textures;
 };
 
 #define TEXTURE_EXCEPT(description) Texture::TextureException(__LINE__,__FILE__,description)
