@@ -2,7 +2,52 @@
 
 REGISTER_FINISH(TileMapRenderer);
 
-TileMapRenderer::TileMapRenderer() : height(0), width(0)
+void NormalTile::Load(const int& index, Texture* texture, const json& data)
+{
+	texture->GetSprite(&sprite, index - 1);
+}
+
+void NormalTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& position)
+{
+	RECT srcRect = sprite->GetSourceRect();
+	Vector3 center = sprite->GetCenter();
+	handler->Draw(
+		texture->GetImage(),
+		&srcRect,
+		&center,
+		&position,
+		WHITE
+	);
+}
+
+void AnimatedTile::Update()
+{
+	time += GameTimer::GetDeltaTime();
+	animation->Advance(&frame, &time);
+}
+
+void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
+{
+	if (index == -2)
+		int i = index;
+	animation = Animation::GetAnimation(data["Animations"][abs(index + 1)].get<string>());
+}
+
+void AnimatedTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& position)
+{
+	const SSprite currentSprite = animation->GetSpriteOfFrame(&frame);
+	RECT srcRect = currentSprite->GetSourceRect();
+	Vector3 center = currentSprite->GetCenter();
+	handler->Draw(
+		texture->GetImage(),
+		&srcRect,
+		&center,
+		&position,
+		WHITE
+	);
+}
+
+TileMapRenderer::TileMapRenderer() : width(0), height(0)
 {
 	name = TYPE_NAME(SpriteRenderer);
 }
@@ -10,12 +55,8 @@ TileMapRenderer::TileMapRenderer() : height(0), width(0)
 void TileMapRenderer::Update()
 {
 	
-	for (auto ani : animations)
-	{
-		ani->time += GameTimer::GetDeltaTime();
-		ani->animation->Advance(&(ani->frame), &(ani->time));
-		ani->sprite = ani->animation->GetSpriteOfFrame(&(ani->frame));
-	}
+	for (const auto& tile : animatedTiles)
+		tile->Update();
 	Render2DScriptBase::Update();
 }
 
@@ -38,20 +79,21 @@ void TileMapRenderer::Load(const string* inputArg)
 
 		Texture::GetTexture(&texture,jsonFile["Texture"]);
 
-		width = jsonFile["Width"];
-		height = jsonFile["Height"];
+		width = jsonFile["Width"].get<int>();
+		height = jsonFile["Height"].get<int>();
+		tileWidth = jsonFile["TileWidth"].get<int>();
+		tileHeight = jsonFile["TileHeight"].get<int>();
 		
-		for (int index : jsonFile["Data"])
+		for (PTile newTile; int index : jsonFile["Data"])
 		{
-			data.push_back(index);
-		}
-		
-		for (string aniPath : jsonFile["Animations"])
-		{
-			SAnimation ani = Animation::GetAnimation(&aniPath);
-			AnimationTile* a = new AnimationTile();
-			a->animation = ani;
-			animations.push_back(a);
+			if (index > 0)
+				newTile = new NormalTile;
+			else if (index < 0)
+				newTile = new AnimatedTile();
+			else
+				newTile = new Tile();
+			newTile->Load(index, texture.get(), jsonFile);
+			tiles.push_back(newTile);
 		}
 		
 		file.close();
@@ -78,38 +120,20 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 
 	int k = 0;
 
-	for (int index : data)
+	for (int px, py, x, y; const auto& tile : tiles)
 	{
-		int x = k % width;
-		int y = (k / width);
+		x = k % width;
+		y = (k / width);
 		k++;
-		SSprite sprite;
-		if (index > 0)
-		{
-			texture->GetSprite(&sprite, index - 1);
-		}
-		else if (index < 0)
-		{
-			sprite = animations[abs(index + 1)]->sprite;
-			
-		}
-		else if (index == 0)
-		{
-			continue;
-		}
-
-		RECT srcRect = sprite->GetSourceRect();
-		Vector3 center = sprite->GetCenter();
-		int px = x * sprite->GetWidth();
-		int py = y * sprite->GetHeight();
+		px = x * tileWidth;
+		py = y * tileHeight;
 		Vector3 pos(px, py, 0);
-
-		handler->Draw(
-			texture->GetImage(),
-			&srcRect,
-			&center,
-			&pos,
-			WHITE
-		);
+		tile->Draw(handler, texture.get(), pos);
 	}
+}
+
+TileMapRenderer::~TileMapRenderer()
+{
+	for (const auto& tile : tiles)
+		delete tile;
 }

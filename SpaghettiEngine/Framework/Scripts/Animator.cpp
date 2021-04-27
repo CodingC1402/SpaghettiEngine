@@ -19,7 +19,7 @@ void Animator::Update()
 
 void Animator::Load(const std::string* inputArg)
 {
-	_ani = Animation::GetAnimation(inputArg);
+	_ani = Animation::GetAnimation(*inputArg);
 	test = &_ani;
 	frame = 0;
 }

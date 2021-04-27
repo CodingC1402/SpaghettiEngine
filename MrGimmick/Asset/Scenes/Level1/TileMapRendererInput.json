@@ -2,6 +2,8 @@
   "Texture": "Asset/Textures/Stage1.png",
   "Width": 64,
   "Height": 24,
+  "TileWidth": 16,
+  "TileHeight": 16,
   "Data": [
     23,
     37,
