@@ -1,9 +1,8 @@
 {
   "Tag": "Test1",
   "Children": [
-    "Asset/Scenes/Level1/Obj4.json"
   ],
-  "Transform": [ 0, 0, 0 ],
+  "Transform": [ 100, -331, 0 ],
   "Rotation": [ 0, 0, 0 ],
   "Scale": [ 1, 1, 1 ],
   "Scripts": [
