@@ -2,7 +2,7 @@
 #include <cmath>
 #include <list>
 
-namespace ExMath
+namespace CLib
 {
 	template<typename T>
 	constexpr auto ToDouble(const T& value) { return static_cast<double>(value); }

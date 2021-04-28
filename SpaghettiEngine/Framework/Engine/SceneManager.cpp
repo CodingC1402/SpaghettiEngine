@@ -4,6 +4,7 @@
 #include "CornException.h"
 #include "Animation.h"
 #include "Graphics.h"
+#include "Path.h"
 #include <fstream>
 
 PSceneManager SceneManager::__instance = nullptr;
@@ -118,14 +119,14 @@ void SceneManager::Load()
 		oss << L"File ";
 		oss << SCENEMANAGERPATH;
 		oss << L" doesn't exist";
-		throw SCENEMANAGER_EXCEPT(oss.str().c_str());
+		throw SCENEMANAGER_EXCEPT(oss.str());
 	}
-	json file;
 	try
 	{
+		json file;
 		jsonStream >> file;
 		for (const auto& scene : file[SCENES])
-			scenes.push_back(SScene(new Scene(scene.get<std::string>())));
+			scenes.push_back(SScene(new Scene(CLib::ConvertPath(SCENEMANAGERPATH, scene.get<std::string>()))));
 
 		sceneIndex = file[START].get<int>();
 		callLoadSceneIndex = sceneIndex;

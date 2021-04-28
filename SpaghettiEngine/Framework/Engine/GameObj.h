@@ -49,7 +49,7 @@ public:
 	
 	GameObj(const GameObj& obj);
 	GameObj(const std::string& path, const PScene& ownerScene = nullptr);
-	virtual void Load();
+	void Load();
 	void Destroy();
 
 	void Start();

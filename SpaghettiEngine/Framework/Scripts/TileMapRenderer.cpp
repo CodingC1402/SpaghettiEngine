@@ -137,9 +137,9 @@ void TileMapRenderer::Load(const string* inputArg)
 
 void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 {
-	using ExMath::ToFloat;
-	using ExMath::ToInt;
-	using ExMath::ceili;
+	using CLib::ToFloat;
+	using CLib::ToInt;
+	using CLib::ceili;
 	
 	const float halfHeightPx = (ToFloat(height) / 2.0f) * ToFloat(tileHeight);
 	const float halfWidthPx = (ToFloat(width) / 2.0f) * ToFloat(tileWidth);

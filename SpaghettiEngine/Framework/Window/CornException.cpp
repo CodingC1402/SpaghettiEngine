@@ -50,7 +50,7 @@ CornDescriptionException::CornDescriptionException(int line, const char* file, s
 
 const wchar_t* CornDescriptionException::GetType() const noexcept
 {
-    return L" 	＼(º □ º l|l)/ Exception with description";
+    return L"＼(º □ º l|l)/ Exception with description";
 }
 
 const wchar_t* CornDescriptionException::What() const noexcept

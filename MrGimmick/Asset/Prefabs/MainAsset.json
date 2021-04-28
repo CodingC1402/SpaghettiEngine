@@ -1,0 +1,12 @@
+{
+  "Tag": "MainAccess",
+  "Children": [
+    "{ChildPath}/Player.json",
+    "{ChildPath}/Camera.json"
+  ],
+  "Transform": [ 0, 0, 0 ],
+  "Rotation": [ 0, 0, 0 ],
+  "Scale": [ 1, 1, 1 ],
+  "Scripts": [
+  ]
+}

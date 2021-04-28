@@ -4,6 +4,7 @@
 #include "SceneManager.h"
 #include "GraphicsMath.h"
 #include "ScriptBase.h"
+#include "Path.h"
 #include <fstream>
 
 #pragma region Get
@@ -310,7 +311,9 @@ void GameObj::BecomeConstSceneObj()
 GameObj::~GameObj()
 {
 	for (const auto& child : children)
-		child->Destroy();
+		child->End();
+	for (const auto& child : children)
+		delete child;
 	children.clear();
 
 	for (auto& script : scripts)
@@ -422,18 +425,24 @@ void GameObj::Load()
 
 		try
 		{
-			if (!jsonFile[Transform])
+			if (jsonFile[Transform] == nullptr)
 				jsonFile[Transform] = jsonPrefab[Transform];
-			if (!jsonFile[Rotation])
+			if (jsonFile[Rotation] == nullptr)
 				jsonFile[Rotation] = jsonPrefab[Rotation];
-			if (!jsonFile[Scale])
+			if (jsonFile[Scale] == nullptr)
 				jsonFile[Scale] = jsonPrefab[Scale];
-			if (!jsonFile[Tag])
+			if (jsonFile[Tag] == nullptr)
 				jsonFile[Tag] = jsonPrefab[Tag];
 			for (const auto& script : jsonPrefab[Scripts])
 				jsonFile[Scripts].push_back(script);
-			for (const auto& child : jsonPrefab[Children])
-				jsonFile[Children].push_back(child);
+
+			std::string mainPrefabPath = CLib::GetPath(prefabPath);
+			for (std::string childPath; const auto& child : jsonPrefab[Children])
+			{
+				//Convert relative childPath to absolute path
+				childPath = CLib::ConvertPath(prefabPath, child.get<std::string>());
+				jsonFile[Children].push_back(childPath);
+			}
 		}
 		catch (const std::exception& e)
 		{
@@ -469,10 +478,15 @@ void GameObj::Load()
 		_isRotationChanged	= true;
 		_isScaleChanged		= true;
 		_isChanged			= true;
-		
+
+		std::string childPath;
+		const std::string mainPath = CLib::GetPath(GetPath());
 		for (PGameObj newChild; const auto& child : jsonFile[Children])
 		{
-			newChild = new GameObj(child.get<std::string>(), ownerScene);
+			//Convert relative childPath to absolute path
+			childPath = CLib::ConvertPath(path, child.get<std::string>());
+			
+			newChild = new GameObj(childPath, ownerScene);
 			this->AddChild(newChild);
 			newChild->parent = this;
 			newChild->Load();
@@ -500,6 +514,11 @@ void GameObj::Load()
 void GameObj::Destroy()
 {
 	End();
+
+	if (parent)
+		parent->RemoveChild(this);
+	else if (ownerScene)
+		ownerScene->RemoveGameObject(this);
 	
 	delete this;
 }
