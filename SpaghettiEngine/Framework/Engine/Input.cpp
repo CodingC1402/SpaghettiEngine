@@ -89,5 +89,6 @@ void InputKeyPress::Update(const KeyBoard::Event& e) noexcept
 	if (e.GetCode() != keyCode)
 		return;
 
-	isInputActive = e.IsPress();
+	if (e.IsPress() && e.IsFirstTime())
+		isInputActive = true;
 } 

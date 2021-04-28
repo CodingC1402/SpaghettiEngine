@@ -306,6 +306,20 @@ void GameObj::BecomeConstSceneObj()
 
 	SceneManager::GetConstScene()->AddGameObject(this);
 }
+
+GameObj::~GameObj()
+{
+	for (const auto& child : children)
+		child->Destroy();
+	children.clear();
+
+	for (auto& script : scripts)
+	{
+		script->Unload();
+		script->Destroy();
+	}
+	scripts.clear();
+}
 #pragma region Scripts
 void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
 {
@@ -380,7 +394,8 @@ void GameObj::Load()
 		os << L" Doesn't exist";
 		throw CORN_EXCEPT_WITH_DESCRIPTION (os.str());
 	}
-	
+
+	constexpr const char* Tag = "Tag";
 	constexpr const char* Transform = "Transform";
 	constexpr const char* Rotation = "Rotation";
 	constexpr const char* Scale = "Scale";
@@ -407,12 +422,14 @@ void GameObj::Load()
 
 		try
 		{
-			if (jsonFile[Transform] == nullptr)
+			if (!jsonFile[Transform])
 				jsonFile[Transform] = jsonPrefab[Transform];
-			if (jsonFile[Rotation] == nullptr)
+			if (!jsonFile[Rotation])
 				jsonFile[Rotation] = jsonPrefab[Rotation];
-			if (jsonFile[Scale] == nullptr)
+			if (!jsonFile[Scale])
 				jsonFile[Scale] = jsonPrefab[Scale];
+			if (!jsonFile[Tag])
+				jsonFile[Tag] = jsonPrefab[Tag];
 			for (const auto& script : jsonPrefab[Scripts])
 				jsonFile[Scripts].push_back(script);
 			for (const auto& child : jsonPrefab[Children])
@@ -434,8 +451,6 @@ void GameObj::Load()
 #pragma region  GameObj
 	try
 	{
-		constexpr const char* Tag = "Tag";
-
 		tag = jsonFile[Tag].get<std::string>();
 
 		_transform.x = jsonFile[Transform][0].get<float>();
@@ -486,16 +501,6 @@ void GameObj::Destroy()
 {
 	End();
 	
-	for (const auto& child : children)
-		child->Destroy();
-	children.clear();
-
-	for (auto& script : scripts)
-	{
-		script->Unload();
-		script->Destroy();
-	}
-	scripts.clear();
 	delete this;
 }
 #pragma region  Child

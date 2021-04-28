@@ -18,7 +18,9 @@ class Scene
 	friend class SceneManager;
 	friend class GameObj;
 public:
+	void Start();
 	void Update();
+	void End();
 	PGameObj GetObj(UINT index[],UINT size);
 protected:
 	Scene(std::string path);
@@ -28,7 +30,7 @@ protected:
 	void Load();
 	void Unload();
 protected:
-	std::string path = "";
+	std::string path;
 
 	std::list<PGameObj> instances;
 };

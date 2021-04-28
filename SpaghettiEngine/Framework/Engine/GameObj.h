@@ -65,6 +65,8 @@ public:
 	void BecomeCurrentSceneObj();
 	void BecomeConstSceneObj();
 protected:
+	~GameObj();
+	
 	void AddScript(const std::string& scriptName, const std::string& arg);
 	void AddScript(const PScriptBase& script);
 	void AddChild(PGameObj child);

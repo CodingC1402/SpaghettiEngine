@@ -65,3 +65,15 @@ void ScriptBase::Destroy() const
 {
 	delete this;
 }
+
+void ScriptBase::Load(const std::string* inputArg)
+{
+	if (!isDisabled)
+		OnEnabled();
+}
+
+void ScriptBase::Unload()
+{
+	if (!isDisabled)
+		OnDisabled();
+}

@@ -51,6 +51,10 @@ public:
 	static void ToWindowMode();
 	static void Draw(Render2DScriptBase* renderScript); // Render Sprite
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
+
+	static void AddRender2D(PRender2DScriptBase renderScript);
+	static void RemoveRender2D(PRender2DScriptBase renderScript);
+	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
 

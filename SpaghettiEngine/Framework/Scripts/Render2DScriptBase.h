@@ -8,7 +8,8 @@ class Render2DScriptBase : public ScriptBase
 public:
 	Render2DScriptBase();
 
-	virtual void Update() override;
+	virtual void OnEnabled() override;
+	virtual void OnDisabled() override;
 	virtual void Draw(SpriteHandler handler, PCamera camera) {}
 private:
 	REGISTER_START(Render2DScriptBase);

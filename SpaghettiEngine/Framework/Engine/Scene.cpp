@@ -47,10 +47,22 @@ PGameObj Scene::GetObj(UINT index[], UINT size)
 	return (*it)->GetChild(index, 0, size);
 }
 
+void Scene::Start()
+{
+	for (const auto& instance : instances)
+		instance->Start();
+}
+
 void Scene::Update()
 {
 	for (const auto& instance : instances)
 		instance->Update();
+}
+
+void Scene::End()
+{
+	for (const auto& instance : instances)
+		instance->End();
 }
 
 #define GAMEOBJS "GameObjects"
@@ -90,14 +102,11 @@ void Scene::Load()
 
 	for (const auto& instance : instances)
 		instance->Load();
-
-	for (const auto& instance : instances)
-		instance->Start();
 }
 
 void Scene::Unload()
 {
 	for (const auto& instance : instances)
-		instance->Destroy();
+		delete instance;
 	instances.clear();
 }

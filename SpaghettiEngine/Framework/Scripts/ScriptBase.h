@@ -56,8 +56,8 @@ public:
 	void Destroy() const;
 protected:
 	virtual ~ScriptBase() = default;
-	virtual void Load(const std::string* inputArg) {}
-	virtual void Unload() {}
+	virtual void Load(const std::string* inputArg);
+	virtual void Unload();
 protected:
 	bool isDisabled = false;
 	PGameObj owner = nullptr;

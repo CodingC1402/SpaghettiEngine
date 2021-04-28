@@ -69,4 +69,6 @@ protected:
 	InputKeyPress(const KeyCode& keyCode, const std::string& name) noexcept;
 	using Input::Input;
 	virtual void Update(const KeyBoard::Event& e) noexcept override;
+protected:
+	bool isFirstTime = true;
 };

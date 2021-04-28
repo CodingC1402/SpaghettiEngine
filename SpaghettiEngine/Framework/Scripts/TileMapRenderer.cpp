@@ -68,6 +68,8 @@ void TileMapRenderer::Update()
 
 void TileMapRenderer::Load(const string* inputArg)
 {
+	ScriptBase::Load(inputArg);
+	
 	ifstream file(inputArg->c_str());
 	if (!file.is_open())
 	{

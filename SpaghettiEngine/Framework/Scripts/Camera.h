@@ -11,13 +11,11 @@ class Camera : public ScriptBase
 public:
 	Camera();
 	virtual Matrix	GetMatrix(const Matrix& originalMatrix);
-	virtual void	Load(const std::string* inputArg) override;
 	virtual void	Update() override;
 
 	virtual bool	Copy(CPScriptBase script) override;
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
-	virtual void	Unload() override;
 
 	virtual void	SetFollow(PGameObj followObj);
 	virtual [[nodiscard]] PGameObj	GetFollow();
