@@ -9,7 +9,7 @@
     {
       "Name": "Animator",
       "Input": {
-        "Path": "Asset/Animation/Running.json" 
+        "AnimationPath": "Asset/Animation/Running.json"
       }
     },
     {

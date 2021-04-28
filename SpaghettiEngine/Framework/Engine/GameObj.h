@@ -1,5 +1,7 @@
-#pragma once
+﻿#pragma once
+#include "json.hpp"
 #include "CornDirectX.h"
+#include "CornException.h"
 #include <memory>
 #include <list>
 #include <string>
@@ -16,6 +18,31 @@ using std::list;
 class GameObj
 {
 	friend class Scene;
+public:
+	class GameObjectFormatException : public CornException
+	{
+	public:
+		GameObjectFormatException(int line, const char* file, const char* errorField, PGameObj errorObj, const char* extraDescription)
+			: CornException(line, file), _errorField(errorField), _errorObj(errorObj), _extraDescription(extraDescription) {}
+		const wchar_t* GetType() const noexcept override
+		{
+			return L"(」°ロ°)」Game object format exception";
+		}
+		const wchar_t* What() const noexcept override
+		{
+			std::wostringstream os;
+			os << GetOriginString() << std::endl;
+			os << "[Game object] " << _errorObj->GetPath().c_str() << std::endl;
+			os << "[Error field] " << _errorField.c_str() << std::endl;
+			os << "[Extra description] " << _extraDescription.c_str() << std::endl;
+			whatBuffer = os.str();
+			return whatBuffer.c_str();
+		}
+	protected:
+		string _errorField;
+		PGameObj _errorObj;
+		string _extraDescription;
+	};
 public:
 	[[nodiscard]] Matrix			GetWorldMatrix();
 	[[nodiscard]] Vector3			GetWorldTransform() const;
@@ -67,7 +94,7 @@ public:
 protected:
 	~GameObj();
 	
-	void AddScript(const std::string& scriptName, const std::string& arg);
+	void AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	void AddScript(const PScriptBase& script);
 	void AddChild(PGameObj child);
 
@@ -103,3 +130,5 @@ protected:
 
 	list<PScriptBase> scripts;
 };
+
+#define GAMEOBJ_FORMAT_EXCEPT(errorField, errorObj, extraDescription) GameObj::GameObjectFormatException(__LINE__,__FILE__,errorField,errorObj,extraDescription)

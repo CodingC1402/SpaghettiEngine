@@ -56,7 +56,7 @@ void AnimatedTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& 
 
 TileMapRenderer::TileMapRenderer() : width(0), height(0)
 {
-	name = TYPE_NAME(SpriteRenderer);
+	name = TYPE_NAME(TileMapRenderer);
 }
 
 void TileMapRenderer::Update()
@@ -66,27 +66,30 @@ void TileMapRenderer::Update()
 	Render2DScriptBase::Update();
 }
 
-void TileMapRenderer::Load(const nlohmann::json& inputObject)
+void TileMapRenderer::Load(nlohmann::json& inputObject)
 {
 	ScriptBase::Load(inputObject);
+	
+	json copy = inputObject;
 	std::string tileMapFilePath;
+	
+	constexpr const char* TileMapPath = "TileMapPath";
 	try
 	{
-		tileMapFilePath = inputObject["TileMapPath"].get<std::string>();
+		tileMapFilePath = copy[TileMapPath].get<std::string>();
 	}
-	catch(...)
+	catch(const std::exception& e)
 	{
-		throw SCRIPT_FORMAT_EXCEPT(this);
+		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + TileMapPath);
 	}
 	
 	ifstream file(tileMapFilePath);
 	if (!file.is_open())
 	{
-		wostringstream os;
-		os << L"File ";
-		os << tileMapFilePath.c_str();
-		os << L" Doesn't exist";
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+		ostringstream os;
+		os << "[Error field] " << TileMapPath << std::endl;
+		os << "[Error Info] " << "Tile map " << tileMapFilePath.c_str() << " doesn't exist" << std::endl;
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 
 	try
@@ -134,13 +137,12 @@ void TileMapRenderer::Load(const nlohmann::json& inputObject)
 
 		file.close();
 	}
-	catch (...)
+	catch (const std::exception& e)
 	{
-		wostringstream os;
-		os << L"File ";
-		os << tileMapFilePath.c_str();
-		os << L" doesn't have the right format";
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+		ostringstream os;
+		os << "[Error field] " << TileMapPath << std::endl;
+		os << "[Error Info] " << "Tile map " << tileMapFilePath.c_str() << " doesn't have the right format" << std::endl;
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 }
 

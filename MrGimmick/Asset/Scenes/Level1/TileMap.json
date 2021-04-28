@@ -9,7 +9,7 @@
     {
       "Name": "TileMapRenderer",
       "Input": {
-        "Path": "Asset/Scenes/Level1/TileMapRendererInput.json"
+        "TileMapPath": "Asset/Scenes/Level1/TileMapRendererInput.json"
       }
     }
   ]

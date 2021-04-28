@@ -75,9 +75,11 @@ void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 	);
 }
 
-void SpriteRenderer::Load(const nlohmann::json& inputObject)
+void SpriteRenderer::Load(nlohmann::json& inputObject)
 {
 	ScriptBase::Load(inputObject);
+
+	std::string fieldTracker = "Start of the script";
 	try
 	{
 		constexpr const char* Path = "TexturePath";
@@ -87,40 +89,35 @@ void SpriteRenderer::Load(const nlohmann::json& inputObject)
 		constexpr const char* ScaleX = "ScaleX";
 		constexpr const char* ScaleY = "ScaleY";
 
+		fieldTracker = Path;
 		const auto texturePath = inputObject[Path].get<std::string>();
+		fieldTracker = Index;
 		const auto index = inputObject[Index].get<int>();
+		fieldTracker = OffSetX;
 		const auto offX = inputObject[OffSetX].get<float>();
+		fieldTracker = OffSetY;
 		const auto offY = inputObject[OffSetY].get<float>();
+		fieldTracker = ScaleX;
 		const auto scaleX = inputObject[ScaleX].get<float>();
+		fieldTracker = ScaleY;
 		const auto scaleY = inputObject[ScaleY].get<float>();
 		
 		STexture texture;
 		Texture::GetTexture(&texture, texturePath);
 		if (!texture->GetSprite(&sprite, index))
 		{
-			std::wostringstream os;
-			os << L"Index " << index << L" of texture file " << texturePath.c_str()
-				<< L" is out of bound";
-			throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+			std::ostringstream os;
+			os << "[Info] Index " << index << " of texture file " << texturePath.c_str()
+				<< " is out of bound";
+			fieldTracker += os.str();
 		}
 		transformMatrix._41 = offX;
 		transformMatrix._42 = offY;
 		transformMatrix._11 = scaleX;
 		transformMatrix._22 = scaleY;
 	}
-	catch (CornException& e)
+	catch(const std::exception& e)
 	{
-		std::wostringstream os;
-		os << L"Input of sprite renderer script is in the wrong format\n";
-		os << L"[Error] " << e.What();
-		if (owner != nullptr)
-		{
-			os << L"[Path] ";
-			os << owner->GetPath().c_str();
-		}
-	}
-	catch(...)
-	{
-		throw SCRIPT_FORMAT_EXCEPT(this);
+		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + fieldTracker + "\n[Exception] " + e.what());
 	}
 }

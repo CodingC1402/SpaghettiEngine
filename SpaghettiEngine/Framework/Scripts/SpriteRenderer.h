@@ -17,7 +17,7 @@ public:
 	virtual bool Copy(CPScriptBase script) override;
 	virtual void Draw(SpriteHandler handler, PCamera camera) override;
 protected:
-	virtual void Load(const nlohmann::json& inputObject) override;
+	virtual void Load(nlohmann::json& inputObject) override;
 protected:
 	Matrix transformMatrix;
 	SSprite sprite;

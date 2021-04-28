@@ -45,11 +45,12 @@ public:
 	class ScriptException : public CornException
 	{
 	public:
-		ScriptException(int line, const char* file, PScriptBase errorScript);
+		ScriptException(int line, const char* file, PScriptBase errorScript, const std::string& extraDescription);
 		virtual const wchar_t* GetType() const noexcept override;
 		virtual const wchar_t* What() const noexcept override;
 	protected:
 		PScriptBase _errorScript;
+		std::string _extraDescription;
 	};
 public:
 	ScriptBase() = default;
@@ -68,7 +69,7 @@ public:
 	void Destroy() const;
 protected:
 	virtual ~ScriptBase() = default;
-	virtual void Load(const nlohmann::json& inputObject);
+	virtual void Load(nlohmann::json& inputObject);
 	virtual void Unload();
 protected:
 	bool isDisabled = false;
@@ -76,4 +77,5 @@ protected:
 	std::string name;
 };
 
-#define SCRIPT_FORMAT_EXCEPT(Script) ScriptBase::ScriptException(__LINE__,__FILE__,Script)
+#define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)
+//#define SCRIPT_FORMAT_EXCEPT(Script) ScriptBase::ScriptException(__LINE__,__FILE__,Script,"")
