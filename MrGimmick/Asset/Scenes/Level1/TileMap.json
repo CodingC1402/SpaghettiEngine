@@ -8,7 +8,9 @@
   "Scripts": [
     {
       "Name": "TileMapRenderer",
-      "Input": "Asset/Scenes/Level1/TileMapRendererInput.json"
+      "Input": {
+        "Path": "Asset/Scenes/Level1/TileMapRendererInput.json"
+      }
     }
   ]
 }

@@ -40,7 +40,7 @@ public:
 	TileMapRenderer();
 
 	void Update() override;
-	void Load(const string* inputArg) override;
+	void Load(const nlohmann::json& inputObject) override;
 	void Draw(SpriteHandler handler, PCamera camera) override;
 	~TileMapRenderer() override;
 protected:

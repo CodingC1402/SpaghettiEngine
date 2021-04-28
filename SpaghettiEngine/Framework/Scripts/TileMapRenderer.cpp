@@ -66,16 +66,25 @@ void TileMapRenderer::Update()
 	Render2DScriptBase::Update();
 }
 
-void TileMapRenderer::Load(const string* inputArg)
+void TileMapRenderer::Load(const nlohmann::json& inputObject)
 {
-	ScriptBase::Load(inputArg);
+	ScriptBase::Load(inputObject);
+	std::string tileMapFilePath;
+	try
+	{
+		tileMapFilePath = inputObject["TileMapPath"].get<std::string>();
+	}
+	catch(...)
+	{
+		throw SCRIPT_FORMAT_EXCEPT(this);
+	}
 	
-	ifstream file(inputArg->c_str());
+	ifstream file(tileMapFilePath);
 	if (!file.is_open())
 	{
 		wostringstream os;
 		os << L"File ";
-		os << inputArg->c_str();
+		os << tileMapFilePath.c_str();
 		os << L" Doesn't exist";
 		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}
@@ -85,13 +94,13 @@ void TileMapRenderer::Load(const string* inputArg)
 		json jsonFile;
 		file >> jsonFile;
 
-		Texture::GetTexture(&texture,jsonFile["Texture"]);
+		Texture::GetTexture(&texture, jsonFile["Texture"]);
 
 		width = jsonFile["Width"].get<int>();
 		height = jsonFile["Height"].get<int>();
 		tileWidth = jsonFile["TileWidth"].get<int>();
 		tileHeight = jsonFile["TileHeight"].get<int>();
-		
+
 		int row = 0;
 		int col = 0;
 		tiles.reserve(height);
@@ -116,20 +125,20 @@ void TileMapRenderer::Load(const string* inputArg)
 			}
 			else
 				newTile = new Tile();
-			
+
 			newTile->Load(index, texture.get(), jsonFile);
 			tiles[row].emplace_back(newTile);
 
 			col++;
 		}
-		
+
 		file.close();
 	}
 	catch (...)
 	{
 		wostringstream os;
 		os << L"File ";
-		os << inputArg->c_str();
+		os << tileMapFilePath.c_str();
 		os << L" doesn't have the right format";
 		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}

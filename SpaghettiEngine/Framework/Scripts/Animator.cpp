@@ -17,13 +17,19 @@ void Animator::Update()
 	SpriteRenderer::Update();
 }
 
-void Animator::Load(const std::string* inputArg)
+void Animator::Load(const nlohmann::json& inputObject)
 {
-	ScriptBase::Load(inputArg);
-	
-	_ani = Animation::GetAnimation(*inputArg);
-	test = &_ani;
-	frame = 0;
+	SpriteRenderer::Load(inputObject);
+	try
+	{
+		_ani = Animation::GetAnimation(inputObject["AnimationPath"].get<std::string>());
+		test = &_ani;
+		frame = 0;
+	}
+	catch(std::exception e)
+	{
+		throw SCRIPT_FORMAT_EXCEPT(this);
+	}
 }
 
 void Animator::Unload()

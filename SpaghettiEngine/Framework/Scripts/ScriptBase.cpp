@@ -1,4 +1,4 @@
-#include "ScriptBase.h"
+﻿#include "ScriptBase.h"
 
 ScriptTypes* ScriptFactory::map = nullptr;
 
@@ -23,6 +23,26 @@ PScriptBase ScriptFactory::CopyInstance(CPScriptBase instance)
 	PScriptBase copyScript = CreateInstance(instance->GetName());
 	copyScript->Copy(instance);
 	return copyScript;
+}
+
+ScriptBase::ScriptException::ScriptException(int line, const char* file, PScriptBase errorScript)
+	: CornException(line, file),
+	_errorScript(errorScript)
+{}
+
+const wchar_t* ScriptBase::ScriptException::GetType() const noexcept
+{
+	return L"(╬ Ò﹏Ó) Script format error";
+}
+
+const wchar_t* ScriptBase::ScriptException::What() const noexcept
+{
+	std::wostringstream os;
+	os << L"[Owner] " << _errorScript->owner->GetPath().c_str() << std::endl;
+	os << L"[Script type] " << _errorScript->name.c_str() << std::endl;
+	os << L"[Error] " << L"Wrong format";
+	whatBuffer = os.str();
+	return whatBuffer.c_str();
 }
 
 const char* ScriptBase::GetName() const noexcept
@@ -66,7 +86,7 @@ void ScriptBase::Destroy() const
 	delete this;
 }
 
-void ScriptBase::Load(const std::string* inputArg)
+void ScriptBase::Load(const nlohmann::json& inputObject)
 {
 	if (!isDisabled)
 		OnEnabled();

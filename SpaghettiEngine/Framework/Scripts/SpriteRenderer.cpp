@@ -75,31 +75,38 @@ void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 	);
 }
 
-void SpriteRenderer::Load(const std::string* inputArg)
+void SpriteRenderer::Load(const nlohmann::json& inputObject)
 {
-	ScriptBase::Load(inputArg);
+	ScriptBase::Load(inputObject);
 	try
 	{
-		constexpr int TexturePath = 0;
-		constexpr int OffSetX = 2;
-		constexpr int OffSetY = 3;
-		constexpr int ScaleX = 4;
-		constexpr int ScaleY = 5;
-		TokenizedStr input = StringConverter::Tokenize(inputArg, ' ');
+		constexpr const char* Path = "TexturePath";
+		constexpr const char* Index = "Index";
+		constexpr const char* OffSetX = "OffSetX";
+		constexpr const char* OffSetY = "OffSetY";
+		constexpr const char* ScaleX = "ScaleX";
+		constexpr const char* ScaleY = "ScaleY";
+
+		const auto texturePath = inputObject[Path].get<std::string>();
+		const auto index = inputObject[Index].get<int>();
+		const auto offX = inputObject[OffSetX].get<float>();
+		const auto offY = inputObject[OffSetY].get<float>();
+		const auto scaleX = inputObject[ScaleX].get<float>();
+		const auto scaleY = inputObject[ScaleY].get<float>();
 		
 		STexture texture;
-		Texture::GetTexture(&texture, input[TexturePath]);
-		if (constexpr int SpriteIndex = 1; !texture->GetSprite(&sprite, std::stoi(input[SpriteIndex])))
+		Texture::GetTexture(&texture, texturePath);
+		if (!texture->GetSprite(&sprite, index))
 		{
 			std::wostringstream os;
-			os << L"Index " << input[1].c_str() << L" of texture file " << input[TexturePath].c_str()
+			os << L"Index " << index << L" of texture file " << texturePath.c_str()
 				<< L" is out of bound";
 			throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 		}
-		transformMatrix._41 = std::stof(input[OffSetX]);
-		transformMatrix._42 = std::stof(input[OffSetY]);
-		transformMatrix._11 = std::stof(input[ScaleX]);
-		transformMatrix._22 = std::stof(input[ScaleY]);
+		transformMatrix._41 = offX;
+		transformMatrix._42 = offY;
+		transformMatrix._11 = scaleX;
+		transformMatrix._22 = scaleY;
 	}
 	catch (CornException& e)
 	{
@@ -111,5 +118,9 @@ void SpriteRenderer::Load(const std::string* inputArg)
 			os << L"[Path] ";
 			os << owner->GetPath().c_str();
 		}
+	}
+	catch(...)
+	{
+		throw SCRIPT_FORMAT_EXCEPT(this);
 	}
 }
