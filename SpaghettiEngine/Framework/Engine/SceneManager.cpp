@@ -49,11 +49,14 @@ void SceneManager::StartLoadScene(UINT index)
 	}
 
 	Graphics::GetInstance()->ClearRenderBuffer();
-	currentScene = scenes[index];
-	currentScene->Load();
-	scenes[sceneIndex]->Unload();
-	sceneIndex = index;
 
+	currentScene->End();
+	scenes[index]->Load();
+	currentScene->Unload();
+	scenes[index]->Start();
+	
+	sceneIndex = index;
+	currentScene = scenes[sceneIndex];
 	
 	Animation::ClearUnusedAnimation();
 	Texture::ClearUnusedTexture();
@@ -144,4 +147,6 @@ void SceneManager::Init()
 	scenes[sceneIndex]->Load();
 	currentScene = scenes[sceneIndex];
 	constScene->Load();
+	currentScene->Start();
+	constScene->Start();
 }

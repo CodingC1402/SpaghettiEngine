@@ -44,12 +44,6 @@ Matrix Camera::GetMatrix(const Matrix& originalMatrix)
 	return flipYMatrix * originalMatrix * cameraMatrix;
 }
 
-void Camera::Load(const std::string* inputArg)
-{
-	if (!isDisabled)
-		Graphics::AddCamera(this);
-}
-
 void Camera::Update()
 {
 	if (_followingObj != nullptr)
@@ -70,11 +64,6 @@ void Camera::OnDisabled()
 void Camera::OnEnabled()
 {
 	Graphics::AddCamera(this);
-}
-
-void Camera::Unload()
-{
-	Graphics::RemoveCamera(this);
 }
 
 void Camera::SetFollow(PGameObj followObj)

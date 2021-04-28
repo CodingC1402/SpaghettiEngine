@@ -77,31 +77,30 @@ void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const
 		throw GRAPHICS_EXCEPT_CODE(result);
 }
 
+void Graphics::AddRender2D(PRender2DScriptBase renderScript)
+{
+	GetInstance()->_renderBuffer2D.emplace_back(renderScript);
+}
+
+void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
+{
+	GetInstance()->_renderBuffer2D.remove(renderScript);
+}
+
 void Graphics::AddCamera(PCamera camera)
 {
-	__instance->cameraList.push_back(camera);
+	GetInstance()->cameraList.emplace_back(camera);
 }
 
 void Graphics::RemoveCamera(PCamera camera)
 {
-	size_t size = __instance->cameraList.size();
-	auto iterator = __instance->cameraList.begin();
-	while (size > 0)
-	{
-		if (*iterator == camera)
-		{
-			__instance->cameraList.erase(iterator);
-			break;
-		}
-		std::advance(iterator, 1);
-		size--;
-	}
+	GetInstance()->cameraList.remove(camera);
 }
 
 void Graphics::SetActiveCamera(PCamera setCamera)
 {
 	__instance->cameraList.remove(setCamera);
-	__instance->cameraList.push_front(setCamera);
+	__instance->cameraList.emplace_front(setCamera);
 }
 
 void Graphics::ClearRenderBuffer2D()
@@ -228,10 +227,7 @@ void Graphics::Render()
 
 	timeSinceLastFrame += timer->GetDeltaTime();
 	if (timeSinceLastFrame < delayPerFrame)
-	{
-		ClearRenderBuffer2D();
 		return;
-	}
 
 #ifdef _DEBUG // For RGB background
 	rgb[index] += delta;
@@ -301,8 +297,6 @@ void Graphics::Render()
 		delete temp;
 #endif
 		spriteHandler->End();
-
-		ClearRenderBuffer2D();
 
 		if (!End())
 			Reset();

@@ -10,10 +10,8 @@ KeyBoard::Event KeyBoard::ReadKey() noexcept
 		m_qKeyBuffer.pop();
 		return e;
 	}
-	else
-	{
-		return KeyBoard::Event();
-	}
+
+	return KeyBoard::Event();
 }
 
 bool KeyBoard::IsKeyEmpty() noexcept
@@ -73,15 +71,15 @@ bool KeyBoard::IsAutoRepeatEnabled() noexcept
 
 
 
-void KeyBoard::OnKeyPressed( unsigned char ucKeycode ) noexcept
+void KeyBoard::OnKeyPressed( unsigned char ucKeycode, int lParam ) noexcept
 {
-	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode) );
+	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode, !(lParam & 0x40000000)));
 	TrimBuffer( m_qKeyBuffer );
 }
 
-void KeyBoard::OnKeyRelease( unsigned char ucKeycode ) noexcept
+void KeyBoard::OnKeyRelease( unsigned char ucKeycode, int lParam ) noexcept
 {
-	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Release, ucKeycode ) );
+	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Release, ucKeycode, !(lParam & 0x40000000)));
 	TrimBuffer( m_qKeyBuffer );
 }
 

@@ -19,6 +19,8 @@ void Animator::Update()
 
 void Animator::Load(const std::string* inputArg)
 {
+	ScriptBase::Load(inputArg);
+	
 	_ani = Animation::GetAnimation(*inputArg);
 	test = &_ani;
 	frame = 0;

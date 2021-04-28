@@ -8,9 +8,13 @@ Render2DScriptBase::Render2DScriptBase()
 	name = TYPE_NAME(Render2DScriptBase);
 }
 
-void Render2DScriptBase::Update()
+void Render2DScriptBase::OnEnabled()
 {
-	Graphics::Draw(this);
+	Graphics::AddRender2D(this);
 }
 
+void Render2DScriptBase::OnDisabled()
+{
+	Graphics::RemoveRender2D(this);
+}
 

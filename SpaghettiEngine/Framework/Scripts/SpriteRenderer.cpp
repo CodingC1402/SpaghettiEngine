@@ -77,6 +77,7 @@ void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 
 void SpriteRenderer::Load(const std::string* inputArg)
 {
+	ScriptBase::Load(inputArg);
 	try
 	{
 		constexpr int TexturePath = 0;
