@@ -311,7 +311,9 @@ void GameObj::BecomeConstSceneObj()
 GameObj::~GameObj()
 {
 	for (const auto& child : children)
-		child->Destroy();
+		child->End();
+	for (const auto& child : children)
+		delete child;
 	children.clear();
 
 	for (auto& script : scripts)
@@ -423,18 +425,26 @@ void GameObj::Load()
 
 		try
 		{
-			if (!jsonFile[Transform])
+			if (jsonFile[Transform] == nullptr)
 				jsonFile[Transform] = jsonPrefab[Transform];
-			if (!jsonFile[Rotation])
+			if (jsonFile[Rotation] == nullptr)
 				jsonFile[Rotation] = jsonPrefab[Rotation];
-			if (!jsonFile[Scale])
+			if (jsonFile[Scale] == nullptr)
 				jsonFile[Scale] = jsonPrefab[Scale];
-			if (!jsonFile[Tag])
+			if (jsonFile[Tag] == nullptr)
 				jsonFile[Tag] = jsonPrefab[Tag];
 			for (const auto& script : jsonPrefab[Scripts])
 				jsonFile[Scripts].push_back(script);
-			for (const auto& child : jsonPrefab[Children])
-				jsonFile[Children].push_back(child);
+
+			std::string mainPrefabPath = CLib::GetPath(prefabPath);
+			for (std::string childPath; const auto& child : jsonPrefab[Children])
+			{
+				//Convert relative childPath to absolute path
+				childPath = child.get<std::string>();
+				if (childPath.substr(0, 2) == "*/")
+					childPath = CLib::CombinePath(mainPrefabPath, childPath.substr(2, childPath.size() - 2));
+				jsonFile[Children].push_back(childPath);
+			}
 		}
 		catch (const std::exception& e)
 		{
@@ -475,9 +485,11 @@ void GameObj::Load()
 		const std::string mainPath = CLib::GetPath(GetPath());
 		for (PGameObj newChild; const auto& child : jsonFile[Children])
 		{
+			//Convert relative childPath to absolute path
 			childPath = child.get<std::string>();
-			if (path.substr(0, 2) == "*/")
+			if (childPath.substr(0, 2) == "*/")
 				childPath = CLib::CombinePath(mainPath, childPath.substr(2, childPath.size() - 2));
+			
 			newChild = new GameObj(childPath, ownerScene);
 			this->AddChild(newChild);
 			newChild->parent = this;
