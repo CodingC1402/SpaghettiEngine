@@ -11,19 +11,7 @@ Scene::Scene(std::string path)
 
 void Scene::RemoveGameObject(PGameObj gameObj)
 {
-	size_t size = instances.size();
-	auto iterator = instances.begin();
-	while (size > 0)
-	{
-		if ((*iterator) == gameObj)
-		{
-			instances.erase(iterator);
-			return;
-		}
-		std::advance(iterator, 1);
-		size--;
-	}
-	return;
+	instances.remove(gameObj);
 }
 
 void Scene::AddGameObject(PGameObj gameObj)

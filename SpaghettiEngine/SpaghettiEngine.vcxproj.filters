@@ -170,6 +170,9 @@
     <ClInclude Include="Framework\Ultilities\ExMath.h">
       <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Ultilities\Path.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -275,6 +278,9 @@
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Ultilities\ExMath.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\Path.cpp">
       <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

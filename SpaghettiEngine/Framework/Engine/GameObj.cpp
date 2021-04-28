@@ -4,6 +4,7 @@
 #include "SceneManager.h"
 #include "GraphicsMath.h"
 #include "ScriptBase.h"
+#include "Path.h"
 #include <fstream>
 
 #pragma region Get
@@ -469,10 +470,15 @@ void GameObj::Load()
 		_isRotationChanged	= true;
 		_isScaleChanged		= true;
 		_isChanged			= true;
-		
+
+		std::string childPath;
+		const std::string mainPath = CLib::GetPath(GetPath());
 		for (PGameObj newChild; const auto& child : jsonFile[Children])
 		{
-			newChild = new GameObj(child.get<std::string>(), ownerScene);
+			childPath = child.get<std::string>();
+			if (path.substr(0, 2) == "*/")
+				childPath = CLib::CombinePath(mainPath, childPath.substr(2, childPath.size() - 2));
+			newChild = new GameObj(childPath, ownerScene);
 			this->AddChild(newChild);
 			newChild->parent = this;
 			newChild->Load();
@@ -500,6 +506,11 @@ void GameObj::Load()
 void GameObj::Destroy()
 {
 	End();
+
+	if (parent)
+		parent->RemoveChild(this);
+	else if (ownerScene)
+		ownerScene->RemoveGameObject(this);
 	
 	delete this;
 }

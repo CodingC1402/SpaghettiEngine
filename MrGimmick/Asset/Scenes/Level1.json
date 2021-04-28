@@ -1,7 +1,6 @@
 {
   "GameObjects": [
-    "Asset/Scenes/Level1/TileMap.json",
-    "Asset/Scenes/Level1/Obj1.json",
-    "Asset/Scenes/Level1/Obj2.json"
+    "Asset/Scenes/Level1/MainAccess.json",
+    "Asset/Scenes/Level1/TileMap.json"
   ]
 }
