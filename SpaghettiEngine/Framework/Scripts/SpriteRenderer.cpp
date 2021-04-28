@@ -75,41 +75,49 @@ void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 	);
 }
 
-void SpriteRenderer::Load(const std::string* inputArg)
+void SpriteRenderer::Load(nlohmann::json& inputObject)
 {
-	ScriptBase::Load(inputArg);
+	ScriptBase::Load(inputObject);
+
+	std::string fieldTracker = "Start of the script";
 	try
 	{
-		constexpr int TexturePath = 0;
-		constexpr int OffSetX = 2;
-		constexpr int OffSetY = 3;
-		constexpr int ScaleX = 4;
-		constexpr int ScaleY = 5;
-		TokenizedStr input = StringConverter::Tokenize(inputArg, ' ');
+		constexpr const char* Path = "TexturePath";
+		constexpr const char* Index = "Index";
+		constexpr const char* OffSetX = "OffSetX";
+		constexpr const char* OffSetY = "OffSetY";
+		constexpr const char* ScaleX = "ScaleX";
+		constexpr const char* ScaleY = "ScaleY";
+
+		fieldTracker = Path;
+		const auto texturePath = inputObject[Path].get<std::string>();
+		fieldTracker = Index;
+		const auto index = inputObject[Index].get<int>();
+		fieldTracker = OffSetX;
+		const auto offX = inputObject[OffSetX].get<float>();
+		fieldTracker = OffSetY;
+		const auto offY = inputObject[OffSetY].get<float>();
+		fieldTracker = ScaleX;
+		const auto scaleX = inputObject[ScaleX].get<float>();
+		fieldTracker = ScaleY;
+		const auto scaleY = inputObject[ScaleY].get<float>();
 		
 		STexture texture;
-		Texture::GetTexture(&texture, input[TexturePath]);
-		if (constexpr int SpriteIndex = 1; !texture->GetSprite(&sprite, std::stoi(input[SpriteIndex])))
+		Texture::GetTexture(&texture, texturePath);
+		if (!texture->GetSprite(&sprite, index))
 		{
-			std::wostringstream os;
-			os << L"Index " << input[1].c_str() << L" of texture file " << input[TexturePath].c_str()
-				<< L" is out of bound";
-			throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+			std::ostringstream os;
+			os << "[Info] Index " << index << " of texture file " << texturePath.c_str()
+				<< " is out of bound";
+			fieldTracker += os.str();
 		}
-		transformMatrix._41 = std::stof(input[OffSetX]);
-		transformMatrix._42 = std::stof(input[OffSetY]);
-		transformMatrix._11 = std::stof(input[ScaleX]);
-		transformMatrix._22 = std::stof(input[ScaleY]);
+		transformMatrix._41 = offX;
+		transformMatrix._42 = offY;
+		transformMatrix._11 = scaleX;
+		transformMatrix._22 = scaleY;
 	}
-	catch (CornException& e)
+	catch(const std::exception& e)
 	{
-		std::wostringstream os;
-		os << L"Input of sprite renderer script is in the wrong format\n";
-		os << L"[Error] " << e.What();
-		if (owner != nullptr)
-		{
-			os << L"[Path] ";
-			os << owner->GetPath().c_str();
-		}
+		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + fieldTracker + "\n[Exception] " + e.what());
 	}
 }

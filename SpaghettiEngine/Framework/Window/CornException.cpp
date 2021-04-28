@@ -56,9 +56,8 @@ const wchar_t* CornDescriptionException::GetType() const noexcept
 const wchar_t* CornDescriptionException::What() const noexcept
 {
     std::wostringstream oss;
-    oss << GetType() << std::endl
-        << "[Description] " << GetErrorString() << std::endl
-        << GetOriginString();
+    oss << GetOriginString() << std::endl
+        << "[Description] " << GetErrorString() << std::endl;
     whatBuffer = oss.str();
     return whatBuffer.c_str();
 }

@@ -2,6 +2,8 @@
 
 #include "GameObj.h"
 #include "CornDirectX.h"
+#include "json.hpp"
+#include "CornException.h"
 #include <string>
 #include <map>
 
@@ -40,6 +42,17 @@ class ScriptBase
 	friend class GameObj;
 	friend 	ScriptBase* CreateT();
 public:
+	class ScriptException : public CornException
+	{
+	public:
+		ScriptException(int line, const char* file, PScriptBase errorScript, const std::string& extraDescription);
+		virtual const wchar_t* GetType() const noexcept override;
+		virtual const wchar_t* What() const noexcept override;
+	protected:
+		PScriptBase _errorScript;
+		std::string _extraDescription;
+	};
+public:
 	ScriptBase() = default;
 	[[nodiscard]] const char*		GetName() const noexcept;
 	[[nodiscard]] virtual Matrix	GetWorldMatrix() noexcept;
@@ -56,10 +69,13 @@ public:
 	void Destroy() const;
 protected:
 	virtual ~ScriptBase() = default;
-	virtual void Load(const std::string* inputArg);
+	virtual void Load(nlohmann::json& inputObject);
 	virtual void Unload();
 protected:
 	bool isDisabled = false;
 	PGameObj owner = nullptr;
 	std::string name;
 };
+
+#define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)
+//#define SCRIPT_FORMAT_EXCEPT(Script) ScriptBase::ScriptException(__LINE__,__FILE__,Script,"")

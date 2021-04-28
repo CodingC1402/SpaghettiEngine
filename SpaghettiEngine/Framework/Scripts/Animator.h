@@ -7,7 +7,7 @@ class Animator : public SpriteRenderer
 public:
 	Animator();
 	virtual void Update() override;
-	virtual void Load(const std::string* inputArg) override;
+	void Load(nlohmann::json& inputObject) override;
 	virtual void Unload() override;
 protected:
 	SAnimation _ani;

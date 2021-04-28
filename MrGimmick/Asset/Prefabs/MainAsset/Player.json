@@ -8,11 +8,13 @@
   "Scripts": [
     {
       "Name": "Animator",
-      "Input": "Asset/Animation/Running.json"
+      "Input": {
+        "AnimationPath": "Asset/Animation/Running.json"
+      }
     },
     {
       "Name": "MoveScript",
-      "Input": ""
+      "Input": {}
     }
   ]
 }

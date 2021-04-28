@@ -323,12 +323,13 @@ GameObj::~GameObj()
 	}
 	scripts.clear();
 }
+
 #pragma region Scripts
-void GameObj::AddScript(const std::string& scriptName, const std::string& arg)
+void GameObj::AddScript(const std::string& scriptName, nlohmann::json& inputObject)
 {
 	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName);
 	newScript->owner = this;
-	newScript->Load(&arg);
+	newScript->Load(inputObject);
 	scripts.push_back(newScript);
 }
 void GameObj::AddScript(const PScriptBase& script)
@@ -387,7 +388,9 @@ void GameObj::Load()
 
 	loaded = true;
 	using namespace nlohmann;
-
+	// Use to track which field so it can descibe precisely the error
+	std::string fieldTracker = "Start of the file";
+	
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
@@ -404,11 +407,13 @@ void GameObj::Load()
 	constexpr const char* Scale = "Scale";
 	constexpr const char* Scripts = "Scripts";
 	constexpr const char* Children = "Children";
+	constexpr const char* Prefab = "Prefab";
 	
 	json jsonFile;
 	file >> jsonFile;
 #pragma region Load prefab
-	if (constexpr const char* Prefab = "Prefab"; jsonFile[Prefab] != nullptr)
+	fieldTracker = Prefab;
+	if (jsonFile[Prefab] != nullptr)
 	{
 		const auto prefabPath = jsonFile[Prefab].get<std::string>();
 		std::ifstream prefab(prefabPath);
@@ -461,15 +466,16 @@ void GameObj::Load()
 	try
 	{
 		tag = jsonFile[Tag].get<std::string>();
-
+		// use to check which field throw error
+		fieldTracker = Transform;
 		_transform.x = jsonFile[Transform][0].get<float>();
 		_transform.y = jsonFile[Transform][1].get<float>();
 		_transform.z = jsonFile[Transform][2].get<float>();
-		
+		fieldTracker = Rotation;
 		_rotation.x		= jsonFile[Rotation][0].get<float>();
 		_rotation.y		= jsonFile[Rotation][1].get<float>();
 		_rotation.z		= jsonFile[Rotation][2].get<float>();
-
+		fieldTracker = Scale;
 		_scale.x		= jsonFile[Scale][0].get<float>();
 		_scale.y		= jsonFile[Scale][1].get<float>();
 		_scale.z		= jsonFile[Scale][2].get<float>();
@@ -479,6 +485,7 @@ void GameObj::Load()
 		_isScaleChanged		= true;
 		_isChanged			= true;
 
+		fieldTracker = Children;
 		std::string childPath;
 		const std::string mainPath = CLib::GetPath(GetPath());
 		for (PGameObj newChild; const auto& child : jsonFile[Children])
@@ -491,23 +498,21 @@ void GameObj::Load()
 			newChild->parent = this;
 			newChild->Load();
 		}
-
-		for (const auto& script : jsonFile[Scripts])
+		fieldTracker = Scripts;
+		for (auto& script : jsonFile[Scripts])
 		{
-			AddScript(script["Name"].get<std::string>(), script["Input"].get<std::string>());
+			AddScript(script["Name"].get<std::string>(), script["Input"]);
 		}
 
 		file.close();
 	}
+	catch (const ScriptBase::ScriptException& e)
+	{
+		throw;
+	}
 	catch (const std::exception& e)
 	{
-		std::wostringstream os;
-		os << L"File ";
-		os << path.c_str();
-		os << L" doesn't have the right format" << std::endl;
-		os << L"Exception: " << e.what();
-
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+		throw GAMEOBJ_FORMAT_EXCEPT(fieldTracker.c_str(), this, e.what());
 	}
 #pragma endregion 
 }

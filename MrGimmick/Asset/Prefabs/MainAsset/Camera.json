@@ -9,7 +9,8 @@
   "Scripts": [
     {
       "Name": "Camera",
-      "Input": ""
+      "Input": {
+      }
     }
   ]
 }
