@@ -1,7 +1,7 @@
 {
   "Tag": "Test1",
   "Children": [
-    "Asset/Scenes/Level2/Obj2.json"
+    "{CurrentPath}/Obj2.json"
   ],
   "Transform": [ 100, 100, 0 ],
   "Rotation": [ 0, 0, 0 ],

@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "CornException.h"
 #include "GameObj.h"
+#include "Path.h"
 #include <sstream>
 #include <fstream>
 
@@ -72,9 +73,11 @@ void Scene::Load()
 		json jsonFile;
 		file >> jsonFile;
 
+		std::string objPath;
 		for (const auto& gameObj : jsonFile[GAMEOBJS])
 		{
-			instances.push_back(new GameObj(gameObj.get<std::string>(), this));
+			objPath = CLib::ConvertPath(path, gameObj.get<std::string>());
+			instances.push_back(new GameObj(objPath, this));
 		}
 
 		file.close();

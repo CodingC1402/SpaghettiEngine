@@ -1,6 +1,6 @@
 {
   "GameObjects": [
-    "Asset/Scenes/Level1/MainAsset.json",
-    "Asset/Scenes/Level1/TileMap.json"
+    "{ChildPath}/MainAsset.json",
+    "{ChildPath}/TileMap.json"
   ]
 }

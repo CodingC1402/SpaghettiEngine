@@ -440,9 +440,7 @@ void GameObj::Load()
 			for (std::string childPath; const auto& child : jsonPrefab[Children])
 			{
 				//Convert relative childPath to absolute path
-				childPath = child.get<std::string>();
-				if (childPath.substr(0, 2) == "*/")
-					childPath = CLib::CombinePath(mainPrefabPath, childPath.substr(2, childPath.size() - 2));
+				childPath = CLib::ConvertPath(prefabPath, child.get<std::string>());
 				jsonFile[Children].push_back(childPath);
 			}
 		}
@@ -486,9 +484,7 @@ void GameObj::Load()
 		for (PGameObj newChild; const auto& child : jsonFile[Children])
 		{
 			//Convert relative childPath to absolute path
-			childPath = child.get<std::string>();
-			if (childPath.substr(0, 2) == "*/")
-				childPath = CLib::CombinePath(mainPath, childPath.substr(2, childPath.size() - 2));
+			childPath = CLib::ConvertPath(path, child.get<std::string>());
 			
 			newChild = new GameObj(childPath, ownerScene);
 			this->AddChild(newChild);
