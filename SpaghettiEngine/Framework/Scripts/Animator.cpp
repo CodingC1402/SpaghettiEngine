@@ -17,7 +17,7 @@ void Animator::Update()
 
 void Animator::Draw(SpriteHandler handler, PCamera camera)
 {
-	_sprite = _ani->GetSpriteOfFrame(&frame);
+	_sprite = _ani->GetSpriteOfFrame(frame);
 	RECT srcRect = _sprite->GetSourceRect();
 	Vector3 center = _sprite->GetCenter();
 	Matrix transform = camera->GetMatrix(GetWorldMatrix());
@@ -41,7 +41,7 @@ void Animator::Load(nlohmann::json& inputObject)
 {
 	try
 	{
-		_ani = Animation::GetAnimation(inputObject["AnimationPath"].get<std::string>());
+		_ani = AnimationContainer::GetResource(inputObject["AnimationPath"].get<std::string>());
 		frame = 0;
 	}
 	catch(const std::exception&)

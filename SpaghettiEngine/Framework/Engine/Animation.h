@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "ResourceContainer.h"
 #include "Sprite.h"
 
 typedef class Animation* PAnimation;
@@ -13,31 +14,22 @@ struct Frame
 };
 typedef std::list<Frame>::iterator ItFrame;
 
-class Animation
+class Animation : public Resource
 {
-	friend class SceneManager;
+	friend class AnimationContainer;
 public:
-	static SAnimation GetAnimation(int index);
-	static SAnimation GetAnimation(const std::string& path);
-	static SAnimation LoadAnimation(const std::string& path);
-
-	[[nodiscard]]size_t GetNumberOfFrames() const noexcept;
-
-	// Take in index to frame and time passed, it will change to next frame
-	// accordingly and return time left.
-	SSprite GetSpriteOfFrame(const UINT* frame);
+	Animation(const std::string& path);
+	
+	[[nodiscard]] size_t GetNumberOfFrames() const noexcept;
+	[[nodiscard]]SSprite GetSpriteOfFrame(const unsigned int& frame) const;
+	void Load() override;
 	void Advance(unsigned int& frame, float& time);
 protected:
-	Animation(const std::string& path);
-	void Load();
-
-	static void RemoveAnimation(const std::string* path);
-	static void ClearUnusedAnimation();
-	static void ClearAnimation();
-protected:
-	std::string _path;
 	std::vector<Frame> _frames;
 	bool isLoop;
+};
 
-	static std::list<SAnimation> __loadedAnimation;
+class AnimationContainer : public Container<Animation>
+{
+	friend class SceneManager;
 };

@@ -176,6 +176,9 @@
     <ClInclude Include="Framework\Engine\AnimationStateMachine.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\ResourceContainer.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -287,6 +290,9 @@
       <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\AnimationStateMachine.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\ResourceContainer.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>

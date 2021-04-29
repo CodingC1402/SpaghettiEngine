@@ -11,9 +11,15 @@ typedef std::shared_ptr<Trigger> STrigger;
 typedef class State* PState;
 typedef std::shared_ptr<State> SState;
 
+typedef class AnimationController* PAnimationController;
+typedef std::shared_ptr<AnimationController> SAnimationController;
+
 class Trigger
 {
+public:
 
+protected:
+	PAnimationController _owner;
 };
 class Transition
 {
@@ -25,5 +31,7 @@ class State
 };
 class AnimationController
 {
+protected:
 	SState currentState;
+	
 };
