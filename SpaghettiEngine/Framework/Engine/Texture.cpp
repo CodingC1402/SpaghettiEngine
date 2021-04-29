@@ -1,9 +1,9 @@
 ﻿#include "Texture.h"
 #include "json.hpp"
-#include <fstream>
-#include <sstream>
 #include "Graphics.h"
 #include "Sprite.h"
+#include <fstream>
+#include <sstream>
 
 std::map<unsigned long long, STexture> Texture::textures;
 
