@@ -49,7 +49,6 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void Draw(Render2DScriptBase* renderScript); // Render Sprite
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
 
 	static void AddRender2D(PRender2DScriptBase renderScript);
@@ -104,7 +103,7 @@ protected:
 
 	bool isPixelPerfect = false;
 	std::list<PCamera> cameraList;
-	std::list<PRender2DScriptBase> _renderBuffer2D;
+	std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D;
 
 	static PGraphics __instance;
 private:

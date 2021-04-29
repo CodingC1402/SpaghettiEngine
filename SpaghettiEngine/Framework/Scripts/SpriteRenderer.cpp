@@ -77,8 +77,6 @@ void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 
 void SpriteRenderer::Load(nlohmann::json& inputObject)
 {
-	ScriptBase::Load(inputObject);
-
 	std::string fieldTracker = "Start of the script";
 	try
 	{
@@ -113,4 +111,5 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 	{
 		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + fieldTracker + "\n[Exception] " + e.what());
 	}
+	Render2DScriptBase::Load(inputObject);
 }

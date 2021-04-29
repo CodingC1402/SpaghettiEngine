@@ -9,7 +9,8 @@
     {
       "Name": "Animator",
       "Input": {
-        "AnimationPath": "Asset/Animation/Running.json"
+        "AnimationPath": "Asset/Animation/Running.json",
+        "DrawLayer": 1
       }
     },
     {

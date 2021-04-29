@@ -67,9 +67,7 @@ void TileMapRenderer::Update()
 }
 
 void TileMapRenderer::Load(nlohmann::json& inputObject)
-{
-	ScriptBase::Load(inputObject);
-	
+{	
 	json copy = inputObject;
 	std::string tileMapFilePath;
 	
@@ -144,6 +142,7 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		os << "[Error Info] " << "Tile map " << tileMapFilePath.c_str() << " doesn't have the right format" << std::endl;
 		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
+	Render2DScriptBase::Load(inputObject);
 }
 
 void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)

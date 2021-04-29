@@ -39,7 +39,6 @@ void Animator::Draw(SpriteHandler handler, PCamera camera)
 
 void Animator::Load(nlohmann::json& inputObject)
 {
-	ScriptBase::Load(inputObject);
 	try
 	{
 		_ani = Animation::GetAnimation(inputObject["AnimationPath"].get<std::string>());
@@ -49,4 +48,5 @@ void Animator::Load(nlohmann::json& inputObject)
 	{
 		throw SCRIPT_FORMAT_EXCEPT(this, "");
 	}
+	Render2DScriptBase::Load(inputObject);
 }
