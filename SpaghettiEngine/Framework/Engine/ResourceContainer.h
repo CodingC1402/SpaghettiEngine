@@ -35,7 +35,7 @@ protected:
 	Container() = default;
 	virtual ~Container() = default;
 protected:
-	std::map<unsigned long long, T*> _resources;
+	static std::list<std::shared_ptr<T>> __loadedAnimation;
 
 	static Container* _instance;
 };

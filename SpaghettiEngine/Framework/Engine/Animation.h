@@ -14,36 +14,31 @@ struct Frame
 };
 typedef std::list<Frame>::iterator ItFrame;
 
-class Animation : Resource
+class Animation : public Resource
 {
 	friend class AnimationContainer;
+public:
+	[[nodiscard]] size_t GetNumberOfFrames() const noexcept;
+	[[nodiscard]]SSprite GetSpriteOfFrame(const unsigned int& frame) const;
+	void Advance(unsigned int& frame, float& time);
 protected:
 	Animation(const std::string& path);
 
 	void Load() override;
-	void Advance(unsigned int& frame, float& time);
 protected:
 	std::vector<Frame> _frames;
 	bool isLoop;
 };
 
-class AnimationContainer
+class AnimationContainer : public Container<Animation>
 {
 	friend class SceneManager;
 public:
 	static SAnimation GetAnimation(int index);
 	static SAnimation GetAnimation(const std::string& path);
 	static SAnimation LoadAnimation(const std::string& path);
-
-	[[nodiscard]]size_t GetNumberOfFrames() const noexcept;
-
-	// Take in index to frame and time passed, it will change to next frame
-	// accordingly and return time left.
-	SSprite GetSpriteOfFrame(const UINT* frame);
 protected:
 	static void RemoveAnimation(const std::string* path);
 	static void ClearUnusedAnimation();
 	static void ClearAnimation();
-protected:
-	static std::list<SAnimation> __loadedAnimation;
 };

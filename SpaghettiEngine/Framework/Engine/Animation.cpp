@@ -2,16 +2,16 @@
 #include "json.hpp"
 #include <fstream>
 
-std::list<SAnimation> Animation::__loadedAnimation;
+std::list<SAnimation> Container<Animation>::__loadedAnimation;
 
-SAnimation Animation::GetAnimation(int index)
+SAnimation AnimationContainer::GetAnimation(int index)
 {
 	auto it = __loadedAnimation.begin();
 	std::advance(it, index);
 	return *it;
 }
 
-SAnimation Animation::GetAnimation(const std::string& path)
+SAnimation AnimationContainer::GetAnimation(const std::string& path)
 {
 	for (const auto& animation : __loadedAnimation)
 	{
@@ -22,7 +22,7 @@ SAnimation Animation::GetAnimation(const std::string& path)
 	return LoadAnimation(path);
 }
 
-SAnimation Animation::LoadAnimation(const std::string& path)
+SAnimation AnimationContainer::LoadAnimation(const std::string& path)
 {
 	SAnimation newAnimation(new Animation(path));
 	newAnimation->Load();
@@ -35,9 +35,9 @@ size_t Animation::GetNumberOfFrames() const noexcept
 	return _frames.size();
 }
 
-SSprite Animation::GetSpriteOfFrame(const UINT* frame)
+SSprite Animation::GetSpriteOfFrame(const unsigned int& frame) const
 {
-	return _frames[*frame].sprite;
+	return _frames[frame].sprite;
 }
 
 void Animation::Advance(unsigned int& frame, float& time)
@@ -61,9 +61,8 @@ void Animation::Advance(unsigned int& frame, float& time)
 	time += _frames[nextFrame].delay;
 }
 
-Animation::Animation(const std::string& path)
+Animation::Animation(const std::string& path) : Resource(path)
 {
-	_path = path;
 	isLoop = false;
 }
 void Animation::Load()
@@ -114,7 +113,7 @@ void Animation::Load()
 	}
 }
 
-void Animation::RemoveAnimation(const std::string* path)
+void AnimationContainer::RemoveAnimation(const std::string* path)
 {
 	for (auto it = __loadedAnimation.begin(); it != __loadedAnimation.end(); std::advance(it, 1))
 	{
@@ -126,7 +125,7 @@ void Animation::RemoveAnimation(const std::string* path)
 	}
 }
 
-void Animation::ClearUnusedAnimation()
+void AnimationContainer::ClearUnusedAnimation()
 {
 	size_t size = __loadedAnimation.size();
 	auto iterator = __loadedAnimation.begin();
@@ -142,7 +141,7 @@ void Animation::ClearUnusedAnimation()
 	}
 }
 
-void Animation::ClearAnimation()
+void AnimationContainer::ClearAnimation()
 {
 	__loadedAnimation.clear();
 }

@@ -37,12 +37,12 @@ void AnimatedTile::Update()
 
 void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
 {
-	animation = Animation::GetAnimation(data["Animations"][abs(index + 1)].get<string>());
+	animation = AnimationContainer::GetAnimation(data["Animations"][abs(index + 1)].get<string>());
 }
 
 void AnimatedTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& position)
 {
-	const SSprite currentSprite = animation->GetSpriteOfFrame(&frame);
+	const SSprite currentSprite = animation->GetSpriteOfFrame(frame);
 	RECT srcRect = currentSprite->GetSourceRect();
 	Vector3 center = currentSprite->GetCenter();
 	handler->Draw(
