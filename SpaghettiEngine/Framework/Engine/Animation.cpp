@@ -2,33 +2,7 @@
 #include "json.hpp"
 #include <fstream>
 
-std::list<SAnimation> Container<Animation>::__loadedAnimation;
-
-SAnimation AnimationContainer::GetAnimation(int index)
-{
-	auto it = __loadedAnimation.begin();
-	std::advance(it, index);
-	return *it;
-}
-
-SAnimation AnimationContainer::GetAnimation(const std::string& path)
-{
-	for (const auto& animation : __loadedAnimation)
-	{
-		if (animation->_path == path)
-			return animation;
-	}
-
-	return LoadAnimation(path);
-}
-
-SAnimation AnimationContainer::LoadAnimation(const std::string& path)
-{
-	SAnimation newAnimation(new Animation(path));
-	newAnimation->Load();
-	__loadedAnimation.push_back(newAnimation);
-	return newAnimation;
-}
+CONTAINER_REGISTER_NAME(AnimationContainer, Animation);
 
 size_t Animation::GetNumberOfFrames() const noexcept
 {
@@ -111,37 +85,4 @@ void Animation::Load()
 		os << L" doesn't have the right format";
 		throw TEXTURE_EXCEPT(os.str());
 	}
-}
-
-void AnimationContainer::RemoveAnimation(const std::string* path)
-{
-	for (auto it = __loadedAnimation.begin(); it != __loadedAnimation.end(); std::advance(it, 1))
-	{
-		if ((*it)->_path == *path)
-		{
-			__loadedAnimation.erase(it);
-			return;
-		}
-	}
-}
-
-void AnimationContainer::ClearUnusedAnimation()
-{
-	size_t size = __loadedAnimation.size();
-	auto iterator = __loadedAnimation.begin();
-	while (size > 0)
-	{
-		if (iterator->use_count() <= 1)
-		{
-			const auto eraseIterator = iterator;
-			std::advance(iterator, 1);
-			__loadedAnimation.erase(eraseIterator);
-		}
-		size--;
-	}
-}
-
-void AnimationContainer::ClearAnimation()
-{
-	__loadedAnimation.clear();
 }

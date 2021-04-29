@@ -18,13 +18,12 @@ class Animation : public Resource
 {
 	friend class AnimationContainer;
 public:
+	Animation(const std::string& path);
+	
 	[[nodiscard]] size_t GetNumberOfFrames() const noexcept;
 	[[nodiscard]]SSprite GetSpriteOfFrame(const unsigned int& frame) const;
-	void Advance(unsigned int& frame, float& time);
-protected:
-	Animation(const std::string& path);
-
 	void Load() override;
+	void Advance(unsigned int& frame, float& time);
 protected:
 	std::vector<Frame> _frames;
 	bool isLoop;
@@ -33,12 +32,4 @@ protected:
 class AnimationContainer : public Container<Animation>
 {
 	friend class SceneManager;
-public:
-	static SAnimation GetAnimation(int index);
-	static SAnimation GetAnimation(const std::string& path);
-	static SAnimation LoadAnimation(const std::string& path);
-protected:
-	static void RemoveAnimation(const std::string* path);
-	static void ClearUnusedAnimation();
-	static void ClearAnimation();
 };
