@@ -9,14 +9,24 @@
 
 PSceneManager SceneManager::__instance = nullptr;
 
-SceneManager::SceneManagerException::SceneManagerException(int line, const char* file, std::wstring description) noexcept
+SceneManager::SceneManagerException::SceneManagerException(int line, const char* file, std::string description) noexcept
 	:
-	CornDescriptionException(line, file, description)
+	CornException(line, file),
+	_description(description)
 {}
 
 const wchar_t* SceneManager::SceneManagerException::GetType() const noexcept
 {
 	return L"Scene manager exception |ʘ‿ʘ)╯";
+}
+
+const wchar_t* SceneManager::SceneManagerException::What() const noexcept
+{
+	std::wostringstream os;
+	os << GetOriginString() << std::endl;
+	os << _description.c_str();
+	whatBuffer = os.str();
+	return whatBuffer.c_str();
 }
 
 void SceneManager::Update()
@@ -39,17 +49,15 @@ void SceneManager::StartLoadScene(UINT index)
 	if (index == sceneIndex)
 		return;
 
-	if (index > scenes.size())
+	if (index >= scenes.size())
 	{
-		std::wostringstream os;
-		os << L"LoadScene called with index ";
+		std::ostringstream os;
+		os << "LoadScene called with index ";
 		os << index << std::endl;
-		os << L"But the number of scenes is ";
+		os << "But the number of scenes is ";
 		os << scenes.size() << std::endl;
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+		throw SCENEMANAGER_EXCEPT(os.str());
 	}
-
-	Graphics::GetInstance()->ClearRenderBuffer();
 
 	currentScene->End();
 	scenes[index]->Load();
@@ -104,10 +112,6 @@ SceneManager::SceneManager()
 	callLoadSceneIndex(-1)
 {}
 
-#define CONSTSCENE "ConstScene"
-#define SCENES "Scenes"
-#define START "Start"
-
 void SceneManager::Load()
 {
 	using namespace nlohmann;
@@ -115,29 +119,33 @@ void SceneManager::Load()
 	std::ifstream jsonStream(SCENEMANAGERPATH);
 	if (!jsonStream.is_open())
 	{
-		std::wostringstream oss;
-		oss << L"File ";
+		std::ostringstream oss;
+		oss << "[Exception] File ";
 		oss << SCENEMANAGERPATH;
-		oss << L" doesn't exist";
+		oss << " doesn't exist";
 		throw SCENEMANAGER_EXCEPT(oss.str());
 	}
 	try
 	{
+		static constexpr const char* StaticScene = "StaticScene";
+		static constexpr const char* Scenes = "Scenes";
+		static constexpr const char* Start = "Start";
+		
 		json file;
 		jsonStream >> file;
-		for (const auto& scene : file[SCENES])
+		for (const auto& scene : file[Scenes])
 			scenes.push_back(SScene(new Scene(CLib::ConvertPath(SCENEMANAGERPATH, scene.get<std::string>()))));
 
-		sceneIndex = file[START].get<int>();
+		sceneIndex = file[Start].get<int>();
 		callLoadSceneIndex = sceneIndex;
-		constScene = SScene(new Scene(file[CONSTSCENE].get<std::string>()));
+		constScene = SScene(new Scene(file[StaticScene].get<std::string>()));
 	}
 	catch (...)
 	{
-		std::wostringstream oss;
-		oss << L"File ";
+		std::ostringstream oss;
+		oss << "[Exception] File ";
 		oss << INPUTPATH;
-		oss << L" is in the wrong format";
+		oss << " is in the wrong format";
 		throw SCENEMANAGER_EXCEPT(oss.str());
 	}
 }

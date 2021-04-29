@@ -26,13 +26,11 @@ SAnimation Animation::LoadAnimation(const std::string& path)
 {
 	SAnimation newAnimation(new Animation(path));
 	newAnimation->Load();
-	newAnimation.use_count();
 	__loadedAnimation.push_back(newAnimation);
-	newAnimation.use_count();
 	return newAnimation;
 }
 
-int Animation::GetNumberOfFrames() const noexcept
+size_t Animation::GetNumberOfFrames() const noexcept
 {
 	return _frames.size();
 }
@@ -42,12 +40,12 @@ SSprite Animation::GetSpriteOfFrame(const UINT* frame)
 	return _frames[*frame].sprite;
 }
 
-void Animation::Advance(UINT* frame, double* time)
+void Animation::Advance(unsigned int& frame, float& time)
 {
-	UINT nextFrame = *frame;
-	while (*time >= 0)
+	UINT nextFrame = frame;
+	while (time >= 0)
 	{
-		*frame = nextFrame;
+		frame = nextFrame;
 		nextFrame++;
 
 		if (nextFrame == _frames.size())
@@ -58,21 +56,16 @@ void Animation::Advance(UINT* frame, double* time)
 				return;
 		}
 
-		*time -= _frames[nextFrame].delay;
+		time -= _frames[nextFrame].delay;
 	}
-	*time += _frames[nextFrame].delay;
+	time += _frames[nextFrame].delay;
 }
 
 Animation::Animation(const std::string& path)
 {
 	_path = path;
+	isLoop = false;
 }
-
-#define TEXTUREPATH "TexturePath"
-#define	FRAMES "Frames"
-#define LOOP "Loop"
-#define SPRITEINDEX 0
-#define DELAY 1
 void Animation::Load()
 {
 	using namespace nlohmann;
@@ -89,20 +82,27 @@ void Animation::Load()
 
 	try
 	{
+		static constexpr const char* TexturePath = "TexturePath";
+		static constexpr const char* Loop = "Loop";
+		static constexpr const char* Frames = "Frames";
+		
 		json jsonFile;
 		file >> jsonFile;
 
-		std::string texturePath = jsonFile[TEXTUREPATH].get<std::string>();
+		auto texturePath = jsonFile[TexturePath].get<std::string>();
 		STexture texture;
 		Texture::GetTexture(&texture, texturePath);
 		Frame loadedFrame;
-		for (const auto& frame : jsonFile[FRAMES])
+		for (const auto& frame : jsonFile[Frames])
 		{
-			texture->GetSprite(&loadedFrame.sprite, frame[SPRITEINDEX].get<int>());
-			loadedFrame.delay = frame[DELAY].get<double>();
+			static constexpr int SpriteIndex = 0;
+			static constexpr int Delay = 1;
+			
+			texture->GetSprite(&loadedFrame.sprite, frame[SpriteIndex].get<int>());
+			loadedFrame.delay = frame[Delay].get<double>();
 			_frames.push_back(loadedFrame);
 		}
-		this->isLoop = jsonFile[LOOP].get<bool>();
+		this->isLoop = jsonFile[Loop].get<bool>();
 	}
 	catch (...)
 	{
@@ -134,7 +134,7 @@ void Animation::ClearUnusedAnimation()
 	{
 		if (iterator->use_count() <= 1)
 		{
-			auto eraseIterator = iterator;
+			const auto eraseIterator = iterator;
 			std::advance(iterator, 1);
 			__loadedAnimation.erase(eraseIterator);
 		}

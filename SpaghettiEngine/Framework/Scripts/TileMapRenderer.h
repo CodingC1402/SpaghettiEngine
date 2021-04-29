@@ -31,7 +31,7 @@ public:
 protected:
 	SAnimation animation = nullptr;
 	UINT frame = 0;
-	double time = 0;
+	float time = 0;
 }*PAnimatedTile;
 
 class TileMapRenderer : public Render2DScriptBase

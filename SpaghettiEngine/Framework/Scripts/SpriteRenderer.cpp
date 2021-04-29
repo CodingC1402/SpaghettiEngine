@@ -33,7 +33,7 @@ Vector3 SpriteRenderer::GetCenter() const noexcept
 {
 	return sprite->GetCenter();
 }
-PDx9Texture SpriteRenderer::GetTexture() const noexcept
+PImage SpriteRenderer::GetTexture() const noexcept
 {
 	return sprite->GetSource()->GetImage();
 }
@@ -58,7 +58,7 @@ void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 {
 	RECT srcRect = GetSourceRect();
 	Vector3 center = GetCenter();
-	Matrix transform = camera->GetMatrix(GetWorldMatrix());
+	Matrix transform = camera->GetMatrix(transformMatrix * GetWorldMatrix());
 	if (Setting::IsWorldPointPixelPerfect())
 	{
 		transform._41 = std::round(transform._41);
@@ -77,8 +77,6 @@ void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 
 void SpriteRenderer::Load(nlohmann::json& inputObject)
 {
-	ScriptBase::Load(inputObject);
-
 	std::string fieldTracker = "Start of the script";
 	try
 	{
@@ -88,19 +86,16 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		constexpr const char* OffSetY = "OffSetY";
 		constexpr const char* ScaleX = "ScaleX";
 		constexpr const char* ScaleY = "ScaleY";
-
+		
 		fieldTracker = Path;
 		const auto texturePath = inputObject[Path].get<std::string>();
 		fieldTracker = Index;
 		const auto index = inputObject[Index].get<int>();
-		fieldTracker = OffSetX;
-		const auto offX = inputObject[OffSetX].get<float>();
-		fieldTracker = OffSetY;
-		const auto offY = inputObject[OffSetY].get<float>();
-		fieldTracker = ScaleX;
-		const auto scaleX = inputObject[ScaleX].get<float>();
-		fieldTracker = ScaleY;
-		const auto scaleY = inputObject[ScaleY].get<float>();
+
+		transformMatrix._41 = inputObject[OffSetX] == nullptr ? 0 : inputObject[OffSetX].get<float>();
+		transformMatrix._42 = inputObject[OffSetY] == nullptr ? 0 : inputObject[OffSetY].get<float>();
+		transformMatrix._11 = inputObject[ScaleX] == nullptr ? 1 : inputObject[ScaleX].get<float>();
+		transformMatrix._22 = inputObject[ScaleY] == nullptr ? 1 : inputObject[ScaleY].get<float>();
 		
 		STexture texture;
 		Texture::GetTexture(&texture, texturePath);
@@ -111,13 +106,10 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 				<< " is out of bound";
 			fieldTracker += os.str();
 		}
-		transformMatrix._41 = offX;
-		transformMatrix._42 = offY;
-		transformMatrix._11 = scaleX;
-		transformMatrix._22 = scaleY;
 	}
 	catch(const std::exception& e)
 	{
 		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + fieldTracker + "\n[Exception] " + e.what());
 	}
+	Render2DScriptBase::Load(inputObject);
 }

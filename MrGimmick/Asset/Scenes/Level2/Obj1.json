@@ -9,11 +9,14 @@
   "Scripts": [
     {
       "Name": "SpriteRenderer",
-      "Input": "Asset/Textures/Stage2.jpg 1 0 0 1 1"
+      "Input": {
+        "TexturePath": "Asset/Textures/Stage2.jpg",
+        "Index": 1
+      }
     },
     {
       "Name": "MoveScript",
-      "Input": ""
+      "Input": {}
     }
   ]
 }

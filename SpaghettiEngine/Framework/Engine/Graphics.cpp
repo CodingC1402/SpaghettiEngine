@@ -40,12 +40,7 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::Draw(Render2DScriptBase* renderScript)
-{
-	__instance->_renderBuffer2D.push_back(renderScript);
-}
-
-void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
+void Graphics::LoadTexture(PImage& rTexture, const std::string& path, const Color &keyColor)
 {
 	const std::wstring wPath = StringConverter::StrToWStr(path);
 	ImageInfo info;
@@ -79,12 +74,12 @@ void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const
 
 void Graphics::AddRender2D(PRender2DScriptBase renderScript)
 {
-	GetInstance()->_renderBuffer2D.emplace_back(renderScript);
+	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
 }
 
 void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 {
-	GetInstance()->_renderBuffer2D.remove(renderScript);
+	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
 void Graphics::AddCamera(PCamera camera)
@@ -105,12 +100,13 @@ void Graphics::SetActiveCamera(PCamera setCamera)
 
 void Graphics::ClearRenderBuffer2D()
 {
-	_renderBuffer2D.clear();
+	for (auto& layer : _renderBuffer2D)
+		layer.clear();
 }
 
 void Graphics::ClearRenderBuffer()
 {
-	_renderBuffer2D.clear();
+	ClearRenderBuffer2D();
 }
 
 void Graphics::CreateResource()
@@ -214,7 +210,7 @@ void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 	presentParam.BackBufferHeight = resolution.height;
 	presentParam.hDeviceWindow = wnd->GetContentWndHandler();
 
-	isPixelPerfect = Setting::IsWorldPointPixelPerfect;
+	isPixelPerfect = Setting::IsWorldPointPixelPerfect();
 
 	CreateResource();
 }
@@ -265,10 +261,9 @@ void Graphics::Render()
 
 		spriteHandler->Begin(ALPHABLEND);
 		const auto cameraScript = *cameraList.begin();
-		for (const auto& renderScript2D : _renderBuffer2D)
-		{
-			renderScript2D->Draw(spriteHandler, cameraScript);
-		}
+		for (const auto& layer : _renderBuffer2D)
+			for (const auto& renderScript2D : layer)
+				renderScript2D->Draw(spriteHandler, cameraScript);
 
 #ifdef _DEBUG // For counting fps
 		if (cameraList.size() > 1)
@@ -352,8 +347,8 @@ bool Graphics::Reset()
 
 void Graphics::UpdateCurrentVideoAdapter()
 {
-	const HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
-	const D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
+	const auto monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
+	const auto format = static_cast<D3DFORMAT>(colorFormat);
 	adapterMode.clear();
 	const UINT adapterCount = renderer->GetAdapterCount();
 	for (UINT i = 0; i < adapterCount; i++)
@@ -379,6 +374,7 @@ void Graphics::UpdateCurrentVideoAdapter()
 Graphics::Graphics() noexcept
 {
 	ZeroMemory(&presentParam, sizeof(presentParam));
+	_renderBuffer2D = std::move(std::vector<std::list<PRender2DScriptBase>>(32));
 }
 Graphics::~Graphics() noexcept
 {

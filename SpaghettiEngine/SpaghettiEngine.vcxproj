@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Engine\Animation.h" />
+    <ClInclude Include="Framework\Engine\AnimationStateMachine.h" />
     <ClInclude Include="Framework\Engine\App.h" />
     <ClInclude Include="Framework\Engine\CornDirectX.h" />
     <ClInclude Include="Framework\Engine\Game.h" />
@@ -63,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Engine\Animation.cpp" />
+    <ClCompile Include="Framework\Engine\AnimationStateMachine.cpp" />
     <ClCompile Include="Framework\Engine\App.cpp" />
     <ClCompile Include="Framework\Engine\Game.cpp" />
     <ClCompile Include="Framework\Engine\GameObj.cpp" />

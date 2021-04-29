@@ -9,7 +9,12 @@
   "Scripts": [
     {
       "Name": "SpriteRenderer",
-      "Input": "Asset/Textures/Stage2.jpg 0 0 0 1 1"
+      "Input": {
+        "TexturePath": "Asset/Textures/Stage2.jpg",
+        "Index": 0,
+        "ScaleX": 0.25,
+        "ScaleY": 0.25
+      }
     }
   ]
 }

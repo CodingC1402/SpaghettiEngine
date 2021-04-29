@@ -32,7 +32,7 @@ void NormalTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& po
 void AnimatedTile::Update()
 {
 	time += GameTimer::GetDeltaTime();
-	animation->Advance(&frame, &time);
+	animation->Advance(frame, time);
 }
 
 void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
@@ -54,7 +54,7 @@ void AnimatedTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& 
 	);
 }
 
-TileMapRenderer::TileMapRenderer() : width(0), height(0)
+TileMapRenderer::TileMapRenderer() : width(0), height(0), tileWidth(0), tileHeight(0)
 {
 	name = TYPE_NAME(TileMapRenderer);
 }
@@ -67,9 +67,7 @@ void TileMapRenderer::Update()
 }
 
 void TileMapRenderer::Load(nlohmann::json& inputObject)
-{
-	ScriptBase::Load(inputObject);
-	
+{	
 	json copy = inputObject;
 	std::string tileMapFilePath;
 	
@@ -78,7 +76,7 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 	{
 		tileMapFilePath = copy[TileMapPath].get<std::string>();
 	}
-	catch(const std::exception& e)
+	catch(const std::exception&)
 	{
 		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + TileMapPath);
 	}
@@ -142,8 +140,10 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		ostringstream os;
 		os << "[Error field] " << TileMapPath << std::endl;
 		os << "[Error Info] " << "Tile map " << tileMapFilePath.c_str() << " doesn't have the right format" << std::endl;
+		os << "[Exception] " << e.what() << std::endl;
 		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
+	Render2DScriptBase::Load(inputObject);
 }
 
 void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
@@ -212,4 +212,5 @@ TileMapRenderer::~TileMapRenderer()
 	for (const auto& row : tiles)
 		for (const auto& col : row)
 			delete col;
+	tiles.clear();
 }

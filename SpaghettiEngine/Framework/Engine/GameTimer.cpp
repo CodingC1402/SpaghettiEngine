@@ -7,17 +7,17 @@ void GameTimer::SetTimeScale(double value)
 	__instance->timeScale = value;
 }
 
-double GameTimer::GetTimeScale()
+float GameTimer::GetTimeScale()
 {
 	return __instance->timeScale;
 }
 
-double GameTimer::GetRealTime()
+float GameTimer::GetRealTime()
 {
 	return __instance->realTime;
 }
 
-double GameTimer::GetDeltaTime()
+float GameTimer::GetDeltaTime()
 {
 	return __instance->deltaTime;
 }

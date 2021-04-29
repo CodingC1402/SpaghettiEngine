@@ -173,6 +173,9 @@
     <ClInclude Include="Framework\Ultilities\Path.h">
       <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\AnimationStateMachine.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -282,6 +285,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Ultilities\Path.cpp">
       <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\AnimationStateMachine.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
