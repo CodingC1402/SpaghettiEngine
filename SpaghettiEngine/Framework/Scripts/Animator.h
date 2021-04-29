@@ -13,7 +13,7 @@ protected:
 	SAnimation _ani;
 	SSprite _sprite;
 	UINT frame = 0;
-	double time = 0;
+	float time = 0;
 private:
 	REGISTER_START(Animator);
 };

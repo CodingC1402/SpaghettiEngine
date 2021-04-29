@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CornWnd.h"
+#include "CornException.h"
 #include <string>
 #include <list>
 #include <memory>
@@ -18,6 +19,16 @@ class Scene
 	friend class SceneManager;
 	friend class GameObj;
 public:
+	class SceneException : public CornException
+	{
+	public:
+		SceneException(int line, const char* file, const std::string& description);
+		const wchar_t* GetType() const noexcept override;
+		const wchar_t* What() const noexcept override;
+	protected:
+		std::string _description;
+	};
+public:
 	void Start();
 	void Update();
 	void End();
@@ -34,3 +45,5 @@ protected:
 
 	std::list<PGameObj> instances;
 };
+
+#define SCENE_EXCEPTION(description) Scene::SceneException(__LINE__,__FILE__,description)

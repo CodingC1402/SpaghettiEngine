@@ -14,8 +14,6 @@ typedef class Sprite* PSprite;
 typedef std::shared_ptr<Sprite> SSprite;
 typedef std::unique_ptr<Sprite> USprite;
 
-typedef LPDIRECT3DTEXTURE9 PDx9Texture;
-
 class Texture
 {
 	friend class SceneManager;
@@ -31,7 +29,7 @@ public:
 	static void LoadTexture(const std::string& path);
 
 	bool GetSprite(SSprite* sprite, const int& index) noexcept;
-	[[nodiscard]]PDx9Texture GetImage() const;
+	[[nodiscard]]PImage GetImage() const;
 	Texture(const std::string& path);
 	~Texture();
 protected:
@@ -43,7 +41,7 @@ protected:
 	void Load();
 	bool CheckPath(const std::string& path) const;
 protected:
-	PDx9Texture image;
+	PImage image;
 	std::string _path;
 	unsigned long long _hash;
 	

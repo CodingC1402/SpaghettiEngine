@@ -33,7 +33,7 @@ Vector3 SpriteRenderer::GetCenter() const noexcept
 {
 	return sprite->GetCenter();
 }
-PDx9Texture SpriteRenderer::GetTexture() const noexcept
+PImage SpriteRenderer::GetTexture() const noexcept
 {
 	return sprite->GetSource()->GetImage();
 }

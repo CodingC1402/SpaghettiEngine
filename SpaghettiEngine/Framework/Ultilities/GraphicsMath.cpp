@@ -1,4 +1,5 @@
 #include "GraphicsMath.h"
+#include "ExMath.h"
 
 float GraphicsMath::ToRad(const float& degree)
 {
@@ -93,7 +94,7 @@ bool GraphicsMath::Inverse(const Matrix& matrix, Matrix& inverseMatrix)
 {
 	constexpr int N = 4;
 	const float det = GetDet(matrix, N);
-	if (exmath::compare(det, 0))
+	if (CLib::compare(det, 0.0f))
 		return false;
 	const auto inv = &inverseMatrix;
 	const auto adj = new Matrix();
@@ -123,13 +124,13 @@ void GraphicsMath::GetCFactor(const Matrix& in, Matrix& out, int p, int q, int n
 float GraphicsMath::GetDet(const Matrix& matrix, int n)
 {
 	const auto M = &matrix;
-	Matrix tempMatrix;
-	const auto t = &tempMatrix;
 	float D = 0;
 	if (n == 1)
 		return M[0][0];
 	float s = 1;
-	for (int f = 0; f < n; f++) {
+	for (int f = 0; f < n; f++) 
+	{
+		Matrix tempMatrix;
 		GetCFactor(matrix, tempMatrix, 0, f, n);
 		D += s * M[0][f] * GetDet(tempMatrix, n - 1);
 		s = -s;
@@ -140,25 +141,24 @@ float GraphicsMath::GetDet(const Matrix& matrix, int n)
 void GraphicsMath::GetAdj(const Matrix& in, Matrix& out)
 {
 	const auto adj = &out;
-	Matrix tempMatrix;
-	const auto t = &tempMatrix;
-	float s = 1;
+	int s = 1;
 	constexpr int N = 4;
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
+			Matrix tempMatrix;
 			GetCFactor(in, tempMatrix, i, j, N);
 			s = ((i + j) % 2 == 0) ? 1 : -1; //sign of adj[j][i] positive if sum of row and column indexes is even.
-			adj[0][j * 4 + i] = s * (GetDet(tempMatrix, N - 1)); //Interchange rows and columns to get the transpose of the cofactor matrix
+			adj[0][j * 4 + i] = CLib::ToFloat(s) * (GetDet(tempMatrix, N - 1)); //Interchange rows and columns to get the transpose of the co factor matrix
 		}
 	}
 }
 
 void GraphicsMath::Modulo(Vector3& out, const float& f)
 {
-	out.x = exmath::modulo(out.x, f);
-	out.y = exmath::modulo(out.y, f);
-	out.z = exmath::modulo(out.z, f);
+	out.x = CLib::modulo(out.x, f);
+	out.y = CLib::modulo(out.y, f);
+	out.z = CLib::modulo(out.z, f);
 }
 
 Matrix GraphicsMath::GetXAxisRotateMatrix(const float& degree)

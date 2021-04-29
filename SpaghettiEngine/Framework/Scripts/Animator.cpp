@@ -12,7 +12,7 @@ Animator::Animator()
 void Animator::Update()
 {
 	time += GameTimer::GetDeltaTime();
-	_ani->Advance(&frame, &time);
+	_ani->Advance(frame, time);
 }
 
 void Animator::Draw(SpriteHandler handler, PCamera camera)
@@ -44,7 +44,7 @@ void Animator::Load(nlohmann::json& inputObject)
 		_ani = Animation::GetAnimation(inputObject["AnimationPath"].get<std::string>());
 		frame = 0;
 	}
-	catch(const std::exception& e)
+	catch(const std::exception&)
 	{
 		throw SCRIPT_FORMAT_EXCEPT(this, "");
 	}

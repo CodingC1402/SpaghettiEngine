@@ -40,7 +40,7 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
+void Graphics::LoadTexture(PImage& rTexture, const std::string& path, const Color &keyColor)
 {
 	const std::wstring wPath = StringConverter::StrToWStr(path);
 	ImageInfo info;
@@ -210,7 +210,7 @@ void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 	presentParam.BackBufferHeight = resolution.height;
 	presentParam.hDeviceWindow = wnd->GetContentWndHandler();
 
-	isPixelPerfect = Setting::IsWorldPointPixelPerfect;
+	isPixelPerfect = Setting::IsWorldPointPixelPerfect();
 
 	CreateResource();
 }
@@ -347,8 +347,8 @@ bool Graphics::Reset()
 
 void Graphics::UpdateCurrentVideoAdapter()
 {
-	const HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
-	const D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
+	const auto monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
+	const auto format = static_cast<D3DFORMAT>(colorFormat);
 	adapterMode.clear();
 	const UINT adapterCount = renderer->GetAdapterCount();
 	for (UINT i = 0; i < adapterCount; i++)

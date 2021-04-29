@@ -1,4 +1,4 @@
-#include "Scene.h"
+﻿#include "Scene.h"
 #include "CornException.h"
 #include "GameObj.h"
 #include "Path.h"
@@ -36,6 +36,26 @@ PGameObj Scene::GetObj(UINT index[], UINT size)
 	return (*it)->GetChild(index, 0, size);
 }
 
+Scene::SceneException::SceneException(int line, const char* file, const std::string& description)
+	: CornException(line, file),
+	_description(std::move(description))
+{}
+
+const wchar_t* Scene::SceneException::GetType() const noexcept
+{
+	return L"o(TヘTo) Scene exception";
+}
+
+const wchar_t* Scene::SceneException::What() const noexcept
+{
+	std::wostringstream os;
+	os << GetOriginString() << std::endl;
+	os << "[Exception] "<< _description.c_str() << std::endl;
+	
+	whatBuffer = os.str();
+	return whatBuffer.c_str();
+}
+
 void Scene::Start()
 {
 	for (const auto& instance : instances)
@@ -54,27 +74,27 @@ void Scene::End()
 		instance->End();
 }
 
-#define GAMEOBJS "GameObjects"
-#define TILEMAP "TileMap"
 void Scene::Load()
 {
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
-		std::wostringstream os;
-		os << L"File ";
+		std::ostringstream os;
+		os << "Scene file ";
 		os << path.c_str();
-		os << L" Doesn't exist";
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+		os << " Doesn't exist";
+		throw SCENE_EXCEPTION(os.str());
 	}
 
+	static constexpr const char* GameObjects = "GameObjects";
 	try
 	{
 		json jsonFile;
 		file >> jsonFile;
 
-		std::string objPath;
-		for (const auto& gameObj : jsonFile[GAMEOBJS])
+		if (jsonFile[GameObjects] == nullptr)
+			throw std::exception();
+		for (std::string objPath; const auto& gameObj : jsonFile[GameObjects])
 		{
 			objPath = CLib::ConvertPath(path, gameObj.get<std::string>());
 			instances.push_back(new GameObj(objPath, this));
@@ -82,13 +102,10 @@ void Scene::Load()
 
 		file.close();
 	}
-	catch (...)
+	catch (const std::exception&)
 	{
-		std::wostringstream os;
-		os << L"File ";
-		os << path.c_str();
-		os << L" doesn't have the right format";
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+		throw SCENE_EXCEPTION(std::string("Field ") + GameObjects + " is wrong\n" 
+			+ "[Scene file] " + path);
 	}
 
 	for (const auto& instance : instances)

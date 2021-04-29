@@ -34,7 +34,7 @@ void Render2DScriptBase::Load(nlohmann::json& inputObject)
 			throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error Field] ") + DrawLayer 
 				+ "\n[Exception] DrawLayer can only be from 0 to 31");
 	}
-	catch (const CornException& e)
+	catch (const CornException&)
 	{
 		throw;
 	}

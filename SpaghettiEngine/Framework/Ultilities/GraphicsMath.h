@@ -7,20 +7,6 @@
 /// why do I have to use directx9, it's so freaking janky >:((
 /// </summary>
 
-namespace exmath
-{
-	inline float modulo(const float& f1, const float& f2)
-	{
-		return f1 - std::floor(f1 / f2) * f2;
-	}
-	inline bool compare(const float& f1, const float& f2, const float& epsilon = 0.00001f)
-	{
-		if (fabs(f1 - f2) < epsilon)
-			return true;
-		return false;
-	}
-}
-
 class GraphicsMath
 {
 public:

@@ -401,13 +401,13 @@ void GameObj::Load()
 		throw CORN_EXCEPT_WITH_DESCRIPTION (os.str());
 	}
 
-	constexpr const char* Tag = "Tag";
-	constexpr const char* Transform = "Transform";
-	constexpr const char* Rotation = "Rotation";
-	constexpr const char* Scale = "Scale";
-	constexpr const char* Scripts = "Scripts";
-	constexpr const char* Children = "Children";
-	constexpr const char* Prefab = "Prefab";
+	static constexpr const char* Tag = "Tag";
+	static constexpr const char* Transform = "Transform";
+	static constexpr const char* Rotation = "Rotation";
+	static constexpr const char* Scale = "Scale";
+	static constexpr const char* Scripts = "Scripts";
+	static constexpr const char* Children = "Children";
+	static constexpr const char* Prefab = "Prefab";
 	
 	json jsonFile;
 	file >> jsonFile;
@@ -506,7 +506,7 @@ void GameObj::Load()
 
 		file.close();
 	}
-	catch (const ScriptBase::ScriptException& e)
+	catch (const ScriptBase::ScriptException&)
 	{
 		throw;
 	}
