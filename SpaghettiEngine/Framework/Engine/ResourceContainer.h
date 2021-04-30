@@ -10,6 +10,17 @@
 class Resource
 {
 public:
+	class ResourceException : public CornException
+	{
+	public:
+		ResourceException(int line, const char* file, const std::string& descrpition, const std::string& resourceType);
+		const wchar_t* What() const noexcept override;
+		const wchar_t* GetType() const noexcept override;
+	protected:
+		std::string _description;
+		std::string _resourceType;
+	};
+public:
 	Resource(const std::string& path);
 	virtual ~Resource() = default;
 	
@@ -27,6 +38,9 @@ protected:
 	std::string _path;
 	unsigned long long _hash;
 };
+
+#define RESOURCE_FILE_EXCEPTION()
+#define RESOURCE_LOAD_EXCEPTION(description, resourceType) Resource::ResourceException(__LINE__,__FILE__,description,#resourceType)
 
 template<typename T>
 class Container
