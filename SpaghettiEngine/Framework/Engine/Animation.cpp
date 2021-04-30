@@ -46,43 +46,56 @@ void Animation::Load()
 	std::ifstream file(_path);
 	if (!file.is_open())
 	{
-		std::wostringstream os;
-		os << L"File ";
+		std::ostringstream os;
+		os << "[Exception] File ";
 		os << _path.c_str();
-		os << L" Doesn't exist";
-		throw TEXTURE_EXCEPT(os.str());
+		os << " doesn't exist";
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Animation);
 	}
 
+	static constexpr const char* TexturePath = "TexturePath";
+	static constexpr const char* Loop = "Loop";
+	static constexpr const char* Frames = "Frames";
+	int fieldTracker = 0;
 	try
 	{
-		static constexpr const char* TexturePath = "TexturePath";
-		static constexpr const char* Loop = "Loop";
-		static constexpr const char* Frames = "Frames";
-		
 		json jsonFile;
 		file >> jsonFile;
 
 		auto texturePath = jsonFile[TexturePath].get<std::string>();
-		STexture texture;
-		Texture::GetTexture(&texture, texturePath);
-		Frame loadedFrame;
-		for (const auto& frame : jsonFile[Frames])
+		fieldTracker++;
+		STexture texture = TextureContainer::GetResource(texturePath);
+		for (Frame loadedFrame; const auto& frame : jsonFile[Frames])
 		{
 			static constexpr int SpriteIndex = 0;
 			static constexpr int Delay = 1;
 			
-			texture->GetSprite(&loadedFrame.sprite, frame[SpriteIndex].get<int>());
+			loadedFrame.sprite = texture->GetSprite(frame[SpriteIndex].get<int>());
 			loadedFrame.delay = frame[Delay].get<double>();
 			_frames.push_back(loadedFrame);
 		}
+		fieldTracker++;
 		this->isLoop = jsonFile[Loop].get<bool>();
 	}
 	catch (...)
 	{
-		std::wostringstream os;
-		os << L"File ";
-		os << _path.c_str();
-		os << L" doesn't have the right format";
-		throw TEXTURE_EXCEPT(os.str());
+		std::ostringstream os;
+		os << "[Field] ";
+		switch (fieldTracker)
+		{
+		case 0:
+			os << TexturePath;
+			break;
+		case 1:
+			os << Frames;
+			break;
+		case 2:
+			os << Loop;
+			break;
+		}
+		os << std::endl;
+		
+		os << "[Exception] Field doesn't have the right format";
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Animation);
 	}
 }

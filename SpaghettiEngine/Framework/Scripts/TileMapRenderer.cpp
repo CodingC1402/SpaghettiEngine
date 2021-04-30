@@ -13,7 +13,7 @@ REGISTER_FINISH(TileMapRenderer);
 
 void NormalTile::Load(const int& index, Texture* texture, const json& data)
 {
-	texture->GetSprite(&sprite, index - 1);
+	sprite = texture->GetSprite(index - 1);
 }
 
 void NormalTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& position)
@@ -95,7 +95,7 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		json jsonFile;
 		file >> jsonFile;
 
-		Texture::GetTexture(&texture, jsonFile["Texture"]);
+		texture = TextureContainer::GetResource(jsonFile["Texture"].get<std::string>());
 
 		width = jsonFile["Width"].get<int>();
 		height = jsonFile["Height"].get<int>();

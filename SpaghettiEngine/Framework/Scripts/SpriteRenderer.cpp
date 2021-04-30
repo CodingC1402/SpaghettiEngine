@@ -97,9 +97,9 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		transformMatrix._11 = inputObject[ScaleX] == nullptr ? 1 : inputObject[ScaleX].get<float>();
 		transformMatrix._22 = inputObject[ScaleY] == nullptr ? 1 : inputObject[ScaleY].get<float>();
 		
-		STexture texture;
-		Texture::GetTexture(&texture, texturePath);
-		if (!texture->GetSprite(&sprite, index))
+		STexture texture = TextureContainer::GetResource(texturePath);
+		sprite = texture->GetSprite(index);
+		if (sprite.use_count() == 0)
 		{
 			std::ostringstream os;
 			os << "[Info] Index " << index << " of texture file " << texturePath.c_str()

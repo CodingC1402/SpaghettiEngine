@@ -2,6 +2,7 @@
 #include "json.hpp"
 #include "CornException.h"
 #include "CornDirectX.h"
+#include "ResourceContainer.h"
 #include <string>
 #include <memory>
 #include <map>
@@ -14,39 +15,22 @@ typedef class Sprite* PSprite;
 typedef std::shared_ptr<Sprite> SSprite;
 typedef std::unique_ptr<Sprite> USprite;
 
-class Texture
+class Texture : public Resource
 {
-	friend class SceneManager;
 public:
-	class TextureException : public CornDescriptionException
-	{
-	public:
-		TextureException(int line, const char* file, std::wstring description);
-		virtual const wchar_t* GetType() const noexcept override;
-	};
-public:
-	static bool GetTexture(STexture* texture, const std::string& path);
-	static void LoadTexture(const std::string& path);
-
-	bool GetSprite(SSprite* sprite, const int& index) noexcept;
-	[[nodiscard]]PImage GetImage() const;
 	Texture(const std::string& path);
-	~Texture();
-protected:
-	static void RemoveTexture(const std::string& path);
-	static void ClearUnusedTexture();
-	static void ClearTexture();
-
-	bool IsAllSpriteUnused();
-	void Load();
-	bool CheckPath(const std::string& path) const;
-protected:
-	PImage image;
-	std::string _path;
-	unsigned long long _hash;
+	~Texture() override;
 	
+	void Load() override;
+	[[nodiscard]] bool IsResourceUnused() const override;
+	[[nodiscard]] PImage GetImage() const;
+	[[nodiscard]] SSprite GetSprite(const int& index) noexcept;
+protected:
 	std::list<SSprite>sprites;
-	static std::map<unsigned long long, STexture> textures;
+	PImage image;
 };
 
-#define TEXTURE_EXCEPT(description) Texture::TextureException(__LINE__,__FILE__,description)
+class TextureContainer : public Container<Texture>
+{
+	friend class SceneManager;
+};

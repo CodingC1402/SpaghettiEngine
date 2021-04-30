@@ -68,7 +68,7 @@ void SceneManager::StartLoadScene(UINT index)
 	currentScene = scenes[sceneIndex];
 	
 	AnimationContainer::ClearUnusedResources();
-	Texture::ClearUnusedTexture();
+	TextureContainer::ClearUnusedResources();
 }
 
 void SceneManager::CallLoadNextScene()
