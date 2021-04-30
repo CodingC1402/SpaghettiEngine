@@ -97,7 +97,7 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		transformMatrix._11 = inputObject[ScaleX] == nullptr ? 1 : inputObject[ScaleX].get<float>();
 		transformMatrix._22 = inputObject[ScaleY] == nullptr ? 1 : inputObject[ScaleY].get<float>();
 		
-		STexture texture = TextureContainer::GetResource(texturePath);
+		STexture texture = TextureContainer::GetInstance()->GetResource(texturePath);
 		sprite = texture->GetSprite(index);
 		if (sprite.use_count() == 0)
 		{

@@ -2,7 +2,7 @@
 #include "json.hpp"
 #include <fstream>
 
-CONTAINER_REGISTER_NAME(AnimationContainer, Animation);
+CONTAINER_REGISTER(Animation);
 
 size_t Animation::GetNumberOfFrames() const noexcept
 {
@@ -35,6 +35,11 @@ void Animation::Advance(unsigned int& frame, float& time)
 	time += _frames[nextFrame].delay;
 }
 
+AnimationContainer::AnimationContainer()
+{
+	_name = RESOURCE_NAME(Animation);
+}
+
 Animation::Animation(const std::string& path) : Resource(path)
 {
 	isLoop = false;
@@ -64,14 +69,14 @@ void Animation::Load()
 
 		auto texturePath = jsonFile[TexturePath].get<std::string>();
 		fieldTracker++;
-		STexture texture = TextureContainer::GetResource(texturePath);
+		STexture texture = TextureContainer::GetInstance()->GetResource(texturePath);
 		for (Frame loadedFrame; const auto& frame : jsonFile[Frames])
 		{
 			static constexpr int SpriteIndex = 0;
 			static constexpr int Delay = 1;
 			
 			loadedFrame.sprite = texture->GetSprite(frame[SpriteIndex].get<int>());
-			loadedFrame.delay = frame[Delay].get<double>();
+			loadedFrame.delay = frame[Delay].get<float>();
 			_frames.push_back(loadedFrame);
 		}
 		fieldTracker++;

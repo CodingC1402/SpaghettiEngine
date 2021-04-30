@@ -33,4 +33,6 @@ protected:
 class TextureContainer : public Container<Texture>
 {
 	friend class SceneManager;
+protected:
+	TextureContainer();
 };

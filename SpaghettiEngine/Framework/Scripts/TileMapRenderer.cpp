@@ -37,7 +37,7 @@ void AnimatedTile::Update()
 
 void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
 {
-	animation = AnimationContainer::GetResource(data["Animations"][abs(index + 1)].get<string>());
+	animation = AnimationContainer::GetInstance()->GetResource(data["Animations"][abs(index + 1)].get<string>());
 }
 
 void AnimatedTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& position)
@@ -95,7 +95,7 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		json jsonFile;
 		file >> jsonFile;
 
-		texture = TextureContainer::GetResource(jsonFile["Texture"].get<std::string>());
+		texture = TextureContainer::GetInstance()->GetResource(jsonFile["Texture"].get<std::string>());
 
 		width = jsonFile["Width"].get<int>();
 		height = jsonFile["Height"].get<int>();

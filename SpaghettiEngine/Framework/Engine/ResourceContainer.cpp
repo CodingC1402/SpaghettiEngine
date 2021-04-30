@@ -43,6 +43,11 @@ bool Resource::IsResourceUnused() const
 	return true;
 }
 
+void Resource::Load()
+{
+	_path.clear();
+}
+
 ContainerException::ContainerException(int line, const char* file, const std::string& containerName,
                                        const std::string& description)
 	: CornException(line, file),

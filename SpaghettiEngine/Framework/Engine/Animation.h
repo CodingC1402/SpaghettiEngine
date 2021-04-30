@@ -10,7 +10,7 @@ typedef std::unique_ptr<Animation> UAnimation;
 struct Frame
 {
 	SSprite sprite;
-	double delay = 0;
+	float delay = 0;
 };
 typedef std::list<Frame>::iterator ItFrame;
 
@@ -32,4 +32,6 @@ protected:
 class AnimationContainer : public Container<Animation>
 {
 	friend class SceneManager;
+protected:
+	AnimationContainer();
 };

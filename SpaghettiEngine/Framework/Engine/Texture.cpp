@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-CONTAINER_REGISTER_NAME(TextureContainer, Texture);
+CONTAINER_REGISTER(Texture);
 
 PImage Texture::GetImage() const
 {
@@ -84,6 +84,11 @@ SSprite Texture::GetSprite(const int& index) noexcept
 	auto iterator = sprites.begin();
 	std::advance(iterator, index);
 	return (*iterator);
+}
+
+TextureContainer::TextureContainer()
+{
+	_name = RESOURCE_NAME(Texture);
 }
 
 bool ::Texture::IsResourceUnused() const

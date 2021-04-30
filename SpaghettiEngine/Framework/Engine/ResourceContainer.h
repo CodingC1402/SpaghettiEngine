@@ -4,9 +4,11 @@
 #include <string>
 #include <memory>
 #include <sstream>
+#include "ExMath.h"
 #include "CornException.h"
 #include "StringConverter.h"
 
+#pragma region Resource base
 class Resource
 {
 public:
@@ -21,7 +23,6 @@ public:
 		std::string _resourceType;
 	};
 public:
-	Resource(const std::string& path);
 	virtual ~Resource() = default;
 	
 	Resource(const Resource&) = delete;
@@ -29,45 +30,67 @@ public:
 	Resource& operator= (const Resource&) = delete;
 	Resource& operator= (const Resource&&) = delete;
 
-	[[nodiscard]] virtual std::string GetPath() const;
-	[[nodiscard]] virtual unsigned long long GetHash() const;
 	[[nodiscard]] virtual bool IsResourceUnused() const;
-	virtual void Load() = 0;
-protected:
-protected:
-	std::string _path;
-	unsigned long long _hash;
+	virtual void Load(const std::string& path) = 0;
 };
 
-#define RESOURCE_FILE_EXCEPTION()
 #define RESOURCE_LOAD_EXCEPTION(description, resourceType) Resource::ResourceException(__LINE__,__FILE__,description,#resourceType)
+#pragma endregion
 
 template<typename T>
 class Container
 {
+protected:
+	class ResourceList
+	{
+	public:
+		class Entry
+		{
+		public:
+			Entry(const std::string& path);
+			void Load();
+			void Unload();
+			void UnloadIfUnused();
+			std::shared_ptr<T>& GetResource();
+			std::string& GetPath();
+		protected:
+			std::shared_ptr<T> _resource;
+			std::string _path;
+			bool _isLoaded = false;
+		};
+	public:
+		ResourceList(Container* owner);
+		
+		Entry& GetEntry(CULL& id);
+		
+		void UnloadEntry(CULL& id);
+		void UnloadUnusedEntries();
+		void UnloadEntries();
+	protected:
+		Container* _owner;
+		std::map<unsigned long long, Entry> _entries;
+	};
 public:
 	Container(const Container&) = delete;
 	Container(const Container&&) = delete;
 	Container& operator= (const Container&) = delete;
 	Container& operator= (const Container&&) = delete;
 
-	static std::shared_ptr<T> GetResource(int index);
-	static std::shared_ptr<T> GetResource(const std::string& path);
-	static std::shared_ptr<T> LoadResource(const std::string& path);
+	std::shared_ptr<T>& GetResource(CULL& id);
 
+	void UnloadResource(CULL& id);
+	void UnloadUnusedResources();
+	void UnloadResources();
+	
 	static Container* GetInstance();
 protected:
-	static void RemoveResources(const std::string& path);
-	static void ClearUnusedResources();
-	static void ClearResources();
-	
 	Container() = default;
 	virtual ~Container() = default;
 protected:
-	static std::string _name;
-	inline static std::map<unsigned long long, std::shared_ptr<T>> _resources;
+	std::string _name;
+	ResourceList _resources;
 
-	inline static Container* _instance;
+	static Container* _instance;
 };
 
 class ContainerException : public CornException
@@ -81,43 +104,117 @@ protected:
 	std::string _description;
 };
 
+#define CONTAINER_REGISTER(resourceName) Container<resourceName>* Container<resourceName>::_instance = new Container<resourceName>()
+#define RESOURCE_NAME(resourceName) #resourceName
 #define CONTAINER_EXCEPT(containerName, description) ContainerException(__LINE__,__FILE__,containerName,description)
-#define CONTAINER_REGISTER_NAME(classType, resourceType) std::string Container<resourceType>::_name = #classType
 
 #pragma region Def
 template <typename T>
-std::shared_ptr<T> Container<T>::GetResource(int index)
+Container<T>::ResourceList::Entry::Entry(const std::string& path)
+	:
+	_path(path)
+{}
+
+template <typename T>
+void Container<T>::ResourceList::Entry::Load()
 {
-	if (index >= _resources.size() || index < 0)
-		return std::shared_ptr<T>();
-	return _resources[index];
+	_resource = std::make_shared<T>();
+	_resource->Load(_path);
+	_isLoaded = true;
 }
 
 template <typename T>
-std::shared_ptr<T> Container<T>::GetResource(const std::string& path)
+void Container<T>::ResourceList::Entry::Unload()
 {
-	const unsigned long long findHash = StringConverter::HashStr(path);
-	auto rIt = _resources.find(findHash);
-	if (rIt == _resources.end())
-		return  LoadResource(path);
-	return rIt->second;
+	_resource.reset();
+	_isLoaded = false;
 }
 
 template <typename T>
-std::shared_ptr<T> Container<T>::LoadResource(const std::string& path)
+void Container<T>::ResourceList::Entry::UnloadIfUnused()
 {
-	std::shared_ptr<T> newResource = std::make_shared<T>(path);
-	if (const auto rValue = _resources.emplace(newResource->GetHash(), newResource); !rValue.second)
+	if (_resource->IsResourceUnused())
+		return;
+	_resource.reset();
+	_isLoaded = false;
+}
+
+template <typename T>
+std::shared_ptr<T>& Container<T>::ResourceList::Entry::GetResource()
+{
+	return _resource;
+}
+
+template <typename T>
+std::string& Container<T>::ResourceList::Entry::GetPath()
+{
+	return _path;
+}
+
+template <typename T>
+Container<T>::ResourceList::ResourceList(Container* owner)
+	:
+	_owner(owner)
+{}
+
+template <typename T>
+typename Container<T>::ResourceList::Entry& Container<T>::ResourceList::GetEntry(CULL& id)
+{
+	auto entry = _entries.find(id);
+	if (entry == _entries.end())
 	{
 		std::ostringstream os;
-		os << "[Path]" << newResource->GetPath().c_str() << std::endl;
-		os << "[Path]" << rValue.first->second->GetPath().c_str() << std::endl;
-		os << "Have the same hash number please consider using another name";
-		throw CONTAINER_EXCEPT(_name, os.str());
+		os << "[Entry ID] " << id << std::endl;
+		os << "[Exception] Entry id doesn't exist in the entry list" << std::endl;
+		throw CONTAINER_EXCEPT(_owner->_name, os.str());
 	}
+	if (!entry->second._isLoaded)
+		entry.Load();
+	return entry;
+}
 
-	newResource->Load();
-	return newResource;
+template <typename T>
+void Container<T>::ResourceList::UnloadEntry(CULL& id)
+{
+	_entries[id].Unload();
+}
+
+template <typename T>
+void Container<T>::ResourceList::UnloadUnusedEntries()
+{
+	for (auto& entry : _entries)
+		entry.second->UnloadIfUnused();
+}
+
+template <typename T>
+void Container<T>::ResourceList::UnloadEntries()
+{
+	for (auto& entry : _entries)
+		entry.second->Unload();
+}
+
+template <typename T>
+std::shared_ptr<T>& Container<T>::GetResource(CULL& id)
+{
+	return _resources.GetEntry(id)._resource;
+}
+
+template <typename T>
+void Container<T>::UnloadResource(CULL& id)
+{
+	_resources.GetEntry(id).Unload();
+}
+
+template <typename T>
+void Container<T>::UnloadUnusedResources()
+{
+	_resources.UnloadUnusedEntries();
+}
+
+template <typename T>
+void Container<T>::UnloadResources()
+{
+	_resources.UnloadEntries();
 }
 
 template <typename T>
@@ -126,30 +223,5 @@ Container<T>* Container<T>::GetInstance()
 	if (!_instance)
 		_instance = new Container<T>();
 	return _instance;
-}
-
-template <typename T>
-void Container<T>::RemoveResources(const std::string& path)
-{
-	const unsigned long long eraseHash = StringConverter::HashStr(path);
-	_resources.erase(eraseHash);
-}
-
-template <typename T>
-void Container<T>::ClearUnusedResources()
-{
-	std::list<std::shared_ptr<T>> unusedResources;
-	for (const auto& resource : _resources)
-		if (resource.second.use_count() <= 1)
-			if (resource.second->IsResourceUnused())
-				unusedResources.push_back(resource.second);
-	for (const auto& resource : unusedResources)
-		_resources.erase(resource->GetHash());
-}
-
-template <typename T>
-void Container<T>::ClearResources()
-{
-	_resources.clear();
 }
 #pragma endregion

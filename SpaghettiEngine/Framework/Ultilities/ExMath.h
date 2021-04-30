@@ -2,6 +2,11 @@
 #include <cmath>
 #include <list>
 
+typedef unsigned long long ULL;
+typedef unsigned long long* PULL;
+typedef const unsigned long long CULL;
+typedef const unsigned long long* PCULL;
+
 namespace CLib
 {
 	template<typename T>
