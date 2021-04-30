@@ -4,9 +4,11 @@
 #include <string>
 #include <memory>
 #include <sstream>
+#include <fstream>
 #include "ExMath.h"
 #include "CornException.h"
 #include "StringConverter.h"
+#include "json.hpp"
 
 #pragma region Resource base
 class Resource
@@ -60,6 +62,7 @@ protected:
 		};
 	public:
 		ResourceList(Container* owner);
+		void LoadEntriesList(const std::string& path);
 		
 		Entry& GetEntry(CULL& id);
 		
@@ -84,8 +87,10 @@ public:
 	
 	static Container* GetInstance();
 protected:
-	Container() = default;
+	Container();
 	virtual ~Container() = default;
+
+	void LoadEntries(const std::string& path);
 protected:
 	std::string _name;
 	ResourceList _resources;
@@ -158,6 +163,39 @@ Container<T>::ResourceList::ResourceList(Container* owner)
 {}
 
 template <typename T>
+void Container<T>::ResourceList::LoadEntriesList(const std::string& path)
+{
+	using namespace nlohmann;
+	std::ifstream file(path);
+	if (!file.is_open())
+	{
+		std::ostringstream os;
+		os << "[Exception] Entries file ";
+		os << path.c_str();
+		os << " doesn't exist";
+		throw CONTAINER_EXCEPT(_owner._name, os.str());
+	}
+
+	try
+	{
+		json jsonFile;
+		file >> jsonFile;
+
+		for (const auto& entry : jsonFile)
+		{
+			_entries.emplace(entry["ID"].get<ULL>(), entry["Path"].get<std::string>());
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::ostringstream os;
+		os << "[Type] Entry list error";
+		os << "[Exception] The format of the entry list is wrong";
+		throw CONTAINER_EXCEPT(_owner->_name, os.str());
+	}
+}
+
+template <typename T>
 typename Container<T>::ResourceList::Entry& Container<T>::ResourceList::GetEntry(CULL& id)
 {
 	auto entry = _entries.find(id);
@@ -223,5 +261,17 @@ Container<T>* Container<T>::GetInstance()
 	if (!_instance)
 		_instance = new Container<T>();
 	return _instance;
+}
+
+template <typename T>
+Container<T>::Container()
+	:
+	_resources(this)
+{}
+
+template <typename T>
+void Container<T>::LoadEntries(const std::string& path)
+{
+	_resources.LoadEntriesList(path);
 }
 #pragma endregion
