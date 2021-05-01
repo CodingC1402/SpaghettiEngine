@@ -31,8 +31,11 @@ void Render2DScriptBase::Load(nlohmann::json& inputObject)
 	{
 		_drawLayer = inputObject[DrawLayer] == nullptr ? 0 : inputObject[DrawLayer].get<int>();
 		if (_drawLayer < 0 || _drawLayer > 31)
-			throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error Field] ") + DrawLayer 
-				+ "\n[Exception] DrawLayer can only be from 0 to 31");
+		{
+			std::wostringstream os;
+			os << "\n[Error Field] " << DrawLayer << "\n[Exception] DrawLayer can only be from 0 to 31";
+			throw SCRIPT_FORMAT_EXCEPT(this, os.str());
+		}
 	}
 	catch (const CornException&)
 	{
@@ -40,7 +43,8 @@ void Render2DScriptBase::Load(nlohmann::json& inputObject)
 	}
 	catch (const std::exception& e)
 	{
-		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error Field] ") + DrawLayer + "\n[Exception] " + e.what());
+		std::wostringstream os;
+		os << "\n[Error Field] " << DrawLayer << "\n[Exception] " << e.what();
 	}
 
 	ScriptBase::Load(inputObject);

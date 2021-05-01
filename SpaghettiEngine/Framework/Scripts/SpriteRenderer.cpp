@@ -80,7 +80,7 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 	std::string fieldTracker = "Start of the script";
 	try
 	{
-		constexpr const char* Path = "TexturePath";
+		constexpr const char* Path = "Texture";
 		constexpr const char* Index = "Index";
 		constexpr const char* OffSetX = "OffSetX";
 		constexpr const char* OffSetY = "OffSetY";
@@ -88,7 +88,7 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		constexpr const char* ScaleY = "ScaleY";
 		
 		fieldTracker = Path;
-		const auto texturePath = inputObject[Path].get<std::string>();
+		const auto textureID = inputObject[Path].get<CULL>();
 		fieldTracker = Index;
 		const auto index = inputObject[Index].get<int>();
 
@@ -96,20 +96,30 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		transformMatrix._42 = inputObject[OffSetY] == nullptr ? 0 : inputObject[OffSetY].get<float>();
 		transformMatrix._11 = inputObject[ScaleX] == nullptr ? 1 : inputObject[ScaleX].get<float>();
 		transformMatrix._22 = inputObject[ScaleY] == nullptr ? 1 : inputObject[ScaleY].get<float>();
-		
-		STexture texture = TextureContainer::GetResource(texturePath);
+
+		fieldTracker = Path;
+		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
 		sprite = texture->GetSprite(index);
 		if (sprite.use_count() == 0)
 		{
 			std::ostringstream os;
-			os << "[Info] Index " << index << " of texture file " << texturePath.c_str()
+			os << "[Info] Index " << index << " of texture file " << textureID
 				<< " is out of bound";
 			fieldTracker += os.str();
 		}
 	}
+	catch(const CornException& e)
+	{
+		std::wostringstream os;
+		os << L"Error field " << fieldTracker.c_str() << "\n\n" << e.What();
+		std::wstring w = e.What();
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
+	}
 	catch(const std::exception& e)
 	{
-		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + fieldTracker + "\n[Exception] " + e.what());
+		std::wostringstream os;
+		os << "\n[Error field] " << fieldTracker.c_str() << "\n[Exception] " << e.what();
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 	Render2DScriptBase::Load(inputObject);
 }

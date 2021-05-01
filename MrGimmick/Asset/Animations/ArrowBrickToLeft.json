@@ -1,5 +1,5 @@
 {
-  "TexturePath": "Asset/Textures/Stage1.png",
+  "Texture": 40001,
   "Frames": [
     [ 157, 0.2 ],
     [ 156, 0.2 ],

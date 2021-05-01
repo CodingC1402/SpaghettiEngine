@@ -10,7 +10,7 @@ typedef std::unique_ptr<Animation> UAnimation;
 struct Frame
 {
 	SSprite sprite;
-	double delay = 0;
+	float delay = 0;
 };
 typedef std::list<Frame>::iterator ItFrame;
 
@@ -18,11 +18,11 @@ class Animation : public Resource
 {
 	friend class AnimationContainer;
 public:
-	Animation(const std::string& path);
+	Animation();
 	
 	[[nodiscard]] size_t GetNumberOfFrames() const noexcept;
 	[[nodiscard]]SSprite GetSpriteOfFrame(const unsigned int& frame) const;
-	void Load() override;
+	void Load(const std::string& path) override;
 	void Advance(unsigned int& frame, float& time);
 protected:
 	std::vector<Frame> _frames;
@@ -32,4 +32,6 @@ protected:
 class AnimationContainer : public Container<Animation>
 {
 	friend class SceneManager;
+public:
+	AnimationContainer();
 };

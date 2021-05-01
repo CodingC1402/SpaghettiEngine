@@ -5,7 +5,7 @@
 #include <sstream>
 #include <fstream>
 
-Scene::Scene(std::string path)
+Scene::Scene(const std::string& path)
 	:
 	path(path)
 {}

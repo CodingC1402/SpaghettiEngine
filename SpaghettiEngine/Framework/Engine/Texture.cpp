@@ -2,26 +2,27 @@
 #include "json.hpp"
 #include "Graphics.h"
 #include "Sprite.h"
+#include "SpaghettiEnginePath.h"
 #include <fstream>
 #include <sstream>
 
-CONTAINER_REGISTER_NAME(TextureContainer, Texture);
+CONTAINER_REGISTER(TextureContainer, Texture);
 
 PImage Texture::GetImage() const
 {
 	return image;
 }
 
-void Texture::Load()
+void Texture::Load(const std::string& path)
 {	
 	using namespace nlohmann;
 
-	std::ifstream jsonFile(_path + ".json");
+	std::ifstream jsonFile(path + ".json");
 	if (!jsonFile.is_open()) 
 	{
 		std::ostringstream os;
 		os << "[Exception] File ";
-		os << _path.c_str();
+		os << path.c_str();
 		os << " doesn't exist";
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Texture);
 	}
@@ -41,8 +42,9 @@ void Texture::Load()
 		UINT green = file[KeyColor][Green].get<int>();
 		UINT blue = file[KeyColor][Blue].get<int>();
 		auto keyColor = ARGB(red, green, blue, 255);
-		Graphics::LoadTexture(image, _path, keyColor);
+		Graphics::LoadTexture(image, path, keyColor);
 
+		sprites.reserve(file[Sprites].size());
 		for (int x, y, w, h; const auto& sprite : file[Sprites])
 		{
 			static constexpr int SpritePosX = 0;
@@ -54,20 +56,20 @@ void Texture::Load()
 			y = sprite[SpritePosY].get<int>();
 			w = sprite[SpriteWidth].get<int>();
 			h = sprite[SpriteHeight].get<int>();
-			sprites.push_back(SSprite(new Sprite(this, x, y, w, h)));
+			sprites.emplace_back(SSprite(new Sprite(this, x, y, w, h)));
 		}
 	}
 	catch (...)
 	{
 		std::ostringstream os;
 		os << "File ";
-		os << _path.c_str();
+		os << path.c_str();
 		os << " doesn't have the right format";
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Texture);
 	}
 }
 
-Texture::Texture(const std::string& path) : Resource(path), image(nullptr)
+Texture::Texture() : Resource(), image(nullptr)
 {}
 
 Texture::~Texture()
@@ -76,14 +78,18 @@ Texture::~Texture()
 	image = nullptr;
 }
 
-SSprite Texture::GetSprite(const int& index) noexcept
+SSprite Texture::GetSprite(const unsigned int& index) noexcept
 {
-	if (index >= static_cast<const int>(sprites.size()))
+	if (index >= static_cast<const unsigned int>(sprites.size()))
 		return SSprite();
+	
+	return sprites[index];
+}
 
-	auto iterator = sprites.begin();
-	std::advance(iterator, index);
-	return (*iterator);
+TextureContainer::TextureContainer()
+{
+	_name = RESOURCE_NAME(Texture);
+	LoadEntries(SystemPath::TextureEntriesPath);
 }
 
 bool ::Texture::IsResourceUnused() const

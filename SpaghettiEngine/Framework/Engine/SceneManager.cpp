@@ -67,8 +67,8 @@ void SceneManager::StartLoadScene(UINT index)
 	sceneIndex = index;
 	currentScene = scenes[sceneIndex];
 	
-	AnimationContainer::ClearUnusedResources();
-	TextureContainer::ClearUnusedResources();
+	AnimationContainer::GetInstance()->UnloadUnusedResources();
+	TextureContainer::GetInstance()->UnloadUnusedResources();
 }
 
 void SceneManager::CallLoadNextScene()
@@ -116,12 +116,12 @@ void SceneManager::Load()
 {
 	using namespace nlohmann;
 
-	std::ifstream jsonStream(SCENEMANAGERPATH);
+	std::ifstream jsonStream(SystemPath::SceneManagerPath);
 	if (!jsonStream.is_open())
 	{
 		std::ostringstream oss;
 		oss << "[Exception] File ";
-		oss << SCENEMANAGERPATH;
+		oss << SystemPath::SceneManagerPath;
 		oss << " doesn't exist";
 		throw SCENEMANAGER_EXCEPT(oss.str());
 	}
@@ -134,7 +134,7 @@ void SceneManager::Load()
 		json file;
 		jsonStream >> file;
 		for (const auto& scene : file[Scenes])
-			scenes.push_back(SScene(new Scene(CLib::ConvertPath(SCENEMANAGERPATH, scene.get<std::string>()))));
+			scenes.push_back(SScene(new Scene(CLib::ConvertPath(SystemPath::SceneManagerPath, scene.get<std::string>()))));
 
 		sceneIndex = file[Start].get<int>();
 		callLoadSceneIndex = sceneIndex;
@@ -144,7 +144,7 @@ void SceneManager::Load()
 	{
 		std::ostringstream oss;
 		oss << "[Exception] File ";
-		oss << INPUTPATH;
+		oss << SystemPath::SceneManagerPath;
 		oss << " is in the wrong format";
 		throw SCENEMANAGER_EXCEPT(oss.str());
 	}

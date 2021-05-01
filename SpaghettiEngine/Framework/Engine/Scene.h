@@ -34,7 +34,7 @@ public:
 	void End();
 	PGameObj GetObj(UINT index[],UINT size);
 protected:
-	Scene(std::string path);
+	Scene(const std::string& path);
 	void Instantiate(PGameObj gameObj);
 	void RemoveGameObject(PGameObj gameObj);
 	void AddGameObject(PGameObj gameObj);
