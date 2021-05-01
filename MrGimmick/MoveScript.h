@@ -16,7 +16,8 @@ protected:
 	SInput left;
 	SInput right;
 	PCamera cam;
-
+	
+	RigidBody* rigidbody;
 	Vector3 move;
 	float movementSpeed = 70;
 	bool isFlipped = false;

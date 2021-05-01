@@ -49,16 +49,14 @@ void Physic::Unload()
 	boxColliders.clear();
 }
 
-const string* RIGIDBODY = (string*)("RigidBody");
-
 bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 {
 	PhysicMath::Rect obj = PhysicMath::Rect(object->GetPosition().x,
 		object->GetPosition().y,
 		object->width,
 		object->height,
-		dynamic_cast<PRigidBody>(object->owner->GetScript(RIGIDBODY))->vx,
-		dynamic_cast<PRigidBody>(object->owner->GetScript(RIGIDBODY))->vy);
+		object->GetVelocity().x,
+		object->GetVelocity().y);
 	
 	PhysicMath::Rect broadphasebox = PhysicMath::getSweptBroadphaseRect(obj);
 	

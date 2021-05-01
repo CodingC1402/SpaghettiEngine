@@ -19,6 +19,8 @@ void MoveScript::Start()
 
 	cam = Graphics::GetActiveCamera();
 	cam->SetFollow(owner);
+
+	rigidbody = dynamic_cast<PRigidBody>(owner->GetScript("RigidBody"));
 }
 
 void MoveScript::Update()
@@ -54,5 +56,5 @@ void MoveScript::Update()
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
 	owner->Translate(move);
-	//std::static_pointer_cast<RigidBody>(owner->GetScript("RigidBody")).get()->UpdateVelocity(move);
+	rigidbody->SetVelocity(move);
 }

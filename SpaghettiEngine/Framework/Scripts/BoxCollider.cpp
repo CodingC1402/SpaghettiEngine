@@ -1,5 +1,6 @@
 #include "BoxCollider.h"
 #include "GameTimer.h"
+#include "Physic.h"
 
 REGISTER_FINISH(BoxCollider);
 
@@ -10,7 +11,7 @@ BoxCollider::BoxCollider()
 
 void BoxCollider::Start()
 {
-
+	rigidbody = dynamic_cast<PRigidBody>(owner->GetScript("RigidBody"));
 }
 
 void BoxCollider::Update()
@@ -25,6 +26,14 @@ Vector3 BoxCollider::GetPosition()
 	pos.y = owner->GetWorldTransform().y - height / 2;
 	pos.z = owner->GetWorldTransform().z;
 	return pos;
+}
+
+Vector3 BoxCollider::GetVelocity()
+{
+	if (rigidbody == nullptr)
+		return Vector3(0, 0, 0);
+
+	return rigidbody->GetVelocity();
 }
 
 #define Width 0
