@@ -25,6 +25,7 @@ public:
 		std::string _resourceType;
 	};
 public:
+	Resource() = default;
 	virtual ~Resource() = default;
 	
 	Resource(const Resource&) = delete;
@@ -53,6 +54,7 @@ protected:
 			void Load();
 			void Unload();
 			void UnloadIfUnused();
+			bool& IsLoaded() noexcept;
 			std::shared_ptr<T>& GetResource();
 			std::string& GetPath();
 		protected:
@@ -65,15 +67,18 @@ protected:
 		void LoadEntriesList(const std::string& path);
 		
 		Entry& GetEntry(CULL& id);
+		const char* GetContainerName() const;
 		
 		void UnloadEntry(CULL& id);
 		void UnloadUnusedEntries();
 		void UnloadEntries();
 	protected:
-		Container* _owner;
+		Container<T>* _owner;
 		std::map<unsigned long long, Entry> _entries;
 	};
 public:
+	Container();
+	
 	Container(const Container&) = delete;
 	Container(const Container&&) = delete;
 	Container& operator= (const Container&) = delete;
@@ -84,10 +89,10 @@ public:
 	void UnloadResource(CULL& id);
 	void UnloadUnusedResources();
 	void UnloadResources();
-	
+
+	static const char* GetName();
 	static Container* GetInstance();
 protected:
-	Container();
 	virtual ~Container() = default;
 
 	void LoadEntries(const std::string& path);
@@ -95,7 +100,7 @@ protected:
 	std::string _name;
 	ResourceList _resources;
 
-	static Container* _instance;
+	static Container<T>* _instance;
 };
 
 class ContainerException : public CornException
@@ -109,7 +114,7 @@ protected:
 	std::string _description;
 };
 
-#define CONTAINER_REGISTER(resourceName) Container<resourceName>* Container<resourceName>::_instance = new Container<resourceName>()
+#define CONTAINER_REGISTER(containerName, resourceName) Container<resourceName>* Container<resourceName>::_instance = new containerName()
 #define RESOURCE_NAME(resourceName) #resourceName
 #define CONTAINER_EXCEPT(containerName, description) ContainerException(__LINE__,__FILE__,containerName,description)
 
@@ -145,6 +150,12 @@ void Container<T>::ResourceList::Entry::UnloadIfUnused()
 }
 
 template <typename T>
+bool& Container<T>::ResourceList::Entry::IsLoaded() noexcept
+{
+	return _isLoaded;
+}
+
+template <typename T>
 std::shared_ptr<T>& Container<T>::ResourceList::Entry::GetResource()
 {
 	return _resource;
@@ -165,33 +176,41 @@ Container<T>::ResourceList::ResourceList(Container* owner)
 template <typename T>
 void Container<T>::ResourceList::LoadEntriesList(const std::string& path)
 {
-	using namespace nlohmann;
-	std::ifstream file(path);
-	if (!file.is_open())
-	{
-		std::ostringstream os;
-		os << "[Exception] Entries file ";
-		os << path.c_str();
-		os << " doesn't exist";
-		throw CONTAINER_EXCEPT(_owner._name, os.str());
-	}
-
 	try
 	{
-		json jsonFile;
-		file >> jsonFile;
-
-		for (const auto& entry : jsonFile)
+		using namespace nlohmann;
+		std::ifstream file(path);
+		if (!file.is_open())
 		{
-			_entries.emplace(entry["ID"].get<ULL>(), entry["Path"].get<std::string>());
+			std::ostringstream os;
+			os << "[Exception] Entries file ";
+			os << path.c_str();
+			os << " doesn't exist";
+			throw CONTAINER_EXCEPT(GetContainerName(), os.str());
+		}
+
+		try
+		{
+			json jsonFile;
+			file >> jsonFile;
+
+			for (const auto& entry : jsonFile)
+			{
+				_entries.emplace(entry["ID"].get<ULL>(), entry["Path"].get<std::string>());
+			}
+		}
+		catch (const std::exception& e)
+		{
+			std::ostringstream os;
+			os << "[Type] Entry list error";
+			os << "[Exception] The format of the entry list is wrong";
+			throw CONTAINER_EXCEPT(_owner->_name, os.str());
 		}
 	}
-	catch (const std::exception& e)
+	catch (const CornException& e)
 	{
-		std::ostringstream os;
-		os << "[Type] Entry list error";
-		os << "[Exception] The format of the entry list is wrong";
-		throw CONTAINER_EXCEPT(_owner->_name, os.str());
+		MessageBox(nullptr, e.What(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
+		exit(-1);
 	}
 }
 
@@ -206,9 +225,15 @@ typename Container<T>::ResourceList::Entry& Container<T>::ResourceList::GetEntry
 		os << "[Exception] Entry id doesn't exist in the entry list" << std::endl;
 		throw CONTAINER_EXCEPT(_owner->_name, os.str());
 	}
-	if (!entry->second._isLoaded)
-		entry.Load();
-	return entry;
+	if (!entry->second.IsLoaded())
+		entry->second.Load();
+	return entry->second;
+}
+
+template <typename T>
+const char* Container<T>::ResourceList::GetContainerName() const
+{
+	return _owner->GetName();
 }
 
 template <typename T>
@@ -221,20 +246,20 @@ template <typename T>
 void Container<T>::ResourceList::UnloadUnusedEntries()
 {
 	for (auto& entry : _entries)
-		entry.second->UnloadIfUnused();
+		entry.second.UnloadIfUnused();
 }
 
 template <typename T>
 void Container<T>::ResourceList::UnloadEntries()
 {
 	for (auto& entry : _entries)
-		entry.second->Unload();
+		entry.second.Unload();
 }
 
 template <typename T>
 std::shared_ptr<T>& Container<T>::GetResource(CULL& id)
 {
-	return _resources.GetEntry(id)._resource;
+	return _resources.GetEntry(id).GetResource();
 }
 
 template <typename T>
@@ -256,6 +281,12 @@ void Container<T>::UnloadResources()
 }
 
 template <typename T>
+const char* Container<T>::GetName()
+{
+	return GetInstance()->_name.c_str();
+}
+
+template <typename T>
 Container<T>* Container<T>::GetInstance()
 {
 	if (!_instance)
@@ -267,7 +298,9 @@ template <typename T>
 Container<T>::Container()
 	:
 	_resources(this)
-{}
+{
+		
+}
 
 template <typename T>
 void Container<T>::LoadEntries(const std::string& path)

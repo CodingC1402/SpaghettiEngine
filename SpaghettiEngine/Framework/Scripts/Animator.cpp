@@ -41,7 +41,7 @@ void Animator::Load(nlohmann::json& inputObject)
 {
 	try
 	{
-		_ani = AnimationContainer::GetInstance()->GetResource(inputObject["AnimationPath"].get<std::string>());
+		_ani = AnimationContainer::GetInstance()->GetResource(inputObject["Animation"].get<CULL>());
 		frame = 0;
 	}
 	catch(const std::exception&)

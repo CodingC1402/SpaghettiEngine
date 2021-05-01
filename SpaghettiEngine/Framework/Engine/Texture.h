@@ -18,10 +18,10 @@ typedef std::unique_ptr<Sprite> USprite;
 class Texture : public Resource
 {
 public:
-	Texture(const std::string& path);
+	Texture();
 	~Texture() override;
 	
-	void Load() override;
+	void Load(const std::string& path) override;
 	[[nodiscard]] bool IsResourceUnused() const override;
 	[[nodiscard]] PImage GetImage() const;
 	[[nodiscard]] SSprite GetSprite(const int& index) noexcept;
@@ -33,6 +33,6 @@ protected:
 class TextureContainer : public Container<Texture>
 {
 	friend class SceneManager;
-protected:
+public:
 	TextureContainer();
 };

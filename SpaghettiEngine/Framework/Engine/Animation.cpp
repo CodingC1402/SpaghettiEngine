@@ -1,8 +1,9 @@
 #include "Animation.h"
 #include "json.hpp"
+#include "SpaghettiEnginePath.h"
 #include <fstream>
 
-CONTAINER_REGISTER(Animation);
+CONTAINER_REGISTER(AnimationContainer, Animation);
 
 size_t Animation::GetNumberOfFrames() const noexcept
 {
@@ -38,27 +39,28 @@ void Animation::Advance(unsigned int& frame, float& time)
 AnimationContainer::AnimationContainer()
 {
 	_name = RESOURCE_NAME(Animation);
+	LoadEntries(SystemPath::AnimationEntriesPath);
 }
 
-Animation::Animation(const std::string& path) : Resource(path)
+Animation::Animation() : Resource()
 {
 	isLoop = false;
 }
-void Animation::Load()
+void Animation::Load(const std::string& path)
 {
 	using namespace nlohmann;
 
-	std::ifstream file(_path);
+	std::ifstream file(path);
 	if (!file.is_open())
 	{
 		std::ostringstream os;
 		os << "[Exception] File ";
-		os << _path.c_str();
+		os << path.c_str();
 		os << " doesn't exist";
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Animation);
 	}
 
-	static constexpr const char* TexturePath = "TexturePath";
+	static constexpr const char* Texture = "Texture";
 	static constexpr const char* Loop = "Loop";
 	static constexpr const char* Frames = "Frames";
 	int fieldTracker = 0;
@@ -67,9 +69,9 @@ void Animation::Load()
 		json jsonFile;
 		file >> jsonFile;
 
-		auto texturePath = jsonFile[TexturePath].get<std::string>();
+		auto textureID = jsonFile[Texture].get<CULL>();
 		fieldTracker++;
-		STexture texture = TextureContainer::GetInstance()->GetResource(texturePath);
+		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
 		for (Frame loadedFrame; const auto& frame : jsonFile[Frames])
 		{
 			static constexpr int SpriteIndex = 0;
@@ -89,7 +91,7 @@ void Animation::Load()
 		switch (fieldTracker)
 		{
 		case 0:
-			os << TexturePath;
+			os << Texture;
 			break;
 		case 1:
 			os << Frames;

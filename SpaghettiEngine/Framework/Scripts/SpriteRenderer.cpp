@@ -80,7 +80,7 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 	std::string fieldTracker = "Start of the script";
 	try
 	{
-		constexpr const char* Path = "TexturePath";
+		constexpr const char* Path = "Texture";
 		constexpr const char* Index = "Index";
 		constexpr const char* OffSetX = "OffSetX";
 		constexpr const char* OffSetY = "OffSetY";
@@ -88,7 +88,7 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		constexpr const char* ScaleY = "ScaleY";
 		
 		fieldTracker = Path;
-		const auto texturePath = inputObject[Path].get<std::string>();
+		const auto textureID = inputObject[Path].get<CULL>();
 		fieldTracker = Index;
 		const auto index = inputObject[Index].get<int>();
 
@@ -97,12 +97,12 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		transformMatrix._11 = inputObject[ScaleX] == nullptr ? 1 : inputObject[ScaleX].get<float>();
 		transformMatrix._22 = inputObject[ScaleY] == nullptr ? 1 : inputObject[ScaleY].get<float>();
 		
-		STexture texture = TextureContainer::GetInstance()->GetResource(texturePath);
+		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
 		sprite = texture->GetSprite(index);
 		if (sprite.use_count() == 0)
 		{
 			std::ostringstream os;
-			os << "[Info] Index " << index << " of texture file " << texturePath.c_str()
+			os << "[Info] Index " << index << " of texture file " << textureID
 				<< " is out of bound";
 			fieldTracker += os.str();
 		}

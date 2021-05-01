@@ -22,30 +22,9 @@ const wchar_t* Resource::ResourceException::GetType() const noexcept
 	return whatBuffer.c_str();
 }
 
-Resource::Resource(const std::string& path)
-	:
-	_path(path),
-	_hash(StringConverter::HashStr(path))
-{}
-
-std::string Resource::GetPath() const
-{
-	return _path;
-}
-
-unsigned long long Resource::GetHash() const
-{
-	return _hash;
-}
-
 bool Resource::IsResourceUnused() const
 {
 	return true;
-}
-
-void Resource::Load()
-{
-	_path.clear();
 }
 
 ContainerException::ContainerException(int line, const char* file, const std::string& containerName,

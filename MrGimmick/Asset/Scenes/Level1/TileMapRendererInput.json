@@ -1,5 +1,5 @@
 {
-  "Texture": "Asset/Textures/Stage1.png",
+  "Texture": 40001,
   "Width": 64,
   "Height": 24,
   "TileWidth": 16,
@@ -1543,7 +1543,7 @@
     22
   ],
   "Animations": [
-    "Asset/Animation/ArrowBrickToLeft.json",
-    "Asset/Animation/ArrowBrickToRight.json"
+    10001,
+    10002
   ]
 }

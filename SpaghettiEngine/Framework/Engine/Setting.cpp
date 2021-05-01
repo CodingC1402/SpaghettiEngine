@@ -48,12 +48,12 @@ void Setting::Load()
 {
 	using namespace nlohmann;
 
-	std::ifstream jsonFile(APPJSONPATH);
+	std::ifstream jsonFile(SystemPath::AppJsonPath);
 	if (!jsonFile.is_open())
 	{
 		std::wostringstream os;
 		os << L"File ";
-		os << APPJSONPATH;
+		os << SystemPath::AppJsonPath;
 		os << L" Doesn't exist";
 		throw APPSETTING_EXCEPT(os.str());
 	}
@@ -85,7 +85,7 @@ void Setting::Load()
 	{
 		std::wostringstream os;
 		os << L"File ";
-		os << APPJSONPATH;
+		os << SystemPath::AppJsonPath;
 		os << L" doesn't have the right format";
 		throw APPSETTING_EXCEPT(os.str());
 	}
