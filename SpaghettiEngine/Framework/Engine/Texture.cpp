@@ -44,6 +44,7 @@ void Texture::Load(const std::string& path)
 		auto keyColor = ARGB(red, green, blue, 255);
 		Graphics::LoadTexture(image, path, keyColor);
 
+		sprites.reserve(file[Sprites].size());
 		for (int x, y, w, h; const auto& sprite : file[Sprites])
 		{
 			static constexpr int SpritePosX = 0;
@@ -55,7 +56,7 @@ void Texture::Load(const std::string& path)
 			y = sprite[SpritePosY].get<int>();
 			w = sprite[SpriteWidth].get<int>();
 			h = sprite[SpriteHeight].get<int>();
-			sprites.push_back(SSprite(new Sprite(this, x, y, w, h)));
+			sprites.emplace_back(SSprite(new Sprite(this, x, y, w, h)));
 		}
 	}
 	catch (...)
@@ -77,14 +78,12 @@ Texture::~Texture()
 	image = nullptr;
 }
 
-SSprite Texture::GetSprite(const int& index) noexcept
+SSprite Texture::GetSprite(const unsigned int& index) noexcept
 {
-	if (index >= static_cast<const int>(sprites.size()))
+	if (index >= static_cast<const unsigned int>(sprites.size()))
 		return SSprite();
-
-	auto iterator = sprites.begin();
-	std::advance(iterator, index);
-	return (*iterator);
+	
+	return sprites[index];
 }
 
 TextureContainer::TextureContainer()

@@ -96,7 +96,8 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		transformMatrix._42 = inputObject[OffSetY] == nullptr ? 0 : inputObject[OffSetY].get<float>();
 		transformMatrix._11 = inputObject[ScaleX] == nullptr ? 1 : inputObject[ScaleX].get<float>();
 		transformMatrix._22 = inputObject[ScaleY] == nullptr ? 1 : inputObject[ScaleY].get<float>();
-		
+
+		fieldTracker = Path;
 		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
 		sprite = texture->GetSprite(index);
 		if (sprite.use_count() == 0)
@@ -107,9 +108,18 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 			fieldTracker += os.str();
 		}
 	}
+	catch(const CornException& e)
+	{
+		std::wostringstream os;
+		os << L"Error field " << fieldTracker.c_str() << "\n\n" << e.What();
+		std::wstring w = e.What();
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
+	}
 	catch(const std::exception& e)
 	{
-		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + fieldTracker + "\n[Exception] " + e.what());
+		std::wostringstream os;
+		os << "\n[Error field] " << fieldTracker.c_str() << "\n[Exception] " << e.what();
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 	Render2DScriptBase::Load(inputObject);
 }

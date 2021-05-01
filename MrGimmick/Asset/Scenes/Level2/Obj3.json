@@ -10,7 +10,7 @@
     {
       "Name": "SpriteRenderer",
       "Input": {
-        "TexturePath": "Asset/Textures/Stage2.jpg",
+        "Texture": 40002,
         "Index": 0,
         "ScaleX": 0.25,
         "ScaleY": 0.25

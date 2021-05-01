@@ -37,6 +37,7 @@
     <ClInclude Include="Framework\Engine\Setting.h" />
     <ClInclude Include="Framework\Engine\Sound.h" />
     <ClInclude Include="Framework\Engine\SpaghettiEnginePath.h" />
+    <ClInclude Include="Framework\Engine\SpaghettiObject.h" />
     <ClInclude Include="Framework\Engine\Sprite.h" />
     <ClInclude Include="Framework\Engine\Texture.h" />
     <ClInclude Include="Framework\Engine\Transform.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="Framework\Engine\SceneManager.cpp" />
     <ClCompile Include="Framework\Engine\Setting.cpp" />
     <ClCompile Include="Framework\Engine\Sound.cpp" />
+    <ClCompile Include="Framework\Engine\SpaghettiObject.cpp" />
     <ClCompile Include="Framework\Engine\Sprite.cpp" />
     <ClCompile Include="Framework\Engine\Texture.cpp" />
     <ClCompile Include="Framework\Engine\Transform.cpp" />

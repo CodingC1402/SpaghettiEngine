@@ -25,7 +25,7 @@ PScriptBase ScriptFactory::CopyInstance(CPScriptBase instance)
 	return copyScript;
 }
 
-ScriptBase::ScriptException::ScriptException(int line, const char* file, PScriptBase errorScript, const std::string& extraDescription)
+ScriptBase::ScriptException::ScriptException(int line, const char* file, PScriptBase errorScript, const std::wstring& extraDescription)
 	: CornException(line, file),
 	_errorScript(errorScript),
 	_extraDescription(extraDescription)
@@ -40,7 +40,6 @@ const wchar_t* ScriptBase::ScriptException::What() const noexcept
 {
 	std::wostringstream os;
 	os << GetOriginString().c_str() << std::endl;
-	os << L"[Owner] " << _errorScript->owner->GetPath().c_str() << std::endl;
 	os << L"[Script type] " << _errorScript->name.c_str() << std::endl;
 	os << L"[Error] " << L"Wrong format" << std::endl;
 	os << L"[Extra description] " << _extraDescription.c_str();

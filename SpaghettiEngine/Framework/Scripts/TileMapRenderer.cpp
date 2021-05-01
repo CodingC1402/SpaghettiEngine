@@ -78,13 +78,15 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 	}
 	catch(const std::exception&)
 	{
-		throw SCRIPT_FORMAT_EXCEPT(this, std::string("\n[Error field] ") + TileMapPath);
+		std::wostringstream os;
+		os << "\n[Error field] " << TileMapPath;
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 	
 	ifstream file(tileMapFilePath);
 	if (!file.is_open())
 	{
-		ostringstream os;
+		std::wostringstream os;
 		os << "[Error field] " << TileMapPath << std::endl;
 		os << "[Error Info] " << "Tile map " << tileMapFilePath.c_str() << " doesn't exist" << std::endl;
 		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
@@ -137,7 +139,7 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 	}
 	catch (const std::exception& e)
 	{
-		ostringstream os;
+		std::wostringstream os;
 		os << "[Error field] " << TileMapPath << std::endl;
 		os << "[Error Info] " << "Tile map " << tileMapFilePath.c_str() << " doesn't have the right format" << std::endl;
 		os << "[Exception] " << e.what() << std::endl;

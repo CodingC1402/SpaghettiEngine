@@ -7,9 +7,9 @@
 #include <fstream>
 #include "ExMath.h"
 #include "CornException.h"
-#include "StringConverter.h"
 #include "json.hpp"
 
+//============================================================{Resource Base}=====================================================//
 #pragma region Resource base
 class Resource
 {
@@ -40,6 +40,7 @@ public:
 #define RESOURCE_LOAD_EXCEPTION(description, resourceType) Resource::ResourceException(__LINE__,__FILE__,description,#resourceType)
 #pragma endregion
 
+//==========================================================={Container template}======================================================//
 template<typename T>
 class Container
 {
@@ -118,6 +119,7 @@ protected:
 #define RESOURCE_NAME(resourceName) #resourceName
 #define CONTAINER_EXCEPT(containerName, description) ContainerException(__LINE__,__FILE__,containerName,description)
 
+//======================================================={inline def}=================================================================//
 #pragma region Def
 template <typename T>
 Container<T>::ResourceList::Entry::Entry(const std::string& path)
@@ -136,6 +138,8 @@ void Container<T>::ResourceList::Entry::Load()
 template <typename T>
 void Container<T>::ResourceList::Entry::Unload()
 {
+	if (!_isLoaded)
+		return;
 	_resource.reset();
 	_isLoaded = false;
 }
@@ -143,7 +147,9 @@ void Container<T>::ResourceList::Entry::Unload()
 template <typename T>
 void Container<T>::ResourceList::Entry::UnloadIfUnused()
 {
-	if (_resource->IsResourceUnused())
+	if (!_isLoaded)
+		return;
+	if (!_resource->IsResourceUnused())
 		return;
 	_resource.reset();
 	_isLoaded = false;

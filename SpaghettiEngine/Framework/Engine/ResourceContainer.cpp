@@ -8,18 +8,18 @@ Resource::ResourceException::ResourceException(int line, const char* file, const
 
 const wchar_t* Resource::ResourceException::What() const noexcept
 {
-	return L"Σ(▼□▼メ) Resource loading exception";
-}
-
-const wchar_t* Resource::ResourceException::GetType() const noexcept
-{
 	std::wostringstream os;
 	os << GetOriginString() << std::endl;
 	os << "[Resource type] " << _resourceType.c_str() << std::endl;
 	os << _description.c_str() << std::endl;
-	
+
 	whatBuffer = os.str();
 	return whatBuffer.c_str();
+}
+
+const wchar_t* Resource::ResourceException::GetType() const noexcept
+{
+	return L"Σ(▼□▼メ) Resource loading exception";
 }
 
 bool Resource::IsResourceUnused() const

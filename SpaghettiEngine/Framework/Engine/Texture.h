@@ -24,9 +24,9 @@ public:
 	void Load(const std::string& path) override;
 	[[nodiscard]] bool IsResourceUnused() const override;
 	[[nodiscard]] PImage GetImage() const;
-	[[nodiscard]] SSprite GetSprite(const int& index) noexcept;
+	[[nodiscard]] SSprite GetSprite(const unsigned int& index) noexcept;
 protected:
-	std::list<SSprite>sprites;
+	std::vector<SSprite>sprites;
 	PImage image;
 };
 

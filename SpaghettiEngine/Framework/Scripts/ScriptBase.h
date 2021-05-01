@@ -45,12 +45,12 @@ public:
 	class ScriptException : public CornException
 	{
 	public:
-		ScriptException(int line, const char* file, PScriptBase errorScript, const std::string& extraDescription);
+		ScriptException(int line, const char* file, PScriptBase errorScript, const std::wstring& extraDescription);
 		virtual const wchar_t* GetType() const noexcept override;
 		virtual const wchar_t* What() const noexcept override;
 	protected:
 		PScriptBase _errorScript;
-		std::string _extraDescription;
+		std::wstring _extraDescription;
 	};
 public:
 	ScriptBase() = default;

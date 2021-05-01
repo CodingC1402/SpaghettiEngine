@@ -44,9 +44,13 @@ void Animator::Load(nlohmann::json& inputObject)
 		_ani = AnimationContainer::GetInstance()->GetResource(inputObject["Animation"].get<CULL>());
 		frame = 0;
 	}
-	catch(const std::exception&)
+	catch (const CornException& e)
 	{
-		throw SCRIPT_FORMAT_EXCEPT(this, "");
+		throw SCRIPT_FORMAT_EXCEPT(this, e.What());
+	}
+	catch(const std::exception& e)
+	{
+		throw SCRIPT_FORMAT_EXCEPT(this, StringConverter::StrToWStr(e.what()));
 	}
 	Render2DScriptBase::Load(inputObject);
 }
