@@ -45,8 +45,7 @@ namespace CLib
 	template<typename T>
 	constexpr bool compare(const T& f1, const T& f2)
 	{
-		static constexpr T epsilon = 0.000001f;
-		if (fabs(f1 - f2) < epsilon)
+		if (fabs(f1 - f2) < 0.000001f)
 			return true;
 		return false;
 	}

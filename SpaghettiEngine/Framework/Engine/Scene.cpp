@@ -10,32 +10,6 @@ Scene::Scene(const std::string& path)
 	path(path)
 {}
 
-void Scene::RemoveGameObject(PGameObj gameObj)
-{
-	instances.remove(gameObj);
-}
-
-void Scene::AddGameObject(PGameObj gameObj)
-{
-	instances.push_back(gameObj);
-}
-
-void Scene::Instantiate(PGameObj gameObj)
-{
-	if (gameObj->GetParent())
-		throw CORN_EXCEPT_WITH_DESCRIPTION(L"You are trying to instantiate an object with parent");
-	const auto newInstance = new GameObj(*gameObj);
-	newInstance->ownerScene = this;
-	instances.push_back(newInstance);
-}
-
-PGameObj Scene::GetObj(UINT index[], UINT size)
-{
-	auto it = instances.begin();
-	std::advance(it, index[0]);
-	return (*it)->GetChild(index, 0, size);
-}
-
 Scene::SceneException::SceneException(int line, const char* file, const std::string& description)
 	: CornException(line, file),
 	_description(std::move(description))
@@ -56,22 +30,70 @@ const wchar_t* Scene::SceneException::What() const noexcept
 	return whatBuffer.c_str();
 }
 
+Scene::BaseComponent::BaseComponent(PScene owner)
+	:
+	_owner(owner),
+	_isDisabled(false)
+{}
+
+Scene::BaseComponent::~BaseComponent()
+{
+	_owner->_genericComponents.erase(this);
+}
+
+void Scene::BaseComponent::Disable()
+{
+	if (_isDisabled)
+		return;
+	_isDisabled = true;
+	OnDisabled();
+}
+
+void Scene::BaseComponent::Enable()
+{
+	if (!_isDisabled)
+		return;
+	_isDisabled = false;
+	OnEnabled();
+}
+
+bool Scene::BaseComponent::IsDisabled()
+{
+	return _isDisabled;
+}
+
+void Scene::BaseComponent::Load(nlohmann::json& input)
+{
+	if (!_isDisabled)
+		OnEnabled();
+}
+
+void Scene::BaseComponent::Destroy()
+{
+	delete this;
+}
+
+PScene Scene::BaseComponent::GetOwner()
+{
+	return _owner;
+}
+
 void Scene::Start()
 {
-	for (const auto& instance : instances)
-		instance->Start();
+	for (const auto& gameObj : _rootGameObjects)
+		gameObj->OnStart();
 }
 
 void Scene::Update()
 {
-	for (const auto& instance : instances)
-		instance->Update();
+	for (const auto& gameObj : _rootGameObjects)
+		gameObj->OnUpdate();
 }
 
 void Scene::End()
 {
-	for (const auto& instance : instances)
-		instance->End();
+	for (const auto& gameObj : _rootGameObjects)
+		gameObj->OnEnd();
 }
 
 void Scene::Load()
@@ -86,35 +108,63 @@ void Scene::Load()
 		throw SCENE_EXCEPTION(os.str());
 	}
 
-	static constexpr const char* GameObjects = "GameObjects";
+	constexpr const char* Scripts = "Scripts";
+	constexpr const char* GameObjects = "GameObjects";
 	try
 	{
+		_tempComponentContainer = new std::map<CULL, SBaseComponent>();
+		
 		json jsonFile;
 		file >> jsonFile;
 
 		if (jsonFile[GameObjects] == nullptr)
 			throw std::exception();
+
+		SBaseComponent newComponent;
 		for (std::string objPath; const auto& gameObj : jsonFile[GameObjects])
 		{
-			objPath = CLib::ConvertPath(path, gameObj.get<std::string>());
-			instances.push_back(new GameObj(objPath, this));
+			newComponent = std::make_shared<GameObj>()
+			_genericComponents.emplace()
 		}
 
 		file.close();
+
+		delete _tempComponentContainer;
+		_tempComponentContainer = nullptr;
 	}
 	catch (const std::exception&)
 	{
+		delete _tempComponentContainer;
+		_tempComponentContainer = nullptr;
+		
 		throw SCENE_EXCEPTION(std::string("Field ") + GameObjects + " is wrong\n" 
 			+ "[Scene file] " + path);
 	}
-
-	for (const auto& instance : instances)
-		instance->Load();
 }
 
 void Scene::Unload()
 {
-	for (const auto& instance : instances)
-		delete instance;
-	instances.clear();
+	for (const auto& gameObj : _rootGameObjects)
+		gameObj->Destroy();
+	_rootGameObjects.clear();
+}
+
+Scene::SBaseComponent& Scene::GetComponent(CULL& id)
+{
+	if (!_tempComponentContainer)
+		throw SCENE_EXCEPTION("Trying to get component using id after load");
+	BaseComponent* tempPointer = _tempComponentContainer->find(id)->second;
+	if (!tempPointer)
+		throw SCENE_EXCEPTION("Cannot find the requested id");
+	return _genericComponents[tempPointer];
+}
+
+void Scene::PromoteGameObjToRoot(PGameObj gameObj)
+{
+	_rootGameObjects.emplace_back(gameObj);
+}
+
+void Scene::DemoteGameObjFromRoot(PGameObj gameObj)
+{
+	_rootGameObjects.remove(gameObj);
 }

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "CornWnd.h"
 #include "CornException.h"
+#include "ExMath.h"
 #include <string>
 #include <list>
+#include <map>
 #include <memory>
 #include <json.hpp>
 
@@ -17,7 +18,6 @@ using namespace nlohmann;
 class Scene
 {
 	friend class SceneManager;
-	friend class GameObj;
 public:
 	class SceneException : public CornException
 	{
@@ -28,22 +28,61 @@ public:
 	protected:
 		std::string _description;
 	};
+
+	typedef class BaseComponent
+	{
+	public:
+		BaseComponent(PScene owner);
+		virtual ~BaseComponent();
+
+		BaseComponent(const BaseComponent&) = default;
+		BaseComponent(const BaseComponent&&) = default;
+		BaseComponent& operator=(const BaseComponent&) = default;
+		BaseComponent& operator=(const BaseComponent&&) = default;
+
+		virtual void OnStart() {}
+		virtual void OnUpdate() {}
+		virtual void OnEnd() {}
+		
+		virtual void OnDisabled() {}
+		virtual void OnEnabled() {}
+		
+		virtual void Disable();
+		virtual void Enable();
+		virtual bool [[nodiscard]] IsDisabled();
+		
+		virtual void Load(nlohmann::json& input);
+		virtual void Destroy();
+
+		PScene GetOwner() const;
+	protected:
+		PScene _owner = nullptr;
+		bool _isDisabled;
+	} *PBaseComponent;
+	typedef std::shared_ptr<BaseComponent> SBaseComponent;
+
 public:
+	// Only work in load
+	SBaseComponent& GetComponent(CULL& id);
+	void PromoteGameObjToRoot(PGameObj gameObj);
+	void DemoteGameObjFromRoot(PGameObj gameObj);
+	
 	void Start();
 	void Update();
 	void End();
-	PGameObj GetObj(UINT index[],UINT size);
 protected:
 	Scene(const std::string& path);
-	void Instantiate(PGameObj gameObj);
-	void RemoveGameObject(PGameObj gameObj);
-	void AddGameObject(PGameObj gameObj);
+
 	void Load();
 	void Unload();
 protected:
 	std::string path;
 
-	std::list<PGameObj> instances;
+	// Will update every loop
+	std::list<PGameObj> _rootGameObjects;
+	
+	std::map<PBaseComponent, SBaseComponent> _genericComponents;
+	std::map<CULL, PBaseComponent>* _tempComponentContainer;
 };
 
 #define SCENE_EXCEPTION(description) Scene::SceneException(__LINE__,__FILE__,description)

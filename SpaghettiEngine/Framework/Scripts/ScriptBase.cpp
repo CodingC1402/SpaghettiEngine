@@ -10,17 +10,17 @@ ScriptTypes* ScriptFactory::GetMap()
 	return map;
 }
 
-ScriptBase* ScriptFactory::CreateInstance(std::string const& typeName)
+PScriptBase ScriptFactory::CreateInstance(std::string const& typeName, PScene owner)
 {
 	const auto iterator = map->find(typeName);
 	if (iterator == GetMap()->end())
 		return nullptr;
-	return static_cast<PScriptBase>(iterator->second());
+	return static_cast<PScriptBase>(iterator->second(owner));
 }
 
 PScriptBase ScriptFactory::CopyInstance(CPScriptBase instance)
 {
-	PScriptBase copyScript = CreateInstance(instance->GetName());
+	PScriptBase copyScript = CreateInstance(instance->GetName(), instance->GetOwner());
 	copyScript->Copy(instance);
 	return copyScript;
 }
@@ -47,6 +47,11 @@ const wchar_t* ScriptBase::ScriptException::What() const noexcept
 	return whatBuffer.c_str();
 }
 
+ScriptBase::ScriptBase(PScene owner)
+	:
+	BaseComponent(owner)
+{}
+
 const char* ScriptBase::GetName() const noexcept
 {
 	return  name.c_str();
@@ -65,33 +70,6 @@ Vector3 ScriptBase::GetTransform() const noexcept
 bool ScriptBase::Copy(CPScriptBase script)
 {
 	return this->name == script->name;
-}
-
-void ScriptBase::Disable()
-{
-	if (isDisabled)
-		return;
-	isDisabled = true;
-	OnDisabled();
-}
-
-void ScriptBase::Enable()
-{
-	if (!isDisabled)
-		return;
-	isDisabled = false;
-	OnEnabled();
-}
-
-void ScriptBase::Destroy() const
-{
-	delete this;
-}
-
-void ScriptBase::Load(nlohmann::json& inputObject)
-{
-	if (!isDisabled)
-		OnEnabled();
 }
 
 void ScriptBase::Unload()

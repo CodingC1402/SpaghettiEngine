@@ -19,6 +19,8 @@ public:
 	static bool IsResolutionPixelPerfect();
 	static bool IsWorldPointPixelPerfect();
 	static float GetFps();
+	
+	static constexpr bool IsDebugMode();
 protected:
 	~Setting() = default;
 	Setting();
@@ -31,6 +33,17 @@ protected:
 	float fps;
 
 	static Setting* __instance;
+
+#ifdef _DEBUG
+	static constexpr bool _isDebugMode = true;
+#else
+	static constexpr bool _isDebugMode = false;
+#endif
 };
+
+constexpr bool Setting::IsDebugMode()
+{
+	return _isDebugMode;
+}
 
 #define APPSETTING_EXCEPT(description) Setting::AppSettingException(__LINE__,__FILE__,description)

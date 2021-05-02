@@ -179,7 +179,7 @@
     <ClInclude Include="Framework\Engine\ResourceContainer.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\SpaghettiObject.h">
+    <ClInclude Include="Framework\Engine\Prefabs.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -298,7 +298,7 @@
     <ClCompile Include="Framework\Engine\ResourceContainer.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\SpaghettiObject.cpp">
+    <ClCompile Include="Framework\Engine\Prefabs.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>
