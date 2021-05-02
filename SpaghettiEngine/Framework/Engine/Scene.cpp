@@ -73,7 +73,7 @@ void Scene::BaseComponent::Destroy()
 	delete this;
 }
 
-PScene Scene::BaseComponent::GetOwner()
+PScene Scene::BaseComponent::GetOwner() const
 {
 	return _owner;
 }
