@@ -54,16 +54,16 @@ void AnimatedTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& 
 	);
 }
 
-TileMapRenderer::TileMapRenderer() : width(0), height(0), tileWidth(0), tileHeight(0)
+TileMapRenderer::TileMapRenderer(PScene owner) : Render2DScriptBase(owner), width(0), height(0), tileWidth(0), tileHeight(0)
 {
-	name = TYPE_NAME(TileMapRenderer);
+	_name = TYPE_NAME(TileMapRenderer);
 }
 
-void TileMapRenderer::Update()
+void TileMapRenderer::OnUpdate()
 {
 	for (const auto& tile : animatedTiles)
 		tile->Update();
-	Render2DScriptBase::Update();
+	Render2DScriptBase::OnUpdate();
 }
 
 void TileMapRenderer::Load(nlohmann::json& inputObject)
@@ -148,6 +148,12 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 	Render2DScriptBase::Load(inputObject);
 }
 
+Scene::BaseComponent* TileMapRenderer::Clone()
+{
+	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented");
+	return nullptr;
+}
+
 void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 {
 	using CLib::ToFloat;
@@ -173,7 +179,7 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 	viewPort.height /= 2;
 	viewPort.width /= 2;
 	
-	Vector3 topLeft = owner->GetTransform();
+	Vector3 topLeft = _ownerObj->GetTransform();
 	topLeft.x -= std::round(halfWidthPx);
 	topLeft.y += std::round(halfHeightPx);
 

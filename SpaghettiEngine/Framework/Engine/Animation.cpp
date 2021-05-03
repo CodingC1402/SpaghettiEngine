@@ -60,9 +60,9 @@ void Animation::Load(const std::string& path)
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Animation);
 	}
 
-	static constexpr const char* Texture = "Texture";
-	static constexpr const char* Loop = "Loop";
-	static constexpr const char* Frames = "Frames";
+	constexpr const char* Texture = "Texture";
+	constexpr const char* Loop = "Loop";
+	constexpr const char* Frames = "Frames";
 	int fieldTracker = 0;
 	try
 	{

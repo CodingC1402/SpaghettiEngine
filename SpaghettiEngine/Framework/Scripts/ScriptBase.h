@@ -4,20 +4,21 @@
 #include "CornDirectX.h"
 #include "json.hpp"
 #include "CornException.h"
+#include "Scene.h"
 #include <string>
 #include <map>
 
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
-typedef std::map<std::string, void* (*)()> ScriptTypes;
+typedef std::map<std::string, void* (*)(PScene)> ScriptTypes;
 
 template<typename T>
-void* CreateT() { return new T; }
+void* CreateT(PScene owner) { return new T(owner); }
 
 class ScriptFactory
 {
 public:
-	static PScriptBase CreateInstance(std::string const& typeName);
+	static PScriptBase CreateInstance(std::string const& typeName, PScene owner);
 	static PScriptBase CopyInstance(CPScriptBase instance);
 protected:
 	static ScriptTypes* GetMap();
@@ -37,10 +38,10 @@ struct DerivedRegister : public ScriptFactory {
 #define REGISTER_FINISH(NAME) DerivedRegister<NAME> NAME::reg(#NAME)
 #define TYPE_NAME(TYPE) #TYPE
 
-class ScriptBase
+
+class ScriptBase : public Scene::BaseComponent
 {
 	friend class GameObj;
-	friend 	ScriptBase* CreateT();
 public:
 	class ScriptException : public CornException
 	{
@@ -53,29 +54,18 @@ public:
 		std::wstring _extraDescription;
 	};
 public:
-	ScriptBase() = default;
+	ScriptBase(PScene owner, bool isDisabled = false);
 	[[nodiscard]] const char*		GetName() const noexcept;
 	[[nodiscard]] virtual Matrix	GetWorldMatrix() noexcept;
 	[[nodiscard]] virtual Vector3	GetTransform()	const noexcept;
-	virtual bool Copy(CPScriptBase script);
-	virtual void Start() {}
-	virtual void Update() {}
-	virtual void End() {}
-	virtual void Disable();
-	virtual void Enable();
-	virtual void OnCollision() {}
-	virtual void OnDisabled() {}
-	virtual void OnEnabled() {}
-	void Destroy() const;
+	[[nodiscard]] BaseComponent*	Clone() override;
+	void Load(nlohmann::json& input) override { }
 protected:
-	virtual ~ScriptBase() = default;
-	virtual void Load(nlohmann::json& inputObject);
 	virtual void Unload();
 protected:
-	bool isDisabled = false;
-	PGameObj owner = nullptr;
-	std::string name;
+	bool _isDisabled = false;
+	PGameObj _ownerObj = nullptr;
+	std::string _name;
 };
 
 #define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)
-//#define SCRIPT_FORMAT_EXCEPT(Script) ScriptBase::ScriptException(__LINE__,__FILE__,Script,"")

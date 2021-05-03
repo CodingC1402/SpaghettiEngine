@@ -5,12 +5,12 @@
 
 REGISTER_FINISH(MoveScript);
 
-MoveScript::MoveScript()
+MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
 {
-	name = TYPE_NAME(MoveScript);
+	_name = TYPE_NAME(MoveScript);
 }
 
-void MoveScript::Start()
+void MoveScript::OnStart()
 {
 	up = InputSystem::GetInput("MoveUp");
 	down = InputSystem::GetInput("MoveDown");
@@ -18,10 +18,10 @@ void MoveScript::Start()
 	right = InputSystem::GetInput("MoveRight");
 
 	cam = Graphics::GetActiveCamera();
-	cam->SetFollow(owner);
+	cam->SetFollow(_ownerObj);
 }
 
-void MoveScript::Update()
+void MoveScript::OnUpdate()
 {
 	move.x = 0;
 	move.y = 0;
@@ -36,7 +36,7 @@ void MoveScript::Update()
 		move.x -= 1;
 		if (!isFlipped)
 		{
-			owner->SetScale(-1, 1, 1);
+			_ownerObj->SetScale(-1, 1, 1);
 			isFlipped = true;
 		}
 	}
@@ -45,7 +45,7 @@ void MoveScript::Update()
 		move.x += 1;
 		if (isFlipped)
 		{
-			owner->SetScale(1, 1, 1);
+			_ownerObj->SetScale(1, 1, 1);
 			isFlipped = false;
 		}
 	}
@@ -53,5 +53,5 @@ void MoveScript::Update()
 	move.x *= movementSpeed * GameTimer::GetDeltaTime();
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
-	owner->Translate(move);
+	_ownerObj->Translate(move);
 }

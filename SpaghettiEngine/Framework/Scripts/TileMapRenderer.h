@@ -37,10 +37,11 @@ protected:
 class TileMapRenderer : public Render2DScriptBase
 {
 public:
-	TileMapRenderer();
+	TileMapRenderer(PScene owner);
 
-	void Update() override;
+	void OnUpdate() override;
 	void Load(nlohmann::json& inputObject) override;
+	BaseComponent* Clone() override;
 	void Draw(SpriteHandler handler, PCamera camera) override;
 	~TileMapRenderer() override;
 protected:

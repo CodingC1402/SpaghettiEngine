@@ -2,22 +2,24 @@
 #include "json.hpp"
 #include "CornDirectX.h"
 #include "CornException.h"
+#include "Scene.h"
 #include <memory>
 #include <list>
 #include <string>
 
-typedef class Scene* PScene;
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
+typedef std::shared_ptr<ScriptBase> SScriptBase;
+
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
 typedef std::unique_ptr<GameObj> UGameObj;
+typedef std::weak_ptr<GameObj> WGameObj;
 
 using std::string;
 using std::list;
-class GameObj
+class GameObj : public Scene::BaseComponent
 {
-	friend class Scene;
 public:
 	class GameObjectFormatException : public CornException
 	{
@@ -56,10 +58,8 @@ public:
 	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
 	[[nodiscard]] PGameObj			GetParent() const;
 	[[nodiscard]] PGameObj			GetChild(UINT index) const;
-	[[nodiscard]] PGameObj			GetChild(UINT index[], UINT level, UINT size) const;
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetPath() const;
-	[[nodiscard]] bool				IsDisabled() const;
 
 	void SetTag(const char* tag);
 	void SetRotation(const float& x, const float& y, const float& z);
@@ -73,30 +73,30 @@ public:
 	void Translate(const Vector3& vector);
 	void Translate(const float& x, const float& y, const float& z);
 	void ForceRecalculateMatrix();
-	
-	GameObj(const GameObj& obj);
-	GameObj(const std::string& path, const PScene& ownerScene = nullptr);
-	void Load();
-	void Destroy();
 
-	void Start();
-	void Update();
-	void End() const;
-	
-	void Disable();
-	void Enable();
+
+	void Load(nlohmann::json& input) override;
+	void Destroy() override;
+
+	void OnStart() override;
+	void OnUpdate() override;
+	void OnEnd() override;
+
+	void OnEnabled() override;
+	void OnDisabled() override;
 
 	void RemoveParent();
 	void AddParent(const PGameObj& gameObj);
 
-	void BecomeCurrentSceneObj();
-	void BecomeConstSceneObj();
+	PGameObj AddChild();
+	BaseComponent* Clone() override;
+
+	GameObj(PScene owner, bool isDisabled = false);
+	~GameObj() override;
 protected:
-	~GameObj();
-	
-	void AddScript(const std::string& scriptName, nlohmann::json& inputObject);
-	void AddScript(const PScriptBase& script);
-	void AddChild(PGameObj child);
+	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
+	PScriptBase AddScript(const PScriptBase& script);
+	PGameObj	AddChild(PGameObj child);
 
 	void CalculateRotationMatrix();
 	void CalculateTransformMatrix();
@@ -105,9 +105,8 @@ protected:
 	
 	void RemoveChild(PGameObj child);
 protected:
-	PScene ownerScene;
-	PGameObj parent;
-	list<PGameObj> children;
+	PGameObj parent = nullptr;
+	list<PGameObj> _children;
 
 	bool _isTransformChanged = true;
 	bool _isRotationChanged = true;
@@ -128,7 +127,8 @@ protected:
 	Matrix _scaleMatrix;
 	Matrix _worldMatrix;
 
-	list<PScriptBase> scripts;
+	list<PScriptBase> _scripts;
+	static nlohmann::json defaultJson;
 };
 
 #define GAMEOBJ_FORMAT_EXCEPT(errorField, errorObj, extraDescription) GameObj::GameObjectFormatException(__LINE__,__FILE__,errorField,errorObj,extraDescription)

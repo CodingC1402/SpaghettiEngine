@@ -29,11 +29,11 @@ void Texture::Load(const std::string& path)
 
 	try
 	{
-		static constexpr const char* KeyColor = "KeyColor";
-		static constexpr const char* Sprites = "Sprites";
-		static constexpr const char* Red = "Red";
-		static constexpr const char* Green = "Green";
-		static constexpr const char* Blue = "Blue";
+		constexpr const char* KeyColor = "KeyColor";
+		constexpr const char* Sprites = "Sprites";
+		constexpr const char* Red = "Red";
+		constexpr const char* Green = "Green";
+		constexpr const char* Blue = "Blue";
 		
 		json file;
 		jsonFile >> file;
@@ -47,10 +47,10 @@ void Texture::Load(const std::string& path)
 		sprites.reserve(file[Sprites].size());
 		for (int x, y, w, h; const auto& sprite : file[Sprites])
 		{
-			static constexpr int SpritePosX = 0;
-			static constexpr int SpritePosY = 1;
-			static constexpr int SpriteWidth = 2;
-			static constexpr int SpriteHeight = 3;
+			constexpr int SpritePosX = 0;
+			constexpr int SpritePosY = 1;
+			constexpr int SpriteWidth = 2;
+			constexpr int SpriteHeight = 3;
 			
 			x = sprite[SpritePosX].get<int>();
 			y = sprite[SpritePosY].get<int>();

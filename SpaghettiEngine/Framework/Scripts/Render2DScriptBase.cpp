@@ -3,9 +3,9 @@
 
 REGISTER_FINISH(Render2DScriptBase);
 
-Render2DScriptBase::Render2DScriptBase()
+Render2DScriptBase::Render2DScriptBase(PScene owner) : ScriptBase(owner)
 {
-	name = TYPE_NAME(Render2DScriptBase);
+	_name = TYPE_NAME(Render2DScriptBase);
 }
 
 int Render2DScriptBase::GetDrawLayer()
