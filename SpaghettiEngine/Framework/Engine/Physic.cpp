@@ -51,8 +51,8 @@ void Physic::Unload()
 
 bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 {
-	PhysicMath::Rect obj = PhysicMath::Rect(object->GetPosition().x,
-		object->GetPosition().y,
+	PhysicMath::Rect obj = PhysicMath::Rect(object->GetPosition()->x,
+		object->GetPosition()->y,
 		object->width,
 		object->height,
 		object->GetVelocity().x,
@@ -60,8 +60,8 @@ bool Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
 	
 	PhysicMath::Rect broadphasebox = PhysicMath::getSweptBroadphaseRect(obj);
 	
-	PhysicMath::Rect blk = PhysicMath::Rect(block->GetPosition().x,
-		block->GetPosition().y,
+	PhysicMath::Rect blk = PhysicMath::Rect(block->GetPosition()->x,
+		block->GetPosition()->y,
 		block->width,
 		block->height,
 		0,

@@ -1,4 +1,5 @@
 #include "BoxCollider.h"
+#include "GraphicsMath.h"
 #include "GameTimer.h"
 #include "Physic.h"
 #include "Setting.h"
@@ -15,12 +16,12 @@ void BoxCollider::Start()
 }
 
 
-Vector3 BoxCollider::GetPosition()
+Vector3* BoxCollider::GetPosition() const
 {
-	Vector3 pos;
-	pos.x = owner->GetWorldTransform().x - width / 2;
-	pos.y = owner->GetWorldTransform().y - height / 2;
-	pos.z = owner->GetWorldTransform().z;
+	Vector3* pos = new Vector3;
+	pos->x = owner->GetWorldTransform().x - width / 2;
+	pos->y = owner->GetWorldTransform().y - height / 2;
+	pos->z = owner->GetWorldTransform().z;
 	return pos;
 }
 
@@ -34,17 +35,22 @@ Vector3 BoxCollider::GetVelocity()
 
 void BoxCollider::DrawBox(RenderDevice render, PCamera camera, Color color)
 {
-	D3DRECT rect = { this->GetPosition().x,
-		this->GetPosition().y,
-		this->GetPosition().x + this->width,
-		this->GetPosition().y + this->height };
-	
-	Matrix transform = camera->GetMatrix(GetWorldMatrix());
+	Matrix* transform = new Matrix;
+	*transform = camera->GetMatrix(GetWorldMatrix());
+
 	if (Setting::IsWorldPointPixelPerfect())
 	{
-		transform._41 = std::round(transform._41);
-		transform._42 = std::round(transform._42);
+		transform->_41 = std::round(transform->_41);
+		transform->_42 = std::round(transform->_42);
 	}
+
+	Vector3* transformPosition = new Vector3;
+	GraphicsMath::TransformVector3(transformPosition, this->GetPosition(), transform);
+	
+	D3DRECT rect = { transformPosition->x,
+		transformPosition->y,
+		transformPosition->x + this->width,
+		transformPosition->y + this->height };
 	
 	render->Clear(1, &rect, D3DCLEAR_TARGET, color, 1.0f, NULL);
 }
