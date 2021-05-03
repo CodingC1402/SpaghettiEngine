@@ -4,12 +4,14 @@
 
 REGISTER_FINISH(Animator);
 
-Animator::Animator()
+Animator::Animator(PScene owner)
+	:
+	Render2DScriptBase(owner)
 {
-	name = TYPE_NAME(Animator);
+	_name = TYPE_NAME(Animator);
 }
 
-void Animator::Update()
+void Animator::OnUpdate()
 {
 	time += GameTimer::GetDeltaTime();
 	_ani->Advance(frame, time);
@@ -53,4 +55,10 @@ void Animator::Load(nlohmann::json& inputObject)
 		throw SCRIPT_FORMAT_EXCEPT(this, StringConverter::StrToWStr(e.what()));
 	}
 	Render2DScriptBase::Load(inputObject);
+}
+
+Scene::BaseComponent* Animator::Clone()
+{
+	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented function");
+	return nullptr;
 }

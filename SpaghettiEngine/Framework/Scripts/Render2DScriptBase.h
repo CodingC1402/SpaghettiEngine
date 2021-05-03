@@ -6,7 +6,7 @@
 class Render2DScriptBase : public ScriptBase
 {
 public:
-	Render2DScriptBase();
+	Render2DScriptBase(PScene owner);
 
 	virtual int GetDrawLayer();
 	

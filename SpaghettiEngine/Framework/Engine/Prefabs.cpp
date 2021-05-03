@@ -5,12 +5,11 @@
 #include "Setting.h"
 #include <ranges>
 
+CONTAINER_REGISTER(PrefabsContainer, Prefab);
+
 constexpr const char* id = "ID";
 constexpr const char* gameObjects = "GameObjects";
 constexpr const char* scripts = "Scripts";
-
-constexpr unsigned int prefabIdOffSet = 32u;
-constexpr unsigned long long errorCheckingMask = (static_cast<unsigned long long>(-1u) << prefabIdOffSet);
 
 Prefab::ComponentJsonObject::ComponentJsonObject(nlohmann::json& jsonObject, const bool& isGameObject)
 	:
@@ -22,6 +21,14 @@ void Prefab::Append(nlohmann::json& out, unsigned int index, nlohmann::json& cha
 {
 	using nlohmann::json;
 
+	if constexpr  (Setting::IsDebugMode())
+	{
+		if (index == 0)
+			throw RESOURCE_LOAD_EXCEPTION("[Exception] index of prefab is 0", Prefab);
+		if (index & Setting::_errorMaskPrefabIndex)
+			throw RESOURCE_LOAD_EXCEPTION("[Exception] index of prefab is langer then what defined in setting", Prefab);
+	}
+	
 	auto appendCopy = _components;
 	try
 	{	
@@ -62,14 +69,14 @@ void Prefab::Append(nlohmann::json& out, unsigned int index, nlohmann::json& cha
 	
 	try
 	{
-
-		auto indexId = static_cast<unsigned long long>(index) << prefabIdOffSet;
-		for (auto& val : _components | std::views::values)
+		constexpr auto scriptsField = "Scripts";
+		constexpr auto childrenField = "Children";
+		
+		for (auto& val : appendCopy | std::views::values)
 		{
-			constexpr auto prefabIDField = "PrefabIndex";
+			constexpr auto prefabIDField = "PrefabID";
 			
-			val._jsonObject[id] = val._jsonObject[id].get<unsigned int>() & indexId;
-			val._jsonObject[prefabIDField] = indexId;
+			val._jsonObject[prefabIDField] = index;
 			if (val._isGameObject)
 				out[gameObjects].emplace_back(val._jsonObject);
 			else
@@ -109,7 +116,7 @@ void Prefab::Load(const std::string& path)
 			if constexpr (Setting::IsDebugMode())
 			{
 				const auto currentId = object[id].get<unsigned int>();
-				if ((currentId & errorCheckingMask) > 0)
+				if ((currentId & Setting::_errorMaskLocalId) > 0)
 				{
 					std::ostringstream os;
 					os << "[Exception] The id of the game object is larger then 32 bit" << std::endl;
@@ -136,7 +143,7 @@ void Prefab::Load(const std::string& path)
 			if constexpr(Setting::IsDebugMode())
 			{
 				const auto currentId = script[id].get<unsigned int>();
-				if ((currentId & errorCheckingMask) > 0)
+				if ((currentId & Setting::_errorMaskLocalId) > 0)
 				{
 					std::ostringstream os;
 					os << "[Exception] The id of the game object is larger then 32 bit" << std::endl;
@@ -144,7 +151,7 @@ void Prefab::Load(const std::string& path)
 					throw RESOURCE_LOAD_EXCEPTION(os.str(), Prefab);
 				}
 
-				if (const auto result = _components.emplace(script[id].get<unsigned int>(), ComponentJsonObject(script, true)); !result.second)
+				if (const auto result = _components.emplace(script[id].get<unsigned int>(), ComponentJsonObject(script, false)); !result.second)
 				{
 					if (result.first->second._isGameObject)
 					{
@@ -166,7 +173,7 @@ void Prefab::Load(const std::string& path)
 			}
 			else
 			{
-				_components.emplace(script[id].get<unsigned int>(), ComponentJsonObject(script, true));
+				_components.emplace(script[id].get<unsigned int>(), ComponentJsonObject(script, false));
 			}
 		}
 	}

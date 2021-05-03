@@ -21,8 +21,8 @@ void WinMain::RegisterSpaghettiScripts()
 {
 	ScriptBase* dummyScript;
 
-	dummyScript = new Camera();
-	dummyScript = new SpriteRenderer();
-	dummyScript = new Animator();
-	dummyScript = new TileMapRenderer();
+	dummyScript = new Camera(nullptr);
+	dummyScript = new SpriteRenderer(nullptr);
+	dummyScript = new Animator(nullptr);
+	dummyScript = new TileMapRenderer(nullptr);
 }

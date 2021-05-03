@@ -14,10 +14,11 @@ typedef std::shared_ptr<ScriptBase> SScriptBase;
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
 typedef std::unique_ptr<GameObj> UGameObj;
+typedef std::weak_ptr<GameObj> WGameObj;
 
 using std::string;
 using std::list;
-class GameObj : Scene::BaseComponent
+class GameObj : public Scene::BaseComponent
 {
 public:
 	class GameObjectFormatException : public CornException
@@ -52,11 +53,11 @@ public:
 	[[nodiscard]] Vector3			GetTransform() const;
 	[[nodiscard]] Vector3			GetRotation() const;
 	[[nodiscard]] Vector3			GetScale() const;
-	[[nodiscard]] SScriptBase		GetScript(const UINT index) const noexcept;
-	[[nodiscard]] SScriptBase		GetScript(const std::string& name) const noexcept;
-	[[nodiscard]] list<SScriptBase> GetAllScripts(const std::string& name) const noexcept;
+	[[nodiscard]] PScriptBase		GetScript(const UINT index) const noexcept;
+	[[nodiscard]] PScriptBase		GetScript(const std::string& name) const noexcept;
+	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
 	[[nodiscard]] PGameObj			GetParent() const;
-	[[nodiscard]] SGameObj			GetChild(UINT index) const;
+	[[nodiscard]] PGameObj			GetChild(UINT index) const;
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetPath() const;
 
@@ -72,7 +73,8 @@ public:
 	void Translate(const Vector3& vector);
 	void Translate(const float& x, const float& y, const float& z);
 	void ForceRecalculateMatrix();
-	
+
+
 	void Load(nlohmann::json& input) override;
 	void Destroy() override;
 
@@ -86,14 +88,15 @@ public:
 	void RemoveParent();
 	void AddParent(const PGameObj& gameObj);
 
-	SGameObj AddChild();
-protected:
-	GameObj(PScene owner);
+	PGameObj AddChild();
+	BaseComponent* Clone() override;
+
+	GameObj(PScene owner, bool isDisabled = false);
 	~GameObj() override;
-	
-	SScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
-	SScriptBase AddScript(const PScriptBase& script);
-	SGameObj	AddChild(PGameObj child);
+protected:
+	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
+	PScriptBase AddScript(const PScriptBase& script);
+	PGameObj	AddChild(PGameObj child);
 
 	void CalculateRotationMatrix();
 	void CalculateTransformMatrix();
@@ -103,7 +106,7 @@ protected:
 	void RemoveChild(PGameObj child);
 protected:
 	PGameObj parent = nullptr;
-	list<SGameObj> _children;
+	list<PGameObj> _children;
 
 	bool _isTransformChanged = true;
 	bool _isRotationChanged = true;
@@ -124,7 +127,7 @@ protected:
 	Matrix _scaleMatrix;
 	Matrix _worldMatrix;
 
-	list<SScriptBase> _scripts;
+	list<PScriptBase> _scripts;
 	static nlohmann::json defaultJson;
 };
 

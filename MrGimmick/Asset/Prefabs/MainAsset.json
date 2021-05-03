@@ -1,12 +1,69 @@
 {
-  "Tag": "MainAccess",
-  "Children": [
-    "{ChildPath}/Player.json",
-    "{ChildPath}/Camera.json"
-  ],
-  "Transform": [ 0, 0, 0 ],
-  "Rotation": [ 0, 0, 0 ],
-  "Scale": [ 1, 1, 1 ],
-  "Scripts": [
-  ]
+	"GameObjects": 
+	[
+		{
+			"ID": 10001,
+			"IsRoot": true,
+			"Inputs": {
+				"Tag": "MainAccess",
+				"Children": [
+					10002,
+					10003
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": []
+			}
+		},
+		{
+			"ID": 10002,
+			"IsRoot": false,
+			"Inputs": {
+				"Tag": "Player",
+				"Children": [],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					20002,
+					20003
+				]
+			}
+		},
+		{
+			"ID": 10003,
+			"IsRoot": false,
+			"Inputs": {
+				"Tag": "Camera",
+				"Children": [],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					20001
+				]
+			}
+		}
+	],
+	"Scripts": [
+		{
+			"ID": 20001,
+			"ScriptType": "Camera",
+			"Inputs": {}
+		},
+		{
+			"ID": 20002,
+			"ScriptType": "Animator",
+			"Inputs": {
+				"Animation": 20001,
+				"DrawLayer": 1
+			}
+		},
+		{
+			"ID": 20003,
+			"ScriptType": "MoveScript",
+			"Inputs": {}
+		}
+	]
 }

@@ -18,13 +18,6 @@ PScriptBase ScriptFactory::CreateInstance(std::string const& typeName, PScene ow
 	return static_cast<PScriptBase>(iterator->second(owner));
 }
 
-PScriptBase ScriptFactory::CopyInstance(CPScriptBase instance)
-{
-	PScriptBase copyScript = CreateInstance(instance->GetName(), instance->GetOwner());
-	copyScript->Copy(instance);
-	return copyScript;
-}
-
 ScriptBase::ScriptException::ScriptException(int line, const char* file, PScriptBase errorScript, const std::wstring& extraDescription)
 	: CornException(line, file),
 	_errorScript(errorScript),
@@ -40,40 +33,41 @@ const wchar_t* ScriptBase::ScriptException::What() const noexcept
 {
 	std::wostringstream os;
 	os << GetOriginString().c_str() << std::endl;
-	os << L"[Script type] " << _errorScript->name.c_str() << std::endl;
+	os << L"[Script type] " << _errorScript->_name.c_str() << std::endl;
 	os << L"[Error] " << L"Wrong format" << std::endl;
 	os << L"[Extra description] " << _extraDescription.c_str();
 	whatBuffer = os.str();
 	return whatBuffer.c_str();
 }
 
-ScriptBase::ScriptBase(PScene owner)
+ScriptBase::ScriptBase(PScene owner, bool isDisabled)
 	:
-	BaseComponent(owner)
+	BaseComponent(owner, isDisabled)
 {}
 
 const char* ScriptBase::GetName() const noexcept
 {
-	return  name.c_str();
+	return  _name.c_str();
 }
 
 Matrix ScriptBase::GetWorldMatrix() noexcept
 {
-	return owner->GetWorldMatrix();
+	return _ownerObj->GetWorldMatrix();
 }
 
 Vector3 ScriptBase::GetTransform() const noexcept
 {
-	return owner->GetWorldTransform();
+	return _ownerObj->GetWorldTransform();
 }
 
-bool ScriptBase::Copy(CPScriptBase script)
+Scene::BaseComponent* ScriptBase::Clone()
 {
-	return this->name == script->name;
+	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented function");
+	return nullptr;
 }
 
 void ScriptBase::Unload()
 {
-	if (!isDisabled)
+	if (!_isDisabled)
 		OnDisabled();
 }

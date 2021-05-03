@@ -9,13 +9,13 @@ class Camera : public ScriptBase
 {
 	friend class Graphics;
 public:
-	Camera();
+	Camera(PScene owner);
 	virtual Matrix	GetMatrix(const Matrix& originalMatrix);
-	virtual void	Update() override;
+	virtual void	OnUpdate() override;
 
-	virtual bool	Copy(CPScriptBase script) override;
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
+	virtual BaseComponent*	Clone() override;
 
 	virtual void	SetFollow(PGameObj followObj);
 	virtual [[nodiscard]] PGameObj	GetFollow();
@@ -25,6 +25,7 @@ protected:
 	Matrix viewMatrix;
 	Matrix flipYMatrix;
 	
+	Scene::WBaseComponent _followingPtr;
 	PGameObj _followingObj;
 	float _dragFactor = 0.7f;
 	

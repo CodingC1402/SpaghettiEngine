@@ -54,17 +54,18 @@ public:
 		std::wstring _extraDescription;
 	};
 public:
-	ScriptBase(PScene owner);
+	ScriptBase(PScene owner, bool isDisabled = false);
 	[[nodiscard]] const char*		GetName() const noexcept;
 	[[nodiscard]] virtual Matrix	GetWorldMatrix() noexcept;
 	[[nodiscard]] virtual Vector3	GetTransform()	const noexcept;
-	virtual bool Copy(CPScriptBase script);
+	[[nodiscard]] BaseComponent*	Clone() override;
+	void Load(nlohmann::json& input) override { }
 protected:
 	virtual void Unload();
 protected:
-	bool isDisabled = false;
-	PGameObj owner = nullptr;
-	std::string name;
+	bool _isDisabled = false;
+	PGameObj _ownerObj = nullptr;
+	std::string _name;
 };
 
 #define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)

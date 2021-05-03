@@ -1,16 +1,20 @@
 ﻿#include "Scene.h"
 #include "CornException.h"
 #include "GameObj.h"
-#include "Path.h"
+#include "ScriptBase.h"
+#include "Prefabs.h"
+#include "Setting.h"
 #include <sstream>
 #include <fstream>
+#include <ranges>
 
-Scene::Scene(const std::string& path)
+Scene::Scene(std::string path)
 	:
-	path(path)
+	path(std::move(path)),
+	_tempComponentContainer(nullptr)
 {}
 
-Scene::SceneException::SceneException(int line, const char* file, const std::string& description)
+Scene::SceneException::SceneException(int line, const char* file, std::string description)
 	: CornException(line, file),
 	_description(std::move(description))
 {}
@@ -30,15 +34,16 @@ const wchar_t* Scene::SceneException::What() const noexcept
 	return whatBuffer.c_str();
 }
 
-Scene::BaseComponent::BaseComponent(PScene owner)
+Scene::BaseComponent::BaseComponent(PScene owner, bool isDisabled)
 	:
 	_owner(owner),
-	_isDisabled(false)
+	_isDisabled(isDisabled)
 {}
 
-Scene::BaseComponent::~BaseComponent()
+void Scene::BaseComponent::OnStart()
 {
-	_owner->_genericComponents.erase(this);
+	if (!_isDisabled)
+		OnEnabled();
 }
 
 void Scene::BaseComponent::Disable()
@@ -62,15 +67,29 @@ bool Scene::BaseComponent::IsDisabled()
 	return _isDisabled;
 }
 
-void Scene::BaseComponent::Load(nlohmann::json& input)
-{
-	if (!_isDisabled)
-		OnEnabled();
-}
-
 void Scene::BaseComponent::Destroy()
 {
-	delete this;
+	_owner->RemoveComponent(this);
+}
+
+void Scene::BaseComponent::DisableWithoutUpdate()
+{
+	_isDisabled = true;
+}
+
+void Scene::BaseComponent::EnableWithoutUpdate()
+{
+	_isDisabled = false;
+}
+
+std::shared_ptr<Scene::BaseComponent> Scene::BaseComponent::GetSharedPtr() const
+{
+	return _this.lock();
+}
+
+void Scene::BaseComponent::AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr)
+{
+	_this = shared_ptr;
 }
 
 PScene Scene::BaseComponent::GetOwner() const
@@ -107,38 +126,145 @@ void Scene::Load()
 		os << " Doesn't exist";
 		throw SCENE_EXCEPTION(os.str());
 	}
-
-	constexpr const char* Scripts = "Scripts";
-	constexpr const char* GameObjects = "GameObjects";
+	
 	try
 	{
-		_tempComponentContainer = new std::map<CULL, SBaseComponent>();
+		constexpr auto scriptsField = "Scripts";
+		constexpr auto gameObjectsField = "GameObjects";
+		constexpr auto prefabsField = "Prefabs";
+		constexpr auto idField = "ID";
+		constexpr auto changesField = "Changes";
+		constexpr auto scriptTypeField = "ScriptType";
+		constexpr auto inputsField = "Inputs";
+		constexpr auto isRootField = "IsRoot";
+		constexpr auto prefabIdField = "PrefabID";
+		constexpr auto isDisabled = "IsDisabled";
+		constexpr auto childrenField = "Children";
+		
+		
+		_tempComponentContainer = new std::map<CULL, Entry>();
 		
 		json jsonFile;
 		file >> jsonFile;
 
-		if (jsonFile[GameObjects] == nullptr)
+		if (jsonFile[gameObjectsField] == nullptr)
 			throw std::exception();
 
-		SBaseComponent newComponent;
-		for (std::string objPath; const auto& gameObj : jsonFile[GameObjects])
+		if (jsonFile[prefabsField] != nullptr)
 		{
-			newComponent = std::make_shared<GameObj>()
-			_genericComponents.emplace()
+			std::shared_ptr<Prefab> currentPrefab;
+			ULL requestedID = 0;
+			for (int index = 1; auto& prefab : jsonFile[prefabsField])
+			{
+				CULL& newID = prefab[idField].get<CULL>();
+				
+				if constexpr (Setting::IsDebugMode())
+				{
+					if (newID == 0)
+					{
+						std::ostringstream os;
+						os << "[Exception] ID can't be 0\n";
+						os << "[Error file] " << "Scene file " << path.c_str() << std::endl;
+						throw SCENE_EXCEPTION(os.str());
+					}
+				}
+				
+				if (requestedID != newID)
+				{
+					currentPrefab = PrefabsContainer::GetInstance()->GetResource(newID);
+					requestedID = newID;
+				}
+
+				currentPrefab->Append(jsonFile, index, prefab[changesField]);
+				index++;
+			}
 		}
 
-		file.close();
+		for (auto& script : jsonFile[scriptsField])
+		{
+			SBaseComponent newScript(ScriptFactory::CreateInstance(script[scriptTypeField].get<std::string>(), this));
+			newScript->AssignSharedPtr(newScript);
+			
+			unsigned prefabID = 0;
+			if (script[prefabIdField] != nullptr)
+			{
+				prefabID = script[prefabIdField].get<unsigned>();
+			}
 
+			script[idField] = Setting::CreateTopLevelID(
+				script[idField].get<unsigned>(),
+				static_cast<unsigned>(ComponentType::script),
+				prefabID
+			);
+			
+			_tempComponentContainer->emplace(script[idField].get<CULL>(), Entry(script[inputsField], newScript));
+			_sceneComponent.push_back(newScript);
+			if (script[isDisabled] != nullptr && script[isDisabled].get<bool>())
+				newScript->DisableWithoutUpdate();
+		}
+		for (auto& gameObj : jsonFile[gameObjectsField])
+		{
+			SBaseComponent newObj(new GameObj(this));
+			newObj->AssignSharedPtr(newObj);
+
+			if constexpr (Setting::IsDebugMode())
+			{
+				if (gameObj[idField].get<CULL>() & Setting::_errorMaskLocalId)
+					throw SCENE_EXCEPTION("[Exception] gameObj have local id lager then the number in setting file");
+			}
+			
+			unsigned prefabID = 0;
+			if (gameObj[prefabIdField] != nullptr)
+				prefabID = gameObj[prefabIdField].get<unsigned>();
+			
+			gameObj[idField] = Setting::CreateTopLevelID(
+				gameObj[idField].get<unsigned>(),
+				static_cast<unsigned>(ComponentType::gameObj),
+				prefabID
+			);
+			
+			for (auto& child : gameObj[inputsField][childrenField])
+				child = Setting::CreateTopLevelID(
+					child.get<unsigned>(),
+					static_cast<unsigned>(ComponentType::gameObj),
+					prefabID
+				);
+			for (auto& script : gameObj[inputsField][scriptsField])
+				script = Setting::CreateTopLevelID(
+					script.get<unsigned>(),
+					static_cast<unsigned>(ComponentType::script),
+					prefabID
+				);
+			
+			_tempComponentContainer->emplace(gameObj[idField].get<CULL>(), Entry(gameObj[inputsField], newObj));
+			_sceneComponent.push_back(newObj);
+			if (gameObj[isRootField] != nullptr && gameObj[isRootField].get<bool>())
+				_rootGameObjects.push_back(dynamic_cast<PGameObj>(newObj.get()));
+			if (gameObj[isDisabled] != nullptr && gameObj[isDisabled].get<bool>())
+				newObj->DisableWithoutUpdate();
+		}
+		for (auto& val : *_tempComponentContainer | std::views::values)
+			val.Load();
+		
+		_tempComponentContainer->clear();
 		delete _tempComponentContainer;
 		_tempComponentContainer = nullptr;
+		file.close();
 	}
-	catch (const std::exception&)
+	catch (const CornException&)
+	{
+		throw;
+	}
+	catch (const std::exception& e)
 	{
 		delete _tempComponentContainer;
 		_tempComponentContainer = nullptr;
+
+		std::ostringstream os;
+		os << "[Exception] An error occurs when trying to load scene " << path << std::endl;
+		os << "[Std exception] " << e.what() << std::endl;
 		
-		throw SCENE_EXCEPTION(std::string("Field ") + GameObjects + " is wrong\n" 
-			+ "[Scene file] " + path);
+		throw SCENE_EXCEPTION(os.str());
 	}
 }
 
@@ -149,22 +275,61 @@ void Scene::Unload()
 	_rootGameObjects.clear();
 }
 
-Scene::SBaseComponent& Scene::GetComponent(CULL& id)
+Scene::Entry::Entry(json& loadJson, SBaseComponent& component)
+	:
+	_component(component),
+	_loadJson(loadJson)
+{}
+
+void Scene::Entry::Load()
+{
+	_component->Load(_loadJson);
+}
+
+SGameObj Scene::CreateGameObject()
+{
+	SGameObj newObj = std::make_shared<GameObj>(this);
+	newObj->AssignSharedPtr(newObj);
+	_sceneComponent.emplace_back(newObj);
+	return newObj;
+}
+
+SScriptBase Scene::CreateSpriteBase(const std::string& scriptName)
+{
+	SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this));
+	newScript->AssignSharedPtr(newScript);
+	_sceneComponent.emplace_back(newScript);
+	return newScript;
+}
+
+Scene::SBaseComponent& Scene::GetComponent(CULL& id) const
 {
 	if (!_tempComponentContainer)
 		throw SCENE_EXCEPTION("Trying to get component using id after load");
-	BaseComponent* tempPointer = _tempComponentContainer->find(id)->second;
-	if (!tempPointer)
+	auto tempPointer = _tempComponentContainer->find(id);
+	if (tempPointer == _tempComponentContainer->end())
 		throw SCENE_EXCEPTION("Cannot find the requested id");
-	return _genericComponents[tempPointer];
+	return tempPointer->second._component;
 }
 
 void Scene::PromoteGameObjToRoot(PGameObj gameObj)
 {
+	if constexpr (Setting::IsDebugMode())
+	{
+		for (auto& rootObj : _rootGameObjects)
+			if (rootObj == gameObj)
+				throw CORN_EXCEPT_WITH_DESCRIPTION(L"[Exception] Trying to add root gameObj to roor, please make sure that you check it in remove parent in game obj");
+	}
+	_rootGameObjects.remove(gameObj);
 	_rootGameObjects.emplace_back(gameObj);
 }
 
 void Scene::DemoteGameObjFromRoot(PGameObj gameObj)
 {
 	_rootGameObjects.remove(gameObj);
+}
+
+void Scene::RemoveComponent(PBaseComponent component)
+{
+	_sceneComponent.remove(component->GetSharedPtr());
 }

@@ -5,9 +5,9 @@
 
 REGISTER_FINISH(Camera);
 
-Camera::Camera()
+Camera::Camera(PScene owner) : ScriptBase(owner)
 {
-	name = TYPE_NAME(Camera);
+	_name = TYPE_NAME(Camera);
 	GraphicsMath::ZeroMatrix(&viewMatrix);
 	viewMatrix._11 = 1;
 	viewMatrix._22 = -1;
@@ -21,35 +21,23 @@ Camera::Camera()
 	flipYMatrix._44 = 1;
 }
 
-bool Camera::Copy(CPScriptBase script)
-{
-	if (!ScriptBase::Copy(script))
-		return false;
-
-	const CPCamera copyScript = dynamic_cast<CPCamera>(script);
-	GraphicsMath::ZeroMatrix(&cameraMatrix);
-
-	cameraMatrix = copyScript->cameraMatrix;
-	return true;
-}
-
 Matrix Camera::GetMatrix(const Matrix& originalMatrix)
 {
 	if (needRecalculateMatrix)
 	{
 		needRecalculateMatrix = false;
-		GraphicsMath::Inverse(owner->GetWorldMatrix(), cameraMatrix);
+		GraphicsMath::Inverse(GetWorldMatrix(), cameraMatrix);
 		cameraMatrix *= viewMatrix;
 	}
 	return flipYMatrix * originalMatrix * cameraMatrix;
 }
 
-void Camera::Update()
+void Camera::OnUpdate()
 {
-	if (_followingObj != nullptr)
+	if (_followingPtr.use_count() > 0)
 	{
-		const Vector3 delta = _followingObj->GetWorldTransform() - owner->GetWorldTransform();
-		owner->Translate(delta * _dragFactor);
+		const Vector3 delta = _followingObj->GetWorldTransform() - _ownerObj->GetWorldTransform();
+		_ownerObj->Translate(delta * _dragFactor);
 	}
 	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
 	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
@@ -66,9 +54,16 @@ void Camera::OnEnabled()
 	Graphics::AddCamera(this);
 }
 
+Scene::BaseComponent* Camera::Clone()
+{
+	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Using unimplemented function");
+	return nullptr;
+}
+
 void Camera::SetFollow(PGameObj followObj)
 {
-	_followingObj = followObj;
+	_followingPtr = followObj->GetSharedPtr();
+	_followingObj = dynamic_cast<PGameObj>(_followingPtr.lock().get());
 }
 
 PGameObj Camera::GetFollow()
@@ -79,4 +74,5 @@ PGameObj Camera::GetFollow()
 void Camera::RemoveFollow()
 {
 	_followingObj = nullptr;
+	_followingPtr.reset();
 }

@@ -6,7 +6,7 @@
 
 REGISTER_FINISH(SpriteRenderer);
 
-SpriteRenderer::SpriteRenderer()
+SpriteRenderer::SpriteRenderer(PScene owner) : Render2DScriptBase(owner)
 {
 	transformMatrix._11 = 1;
 	GraphicsMath::ZeroMatrix(&transformMatrix);
@@ -16,7 +16,7 @@ SpriteRenderer::SpriteRenderer()
 	transformMatrix._33 = 1;
 	transformMatrix._44 = 1;
 
-	name = TYPE_NAME(SpriteRenderer);
+	_name = TYPE_NAME(SpriteRenderer);
 }
 
 Matrix SpriteRenderer::GetSpriteMatrix() const noexcept
@@ -42,17 +42,6 @@ RECT SpriteRenderer::GetSourceRect() const noexcept
 	return sprite->GetSourceRect();
 }
 #pragma endregion 
-
-bool SpriteRenderer::Copy(CPScriptBase script)
-{
-	if (!ScriptBase::Copy(script))
-		return false;
-
-	const auto copyScript = dynamic_cast<const SpriteRenderer*>(script);
-	this->transformMatrix = copyScript->transformMatrix;
-	this->sprite = copyScript->sprite;
-	return true;
-}
 
 void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
 {
@@ -122,4 +111,10 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 	Render2DScriptBase::Load(inputObject);
+}
+
+Scene::BaseComponent* SpriteRenderer::Clone()
+{
+	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Using umimplmented function");
+	return nullptr;
 }

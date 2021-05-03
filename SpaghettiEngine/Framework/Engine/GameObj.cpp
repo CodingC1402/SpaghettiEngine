@@ -72,7 +72,7 @@ PGameObj GameObj::GetParent() const
 {
 	return parent;
 }
-SGameObj GameObj::GetChild(UINT index) const
+PGameObj GameObj::GetChild(UINT index) const
 {
 	if (index >= _children.size())
 		return nullptr;
@@ -81,7 +81,7 @@ SGameObj GameObj::GetChild(UINT index) const
 	std::advance(iterator, index);
 	return *iterator;
 }
-SScriptBase GameObj::GetScript(UINT index) const noexcept
+PScriptBase GameObj::GetScript(UINT index) const noexcept
 {
 	if (index >= _scripts.size())
 		return nullptr;
@@ -90,7 +90,7 @@ SScriptBase GameObj::GetScript(UINT index) const noexcept
 	std::advance(iterator, index);
 	return *iterator;
 }
-SScriptBase GameObj::GetScript(const std::string& name) const noexcept
+PScriptBase GameObj::GetScript(const std::string& name) const noexcept
 {
 	for (const auto& script : _scripts)
 	{
@@ -99,9 +99,9 @@ SScriptBase GameObj::GetScript(const std::string& name) const noexcept
 	}
 	return nullptr;
 }
-std::list<SScriptBase> GameObj::GetAllScripts(const std::string& name) const noexcept
+std::list<PScriptBase> GameObj::GetAllScripts(const std::string& name) const noexcept
 {
-	std::list<SScriptBase> rList;
+	std::list<PScriptBase> rList;
 	for (const auto& script : _scripts)
 	{
 		if (script->GetName() == name)
@@ -202,9 +202,10 @@ void GameObj::ForceRecalculateMatrix()
 #pragma region Parent methods
 void GameObj::RemoveParent()
 {
-	if (parent)
-		_owner->PromoteGameObjToRoot(this);
-
+	if (!parent)
+		return;
+	
+	_owner->PromoteGameObjToRoot(this);
 	_transform += parent->GetWorldTransform();
 	_rotation  += parent->GetWorldRotation();
 	const Vector3 parentScale = parent->GetWorldScale();
@@ -222,11 +223,11 @@ void GameObj::RemoveParent()
 }
 void GameObj::AddParent(const PGameObj& gameObj)
 {
-	if (!parent)
-		_owner->DemoteGameObjFromRoot(this);
+	if (parent)
+		RemoveParent();
 
 	parent = gameObj;
-
+	_owner->DemoteGameObjFromRoot(this);
 	_transform -= parent->GetWorldTransform();
 	_rotation  -= parent->GetWorldRotation();
 	const Vector3 parentScale = parent->GetWorldScale();
@@ -243,9 +244,9 @@ void GameObj::AddParent(const PGameObj& gameObj)
 }
 #pragma endregion
 
-GameObj::GameObj(PScene owner)
+GameObj::GameObj(PScene owner, bool isDisabled)
 	:
-	BaseComponent(owner)
+	BaseComponent(owner, isDisabled)
 {}
 
 GameObj::~GameObj()
@@ -265,17 +266,16 @@ GameObj::~GameObj()
 }
 
 #pragma region Scripts
-SScriptBase GameObj::AddScript(const std::string& scriptName, nlohmann::json& inputObject)
+PScriptBase GameObj::AddScript(const std::string& scriptName, nlohmann::json& inputObject)
 {
-	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName);
-	newScript->owner = this;
+	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName, _owner);
 	newScript->Load(inputObject);
-	_scripts.emplace_back(newScript);
+	_scripts.push_back(newScript);
 	return _scripts.back();
 }
-SScriptBase GameObj::AddScript(const PScriptBase& script)
+PScriptBase GameObj::AddScript(const PScriptBase& script)
 {
-	_scripts.emplace_back(script);
+	_scripts.push_back(script);
 	return _scripts.back();
 }
 #pragma endregion 
@@ -291,58 +291,32 @@ void GameObj::Load(nlohmann::json& input)
 	using namespace nlohmann;
 	// Use to track which field so it can descibe precisely the error
 	std::string fieldTracker = "Start of the file";
-
-	std::ifstream file(path);
-	if (!file.is_open())
-	{
-		std::wostringstream os;
-		os << L"Obj file ";
-		os << path.c_str();
-		os << L" Doesn't exist";
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
-	}
-
-#pragma region  GameObj
-	json jsonFile;
-	file >> jsonFile;
+	
 	try
 	{
 		constexpr auto idField			= "ID";
-		constexpr auto prefabsField		= "Prefabs";
 		constexpr auto gameObjsField	= "GameObjects";
+		constexpr auto isRootField		= "IsRoot";
 		
-		fieldTracker = prefabsField;
-		if (jsonFile[prefabsField] != nullptr)
-		{
-			for (int index = 1; auto& prefab : jsonFile[prefabsField])
-			{
-				constexpr const char* changesField = "Changes";
-				
-				auto prefabResource = PrefabsContainer::GetInstance()->GetResource(prefab[idField].get<CULL>());
-				prefabResource->Append(jsonFile, index, prefab[changesField]);
-				index++;
-			}
-		}
-		
-		tag = jsonFile[tagField].get<std::string>();
+		tag = input[tagField].get<std::string>();
 		// use to check which field throw error
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = transformField;
-		_transform.x = jsonFile[transformField][0].get<float>();
-		_transform.y = jsonFile[transformField][1].get<float>();
-		_transform.z = jsonFile[transformField][2].get<float>();
+		_transform.x = input[transformField][0].get<float>();
+		_transform.y = input[transformField][1].get<float>();
+		_transform.z = input[transformField][2].get<float>();
 		
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = rotationField;
-		_rotation.x = jsonFile[rotationField][0].get<float>();
-		_rotation.y = jsonFile[rotationField][1].get<float>();
-		_rotation.z = jsonFile[rotationField][2].get<float>();
+		_rotation.x = input[rotationField][0].get<float>();
+		_rotation.y = input[rotationField][1].get<float>();
+		_rotation.z = input[rotationField][2].get<float>();
 		
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = scaleField;
-		_scale.x = jsonFile[scaleField][0].get<float>();
-		_scale.y = jsonFile[scaleField][1].get<float>();
-		_scale.z = jsonFile[scaleField][2].get<float>();
+		_scale.x = input[scaleField][0].get<float>();
+		_scale.y = input[scaleField][1].get<float>();
+		_scale.z = input[scaleField][2].get<float>();
 
 		_isTransformChanged = true;
 		_isRotationChanged = true;
@@ -351,21 +325,21 @@ void GameObj::Load(nlohmann::json& input)
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = childrenField;
-		for (const auto & child : jsonFile[childrenField])
+		for (const auto & child : input[childrenField])
 		{
-			_children.emplace_back(_owner->GetComponent(child.get<CULL>()));
+			_children.push_back(dynamic_cast<PGameObj>(_owner->GetComponent(child.get<CULL>()).get()));
+			_children.back()->parent = this;
 		}
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = scriptsField;
-		for (const auto& script : jsonFile[scriptsField])
+		for (const auto& script : input[scriptsField])
 		{
-			_scripts.emplace_back(_owner->GetComponent(script.get<CULL>()));
+			_scripts.push_back(dynamic_cast<PScriptBase>(_owner->GetComponent(script.get<CULL>()).get()));
+			_scripts.back()->_ownerObj = this;
 		}
-
-		file.close();
 	}
-	catch (const ScriptBase::ScriptException&)
+	catch (const CornException&)
 	{
 		throw;
 	}
@@ -373,7 +347,6 @@ void GameObj::Load(nlohmann::json& input)
 	{
 		throw GAMEOBJ_FORMAT_EXCEPT(fieldTracker.c_str(), this, e.what());
 	}
-#pragma endregion 
 }
 
 void GameObj::Destroy()
@@ -391,8 +364,9 @@ void GameObj::OnStart()
 	if (isDisabled)
 		return;
 
+	OnEnabled();
 	for (const auto& script : _scripts)
-		script->Start();
+		script->OnStart();
 
 	for (const auto& child : _children)
 		child->OnStart();
@@ -403,7 +377,7 @@ void GameObj::OnUpdate()
 		return;
 
 	for (const auto& script : _scripts)
-		script->Update();
+		script->OnUpdate();
 
 	for (const auto& child : _children)
 		child->OnUpdate();
@@ -411,7 +385,7 @@ void GameObj::OnUpdate()
 void GameObj::OnEnd()
 {
 	for (const auto& script : _scripts)
-		script->End();
+		script->OnEnd();
 }
 void GameObj::OnEnabled()
 {
@@ -438,27 +412,28 @@ void GameObj::OnDisabled()
 }
 #pragma endregion
 #pragma region  Child
-SGameObj GameObj::AddChild(PGameObj child)
+PGameObj GameObj::AddChild(PGameObj child)
 {
-	_children.emplace_back(child);
+	_children.push_back(child);
 	return _children.back();
 }
 
-SGameObj GameObj::AddChild()
+PGameObj GameObj::AddChild()
 {
-	_children.emplace_back(new GameObj(_owner));
+	_children.push_back(new GameObj(_owner));
 	_children.back()->Load(defaultJson);
 	return _children.back();
 }
 
+Scene::BaseComponent* GameObj::Clone()
+{
+	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented function");
+	return nullptr;
+}
+
 void GameObj::RemoveChild(PGameObj child)
 {
-	for(const auto& removeChild : _children)
-		if (removeChild.get() == child)
-		{
-			_children.remove(removeChild);
-			return;
-		}
+	_children.remove(child);
 }
 #pragma endregion 
 #pragma region Matrix Calculation

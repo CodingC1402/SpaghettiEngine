@@ -23,6 +23,8 @@ public:
 	/// <param name="changes"> the json object that describe what need to be change to the append</param>
 	void Append(nlohmann::json& out, unsigned int index, nlohmann::json& changes);
 	void Load(const std::string& path) override;
+public:
+	static constexpr unsigned long long acceptMask = 0xFFFFFFFFFFFFFFFFU;
 protected:
 	std::map<unsigned int, ComponentJsonObject> _components;
 };
