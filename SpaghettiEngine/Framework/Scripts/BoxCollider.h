@@ -1,19 +1,20 @@
 #pragma once
-#include "ScriptBase.h"
+#include "Collider2DScriptBase.h"
 
 class RigidBody;
 
-class BoxCollider : public ScriptBase
+class BoxCollider : public Collider2DScriptBase
 {
 	friend class Physic;
 public:
 	BoxCollider();
-	virtual void Start() override;
-	virtual void Update() override;
+	void Start() override;
+	void Update() override;
 	Vector3 GetPosition();
 	Vector3 GetVelocity();
+	void DrawBox(RenderDevice render, PCamera camera, Color color) override;
 protected:
-	virtual void Load(const std::string* inputArg) override;
+	void Load(const std::string* inputArg) override;
 protected:
 	RigidBody* rigidbody;
 	float width;
