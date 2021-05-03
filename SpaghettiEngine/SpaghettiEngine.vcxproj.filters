@@ -173,6 +173,9 @@
     <ClInclude Include="Framework\Scripts\RigidBody.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Scripts\Collider2DScriptBase.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -281,6 +284,9 @@
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Scripts\RigidBody.cpp">
+      <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\Collider2DScriptBase.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

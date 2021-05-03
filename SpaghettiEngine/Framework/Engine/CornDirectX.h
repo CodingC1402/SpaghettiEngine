@@ -36,3 +36,6 @@ typedef D3DXVECTOR3 Vector3;
 typedef D3DXVECTOR4 Vector4;
 typedef D3DXMATRIX Matrix;
 typedef LPD3DXMATRIX PMatrix;
+
+struct CUSTOMVERTEX { FLOAT X, Y, Z, RHW; DWORD COLOR; };
+#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)

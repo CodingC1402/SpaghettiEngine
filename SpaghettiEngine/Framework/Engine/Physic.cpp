@@ -43,6 +43,17 @@ void Physic::AddRigidBody(PRigidBody newRigidBody)
 	rigidBodis.push_back(newRigidBody);
 }
 
+void Physic::DrawBox(Color color, RenderDevice render)
+{
+	auto object = boxColliders.begin();
+	D3DRECT rect = { (*object)->GetPosition().x,
+		(*object)->GetPosition().y,
+		(*object)->GetPosition().x + (*object)->width,
+		(*object)->GetPosition().y + (*object)->height};
+
+	render->Clear(1, &rect, D3DCLEAR_TARGET, color, 1.0f, NULL);
+}
+
 void Physic::Unload()
 {
 	rigidBodis.clear();

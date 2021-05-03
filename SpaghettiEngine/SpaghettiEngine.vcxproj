@@ -41,6 +41,7 @@
     <ClInclude Include="Framework\Engine\WinMain.h" />
     <ClInclude Include="Framework\Scripts\Animator.h" />
     <ClInclude Include="Framework\Scripts\BoxCollider.h" />
+    <ClInclude Include="Framework\Scripts\Collider2DScriptBase.h" />
     <ClInclude Include="Framework\Scripts\Render2DScriptBase.h" />
     <ClInclude Include="Framework\Scripts\Camera.h" />
     <ClInclude Include="Framework\Scripts\RigidBody.h" />
@@ -82,6 +83,7 @@
     <ClCompile Include="Framework\Engine\WinMain.cpp" />
     <ClCompile Include="Framework\Scripts\Animator.cpp" />
     <ClCompile Include="Framework\Scripts\BoxCollider.cpp" />
+    <ClCompile Include="Framework\Scripts\Collider2DScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\Camera.cpp" />
     <ClCompile Include="Framework\Scripts\RigidBody.cpp" />
