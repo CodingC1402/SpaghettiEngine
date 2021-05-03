@@ -10,6 +10,7 @@
 /// </summary>
 
 typedef class Render2DScriptBase* PRender2DScriptBase;
+typedef class Collider2DScriptBase* PCollider2DScriptBase;
 typedef class Camera* PCamera;
 typedef class Graphics* PGraphics;
 
@@ -50,6 +51,7 @@ public:
 	static void ToFullScreenMode();
 	static void ToWindowMode();
 	static void Draw(Render2DScriptBase* renderScript); // Render Sprite
+	static void Box(Collider2DScriptBase* colliderScript);
 	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
@@ -83,7 +85,7 @@ protected:
 	RECT restoreRec;
 	bool isFullScreen = false;
 	Size resolution;
-
+	
 	Renderer renderer = nullptr;
 	RenderDevice renderDevice = nullptr;
 	PresentParam presentParam;
@@ -101,7 +103,8 @@ protected:
 	bool isPixelPerfect = false;
 	std::list<PCamera> cameraList;
 	std::list<PRender2DScriptBase> _renderBuffer2D;
-
+	std::list<PCollider2DScriptBase> _box2D;
+	
 	static PGraphics __instance;
 private:
 #ifdef _DEBUG
