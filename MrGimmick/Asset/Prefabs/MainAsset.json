@@ -2,13 +2,13 @@
 	"GameObjects": 
 	[
 		{
-			"ID": 10001,
+			"ID": 1,
 			"IsRoot": true,
 			"Inputs": {
 				"Tag": "MainAccess",
 				"Children": [
-					10002,
-					10003
+					2,
+					3
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
@@ -17,7 +17,7 @@
 			}
 		},
 		{
-			"ID": 10002,
+			"ID": 2,
 			"IsRoot": false,
 			"Inputs": {
 				"Tag": "Player",
@@ -26,13 +26,13 @@
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					20002,
-					20003
+					2,
+					3
 				]
 			}
 		},
 		{
-			"ID": 10003,
+			"ID": 3,
 			"IsRoot": false,
 			"Inputs": {
 				"Tag": "Camera",
@@ -41,19 +41,19 @@
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					20001
+					1
 				]
 			}
 		}
 	],
 	"Scripts": [
 		{
-			"ID": 20001,
+			"ID": 1,
 			"ScriptType": "Camera",
 			"Inputs": {}
 		},
 		{
-			"ID": 20002,
+			"ID": 2,
 			"ScriptType": "Animator",
 			"Inputs": {
 				"Animation": 20001,
@@ -61,7 +61,7 @@
 			}
 		},
 		{
-			"ID": 20003,
+			"ID": 3,
 			"ScriptType": "MoveScript",
 			"Inputs": {}
 		}

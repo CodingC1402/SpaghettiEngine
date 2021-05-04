@@ -35,8 +35,9 @@ public:
 
 	enum class ComponentType
 	{
-		gameObj,
-		script
+		invalid = -1,
+		gameObj = 1,
+		script = 2
 	};
 	typedef class BaseComponent
 	{
@@ -109,6 +110,7 @@ public:
 protected:
 	Scene(std::string path);
 
+	void ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
 	void Load();
 	void Unload();
 protected:
