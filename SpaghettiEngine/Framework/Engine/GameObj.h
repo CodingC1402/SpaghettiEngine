@@ -9,7 +9,6 @@
 
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
-typedef std::shared_ptr<ScriptBase> SScriptBase;
 
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
@@ -20,6 +19,7 @@ using std::string;
 using std::list;
 class GameObj : public Scene::BaseComponent
 {
+	friend class Scene;
 public:
 	class GameObjectFormatException : public CornException
 	{
@@ -74,7 +74,6 @@ public:
 	void Translate(const float& x, const float& y, const float& z);
 	void ForceRecalculateMatrix();
 
-
 	void Load(nlohmann::json& input) override;
 	void Destroy() override;
 
@@ -90,26 +89,33 @@ public:
 	void AddParentWithoutCalculateLocal(const PGameObj& gameObj);
 	void RemoveParentWithoutCalculateLocal();
 
-	PGameObj AddChild();
-	BaseComponent* Clone() override;
-
-	GameObj(PScene owner, bool isDisabled = false);
-	~GameObj() override;
-protected:
 	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	PScriptBase AddScript(const PScriptBase& script);
-	PGameObj	AddChild(PGameObj child);
+	PGameObj	AddChild(const PGameObj& child);
+	PGameObj	AddChild();
+
+	void RemoveChild(const PGameObj& child);
+	void RemoveScript(const PScriptBase& script);
+	void ClearScripts();
+	
+	void RecursiveClearScript();
+	
+	std::shared_ptr<BaseComponent> Clone() override;
+	GameObj(PScene owner, bool isDisabled = false);
+protected:
+	void RecursiveMarkForDelete();
 
 	void CalculateRotationMatrix();
 	void CalculateTransformMatrix();
 	void CalculateScaleMatrix();
 	void CalculateWorldMatrix();
-	
-	void RemoveChild(PGameObj child);
 protected:
 	PGameObj parent = nullptr;
+	list<std::shared_ptr<BaseComponent>> _childrenPtr;
 	list<PGameObj> _children;
 
+	bool _isReadyForDelete = false;
+	
 	bool _isTransformChanged = true;
 	bool _isRotationChanged = true;
 	bool _isScaleChanged = true;
@@ -129,6 +135,7 @@ protected:
 	Matrix _scaleMatrix;
 	Matrix _worldMatrix;
 
+	list<std::shared_ptr<BaseComponent>> _scriptsPtr;
 	list<PScriptBase> _scripts;
 	static nlohmann::json defaultJson;
 };

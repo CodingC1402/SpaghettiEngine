@@ -6,14 +6,13 @@
 #include "Scene.h"
 #include "LoadingJson.h"
 #include "Setting.h"
-
 #include <fstream>
 
 nlohmann::json GameObj::defaultJson = {
 	{LoadingJson::transformField, {0, 0, 0}},
 	{LoadingJson::rotationField, {0, 0, 0}},
 	{LoadingJson::scaleField, {0, 0, 0}},
-	{LoadingJson::childrenField},
+	{LoadingJson::gameObjectsField},
 	{LoadingJson::scriptsField},
 	{LoadingJson::tagField, "new"}
 };
@@ -71,7 +70,7 @@ PGameObj GameObj::GetChild(UINT index) const
 
 	auto iterator = _children.begin();
 	std::advance(iterator, index);
-	return *iterator;
+	return  *iterator;
 }
 PScriptBase GameObj::GetScript(UINT index) const noexcept
 {
@@ -198,6 +197,8 @@ void GameObj::RemoveParent()
 		return;
 	
 	_owner->PromoteGameObjToRoot(this);
+	parent->RemoveChild(this);
+	
 	_transform += parent->GetWorldTransform();
 	_rotation  += parent->GetWorldRotation();
 	const Vector3 parentScale = parent->GetWorldScale();
@@ -209,8 +210,7 @@ void GameObj::RemoveParent()
 	_isRotationChanged = true;
 	_isScaleChanged = true;
 	ForceRecalculateMatrix();
-	
-	parent->RemoveChild(this);
+
 	parent = nullptr;
 }
 void GameObj::AddParent(const PGameObj& gameObj)
@@ -219,7 +219,10 @@ void GameObj::AddParent(const PGameObj& gameObj)
 		RemoveParent();
 
 	parent = gameObj;
+	
+	parent->AddChild(this);
 	_owner->DemoteGameObjFromRoot(this);
+	
 	_transform -= parent->GetWorldTransform();
 	_rotation  -= parent->GetWorldRotation();
 	const Vector3 parentScale = parent->GetWorldScale();
@@ -231,8 +234,6 @@ void GameObj::AddParent(const PGameObj& gameObj)
 	_isRotationChanged = true;
 	_isScaleChanged = true;
 	ForceRecalculateMatrix();
-	
-	parent->AddChild(this);
 }
 
 void GameObj::AddParentWithoutCalculateLocal(const PGameObj& gameObj)
@@ -240,17 +241,19 @@ void GameObj::AddParentWithoutCalculateLocal(const PGameObj& gameObj)
 	if (parent)
 		RemoveParentWithoutCalculateLocal();
 	
-	_owner->DemoteGameObjFromRoot(this);
 	parent = gameObj;
+	parent->AddChild(this);
+	_owner->DemoteGameObjFromRoot(this);
 	ForceRecalculateMatrix();
 }
 
 void GameObj::RemoveParentWithoutCalculateLocal()
 {
 	if (!parent)
-		return;;
+		return;
 	
 	_owner->PromoteGameObjToRoot(this);
+	parent->RemoveChild(this);
 	parent = nullptr;
 	ForceRecalculateMatrix();
 }
@@ -261,34 +264,11 @@ GameObj::GameObj(PScene owner, bool isDisabled)
 	BaseComponent(owner, isDisabled)
 {}
 
-GameObj::~GameObj()
+void GameObj::RecursiveMarkForDelete()
 {
-	for (const auto& child : _children)
-		child->OnEnd();
-	for (const auto& child : _children)
-		child->Destroy();
-	_children.clear();
-
-	for (auto& script : _scripts)
-	{
-		script->Unload();
-		script->Destroy();
-	}
-	_scripts.clear();
-}
-#pragma endregion 
-#pragma region Scripts
-PScriptBase GameObj::AddScript(const std::string& scriptName, nlohmann::json& inputObject)
-{
-	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName, _owner);
-	newScript->Load(inputObject);
-	_scripts.push_back(newScript);
-	return _scripts.back();
-}
-PScriptBase GameObj::AddScript(const PScriptBase& script)
-{
-	_scripts.push_back(script);
-	return _scripts.back();
+	for(const auto& child : _children)
+		child->RecursiveMarkForDelete();
+	_isReadyForDelete = true;
 }
 #pragma endregion 
 void GameObj::Load(nlohmann::json& input)
@@ -330,20 +310,14 @@ void GameObj::Load(nlohmann::json& input)
 		_isChanged = true;
 
 		if constexpr (Setting::IsDebugMode())
-			fieldTracker = childrenField;
-		for (const auto & child : input[childrenField])
-		{
-			_children.push_back(dynamic_cast<PGameObj>(_owner->GetComponent(child.get<CULL>()).get()));
-			_children.back()->AddParentWithoutCalculateLocal(this);
-		}
+			fieldTracker = gameObjectsField;
+		for (const auto & child : input[gameObjectsField])
+			dynamic_cast<PGameObj>(_owner->GetComponent(child.get<CULL>()).get())->AddParentWithoutCalculateLocal(this);
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = scriptsField;
 		for (const auto& script : input[scriptsField])
-		{
-			_scripts.push_back(dynamic_cast<PScriptBase>(_owner->GetComponent(script.get<CULL>()).get()));
-			_scripts.back()->_ownerObj = this;
-		}
+			dynamic_cast<PScriptBase>(_owner->GetComponent(script.get<CULL>()).get())->AssignOwner(this);
 
 		if (!(input[isRootField] == nullptr || !input[isRootField].get<bool>() || parent != nullptr))
 			_owner->PromoteGameObjToRoot(this);
@@ -357,23 +331,29 @@ void GameObj::Load(nlohmann::json& input)
 		throw GAMEOBJ_FORMAT_EXCEPT(fieldTracker.c_str(), this, e.what());
 	}
 }
-
 void GameObj::Destroy()
 {
-	OnEnd();
+	if (!_isReadyForDelete)
+	{
+		OnEnd();
+		
+		if (parent)
+			parent->RemoveChild(this); // This cause invalid access when clear cause Destroy is called each time a obj is destroy;
+		else
+			_owner->DemoteGameObjFromRoot(this);
 
-	if (parent)
-		parent->RemoveChild(this);
+		RecursiveClearScript();
+		RecursiveMarkForDelete();
+	}
+
+	_children.clear();
+	_childrenPtr.clear();
 	
 	BaseComponent::Destroy();
 }
 #pragma region Obj Event
 void GameObj::OnStart()
 {
-	if (isDisabled)
-		return;
-
-	OnEnabled();
 	for (const auto& script : _scripts)
 		script->OnStart();
 
@@ -393,9 +373,13 @@ void GameObj::OnUpdate()
 }
 void GameObj::OnEnd()
 {
+	for (const auto& child : _children)
+		child->OnEnd();
+	
 	for (const auto& script : _scripts)
 		script->OnEnd();
 }
+
 void GameObj::OnEnabled()
 {
 	if (_isDisabled)
@@ -421,29 +405,66 @@ void GameObj::OnDisabled()
 }
 #pragma endregion
 #pragma region  Child
-PGameObj GameObj::AddChild(PGameObj child)
+std::shared_ptr<Scene::BaseComponent> GameObj::Clone()
 {
+	return nullptr;
+}
+PGameObj GameObj::AddChild(const PGameObj& child)
+{
+	_childrenPtr.push_back(child->GetSharedPtr());
 	_children.push_back(child);
 	return _children.back();
 }
-
 PGameObj GameObj::AddChild()
 {
-	_children.push_back(new GameObj(_owner));
+	const Scene::SBaseComponent newObj(new GameObj(_owner), Scene::DestroyComponent);
+	_childrenPtr.push_back(newObj);
+	_children.push_back(dynamic_cast<PGameObj>(_childrenPtr.back().get()));
+	_childrenPtr.back()->AssignSharedPtr(_childrenPtr.back());
 	_children.back()->Load(defaultJson);
 	return _children.back();
 }
-
-Scene::BaseComponent* GameObj::Clone()
+PScriptBase GameObj::AddScript(const std::string& scriptName, nlohmann::json& inputObject)
 {
-	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented function");
-	return nullptr;
+	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName, _owner);
+	const Scene::SBaseComponent sharedPtr(newScript, Scene::DestroyComponent);
+	newScript->AssignSharedPtr(sharedPtr);
+	newScript->Load(inputObject);
+	_scriptsPtr.push_back(sharedPtr);
+	_scripts.push_back(newScript);
+	return _scripts.back();
 }
-
-void GameObj::RemoveChild(PGameObj child)
+PScriptBase GameObj::AddScript(const PScriptBase& script)
 {
+	_scriptsPtr.push_back(script->GetSharedPtr());
+	_scripts.push_back(script);
+	return _scripts.back();
+}
+void GameObj::RemoveChild(const PGameObj& child)
+{
+	_childrenPtr.remove(child->GetSharedPtr());
 	_children.remove(child);
 }
+
+void GameObj::RemoveScript(const PScriptBase& script)
+{
+	_scriptsPtr.remove(script->GetSharedPtr());
+	_scripts.remove(script);
+}
+
+void GameObj::ClearScripts()
+{
+	_scriptsPtr.clear();
+	_scripts.clear();
+}
+
+void GameObj::RecursiveClearScript()
+{
+	for (const auto& child : _children)
+		child->RecursiveClearScript();
+	ClearScripts();
+}
+
 #pragma endregion 
 #pragma region Matrix Calculation
 void GameObj::CalculateRotationMatrix()

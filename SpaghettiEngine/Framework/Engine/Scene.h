@@ -12,7 +12,6 @@ typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
 
 typedef class ScriptBase* PScriptBase;
-typedef std::shared_ptr<ScriptBase> SScriptBase;
 
 typedef class Scene* PScene;
 typedef std::unique_ptr<Scene> UScene;
@@ -21,6 +20,7 @@ typedef std::shared_ptr<Scene> SScene;
 using namespace nlohmann;
 class Scene
 {
+	friend class GameObj;
 	friend class SceneManager;
 public:
 	class SceneException : public CornException
@@ -43,14 +43,13 @@ public:
 	{
 	public:
 		BaseComponent(PScene owner, bool isDisabled = false);
-		virtual ~BaseComponent() = default;
 
 		BaseComponent(const BaseComponent&) = delete;
 		BaseComponent(const BaseComponent&&) = delete;
 		BaseComponent& operator=(const BaseComponent&) = delete;
 		BaseComponent& operator=(const BaseComponent&&) = delete;
 
-		virtual void OnStart();
+		virtual void OnStart() {}
 		virtual void OnUpdate() {}
 		virtual void OnEnd() {}
 		
@@ -70,12 +69,14 @@ public:
 		//Don't use
 		void EnableWithoutUpdate();
 		
-		virtual BaseComponent* Clone() = 0;
+		virtual std::shared_ptr<BaseComponent> Clone() = 0;
 
 		/// Get the shared_ptr of the component which is owned by a scene
 		[[nodiscard]] std::shared_ptr<BaseComponent> GetSharedPtr() const;
 		void AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr);
 		[[nodiscard]] PScene GetOwner() const;
+	protected:
+		virtual ~BaseComponent() = default;
 	protected:
 		PScene _owner = nullptr;
 		bool _isDisabled;
@@ -96,29 +97,28 @@ public:
 public:
 	// Only work in load
 	[[nodiscard]] SGameObj CreateGameObject();
-	[[nodiscard]] SScriptBase CreateSpriteBase(const std::string& scriptName);
+	[[nodiscard]] std::shared_ptr<ScriptBase> CreateSpriteBase(const std::string& scriptName);
 	[[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
-	
-	void PromoteGameObjToRoot(PGameObj gameObj);
-	void DemoteGameObjFromRoot(PGameObj gameObj);
-
-	void RemoveComponent(PBaseComponent component);
 	
 	void Start();
 	void Update();
 	void End();
+
+	static void DestroyComponent(PBaseComponent component);
 protected:
 	Scene(std::string path);
 
-	void ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
+	void PromoteGameObjToRoot(PGameObj gameObj);
+	void DemoteGameObjFromRoot(PGameObj gameObj);
+	
+	void ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type) const;
 	void Load();
 	void Unload();
 protected:
 	std::string path;
 
 	// Will update every loop
-	std::list<PGameObj> _rootGameObjects;
-	std::list<SBaseComponent> _sceneComponent;
+	std::list<SBaseComponent> _rootGameObjects;
 	std::map<CULL, Entry>* _tempComponentContainer;
 };
 

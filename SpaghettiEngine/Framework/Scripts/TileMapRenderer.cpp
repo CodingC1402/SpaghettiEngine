@@ -152,12 +152,6 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 	Render2DScriptBase::Load(inputObject);
 }
 
-Scene::BaseComponent* TileMapRenderer::Clone()
-{
-	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented");
-	return nullptr;
-}
-
 void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 {
 	using CLib::ToFloat;

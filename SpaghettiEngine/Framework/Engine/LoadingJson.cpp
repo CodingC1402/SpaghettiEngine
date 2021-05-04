@@ -22,8 +22,8 @@ void LoadingJson::ID::ConvertIDInJson(nlohmann::json& out, Scene::ComponentType 
 			prefabID
 		);
 
-		if(out[inputsField][childrenField] != nullptr)
-			for (auto& child : out[inputsField][childrenField])
+		if(out[inputsField][gameObjectsField] != nullptr)
+			for (auto& child : out[inputsField][gameObjectsField])
 				child = ID::CreateTopLevelID(
 					child.get<unsigned>(),
 					Scene::ComponentType::gameObj,

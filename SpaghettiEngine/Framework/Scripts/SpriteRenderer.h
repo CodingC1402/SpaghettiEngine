@@ -16,7 +16,6 @@ public:
 	
 	virtual void Draw(SpriteHandler handler, PCamera camera) override;
 	virtual void Load(nlohmann::json& inputObject) override;
-	virtual BaseComponent* Clone() override;
 protected:
 	Matrix transformMatrix;
 	SSprite sprite;

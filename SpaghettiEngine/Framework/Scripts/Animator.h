@@ -8,7 +8,6 @@ public:
 	Animator(PScene owner);
 	virtual void OnUpdate() override;
 	virtual void Load(nlohmann::json& inputObject) override;
-	virtual BaseComponent* Clone() override;
 	virtual void Draw(SpriteHandler handler, PCamera camera) override;
 protected:
 	SAnimation _ani;
