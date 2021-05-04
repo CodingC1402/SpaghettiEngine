@@ -36,16 +36,6 @@ Vector3 BoxCollider::GetVelocity()
 	return rigidbody->GetVelocity();
 }
 
-void BoxCollider::DrawBox(RenderDevice render, PCamera camera, Color color)
-{
-	D3DRECT rect = { this->GetPosition().x,
-		this->GetPosition().y,
-		this->GetPosition().x + this->width,
-		this->GetPosition().y + this->height };
-
-	render->Clear(1, &rect, D3DCLEAR_TARGET, color, 1.0f, NULL);
-}
-
 #define Width 0
 #define Height 1
 
