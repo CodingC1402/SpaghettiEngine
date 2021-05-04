@@ -4,7 +4,6 @@
 #include "json.hpp"
 #include "GraphicsMath.h"
 #include "Render2DScriptBase.h"
-#include "Collider2DScriptBase.h"
 #include <fstream>
 #include <DirectXMath.h>
 
@@ -44,11 +43,6 @@ void Graphics::ToWindowMode()
 void Graphics::Draw(Render2DScriptBase* renderScript)
 {
 	__instance->_renderBuffer2D.push_back(renderScript);
-}
-
-void Graphics::Box(Collider2DScriptBase* colliderScript)
-{
-	__instance->_box2D.push_back(colliderScript);
 }
 
 void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
@@ -280,11 +274,6 @@ void Graphics::Render()
 			renderScript2D->Draw(spriteHandler, cameraScript);
 		}
 
-		for (const auto& colliderScript2D : _box2D)
-		{
-			colliderScript2D->DrawBox(renderDevice, cameraScript, WHITE);
-		}
-	
 #ifdef _DEBUG // For counting fps
 		if (cameraList.size() > 1)
 			Debug::Log(L"there are two or more camera in a scene");

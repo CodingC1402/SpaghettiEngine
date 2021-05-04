@@ -1,7 +1,7 @@
 #include "BoxCollider.h"
 #include "GameTimer.h"
 #include "Physic.h"
-#include "Setting.h"
+
 REGISTER_FINISH(BoxCollider);
 
 BoxCollider::BoxCollider()
@@ -14,6 +14,10 @@ void BoxCollider::Start()
 	rigidbody = dynamic_cast<PRigidBody>(owner->GetScript("RigidBody"));
 }
 
+void BoxCollider::Update()
+{
+
+}
 
 Vector3 BoxCollider::GetPosition()
 {
@@ -38,14 +42,7 @@ void BoxCollider::DrawBox(RenderDevice render, PCamera camera, Color color)
 		this->GetPosition().y,
 		this->GetPosition().x + this->width,
 		this->GetPosition().y + this->height };
-	
-	Matrix transform = camera->GetMatrix(GetWorldMatrix());
-	if (Setting::IsWorldPointPixelPerfect())
-	{
-		transform._41 = std::round(transform._41);
-		transform._42 = std::round(transform._42);
-	}
-	
+
 	render->Clear(1, &rect, D3DCLEAR_TARGET, color, 1.0f, NULL);
 }
 
