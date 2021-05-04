@@ -7,7 +7,7 @@
 					"ID": 1,
 					"Type" : "GameObject",
 					"Field": "Rotation",
-					"Value": [0, 0, 45]
+					"Value": [0, 0, 0]
 				}
 			]
 		}
@@ -18,7 +18,7 @@
 			"Inputs": {
 				"IsRoot": true,
 				"Tag": "TileMap",
-				"Children": [
+				"GameObjects": [
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],

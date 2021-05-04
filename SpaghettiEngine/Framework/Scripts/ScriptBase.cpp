@@ -45,6 +45,14 @@ ScriptBase::ScriptBase(PScene owner, bool isDisabled)
 	BaseComponent(owner, isDisabled)
 {}
 
+void ScriptBase::AssignOwner(const PGameObj& owner)
+{
+	if (owner)
+		owner->RemoveScript(this);
+	owner->AddScript(this);
+	_ownerObj = owner;
+}
+
 const char* ScriptBase::GetName() const noexcept
 {
 	return  _name.c_str();
@@ -70,14 +78,13 @@ Vector3 ScriptBase::GetWorldScale() const noexcept
 	return _ownerObj->GetWorldScale();
 }
 
-Scene::BaseComponent* ScriptBase::Clone()
+Scene::SBaseComponent ScriptBase::Clone()
 {
-	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented function");
 	return nullptr;
 }
 
-void ScriptBase::Unload()
+void ScriptBase::Destroy()
 {
-	if (!_isDisabled)
-		OnDisabled();
+	this->Disable();
+	BaseComponent::Destroy();
 }

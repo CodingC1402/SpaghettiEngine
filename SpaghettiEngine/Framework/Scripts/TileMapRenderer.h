@@ -41,7 +41,6 @@ public:
 
 	void OnUpdate() override;
 	void Load(nlohmann::json& inputObject) override;
-	BaseComponent* Clone() override;
 	void Draw(SpriteHandler handler, PCamera camera) override;
 	~TileMapRenderer() override;
 protected:

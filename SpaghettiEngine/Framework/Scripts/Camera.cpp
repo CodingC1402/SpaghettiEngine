@@ -54,12 +54,6 @@ void Camera::OnEnabled()
 	Graphics::AddCamera(this);
 }
 
-Scene::BaseComponent* Camera::Clone()
-{
-	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Using unimplemented function");
-	return nullptr;
-}
-
 void Camera::SetFollow(PGameObj followObj)
 {
 	_followingPtr = followObj->GetSharedPtr();

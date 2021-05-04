@@ -15,7 +15,6 @@ public:
 
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
-	virtual BaseComponent*	Clone() override;
 
 	virtual void	SetFollow(PGameObj followObj);
 	virtual [[nodiscard]] PGameObj	GetFollow();

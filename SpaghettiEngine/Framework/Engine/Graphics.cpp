@@ -133,14 +133,15 @@ void Graphics::CreateResource()
 	if (!renderDevice)
 		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, and there is no error code for this so... good luck fixing this ヽ(￣ω￣(。。 )ゝ ");
 
-#ifdef _DEBUG
-	result = D3DXCreateFont(
+	if constexpr (Setting::IsDebugMode())
+	{
+		result = D3DXCreateFont(
 		renderDevice,
 		16, 8, 0, 0, 0, 0, 0, 0, 0, L"Calibri", &fpsFont
-	);
-	if (FAILED(result))
-		throw GRAPHICS_EXCEPT_CODE(result);
-#endif // DEBUG
+		);
+		if (FAILED(result))
+			throw GRAPHICS_EXCEPT_CODE(result);	
+	}
 }
 
 void Graphics::ReleaseResource()

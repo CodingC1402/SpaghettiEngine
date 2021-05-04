@@ -59,9 +59,8 @@ void SceneManager::StartLoadScene(UINT index)
 		throw SCENEMANAGER_EXCEPT(os.str());
 	}
 
-	currentScene->End();
-	scenes[index]->Load();
 	currentScene->Unload();
+	scenes[index]->Load();
 	scenes[index]->Start();
 	
 	sceneIndex = index;

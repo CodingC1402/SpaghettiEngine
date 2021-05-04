@@ -28,7 +28,6 @@ namespace LoadingJson
 	constexpr auto transformField	= "Transform";
 	constexpr auto rotationField	= "Rotation";
 	constexpr auto scaleField		= "Scale";
-	constexpr auto childrenField	= "Children";
 	
 	class ID
 	{

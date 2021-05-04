@@ -10,6 +10,7 @@
 
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
+typedef std::weak_ptr<ScriptBase> WScriptBase;
 typedef std::map<std::string, void* (*)(PScene)> ScriptTypes;
 
 template<typename T>
@@ -55,15 +56,17 @@ public:
 	};
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
-	[[nodiscard]] const char*		GetName() const noexcept;
+	void AssignOwner(const PGameObj& owner);
+	
+	[[nodiscard]] const char* GetName() const noexcept;
 	[[nodiscard]] Matrix	GetWorldMatrix() const noexcept;
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
-	[[nodiscard]] BaseComponent*	Clone() override;
 	void Load(nlohmann::json& input) override { }
-protected:
-	virtual void Unload();
+	Scene::SBaseComponent   Clone() override;
+
+	void Destroy() override;
 protected:
 	bool _isDisabled = false;
 	PGameObj _ownerObj = nullptr;

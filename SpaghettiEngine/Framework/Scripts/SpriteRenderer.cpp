@@ -112,9 +112,3 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 	}
 	Render2DScriptBase::Load(inputObject);
 }
-
-Scene::BaseComponent* SpriteRenderer::Clone()
-{
-	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Using umimplmented function");
-	return nullptr;
-}

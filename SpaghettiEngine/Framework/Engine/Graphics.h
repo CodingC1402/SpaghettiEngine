@@ -107,7 +107,6 @@ protected:
 
 	static PGraphics __instance;
 private:
-#ifdef _DEBUG
 	float fps = 0;
 	PTimer fpsTimer = Timer::Create();
 	RECT fpsRect;
@@ -122,7 +121,6 @@ private:
 		fpsTimer->Mark();
 		fps = fps * 0.8f + 0.2f * (1.0f / fpsTimer->GetDeltaTime());
 	}
-#endif
 };
 
 #define GRAPHICS_EXCEPT(description) Graphics::GraphicException(__LINE__,__FILE__,description)

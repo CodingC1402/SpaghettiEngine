@@ -56,9 +56,3 @@ void Animator::Load(nlohmann::json& inputObject)
 	}
 	Render2DScriptBase::Load(inputObject);
 }
-
-Scene::BaseComponent* Animator::Clone()
-{
-	throw CORN_EXCEPT_WITH_DESCRIPTION(L"Unimplemented function");
-	return nullptr;
-}

@@ -8,6 +8,9 @@
 #include <sstream>
 #include <fstream>
 #include <ranges>
+#include <stack>
+
+typedef std::shared_ptr<ScriptBase> SScriptBase;
 
 Scene::Scene(std::string path)
 	:
@@ -41,12 +44,6 @@ Scene::BaseComponent::BaseComponent(PScene owner, bool isDisabled)
 	_isDisabled(isDisabled)
 {}
 
-void Scene::BaseComponent::OnStart()
-{
-	if (!_isDisabled)
-		OnEnabled();
-}
-
 void Scene::BaseComponent::Disable()
 {
 	if (_isDisabled)
@@ -70,7 +67,7 @@ bool Scene::BaseComponent::IsDisabled()
 
 void Scene::BaseComponent::Destroy()
 {
-	_owner->RemoveComponent(this);
+	delete this;
 }
 
 void Scene::BaseComponent::DisableWithoutUpdate()
@@ -115,7 +112,13 @@ void Scene::End()
 	for (const auto& gameObj : _rootGameObjects)
 		gameObj->OnEnd();
 }
-void Scene::ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type)
+
+void Scene::DestroyComponent(PBaseComponent component)
+{
+	component->Destroy();
+}
+
+void Scene::ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type) const
 {
 	using namespace  LoadingJson;
 	
@@ -128,7 +131,6 @@ void Scene::ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json
 	ID::ConvertIDInJson(json, type);
 	
 	_tempComponentContainer->emplace(json[idField].get<CULL>(), Entry(json[inputsField], component));
-	_sceneComponent.push_back(component);
 	if (json[isDisabled] != nullptr && json[isDisabled].get<bool>())
 		component->DisableWithoutUpdate();
 }
@@ -187,26 +189,38 @@ void Scene::Load()
 		}
 
 		//Load script
+		std::stack<PScriptBase> callOnEnableLater; // To only call enable for script cause obj enable is useless.
 		for (auto& script : jsonFile[scriptsField])
 		{
-			SBaseComponent newScript(ScriptFactory::CreateInstance(script[inputsField][scriptTypeField].get<std::string>(), this));
+			callOnEnableLater.push(ScriptFactory::CreateInstance(script[inputsField][scriptTypeField].get<std::string>(), this));
+			SBaseComponent newScript(callOnEnableLater.top(), DestroyComponent);
 			newScript->AssignSharedPtr(newScript);
 			ConvertJsonAndAddComponent(newScript, script, ComponentType::script);
 		}
 		//Load object
 		for (auto& gameObj : jsonFile[gameObjectsField])
 		{
-			SBaseComponent newObj(new GameObj(this));
+			SBaseComponent newObj(new GameObj(this), DestroyComponent);
 			newObj->AssignSharedPtr(newObj);
 			ConvertJsonAndAddComponent(newObj, gameObj, ComponentType::gameObj);
 		}
+		//Call Load on all component
 		for (auto& val : *_tempComponentContainer | std::views::values)
 			val.Load();
+		//Call enable on scripts
+		while (!callOnEnableLater.empty())
+		{
+			if (!callOnEnableLater.top()->IsDisabled())
+				callOnEnableLater.top()->OnEnabled();
+			callOnEnableLater.pop();
+		}
 		
 		_tempComponentContainer->clear();
 		delete _tempComponentContainer;
 		_tempComponentContainer = nullptr;
 		file.close();
+
+		PrefabsContainer::GetInstance()->UnloadResources();
 	}
 	catch (const CornException&)
 	{
@@ -227,9 +241,12 @@ void Scene::Load()
 
 void Scene::Unload()
 {
-	for (const auto& gameObj : _rootGameObjects)
-		gameObj->Destroy();
-	_rootGameObjects.clear();
+	for (PGameObj objPtr; auto& obj : _rootGameObjects)
+	{
+		objPtr = dynamic_cast<PGameObj>(obj.get());
+		objPtr->RecursiveClearScript();
+		objPtr->RecursiveMarkForDelete();
+	}
 }
 
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)
@@ -247,7 +264,6 @@ SGameObj Scene::CreateGameObject()
 {
 	SGameObj newObj = std::make_shared<GameObj>(this);
 	newObj->AssignSharedPtr(newObj);
-	_sceneComponent.emplace_back(newObj);
 	return newObj;
 }
 
@@ -255,7 +271,6 @@ SScriptBase Scene::CreateSpriteBase(const std::string& scriptName)
 {
 	SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this));
 	newScript->AssignSharedPtr(newScript);
-	_sceneComponent.emplace_back(newScript);
 	return newScript;
 }
 
@@ -274,19 +289,14 @@ void Scene::PromoteGameObjToRoot(PGameObj gameObj)
 	if constexpr (Setting::IsDebugMode())
 	{
 		for (auto& rootObj : _rootGameObjects)
-			if (rootObj == gameObj)
+			if (rootObj == gameObj->GetSharedPtr())
 				throw CORN_EXCEPT_WITH_DESCRIPTION(L"[Exception] Trying to add root gameObj to root, please make sure that you check it in remove parent in game obj");
 	}
-	_rootGameObjects.remove(gameObj);
-	_rootGameObjects.emplace_back(gameObj);
+	_rootGameObjects.remove(gameObj->GetSharedPtr());
+	_rootGameObjects.push_back(gameObj->GetSharedPtr());
 }
 
 void Scene::DemoteGameObjFromRoot(PGameObj gameObj)
 {
-	_rootGameObjects.remove(gameObj);
-}
-
-void Scene::RemoveComponent(PBaseComponent component)
-{
-	_sceneComponent.remove(component->GetSharedPtr());
+	_rootGameObjects.remove(gameObj->GetSharedPtr());
 }
