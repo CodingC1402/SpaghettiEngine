@@ -299,7 +299,6 @@ void Graphics::Render()
 			MAGENTA
 		);
 		delete temp;
-		
 #endif
 		spriteHandler->End();
 
