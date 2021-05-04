@@ -9,7 +9,7 @@ class BoxCollider : public Collider2DScriptBase
 public:
 	BoxCollider();
 	void Start() override;
-	Vector3* GetPosition() const;
+	Vector3 GetPosition();
 	Vector3 GetVelocity();
 	void DrawBox(RenderDevice render, PCamera camera, Color color) override;
 protected:
