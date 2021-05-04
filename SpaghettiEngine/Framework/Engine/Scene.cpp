@@ -129,6 +129,8 @@ void Scene::ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json
 	
 	_tempComponentContainer->emplace(json[idField].get<CULL>(), Entry(json[inputsField], component));
 	_sceneComponent.push_back(component);
+	if (json[isDisabled] != nullptr && json[isDisabled].get<bool>())
+		component->DisableWithoutUpdate();
 }
 void Scene::Load()
 {
@@ -187,26 +189,16 @@ void Scene::Load()
 		//Load script
 		for (auto& script : jsonFile[scriptsField])
 		{
-			SBaseComponent newScript(ScriptFactory::CreateInstance(script[scriptTypeField].get<std::string>(), this));
+			SBaseComponent newScript(ScriptFactory::CreateInstance(script[inputsField][scriptTypeField].get<std::string>(), this));
 			newScript->AssignSharedPtr(newScript);
-
 			ConvertJsonAndAddComponent(newScript, script, ComponentType::script);
-			
-			if (script[isDisabled] != nullptr && script[isDisabled].get<bool>())
-				newScript->DisableWithoutUpdate();
 		}
 		//Load object
 		for (auto& gameObj : jsonFile[gameObjectsField])
 		{
 			SBaseComponent newObj(new GameObj(this));
 			newObj->AssignSharedPtr(newObj);
-
 			ConvertJsonAndAddComponent(newObj, gameObj, ComponentType::gameObj);
-			
-			if (gameObj[isRootField] != nullptr && gameObj[isRootField].get<bool>())
-				_rootGameObjects.push_back(dynamic_cast<PGameObj>(newObj.get()));
-			if (gameObj[isDisabled] != nullptr && gameObj[isDisabled].get<bool>())
-				newObj->DisableWithoutUpdate();
 		}
 		for (auto& val : *_tempComponentContainer | std::views::values)
 			val.Load();
@@ -283,7 +275,7 @@ void Scene::PromoteGameObjToRoot(PGameObj gameObj)
 	{
 		for (auto& rootObj : _rootGameObjects)
 			if (rootObj == gameObj)
-				throw CORN_EXCEPT_WITH_DESCRIPTION(L"[Exception] Trying to add root gameObj to roor, please make sure that you check it in remove parent in game obj");
+				throw CORN_EXCEPT_WITH_DESCRIPTION(L"[Exception] Trying to add root gameObj to root, please make sure that you check it in remove parent in game obj");
 	}
 	_rootGameObjects.remove(gameObj);
 	_rootGameObjects.emplace_back(gameObj);

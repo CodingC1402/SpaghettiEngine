@@ -29,6 +29,11 @@ namespace CLib
 	{
 		return ToInt(std::ceil(value));
 	}
+		template<typename T>
+	constexpr auto floori(const T& value)
+	{
+		return ToInt(std::floor(value));
+	}
 
 	template<typename T>
 	constexpr T modulo(const T& f1, const T& f2)

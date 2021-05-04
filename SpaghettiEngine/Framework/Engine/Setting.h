@@ -15,7 +15,8 @@ public:
 	};
 public:
 	static Setting* GetInstance();
-	static Plane2D::Size GetResolution();
+	static Plane2D::Size& GetResolution();
+	static Plane2D::Size& GetHalfResolution();
 	static const wchar_t* GetAppName();
 	static bool IsResolutionPixelPerfect();
 	static bool IsWorldPointPixelPerfect();
@@ -28,6 +29,7 @@ protected:
 	void Load();
 protected:
 	Plane2D::Size resolution;
+	Plane2D::Size halfResolution;
 	std::wstring name;
 	bool isResolutionPixelPerfect = false;
 	bool isWorldPointPixelPerfect = false;

@@ -3,7 +3,9 @@
 #include "GameTimer.h"
 #include "Animation.h"
 #include "ExMath.h"
+#include "GraphicsMath.h"
 #include <fstream>
+#include <algorithm>
 #include <Setting.h>
 
 using namespace nlohmann;
@@ -103,6 +105,8 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		height = jsonFile["Height"].get<int>();
 		tileWidth = jsonFile["TileWidth"].get<int>();
 		tileHeight = jsonFile["TileHeight"].get<int>();
+		_pixelWidth = width * tileWidth;
+		_pixelHeight = height * tileHeight;
 
 		int row = 0;
 		int col = 0;
@@ -159,49 +163,69 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 	using CLib::ToFloat;
 	using CLib::ToInt;
 	using CLib::ceili;
+	using CLib::floori;
 	
 	const float halfHeightPx = (ToFloat(height) / 2.0f) * ToFloat(tileHeight);
 	const float halfWidthPx = (ToFloat(width) / 2.0f) * ToFloat(tileWidth);
 
 	//Set tiles map transform
-	Matrix transform = camera->GetMatrix(GetWorldMatrix());
-	transform._42 -= halfHeightPx;
+	Matrix transform = GetWorldMatrix();
+	transform._42 += halfHeightPx;
 	transform._41 -= halfWidthPx;
+	transform = camera->GetMatrix(transform);
 	if (Setting::IsWorldPointPixelPerfect())
 	{
 		transform._41 = std::round(transform._41);
 		transform._42 = std::round(transform._42);
 	}
 	handler->SetTransform(&transform);
-
+	
 	//get screen height and width then divide them by 2;
-	Size viewPort = Setting::GetResolution();
-	viewPort.height /= 2;
-	viewPort.width /= 2;
-	
-	Vector3 topLeft = _ownerObj->GetTransform();
-	topLeft.x -= std::round(halfWidthPx);
-	topLeft.y += std::round(halfHeightPx);
+	Size viewPort = Setting::GetHalfResolution();
+	Matrix tileMapMatrix;
+	GraphicsMath::Inverse(GetWorldMatrix(), tileMapMatrix);
+	tileMapMatrix = camera->GetWorldMatrix() * tileMapMatrix;
 
-	//Get camera position based on tiles map
-	Vector3 delta = camera->GetTransform();
-	delta.x = delta.x - topLeft.x;
-	delta.y = topLeft.y - delta.y;
-	
-	int startRow =	ceili((delta.y - ToFloat(viewPort.height)) / ToFloat(tileWidth)) - 1;
-	int endRow =	ceili((delta.y + ToFloat(viewPort.height)) / ToFloat(tileWidth)) + 1;
-	int startCol =	ceili((delta.x - ToFloat(viewPort.width)) / ToFloat(tileWidth)) - 1;
-	int endCol =	ceili((delta.x + ToFloat(viewPort.width)) / ToFloat(tileWidth)) + 1;
+	Vector3 points[4];
+	points[0] = {-static_cast<float>(viewPort.width), -static_cast<float>(viewPort.height), 0};
+	points[1] = {-static_cast<float>(viewPort.width),  static_cast<float>(viewPort.height), 0};
+	points[2] = { static_cast<float>(viewPort.width), -static_cast<float>(viewPort.height), 0};
+	points[3] = { static_cast<float>(viewPort.width),  static_cast<float>(viewPort.height), 0};
+
+	GraphicsMath::TransformVector3(points[0], points[0], tileMapMatrix);
+	GraphicsMath::TransformVector3(points[1], points[1], tileMapMatrix);
+	GraphicsMath::TransformVector3(points[2], points[2], tileMapMatrix);
+	GraphicsMath::TransformVector3(points[3], points[3], tileMapMatrix);
+
+	float maxX = points[0].x, maxY = points[0].y, minX = points[0].x, minY = points[0].y;
+	for (const auto& point : points)
+	{
+		if (point.x > maxX)
+			maxX = point.x;
+		else if (point.x < minX)
+			minX = point.x;
+		
+		if (point.y > maxY)
+			maxY = point.y;
+		else if (point.y < minY)
+			minY = point.y;
+	}
+
+	std::swap(maxY, minY);
+	maxY = _pixelHeight - (maxY + _pixelHeight / 2.0f);
+	minY = _pixelHeight - (minY + _pixelHeight / 2.0f);
+	maxX = maxX + ToFloat(_pixelWidth) / 2.0f;
+	minX = minX + ToFloat(_pixelWidth) / 2.0f;
+	int startRow =	ceili(minY / ToFloat(tileWidth)) - 1;
+	int endRow =	ceili(maxY / ToFloat(tileWidth)) + 1;
+	int startCol =	ceili(minX / ToFloat(tileWidth)) - 1;
+	int endCol =	ceili(maxX / ToFloat(tileWidth)) + 1;
 	
 	startRow = startRow < 0 ? 0 : startRow;
 	endRow = endRow < height ? endRow : height;
 	startCol = startCol < 0 ? 0 : startCol;
 	endCol = endCol < width ? endCol : width;
-
-	//int startRow = 0;
-	//int endRow = height;
-	//int startCol = 0;
-	//int endCol = width;
+	
 	Vector3 position;
 	position.z = 0;
 	for (int row = startRow; row < endRow; row++)

@@ -234,8 +234,28 @@ void GameObj::AddParent(const PGameObj& gameObj)
 	
 	parent->AddChild(this);
 }
-#pragma endregion
 
+void GameObj::AddParentWithoutCalculateLocal(const PGameObj& gameObj)
+{
+	if (parent)
+		RemoveParentWithoutCalculateLocal();
+	
+	_owner->DemoteGameObjFromRoot(this);
+	parent = gameObj;
+	ForceRecalculateMatrix();
+}
+
+void GameObj::RemoveParentWithoutCalculateLocal()
+{
+	if (!parent)
+		return;;
+	
+	_owner->PromoteGameObjToRoot(this);
+	parent = nullptr;
+	ForceRecalculateMatrix();
+}
+#pragma endregion
+#pragma region Constructor/Destructor
 GameObj::GameObj(PScene owner, bool isDisabled)
 	:
 	BaseComponent(owner, isDisabled)
@@ -256,7 +276,7 @@ GameObj::~GameObj()
 	}
 	_scripts.clear();
 }
-
+#pragma endregion 
 #pragma region Scripts
 PScriptBase GameObj::AddScript(const std::string& scriptName, nlohmann::json& inputObject)
 {
@@ -271,9 +291,6 @@ PScriptBase GameObj::AddScript(const PScriptBase& script)
 	return _scripts.back();
 }
 #pragma endregion 
-#pragma region Constructors
-
-#pragma endregion
 void GameObj::Load(nlohmann::json& input)
 {
 	if (loaded)
@@ -317,7 +334,7 @@ void GameObj::Load(nlohmann::json& input)
 		for (const auto & child : input[childrenField])
 		{
 			_children.push_back(dynamic_cast<PGameObj>(_owner->GetComponent(child.get<CULL>()).get()));
-			_children.back()->parent = this;
+			_children.back()->AddParentWithoutCalculateLocal(this);
 		}
 
 		if constexpr (Setting::IsDebugMode())
@@ -327,6 +344,9 @@ void GameObj::Load(nlohmann::json& input)
 			_scripts.push_back(dynamic_cast<PScriptBase>(_owner->GetComponent(script.get<CULL>()).get()));
 			_scripts.back()->_ownerObj = this;
 		}
+
+		if (!(input[isRootField] == nullptr || !input[isRootField].get<bool>() || parent != nullptr))
+			_owner->PromoteGameObjToRoot(this);
 	}
 	catch (const CornException&)
 	{

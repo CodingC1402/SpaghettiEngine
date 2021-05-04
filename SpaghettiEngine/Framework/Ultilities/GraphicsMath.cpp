@@ -13,13 +13,13 @@ bool GraphicsMath::CompareFloat(float x, float y, float epsilon)
 	return false;
 }
 
-void GraphicsMath::TransformVector3(Vector3* outVec, const Vector3* inVec, PMatrix transformMatrix)
+void GraphicsMath::TransformVector3(Vector3& outVec, const Vector3& inVec, const Matrix& transformMatrix)
 {
 	Vector4 tempValue;
-	D3DXVec3Transform(&tempValue, inVec, transformMatrix);
-	outVec->x = tempValue.x;
-	outVec->y = tempValue.y;
-	outVec->z = tempValue.z;
+	D3DXVec3Transform(&tempValue, &inVec, &transformMatrix);
+	outVec.x = tempValue.x;
+	outVec.y = tempValue.y;
+	outVec.z = tempValue.z;
 }
 
 PMatrix GraphicsMath::NewMatrix()

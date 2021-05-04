@@ -46,6 +46,8 @@ public:
 	~TileMapRenderer() override;
 protected:
 	STexture texture;
+	float _pixelHeight;
+	float _pixelWidth;
 	int width;
 	int height;
 	int tileWidth;

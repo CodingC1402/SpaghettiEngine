@@ -14,9 +14,14 @@ Setting* Setting::GetInstance()
     return __instance;
 }
 
-Plane2D::Size Setting::GetResolution()
+Plane2D::Size& Setting::GetResolution()
 {
 	return GetInstance()->resolution;
+}
+
+Plane2D::Size& Setting::GetHalfResolution()
+{
+	return GetInstance()->halfResolution;
 }
 
 const wchar_t* Setting::GetAppName()
@@ -74,6 +79,8 @@ void Setting::Load()
 
 		resolution.width = file[RESOLUTION][WIDTH].get<int>();
 		resolution.height = file[RESOLUTION][HEIGHT].get<int>();
+		halfResolution.width = resolution.width / 2;
+		halfResolution.height = resolution.height / 2;
 		name = StringConverter::StrToWStr(file[NAME].get<std::string>());
 		isResolutionPixelPerfect = file[PIXELPERFECT_RESOLUTION].get<bool>();
 		isWorldPointPixelPerfect = file[PIXELPERFECT_WORLDPOINT].get<bool>();
