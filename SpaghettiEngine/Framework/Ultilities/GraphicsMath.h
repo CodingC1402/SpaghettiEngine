@@ -12,7 +12,7 @@ class GraphicsMath
 public:
 	static float	ToRad(const float& degree);
 	static bool		CompareFloat(float x, float y, float epsilon = 0.000001f);
-	static void		TransformVector3(Vector3* outVec, const Vector3* inVec, PMatrix transformMatrix);
+	static void		TransformVector3(Vector3& outVec, const Vector3& inVec, const Matrix& transformMatrix);
 	static PMatrix	NewMatrix(); // Just WHY?, for god sake >:(
 	static void		ZeroMatrix(Matrix* outMatrix);
 	static void		RoundVector3(Vector3* vec);
@@ -21,7 +21,7 @@ public:
 	static void		TranslateMatrix(Matrix& matrix, const float& x, const float& y, const float& z);
 	static void		MoveMatrix(Matrix& matrix, const float& x, const float& y, const float& z);
 	static void		Modulo(Vector3& out, const float& f);
-
+	
 	static Matrix	GetXAxisRotateMatrix(const float& degree);
 	static Matrix	GetYAxisRotateMatrix(const float& degree);
 	static Matrix	GetZAxisRotateMatrix(const float& degree);

@@ -50,14 +50,24 @@ const char* ScriptBase::GetName() const noexcept
 	return  _name.c_str();
 }
 
-Matrix ScriptBase::GetWorldMatrix() noexcept
+Matrix ScriptBase::GetWorldMatrix() const noexcept
 {
 	return _ownerObj->GetWorldMatrix();
 }
 
-Vector3 ScriptBase::GetTransform() const noexcept
+Vector3 ScriptBase::GetWorldTransform() const noexcept
 {
 	return _ownerObj->GetWorldTransform();
+}
+
+Vector3 ScriptBase::GetWorldRotation() const noexcept
+{
+	return _ownerObj->GetWorldRotation();
+}
+
+Vector3 ScriptBase::GetWorldScale() const noexcept
+{
+	return _ownerObj->GetWorldScale();
 }
 
 Scene::BaseComponent* ScriptBase::Clone()

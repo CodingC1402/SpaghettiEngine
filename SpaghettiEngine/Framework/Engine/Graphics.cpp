@@ -4,6 +4,7 @@
 #include "json.hpp"
 #include "GraphicsMath.h"
 #include "Render2DScriptBase.h"
+#include "Setting.h"
 #include <fstream>
 #include <DirectXMath.h>
 
@@ -225,39 +226,40 @@ void Graphics::Render()
 	if (timeSinceLastFrame < delayPerFrame)
 		return;
 
-#ifdef _DEBUG // For RGB background
-	rgb[index] += delta;
-	if (!(rgb[index] & 0xFF))
+	if constexpr(Setting::IsDebugMode())
 	{
-		if (jump)
+		rgb[index] += delta;
+		if (!(rgb[index] & 0xFF))
 		{
-			index += 2;
-			index %= 3;
-			rgb[index] += 1;
-			delta = 1;
-			jump = false;
+			if (jump)
+			{
+				index += 2;
+				index %= 3;
+				rgb[index] += 1;
+				delta = 1;
+				jump = false;
+			}
+			else
+			{
+				rgb[index] -= 1;
+				index -= 1;
+				if (index < 0)
+					index = 2;
+				delta = -1;
+				jump = true;
+			}
 		}
-		else
-		{
-			rgb[index] -= 1;
-			index -= 1;
-			if (index < 0)
-				index = 2;
-			delta = -1;
-			jump = true;
-		}
-	}
-#endif
+	}// For RGB background
 
 	if (Begin() != 0)
 	{
 		timeSinceLastFrame -= delayPerFrame * static_cast<int>(timeSinceLastFrame / delayPerFrame);
 
-#ifndef _DEBUG
-		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
-#else
-		renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
-#endif
+		if constexpr  (Setting::IsDebugMode())
+			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
+		else
+			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
+
 
 		spriteHandler->Begin(ALPHABLEND);
 		const auto cameraScript = *cameraList.begin();
@@ -265,32 +267,33 @@ void Graphics::Render()
 			for (const auto& renderScript2D : layer)
 				renderScript2D->Draw(spriteHandler, cameraScript);
 
-#ifdef _DEBUG // For counting fps
-		if (cameraList.size() > 1)
+		if constexpr (Setting::IsDebugMode())
+		{
+			if (cameraList.size() > 1)
 			Debug::Log(L"there are two or more camera in a scene");
 
-		UpdateFPS();
-		std::wostringstream os;
-		os << std::floor(fps + 0.5) << std::endl;
-		const std::wstring str = os.str();
+			UpdateFPS();
+			std::wostringstream os;
+			os << std::floor(fps + 0.5) << std::endl;
+			const std::wstring str = os.str();
 
-		const auto temp = GraphicsMath::NewMatrix();
-		temp->_11 = 1;
-		temp->_22 = 1;
-		temp->_33 = 1;
-		temp->_44 = 1;
-		
-		spriteHandler->SetTransform(temp);
-		fpsFont->DrawTextW(
-			spriteHandler,
-			str.c_str(),
-			str.size(),
-			&fpsRect,
-			DT_CHARSTREAM,
-			MAGENTA
-		);
-		delete temp;
-#endif
+			const auto temp = GraphicsMath::NewMatrix();
+			temp->_11 = 1;
+			temp->_22 = 1;
+			temp->_33 = 1;
+			temp->_44 = 1;
+			
+			spriteHandler->SetTransform(temp);
+			fpsFont->DrawTextW(
+				spriteHandler,
+				str.c_str(),
+				str.size(),
+				&fpsRect,
+				DT_CHARSTREAM,
+				MAGENTA
+			);
+			delete temp;
+		}
 		spriteHandler->End();
 
 		if (!End())

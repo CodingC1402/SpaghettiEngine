@@ -35,7 +35,7 @@ void Prefab::Append(nlohmann::json& out, unsigned int index, nlohmann::json& cha
 			{
 				affectedId = ID::CreateLocalLevelID(change[idField], ID::ConvertStrToType(change[typeField].get<std::string>()));
 				
-				const auto it = appendCopy.find(affectedId);
+				const auto& it = appendCopy.find(affectedId);
 				if constexpr (Setting::IsDebugMode())
 				{
 					if (it == appendCopy.end())
@@ -46,7 +46,7 @@ void Prefab::Append(nlohmann::json& out, unsigned int index, nlohmann::json& cha
 						throw RESOURCE_LOAD_EXCEPTION(os.str(), Prefab);
 					}
 				}
-				it->second._jsonObject[change[fieldField].get<std::string>()] = change[valueField];
+				it->second._jsonObject[inputsField][change[fieldField].get<std::string>()] = change[valueField];
 			}
 		}
 	}

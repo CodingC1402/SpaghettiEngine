@@ -108,7 +108,6 @@ protected:
 	static PGraphics __instance;
 private:
 #ifdef _DEBUG
-#include "Timer.h"
 	float fps = 0;
 	PTimer fpsTimer = Timer::Create();
 	RECT fpsRect;

@@ -87,6 +87,8 @@ public:
 
 	void RemoveParent();
 	void AddParent(const PGameObj& gameObj);
+	void AddParentWithoutCalculateLocal(const PGameObj& gameObj);
+	void RemoveParentWithoutCalculateLocal();
 
 	PGameObj AddChild();
 	BaseComponent* Clone() override;

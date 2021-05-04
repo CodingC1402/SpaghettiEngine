@@ -56,8 +56,10 @@ public:
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
 	[[nodiscard]] const char*		GetName() const noexcept;
-	[[nodiscard]] virtual Matrix	GetWorldMatrix() noexcept;
-	[[nodiscard]] virtual Vector3	GetTransform()	const noexcept;
+	[[nodiscard]] Matrix	GetWorldMatrix() const noexcept;
+	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
+	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
+	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
 	[[nodiscard]] BaseComponent*	Clone() override;
 	void Load(nlohmann::json& input) override { }
 protected:
