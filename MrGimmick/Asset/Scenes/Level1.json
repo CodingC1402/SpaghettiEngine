@@ -4,7 +4,8 @@
 			"ID": 10001,
 			"Changes": [
 				{
-					"ID": 10002,
+					"ID": 1,
+					"Type" : "GameObject",
 					"Field": "Rotation",
 					"Value": [0, 0, 45]
 				}

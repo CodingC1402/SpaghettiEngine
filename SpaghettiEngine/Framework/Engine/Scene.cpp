@@ -4,6 +4,7 @@
 #include "ScriptBase.h"
 #include "Prefabs.h"
 #include "Setting.h"
+#include "LoadingJson.h"
 #include <sstream>
 #include <fstream>
 #include <ranges>
@@ -114,9 +115,25 @@ void Scene::End()
 	for (const auto& gameObj : _rootGameObjects)
 		gameObj->OnEnd();
 }
-
+void Scene::ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type)
+{
+	using namespace  LoadingJson;
+	
+	if constexpr (Setting::IsDebugMode())
+	{
+		if (!ID::CheckID(json[idField].get<CULL>()))
+			throw SCENE_EXCEPTION("[Exception] gameObj have local id lager then the number in setting file");
+	}
+	
+	ID::ConvertIDInJson(json, type);
+	
+	_tempComponentContainer->emplace(json[idField].get<CULL>(), Entry(json[inputsField], component));
+	_sceneComponent.push_back(component);
+}
 void Scene::Load()
 {
+	using namespace LoadingJson;
+	
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
@@ -129,19 +146,6 @@ void Scene::Load()
 	
 	try
 	{
-		constexpr auto scriptsField = "Scripts";
-		constexpr auto gameObjectsField = "GameObjects";
-		constexpr auto prefabsField = "Prefabs";
-		constexpr auto idField = "ID";
-		constexpr auto changesField = "Changes";
-		constexpr auto scriptTypeField = "ScriptType";
-		constexpr auto inputsField = "Inputs";
-		constexpr auto isRootField = "IsRoot";
-		constexpr auto prefabIdField = "PrefabID";
-		constexpr auto isDisabled = "IsDisabled";
-		constexpr auto childrenField = "Children";
-		
-		
 		_tempComponentContainer = new std::map<CULL, Entry>();
 		
 		json jsonFile;
@@ -180,64 +184,25 @@ void Scene::Load()
 			}
 		}
 
+		//Load script
 		for (auto& script : jsonFile[scriptsField])
 		{
 			SBaseComponent newScript(ScriptFactory::CreateInstance(script[scriptTypeField].get<std::string>(), this));
 			newScript->AssignSharedPtr(newScript);
-			
-			unsigned prefabID = 0;
-			if (script[prefabIdField] != nullptr)
-			{
-				prefabID = script[prefabIdField].get<unsigned>();
-			}
 
-			script[idField] = Setting::CreateTopLevelID(
-				script[idField].get<unsigned>(),
-				static_cast<unsigned>(ComponentType::script),
-				prefabID
-			);
+			ConvertJsonAndAddComponent(newScript, script, ComponentType::script);
 			
-			_tempComponentContainer->emplace(script[idField].get<CULL>(), Entry(script[inputsField], newScript));
-			_sceneComponent.push_back(newScript);
 			if (script[isDisabled] != nullptr && script[isDisabled].get<bool>())
 				newScript->DisableWithoutUpdate();
 		}
+		//Load object
 		for (auto& gameObj : jsonFile[gameObjectsField])
 		{
 			SBaseComponent newObj(new GameObj(this));
 			newObj->AssignSharedPtr(newObj);
 
-			if constexpr (Setting::IsDebugMode())
-			{
-				if (gameObj[idField].get<CULL>() & Setting::_errorMaskLocalId)
-					throw SCENE_EXCEPTION("[Exception] gameObj have local id lager then the number in setting file");
-			}
+			ConvertJsonAndAddComponent(newObj, gameObj, ComponentType::gameObj);
 			
-			unsigned prefabID = 0;
-			if (gameObj[prefabIdField] != nullptr)
-				prefabID = gameObj[prefabIdField].get<unsigned>();
-			
-			gameObj[idField] = Setting::CreateTopLevelID(
-				gameObj[idField].get<unsigned>(),
-				static_cast<unsigned>(ComponentType::gameObj),
-				prefabID
-			);
-			
-			for (auto& child : gameObj[inputsField][childrenField])
-				child = Setting::CreateTopLevelID(
-					child.get<unsigned>(),
-					static_cast<unsigned>(ComponentType::gameObj),
-					prefabID
-				);
-			for (auto& script : gameObj[inputsField][scriptsField])
-				script = Setting::CreateTopLevelID(
-					script.get<unsigned>(),
-					static_cast<unsigned>(ComponentType::script),
-					prefabID
-				);
-			
-			_tempComponentContainer->emplace(gameObj[idField].get<CULL>(), Entry(gameObj[inputsField], newObj));
-			_sceneComponent.push_back(newObj);
 			if (gameObj[isRootField] != nullptr && gameObj[isRootField].get<bool>())
 				_rootGameObjects.push_back(dynamic_cast<PGameObj>(newObj.get()));
 			if (gameObj[isDisabled] != nullptr && gameObj[isDisabled].get<bool>())

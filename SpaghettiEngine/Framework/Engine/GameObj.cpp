@@ -4,26 +4,18 @@
 #include "GraphicsMath.h"
 #include "ScriptBase.h"
 #include "Scene.h"
-#include "Path.h"
-#include "Prefabs.h"
+#include "LoadingJson.h"
 #include "Setting.h"
 
 #include <fstream>
 
-constexpr auto tagField			= "Tag";
-constexpr auto transformField	= "Transform";
-constexpr auto rotationField	= "Rotation";
-constexpr auto scaleField		= "Scale";
-constexpr auto scriptsField	= "Scripts";
-constexpr auto childrenField	= "Children";
-
 nlohmann::json GameObj::defaultJson = {
-	{transformField, {0, 0, 0}},
-	{rotationField, {0, 0, 0}},
-	{scaleField, {0, 0, 0}},
-	{childrenField},
-	{scriptsField},
-	{tagField, "new"}
+	{LoadingJson::transformField, {0, 0, 0}},
+	{LoadingJson::rotationField, {0, 0, 0}},
+	{LoadingJson::scaleField, {0, 0, 0}},
+	{LoadingJson::childrenField},
+	{LoadingJson::scriptsField},
+	{LoadingJson::tagField, "new"}
 };
 
 #pragma region Get
@@ -289,15 +281,12 @@ void GameObj::Load(nlohmann::json& input)
 
 	loaded = true;
 	using namespace nlohmann;
+	using namespace LoadingJson;
 	// Use to track which field so it can descibe precisely the error
 	std::string fieldTracker = "Start of the file";
 	
 	try
 	{
-		constexpr auto idField			= "ID";
-		constexpr auto gameObjsField	= "GameObjects";
-		constexpr auto isRootField		= "IsRoot";
-		
 		tag = input[tagField].get<std::string>();
 		// use to check which field throw error
 		if constexpr (Setting::IsDebugMode())

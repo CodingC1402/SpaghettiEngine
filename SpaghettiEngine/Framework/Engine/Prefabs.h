@@ -26,7 +26,7 @@ public:
 public:
 	static constexpr unsigned long long acceptMask = 0xFFFFFFFFFFFFFFFFU;
 protected:
-	std::map<unsigned int, ComponentJsonObject> _components;
+	std::map<CULL, ComponentJsonObject> _components;
 };
 
 class PrefabsContainer : public Container<Prefab>
