@@ -1,30 +1,58 @@
 #include "Animator.h"
 #include "GameTimer.h"
+#include "Setting.h"
 
 REGISTER_FINISH(Animator);
-SAnimation* Animator::test;
 
-Animator::Animator()
+Animator::Animator(PScene owner)
+	:
+	Render2DScriptBase(owner)
 {
-	name = TYPE_NAME(Animator);
+	_name = TYPE_NAME(Animator);
 }
 
-void Animator::Update()
+void Animator::OnUpdate()
 {
 	time += GameTimer::GetDeltaTime();
-	_ani->Advance(&frame, &time);
-	sprite = _ani->GetSpriteOfFrame(&frame);
-	SpriteRenderer::Update();
+	_ani->Advance(frame, time);
 }
 
-void Animator::Load(const std::string* inputArg)
+void Animator::Draw(SpriteHandler handler, PCamera camera)
 {
-	_ani = Animation::GetAnimation(inputArg);
-	test = &_ani;
-	frame = 0;
+	_sprite = _ani->GetSpriteOfFrame(frame);
+	RECT srcRect = _sprite->GetSourceRect();
+	Vector3 center = _sprite->GetCenter();
+	Matrix transform = camera->GetMatrix(GetWorldMatrix());
+	if (Setting::IsWorldPointPixelPerfect())
+	{
+		transform._41 = std::round(transform._41);
+		transform._42 = std::round(transform._42);
+	}
+
+	handler->SetTransform(&transform);
+	handler->Draw(
+		_sprite->GetSource()->GetImage(),
+		&srcRect,
+		&center,
+		nullptr,
+		WHITE
+	);
 }
 
-void Animator::Unload()
+void Animator::Load(nlohmann::json& inputObject)
 {
-	SpriteRenderer::Unload();
+	try
+	{
+		_ani = AnimationContainer::GetInstance()->GetResource(inputObject["Animation"].get<CULL>());
+		frame = 0;
+	}
+	catch (const CornException& e)
+	{
+		throw SCRIPT_FORMAT_EXCEPT(this, e.What());
+	}
+	catch(const std::exception& e)
+	{
+		throw SCRIPT_FORMAT_EXCEPT(this, StringConverter::StrToWStr(e.what()));
+	}
+	Render2DScriptBase::Load(inputObject);
 }

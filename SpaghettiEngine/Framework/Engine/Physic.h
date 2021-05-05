@@ -1,7 +1,7 @@
 #pragma once
-#include "PhysicMath.h"
-#include "RigidBody.h"
-#include "BoxCollider.h"
+//#include "PhysicMath.h"
+//#include "RigidBody.h"
+//#include "BoxCollider.h"
 #include <memory.h>
 
 typedef class BoxCollider* PBoxCollider;
@@ -20,12 +20,13 @@ public:
 	void AddRigidBody(PRigidBody newRigidBody);
 protected:
 	void Unload();
-	bool CheckCollision(PBoxCollider object, PBoxCollider block);
+	void CheckCollision(PBoxCollider object, PBoxCollider block);
 protected:
 	Physic() = default;
 	~Physic();
 	static PPhysic __instance;
 private:
-	std::list<PRigidBody> rigidBodis;
-	std::list<PBoxCollider> boxColliders;
+	//std::list<PRigidBody> rigidBodis;
+	//std::list<PBoxCollider> boxColliders;
+
 };

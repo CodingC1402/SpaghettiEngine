@@ -2,9 +2,10 @@
 #include "json.hpp"
 #include "CornException.h"
 #include "CornDirectX.h"
+#include "ResourceContainer.h"
 #include <string>
 #include <memory>
-#include <list>
+#include <map>
 
 typedef class Texture* PTexture;
 typedef std::shared_ptr<Texture> STexture;
@@ -14,40 +15,24 @@ typedef class Sprite* PSprite;
 typedef std::shared_ptr<Sprite> SSprite;
 typedef std::unique_ptr<Sprite> USprite;
 
-typedef LPDIRECT3DTEXTURE9 PDx9Texture;
+class Texture : public Resource
+{
+public:
+	Texture();
+	~Texture() override;
+	
+	void Load(const std::string& path) override;
+	[[nodiscard]] bool IsResourceUnused() const override;
+	[[nodiscard]] PImage GetImage() const;
+	[[nodiscard]] SSprite GetSprite(const unsigned int& index) noexcept;
+protected:
+	std::vector<SSprite>sprites;
+	PImage image;
+};
 
-class Texture
+class TextureContainer : public Container<Texture>
 {
 	friend class SceneManager;
 public:
-	class TextureException : public CornDescriptionException
-	{
-	public:
-		TextureException(int line, const char* file, std::wstring description);
-		virtual const wchar_t* GetType() const noexcept override;
-	};
-public:
-	static bool GetTexture(STexture* texture, const std::string& path);
-	static void LoadTexture(const std::string& path);
-
-	bool GetSprite(SSprite* sprite, const int& index) noexcept;
-	PDx9Texture GetImage();
-	~Texture();
-protected:
-	Texture(const std::string& path);
-	static void RemoveTexture(const std::string& path);
-	static void ClearUnusedTexture();
-	static void ClearTexture();
-
-	bool IsAllSpriteUnused();
-	void Load();
-	bool CheckPath(const std::string& path);
-protected:
-	PDx9Texture image;
-	std::string path;
-
-	std::list<SSprite>sprites;
-	static std::list<STexture> textures;
+	TextureContainer();
 };
-
-#define TEXTURE_EXCEPT(description) Texture::TextureException(__LINE__,__FILE__,description)

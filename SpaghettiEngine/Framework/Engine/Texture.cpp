@@ -1,101 +1,76 @@
 ﻿#include "Texture.h"
 #include "json.hpp"
-#include <fstream>
-#include <sstream>
 #include "Graphics.h"
 #include "Sprite.h"
+#include "SpaghettiEnginePath.h"
+#include <fstream>
+#include <sstream>
 
-std::list<STexture> Texture::textures;
+CONTAINER_REGISTER(TextureContainer, Texture);
 
-PDx9Texture Texture::GetImage()
+PImage Texture::GetImage() const
 {
 	return image;
 }
 
-#define KEYCOLOR "KeyColor"
-#define RED "Red"
-#define GREEN "Green"
-#define BLUE "Blue"
-#define Sprites "Sprites"
-#define SpritePosX 0
-#define SpritePosY 1
-#define SpriteWidth 2
-#define SpriteHeight 3
-
-bool Texture::IsAllSpriteUnused()
-{
-	for (const auto& sprite : sprites)
-	{
-		if (sprite.use_count() > 1)
-			return false;
-	}
-	return true;
-}
-
-void Texture::Load()
-{
+void Texture::Load(const std::string& path)
+{	
 	using namespace nlohmann;
 
 	std::ifstream jsonFile(path + ".json");
 	if (!jsonFile.is_open()) 
 	{
-		std::wostringstream os;
-		os << L"File ";
+		std::ostringstream os;
+		os << "[Exception] File ";
 		os << path.c_str();
-		os << L" Doesn't exist";
-		throw TEXTURE_EXCEPT(os.str());
+		os << " doesn't exist";
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Texture);
 	}
 
 	try
 	{
+		constexpr const char* KeyColor = "KeyColor";
+		constexpr const char* Sprites = "Sprites";
+		constexpr const char* Red = "Red";
+		constexpr const char* Green = "Green";
+		constexpr const char* Blue = "Blue";
+		
 		json file;
 		jsonFile >> file;
 
-		UINT red = file[KEYCOLOR][RED].get<int>();
-		UINT green = file[KEYCOLOR][GREEN].get<int>();
-		UINT blue = file[KEYCOLOR][BLUE].get<int>();
+		UINT red = file[KeyColor][Red].get<int>();
+		UINT green = file[KeyColor][Green].get<int>();
+		UINT blue = file[KeyColor][Blue].get<int>();
 		auto keyColor = ARGB(red, green, blue, 255);
 		Graphics::LoadTexture(image, path, keyColor);
 
-		for (int x, y, w, h; const auto& sprite : file["Sprites"])
+		sprites.reserve(file[Sprites].size());
+		for (int x, y, w, h; const auto& sprite : file[Sprites])
 		{
+			constexpr int SpritePosX = 0;
+			constexpr int SpritePosY = 1;
+			constexpr int SpriteWidth = 2;
+			constexpr int SpriteHeight = 3;
+			
 			x = sprite[SpritePosX].get<int>();
 			y = sprite[SpritePosY].get<int>();
 			w = sprite[SpriteWidth].get<int>();
 			h = sprite[SpriteHeight].get<int>();
-			sprites.push_back(SSprite(new Sprite(this, x, y, w, h)));
+			sprites.emplace_back(SSprite(new Sprite(this, x, y, w, h)));
 		}
 	}
 	catch (...)
 	{
-		std::wostringstream os;
-		os << L"File ";
+		std::ostringstream os;
+		os << "File ";
 		os << path.c_str();
-		os << L" doesn't have the right format";
-		throw TEXTURE_EXCEPT(os.str());
+		os << " doesn't have the right format";
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Texture);
 	}
 }
 
-bool Texture::CheckPath(const std::string& path)
-{
-	return this->path == path;
-}
-
-bool Texture::GetTexture(STexture* rTexture, const std::string& path)
-{
-	for (const auto& texture : textures)
-	{
-		if (texture->CheckPath(path))
-		{
-			*rTexture = texture;
-			return true;
-		}
-	}
-	
-	LoadTexture(path);
-	GetTexture(rTexture, path);
-	return false;
-}
+Texture::Texture() : Resource(), image(nullptr)
+{}
 
 Texture::~Texture()
 {
@@ -103,74 +78,24 @@ Texture::~Texture()
 	image = nullptr;
 }
 
-Texture::Texture(const std::string& path)
+SSprite Texture::GetSprite(const unsigned int& index) noexcept
 {
-	this->path = path;
+	if (index >= static_cast<const unsigned int>(sprites.size()))
+		return SSprite();
+	
+	return sprites[index];
 }
 
-void Texture::LoadTexture(const std::string& path)
+TextureContainer::TextureContainer()
 {
-	textures.push_back(STexture(new Texture(path)));
-	textures.back()->Load();
+	_name = RESOURCE_NAME(Texture);
+	LoadEntries(SystemPath::TextureEntriesPath);
 }
 
-bool Texture::GetSprite(SSprite* sprite, const int& index) noexcept
+bool ::Texture::IsResourceUnused() const
 {
-	if (index >= sprites.size())
-		return false;
-
-	auto iterator = sprites.begin();
-	std::advance(iterator, index);
-	*sprite = (*iterator);
+	for (const auto& sprite : sprites)
+		if (sprite.use_count() > 1)
+			return false;
 	return true;
-}
-
-void Texture::RemoveTexture(const std::string& path)
-{
-	auto iterator = textures.begin();
-	size_t size = textures.size();
-	while (size > 0)
-	{
-		if ((*iterator)->CheckPath(path))
-		{
-			textures.erase(iterator);
-			break;
-		}
-		size--;
-	}
-}
-
-void Texture::ClearUnusedTexture()
-{
-	size_t size = textures.size();
-	auto iterator = textures.begin();
-	while (size > 0)
-	{
-		if (iterator->use_count() <= 1)
-		{
-			if ((*iterator)->IsAllSpriteUnused())
-			{
-				const auto eraseIterator = iterator;
-				std::advance(iterator, 1);
-				textures.erase(eraseIterator);
-			}
-		}
-		size--;
-	}
-}
-
-
-void Texture::ClearTexture()
-{
-	textures.clear();
-}
-
-Texture::TextureException::TextureException(int line, const char* file, std::wstring description)
-	:
-	CornDescriptionException(line, file, std::move(description))
-{}
-
-const wchar_t* Texture::TextureException::GetType() const noexcept
-{
-	return L"Texture Exception  ( ◕▿◕ )՞";
 }

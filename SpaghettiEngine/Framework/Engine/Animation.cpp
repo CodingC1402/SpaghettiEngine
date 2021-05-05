@@ -1,53 +1,26 @@
 #include "Animation.h"
 #include "json.hpp"
+#include "SpaghettiEnginePath.h"
 #include <fstream>
 
-std::list<SAnimation> Animation::__loadedAnimation;
+CONTAINER_REGISTER(AnimationContainer, Animation);
 
-SAnimation Animation::GetAnimation(int index)
-{
-	auto it = __loadedAnimation.begin();
-	std::advance(it, index);
-	return *it;
-}
-
-SAnimation Animation::GetAnimation(const std::string* path)
-{
-	for (const auto& animation : __loadedAnimation)
-	{
-		if (animation->_path == *path)
-			return animation;
-	}
-
-	return LoadAnimation(path);
-}
-
-SAnimation Animation::LoadAnimation(const std::string* path)
-{
-	SAnimation newAnimation(new Animation(path));
-	newAnimation->Load();
-	newAnimation.use_count();
-	__loadedAnimation.push_back(newAnimation);
-	newAnimation.use_count();
-	return newAnimation;
-}
-
-int Animation::GetNumberOfFrames() const noexcept
+size_t Animation::GetNumberOfFrames() const noexcept
 {
 	return _frames.size();
 }
 
-SSprite Animation::GetSpriteOfFrame(const UINT* frame)
+SSprite Animation::GetSpriteOfFrame(const unsigned int& frame) const
 {
-	return _frames[*frame].sprite;
+	return _frames[frame].sprite;
 }
 
-void Animation::Advance(UINT* frame, double* time)
+void Animation::Advance(unsigned int& frame, float& time)
 {
-	UINT nextFrame = *frame;
-	while (*time >= 0)
+	UINT nextFrame = frame;
+	while (time >= 0)
 	{
-		*frame = nextFrame;
+		frame = nextFrame;
 		nextFrame++;
 
 		if (nextFrame == _frames.size())
@@ -58,91 +31,78 @@ void Animation::Advance(UINT* frame, double* time)
 				return;
 		}
 
-		*time -= _frames[nextFrame].delay;
+		time -= _frames[nextFrame].delay;
 	}
-	*time += _frames[nextFrame].delay;
+	time += _frames[nextFrame].delay;
 }
 
-Animation::Animation(const std::string* path)
+AnimationContainer::AnimationContainer()
 {
-	_path = *path;
+	_name = RESOURCE_NAME(Animation);
+	LoadEntries(SystemPath::AnimationEntriesPath);
 }
 
-#define TEXTUREPATH "TexturePath"
-#define	FRAMES "Frames"
-#define LOOP "Loop"
-#define SPRITEINDEX 0
-#define DELAY 1
-void Animation::Load()
+Animation::Animation() : Resource()
+{
+	isLoop = false;
+}
+void Animation::Load(const std::string& path)
 {
 	using namespace nlohmann;
 
-	std::ifstream file(_path);
+	std::ifstream file(path);
 	if (!file.is_open())
 	{
-		std::wostringstream os;
-		os << L"File ";
-		os << _path.c_str();
-		os << L" Doesn't exist";
-		throw TEXTURE_EXCEPT(os.str());
+		std::ostringstream os;
+		os << "[Exception] File ";
+		os << path.c_str();
+		os << " doesn't exist";
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Animation);
 	}
 
+	constexpr const char* Texture = "Texture";
+	constexpr const char* Loop = "Loop";
+	constexpr const char* Frames = "Frames";
+	int fieldTracker = 0;
 	try
 	{
 		json jsonFile;
 		file >> jsonFile;
 
-		std::string texturePath = jsonFile[TEXTUREPATH].get<std::string>();
-		STexture texture;
-		Texture::GetTexture(&texture, texturePath);
-		Frame loadedFrame;
-		for (const auto& frame : jsonFile[FRAMES])
+		auto textureID = jsonFile[Texture].get<CULL>();
+		fieldTracker++;
+		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
+		for (Frame loadedFrame; const auto& frame : jsonFile[Frames])
 		{
-			texture->GetSprite(&loadedFrame.sprite, frame[SPRITEINDEX].get<int>());
-			loadedFrame.delay = frame[DELAY].get<double>();
+			static constexpr int SpriteIndex = 0;
+			static constexpr int Delay = 1;
+			
+			loadedFrame.sprite = texture->GetSprite(frame[SpriteIndex].get<int>());
+			loadedFrame.delay = frame[Delay].get<float>();
 			_frames.push_back(loadedFrame);
 		}
-		this->isLoop = jsonFile[LOOP].get<bool>();
+		fieldTracker++;
+		this->isLoop = jsonFile[Loop].get<bool>();
 	}
 	catch (...)
 	{
-		std::wostringstream os;
-		os << L"File ";
-		os << _path.c_str();
-		os << L" doesn't have the right format";
-		throw TEXTURE_EXCEPT(os.str());
-	}
-}
-
-void Animation::RemoveAnimation(const std::string* path)
-{
-	for (auto it = __loadedAnimation.begin(); it != __loadedAnimation.end(); std::advance(it, 1))
-	{
-		if ((*it)->_path == *path)
+		std::ostringstream os;
+		os << "[Field] ";
+		switch (fieldTracker)
 		{
-			__loadedAnimation.erase(it);
-			return;
+		case 0:
+			os << Texture;
+			break;
+		case 1:
+			os << Frames;
+			break;
+		case 2:
+			os << Loop;
+			break;
 		}
+		os << std::endl;
+		
+		os << "[Exception] Field doesn't have the right format";
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Animation);
 	}
-}
-
-void Animation::ClearUnusedAnimation()
-{
-	size_t size = __loadedAnimation.size();
-	auto iterator = __loadedAnimation.begin();
-	while (size > 0)
-	{
-		if (iterator->use_count() <= 1)
-		{
-			auto eraseIterator = iterator;
-			std::advance(iterator, 1);
-			__loadedAnimation.erase(eraseIterator);
-		}
-		size--;
-	}
-}
-
-void Animation::ClearAnimation()
-{
-	__loadedAnimation.clear();
 }

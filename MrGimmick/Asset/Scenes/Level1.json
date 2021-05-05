@@ -1,7 +1,42 @@
 {
-  "GameObjects": [
-    "Asset/Scenes/Level1/Obj1.json",
-    "Asset/Scenes/Level1/Obj2.json",
-    "Asset/Scenes/Level1/Obj3.json"
-  ]
+	"Prefabs": [
+		{
+			"ID": 10001,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type" : "GameObject",
+					"Field": "Rotation",
+					"Value": [0, 0, 0]
+				}
+			]
+		}
+	],
+	"GameObjects": [
+		{
+			"ID": 10001,
+			"Inputs": {
+				"IsRoot": true,
+				"Tag": "TileMap",
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					20001
+				]
+			}
+		} 
+	],
+	"Scripts": [
+		{
+			"ID": 20001,
+			"IsDiabled": false,
+			"Inputs": {
+				"ScriptType": "TileMapRenderer",
+				"TileMapPath": "Asset/Scenes/Level1/TileMapRendererInput.json"
+			}
+		}
+	]
 }

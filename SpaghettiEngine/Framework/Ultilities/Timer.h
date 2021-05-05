@@ -8,18 +8,18 @@
 typedef class Timer
 {
 public:
-	~Timer() {};
+	~Timer() = default;
 	void Start() noexcept;
 	void Mark() noexcept;
-	const double& GetSystemTime() const noexcept;
-	const double& GetDeltaTime() const noexcept;
+	const float& GetSystemTime() const noexcept;
+	const float& GetDeltaTime() const noexcept;
 
 	static Timer* Create() noexcept;
 protected:
-	Timer() {};
+	Timer() = default;
 protected:
-	double deltaTime = 0;
-	double systemTime = 0;
+	float deltaTime = 0;
+	float systemTime = 0;
 	std::chrono::time_point<std::chrono::high_resolution_clock> previousTimePoint;
 } *PTimer;
 

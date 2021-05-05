@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "ExMath.h"
 
 PTexture& Sprite::GetSource()
 {
@@ -32,8 +33,8 @@ Sprite::Sprite(const PTexture& source, const int& x, const int& y, const int& w,
 	srcRect.right = srcRect.left + w;
 	srcRect.bottom = srcRect.top + h;
 
-	center.x = (int)w / 2;
-	center.y = (int)w / 2;
+	center.x = std::floor(CLib::ToFloat(w) / 2.0f);
+	center.y = std::floor(CLib::ToFloat(h) / 2.0f);
 	center.z = 0;
 
 	this->source = source;
@@ -46,8 +47,8 @@ Sprite::Sprite(const PTexture& source, const Size& size, const Point& position)
 	srcRect.right = srcRect.left + size.width;
 	srcRect.bottom = srcRect.top + size.height;
 
-	center.x = (int)size.width / 2;
-	center.y = (int)size.height / 2;
+	center.x = std::floor(CLib::ToFloat(size.width) / 2.0f);
+	center.y = std::floor(CLib::ToFloat(size.height) / 2.0f);
 	center.z = 0;
 
 	this->source = source;

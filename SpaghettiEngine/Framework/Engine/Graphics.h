@@ -49,8 +49,11 @@ public:
 	static PGraphics GetInstance();
 	static void ToFullScreenMode();
 	static void ToWindowMode();
-	static void Draw(Render2DScriptBase* renderScript); // Render Sprite
-	static void LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color& keyColor);
+	static void LoadTexture(PImage& rTexture, const std::string& path, const Color& keyColor);
+
+	static void AddRender2D(PRender2DScriptBase renderScript);
+	static void RemoveRender2D(PRender2DScriptBase renderScript);
+	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
 
@@ -100,12 +103,10 @@ protected:
 
 	bool isPixelPerfect = false;
 	std::list<PCamera> cameraList;
-	std::list<PRender2DScriptBase> _renderBuffer2D;
+	std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D;
 
 	static PGraphics __instance;
 private:
-#ifdef _DEBUG
-#include "Timer.h"
 	float fps = 0;
 	PTimer fpsTimer = Timer::Create();
 	RECT fpsRect;
@@ -118,9 +119,8 @@ private:
 
 	void UpdateFPS() {
 		fpsTimer->Mark();
-		fps = fps * 0.8 + 0.2 * (1 / fpsTimer->GetDeltaTime());
+		fps = fps * 0.8f + 0.2f * (1.0f / fpsTimer->GetDeltaTime());
 	}
-#endif
 };
 
 #define GRAPHICS_EXCEPT(description) Graphics::GraphicException(__LINE__,__FILE__,description)

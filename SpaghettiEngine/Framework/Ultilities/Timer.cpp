@@ -1,11 +1,11 @@
 #include "Timer.h"
 
-const double& Timer::GetSystemTime() const noexcept
+const float& Timer::GetSystemTime() const noexcept
 {
     return systemTime;
 }
 
-const double& Timer::GetDeltaTime() const noexcept
+const float& Timer::GetDeltaTime() const noexcept
 {
     return deltaTime;
 }

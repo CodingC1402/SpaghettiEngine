@@ -164,13 +164,28 @@
     <ClInclude Include="Framework\Scripts\Render2DScriptBase.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Ultilities\PhysicMath.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Scripts\BoxCollider.h">
+    <ClInclude Include="Framework\Scripts\TileMapRenderer.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Scripts\RigidBody.h">
+    <ClInclude Include="Framework\Ultilities\ExMath.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\Path.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\AnimationStateMachine.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\ResourceContainer.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Prefabs.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\LoadingJson.h">
+      <Filter>FrameWork\Engine\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Scripts\RigidBody2D.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -274,13 +289,28 @@
     <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Ultilities\PhysicMath.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\BoxCollider.cpp">
+    <ClCompile Include="Framework\Scripts\TileMapRenderer.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Scripts\RigidBody.cpp">
+    <ClCompile Include="Framework\Ultilities\ExMath.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\Path.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\AnimationStateMachine.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\ResourceContainer.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Prefabs.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\LoadingJson.cpp">
+      <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\RigidBody2D.cpp">
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

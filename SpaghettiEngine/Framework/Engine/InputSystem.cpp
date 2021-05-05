@@ -68,12 +68,12 @@ void InputSystem::Load()
 {
 	using namespace nlohmann;
 
-	std::ifstream jsonStream(INPUTPATH);
+	std::ifstream jsonStream(SystemPath::InputPath);
 	if (!jsonStream.is_open())
 	{
 		std::wostringstream oss;
 		oss << L"File ";
-		oss << INPUTPATH;
+		oss << SystemPath::InputPath;
 		oss << L" doesn't exist";
 		throw INPUTSYS_EXCEPT(oss.str());
 	}
@@ -94,7 +94,7 @@ void InputSystem::Load()
 	{
 		std::wostringstream oss;
 		oss << L"File ";
-		oss << INPUTPATH;
+		oss << SystemPath::InputPath;
 		oss << L" is in the wrong format";
 		throw INPUTSYS_EXCEPT(oss.str());
 	}
@@ -122,7 +122,7 @@ void InputSystem::Save()
 	}
 
 	std::ofstream oFile;
-	oFile.open(INPUTPATH, std::ios_base::trunc);
+	oFile.open(SystemPath::InputPath, std::ios_base::trunc);
 	oFile << j;
 	oFile.close();
 }

@@ -379,42 +379,42 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnLeftPress( ptPos );
-		m_kbKeyInput->OnKeyPressed( VK_LBUTTON );
+		m_kbKeyInput->OnKeyPressed( VK_LBUTTON, 0 );
 		break;
 	}
 	case WM_LBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnLeftRelease( ptPos );
-		m_kbKeyInput->OnKeyRelease( VK_LBUTTON );
+		m_kbKeyInput->OnKeyRelease( VK_LBUTTON, 0 );
 		break;
 	}
 	case WM_RBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnRightPress( ptPos );
-		m_kbKeyInput->OnKeyPressed( VK_RBUTTON );
+		m_kbKeyInput->OnKeyPressed( VK_RBUTTON, 0 );
 		break;
 	}
 	case WM_RBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnRightRelease( ptPos );
-		m_kbKeyInput->OnKeyRelease( VK_RBUTTON );
+		m_kbKeyInput->OnKeyRelease( VK_RBUTTON, 0 );
 		break;
 	}
 	case WM_MBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnMiddlePress( ptPos );
-		m_kbKeyInput->OnKeyPressed( VK_MBUTTON );
+		m_kbKeyInput->OnKeyPressed( VK_MBUTTON, 0 );
 		break;
 	}
 	case WM_MBUTTONUP:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnMiddleRelease( ptPos );
-		m_kbKeyInput->OnKeyRelease( VK_MBUTTON );
+		m_kbKeyInput->OnKeyRelease( VK_MBUTTON, 0 );
 		break;
 	}
 	case WM_MOUSEWHEEL:
@@ -436,11 +436,11 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	//Key board message
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
-		m_kbKeyInput->OnKeyPressed( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnKeyPressed( static_cast<unsigned char>(wParam), lParam );
 		break;
 	case WM_SYSKEYUP:
 	case WM_KEYUP:
-		m_kbKeyInput->OnKeyRelease( static_cast<unsigned char>(wParam) );
+		m_kbKeyInput->OnKeyRelease( static_cast<unsigned char>(wParam), lParam );
 		break;
 	case WM_CHAR:
 		m_kbKeyInput->OnChar( static_cast<wchar_t>(wParam) );

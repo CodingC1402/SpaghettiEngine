@@ -4,19 +4,29 @@
 #include "CornException.h"
 #include "Animation.h"
 #include "Graphics.h"
-#include "Physic.h"
+#include "Path.h"
 #include <fstream>
 
 PSceneManager SceneManager::__instance = nullptr;
 
-SceneManager::SceneManagerException::SceneManagerException(int line, const char* file, std::wstring description) noexcept
+SceneManager::SceneManagerException::SceneManagerException(int line, const char* file, std::string description) noexcept
 	:
-	CornDescriptionException(line, file, description)
+	CornException(line, file),
+	_description(description)
 {}
 
 const wchar_t* SceneManager::SceneManagerException::GetType() const noexcept
 {
 	return L"Scene manager exception |ʘ‿ʘ)╯";
+}
+
+const wchar_t* SceneManager::SceneManagerException::What() const noexcept
+{
+	std::wostringstream os;
+	os << GetOriginString() << std::endl;
+	os << _description.c_str();
+	whatBuffer = os.str();
+	return whatBuffer.c_str();
 }
 
 void SceneManager::Update()
@@ -39,25 +49,25 @@ void SceneManager::StartLoadScene(UINT index)
 	if (index == sceneIndex)
 		return;
 
-	if (index > scenes.size())
+	if (index >= scenes.size())
 	{
-		std::wostringstream os;
-		os << L"LoadScene called with index ";
+		std::ostringstream os;
+		os << "LoadScene called with index ";
 		os << index << std::endl;
-		os << L"But the number of scenes is ";
+		os << "But the number of scenes is ";
 		os << scenes.size() << std::endl;
-		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
+		throw SCENEMANAGER_EXCEPT(os.str());
 	}
 
-	Physic::GetInstance()->Unload();
-	Graphics::GetInstance()->ClearRenderBuffer();
-	currentScene = scenes[index];
-	currentScene->Load();
-	scenes[sceneIndex]->Unload();
+	currentScene->Unload();
+	scenes[index]->Load();
+	scenes[index]->Start();
+	
 	sceneIndex = index;
-
-	Animation::ClearUnusedAnimation();
-	Texture::ClearUnusedTexture();
+	currentScene = scenes[sceneIndex];
+	
+	AnimationContainer::GetInstance()->UnloadUnusedResources();
+	TextureContainer::GetInstance()->UnloadUnusedResources();
 }
 
 void SceneManager::CallLoadNextScene()
@@ -101,40 +111,40 @@ SceneManager::SceneManager()
 	callLoadSceneIndex(-1)
 {}
 
-#define CONSTSCENE "ConstScene"
-#define SCENES "Scenes"
-#define START "Start"
-
 void SceneManager::Load()
 {
 	using namespace nlohmann;
 
-	std::ifstream jsonStream(SCENEMANAGERPATH);
+	std::ifstream jsonStream(SystemPath::SceneManagerPath);
 	if (!jsonStream.is_open())
 	{
-		std::wostringstream oss;
-		oss << L"File ";
-		oss << SCENEMANAGERPATH;
-		oss << L" doesn't exist";
-		throw SCENEMANAGER_EXCEPT(oss.str().c_str());
+		std::ostringstream oss;
+		oss << "[Exception] File ";
+		oss << SystemPath::SceneManagerPath;
+		oss << " doesn't exist";
+		throw SCENEMANAGER_EXCEPT(oss.str());
 	}
-	json file;
 	try
 	{
+		static constexpr const char* StaticScene = "StaticScene";
+		static constexpr const char* Scenes = "Scenes";
+		static constexpr const char* Start = "Start";
+		
+		json file;
 		jsonStream >> file;
-		for (const auto& scene : file[SCENES])
-			scenes.push_back(SScene(new Scene(scene.get<std::string>())));
+		for (const auto& scene : file[Scenes])
+			scenes.push_back(SScene(new Scene(CLib::ConvertPath(SystemPath::SceneManagerPath, scene.get<std::string>()))));
 
-		sceneIndex = file[START].get<int>();
+		sceneIndex = file[Start].get<int>();
 		callLoadSceneIndex = sceneIndex;
-		constScene = SScene(new Scene(file[CONSTSCENE].get<std::string>()));
+		constScene = SScene(new Scene(file[StaticScene].get<std::string>()));
 	}
 	catch (...)
 	{
-		std::wostringstream oss;
-		oss << L"File ";
-		oss << INPUTPATH;
-		oss << L" is in the wrong format";
+		std::ostringstream oss;
+		oss << "[Exception] File ";
+		oss << SystemPath::SceneManagerPath;
+		oss << " is in the wrong format";
 		throw SCENEMANAGER_EXCEPT(oss.str());
 	}
 }
@@ -145,4 +155,6 @@ void SceneManager::Init()
 	scenes[sceneIndex]->Load();
 	currentScene = scenes[sceneIndex];
 	constScene->Load();
+	currentScene->Start();
+	constScene->Start();
 }

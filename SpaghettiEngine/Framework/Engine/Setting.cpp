@@ -14,9 +14,14 @@ Setting* Setting::GetInstance()
     return __instance;
 }
 
-Plane2D::Size Setting::GetResolution()
+Plane2D::Size& Setting::GetResolution()
 {
 	return GetInstance()->resolution;
+}
+
+Plane2D::Size& Setting::GetHalfResolution()
+{
+	return GetInstance()->halfResolution;
 }
 
 const wchar_t* Setting::GetAppName()
@@ -48,12 +53,12 @@ void Setting::Load()
 {
 	using namespace nlohmann;
 
-	std::ifstream jsonFile(APPJSONPATH);
+	std::ifstream jsonFile(SystemPath::AppJsonPath);
 	if (!jsonFile.is_open())
 	{
 		std::wostringstream os;
 		os << L"File ";
-		os << APPJSONPATH;
+		os << SystemPath::AppJsonPath;
 		os << L" Doesn't exist";
 		throw APPSETTING_EXCEPT(os.str());
 	}
@@ -74,6 +79,8 @@ void Setting::Load()
 
 		resolution.width = file[RESOLUTION][WIDTH].get<int>();
 		resolution.height = file[RESOLUTION][HEIGHT].get<int>();
+		halfResolution.width = resolution.width / 2;
+		halfResolution.height = resolution.height / 2;
 		name = StringConverter::StrToWStr(file[NAME].get<std::string>());
 		isResolutionPixelPerfect = file[PIXELPERFECT_RESOLUTION].get<bool>();
 		isWorldPointPixelPerfect = file[PIXELPERFECT_WORLDPOINT].get<bool>();
@@ -85,7 +92,7 @@ void Setting::Load()
 	{
 		std::wostringstream os;
 		os << L"File ";
-		os << APPJSONPATH;
+		os << SystemPath::AppJsonPath;
 		os << L" doesn't have the right format";
 		throw APPSETTING_EXCEPT(os.str());
 	}

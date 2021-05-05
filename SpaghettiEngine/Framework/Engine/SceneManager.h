@@ -10,11 +10,14 @@ class SceneManager
 {
 	friend class Game;
 public:
-	class SceneManagerException : public CornDescriptionException
+	class SceneManagerException : public CornException
 	{
 	public:
-		SceneManagerException(int line, const char* file, std::wstring description) noexcept;
+		SceneManagerException(int line, const char* file, std::string description) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
+		const wchar_t* What() const noexcept override;
+	protected:
+		std::string _description;
 	};
 public:
 	static void CallLoadNextScene();

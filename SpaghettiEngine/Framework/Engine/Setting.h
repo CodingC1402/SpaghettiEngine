@@ -1,6 +1,7 @@
 #pragma once
 #include "Plane2D.h"
 #include "CornException.h"
+#include "ExMath.h"
 #include <string>
 
 class Setting
@@ -14,23 +15,38 @@ public:
 	};
 public:
 	static Setting* GetInstance();
-	static Plane2D::Size GetResolution();
+	static Plane2D::Size& GetResolution();
+	static Plane2D::Size& GetHalfResolution();
 	static const wchar_t* GetAppName();
 	static bool IsResolutionPixelPerfect();
 	static bool IsWorldPointPixelPerfect();
 	static float GetFps();
+	
+	static constexpr bool IsDebugMode();
 protected:
 	~Setting() = default;
 	Setting();
 	void Load();
 protected:
 	Plane2D::Size resolution;
+	Plane2D::Size halfResolution;
 	std::wstring name;
 	bool isResolutionPixelPerfect = false;
 	bool isWorldPointPixelPerfect = false;
 	float fps;
 
 	static Setting* __instance;
+	
+#ifdef _DEBUG
+	static constexpr bool _isDebugMode = true;
+#else
+	static constexpr bool _isDebugMode = false;
+#endif
 };
+
+constexpr bool Setting::IsDebugMode()
+{
+	return _isDebugMode;
+}
 
 #define APPSETTING_EXCEPT(description) Setting::AppSettingException(__LINE__,__FILE__,description)

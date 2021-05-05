@@ -3,7 +3,6 @@
 typedef class GameTimer* PGameTimer;
 typedef class InputSystem* PInputSystem;
 typedef class SceneManager* PSceneManager;
-typedef class Physic* PPhysic;
 
 class Game
 {
@@ -23,7 +22,6 @@ private:
 	PGameTimer timer = nullptr;
 	PInputSystem input = nullptr;
 	PSceneManager sceneManager = nullptr;
-	PPhysic physic = nullptr;
 
 	static Game* __instance;
 };

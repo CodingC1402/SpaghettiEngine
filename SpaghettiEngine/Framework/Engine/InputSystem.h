@@ -44,4 +44,4 @@ protected:
 	static PInputSystem __instance;
 };
 
-#define INPUTSYS_EXCEPT( description ) InputSystem::InputSysException(__LINE__,__FILE__,description);
+#define INPUTSYS_EXCEPT( description ) InputSystem::InputSysException(__LINE__,__FILE__,description)
