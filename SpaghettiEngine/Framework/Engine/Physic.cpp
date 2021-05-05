@@ -1,10 +1,12 @@
 #include "Physic.h"
+#include "Collider2DScriptBase.h"
+#include "RigidBody2D.h"
 
 PPhysic Physic::__instance = NULL;
 
 void Physic::Init()
 {
-
+	
 }
 
 void Physic::Update()
@@ -33,14 +35,23 @@ Physic* Physic::GetInstance()
 	return __instance;
 }
 
-void Physic::AddBoxCollider(PBoxCollider newCollider)
+void Physic::AddCollider(PCollider2DScriptBase collider)
 {
-	//boxColliders.push_back(newCollider);
+	colliders.push_back(collider);
 }
 
-void Physic::AddRigidBody(PRigidBody newRigidBody)
+void Physic::AddRigidBody(PRigidBody rigidbody)
 {
-	//rigidBodis.push_back(newRigidBody);
+	rigidBodis.push_back(rigidbody);
+}
+
+void Physic::RemoveCollider(PCollider2DScriptBase collider)
+{
+	colliders.
+}
+
+void Physic::RemoveRigidBody(PRigidBody rigidbody)
+{
 }
 
 void Physic::Unload()
@@ -49,7 +60,7 @@ void Physic::Unload()
 	//boxColliders.clear();
 }
 
-void Physic::CheckCollision(PBoxCollider object, PBoxCollider block)
+void Physic::CheckCollision(PCollider2DScriptBase object, PCollider2DScriptBase block)
 {
 
 }
