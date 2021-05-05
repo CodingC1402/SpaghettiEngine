@@ -46,6 +46,7 @@
     <ClInclude Include="Framework\Scripts\Animator.h" />
     <ClInclude Include="Framework\Scripts\Render2DScriptBase.h" />
     <ClInclude Include="Framework\Scripts\Camera.h" />
+    <ClInclude Include="Framework\Scripts\RigidBody2D.h" />
     <ClInclude Include="Framework\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Scripts\TileMapRenderer.h" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Framework\Scripts\Animator.cpp" />
     <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\Camera.cpp" />
+    <ClCompile Include="Framework\Scripts\RigidBody2D.cpp" />
     <ClCompile Include="Framework\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Scripts\TileMapRenderer.cpp" />
