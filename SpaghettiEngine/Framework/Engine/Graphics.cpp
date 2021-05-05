@@ -4,6 +4,7 @@
 #include "json.hpp"
 #include "GraphicsMath.h"
 #include "Render2DScriptBase.h"
+#include "Setting.h"
 #include <fstream>
 #include <DirectXMath.h>
 
@@ -40,12 +41,7 @@ void Graphics::ToWindowMode()
 	__instance->Window();
 }
 
-void Graphics::Draw(Render2DScriptBase* renderScript)
-{
-	__instance->_renderBuffer2D.push_back(renderScript);
-}
-
-void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const Color &keyColor)
+void Graphics::LoadTexture(PImage& rTexture, const std::string& path, const Color &keyColor)
 {
 	const std::wstring wPath = StringConverter::StrToWStr(path);
 	ImageInfo info;
@@ -77,41 +73,41 @@ void Graphics::LoadTexture(PDx9Texture& rTexture, const std::string& path, const
 		throw GRAPHICS_EXCEPT_CODE(result);
 }
 
+void Graphics::AddRender2D(PRender2DScriptBase renderScript)
+{
+	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
+}
+
+void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
+{
+	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
+}
+
 void Graphics::AddCamera(PCamera camera)
 {
-	__instance->cameraList.push_back(camera);
+	GetInstance()->cameraList.emplace_back(camera);
 }
 
 void Graphics::RemoveCamera(PCamera camera)
 {
-	size_t size = __instance->cameraList.size();
-	auto iterator = __instance->cameraList.begin();
-	while (size > 0)
-	{
-		if (*iterator == camera)
-		{
-			__instance->cameraList.erase(iterator);
-			break;
-		}
-		std::advance(iterator, 1);
-		size--;
-	}
+	GetInstance()->cameraList.remove(camera);
 }
 
 void Graphics::SetActiveCamera(PCamera setCamera)
 {
 	__instance->cameraList.remove(setCamera);
-	__instance->cameraList.push_front(setCamera);
+	__instance->cameraList.emplace_front(setCamera);
 }
 
 void Graphics::ClearRenderBuffer2D()
 {
-	_renderBuffer2D.clear();
+	for (auto& layer : _renderBuffer2D)
+		layer.clear();
 }
 
 void Graphics::ClearRenderBuffer()
 {
-	_renderBuffer2D.clear();
+	ClearRenderBuffer2D();
 }
 
 void Graphics::CreateResource()
@@ -137,14 +133,15 @@ void Graphics::CreateResource()
 	if (!renderDevice)
 		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, and there is no error code for this so... good luck fixing this ヽ(￣ω￣(。。 )ゝ ");
 
-#ifdef _DEBUG
-	result = D3DXCreateFont(
+	if constexpr (Setting::IsDebugMode())
+	{
+		result = D3DXCreateFont(
 		renderDevice,
 		16, 8, 0, 0, 0, 0, 0, 0, 0, L"Calibri", &fpsFont
-	);
-	if (FAILED(result))
-		throw GRAPHICS_EXCEPT_CODE(result);
-#endif // DEBUG
+		);
+		if (FAILED(result))
+			throw GRAPHICS_EXCEPT_CODE(result);	
+	}
 }
 
 void Graphics::ReleaseResource()
@@ -215,7 +212,7 @@ void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 	presentParam.BackBufferHeight = resolution.height;
 	presentParam.hDeviceWindow = wnd->GetContentWndHandler();
 
-	isPixelPerfect = Setting::IsWorldPointPixelPerfect;
+	isPixelPerfect = Setting::IsWorldPointPixelPerfect();
 
 	CreateResource();
 }
@@ -228,81 +225,77 @@ void Graphics::Render()
 
 	timeSinceLastFrame += timer->GetDeltaTime();
 	if (timeSinceLastFrame < delayPerFrame)
-	{
-		ClearRenderBuffer2D();
 		return;
-	}
 
-#ifdef _DEBUG // For RGB background
-	rgb[index] += delta;
-	if (!(rgb[index] & 0xFF))
+	if constexpr(Setting::IsDebugMode())
 	{
-		if (jump)
+		rgb[index] += delta;
+		if (!(rgb[index] & 0xFF))
 		{
-			index += 2;
-			index %= 3;
-			rgb[index] += 1;
-			delta = 1;
-			jump = false;
+			if (jump)
+			{
+				index += 2;
+				index %= 3;
+				rgb[index] += 1;
+				delta = 1;
+				jump = false;
+			}
+			else
+			{
+				rgb[index] -= 1;
+				index -= 1;
+				if (index < 0)
+					index = 2;
+				delta = -1;
+				jump = true;
+			}
 		}
-		else
-		{
-			rgb[index] -= 1;
-			index -= 1;
-			if (index < 0)
-				index = 2;
-			delta = -1;
-			jump = true;
-		}
-	}
-#endif
+	}// For RGB background
 
 	if (Begin() != 0)
 	{
 		timeSinceLastFrame -= delayPerFrame * static_cast<int>(timeSinceLastFrame / delayPerFrame);
 
-#ifndef _DEBUG
-		renderDevice->Clear(0, NULL, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
-#else
-		renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
-#endif
+		if constexpr  (Setting::IsDebugMode())
+			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
+		else
+			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
+
 
 		spriteHandler->Begin(ALPHABLEND);
 		const auto cameraScript = *cameraList.begin();
-		for (const auto& renderScript2D : _renderBuffer2D)
-		{
-			renderScript2D->Draw(spriteHandler, cameraScript);
-		}
+		for (const auto& layer : _renderBuffer2D)
+			for (const auto& renderScript2D : layer)
+				renderScript2D->Draw(spriteHandler, cameraScript);
 
-#ifdef _DEBUG // For counting fps
-		if (cameraList.size() > 1)
+		if constexpr (Setting::IsDebugMode())
+		{
+			if (cameraList.size() > 1)
 			Debug::Log(L"there are two or more camera in a scene");
 
-		UpdateFPS();
-		std::wostringstream os;
-		os << std::floor(fps + 0.5) << std::endl;
-		const std::wstring str = os.str();
+			UpdateFPS();
+			std::wostringstream os;
+			os << std::floor(fps + 0.5) << std::endl;
+			const std::wstring str = os.str();
 
-		const auto temp = GraphicsMath::NewMatrix();
-		temp->_11 = 1;
-		temp->_22 = 1;
-		temp->_33 = 1;
-		temp->_44 = 1;
-		
-		spriteHandler->SetTransform(temp);
-		fpsFont->DrawTextW(
-			spriteHandler,
-			str.c_str(),
-			str.size(),
-			&fpsRect,
-			DT_CHARSTREAM,
-			MAGENTA
-		);
-		delete temp;
-#endif
+			const auto temp = GraphicsMath::NewMatrix();
+			temp->_11 = 1;
+			temp->_22 = 1;
+			temp->_33 = 1;
+			temp->_44 = 1;
+			
+			spriteHandler->SetTransform(temp);
+			fpsFont->DrawTextW(
+				spriteHandler,
+				str.c_str(),
+				str.size(),
+				&fpsRect,
+				DT_CHARSTREAM,
+				MAGENTA
+			);
+			delete temp;
+		}
 		spriteHandler->End();
-
-		ClearRenderBuffer2D();
 
 		if (!End())
 			Reset();
@@ -358,8 +351,8 @@ bool Graphics::Reset()
 
 void Graphics::UpdateCurrentVideoAdapter()
 {
-	const HMONITOR monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
-	const D3DFORMAT format = static_cast<D3DFORMAT>(colorFormat);
+	const auto monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
+	const auto format = static_cast<D3DFORMAT>(colorFormat);
 	adapterMode.clear();
 	const UINT adapterCount = renderer->GetAdapterCount();
 	for (UINT i = 0; i < adapterCount; i++)
@@ -385,6 +378,7 @@ void Graphics::UpdateCurrentVideoAdapter()
 Graphics::Graphics() noexcept
 {
 	ZeroMemory(&presentParam, sizeof(presentParam));
+	_renderBuffer2D = std::move(std::vector<std::list<PRender2DScriptBase>>(32));
 }
 Graphics::~Graphics() noexcept
 {

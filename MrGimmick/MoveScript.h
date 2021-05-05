@@ -2,14 +2,13 @@
 #include "ScriptBase.h"
 #include "Camera.h"
 #include "InputSystem.h"
-#include "Physic.h"
 
 class MoveScript : public ScriptBase
 {
 public:
-	MoveScript();
-	virtual void Start() override;
-	virtual void Update() override;
+	MoveScript(PScene owner);
+	void OnStart() override;
+	void OnUpdate() override;
 protected:
 	SInput up;
 	SInput down;

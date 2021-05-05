@@ -1,0 +1,14 @@
+[
+  {
+    "ID": 10001,
+    "Path": "Asset/Animations/ArrowBrickToLeft.json"
+  },
+  {
+    "ID": 10002,
+    "Path": "Asset/Animations/ArrowBrickToRight.json"
+  },
+  {
+    "ID": 20001,
+    "Path": "Asset/Animations/Running.json"
+  }
+]

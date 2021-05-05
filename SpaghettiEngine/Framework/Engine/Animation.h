@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "ResourceContainer.h"
 #include "Sprite.h"
 
 typedef class Animation* PAnimation;
@@ -9,35 +10,28 @@ typedef std::unique_ptr<Animation> UAnimation;
 struct Frame
 {
 	SSprite sprite;
-	double delay;
+	float delay = 0;
 };
 typedef std::list<Frame>::iterator ItFrame;
 
-class Animation
+class Animation : public Resource
+{
+	friend class AnimationContainer;
+public:
+	Animation();
+	
+	[[nodiscard]] size_t GetNumberOfFrames() const noexcept;
+	[[nodiscard]]SSprite GetSpriteOfFrame(const unsigned int& frame) const;
+	void Load(const std::string& path) override;
+	void Advance(unsigned int& frame, float& time);
+protected:
+	std::vector<Frame> _frames;
+	bool isLoop;
+};
+
+class AnimationContainer : public Container<Animation>
 {
 	friend class SceneManager;
 public:
-	static SAnimation GetAnimation(int index);
-	static SAnimation GetAnimation(const std::string* path);
-	static SAnimation LoadAnimation(const std::string* path);
-
-	int GetNumberOfFrames() const noexcept;
-
-	// Take in index to frame and time passed, it will change to next frame
-	// acordingly and return time left.
-	SSprite GetSpriteOfFrame(const UINT* frame);
-	void Advance(UINT* frame, double* time);
-protected:
-	Animation(const std::string* path);
-	void Load();
-
-	static void RemoveAnimation(const std::string* path);
-	static void ClearUnusedAnimation();
-	static void ClearAnimation();
-protected:
-	std::string _path;
-	std::vector<Frame> _frames;
-	bool isLoop;
-
-	static std::list<SAnimation> __loadedAnimation;
+	AnimationContainer();
 };

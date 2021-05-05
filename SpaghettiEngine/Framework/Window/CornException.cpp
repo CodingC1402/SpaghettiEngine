@@ -50,15 +50,14 @@ CornDescriptionException::CornDescriptionException(int line, const char* file, s
 
 const wchar_t* CornDescriptionException::GetType() const noexcept
 {
-    return L" 	＼(º □ º l|l)/ Exception with description";
+    return L"＼(º □ º l|l)/ Exception with description";
 }
 
 const wchar_t* CornDescriptionException::What() const noexcept
 {
     std::wostringstream oss;
-    oss << GetType() << std::endl
-        << "[Description] " << GetErrorString() << std::endl
-        << GetOriginString();
+    oss << GetOriginString() << std::endl
+        << "[Description] " << GetErrorString() << std::endl;
     whatBuffer = oss.str();
     return whatBuffer.c_str();
 }

@@ -9,9 +9,9 @@ class GameTimer
 public:
 	static void SetTimeScale(double value);
 
-	static double GetTimeScale();
-	static double GetRealTime();
-	static double GetDeltaTime();
+	static float GetTimeScale();
+	static float GetRealTime();
+	static float GetDeltaTime();
 protected:
 	static PGameTimer GetInstance();
 	
@@ -21,9 +21,9 @@ protected:
 	void Mark();
 protected:
 	PTimer timer = nullptr;
-	double timeScale = 1;
-	double deltaTime = 0;
-	double realTime = 0;
+	float timeScale = 1;
+	float deltaTime = 0;
+	float realTime = 0;
 
 	static PGameTimer __instance;
 };

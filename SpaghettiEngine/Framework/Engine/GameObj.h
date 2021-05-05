@@ -1,21 +1,50 @@
-#pragma once
+﻿#pragma once
+#include "json.hpp"
 #include "CornDirectX.h"
+#include "CornException.h"
+#include "Scene.h"
 #include <memory>
 #include <list>
 #include <string>
 
-typedef class Scene* PScene;
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
+
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
 typedef std::unique_ptr<GameObj> UGameObj;
+typedef std::weak_ptr<GameObj> WGameObj;
 
 using std::string;
 using std::list;
-class GameObj
+class GameObj : public Scene::BaseComponent
 {
 	friend class Scene;
+public:
+	class GameObjectFormatException : public CornException
+	{
+	public:
+		GameObjectFormatException(int line, const char* file, const char* errorField, PGameObj errorObj, const char* extraDescription)
+			: CornException(line, file), _errorField(errorField), _errorObj(errorObj), _extraDescription(extraDescription) {}
+		const wchar_t* GetType() const noexcept override
+		{
+			return L"(」°ロ°)」Game object format exception";
+		}
+		const wchar_t* What() const noexcept override
+		{
+			std::wostringstream os;
+			os << GetOriginString() << std::endl;
+			os << "[Game object] " << _errorObj->GetPath().c_str() << std::endl;
+			os << "[Error field] " << _errorField.c_str() << std::endl;
+			os << "[Extra description] " << _extraDescription.c_str() << std::endl;
+			whatBuffer = os.str();
+			return whatBuffer.c_str();
+		}
+	protected:
+		string _errorField;
+		PGameObj _errorObj;
+		string _extraDescription;
+	};
 public:
 	[[nodiscard]] Matrix			GetWorldMatrix();
 	[[nodiscard]] Vector3			GetWorldTransform() const;
@@ -26,13 +55,11 @@ public:
 	[[nodiscard]] Vector3			GetScale() const;
 	[[nodiscard]] PScriptBase		GetScript(const UINT index) const noexcept;
 	[[nodiscard]] PScriptBase		GetScript(const std::string& name) const noexcept;
-	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string* name) const noexcept;
+	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
 	[[nodiscard]] PGameObj			GetParent() const;
 	[[nodiscard]] PGameObj			GetChild(UINT index) const;
-	[[nodiscard]] PGameObj			GetChild(UINT index[], UINT level, UINT size) const;
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetPath() const;
-	[[nodiscard]] bool				IsDisabled() const;
 
 	void SetTag(const char* tag);
 	void SetRotation(const float& x, const float& y, const float& z);
@@ -46,40 +73,49 @@ public:
 	void Translate(const Vector3& vector);
 	void Translate(const float& x, const float& y, const float& z);
 	void ForceRecalculateMatrix();
-	
-	GameObj(const GameObj& obj);
-	GameObj(const std::string& path, const PScene& ownerScene = nullptr);
-	void Load();
-	void Destroy();
 
-	void Start();
-	void Update();
-	void End() const;
-	
-	void Disable();
-	void Enable();
+	void Load(nlohmann::json& input) override;
+	void Destroy() override;
+
+	void OnStart() override;
+	void OnUpdate() override;
+	void OnEnd() override;
+
+	void OnEnabled() override;
+	void OnDisabled() override;
 
 	void RemoveParent();
 	void AddParent(const PGameObj& gameObj);
+	void AddParentWithoutCalculateLocal(const PGameObj& gameObj);
+	void RemoveParentWithoutCalculateLocal();
 
-	void BecomeCurrentSceneObj();
-	void BecomeConstSceneObj();
+	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
+	PScriptBase AddScript(const PScriptBase& script);
+	PGameObj	AddChild(const PGameObj& child);
+	PGameObj	AddChild();
+
+	void RemoveChild(const PGameObj& child);
+	void RemoveScript(const PScriptBase& script);
+	void ClearScripts();
+	
+	void RecursiveClearScript();
+	
+	std::shared_ptr<BaseComponent> Clone() override;
+	GameObj(PScene owner, bool isDisabled = false);
 protected:
-	void AddScript(const std::string& scriptName, const std::string& arg);
-	void AddScript(const PScriptBase& script);
-	void AddChild(PGameObj child);
+	void RecursiveMarkForDelete();
 
 	void CalculateRotationMatrix();
 	void CalculateTransformMatrix();
 	void CalculateScaleMatrix();
 	void CalculateWorldMatrix();
-	
-	void RemoveChild(PGameObj child);
 protected:
-	PScene ownerScene;
-	PGameObj parent;
-	list<PGameObj> children;
+	PGameObj parent = nullptr;
+	list<std::shared_ptr<BaseComponent>> _childrenPtr;
+	list<PGameObj> _children;
 
+	bool _isReadyForDelete = false;
+	
 	bool _isTransformChanged = true;
 	bool _isRotationChanged = true;
 	bool _isScaleChanged = true;
@@ -99,5 +135,9 @@ protected:
 	Matrix _scaleMatrix;
 	Matrix _worldMatrix;
 
-	list<PScriptBase> scripts;
+	list<std::shared_ptr<BaseComponent>> _scriptsPtr;
+	list<PScriptBase> _scripts;
+	static nlohmann::json defaultJson;
 };
+
+#define GAMEOBJ_FORMAT_EXCEPT(errorField, errorObj, extraDescription) GameObj::GameObjectFormatException(__LINE__,__FILE__,errorField,errorObj,extraDescription)

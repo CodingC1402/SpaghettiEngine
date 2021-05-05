@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "SpriteRenderer.h"
 #include "Animator.h"
+#include "TileMapRenderer.h"
 
 BOOL WinMain::Start(
 	HINSTANCE	hInstance,
@@ -20,7 +21,8 @@ void WinMain::RegisterSpaghettiScripts()
 {
 	ScriptBase* dummyScript;
 
-	dummyScript = new Camera();
-	dummyScript = new SpriteRenderer();
-	dummyScript = new Animator();
+	dummyScript = new Camera(nullptr);
+	dummyScript = new SpriteRenderer(nullptr);
+	dummyScript = new Animator(nullptr);
+	dummyScript = new TileMapRenderer(nullptr);
 }

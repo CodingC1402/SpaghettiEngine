@@ -27,10 +27,15 @@ public:
 	private:
 		Type m_tType;
 		unsigned char m_ucCode;
+		bool _isFirstTime = false;
 	public:
 		Event() noexcept : m_tType( Type::Invalid ), m_ucCode( 0u ) {}
-		Event( Type tType, unsigned char ucCode ) noexcept : m_tType( tType ), m_ucCode( ucCode ) {}
+		Event( Type tType, unsigned char ucCode, bool isFirstTime ) noexcept : m_tType( tType ), m_ucCode( ucCode ), _isFirstTime(isFirstTime) {}
 
+		bool IsFirstTime() const noexcept
+		{
+			return _isFirstTime;
+		}
 		bool IsPress() const noexcept
 		{
 			return m_tType == Type::Press;
@@ -71,8 +76,8 @@ private:
 	KeyBoard() = default;
 	~KeyBoard() = default;
 
-	void OnKeyPressed( unsigned char ucKeycode ) noexcept;
-	void OnKeyRelease( unsigned char ucKeycode ) noexcept;
+	void OnKeyPressed( unsigned char ucKeycode, int lParam ) noexcept;
+	void OnKeyRelease( unsigned char ucKeycode, int lParam ) noexcept;
 	void OnChar( wchar_t  c ) noexcept;
 	void OnLostFocus() noexcept;
 

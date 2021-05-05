@@ -6,10 +6,17 @@
 class Render2DScriptBase : public ScriptBase
 {
 public:
-	Render2DScriptBase();
+	Render2DScriptBase(PScene owner);
 
-	virtual void Update() override;
+	virtual int GetDrawLayer();
+	
+	virtual void OnEnabled() override;
+	virtual void OnDisabled() override;
 	virtual void Draw(SpriteHandler handler, PCamera camera) {}
+	virtual void Load(nlohmann::json& inputObject) override;
+protected:
+	// Max is 32 layer;
+	int _drawLayer; 
 private:
 	REGISTER_START(Render2DScriptBase);
 };

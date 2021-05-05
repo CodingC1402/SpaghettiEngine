@@ -1,5 +1,5 @@
 {
-  "TexturePath": "Asset/Textures/MainCharacter.png",
+  "Texture": 30001,
   "Frames": [
     [ 4, 0.15 ],
     [ 5, 0.15 ],
