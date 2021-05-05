@@ -10,35 +10,32 @@ RigidBody2D::RigidBody2D(PScene owner) : ScriptBase(owner)
 
 void RigidBody2D::OnStart()
 {
+	velocity = constVelocity;
 }
 
 void RigidBody2D::OnUpdate()
 {
-	//fall.x = 0;
-	//fall.y = -1;
-	//fall.z = 0;
-	//
-	//fall.y *= vy * GameTimer::GetDeltaTime();
-	//vy += gravity * GameTimer::GetDeltaTime();
-	//
-	//owner->Translate(&fall);
+
 }
 
-void RigidBody2D::SetVelocity(Vector3 v)
+void RigidBody2D::SetConstVelocity(Vector3 v)
 {
-	this->vx = v.x;
-	this->vy = v.y;
+	constVelocity = v;
 }
 
-void RigidBody2D::SetVelocityByDelta(Vector3 delta)
+void RigidBody2D::AddForce(Vector3 delta)
 {
-	this->vx += delta.x;
-	this->vy += delta.y;
+	velocity += delta;
 }
 
 Vector3 RigidBody2D::GetVelocity()
 {
-	return Vector3(vx, vy, 1);
+	return velocity;
+}
+
+Vector3 RigidBody2D::GetConstVelocity()
+{
+	return constVelocity;
 }
 
 void RigidBody2D::Load(json& inputObject)
