@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
+#include "Collider2DScriptBase.h"
+#include "RigidBody2D.h"
 
 typedef class Collider2DScriptBase* PCollider2DScriptBase;
-typedef class RigidBody* PRigidBody;
+typedef class RigidBody2D* PRigidBody2D;
 typedef class Physic* PPhysic;
 
 class Physic
@@ -13,10 +15,12 @@ public:
 	void Init();
 	void Update();
 	static Physic* GetInstance();
+
 	void AddCollider(PCollider2DScriptBase collider);
-	void AddRigidBody(PRigidBody rigidBody);
+	void AddRigidBody(PRigidBody2D rigidBody);
+
 	void RemoveCollider(PCollider2DScriptBase collider);
-	void RemoveRigidBody(PRigidBody rigidbody);
+	void RemoveRigidBody(PRigidBody2D rigidbody);
 protected:
 	void Unload();
 	void CheckCollision(PCollider2DScriptBase object, PCollider2DScriptBase block);
@@ -25,6 +29,6 @@ protected:
 	~Physic();
 	static PPhysic __instance;
 
-	std::list<PRigidBody> rigidBodis;
+	std::list<PRigidBody2D> rigidBodis;
 	std::list<PCollider2DScriptBase> colliders;
 };

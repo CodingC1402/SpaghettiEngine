@@ -11,6 +11,8 @@ class RigidBody2D : public ScriptBase
 public:
 	RigidBody2D(PScene owner);
 	virtual void OnStart() override;
+	virtual void OnEnabled() override;
+	virtual void OnDisabled() override;
 
 	void SetConstVelocity(Vector3 v);
 	void SetVelocity(Vector3 v);

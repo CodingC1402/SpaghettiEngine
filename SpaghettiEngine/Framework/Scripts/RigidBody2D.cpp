@@ -13,6 +13,16 @@ void RigidBody2D::OnStart()
 	velocity = constVelocity;
 }
 
+void RigidBody2D::OnEnabled()
+{
+	Physic::GetInstance()->AddRigidBody(this);
+}
+
+void RigidBody2D::OnDisabled()
+{
+	Physic::GetInstance()->RemoveRigidBody(this);
+}
+
 void RigidBody2D::SetConstVelocity(Vector3 v)
 {
 	constVelocity = v;
@@ -52,7 +62,7 @@ void RigidBody2D::Load(json& inputObject)
 {
 	try
 	{
-		//Physic::GetInstance()->AddRigidBody(this);
+
 	}
 	catch (CornException& e)
 	{

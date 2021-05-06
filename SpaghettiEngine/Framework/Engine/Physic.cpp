@@ -1,6 +1,4 @@
 #include "Physic.h"
-#include "Collider2DScriptBase.h"
-#include "RigidBody2D.h"
 
 PPhysic Physic::__instance = NULL;
 
@@ -40,24 +38,25 @@ void Physic::AddCollider(PCollider2DScriptBase collider)
 	colliders.push_back(collider);
 }
 
-void Physic::AddRigidBody(PRigidBody rigidbody)
+void Physic::AddRigidBody(PRigidBody2D rigidbody)
 {
 	rigidBodis.push_back(rigidbody);
 }
 
 void Physic::RemoveCollider(PCollider2DScriptBase collider)
 {
-	colliders.
+	colliders.remove(collider);
 }
 
-void Physic::RemoveRigidBody(PRigidBody rigidbody)
+void Physic::RemoveRigidBody(PRigidBody2D rigidbody)
 {
+	rigidBodis.remove(rigidbody);
 }
 
 void Physic::Unload()
 {
-	//rigidBodis.clear();
-	//boxColliders.clear();
+	rigidBodis.clear();
+	colliders.clear();
 }
 
 void Physic::CheckCollision(PCollider2DScriptBase object, PCollider2DScriptBase block)
