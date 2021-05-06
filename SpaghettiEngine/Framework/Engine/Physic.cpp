@@ -9,21 +9,22 @@ void Physic::Init()
 
 void Physic::Update()
 {
-	//for (auto object = boxColliders.begin(); object != boxColliders.end(); ++object)
-	//{
-	//	auto temp = object;
-	//	std::advance(temp, 1);
-	//	for (auto block = temp; block != boxColliders.end(); ++block)
-	//	{
-	//		if (object == block)
-	//			continue;
-	//		CheckCollision(*object, *block);
-	//	}
-	//}
+	for (auto object = colliders.begin(); object != colliders.end(); ++object)
+	{
+		auto temp = object;
+		std::advance(temp, 1);
+		for (auto block = temp; block != colliders.end(); ++block)
+		{
+			if (object == block)
+				continue;
+			CheckCollision(*object, *block);
+		}
+	}
 }
 
 Physic::~Physic()
 {
+	Unload();
 }
 
 Physic* Physic::GetInstance()
@@ -35,12 +36,12 @@ Physic* Physic::GetInstance()
 
 void Physic::AddCollider(PCollider2DScriptBase collider)
 {
-	colliders.push_back(collider);
+	colliders.emplace_back(collider);
 }
 
 void Physic::AddRigidBody(PRigidBody2D rigidbody)
 {
-	rigidBodis.push_back(rigidbody);
+	rigidBodis.emplace_back(rigidbody);
 }
 
 void Physic::RemoveCollider(PCollider2DScriptBase collider)
@@ -61,6 +62,6 @@ void Physic::Unload()
 
 void Physic::CheckCollision(PCollider2DScriptBase object, PCollider2DScriptBase block)
 {
-
+	
 }
 

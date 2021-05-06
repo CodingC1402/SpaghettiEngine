@@ -191,6 +191,12 @@
     <ClInclude Include="Framework\Scripts\Collider2DScriptBase.h">
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Scripts\BoxCollider2D.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\PhysicMath.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -318,6 +324,12 @@
     </ClCompile>
     <ClCompile Include="Framework\Scripts\Collider2DScriptBase.cpp">
       <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\BoxCollider2D.cpp">
+      <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\PhysicMath.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

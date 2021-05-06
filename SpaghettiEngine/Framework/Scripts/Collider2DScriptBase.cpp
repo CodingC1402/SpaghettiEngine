@@ -23,6 +23,11 @@ void Collider2DScriptBase::OnStart()
 	body = dynamic_cast<PRigidBody2D>(_ownerObj->GetScript("RigidBody"));
 }
 
+Vector3 Collider2DScriptBase::GetPosition()
+{
+	return _ownerObj->GetWorldTransform();
+}
+
 void Collider2DScriptBase::SetTrigger(bool boolean)
 {
 	isTrigger = boolean;

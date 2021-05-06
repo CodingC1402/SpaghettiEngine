@@ -25,7 +25,6 @@ protected:
 	void Unload();
 	void CheckCollision(PCollider2DScriptBase object, PCollider2DScriptBase block);
 protected:
-	Physic() = default;
 	~Physic();
 	static PPhysic __instance;
 
