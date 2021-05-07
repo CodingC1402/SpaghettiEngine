@@ -1,6 +1,7 @@
 #include "LoadingJson.h"
 #include "Scene.h"
 #include "CornException.h"
+#include "Prefabs.h"
 
 std::unordered_map<std::string, Scene::ComponentType> LoadingJson::ID::_typeDict {
 	{"GameObject", Scene::ComponentType::gameObj},
@@ -13,7 +14,7 @@ void LoadingJson::ID::ConvertIDInJson(nlohmann::json& out, Scene::ComponentType 
 	{
 		unsigned prefabID = 0;
 
-		if (out[prefabIdField] != nullptr)
+		if (!out[prefabIdField].empty())
 			prefabID = out[prefabIdField].get<unsigned>();
 				
 		out[idField] = ID::CreateTopLevelID(
@@ -22,14 +23,14 @@ void LoadingJson::ID::ConvertIDInJson(nlohmann::json& out, Scene::ComponentType 
 			prefabID
 		);
 
-		if(out[inputsField][gameObjectsField] != nullptr)
+		if(!out[inputsField][gameObjectsField].empty())
 			for (auto& child : out[inputsField][gameObjectsField])
 				child = ID::CreateTopLevelID(
 					child.get<unsigned>(),
 					Scene::ComponentType::gameObj,
 					prefabID
 				);
-		if(out[inputsField][scriptsField] != nullptr)
+		if(!out[inputsField][scriptsField].empty())
 			for (auto& script : out[inputsField][scriptsField])
 				script = ID::CreateTopLevelID(
 					script.get<unsigned>(),

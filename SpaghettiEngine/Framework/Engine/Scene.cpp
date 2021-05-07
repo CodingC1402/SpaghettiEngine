@@ -124,14 +124,14 @@ void Scene::ConvertJsonAndAddComponent(SBaseComponent& component, nlohmann::json
 	
 	if constexpr (Setting::IsDebugMode())
 	{
-		if (!ID::CheckID(json[idField].get<CULL>()))
+		if (!ID::CheckID(json[Field::idField].get<CULL>()))
 			throw SCENE_EXCEPTION("[Exception] gameObj have local id lager then the number in setting file");
 	}
 	
 	ID::ConvertIDInJson(json, type);
 	
-	_tempComponentContainer->emplace(json[idField].get<CULL>(), Entry(json[inputsField], component));
-	if (json[isDisabled] != nullptr && json[isDisabled].get<bool>())
+	_tempComponentContainer->emplace(json[Field::idField].get<CULL>(), Entry(json[Field::inputsField], component));
+	if (json[Field::isDisabled].empty() && json[Field::isDisabled].get<bool>())
 		component->DisableWithoutUpdate();
 }
 void Scene::Load()
@@ -155,50 +155,37 @@ void Scene::Load()
 		json jsonFile;
 		file >> jsonFile;
 
-		if (jsonFile[gameObjectsField] == nullptr)
+		if (jsonFile[Field::gameObjectsField] == nullptr)
 			throw std::exception();
 
-		if (jsonFile[prefabsField] != nullptr)
+		SPrefabHierarchy prefabHierarchy;
+		if (!jsonFile[Field::prefabsField].empty())
 		{
-			std::shared_ptr<Prefab> currentPrefab;
-			ULL requestedID = 0;
-			for (int index = 1; auto& prefab : jsonFile[prefabsField])
-			{
-				CULL& newID = prefab[idField].get<CULL>();
-				
-				if constexpr (Setting::IsDebugMode())
-				{
-					if (newID == 0)
-					{
-						std::ostringstream os;
-						os << "[Exception] ID can't be 0\n";
-						os << "[Error file] " << "Scene file " << path.c_str() << std::endl;
-						throw SCENE_EXCEPTION(os.str());
-					}
-				}
-				
-				if (requestedID != newID)
+			ULL requestedID = jsonFile[Field::prefabsField][0][Field::idField].get<CULL>();
+			std::shared_ptr<Prefab> currentPrefab = PrefabsContainer::GetInstance()->GetResource(requestedID);
+			for (unsigned index = 0; auto& prefab : jsonFile[Field::prefabsField])
+			{	
+				if (CULL& newID = prefab[Field::idField].get<CULL>(); requestedID != newID)
 				{
 					currentPrefab = PrefabsContainer::GetInstance()->GetResource(newID);
 					requestedID = newID;
 				}
 
-				currentPrefab->Append(jsonFile, index, prefab[changesField]);
-				index++;
+				prefabHierarchy = currentPrefab->Append(jsonFile, index, prefab[Field::changesField]);
 			}
 		}
 
 		//Load script
 		std::stack<PScriptBase> callOnEnableLater; // To only call enable for script cause obj enable is useless.
-		for (auto& script : jsonFile[scriptsField])
+		for (auto& script : jsonFile[Field::scriptsField])
 		{
-			callOnEnableLater.push(ScriptFactory::CreateInstance(script[inputsField][scriptTypeField].get<std::string>(), this));
+			callOnEnableLater.push(ScriptFactory::CreateInstance(script[Field::inputsField][Field::scriptTypeField].get<std::string>(), this));
 			SBaseComponent newScript(callOnEnableLater.top(), DestroyComponent);
 			newScript->AssignSharedPtr(newScript);
 			ConvertJsonAndAddComponent(newScript, script, ComponentType::script);
 		}
 		//Load object
-		for (auto& gameObj : jsonFile[gameObjectsField])
+		for (auto& gameObj : jsonFile[Field::gameObjectsField])
 		{
 			SBaseComponent newObj(new GameObj(this), DestroyComponent);
 			newObj->AssignSharedPtr(newObj);

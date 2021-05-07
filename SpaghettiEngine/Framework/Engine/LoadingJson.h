@@ -6,28 +6,41 @@
 
 namespace LoadingJson
 {
-	//TopLevel
-	constexpr auto scriptsField		= "Scripts";
-	constexpr auto gameObjectsField = "GameObjects";
-	constexpr auto prefabsField		= "Prefabs";
-	//Common
-	constexpr auto idField			= "ID";
-	constexpr auto inputsField		= "Inputs";
-	constexpr auto isDisabled		= "IsDisabled";
-	//Prefab
-	constexpr auto prefabIdField	= "PrefabID";
-	constexpr auto changesField		= "Changes";
-	constexpr auto fieldField		= "Field";
-	constexpr auto valueField		= "Value";
-	constexpr auto typeField		= "Type";
-	//Script
-	constexpr auto scriptTypeField	= "ScriptType";
-	//GameObject
-	constexpr auto isRootField		= "IsRoot";
-	constexpr auto tagField			= "Tag";
-	constexpr auto transformField	= "Transform";
-	constexpr auto rotationField	= "Rotation";
-	constexpr auto scaleField		= "Scale";
+	class Field
+	{
+	public:
+		static constexpr bool IsRefField(const char* field);
+	public:
+		//TopLevel
+		static constexpr const char* scriptsField		= "Scripts";
+		static constexpr const char* gameObjectsField	= "GameObjects";
+		static constexpr const char* prefabsField		= "Prefabs";
+		//Common
+		static constexpr const char* idField			= "ID";
+		static constexpr const char* inputsField		= "Inputs";
+		static constexpr const char* isDisabled			= "IsDisabled";
+		//Prefab
+		static constexpr const char* prefabIdField		= "PrefabID";
+		static constexpr const char* changesField		= "Changes";
+		static constexpr const char* levelField			= "Level";
+		static constexpr const char* fieldField			= "Field";
+		static constexpr const char* valueField			= "Value";
+		static constexpr const char* typeField			= "Type";
+		static constexpr const char* refIndex			= "RefIndex";;
+		//Script
+		static constexpr const char* scriptTypeField	= "ScriptType";
+		//GameObj
+		static constexpr const char* isRootField		= "IsRoot";
+		static constexpr const char* tagField			= "Tag";
+		static constexpr const char* transformField		= "Transform";
+		static constexpr const char* rotationField		= "Rotation";
+		static constexpr const char* scaleField			= "Scale";
+	protected:
+		static inline std::list<const char*> _refFields = {
+			gameObjectsField,
+			scriptsField
+		};
+	};
 	
 	class ID
 	{
@@ -54,6 +67,13 @@ namespace LoadingJson
 }
 
 
+constexpr bool LoadingJson::Field::IsRefField(const char* field)
+{
+	for (const auto& refField : _refFields)
+		if (refField == field)
+			return true;
+	return false;
+}
 
 constexpr ULL LoadingJson::ID::CreateTopLevelID(CULL& localID, const unsigned& prefabIndex)
 {
@@ -77,5 +97,5 @@ constexpr bool LoadingJson::ID::CheckID(CULL& id)
 
 constexpr bool LoadingJson::ID::CheckPrefabIndex(CULL& index)
 {
-	return index == 0 || !(index & _errorMaskPrefabIndex);
+	return !(index & _errorMaskPrefabIndex);
 }

@@ -11,14 +11,14 @@ typedef class Tile
 {
 public:
 	virtual void Load(const int& index, Texture* texture, const nlohmann::json& data = nullptr) {}
-	virtual void Draw(SpriteHandler handler, Texture* texture, const Vector3& position) {}
+	virtual void Draw(Texture* texture, const Vector3& position) {}
 	virtual ~Tile() = default;
 protected:
 }*PTile;
 typedef class NormalTile : public Tile
 {
 	virtual void Load(const int& index, Texture* texture, const nlohmann::json& data = nullptr) override;
-	virtual void Draw(SpriteHandler handler, Texture* texture, const Vector3& position) override;
+	virtual void Draw(Texture* texture, const Vector3& position) override;
 protected:
 	SSprite sprite;
 }*PNormalTile;
@@ -27,7 +27,7 @@ typedef class AnimatedTile : public Tile
 public:
 	void Update();
 	virtual void Load(const int& index, Texture* texture, const nlohmann::json& data) override;
-	virtual void Draw(SpriteHandler handler, Texture* texture, const Vector3& position) override;
+	virtual void Draw(Texture* texture, const Vector3& position) override;
 protected:
 	SAnimation animation = nullptr;
 	UINT frame = 0;
@@ -41,7 +41,7 @@ public:
 
 	void OnUpdate() override;
 	void Load(nlohmann::json& inputObject) override;
-	void Draw(SpriteHandler handler, PCamera camera) override;
+	void Draw(PCamera camera) override;
 	~TileMapRenderer() override;
 protected:
 	STexture texture;

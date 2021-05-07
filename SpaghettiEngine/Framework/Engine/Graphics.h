@@ -53,6 +53,9 @@ public:
 
 	static void AddRender2D(PRender2DScriptBase renderScript);
 	static void RemoveRender2D(PRender2DScriptBase renderScript);
+
+	static void SetSpriteTransform(Matrix& matrix);
+	static void DrawSprite(const Texture& texture, const RECT& srcRect, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
 	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);

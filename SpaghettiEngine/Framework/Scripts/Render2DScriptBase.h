@@ -12,7 +12,7 @@ public:
 	
 	virtual void OnEnabled() override;
 	virtual void OnDisabled() override;
-	virtual void Draw(SpriteHandler handler, PCamera camera) {}
+	virtual void Draw(PCamera camera) {}
 	virtual void Load(nlohmann::json& inputObject) override;
 protected:
 	// Max is 32 layer;

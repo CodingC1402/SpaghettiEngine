@@ -11,10 +11,10 @@ public:
 	[[nodiscard]] virtual Matrix		GetSpriteMatrix()	const noexcept;
 	[[nodiscard]] virtual Vector3		GetCenter()		const noexcept;
 	[[nodiscard]] virtual SSprite		GetSprite()		const noexcept;
-	[[nodiscard]] virtual PImage		GetTexture()	const noexcept;
+	[[nodiscard]] virtual PTexture		GetTexture()	const noexcept;
 	[[nodiscard]] virtual RECT			GetSourceRect() const noexcept;
 	
-	virtual void Draw(SpriteHandler handler, PCamera camera) override;
+	virtual void Draw(PCamera camera) override;
 	virtual void Load(nlohmann::json& inputObject) override;
 protected:
 	Matrix transformMatrix;

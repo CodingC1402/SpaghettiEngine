@@ -1,5 +1,6 @@
 #include "Animator.h"
 #include "GameTimer.h"
+#include "Graphics.h"
 #include "Setting.h"
 
 REGISTER_FINISH(Animator);
@@ -17,26 +18,12 @@ void Animator::OnUpdate()
 	_ani->Advance(frame, time);
 }
 
-void Animator::Draw(SpriteHandler handler, PCamera camera)
+void Animator::Draw(PCamera camera)
 {
 	_sprite = _ani->GetSpriteOfFrame(frame);
-	RECT srcRect = _sprite->GetSourceRect();
-	Vector3 center = _sprite->GetCenter();
 	Matrix transform = camera->GetMatrix(GetWorldMatrix());
-	if (Setting::IsWorldPointPixelPerfect())
-	{
-		transform._41 = std::round(transform._41);
-		transform._42 = std::round(transform._42);
-	}
-
-	handler->SetTransform(&transform);
-	handler->Draw(
-		_sprite->GetSource()->GetImage(),
-		&srcRect,
-		&center,
-		nullptr,
-		WHITE
-	);
+	Graphics::SetSpriteTransform(transform);
+	Graphics::DrawSprite(*_sprite->GetSource(), _sprite->GetSourceRect(), _sprite->GetCenter());
 }
 
 void Animator::Load(nlohmann::json& inputObject)
