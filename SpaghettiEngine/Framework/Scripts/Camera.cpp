@@ -2,6 +2,7 @@
 #include "Setting.h"
 #include "Graphics.h"
 #include "GraphicsMath.h"
+#include "LoadingJson.h"
 
 REGISTER_FINISH(Camera);
 
@@ -54,10 +55,19 @@ void Camera::OnEnabled()
 	Graphics::AddCamera(this);
 }
 
+void Camera::Load(json& input)
+{
+	if (!input[LoadingJson::Field::gameObjectsField].empty())
+	{
+		_followingPtr = _owner->GetComponent(input[LoadingJson::Field::gameObjectsField][0]);
+		_followingObj = (dynamic_cast<PGameObj>(_followingPtr.lock().get()));
+	}
+}
+
 void Camera::SetFollow(PGameObj followObj)
 {
 	_followingPtr = followObj->GetSharedPtr();
-	_followingObj = dynamic_cast<PGameObj>(_followingPtr.lock().get());
+	_followingObj = (dynamic_cast<PGameObj>(_followingPtr.lock().get()));
 }
 
 PGameObj Camera::GetFollow()

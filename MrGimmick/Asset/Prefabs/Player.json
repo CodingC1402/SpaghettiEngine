@@ -1,0 +1,27 @@
+{
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"Tag": "Player",
+				"GameObjects": [],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					1
+				]
+			}
+		}
+    ],
+    "Scripts": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "Animator",
+				"Animation": 20001,
+				"DrawLayer": 1
+			}
+		}
+    ]
+}

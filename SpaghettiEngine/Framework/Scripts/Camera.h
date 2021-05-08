@@ -16,6 +16,8 @@ public:
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
 
+	virtual void	Load(json& input) override;
+
 	virtual void	SetFollow(PGameObj followObj);
 	virtual [[nodiscard]] PGameObj	GetFollow();
 	virtual void	RemoveFollow();

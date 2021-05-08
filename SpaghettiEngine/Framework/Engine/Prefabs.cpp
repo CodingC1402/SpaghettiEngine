@@ -9,10 +9,10 @@
 using namespace LoadingJson;
 CONTAINER_REGISTER(PrefabsContainer, Prefab);
 
-void PrefabHierarchy::ConstructListOfHierarchy(std::list<SPrefabHierarchy>& out, SPrefabHierarchy root)
+void PrefabHierarchy::ConstructVectorOfHierarchy(std::vector<SPrefabHierarchy>& out, SPrefabHierarchy root)
 {
 	out.push_back(root);
-	root->ConstructListOfChildHierarchy(out);
+	root->ConstructVectorOfChildHierarchy(out);
 }
 
 PrefabHierarchy::PrefabHierarchy(int numberOfChild, int value)
@@ -26,36 +26,36 @@ void PrefabHierarchy::AddChild(std::shared_ptr<PrefabHierarchy>& child)
 	_children.emplace_back(child);
 }
 
-unsigned PrefabHierarchy::GetIndex(const unsigned accessIndexes[], const unsigned numberOfLevel) const
+unsigned PrefabHierarchy::GetIndex(const std::vector<unsigned>& accessIndexes) const
 {
-	return GetIndexRecursive(accessIndexes, 0, numberOfLevel);
+	return GetIndexRecursive(accessIndexes, 0);
 }
 
-void PrefabHierarchy::ConstructListOfChildHierarchy(std::list<SPrefabHierarchy>& out) const
+void PrefabHierarchy::ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out) const
 {
 	for (const auto& child : _children)
 	{
 		out.push_back(child);
-		child->ConstructListOfChildHierarchy(out);
+		child->ConstructVectorOfChildHierarchy(out);
 	}
 }
 
-unsigned PrefabHierarchy::GetIndexRecursive(const unsigned accessIndexes[], unsigned level, const unsigned int& numberOfLevel) const
+unsigned PrefabHierarchy::GetIndexRecursive(const std::vector<unsigned>& accessIndexes, unsigned level) const
 {
 	try
 	{
-		if (level >= numberOfLevel)
+		if (level >= accessIndexes.size())
 			return _value;
-		return _children[accessIndexes[level]]->GetIndexRecursive(accessIndexes, ++level, numberOfLevel);
+		return _children[accessIndexes[level]]->GetIndexRecursive(accessIndexes, ++level);
 	}
 	catch(const std::exception& e)
 	{	
 		std::ostringstream os;
 		os << "[Access indexed] ";
-		for (unsigned i = 0; i < numberOfLevel; i++)
+		for (unsigned i = 0; i < accessIndexes.size(); i++)
 			os << accessIndexes[i] << ", ";
 		os << std::endl;
-		os << "[Number of level] " << numberOfLevel << std::endl;
+		os << "[Number of level] " << accessIndexes.size() << std::endl;
 		os << "[Level] " << level << std::endl;
 		os << "[Exception] There was an error while trying to get the index in prefab hierarchy";
 
@@ -78,23 +78,23 @@ void ApplyIndexToPrefabsChanges(nlohmann::json& out, unsigned int index)
 					if (!ref.empty())
 						ref[Field::prefabIdField] = index;
 }
+
 void ApplyChangeToInputField(nlohmann::json& input, nlohmann::json& change)
 {
 	if (const auto field = change[Field::fieldField].get<std::string>(); Field::IsRefField(field.c_str()))
+	{
 		for (auto& ref : change[Field::valueField])
-		{
 			if (!ref.empty())
 				input[field][ref[Field::refIndex].get<unsigned>()] = ref;
-		}
+	}
 	else
 		input[field] = change[Field::valueField];
 }
-SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes)
+
+SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes) const
 {
 	using nlohmann::json;
 	using namespace LoadingJson;
-
-	index++; // Increase index
 	
 	if constexpr  (Setting::IsDebugMode())
 	{
@@ -181,6 +181,7 @@ SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohma
 		}
 
 		SPrefabHierarchy prefabHierarchy = std::make_shared<PrefabHierarchy>(_subPrefabsIDs.size(), index);
+		index++; // Increase index
 		for (SPrefabHierarchy subHierarchy; auto& subPrefab : subPrefabsCopy)
 		{
 			subHierarchy = PrefabsContainer::GetInstance()->GetResource(subPrefab[Field::idField].get<unsigned>())->Append(out, index, subPrefab[Field::changesField]);

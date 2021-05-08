@@ -11,14 +11,14 @@ typedef std::shared_ptr<PrefabHierarchy> SPrefabHierarchy;
 class PrefabHierarchy
 {
 public:
-	static void ConstructListOfHierarchy(std::list<SPrefabHierarchy>& out, SPrefabHierarchy root);
+	static void ConstructVectorOfHierarchy(std::vector<SPrefabHierarchy>& out, SPrefabHierarchy root);
 	
 	PrefabHierarchy(int numberOfChild, int value);
 	void AddChild(std::shared_ptr<PrefabHierarchy>& child);
-	[[nodiscard]] unsigned int GetIndex(const unsigned int accessIndexes[], const unsigned int numberOfLevel) const;
-	void ConstructListOfChildHierarchy(std::list<SPrefabHierarchy>& out) const;
+	[[nodiscard]] unsigned int GetIndex(const std::vector<unsigned>& accessIndexes) const;
+	void ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out) const;
 protected:
-	[[nodiscard]] unsigned int GetIndexRecursive(const unsigned int accessIndexes[], unsigned level, const unsigned int& numberOfLevel) const;
+	[[nodiscard]] unsigned int GetIndexRecursive(const std::vector<unsigned>& accessIndexes, unsigned level) const;
 protected:
 	std::vector<std::shared_ptr<PrefabHierarchy>> _children;
 	unsigned int _value = 0;
@@ -42,7 +42,7 @@ public:
 	/// <param name="out"> the scene json object that you would like to append base on this prefab</param>
 	/// <param name="index"> index of this prefab according to your </param>
 	/// <param name="changes"> the json object that describe what need to be change to the append</param>
-	SPrefabHierarchy Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes);
+	SPrefabHierarchy Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes) const;
 	void Load(const std::string& path) override;
 public:
 	static constexpr unsigned long long acceptMask = 0xFFFFFFFFFFFFFFFFU;

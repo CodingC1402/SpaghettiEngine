@@ -2,5 +2,13 @@
   {
     "ID": 10001,
     "Path": "Asset/Prefabs/MainAsset.json"
+  },
+  {
+    "ID": 10002,
+    "Path": "Asset/Prefabs/Player.json"
+  },
+  {
+    "ID": 10003,
+    "Path": "Asset/Prefabs/Camera.json"
   }
 ]
