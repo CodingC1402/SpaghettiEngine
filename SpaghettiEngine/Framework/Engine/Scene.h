@@ -111,7 +111,7 @@ protected:
     void PromoteGameObjToRoot(PGameObj gameObj);
     void DemoteGameObjFromRoot(PGameObj gameObj);
 
-    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type) const;
+    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
     void Load();
     void Unload();
 protected:

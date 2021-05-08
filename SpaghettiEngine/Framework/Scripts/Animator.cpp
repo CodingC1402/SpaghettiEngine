@@ -23,7 +23,7 @@ void Animator::Draw(PCamera camera)
 	_sprite = _ani->GetSpriteOfFrame(frame);
 	Matrix transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
-	Graphics::DrawSprite(*_sprite->GetSource(), _sprite->GetSourceRect(), _sprite->GetCenter());
+	Graphics::DrawSprite(_sprite, _sprite->GetCenter());
 }
 
 void Animator::Load(nlohmann::json& inputObject)

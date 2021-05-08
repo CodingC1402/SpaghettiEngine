@@ -31,10 +31,12 @@ const wchar_t* SceneManager::SceneManagerException::What() const noexcept
 
 void SceneManager::Update()
 {
+	auto SM = GetInstance();
 	if (callLoadSceneIndex != sceneIndex)
 		StartLoadScene(callLoadSceneIndex);
-	__instance->currentScene->Update();
-	__instance->constScene->Update();
+	else
+		SM->currentScene->Update();
+	SM->constScene->Update();
 }
 
 PSceneManager SceneManager::GetInstance()
@@ -44,11 +46,10 @@ PSceneManager SceneManager::GetInstance()
 	return __instance;
 }
 
-void SceneManager::StartLoadScene(UINT index)
+void SceneManager::StartLoadScene(unsigned index)
 {
 	if (index == sceneIndex)
 		return;
-
 	if (index >= scenes.size())
 	{
 		std::ostringstream os;
@@ -65,7 +66,7 @@ void SceneManager::StartLoadScene(UINT index)
 	
 	sceneIndex = index;
 	currentScene = scenes[sceneIndex];
-	
+
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
 }
@@ -75,7 +76,7 @@ void SceneManager::CallLoadNextScene()
 	GetInstance()->callLoadSceneIndex = GetInstance()->sceneIndex + 1;
 }
 
-void SceneManager::CallLoadScene(UINT index)
+void SceneManager::CallLoadScene(unsigned index)
 {
 	GetInstance()->callLoadSceneIndex = index;
 }

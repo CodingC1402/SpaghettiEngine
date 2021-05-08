@@ -118,7 +118,7 @@ void Scene::DestroyComponent(PBaseComponent component)
     component->Destroy();
 }
 
-void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type) const
+void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type)
 {
     using LoadingJson::Field;
     component->AssignSharedPtr(component);
@@ -199,6 +199,7 @@ void Scene::Unload()
         objPtr->RecursiveClearScript();
         objPtr->RecursiveMarkForDelete();
     }
+    _rootGameObjects.clear();
 }
 
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)

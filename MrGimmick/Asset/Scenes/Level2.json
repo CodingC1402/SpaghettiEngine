@@ -5,9 +5,10 @@
       "Changes": [
           {
               "ID": 1,
+              "Prefabs": [0],
               "Type" : "GameObject",
               "Field": "Rotation",
-              "Value": [0, 0, 0]
+              "Value": [0, 0, 45]
           }
       ]
     }
@@ -22,7 +23,9 @@
 			"Rotation": [ 0, 0, 0 ],
 			"Scale": [ 1, 1, 1 ],
             "Scripts": [
-              20001
+              {
+                "ID": 20001
+              }
             ]
         }
     }

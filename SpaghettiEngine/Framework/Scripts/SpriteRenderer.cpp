@@ -50,7 +50,7 @@ void SpriteRenderer::Draw(PCamera camera)
 	Vector3 center = GetCenter();
 	Matrix transform = camera->GetMatrix(transformMatrix * GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
-	Graphics::DrawSprite(*GetTexture(), GetSourceRect(), GetCenter());
+	Graphics::DrawSprite(sprite, GetCenter());
 }
 
 void SpriteRenderer::Load(nlohmann::json& inputObject)
