@@ -26,12 +26,12 @@ void PrefabHierarchy::AddChild(std::shared_ptr<PrefabHierarchy>& child)
 	_children.emplace_back(child);
 }
 
-unsigned PrefabHierarchy::GetIndex(const std::vector<unsigned>& accessIndexes) const
+unsigned PrefabHierarchy::GetIndex(std::vector<unsigned>& accessIndexes)
 {
 	return GetIndexRecursive(accessIndexes, 0);
 }
 
-void PrefabHierarchy::ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out) const
+void PrefabHierarchy::ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out)
 {
 	for (const auto& child : _children)
 	{
@@ -40,7 +40,7 @@ void PrefabHierarchy::ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarc
 	}
 }
 
-unsigned PrefabHierarchy::GetIndexRecursive(const std::vector<unsigned>& accessIndexes, unsigned level) const
+unsigned PrefabHierarchy::GetIndexRecursive(std::vector<unsigned>& accessIndexes, unsigned level)
 {
 	try
 	{
@@ -73,7 +73,7 @@ void ApplyIndexToPrefabsChanges(nlohmann::json& out, unsigned int index)
 {
 	for(auto& prefab : out)
 		for (auto& change : prefab[Field::changesField])
-			if (Field::IsRefField(change[Field::fieldField].get<std::string>().c_str()))
+			if (Field::IsRefField(change[Field::fieldField].get<std::string>()))
 				for (auto& ref : change[Field::valueField])
 					if (!ref.empty())
 						ref[Field::prefabIdField] = index;
@@ -81,7 +81,7 @@ void ApplyIndexToPrefabsChanges(nlohmann::json& out, unsigned int index)
 
 void ApplyChangeToInputField(nlohmann::json& input, nlohmann::json& change)
 {
-	if (const auto field = change[Field::fieldField].get<std::string>(); Field::IsRefField(field.c_str()))
+	if (const auto field = change[Field::fieldField].get<std::string>(); Field::IsRefField(field))
 	{
 		for (auto& ref : change[Field::valueField])
 			if (!ref.empty())
@@ -91,7 +91,7 @@ void ApplyChangeToInputField(nlohmann::json& input, nlohmann::json& change)
 		input[field] = change[Field::valueField];
 }
 
-SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes) const
+SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes)
 {
 	using nlohmann::json;
 	using namespace LoadingJson;
@@ -123,11 +123,11 @@ SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohma
 				
 				if (!change[Field::prefabsField].empty())
 				{
-					if (unsigned level; change[Field::levelField].get<unsigned>() < change[Field::prefabIdField].size() || change[Field::levelField].empty())
+					if (change[Field::levelField].empty())
+						change[Field::levelField] = 0;
+
+					if (unsigned level; change[Field::levelField].get<unsigned>() < change[Field::prefabIdField].size())
 					{
-						if (change[Field::levelField].empty())
-							change[Field::levelField] = 0;
-						
 						level = change[Field::levelField].get<unsigned>();
 						change[Field::levelField] = level + 1;
 						subPrefabsCopy[change[Field::prefabsField][level].get<unsigned>()][Field::changesField].emplace_back(change);
@@ -137,8 +137,6 @@ SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohma
 
 				if (!isSubChange)
 				{
-					if (Field::IsRefField(change[Field::fieldField].get<std::string>().c_str()))
-						change[Field::valueField][Field::prefabIdField] = index;
 					affectedId = ID::CreateLocalLevelID(change[Field::idField], ID::ConvertStrToType(change[Field::typeField].get<std::string>()));
 
 					const auto& it = appendCopy.find(affectedId);
@@ -188,6 +186,10 @@ SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohma
 			prefabHierarchy->AddChild(subHierarchy);
 		}
 		return prefabHierarchy;
+	}
+	catch (const CornException& e)
+	{
+		throw;
 	}
 	catch(const std::exception& e)
 	{

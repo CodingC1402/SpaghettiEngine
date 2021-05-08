@@ -10,7 +10,7 @@ namespace LoadingJson
     class Field
     {
     public:
-        static constexpr bool IsRefField(const char* field);
+        static bool IsRefField(const std::string& field);
     public:
         //TopLevel
         static constexpr const char* scriptsField = "Scripts";
@@ -37,10 +37,7 @@ namespace LoadingJson
         static constexpr const char* rotationField = "Rotation";
         static constexpr const char* scaleField = "Scale";
     protected:
-        static inline std::list<const char*> _refFields = {
-            gameObjectsField,
-            scriptsField
-        };
+        static std::list<std::string> _refFields;
     };
 
     class ID
@@ -68,14 +65,6 @@ namespace LoadingJson
 
         static std::unordered_map<std::string, Scene::ComponentType> _typeDict;
     };
-}
-
-constexpr bool LoadingJson::Field::IsRefField(const char* field)
-{
-    for (const auto& refField : _refFields)
-        if (refField == field)
-            return true;
-    return false;
 }
 
 constexpr ULL LoadingJson::ID::CreateTopLevelID(CULL& localID, const unsigned& prefabIndex)

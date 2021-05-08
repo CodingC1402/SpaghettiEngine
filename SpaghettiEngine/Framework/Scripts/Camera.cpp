@@ -57,9 +57,10 @@ void Camera::OnEnabled()
 
 void Camera::Load(json& input)
 {
+	using LoadingJson::Field;
 	if (!input[LoadingJson::Field::gameObjectsField].empty())
 	{
-		_followingPtr = _owner->GetComponent(input[LoadingJson::Field::gameObjectsField][0]);
+		_followingPtr = _owner->GetComponent(input[LoadingJson::Field::gameObjectsField][0][Field::idField]);
 		_followingObj = (dynamic_cast<PGameObj>(_followingPtr.lock().get()));
 	}
 }

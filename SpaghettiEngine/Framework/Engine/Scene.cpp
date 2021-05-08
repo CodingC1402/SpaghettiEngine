@@ -123,7 +123,7 @@ void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, C
     using LoadingJson::Field;
     component->AssignSharedPtr(component);
     _tempComponentContainer->emplace(json[Field::idField].get<CULL>(), Entry(json[Field::inputsField], component));
-    if (json[Field::isDisabled].empty() && json[Field::isDisabled].get<bool>())
+    if (!json[Field::isDisabled].empty() && json[Field::isDisabled].get<bool>())
         component->DisableWithoutUpdate();
 }
 void Scene::Load()
@@ -232,7 +232,12 @@ Scene::SBaseComponent& Scene::GetComponent(CULL& id) const
         throw SCENE_EXCEPTION("Trying to get component using id after load");
     auto tempPointer = _tempComponentContainer->find(id);
     if (tempPointer == _tempComponentContainer->end())
-        throw SCENE_EXCEPTION("Cannot find the requested id");
+    {
+        std::ostringstream os;
+        os << "Could not find the requested id";
+        os << "[ID] " << id << std::endl;
+        throw SCENE_EXCEPTION(os.str());
+    }
     return tempPointer->second._component;
 }
 

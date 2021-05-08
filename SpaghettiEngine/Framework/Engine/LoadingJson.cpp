@@ -3,10 +3,23 @@
 #include "CornException.h"
 #include "Prefabs.h"
 
+std::list<std::string> LoadingJson::Field::_refFields{
+    gameObjectsField,
+    scriptsField
+};
+
 std::unordered_map<std::string, Scene::ComponentType> LoadingJson::ID::_typeDict{
     {"GameObject", Scene::ComponentType::gameObj},
     {"Script", Scene::ComponentType::script}
 };
+
+bool LoadingJson::Field::IsRefField(const std::string& field)
+{
+    for (const auto& refField : _refFields)
+        if (refField == field)
+            return true;
+    return false;
+}
 
 #pragma region Convert IDs
 void LoadingJson::ID::ConvertRefFieldIDs(nlohmann::json& refField, Scene::ComponentType type, std::vector<SPrefabHierarchy>& listOfHierarchy, const unsigned& defaultID)
@@ -22,8 +35,14 @@ void LoadingJson::ID::ConvertRefFieldIDs(nlohmann::json& refField, Scene::Compon
             else
                 refID = ref[Field::prefabIdField].get<unsigned>();
 
+            std::vector<unsigned> prefabsIndexes;
             if (!ref[Field::prefabsField].empty())
-                refID = listOfHierarchy[refID]->GetIndex(ref[Field::prefabsField].get<std::vector<unsigned>>());
+            {
+                prefabsIndexes.clear();
+                for (const auto& prefabIndex : ref[Field::prefabsField])
+                    prefabsIndexes.push_back(prefabIndex.get<unsigned>());
+                refID = listOfHierarchy[refID]->GetIndex(prefabsIndexes);
+            }
 
             ref[Field::idField] = ID::CreateTopLevelID(ref[Field::idField], type, refID);
         }
@@ -43,8 +62,8 @@ void LoadingJson::ID::ConvertComponentIDs(nlohmann::json& component, Scene::Comp
         type,
         prefabID);
 
-    ConvertRefFieldIDs(component[Field::gameObjectsField], Scene::ComponentType::gameObj, listOfHierarchy, prefabID);
-    ConvertRefFieldIDs(component[Field::scriptsField], Scene::ComponentType::script, listOfHierarchy, prefabID);
+    ConvertRefFieldIDs(component[Field::inputsField][Field::gameObjectsField], Scene::ComponentType::gameObj, listOfHierarchy, prefabID);
+    ConvertRefFieldIDs(component[Field::inputsField][Field::scriptsField], Scene::ComponentType::script, listOfHierarchy, prefabID);
 }
 
 void LoadingJson::ID::ConvertIDInJson(nlohmann::json& out, SPrefabHierarchy hierarchy)

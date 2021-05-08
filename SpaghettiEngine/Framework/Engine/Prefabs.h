@@ -15,10 +15,10 @@ public:
 	
 	PrefabHierarchy(int numberOfChild, int value);
 	void AddChild(std::shared_ptr<PrefabHierarchy>& child);
-	[[nodiscard]] unsigned int GetIndex(const std::vector<unsigned>& accessIndexes) const;
-	void ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out) const;
+	[[nodiscard]] unsigned int GetIndex(std::vector<unsigned>& accessIndexes);
+	void ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out);
 protected:
-	[[nodiscard]] unsigned int GetIndexRecursive(const std::vector<unsigned>& accessIndexes, unsigned level) const;
+	[[nodiscard]] unsigned int GetIndexRecursive(std::vector<unsigned>& accessIndexes, unsigned level);
 protected:
 	std::vector<std::shared_ptr<PrefabHierarchy>> _children;
 	unsigned int _value = 0;
@@ -42,13 +42,11 @@ public:
 	/// <param name="out"> the scene json object that you would like to append base on this prefab</param>
 	/// <param name="index"> index of this prefab according to your </param>
 	/// <param name="changes"> the json object that describe what need to be change to the append</param>
-	SPrefabHierarchy Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes) const;
+	SPrefabHierarchy Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes);
 	void Load(const std::string& path) override;
-public:
-	static constexpr unsigned long long acceptMask = 0xFFFFFFFFFFFFFFFFU;
 protected:
-	std::map<CULL, ComponentJsonObject> _components;
-	std::list<CULL> _subPrefabsIDs;
+	std::map<ULL, ComponentJsonObject> _components;
+	std::list<ULL> _subPrefabsIDs;
 	nlohmann::json _subPrefabs;
 };
 
