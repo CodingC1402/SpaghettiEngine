@@ -6,12 +6,12 @@
 #include "CornException.h"
 #include "Scene.h"
 #include <string>
-#include <map>
+#include <unordered_map>
 
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
 typedef std::weak_ptr<ScriptBase> WScriptBase;
-typedef std::map<std::string, void* (*)(PScene)> ScriptTypes;
+typedef std::unordered_map<std::string, void* (*)(PScene)> ScriptTypes;
 
 template<typename T>
 void* CreateT(PScene owner) { return new T(owner); }

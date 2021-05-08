@@ -7,9 +7,10 @@
 					"ID": 1,
 					"Field": "Scripts",
 					"Type": "GameObject",
+					"Mode": "Append",
 					"Value": [
 						{
-							"RefIndex": 1,
+							"RefIndex": 0,
 							"ID": 1
 						}
 					]

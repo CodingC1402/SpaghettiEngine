@@ -26,6 +26,12 @@ protected:
 
 class Prefab : public Resource
 {
+public:
+	enum class ChangeMode {
+		Update,
+		Truncate,
+		Append
+	};
 protected:
 	struct ComponentJsonObject
 	{

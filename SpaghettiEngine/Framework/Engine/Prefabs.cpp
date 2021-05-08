@@ -79,13 +79,34 @@ void ApplyIndexToPrefabsChanges(nlohmann::json& out, unsigned int index)
 						ref[Field::prefabIdField] = index;
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(Prefab::ChangeMode, {
+	{Prefab::ChangeMode::Update, "Update"},
+	{Prefab::ChangeMode::Truncate, "Truncate"},
+	{Prefab::ChangeMode::Append, "Append"}
+	})
 void ApplyChangeToInputField(nlohmann::json& input, nlohmann::json& change)
 {
 	if (const auto field = change[Field::fieldField].get<std::string>(); Field::IsRefField(field))
 	{
-		for (auto& ref : change[Field::valueField])
-			if (!ref.empty())
-				input[field][ref[Field::refIndex].get<unsigned>()] = ref;
+		if (change[Field::modeField].empty())
+			change[Field::modeField] = "Update";
+
+		switch (change[Field::modeField].get<Prefab::ChangeMode>())
+		{
+		case Prefab::ChangeMode::Append:
+			for (auto& ref : change[Field::valueField])
+				if (!ref.empty())
+					input[field].emplace_back(ref);
+			break;
+		case Prefab::ChangeMode::Truncate:
+			input[field].clear();
+			[[fallthough]]
+		case Prefab::ChangeMode::Update:
+			for (auto& ref : change[Field::valueField])
+				if (!ref.empty())
+					input[field][ref[Field::refIndex].get<unsigned>()] = ref;
+			break;
+		}
 	}
 	else
 		input[field] = change[Field::valueField];

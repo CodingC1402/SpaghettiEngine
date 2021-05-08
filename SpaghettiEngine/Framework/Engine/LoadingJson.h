@@ -23,6 +23,7 @@ namespace LoadingJson
         //Prefab
         static constexpr const char* prefabIdField = "PrefabID";
         static constexpr const char* changesField = "Changes";
+        static constexpr const char* modeField = "Mode";
         static constexpr const char* levelField = "Level";
         static constexpr const char* fieldField = "Field";
         static constexpr const char* valueField = "Value";
