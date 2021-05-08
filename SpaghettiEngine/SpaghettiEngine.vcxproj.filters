@@ -185,6 +185,9 @@
     <ClInclude Include="Framework\Engine\LoadingJson.h">
       <Filter>FrameWork\Engine\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Ultilities\MultiThread.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -306,6 +309,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\LoadingJson.cpp">
       <Filter>FrameWork\Engine\SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\MultiThread.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

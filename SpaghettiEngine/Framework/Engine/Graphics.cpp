@@ -5,6 +5,7 @@
 #include "GraphicsMath.h"
 #include "Render2DScriptBase.h"
 #include "Setting.h"
+#include "Sprite.h"
 #include <fstream>
 #include <DirectXMath.h>
 
@@ -75,12 +76,14 @@ void Graphics::LoadTexture(PImage& rTexture, const std::string& path, const Colo
 
 void Graphics::AddRender2D(PRender2DScriptBase renderScript)
 {
-	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
+	PGraphics pgfx = GetInstance();
+	pgfx->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
 }
 
 void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 {
-	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
+	PGraphics pgfx = GetInstance();
+	pgfx->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
 void Graphics::SetSpriteTransform(Matrix& matrix)
@@ -93,11 +96,11 @@ void Graphics::SetSpriteTransform(Matrix& matrix)
 	GetInstance()->spriteHandler->SetTransform(&matrix);
 }
 
-void Graphics::DrawSprite(const Texture& texture, const RECT& srcRect, const Vector3& center,
-                          const Vector3& position, const Color& color)
+void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Vector3& position, const Color& color)
 {
+	RECT srcRect = sprite->GetSourceRect();
 	GetInstance()->spriteHandler->Draw(
-		texture.GetImage(),
+		sprite->GetSource()->GetImage(),
 		&srcRect,
 		&center,
 		&position,
@@ -107,12 +110,14 @@ void Graphics::DrawSprite(const Texture& texture, const RECT& srcRect, const Vec
 
 void Graphics::AddCamera(PCamera camera)
 {
-	GetInstance()->cameraList.emplace_back(camera);
+	PGraphics pgfx = GetInstance();
+	pgfx->cameraList.emplace_back(camera);
 }
 
 void Graphics::RemoveCamera(PCamera camera)
 {
-	GetInstance()->cameraList.remove(camera);
+	PGraphics pgfx = GetInstance();
+	pgfx->cameraList.remove(camera);
 }
 
 void Graphics::SetActiveCamera(PCamera setCamera)

@@ -20,9 +20,9 @@ void NormalTile::Load(const int& index, Texture* texture, const json& data)
 	sprite = texture->GetSprite(index - 1);
 }
 
-void NormalTile::Draw(Texture* texture, const Vector3& position)
+void NormalTile::Draw(const Vector3& position)
 {
-	Graphics::DrawSprite(*texture, sprite->GetSourceRect(), sprite->GetCenter(), position);
+	Graphics::DrawSprite(sprite, sprite->GetCenter(), position);
 }
 
 void AnimatedTile::Update()
@@ -36,12 +36,11 @@ void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
 	animation = AnimationContainer::GetInstance()->GetResource(data["Animations"][abs(index + 1)].get<CULL>());
 }
 
-void AnimatedTile::Draw(Texture* texture, const Vector3& position)
+void AnimatedTile::Draw(const Vector3& position)
 {
 	const SSprite currentSprite = animation->GetSpriteOfFrame(frame);
-	RECT srcRect = currentSprite->GetSourceRect();
 	Vector3 center = currentSprite->GetCenter();
-	Graphics::DrawSprite(*texture, currentSprite->GetSourceRect(), currentSprite->GetCenter(), position);
+	Graphics::DrawSprite(currentSprite, currentSprite->GetCenter(), position);
 }
 
 TileMapRenderer::TileMapRenderer(PScene owner) : Render2DScriptBase(owner), width(0), height(0), tileWidth(0), tileHeight(0)
@@ -211,7 +210,7 @@ void TileMapRenderer::Draw(PCamera camera)
 		for (int col = startCol; col < endCol; col++)
 		{
 			position.x = static_cast<float>(col * tileWidth);
-			tiles[row][col]->Draw(texture.get(), position);
+			tiles[row][col]->Draw(position);
 		}
 	}
 }
