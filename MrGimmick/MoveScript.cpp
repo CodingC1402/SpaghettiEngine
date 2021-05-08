@@ -16,9 +16,6 @@ void MoveScript::OnStart()
 	down = InputSystem::GetInput("MoveDown");
 	left = InputSystem::GetInput("MoveLeft");
 	right = InputSystem::GetInput("MoveRight");
-
-	cam = Graphics::GetActiveCamera();
-	cam->SetFollow(_ownerObj);
 }
 
 void MoveScript::OnUpdate()

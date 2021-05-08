@@ -9,44 +9,170 @@
 using namespace LoadingJson;
 CONTAINER_REGISTER(PrefabsContainer, Prefab);
 
+void PrefabHierarchy::ConstructVectorOfHierarchy(std::vector<SPrefabHierarchy>& out, SPrefabHierarchy root)
+{
+	out.push_back(root);
+	root->ConstructVectorOfChildHierarchy(out);
+}
+
+PrefabHierarchy::PrefabHierarchy(int numberOfChild, int value)
+{
+	_children.reserve(numberOfChild);
+	_value = value;
+}
+
+void PrefabHierarchy::AddChild(std::shared_ptr<PrefabHierarchy>& child)
+{
+	_children.emplace_back(child);
+}
+
+unsigned PrefabHierarchy::GetIndex(std::vector<unsigned>& accessIndexes)
+{
+	return GetIndexRecursive(accessIndexes, 0);
+}
+
+void PrefabHierarchy::ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out)
+{
+	for (const auto& child : _children)
+	{
+		out.push_back(child);
+		child->ConstructVectorOfChildHierarchy(out);
+	}
+}
+
+unsigned PrefabHierarchy::GetIndexRecursive(std::vector<unsigned>& accessIndexes, unsigned level)
+{
+	try
+	{
+		if (level >= accessIndexes.size())
+			return _value;
+		return _children[accessIndexes[level]]->GetIndexRecursive(accessIndexes, ++level);
+	}
+	catch(const std::exception& e)
+	{	
+		std::ostringstream os;
+		os << "[Access indexed] ";
+		for (unsigned i = 0; i < accessIndexes.size(); i++)
+			os << accessIndexes[i] << ", ";
+		os << std::endl;
+		os << "[Number of level] " << accessIndexes.size() << std::endl;
+		os << "[Level] " << level << std::endl;
+		os << "[Exception] There was an error while trying to get the index in prefab hierarchy";
+
+		throw CONTAINER_EXCEPT(PrefabsContainer::GetName(), os.str());
+	}
+}
+
 Prefab::ComponentJsonObject::ComponentJsonObject(nlohmann::json& jsonObject, const bool& isGameObject)
 	:
 	_jsonObject(jsonObject),
 	_isGameObject(isGameObject)
 {}
 
-void Prefab::Append(nlohmann::json& out, unsigned int index, nlohmann::json& changes)
+void ApplyIndexToPrefabsChanges(nlohmann::json& out, unsigned int index)
+{
+	for(auto& prefab : out)
+		for (auto& change : prefab[Field::changesField])
+			if (Field::IsRefField(change[Field::fieldField].get<std::string>()))
+				for (auto& ref : change[Field::valueField])
+					if (!ref.empty())
+						ref[Field::prefabIdField] = index;
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Prefab::ChangeMode, {
+	{Prefab::ChangeMode::Update, "Update"},
+	{Prefab::ChangeMode::Truncate, "Truncate"},
+	{Prefab::ChangeMode::Append, "Append"}
+	})
+void ApplyChangeToInputField(nlohmann::json& input, nlohmann::json& change)
+{
+	if (const auto field = change[Field::fieldField].get<std::string>(); Field::IsRefField(field))
+	{
+		if (change[Field::modeField].empty())
+			change[Field::modeField] = "Update";
+
+		switch (change[Field::modeField].get<Prefab::ChangeMode>())
+		{
+		case Prefab::ChangeMode::Append:
+			for (auto& ref : change[Field::valueField])
+				if (!ref.empty())
+					input[field].emplace_back(ref);
+			break;
+		case Prefab::ChangeMode::Truncate:
+			input[field].clear();
+			[[fallthough]]
+		case Prefab::ChangeMode::Update:
+			for (auto& ref : change[Field::valueField])
+				if (!ref.empty())
+					input[field][ref[Field::refIndex].get<unsigned>()] = ref;
+			break;
+		}
+	}
+	else
+		input[field] = change[Field::valueField];
+}
+
+SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes)
 {
 	using nlohmann::json;
 	using namespace LoadingJson;
-
+	
 	if constexpr  (Setting::IsDebugMode())
 	{
 		if (!ID::CheckPrefabIndex(index))
-			throw RESOURCE_LOAD_EXCEPTION("[Exception] index of prefab is langer then what defined in id or equal to zero", Prefab);
+		{
+			std::ostringstream os;
+			os << "[Exception] You are using more than 2 ^ ";
+			os << ID::_bitForPrefabId << " - 1 total prefabs(including sub prefabs) in one level... wth dude :v";
+			throw RESOURCE_LOAD_EXCEPTION(os.str(), Prefab);
+		}
 	}
 	
 	auto appendCopy = _components;
-	try
-	{	
-		if (changes != nullptr)
-		{	
-			for (ULL affectedId; const auto & change : changes)
+	auto subPrefabsCopy = _subPrefabs;
+	
+	try // Apply changes
+	{
+		ApplyIndexToPrefabsChanges(subPrefabsCopy, index);
+		
+		if (changes != nullptr) // Apply changes and forward sub changes to sub prefabs
+		{
+			bool isSubChange = false;
+			for (ULL affectedId; auto & change : changes)
 			{
-				affectedId = ID::CreateLocalLevelID(change[idField], ID::ConvertStrToType(change[typeField].get<std::string>()));
+				isSubChange = false;
 				
-				const auto& it = appendCopy.find(affectedId);
-				if constexpr (Setting::IsDebugMode())
+				if (!change[Field::prefabsField].empty())
 				{
-					if (it == appendCopy.end())
+					if (change[Field::levelField].empty())
+						change[Field::levelField] = 0;
+
+					if (unsigned level; change[Field::levelField].get<unsigned>() < change[Field::prefabIdField].size())
 					{
-						std::ostringstream os;
-						os << "[Exception] Component with ID " << affectedId << "doesn't exist in the requested prefab to make change" << std::endl;
-						os << "[Change object] " << change << std::endl;
-						throw RESOURCE_LOAD_EXCEPTION(os.str(), Prefab);
+						level = change[Field::levelField].get<unsigned>();
+						change[Field::levelField] = level + 1;
+						subPrefabsCopy[change[Field::prefabsField][level].get<unsigned>()][Field::changesField].emplace_back(change);
+						isSubChange = true;
 					}
 				}
-				it->second._jsonObject[inputsField][change[fieldField].get<std::string>()] = change[valueField];
+
+				if (!isSubChange)
+				{
+					affectedId = ID::CreateLocalLevelID(change[Field::idField], ID::ConvertStrToType(change[Field::typeField].get<std::string>()));
+
+					const auto& it = appendCopy.find(affectedId);
+					if constexpr (Setting::IsDebugMode())
+					{
+						if (it == appendCopy.end())
+						{
+							std::ostringstream os;
+							os << "[Exception] Component with ID " << affectedId << "doesn't exist in the requested prefab to make change" << std::endl;
+							os << "[Change object] " << change << std::endl;
+							throw RESOURCE_LOAD_EXCEPTION(os.str(), Prefab);
+						}
+					}
+					ApplyChangeToInputField(it->second._jsonObject[Field::inputsField], change);
+				}
 			}
 		}
 	}
@@ -66,17 +192,30 @@ void Prefab::Append(nlohmann::json& out, unsigned int index, nlohmann::json& cha
 	{
 		for (auto& val : appendCopy | std::views::values)
 		{
-			val._jsonObject[prefabIdField] = index;
+			val._jsonObject[Field::prefabIdField] = index;
 			if (val._isGameObject)
-				out[gameObjectsField].emplace_back(val._jsonObject);
+				out[Field::gameObjectsField].emplace_back(val._jsonObject);
 			else
-				out[scriptsField].emplace_back(val._jsonObject);
+				out[Field::scriptsField].emplace_back(val._jsonObject);
 		}
+
+		SPrefabHierarchy prefabHierarchy = std::make_shared<PrefabHierarchy>(_subPrefabsIDs.size(), index);
+		index++; // Increase index
+		for (SPrefabHierarchy subHierarchy; auto& subPrefab : subPrefabsCopy)
+		{
+			subHierarchy = PrefabsContainer::GetInstance()->GetResource(subPrefab[Field::idField].get<unsigned>())->Append(out, index, subPrefab[Field::changesField]);
+			prefabHierarchy->AddChild(subHierarchy);
+		}
+		return prefabHierarchy;
+	}
+	catch (const CornException& e)
+	{
+		throw;
 	}
 	catch(const std::exception& e)
 	{
 		std::ostringstream os;
-		os << "[Exception] Error while appending the component to the json file" << std::endl;
+		os << "[Exception] Error while appending prefabs component to the json file" << std::endl;
 		os << "[Standard exception] " << e.what() << std::endl;
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Prefab);
 	}
@@ -101,12 +240,19 @@ void Prefab::Load(const std::string& path)
 		json loadedJson;
 		file >> loadedJson;
 		
-		for (auto& object : loadedJson[gameObjectsField])
+		if (loadedJson[Field::prefabsField] != nullptr)
 		{
-			const auto currentId = ID::CreateLocalLevelID(object[idField].get<unsigned int>(), Scene::ComponentType::gameObj);
+			_subPrefabs = loadedJson[Field::prefabsField];
+			for(const auto& prefab : loadedJson[Field::prefabsField])
+				_subPrefabsIDs.emplace_back(prefab[Field::idField].get<CULL>());
+		}
+		
+		for (auto& object : loadedJson[Field::gameObjectsField])
+		{
+			const auto currentId = ID::CreateLocalLevelID(object[Field::idField].get<unsigned int>(), Scene::ComponentType::gameObj);
 			if constexpr (Setting::IsDebugMode())
 			{
-				if (!ID::CheckID(object[idField].get<unsigned int>()))
+				if (!ID::CheckID(object[Field::idField].get<unsigned int>()))
 				{
 					std::ostringstream os;
 					os << "[Exception] The id of the game object is larger then 32 bit" << std::endl;
@@ -128,12 +274,12 @@ void Prefab::Load(const std::string& path)
 				_components.emplace(currentId, ComponentJsonObject(object, true));
 			}
 		}
-		for (auto& script : loadedJson[scriptsField])
+		for (auto& script : loadedJson[Field::scriptsField])
 		{
-			const auto currentId = ID::CreateLocalLevelID(script[idField].get<unsigned int>(), Scene::ComponentType::script);
+			const auto currentId = ID::CreateLocalLevelID(script[Field::idField].get<unsigned int>(), Scene::ComponentType::script);
 			if constexpr(Setting::IsDebugMode())
 			{
-				if (!ID::CheckID(script[idField].get<unsigned int>()))
+				if (!ID::CheckID(script[Field::idField].get<unsigned int>()))
 				{
 					std::ostringstream os;
 					os << "[Exception] The id of the game object is larger then 32 bit" << std::endl;

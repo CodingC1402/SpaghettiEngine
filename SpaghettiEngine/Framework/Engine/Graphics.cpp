@@ -83,6 +83,28 @@ void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
+void Graphics::SetSpriteTransform(Matrix& matrix)
+{
+	if (Setting::IsWorldPointPixelPerfect())
+	{
+		matrix._41 = std::round(matrix._41);
+		matrix._42 = std::round(matrix._42);
+	}
+	GetInstance()->spriteHandler->SetTransform(&matrix);
+}
+
+void Graphics::DrawSprite(const Texture& texture, const RECT& srcRect, const Vector3& center,
+                          const Vector3& position, const Color& color)
+{
+	GetInstance()->spriteHandler->Draw(
+		texture.GetImage(),
+		&srcRect,
+		&center,
+		&position,
+		color
+	);
+}
+
 void Graphics::AddCamera(PCamera camera)
 {
 	GetInstance()->cameraList.emplace_back(camera);
@@ -183,14 +205,15 @@ PCamera Graphics::GetActiveCamera()
 
 void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 {
-#ifdef _DEBUG // For counting fps
-	fpsTimer->Start();
-	fpsRect.left = 3;
-	fpsRect.top = 3;
-	fpsRect.right = 50;
-	fpsRect.bottom = 20;
-#endif
-	
+	if constexpr (Setting::IsDebugMode())
+	{
+		fpsTimer->Start();
+		fpsRect.left = 3;
+		fpsRect.top = 3;
+		fpsRect.right = 50;
+		fpsRect.bottom = 20;
+	}
+
 	if (const float fps = Setting::GetFps(); fps <= 0)
 		delayPerFrame = 0;
 	else
@@ -261,12 +284,11 @@ void Graphics::Render()
 		else
 			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
 
-
 		spriteHandler->Begin(ALPHABLEND);
 		const auto cameraScript = *cameraList.begin();
 		for (const auto& layer : _renderBuffer2D)
 			for (const auto& renderScript2D : layer)
-				renderScript2D->Draw(spriteHandler, cameraScript);
+				renderScript2D->Draw(cameraScript);
 
 		if constexpr (Setting::IsDebugMode())
 		{
@@ -296,7 +318,7 @@ void Graphics::Render()
 			delete temp;
 		}
 		spriteHandler->End();
-
+		
 		if (!End())
 			Reset();
 
