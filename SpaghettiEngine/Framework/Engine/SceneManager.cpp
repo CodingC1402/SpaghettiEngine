@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "Graphics.h"
 #include "Path.h"
+#include "App.h"
 #include <fstream>
 
 PSceneManager SceneManager::__instance = nullptr;
@@ -32,10 +33,26 @@ const wchar_t* SceneManager::SceneManagerException::What() const noexcept
 void SceneManager::Update()
 {
 	auto SM = GetInstance();
-	if (callLoadSceneIndex != sceneIndex)
-		StartLoadScene(callLoadSceneIndex);
-	else
-		SM->currentScene->Update();
+	if (!_isLoading)
+	{
+		if (_startedLoadNewScene)
+		{
+			currentScene->Enable();
+			_startedLoadNewScene = false;
+
+			CleanUpAfterLoad();
+		}
+		else if (callLoadSceneIndex != sceneIndex)
+		{
+			_isLoading = true;
+			_startedLoadNewScene = true;
+
+			std::thread loadThread(&SceneManager::StartLoadScene, this, callLoadSceneIndex);
+			loadThread.detach();
+		}
+		else
+			SM->currentScene->Update();
+	}
 	SM->constScene->Update();
 }
 
@@ -67,6 +84,11 @@ void SceneManager::StartLoadScene(unsigned index)
 	sceneIndex = index;
 	currentScene = scenes[sceneIndex];
 
+	_isLoading = false;
+}
+
+void SceneManager::CleanUpAfterLoad()
+{
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
 }
@@ -155,7 +177,11 @@ void SceneManager::Init()
 	Load();
 	scenes[sceneIndex]->Load();
 	currentScene = scenes[sceneIndex];
+	currentScene->Enable();
+
 	constScene->Load();
+	constScene->Enable();
+
 	currentScene->Start();
 	constScene->Start();
 }

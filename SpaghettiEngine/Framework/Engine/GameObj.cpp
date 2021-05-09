@@ -342,7 +342,7 @@ void GameObj::Destroy()
 		else
 			_owner->DemoteGameObjFromRoot(this);
 
-		RecursiveClearScript();
+		RecursiveClearScriptsWithoutCallEnd();
 		RecursiveMarkForDelete();
 	}
 
@@ -452,17 +452,32 @@ void GameObj::RemoveScript(const PScriptBase& script)
 	_scripts.remove(script);
 }
 
-void GameObj::ClearScripts()
+void GameObj::RecursiveClearScriptsWithoutCallEnd()
 {
+	for (const auto& child : _children)
+		child->RecursiveClearScriptsWithoutCallEnd();
+	ClearScriptsWithoutCallEnd();
+}
+
+void GameObj::ClearScriptsWithoutCallEnd()
+{
+	for (auto& script : _scripts)
+		script->Disable();
 	_scriptsPtr.clear();
 	_scripts.clear();
 }
 
-void GameObj::RecursiveClearScript()
+void GameObj::ClearScripts()
 {
-	for (const auto& child : _children)
-		child->RecursiveClearScript();
-	ClearScripts();
+	for (auto& script : _scripts)
+		script->OnEnd();
+	ClearScriptsWithoutCallEnd();
+}
+
+void GameObj::RecursiveClearScripts()
+{
+	OnEnd();
+	RecursiveClearScriptsWithoutCallEnd();
 }
 
 #pragma endregion 

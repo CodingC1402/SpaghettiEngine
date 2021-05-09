@@ -33,6 +33,7 @@ public:
 protected:
 	static PSceneManager GetInstance();
 	void StartLoadScene(unsigned index);
+	void CleanUpAfterLoad();
 
 	SceneManager();
 	void Update();
@@ -41,6 +42,9 @@ protected:
 protected:
 	unsigned sceneIndex;
 	unsigned callLoadSceneIndex;
+
+	volatile bool _isLoading = false;
+	bool _startedLoadNewScene = false;
 
 	std::vector<SScene> scenes;
 	SScene constScene;

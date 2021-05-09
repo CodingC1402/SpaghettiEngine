@@ -9,15 +9,17 @@ class App
 {
 	friend class WinMain;
 public:
+	void StopRender();
+	void ContinueRender();
+
 	static void CallQuit();
+	static PApp GetInstance() noexcept;
 protected:
 	~App() noexcept;
 
 	BOOL Go();
 	void DoFrame() const;
 	void Quit() const;
-
-	static PApp GetInstance() noexcept;
 protected:
 	SGameWnd wnd = nullptr;
 	STimer timer = nullptr;
@@ -28,6 +30,7 @@ protected:
 	std::wstring appName;
 
 	bool running = false;
+	volatile bool _stopRender = false;
 	
 	static PApp __instance;
 };

@@ -109,6 +109,8 @@ protected:
 	std::list<PCamera> cameraList;
 	std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D;
 
+	std::mutex _lock;
+
 	static PGraphics __instance;
 private:
 	float fps = 0;

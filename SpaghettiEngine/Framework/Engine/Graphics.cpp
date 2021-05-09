@@ -76,14 +76,16 @@ void Graphics::LoadTexture(PImage& rTexture, const std::string& path, const Colo
 
 void Graphics::AddRender2D(PRender2DScriptBase renderScript)
 {
-	PGraphics pgfx = GetInstance();
-	pgfx->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
+	__instance->_lock.lock();
+	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
+	__instance->_lock.unlock();
 }
 
 void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 {
-	PGraphics pgfx = GetInstance();
-	pgfx->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
+	__instance->_lock.lock();
+	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
+	__instance->_lock.unlock();
 }
 
 void Graphics::SetSpriteTransform(Matrix& matrix)
@@ -110,26 +112,32 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 
 void Graphics::AddCamera(PCamera camera)
 {
-	PGraphics pgfx = GetInstance();
-	pgfx->cameraList.emplace_back(camera);
+	__instance->_lock.lock();
+	__instance->cameraList.emplace_back(camera);
+	__instance->_lock.unlock();
 }
 
 void Graphics::RemoveCamera(PCamera camera)
 {
-	PGraphics pgfx = GetInstance();
-	pgfx->cameraList.remove(camera);
+	__instance->_lock.lock();
+	__instance->cameraList.remove(camera);
+	__instance->_lock.unlock();
 }
 
 void Graphics::SetActiveCamera(PCamera setCamera)
 {
+	__instance->_lock.lock();
 	__instance->cameraList.remove(setCamera);
 	__instance->cameraList.emplace_front(setCamera);
+	__instance->_lock.unlock();
 }
 
 void Graphics::ClearRenderBuffer2D()
 {
+	__instance->_lock.lock();
 	for (auto& layer : _renderBuffer2D)
 		layer.clear();
+	__instance->_lock.unlock();
 }
 
 void Graphics::ClearRenderBuffer()
@@ -290,16 +298,16 @@ void Graphics::Render()
 			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
 
 		spriteHandler->Begin(ALPHABLEND);
+
+		_lock.lock();
 		const auto cameraScript = *cameraList.begin();
 		for (const auto& layer : _renderBuffer2D)
 			for (const auto& renderScript2D : layer)
 				renderScript2D->Draw(cameraScript);
+		_lock.unlock();
 
 		if constexpr (Setting::IsDebugMode())
 		{
-			if (cameraList.size() > 1)
-			Debug::Log(L"there are two or more camera in a scene");
-
 			UpdateFPS();
 			std::wostringstream os;
 			os << std::floor(fps + 0.5) << std::endl;
@@ -374,6 +382,11 @@ bool Graphics::Reset()
 	}
 	// failed to reset
 	return false;
+}
+
+void Graphics::Lock()
+{
+
 }
 
 void Graphics::UpdateCurrentVideoAdapter()

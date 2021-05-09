@@ -5,6 +5,7 @@
 #include "Prefabs.h"
 #include "Setting.h"
 #include "LoadingJson.h"
+#include "App.h"
 #include <sstream>
 #include <fstream>
 #include <ranges>
@@ -67,6 +68,8 @@ bool Scene::BaseComponent::IsDisabled()
 
 void Scene::BaseComponent::Destroy()
 {
+    if (!_isDisabled)
+        this->Disable();
     delete this;
 }
 
@@ -93,6 +96,24 @@ void Scene::BaseComponent::AssignSharedPtr(const std::shared_ptr<BaseComponent>&
 PScene Scene::BaseComponent::GetOwner() const
 {
     return _owner;
+}
+
+void Scene::Enable()
+{
+    if (_callEnable)
+    {
+        while (!_callEnable->empty())
+        {
+            _callEnable->top()->OnEnabled();
+            _callEnable->pop();
+        }
+        delete _callEnable;
+        _callEnable = nullptr;
+    }
+    else
+    {
+        throw SCENE_EXCEPTION("Call enable more than once or call enable before load");
+    }
 }
 
 void Scene::Start()
@@ -142,13 +163,14 @@ void Scene::Load()
         LoadingJson::ID::ConvertIDInJson(jsonFile, prefabHierarchy);
 
         _tempComponentContainer = new std::map<CULL, Entry>();
-
+        if (!_callEnable)
+            _callEnable = new std::stack<PScriptBase>();
         //Load script
-        std::stack<PScriptBase> callOnEnableLater; // To only call enable for script cause obj enable is useless.
         for (auto& script : jsonFile[Field::scriptsField])
         {
-            callOnEnableLater.push(ScriptFactory::CreateInstance(script[Field::inputsField][Field::scriptTypeField].get<std::string>(), this));
-            SBaseComponent newScript(callOnEnableLater.top(), DestroyComponent);
+            // No need to call enable for gameObj cause it's useless and save it for in game enable/disable
+            _callEnable->push(ScriptFactory::CreateInstance(script[Field::inputsField][Field::scriptTypeField].get<std::string>(), this));
+            SBaseComponent newScript(_callEnable->top(), DestroyComponent);
             SetUpAddComponent(newScript, script, ComponentType::script);
         }
         //Load object
@@ -161,12 +183,6 @@ void Scene::Load()
         for (auto& val : *_tempComponentContainer | std::views::values)
             val.Load();
         //Call enable on scripts
-        while (!callOnEnableLater.empty())
-        {
-            if (!callOnEnableLater.top()->IsDisabled())
-                callOnEnableLater.top()->OnEnabled();
-            callOnEnableLater.pop();
-        }
 
         _tempComponentContainer->clear();
         delete _tempComponentContainer;
@@ -193,13 +209,16 @@ void Scene::Load()
 
 void Scene::Unload()
 {
+    End();
+    auto app = App::GetInstance();
     for (PGameObj objPtr; auto & obj : _rootGameObjects)
     {
         objPtr = dynamic_cast<PGameObj>(obj.get());
-        objPtr->RecursiveClearScript();
+        objPtr->Disable();
+        objPtr->RecursiveClearScriptsWithoutCallEnd();
         objPtr->RecursiveMarkForDelete();
     }
-    _rootGameObjects.clear();
+    _rootGameObjects.clear(); 
 }
 
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)

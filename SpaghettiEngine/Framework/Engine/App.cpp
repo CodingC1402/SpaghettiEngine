@@ -75,7 +75,8 @@ BOOL App::Go()
 void App::DoFrame() const
 {
 	game->Update();
-	gfx->Render();
+	if (!_stopRender)
+		gfx->Render();
 }
 
 void App::CallQuit()
@@ -87,6 +88,16 @@ void App::Quit() const
 {
 	__instance = nullptr;
 	delete this;
+}
+
+void App::StopRender()
+{
+	_stopRender = true;
+}
+
+void App::ContinueRender()
+{
+	_stopRender = false;
 }
 
 PApp App::GetInstance() noexcept
