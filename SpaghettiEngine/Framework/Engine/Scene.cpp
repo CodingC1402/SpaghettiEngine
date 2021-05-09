@@ -179,16 +179,12 @@ void Scene::Load()
             SBaseComponent newObj(new GameObj(this), DestroyComponent);
             SetUpAddComponent(newObj, gameObj, ComponentType::gameObj);
         }
-        //Call Load on all component
         for (auto& val : *_tempComponentContainer | std::views::values)
             val.Load();
-        //Call enable on scripts
 
         _tempComponentContainer->clear();
         delete _tempComponentContainer;
         _tempComponentContainer = nullptr;
-
-        PrefabsContainer::GetInstance()->UnloadResources();
     }
     catch (const CornException&)
     {
@@ -209,16 +205,23 @@ void Scene::Load()
 
 void Scene::Unload()
 {
-    End();
     auto app = App::GetInstance();
     for (PGameObj objPtr; auto & obj : _rootGameObjects)
     {
         objPtr = dynamic_cast<PGameObj>(obj.get());
-        objPtr->Disable();
         objPtr->RecursiveClearScriptsWithoutCallEnd();
         objPtr->RecursiveMarkForDelete();
     }
     _rootGameObjects.clear(); 
+}
+
+void Scene::Disable()
+{
+    for (PGameObj objPtr; auto & obj : _rootGameObjects)
+    {
+        objPtr = dynamic_cast<PGameObj>(obj.get());
+        objPtr->Disable();
+    }
 }
 
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)

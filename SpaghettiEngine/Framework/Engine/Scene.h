@@ -101,18 +101,18 @@ public:
     [[nodiscard]] std::shared_ptr<ScriptBase> CreateSpriteBase(const std::string& scriptName);
     [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
 
-    // Only call once or throw exception
-    void Enable();
-    void Start();
-    void Update();
-    void End();
-
     static void DestroyComponent(PBaseComponent component);
 protected:
     Scene(std::string path);
 
     void PromoteGameObjToRoot(PGameObj gameObj);
     void DemoteGameObjFromRoot(PGameObj gameObj);
+
+    void Enable(); // Call after load from main thread
+    void Disable(); // Call before unload from scene manager
+    void Start();
+    void Update();
+    void End();
 
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
     void Load();

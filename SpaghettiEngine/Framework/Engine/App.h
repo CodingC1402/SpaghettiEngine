@@ -9,9 +9,6 @@ class App
 {
 	friend class WinMain;
 public:
-	void StopRender();
-	void ContinueRender();
-
 	static void CallQuit();
 	static PApp GetInstance() noexcept;
 protected:
@@ -30,7 +27,6 @@ protected:
 	std::wstring appName;
 
 	bool running = false;
-	volatile bool _stopRender = false;
 	
 	static PApp __instance;
 };

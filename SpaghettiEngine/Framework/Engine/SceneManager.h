@@ -32,7 +32,8 @@ public:
 	static int GetNumberOfScene();
 protected:
 	static PSceneManager GetInstance();
-	void StartLoadScene(unsigned index);
+	void StartLoadScene(SScene current, SScene toLoad);
+	
 	void CleanUpAfterLoad();
 
 	SceneManager();
@@ -40,15 +41,14 @@ protected:
 	void Load();
 	void Init();
 protected:
-	unsigned sceneIndex;
-	unsigned callLoadSceneIndex;
+	std::atomic<unsigned> sceneIndex;
+	std::atomic<unsigned> callLoadSceneIndex;
 
-	volatile bool _isLoading = false;
+	std::atomic_bool _isLoading = false;
 	bool _startedLoadNewScene = false;
 
 	std::vector<SScene> scenes;
 	SScene constScene;
-	SScene currentScene;
 
 	static PSceneManager __instance;
 };

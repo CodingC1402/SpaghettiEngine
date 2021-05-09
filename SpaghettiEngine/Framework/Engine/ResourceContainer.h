@@ -102,7 +102,7 @@ protected:
 	std::string _name;
 	ResourceList _resources;
 
-	std::mutex _containerLock;
+	std::recursive_mutex _resourceLock;
 
 	static Container<T>* _instance;
 };
@@ -266,24 +266,28 @@ void Container<T>::ResourceList::UnloadEntries()
 template <typename T>
 std::shared_ptr<T>& Container<T>::GetResource(CULL& id)
 {
+	std::lock_guard guard(_resourceLock);
 	return _resources.GetEntry(id).GetResource();
 }
 
 template <typename T>
 void Container<T>::UnloadResource(CULL& id)
 {
+	std::lock_guard guard(_resourceLock);
 	_resources.GetEntry(id).Unload();
 }
 
 template <typename T>
 void Container<T>::UnloadUnusedResources()
 {
+	std::lock_guard guard(_resourceLock);
 	_resources.UnloadUnusedEntries();
 }
 
 template <typename T>
 void Container<T>::UnloadResources()
 {
+	std::lock_guard guard(_resourceLock);
 	_resources.UnloadEntries();
 }
 

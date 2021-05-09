@@ -3,6 +3,7 @@
 #include "CornException.h"
 #include "GameWnd.h"
 #include "Texture.h"
+#include "MultiThread.h"
 #include <vector>
 #include <mutex>
 
@@ -109,14 +110,14 @@ protected:
 	std::list<PCamera> cameraList;
 	std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D;
 
-	std::mutex _lock;
-
 	static PGraphics __instance;
 private:
 	float fps = 0;
 	PTimer fpsTimer = Timer::Create();
 	RECT fpsRect;
 	FontHandler fpsFont = nullptr;
+
+	std::recursive_mutex _renderLock;
 
 	int index = 2;
 	int delta = -1;
