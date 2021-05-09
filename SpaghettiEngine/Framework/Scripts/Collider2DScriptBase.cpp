@@ -37,3 +37,8 @@ void Collider2DScriptBase::SetOffSet(Vector3 offset)
 {
 	offSet = offset;
 }
+
+bool Collider2DScriptBase::IsCollided(BoxCollider2D block)
+{
+	return false;
+}

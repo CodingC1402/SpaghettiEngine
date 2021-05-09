@@ -17,7 +17,8 @@ void Physic::Update()
 		{
 			if (object == block)
 				continue;
-			CheckCollision(*object, *block);
+
+			//CheckCollision(*object, *block);
 		}
 	}
 }
