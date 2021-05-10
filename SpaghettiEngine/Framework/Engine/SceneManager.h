@@ -47,6 +47,8 @@ protected:
 	std::atomic_bool _isLoading = false;
 	bool _startedLoadNewScene = false;
 
+	std::recursive_mutex _sceneLock;
+
 	std::vector<SScene> scenes;
 	SScene constScene;
 

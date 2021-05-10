@@ -57,10 +57,7 @@ void SceneManager::Update()
 		{
 			try
 			{
-				loadingSceneJob.wait();
 				loadingSceneJob.get();
-
-				sceneIndex = callLoadSceneIndex.load();
 
 				scenes[sceneIndex]->Enable();
 				scenes[sceneIndex]->Start();
@@ -81,11 +78,11 @@ void SceneManager::Update()
 		}
 		else if (callLoadSceneIndex != sceneIndex)
 		{
-			scenes[sceneIndex]->End();
-			loadingSceneJob = std::async(std::launch::async, &SceneManager::StartLoadScene, this, scenes[sceneIndex], scenes[callLoadSceneIndex]);
-
-			_isLoading = false;
+			_isLoading = true;
 			_startedLoadNewScene = true;
+			scenes[sceneIndex]->End();
+			scenes[sceneIndex]->Unload();
+			loadingSceneJob = std::async(std::launch::async, &SceneManager::StartLoadScene, this, scenes[sceneIndex], scenes[callLoadSceneIndex]);
 		}
 		else
 			SM->scenes[sceneIndex]->Update();
@@ -104,8 +101,6 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 {
 	DestructSetFlagThreadSafe setFlag (_isLoading, false);
 
-	if (callLoadSceneIndex == sceneIndex)
-		return;
 	if (callLoadSceneIndex >= scenes.size() - 1)
 	{
 		std::ostringstream os;
@@ -118,8 +113,12 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 
 	try
 	{
-		scenes[callLoadSceneIndex]->Load();
-		scenes[sceneIndex]->Unload();
+		//current->End();
+		//current->Unload();
+
+		toLoad->Load();
+
+		sceneIndex = callLoadSceneIndex.load();
 	}
 	catch (const CornException& e)
 	{
@@ -132,8 +131,6 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 		os << "[Scene] " << callLoadSceneIndex << std::endl;
 		throw SCENEMANAGER_EXCEPT(os.str());
 	}
-
-	OutputDebugString(L"JobEnded\n");
 	return;
 }
 
