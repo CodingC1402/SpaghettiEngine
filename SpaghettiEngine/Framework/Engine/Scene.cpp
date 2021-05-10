@@ -179,12 +179,6 @@ void Scene::Load()
             SBaseComponent newObj(new GameObj(this), DestroyComponent);
             SetUpAddComponent(newObj, gameObj, ComponentType::gameObj);
         }
-        for (auto& val : *_tempComponentContainer | std::views::values)
-            val.Load();
-
-        _tempComponentContainer->clear();
-        delete _tempComponentContainer;
-        _tempComponentContainer = nullptr;
     }
     catch (const CornException&)
     {
@@ -201,6 +195,16 @@ void Scene::Load()
 
         throw SCENE_EXCEPTION(os.str());
     }
+}
+
+void Scene::LoadComponent()
+{
+    for (auto& val : *_tempComponentContainer | std::views::values)
+        val.Load();
+
+    _tempComponentContainer->clear();
+    delete _tempComponentContainer;
+    _tempComponentContainer = nullptr;
 }
 
 void Scene::Unload()

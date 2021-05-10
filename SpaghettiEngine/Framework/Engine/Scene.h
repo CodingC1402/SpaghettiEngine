@@ -116,6 +116,7 @@ protected:
 
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
     void Load();
+    void LoadComponent();
     void Unload();
 protected:
     std::string path;

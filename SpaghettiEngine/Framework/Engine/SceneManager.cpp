@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "Graphics.h"
 #include "Path.h"
+#include "Prefabs.h"
 #include "Extra.h"
 #include "GameTimer.h"
 #include <fstream>
@@ -36,18 +37,7 @@ static float timeCounter = 0;
 void SceneManager::Update()
 {
 	static bool StartCounter = false;
-	if (StartCounter)
-	{
-		timeCounter += GameTimer::GetDeltaTime();
-		if (timeCounter >= 0.25)
-		{
-			if (sceneIndex.load() == 1)
-				CallLoadPreviousScene();
-			else
-				CallLoadNextScene();
-			timeCounter = 0;
-		}
-	}
+	timeCounter += GameTimer::GetDeltaTime();
 
 	auto SM = GetInstance();
 	if (!_isLoading)
@@ -55,37 +45,47 @@ void SceneManager::Update()
 		static std::future<void> loadingSceneJob;
 		if (_startedLoadNewScene)
 		{
-			try
+			if (loadingSceneJob.wait_for(std::chrono::nanoseconds(1)) == std::future_status::ready)
 			{
-				loadingSceneJob.get();
+				try
+				{
+					loadingSceneJob.get();
 
-				scenes[sceneIndex]->Enable();
-				scenes[sceneIndex]->Start();
+					scenes[sceneIndex]->LoadComponent();
+					scenes[sceneIndex]->Enable();
+					scenes[sceneIndex]->Start();
 
-				CleanUpAfterLoad();
-				_startedLoadNewScene = false;
-
-				StartCounter = true;
-			}
-			catch (const CornException&)
-			{
-				throw;
-			}
-			catch (const std::exception&)
-			{
-				throw;
+					CleanUpAfterLoad();
+					_startedLoadNewScene = false;
+				}
+				catch (const CornException&)
+				{
+					throw;
+				}
+				catch (const std::exception&)
+				{
+					throw;
+				}
 			}
 		}
 		else if (callLoadSceneIndex != sceneIndex)
 		{
 			_isLoading = true;
 			_startedLoadNewScene = true;
-			scenes[sceneIndex]->End();
-			scenes[sceneIndex]->Unload();
 			loadingSceneJob = std::async(std::launch::async, &SceneManager::StartLoadScene, this, scenes[sceneIndex], scenes[callLoadSceneIndex]);
 		}
 		else
+		{
+			if (timeCounter >= 0.1)
+			{
+				if (sceneIndex.load() == 1)
+					CallLoadPreviousScene();
+				else
+					CallLoadNextScene();
+				timeCounter = 0;
+			}
 			SM->scenes[sceneIndex]->Update();
+		}
 	}
 	SM->constScene->Update();
 }
@@ -113,9 +113,8 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 
 	try
 	{
-		//current->End();
-		//current->Unload();
-
+		current->End();
+		current->Unload();
 		toLoad->Load();
 
 		sceneIndex = callLoadSceneIndex.load();
@@ -136,6 +135,7 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 
 void SceneManager::CleanUpAfterLoad()
 {
+	PrefabsContainer::GetInstance()->UnloadUnusedResources();
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
 }
@@ -224,6 +224,7 @@ void SceneManager::Init()
 {
 	Load();
 	constScene->Load();
+	constScene->LoadComponent();
 	constScene->Enable();
 	constScene->Start();
 }

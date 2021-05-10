@@ -63,6 +63,7 @@ public:
 	ThreadPtr(T* rawPtr);
 	ThreadPtr(const ThreadPtr& t);
 	ThreadPtr& operator= (const ThreadPtr& t);
+	ThreadPtr& operator= (T* t);
 	Access operator->();
 
 	Access GetAccess();
@@ -103,6 +104,15 @@ inline ThreadPtr<T>& ThreadPtr<T>::operator=(const ThreadPtr& t)
 	_pad = t._pad;
 	_counter = t._counter;
 	*_counter = *_counter + 1;
+}
+
+template<typename T>
+inline ThreadPtr<T>& ThreadPtr<T>::operator=(T* t)
+{
+	_rawPtr = t;
+	_pad = new std::recursive_mutex();
+	_counter = new unsigned();
+	*_counter = 1;
 }
 
 template<typename T>
