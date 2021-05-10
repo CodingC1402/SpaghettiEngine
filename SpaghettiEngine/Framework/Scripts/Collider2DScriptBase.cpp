@@ -28,6 +28,11 @@ Vector3 Collider2DScriptBase::GetPosition()
 	return _ownerObj->GetWorldTransform();
 }
 
+long Collider2DScriptBase::GetID()
+{
+	return id;
+}
+
 void Collider2DScriptBase::SetTrigger(bool boolean)
 {
 	isTrigger = boolean;
@@ -38,7 +43,31 @@ void Collider2DScriptBase::SetOffSet(Vector3 offset)
 	offSet = offset;
 }
 
-bool Collider2DScriptBase::IsCollided(BoxCollider2D block)
+void Collider2DScriptBase::Load(nlohmann::json& inputObject)
 {
-	return false;
+	std::string fieldTracker = "Start of the script";
+	try
+	{
+		constexpr const char* OffSetX = "OffSetX";
+		constexpr const char* OffSetY = "OffSetY";
+		constexpr const char* Trigger = "Trigger";
+		offSet.x = inputObject[OffSetX] == nullptr ? 0 : inputObject[OffSetX].get<float>();
+		offSet.y = inputObject[OffSetY] == nullptr ? 0 : inputObject[OffSetY].get<float>();
+		isTrigger = inputObject[Trigger] == nullptr ? 1 : inputObject[Trigger].get<bool>();
+	}
+	catch (const CornException& e)
+	{
+		std::wostringstream os;
+		os << L"Error field " << fieldTracker.c_str() << "\n\n" << e.What();
+		std::wstring w = e.What();
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
+	}
+	catch (const std::exception& e)
+	{
+		std::wostringstream os;
+		os << "\n[Error field] " << fieldTracker.c_str() << "\n[Exception] " << e.what();
+		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
+	}
+
+	ScriptBase::Load(inputObject);
 }
