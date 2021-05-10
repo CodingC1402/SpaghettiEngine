@@ -75,17 +75,7 @@ void SceneManager::Update()
 			loadingSceneJob = std::async(std::launch::async, &SceneManager::StartLoadScene, this, scenes[sceneIndex], scenes[callLoadSceneIndex]);
 		}
 		else
-		{
-			if (timeCounter >= 0.1)
-			{
-				if (sceneIndex.load() == 1)
-					CallLoadPreviousScene();
-				else
-					CallLoadNextScene();
-				timeCounter = 0;
-			}
 			SM->scenes[sceneIndex]->Update();
-		}
 	}
 	SM->constScene->Update();
 }
