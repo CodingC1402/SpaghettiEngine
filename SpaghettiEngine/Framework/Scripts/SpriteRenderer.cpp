@@ -1,5 +1,6 @@
 #include "SpriteRenderer.h"
 #include "CornException.h"
+#include "Graphics.h"
 #include "StringConverter.h"
 #include "GraphicsMath.h"
 #include "Setting.h"
@@ -33,9 +34,9 @@ Vector3 SpriteRenderer::GetCenter() const noexcept
 {
 	return sprite->GetCenter();
 }
-PImage SpriteRenderer::GetTexture() const noexcept
+PTexture SpriteRenderer::GetTexture() const noexcept
 {
-	return sprite->GetSource()->GetImage();
+	return sprite->GetSource();
 }
 RECT SpriteRenderer::GetSourceRect() const noexcept
 {
@@ -43,25 +44,13 @@ RECT SpriteRenderer::GetSourceRect() const noexcept
 }
 #pragma endregion 
 
-void SpriteRenderer::Draw(SpriteHandler handler, PCamera camera)
+void SpriteRenderer::Draw(PCamera camera)
 {
 	RECT srcRect = GetSourceRect();
 	Vector3 center = GetCenter();
 	Matrix transform = camera->GetMatrix(transformMatrix * GetWorldMatrix());
-	if (Setting::IsWorldPointPixelPerfect())
-	{
-		transform._41 = std::round(transform._41);
-		transform._42 = std::round(transform._42);
-	}
-
-	handler->SetTransform(&transform);
-	handler->Draw(
-		GetTexture(),
-		&srcRect,
-		&center,
-		nullptr,
-		WHITE
-	);
+	Graphics::SetSpriteTransform(transform);
+	Graphics::DrawSprite(sprite, GetCenter());
 }
 
 void SpriteRenderer::Load(nlohmann::json& inputObject)

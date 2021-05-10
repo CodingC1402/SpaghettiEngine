@@ -5,6 +5,7 @@
 #include <memory>
 #include <sstream>
 #include <fstream>
+#include <mutex>
 #include "ExMath.h"
 #include "CornException.h"
 #include "json.hpp"
@@ -58,7 +59,7 @@ protected:
 			bool& IsLoaded() noexcept;
 			std::shared_ptr<T>& GetResource();
 			std::string& GetPath();
-		protected:
+		protected: 
 			std::shared_ptr<T> _resource;
 			std::string _path;
 			bool _isLoaded = false;
@@ -100,6 +101,8 @@ protected:
 protected:
 	std::string _name;
 	ResourceList _resources;
+
+	std::recursive_mutex _resourceLock;
 
 	static Container<T>* _instance;
 };
@@ -147,9 +150,7 @@ void Container<T>::ResourceList::Entry::Unload()
 template <typename T>
 void Container<T>::ResourceList::Entry::UnloadIfUnused()
 {
-	if (!_isLoaded)
-		return;
-	if (!_resource->IsResourceUnused())
+	if (_resource.use_count() > 1 || !_isLoaded || !_resource->IsResourceUnused())
 		return;
 	_resource.reset();
 	_isLoaded = false;
@@ -265,24 +266,28 @@ void Container<T>::ResourceList::UnloadEntries()
 template <typename T>
 std::shared_ptr<T>& Container<T>::GetResource(CULL& id)
 {
+	std::lock_guard guard(_resourceLock);
 	return _resources.GetEntry(id).GetResource();
 }
 
 template <typename T>
 void Container<T>::UnloadResource(CULL& id)
 {
+	std::lock_guard guard(_resourceLock);
 	_resources.GetEntry(id).Unload();
 }
 
 template <typename T>
 void Container<T>::UnloadUnusedResources()
 {
+	std::lock_guard guard(_resourceLock);
 	_resources.UnloadUnusedEntries();
 }
 
 template <typename T>
 void Container<T>::UnloadResources()
 {
+	std::lock_guard guard(_resourceLock);
 	_resources.UnloadEntries();
 }
 

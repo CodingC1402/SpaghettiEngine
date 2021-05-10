@@ -96,14 +96,17 @@ public:
 
 	void RemoveChild(const PGameObj& child);
 	void RemoveScript(const PScriptBase& script);
-	void ClearScripts();
-	
-	void RecursiveClearScript();
 	
 	std::shared_ptr<BaseComponent> Clone() override;
 	GameObj(PScene owner, bool isDisabled = false);
+
+	void RecursiveClearScripts(); //Use by scripts to call end once then pass on
+	void ClearScripts(); //Use by scripts to call end once then pass on
 protected:
 	void RecursiveMarkForDelete();
+
+	void RecursiveClearScriptsWithoutCallEnd();
+	void ClearScriptsWithoutCallEnd();
 
 	void CalculateRotationMatrix();
 	void CalculateTransformMatrix();

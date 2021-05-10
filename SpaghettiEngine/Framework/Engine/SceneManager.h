@@ -2,6 +2,7 @@
 #include "CornException.h"
 #include "Scene.h"
 #include <vector>
+#include <mutex>
 
 typedef class SceneManager* PSceneManager;
 typedef class GameObj* PGameObj;
@@ -21,7 +22,7 @@ public:
 	};
 public:
 	static void CallLoadNextScene();
-	static void CallLoadScene(UINT index);
+	static void CallLoadScene(unsigned index);
 	static void CallLoadPreviousScene();
 
 	static SScene& GetConstScene();
@@ -31,19 +32,25 @@ public:
 	static int GetNumberOfScene();
 protected:
 	static PSceneManager GetInstance();
-	void StartLoadScene(UINT index);
+	void StartLoadScene(SScene current, SScene toLoad);
+	
+	void CleanUpAfterLoad();
 
 	SceneManager();
 	void Update();
 	void Load();
 	void Init();
 protected:
-	int sceneIndex;
-	int callLoadSceneIndex;
+	std::atomic<unsigned> sceneIndex;
+	std::atomic<unsigned> callLoadSceneIndex;
+
+	std::atomic_bool _isLoading = false;
+	bool _startedLoadNewScene = false;
+
+	std::recursive_mutex _sceneLock;
 
 	std::vector<SScene> scenes;
 	SScene constScene;
-	SScene currentScene;
 
 	static PSceneManager __instance;
 };

@@ -1,7 +1,7 @@
 #include "Sprite.h"
 #include "ExMath.h"
 
-PTexture& Sprite::GetSource()
+PTexture Sprite::GetSource() const
 {
 	return source;
 }

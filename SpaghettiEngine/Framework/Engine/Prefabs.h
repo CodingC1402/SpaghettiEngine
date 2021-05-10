@@ -2,9 +2,36 @@
 #include "ResourceContainer.h"
 #include "json.hpp"
 #include <map>
+#include <memory>
+#include <vector>
+
+class PrefabHierarchy;
+typedef std::shared_ptr<PrefabHierarchy> SPrefabHierarchy;
+
+class PrefabHierarchy
+{
+public:
+	static void ConstructVectorOfHierarchy(std::vector<SPrefabHierarchy>& out, SPrefabHierarchy root);
+	
+	PrefabHierarchy(int numberOfChild, int value);
+	void AddChild(std::shared_ptr<PrefabHierarchy>& child);
+	[[nodiscard]] unsigned int GetIndex(std::vector<unsigned>& accessIndexes);
+	void ConstructVectorOfChildHierarchy(std::vector<SPrefabHierarchy>& out);
+protected:
+	[[nodiscard]] unsigned int GetIndexRecursive(std::vector<unsigned>& accessIndexes, unsigned level);
+protected:
+	std::vector<std::shared_ptr<PrefabHierarchy>> _children;
+	unsigned int _value = 0;
+};
 
 class Prefab : public Resource
 {
+public:
+	enum class ChangeMode {
+		Update,
+		Truncate,
+		Append
+	};
 protected:
 	struct ComponentJsonObject
 	{
@@ -21,12 +48,12 @@ public:
 	/// <param name="out"> the scene json object that you would like to append base on this prefab</param>
 	/// <param name="index"> index of this prefab according to your </param>
 	/// <param name="changes"> the json object that describe what need to be change to the append</param>
-	void Append(nlohmann::json& out, unsigned int index, nlohmann::json& changes);
+	SPrefabHierarchy Append(nlohmann::json& out, unsigned int& index, nlohmann::json& changes);
 	void Load(const std::string& path) override;
-public:
-	static constexpr unsigned long long acceptMask = 0xFFFFFFFFFFFFFFFFU;
 protected:
-	std::map<CULL, ComponentJsonObject> _components;
+	std::map<ULL, ComponentJsonObject> _components;
+	std::list<ULL> _subPrefabsIDs;
+	nlohmann::json _subPrefabs;
 };
 
 class PrefabsContainer : public Container<Prefab>

@@ -15,7 +15,7 @@ class Sprite
 {
 	friend class Texture;
 public:
-	PTexture& GetSource();
+	[[nodiscard]]PTexture	GetSource() const;
 	[[nodiscard]]int		GetWidth() const;
 	[[nodiscard]]int		GetHeight() const;
 	[[nodiscard]]Vector3	GetCenter() const;

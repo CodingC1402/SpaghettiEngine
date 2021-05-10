@@ -5,6 +5,7 @@
 #include "GraphicsMath.h"
 #include "Render2DScriptBase.h"
 #include "Setting.h"
+#include "Sprite.h"
 #include <fstream>
 #include <DirectXMath.h>
 
@@ -75,26 +76,53 @@ void Graphics::LoadTexture(PImage& rTexture, const std::string& path, const Colo
 
 void Graphics::AddRender2D(PRender2DScriptBase renderScript)
 {
-	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
+	std::lock_guard guard(__instance->_renderLock);
+	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
 }
 
 void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 {
-	GetInstance()->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
+	std::lock_guard guard(__instance->_renderLock);
+	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
+}
+
+void Graphics::SetSpriteTransform(Matrix& matrix)
+{
+	if (Setting::IsWorldPointPixelPerfect())
+	{
+		matrix._41 = std::round(matrix._41);
+		matrix._42 = std::round(matrix._42);
+	}
+	GetInstance()->spriteHandler->SetTransform(&matrix);
+}
+
+void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Vector3& position, const Color& color)
+{
+	RECT srcRect = sprite->GetSourceRect();
+	GetInstance()->spriteHandler->Draw(
+		sprite->GetSource()->GetImage(),
+		&srcRect,
+		&center,
+		&position,
+		color
+	);
 }
 
 void Graphics::AddCamera(PCamera camera)
 {
-	GetInstance()->cameraList.emplace_back(camera);
+	std::lock_guard guard(__instance->_renderLock);
+	__instance->cameraList.push_back(camera);
 }
 
 void Graphics::RemoveCamera(PCamera camera)
 {
-	GetInstance()->cameraList.remove(camera);
+	std::lock_guard guard(__instance->_renderLock);
+	__instance->cameraList.remove(camera);
 }
 
 void Graphics::SetActiveCamera(PCamera setCamera)
 {
+	std::lock_guard guard(__instance->_renderLock);
 	__instance->cameraList.remove(setCamera);
 	__instance->cameraList.emplace_front(setCamera);
 }
@@ -183,14 +211,15 @@ PCamera Graphics::GetActiveCamera()
 
 void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 {
-#ifdef _DEBUG // For counting fps
-	fpsTimer->Start();
-	fpsRect.left = 3;
-	fpsRect.top = 3;
-	fpsRect.right = 50;
-	fpsRect.bottom = 20;
-#endif
-	
+	if constexpr (Setting::IsDebugMode())
+	{
+		fpsTimer->Start();
+		fpsRect.left = 3;
+		fpsRect.top = 3;
+		fpsRect.right = 50;
+		fpsRect.bottom = 20;
+	}
+
 	if (const float fps = Setting::GetFps(); fps <= 0)
 		delayPerFrame = 0;
 	else
@@ -261,18 +290,18 @@ void Graphics::Render()
 		else
 			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
 
-
-		spriteHandler->Begin(ALPHABLEND);
-		const auto cameraScript = *cameraList.begin();
-		for (const auto& layer : _renderBuffer2D)
-			for (const auto& renderScript2D : layer)
-				renderScript2D->Draw(spriteHandler, cameraScript);
-
+		if (_renderLock.try_lock())
+		{
+			spriteHandler->Begin(ALPHABLEND);
+			const auto cameraScript = *cameraList.begin();
+			for (auto& layer : _renderBuffer2D)
+				for (auto renderScript2D = layer.begin(); renderScript2D != layer.end(); ++renderScript2D)
+					(*renderScript2D)->Draw(cameraScript);
+			_renderLock.unlock();
+		}
+		
 		if constexpr (Setting::IsDebugMode())
 		{
-			if (cameraList.size() > 1)
-			Debug::Log(L"there are two or more camera in a scene");
-
 			UpdateFPS();
 			std::wostringstream os;
 			os << std::floor(fps + 0.5) << std::endl;
@@ -296,7 +325,7 @@ void Graphics::Render()
 			delete temp;
 		}
 		spriteHandler->End();
-
+		
 		if (!End())
 			Reset();
 

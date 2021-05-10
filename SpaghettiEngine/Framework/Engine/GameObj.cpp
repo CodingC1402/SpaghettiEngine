@@ -9,12 +9,12 @@
 #include <fstream>
 
 nlohmann::json GameObj::defaultJson = {
-	{LoadingJson::transformField, {0, 0, 0}},
-	{LoadingJson::rotationField, {0, 0, 0}},
-	{LoadingJson::scaleField, {0, 0, 0}},
-	{LoadingJson::gameObjectsField},
-	{LoadingJson::scriptsField},
-	{LoadingJson::tagField, "new"}
+	{LoadingJson::Field::transformField, {0, 0, 0}},
+	{LoadingJson::Field::rotationField, {0, 0, 0}},
+	{LoadingJson::Field::scaleField, {0, 0, 0}},
+	{LoadingJson::Field::gameObjectsField},
+	{LoadingJson::Field::scriptsField},
+	{LoadingJson::Field::tagField, "new"}
 };
 
 #pragma region Get
@@ -284,25 +284,25 @@ void GameObj::Load(nlohmann::json& input)
 	
 	try
 	{
-		tag = input[tagField].get<std::string>();
+		tag = input[Field::tagField].get<std::string>();
 		// use to check which field throw error
 		if constexpr (Setting::IsDebugMode())
-			fieldTracker = transformField;
-		_transform.x = input[transformField][0].get<float>();
-		_transform.y = input[transformField][1].get<float>();
-		_transform.z = input[transformField][2].get<float>();
+			fieldTracker = Field::transformField;
+		_transform.x = input[Field::transformField][0].get<float>();
+		_transform.y = input[Field::transformField][1].get<float>();
+		_transform.z = input[Field::transformField][2].get<float>();
 		
 		if constexpr (Setting::IsDebugMode())
-			fieldTracker = rotationField;
-		_rotation.x = input[rotationField][0].get<float>();
-		_rotation.y = input[rotationField][1].get<float>();
-		_rotation.z = input[rotationField][2].get<float>();
+			fieldTracker = Field::rotationField;
+		_rotation.x = input[Field::rotationField][0].get<float>();
+		_rotation.y = input[Field::rotationField][1].get<float>();
+		_rotation.z = input[Field::rotationField][2].get<float>();
 		
 		if constexpr (Setting::IsDebugMode())
-			fieldTracker = scaleField;
-		_scale.x = input[scaleField][0].get<float>();
-		_scale.y = input[scaleField][1].get<float>();
-		_scale.z = input[scaleField][2].get<float>();
+			fieldTracker = Field::scaleField;
+		_scale.x = input[Field::scaleField][0].get<float>();
+		_scale.y = input[Field::scaleField][1].get<float>();
+		_scale.z = input[Field::scaleField][2].get<float>();
 
 		_isTransformChanged = true;
 		_isRotationChanged = true;
@@ -310,16 +310,16 @@ void GameObj::Load(nlohmann::json& input)
 		_isChanged = true;
 
 		if constexpr (Setting::IsDebugMode())
-			fieldTracker = gameObjectsField;
-		for (const auto & child : input[gameObjectsField])
-			dynamic_cast<PGameObj>(_owner->GetComponent(child.get<CULL>()).get())->AddParentWithoutCalculateLocal(this);
+			fieldTracker = Field::gameObjectsField;
+		for (const auto & child : input[Field::gameObjectsField])
+			dynamic_cast<PGameObj>(_owner->GetComponent(child[Field::idField].get<CULL>()).get())->AddParentWithoutCalculateLocal(this);
 
 		if constexpr (Setting::IsDebugMode())
-			fieldTracker = scriptsField;
-		for (const auto& script : input[scriptsField])
-			dynamic_cast<PScriptBase>(_owner->GetComponent(script.get<CULL>()).get())->AssignOwner(this);
+			fieldTracker = Field::scriptsField;
+		for (const auto& script : input[Field::scriptsField])
+			dynamic_cast<PScriptBase>(_owner->GetComponent(script[Field::idField].get<CULL>()).get())->AssignOwner(this);
 
-		if (!(input[isRootField] == nullptr || !input[isRootField].get<bool>() || parent != nullptr))
+		if (!(input[Field::isRootField] == nullptr || !input[Field::isRootField].get<bool>() || parent != nullptr))
 			_owner->PromoteGameObjToRoot(this);
 	}
 	catch (const CornException&)
@@ -342,7 +342,7 @@ void GameObj::Destroy()
 		else
 			_owner->DemoteGameObjFromRoot(this);
 
-		RecursiveClearScript();
+		RecursiveClearScriptsWithoutCallEnd();
 		RecursiveMarkForDelete();
 	}
 
@@ -452,17 +452,32 @@ void GameObj::RemoveScript(const PScriptBase& script)
 	_scripts.remove(script);
 }
 
-void GameObj::ClearScripts()
+void GameObj::RecursiveClearScriptsWithoutCallEnd()
 {
+	for (const auto& child : _children)
+		child->RecursiveClearScriptsWithoutCallEnd();
+	ClearScriptsWithoutCallEnd();
+}
+
+void GameObj::ClearScriptsWithoutCallEnd()
+{
+	for (auto& script : _scripts)
+		script->Disable();
 	_scriptsPtr.clear();
 	_scripts.clear();
 }
 
-void GameObj::RecursiveClearScript()
+void GameObj::ClearScripts()
 {
-	for (const auto& child : _children)
-		child->RecursiveClearScript();
-	ClearScripts();
+	for (auto& script : _scripts)
+		script->OnEnd();
+	ClearScriptsWithoutCallEnd();
+}
+
+void GameObj::RecursiveClearScripts()
+{
+	OnEnd();
+	RecursiveClearScriptsWithoutCallEnd();
 }
 
 #pragma endregion 

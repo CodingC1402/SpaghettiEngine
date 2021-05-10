@@ -3,7 +3,9 @@
 #include "CornException.h"
 #include "GameWnd.h"
 #include "Texture.h"
+#include "MultiThread.h"
 #include <vector>
+#include <mutex>
 
 /// <summary>
 /// Singleton directx9 wrapper
@@ -53,6 +55,9 @@ public:
 
 	static void AddRender2D(PRender2DScriptBase renderScript);
 	static void RemoveRender2D(PRender2DScriptBase renderScript);
+
+	static void SetSpriteTransform(Matrix& matrix);
+	static void DrawSprite(const SSprite& sprite, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
 	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
@@ -111,6 +116,8 @@ private:
 	PTimer fpsTimer = Timer::Create();
 	RECT fpsRect;
 	FontHandler fpsFont = nullptr;
+
+	std::recursive_mutex _renderLock;
 
 	int index = 2;
 	int delta = -1;

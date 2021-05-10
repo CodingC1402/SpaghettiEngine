@@ -85,6 +85,10 @@ Scene::SBaseComponent ScriptBase::Clone()
 
 void ScriptBase::Destroy()
 {
-	this->Disable();
+	if (!_isDisabled)
+	{
+		OnEnd();
+		Disable();
+	}
 	BaseComponent::Destroy();
 }

@@ -8,6 +8,8 @@
 #include <algorithm>
 #include <Setting.h>
 
+#include "Graphics.h"
+
 using namespace nlohmann;
 using namespace std;
 
@@ -18,17 +20,9 @@ void NormalTile::Load(const int& index, Texture* texture, const json& data)
 	sprite = texture->GetSprite(index - 1);
 }
 
-void NormalTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& position)
+void NormalTile::Draw(const Vector3& position)
 {
-	RECT srcRect = sprite->GetSourceRect();
-	Vector3 center = sprite->GetCenter();
-	handler->Draw(
-		texture->GetImage(),
-		&srcRect,
-		&center,
-		&position,
-		WHITE
-	);
+	Graphics::DrawSprite(sprite, sprite->GetCenter(), position);
 }
 
 void AnimatedTile::Update()
@@ -42,18 +36,11 @@ void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
 	animation = AnimationContainer::GetInstance()->GetResource(data["Animations"][abs(index + 1)].get<CULL>());
 }
 
-void AnimatedTile::Draw(SpriteHandler handler, Texture* texture, const Vector3& position)
+void AnimatedTile::Draw(const Vector3& position)
 {
 	const SSprite currentSprite = animation->GetSpriteOfFrame(frame);
-	RECT srcRect = currentSprite->GetSourceRect();
 	Vector3 center = currentSprite->GetCenter();
-	handler->Draw(
-		texture->GetImage(),
-		&srcRect,
-		&center,
-		&position,
-		WHITE
-	);
+	Graphics::DrawSprite(currentSprite, currentSprite->GetCenter(), position);
 }
 
 TileMapRenderer::TileMapRenderer(PScene owner) : Render2DScriptBase(owner), width(0), height(0), tileWidth(0), tileHeight(0)
@@ -152,7 +139,7 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 	Render2DScriptBase::Load(inputObject);
 }
 
-void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
+void TileMapRenderer::Draw(PCamera camera)
 {
 	using CLib::ToFloat;
 	using CLib::ToInt;
@@ -167,12 +154,7 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 	transform._42 += halfHeightPx;
 	transform._41 -= halfWidthPx;
 	transform = camera->GetMatrix(transform);
-	if (Setting::IsWorldPointPixelPerfect())
-	{
-		transform._41 = std::round(transform._41);
-		transform._42 = std::round(transform._42);
-	}
-	handler->SetTransform(&transform);
+	Graphics::SetSpriteTransform(transform);
 	
 	//get screen height and width then divide them by 2;
 	Size viewPort = Setting::GetHalfResolution();
@@ -228,7 +210,7 @@ void TileMapRenderer::Draw(SpriteHandler handler, PCamera camera)
 		for (int col = startCol; col < endCol; col++)
 		{
 			position.x = static_cast<float>(col * tileWidth);
-			tiles[row][col]->Draw(handler, texture.get(), position);
+			tiles[row][col]->Draw(position);
 		}
 	}
 }

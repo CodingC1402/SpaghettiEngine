@@ -195,6 +195,12 @@
       <Filter>Scripts\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Ultilities\PhysicMath.h">
+	  <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\MultiThread.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\Extra.h">
       <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -329,6 +335,12 @@
       <Filter>Scripts\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Ultilities\PhysicMath.cpp">
+	  <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\MultiThread.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\Extra.cpp">
       <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
