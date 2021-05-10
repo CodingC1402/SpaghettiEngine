@@ -3,6 +3,7 @@
 #include "CornException.h"
 #include "GameWnd.h"
 #include "Texture.h"
+#include "MultiThread.h"
 #include <vector>
 #include <mutex>
 
@@ -115,6 +116,8 @@ private:
 	PTimer fpsTimer = Timer::Create();
 	RECT fpsRect;
 	FontHandler fpsFont = nullptr;
+
+	std::recursive_mutex _renderLock;
 
 	int index = 2;
 	int delta = -1;

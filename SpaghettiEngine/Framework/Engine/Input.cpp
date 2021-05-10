@@ -1,7 +1,8 @@
 #include "Input.h"
 
-bool Input::Check() const noexcept
+bool Input::Check() noexcept
 {
+	std::lock_guard guard(_inputLock);
 	return isInputActive;
 }
 

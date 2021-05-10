@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <json.hpp>
+#include <stack>
 
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
@@ -100,10 +101,6 @@ public:
     [[nodiscard]] std::shared_ptr<ScriptBase> CreateSpriteBase(const std::string& scriptName);
     [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
 
-    void Start();
-    void Update();
-    void End();
-
     static void DestroyComponent(PBaseComponent component);
 protected:
     Scene(std::string path);
@@ -111,15 +108,23 @@ protected:
     void PromoteGameObjToRoot(PGameObj gameObj);
     void DemoteGameObjFromRoot(PGameObj gameObj);
 
+    void Enable(); // Call after load from main thread
+    void Disable(); // Call before unload from scene manager
+    void Start();
+    void Update();
+    void End();
+
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
     void Load();
+    void LoadComponent();
     void Unload();
 protected:
     std::string path;
 
     // Will update every loop
     std::list<SBaseComponent> _rootGameObjects;
-    std::map<CULL, Entry>* _tempComponentContainer;
+    std::map<CULL, Entry>* _tempComponentContainer = nullptr;
+    std::stack<PScriptBase>* _callEnable = nullptr;
 };
 
 #define SCENE_EXCEPTION(description) Scene::SceneException(__LINE__,__FILE__,description)

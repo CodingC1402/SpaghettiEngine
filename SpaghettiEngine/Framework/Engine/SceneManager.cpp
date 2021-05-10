@@ -5,7 +5,11 @@
 #include "Animation.h"
 #include "Graphics.h"
 #include "Path.h"
+#include "Prefabs.h"
+#include "Extra.h"
+#include "GameTimer.h"
 #include <fstream>
+#include <future>
 
 PSceneManager SceneManager::__instance = nullptr;
 
@@ -29,13 +33,60 @@ const wchar_t* SceneManager::SceneManagerException::What() const noexcept
 	return whatBuffer.c_str();
 }
 
+static float timeCounter = 0;
 void SceneManager::Update()
 {
+	static bool StartCounter = false;
+	timeCounter += GameTimer::GetDeltaTime();
+
 	auto SM = GetInstance();
-	if (callLoadSceneIndex != sceneIndex)
-		StartLoadScene(callLoadSceneIndex);
-	else
-		SM->currentScene->Update();
+	if (!_isLoading)
+	{
+		static std::future<void> loadingSceneJob;
+		if (_startedLoadNewScene)
+		{
+			if (loadingSceneJob.wait_for(std::chrono::nanoseconds(1)) == std::future_status::ready)
+			{
+				try
+				{
+					loadingSceneJob.get();
+
+					scenes[sceneIndex]->LoadComponent();
+					scenes[sceneIndex]->Enable();
+					scenes[sceneIndex]->Start();
+
+					CleanUpAfterLoad();
+					_startedLoadNewScene = false;
+				}
+				catch (const CornException&)
+				{
+					throw;
+				}
+				catch (const std::exception&)
+				{
+					throw;
+				}
+			}
+		}
+		else if (callLoadSceneIndex != sceneIndex)
+		{
+			_isLoading = true;
+			_startedLoadNewScene = true;
+			loadingSceneJob = std::async(std::launch::async, &SceneManager::StartLoadScene, this, scenes[sceneIndex], scenes[callLoadSceneIndex]);
+		}
+		else
+		{
+			if (timeCounter >= 0.1)
+			{
+				if (sceneIndex.load() == 1)
+					CallLoadPreviousScene();
+				else
+					CallLoadNextScene();
+				timeCounter = 0;
+			}
+			SM->scenes[sceneIndex]->Update();
+		}
+	}
 	SM->constScene->Update();
 }
 
@@ -46,27 +97,45 @@ PSceneManager SceneManager::GetInstance()
 	return __instance;
 }
 
-void SceneManager::StartLoadScene(unsigned index)
+void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 {
-	if (index == sceneIndex)
-		return;
-	if (index >= scenes.size())
+	DestructSetFlagThreadSafe setFlag (_isLoading, false);
+
+	if (callLoadSceneIndex >= scenes.size() - 1)
 	{
 		std::ostringstream os;
 		os << "LoadScene called with index ";
-		os << index << std::endl;
+		os << callLoadSceneIndex << std::endl;
 		os << "But the number of scenes is ";
-		os << scenes.size() << std::endl;
+		os << scenes.size() - 1 << std::endl;
 		throw SCENEMANAGER_EXCEPT(os.str());
 	}
 
-	currentScene->Unload();
-	scenes[index]->Load();
-	scenes[index]->Start();
-	
-	sceneIndex = index;
-	currentScene = scenes[sceneIndex];
+	try
+	{
+		current->End();
+		current->Unload();
+		toLoad->Load();
 
+		sceneIndex = callLoadSceneIndex.load();
+	}
+	catch (const CornException& e)
+	{
+		throw;
+	}
+	catch (const std::exception& e)
+	{
+		std::ostringstream os;
+		os << "[Error] Standard exception has occurred while loading and unloading scene\n";
+		os << "[Scene] " << callLoadSceneIndex << std::endl;
+		throw SCENEMANAGER_EXCEPT(os.str());
+	}
+	return;
+}
+
+void SceneManager::CleanUpAfterLoad()
+{
+	PrefabsContainer::GetInstance()->UnloadUnusedResources();
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
 }
@@ -83,7 +152,7 @@ void SceneManager::CallLoadScene(unsigned index)
 
 SScene& SceneManager::GetCurrentScene()
 {
-	return __instance->currentScene;
+	return __instance->scenes[__instance->sceneIndex];
 }
 
 int SceneManager::GetCurrentSceneIndex()
@@ -135,9 +204,10 @@ void SceneManager::Load()
 		jsonStream >> file;
 		for (const auto& scene : file[Scenes])
 			scenes.push_back(SScene(new Scene(CLib::ConvertPath(SystemPath::SceneManagerPath, scene.get<std::string>()))));
+		scenes.push_back(SScene(new Scene("decoy"))); //Add decoy scene
 
-		sceneIndex = file[Start].get<int>();
-		callLoadSceneIndex = sceneIndex;
+		callLoadSceneIndex = file[Start].get<int>();
+		sceneIndex = scenes.size() - 1;
 		constScene = SScene(new Scene(file[StaticScene].get<std::string>()));
 	}
 	catch (...)
@@ -153,9 +223,8 @@ void SceneManager::Load()
 void SceneManager::Init()
 {
 	Load();
-	scenes[sceneIndex]->Load();
-	currentScene = scenes[sceneIndex];
 	constScene->Load();
-	currentScene->Start();
+	constScene->LoadComponent();
+	constScene->Enable();
 	constScene->Start();
 }

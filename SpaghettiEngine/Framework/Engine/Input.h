@@ -4,6 +4,7 @@
 #include "Mouse.h"
 #include "json.hpp"
 #include <memory>
+#include <mutex>
 
 class Input;
 typedef Input* PInput;
@@ -24,7 +25,7 @@ public:
 	};
 public:
 	~Input() = default;
-	bool Check() const noexcept;
+	bool Check() noexcept;
 protected:
 	Input(const KeyCode& keyCode, const std::string& name) noexcept;
 	Type GetType() const noexcept;
@@ -35,6 +36,8 @@ protected:
 
 	static PInput Create(const KeyCode& keyCode, const std::string& name, const Type& t) noexcept;
 protected:
+	std::recursive_mutex _inputLock;
+
 	Type type;
 	std::string name;
 	bool isInputActive = false;

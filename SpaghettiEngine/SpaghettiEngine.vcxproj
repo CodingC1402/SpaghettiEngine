@@ -51,6 +51,7 @@
     <ClInclude Include="Framework\Scripts\TileMapRenderer.h" />
     <ClInclude Include="Framework\Ultilities\Debug.h" />
     <ClInclude Include="Framework\Ultilities\ExMath.h" />
+    <ClInclude Include="Framework\Ultilities\Extra.h" />
     <ClInclude Include="Framework\Ultilities\GraphicsMath.h" />
     <ClInclude Include="Framework\Ultilities\json.hpp" />
     <ClInclude Include="Framework\Ultilities\Monitor.h" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Framework\Scripts\TileMapRenderer.cpp" />
     <ClCompile Include="Framework\Ultilities\Debug.cpp" />
     <ClCompile Include="Framework\Ultilities\ExMath.cpp" />
+    <ClCompile Include="Framework\Ultilities\Extra.cpp" />
     <ClCompile Include="Framework\Ultilities\GraphicsMath.cpp" />
     <ClCompile Include="Framework\Ultilities\Monitor.cpp" />
     <ClCompile Include="Framework\Ultilities\MultiThread.cpp" />

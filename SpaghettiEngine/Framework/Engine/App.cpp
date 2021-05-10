@@ -4,7 +4,6 @@
 #include "Graphics.h"
 #include "Game.h"
 #include <iomanip>
-#include <thread>
 
 PApp App::__instance = nullptr;
 

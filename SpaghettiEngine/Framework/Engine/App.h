@@ -10,14 +10,13 @@ class App
 	friend class WinMain;
 public:
 	static void CallQuit();
+	static PApp GetInstance() noexcept;
 protected:
 	~App() noexcept;
 
 	BOOL Go();
 	void DoFrame() const;
 	void Quit() const;
-
-	static PApp GetInstance() noexcept;
 protected:
 	SGameWnd wnd = nullptr;
 	STimer timer = nullptr;
