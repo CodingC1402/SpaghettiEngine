@@ -4,7 +4,7 @@
 #include "SpriteRenderer.h"
 #include "Animator.h"
 #include "TileMapRenderer.h"
-
+#include "RigidBody2D.h"
 BOOL WinMain::Start(
 	HINSTANCE	hInstance,
 	HINSTANCE	hPrevInstance,
@@ -25,4 +25,5 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new SpriteRenderer(nullptr);
 	dummyScript = new Animator(nullptr);
 	dummyScript = new TileMapRenderer(nullptr);
+	dummyScript = new RigidBody2D(nullptr);
 }

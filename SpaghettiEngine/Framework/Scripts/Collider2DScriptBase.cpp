@@ -28,6 +28,14 @@ Vector3 Collider2DScriptBase::GetPosition()
 	return _ownerObj->GetWorldTransform();
 }
 
+Vector3 Collider2DScriptBase::GetVelocity()
+{
+	if (!body)
+		return Vector3(0, 0, 0);
+
+	return body->GetVelocity();
+}
+
 long Collider2DScriptBase::GetID()
 {
 	return id;

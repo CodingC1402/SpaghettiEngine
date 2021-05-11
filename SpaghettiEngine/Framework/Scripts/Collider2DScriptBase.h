@@ -15,6 +15,7 @@ public:
 	virtual void OnStart() override;
 
 	virtual Vector3 GetPosition();
+	virtual Vector3 GetVelocity();
 	virtual long GetID();
 	
 	virtual void SetTrigger(bool boolean);

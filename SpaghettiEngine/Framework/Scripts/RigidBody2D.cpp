@@ -68,4 +68,5 @@ void RigidBody2D::Load(json& inputObject)
 	{
 		throw e;
 	}
+	ScriptBase::Load(inputObject);
 }
