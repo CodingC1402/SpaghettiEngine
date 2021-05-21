@@ -23,6 +23,7 @@ public:
 	void Update();
 	static Physic* GetInstance();
 
+	void AddMapCollider(PCollider2DScriptBase collider);
 	void AddCollider(PCollider2DScriptBase collider);
 	void AddRigidBody(PRigidBody2D rigidBody);
 
@@ -40,6 +41,7 @@ protected:
 	
 	static ColliderTypes* map;
 
+	//std::list<PCollider2DScriptBase> tilemap;
 	std::list<PRigidBody2D> rigidBodis;
 	std::list<PCollider2DScriptBase> colliders;
 };

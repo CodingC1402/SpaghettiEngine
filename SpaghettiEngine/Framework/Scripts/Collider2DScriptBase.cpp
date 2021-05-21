@@ -25,6 +25,8 @@ void Collider2DScriptBase::OnStart()
 
 Vector3 Collider2DScriptBase::GetPosition()
 {
+	if (!_ownerObj)
+		return position;
 	return _ownerObj->GetWorldTransform();
 }
 
@@ -59,9 +61,13 @@ void Collider2DScriptBase::Load(nlohmann::json& inputObject)
 		constexpr const char* OffSetX = "OffSetX";
 		constexpr const char* OffSetY = "OffSetY";
 		constexpr const char* Trigger = "Trigger";
+		constexpr const char* PosX = "PosX";
+		constexpr const char* PosY = "PosY";
 		offSet.x = inputObject[OffSetX] == nullptr ? 0 : inputObject[OffSetX].get<float>();
 		offSet.y = inputObject[OffSetY] == nullptr ? 0 : inputObject[OffSetY].get<float>();
-		isTrigger = inputObject[Trigger] == nullptr ? 1 : inputObject[Trigger].get<bool>();
+		isTrigger = inputObject[Trigger] == nullptr ? false : inputObject[Trigger].get<bool>();
+		position.x = inputObject[PosX] == nullptr ? 0 : inputObject[PosX].get<float>();
+		position.y = inputObject[PosY] == nullptr ? 0 : inputObject[PosY].get<float>();
 	}
 	catch (const CornException& e)
 	{

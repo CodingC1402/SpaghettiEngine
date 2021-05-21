@@ -6,7 +6,7 @@ PPhysic Physic::__instance = NULL;
 ColliderTypes* Physic::map = nullptr;
 
 void Physic::Init()
-{
+{	
 	if (!map)
 		map = new ColliderTypes();
 	else
@@ -18,6 +18,26 @@ void Physic::Init()
 void Physic::Update()
 {
 	long lID;
+
+	//for (auto object : colliders)
+	//{
+	//	for (auto block : tilemap)
+	//	{
+	//		if (object->GetID() > block->GetID())
+	//		{
+	//			lID = block->GetID() * 100000000 + object->GetID();
+	//			auto a = map->find(lID);
+	//			a->second(block, object);
+	//		}
+	//		else
+	//		{
+	//			lID = object->GetID() * 100000000 + block->GetID();
+	//			auto a = map->find(lID);
+	//			a->second(object, block);
+	//		}
+	//	}
+	//}
+
 	for (auto object = colliders.begin(); object != colliders.end(); ++object)
 	{
 		auto temp = object;
@@ -53,6 +73,11 @@ Physic* Physic::GetInstance()
 	if (!__instance)
 		__instance = new Physic();
 	return __instance;
+}
+
+void Physic::AddMapCollider(PCollider2DScriptBase collider)
+{
+	//tilemap.emplace_back(collider);
 }
 
 void Physic::AddCollider(PCollider2DScriptBase collider)

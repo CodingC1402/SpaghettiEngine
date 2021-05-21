@@ -200,6 +200,12 @@
     <ClInclude Include="Framework\Ultilities\Extra.h">
       <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Scripts\TileMapCollider2D.h">
+      <Filter>Scripts\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Ultilities\PhysicMath.h">
+      <Filter>FrameWork\Ultilities\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -335,6 +341,12 @@
       <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Ultilities\Extra.cpp">
+      <Filter>FrameWork\Ultilities\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Scripts\TileMapCollider2D.cpp">
+      <Filter>Scripts\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Ultilities\PhysicMath.cpp">
       <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

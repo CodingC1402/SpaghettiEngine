@@ -4,7 +4,9 @@
 #include "SpriteRenderer.h"
 #include "Animator.h"
 #include "TileMapRenderer.h"
+#include "TileMapCollider2D.h"
 #include "RigidBody2D.h"
+#include "BoxCollider2D.h"
 BOOL WinMain::Start(
 	HINSTANCE	hInstance,
 	HINSTANCE	hPrevInstance,
@@ -26,4 +28,6 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new Animator(nullptr);
 	dummyScript = new TileMapRenderer(nullptr);
 	dummyScript = new RigidBody2D(nullptr);
+	dummyScript = new BoxCollider2D(nullptr);
+	dummyScript = new TileMapCollider2D(nullptr);
 }

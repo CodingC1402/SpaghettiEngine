@@ -27,6 +27,9 @@
 				"Scripts": [
 					{
 						"ID": 1
+					},
+					{
+						"ID": 2
 					}
 				]
 			}
@@ -38,6 +41,13 @@
 			"Inputs": {
 				"ScriptType": "TileMapRenderer",
 				"TileMapPath": "Asset/Scenes/Level1/TileMapRendererInput.json"
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "TileMapCollider2D",
+				"TileMapPath": "Asset/Scenes/Level1/TileMapCollidersInput.json"
 			}
 		}
 	]

@@ -14,6 +14,9 @@
 					},
 					{
 						"ID": 2
+					},
+					{
+						"ID": 3
 					}
 				]
 			}
@@ -32,6 +35,14 @@
 				"ID": 2,
 				"Inputs": {
 					"ScriptType": "RigidBody2D"
+				}
+			},
+			{
+				"ID": 3,
+				"Inputs": {
+					"ScriptType": "BoxCollider2D",
+					"Width": 16,
+					"Height": 20
 				}
 			}
     ]

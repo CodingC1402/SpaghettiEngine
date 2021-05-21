@@ -26,8 +26,8 @@ void BoxCollider2D::Load(nlohmann::json& inputObject)
 	{
 		constexpr const char* Width = "Width";
 		constexpr const char* Height = "Height";
-		offSet.x = inputObject[Width] == nullptr ? 10 : inputObject[Width].get<float>();
-		offSet.y = inputObject[Height] == nullptr ? 10 : inputObject[Height].get<float>();
+		size.x = inputObject[Width] == nullptr ? 10 : inputObject[Width].get<float>();
+		size.y = inputObject[Height] == nullptr ? 10 : inputObject[Height].get<float>();
 	}
 	catch (const CornException& e)
 	{

@@ -24,7 +24,8 @@ public:
 	virtual void Load(nlohmann::json& inputObject) override;
 protected:
 	Vector3 offSet;
-	bool isTrigger = true;
+	Vector3 position;
+	bool isTrigger = false;
 	RigidBody2D* body = nullptr;
 	long id;
 private:
