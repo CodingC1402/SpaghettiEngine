@@ -2,6 +2,7 @@
 #include "BoxCollider2D.h"
 #include "Physic.h"
 #include "PolygonMath.h"
+#include "TriangleCollider2D.h"
 #include <fstream>
 
 using namespace std;
@@ -70,7 +71,9 @@ void TileMapCollider2D::Load(nlohmann::json& input)
 				Plane2D::PointF p1 = result[i * 3 + 0];
 				Plane2D::PointF p2 = result[i * 3 + 1];
 				Plane2D::PointF p3 = result[i * 3 + 2];
-				//p1.GetX(), p1.GetY(), p2.GetX(), p2.GetY(), p3.GetX(), p3.GetY()
+
+				TriangleCollider2D* newCollider = new TriangleCollider2D(nullptr);
+				newCollider->Create(Vector3(p1.x, p1.y, 0), Vector3(p2.x, p2.y, 0), Vector3(p3.x, p3.y, 0));
 			}
 
 			temp.clear();

@@ -8,6 +8,7 @@ public:
 
 	virtual void Set(Vector3 al, Vector3 bt, Vector3 gm);
 
+	virtual void Create(Vector3 al, Vector3 bt, Vector3 gm);
 	virtual void Load(nlohmann::json& inputObject) override;
 protected:
 	Vector3 A;

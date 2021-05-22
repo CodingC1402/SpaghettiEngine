@@ -16,6 +16,15 @@ void TriangleCollider2D::Set(Vector3 al, Vector3 bt, Vector3 gm)
 	C = gm;
 }
 
+void TriangleCollider2D::Create(Vector3 al, Vector3 bt, Vector3 gm)
+{
+	A = al;
+	B = bt;
+	C = gm;
+
+	Physic::GetInstance()->AddMapCollider(this);
+}
+
 void TriangleCollider2D::Load(nlohmann::json& inputObject)
 {
 	std::string fieldTracker = "Start of the script";

@@ -41,7 +41,7 @@ protected:
 	
 	static ColliderTypes* map;
 
-	//std::list<PCollider2DScriptBase> tilemap;
+	std::list<PCollider2DScriptBase> tilemap;
 	std::list<PRigidBody2D> rigidBodis;
 	std::list<PCollider2DScriptBase> colliders;
 };
