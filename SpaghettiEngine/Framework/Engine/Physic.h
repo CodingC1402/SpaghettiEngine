@@ -4,7 +4,7 @@
 #include "RigidBody2D.h"
 
 constexpr long BoxCollider2DID = 00000000;
-constexpr long EdgeCollider2DID = 00000001;
+constexpr long TriangleCollider2DID = 00000001;
 constexpr long CircleCollider2DID = 00000002;
 
 

@@ -53,6 +53,7 @@
     <ClInclude Include="Framework\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Scripts\TileMapCollider2D.h" />
     <ClInclude Include="Framework\Scripts\TileMapRenderer.h" />
+    <ClInclude Include="Framework\Scripts\TriangleCollider2D.h" />
     <ClInclude Include="Framework\Ultilities\Debug.h" />
     <ClInclude Include="Framework\Ultilities\ExMath.h" />
     <ClInclude Include="Framework\Ultilities\Extra.h" />
@@ -106,6 +107,7 @@
     <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Scripts\TileMapCollider2D.cpp" />
     <ClCompile Include="Framework\Scripts\TileMapRenderer.cpp" />
+    <ClCompile Include="Framework\Scripts\TriangleCollider2D.cpp" />
     <ClCompile Include="Framework\Ultilities\Debug.cpp" />
     <ClCompile Include="Framework\Ultilities\ExMath.cpp" />
     <ClCompile Include="Framework\Ultilities\Extra.cpp" />

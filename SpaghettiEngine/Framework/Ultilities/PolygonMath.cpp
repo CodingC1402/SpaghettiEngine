@@ -7,16 +7,15 @@
 
 static const float EPSILON = 0.0000000001f;
 
-float Triangulate::Area(const Vector2dVector& contour)
+float Triangulate::Area(const VectorPointF& contour)
 {
-
     int n = contour.size();
 
     float A = 0.0f;
 
     for (int p = n - 1, q = 0; q < n; p = q++)
     {
-        A += contour[p].GetX() * contour[q].GetY() - contour[q].GetX() * contour[p].GetY();
+        A += contour[p].x * contour[q].y - contour[q].x * contour[p].y;
     }
     return A * 0.5f;
 }
@@ -48,34 +47,34 @@ bool Triangulate::InsideTriangle(float Ax, float Ay,
     return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 };
 
-bool Triangulate::Snip(const Vector2dVector& contour, int u, int v, int w, int n, int* V)
+bool Triangulate::Snip(const VectorPointF& contour, int u, int v, int w, int n, int* V)
 {
     int p;
     float Ax, Ay, Bx, By, Cx, Cy, Px, Py;
 
-    Ax = contour[V[u]].GetX();
-    Ay = contour[V[u]].GetY();
+    Ax = contour[V[u]].x;
+    Ay = contour[V[u]].y;
 
-    Bx = contour[V[v]].GetX();
-    By = contour[V[v]].GetY();
+    Bx = contour[V[v]].x;
+    By = contour[V[v]].y;
 
-    Cx = contour[V[w]].GetX();
-    Cy = contour[V[w]].GetY();
+    Cx = contour[V[w]].x;
+    Cy = contour[V[w]].y;
 
     if (EPSILON > (((Bx - Ax) * (Cy - Ay)) - ((By - Ay) * (Cx - Ax)))) return false;
 
     for (p = 0; p < n; p++)
     {
         if ((p == u) || (p == v) || (p == w)) continue;
-        Px = contour[V[p]].GetX();
-        Py = contour[V[p]].GetY();
+        Px = contour[V[p]].x;
+        Py = contour[V[p]].y;
         if (InsideTriangle(Ax, Ay, Bx, By, Cx, Cy, Px, Py)) return false;
     }
 
     return true;
 }
 
-bool Triangulate::Process(const Vector2dVector& contour, Vector2dVector& result)
+bool Triangulate::Process(const VectorPointF& contour, VectorPointF& result)
 {
     /* allocate and initialize list of Vertices in polygon */
 
@@ -131,8 +130,6 @@ bool Triangulate::Process(const Vector2dVector& contour, Vector2dVector& result)
             count = 2 * nv;
         }
     }
-
-
 
     delete V;
 

@@ -1,6 +1,7 @@
 #include "TileMapCollider2D.h"
 #include "BoxCollider2D.h"
 #include "Physic.h"
+#include "PolygonMath.h"
 #include <fstream>
 
 using namespace std;
@@ -17,6 +18,9 @@ void TileMapCollider2D::Load(nlohmann::json& input)
 	std::string tileMapFilePath;
 
 	constexpr const char* TileMapPath = "TileMapPath";
+	constexpr const char* Points = "Points";
+	constexpr const char* Colliders = "Colliders";
+
 	try
 	{
 		tileMapFilePath = input[TileMapPath].get<std::string>();
@@ -42,12 +46,38 @@ void TileMapCollider2D::Load(nlohmann::json& input)
 		json jsonFile;
 		file >> jsonFile;
 
-		if (jsonFile["ColliderType"].get<string>() == "BoxCollider2D")
+		VectorPointF base;
+
+		for (auto index : jsonFile[Points])
 		{
-			auto newBoxCollider = new BoxCollider2D(nullptr);
-			newBoxCollider->Load(jsonFile["Inputs"]);
-			//Physic::GetInstance()->AddMapCollider(newBoxCollider);
+			base.push_back(Plane2D::PointF(index[0].get<float>(), index[1].get<float>()));
 		}
+
+		for (auto index : jsonFile[Colliders])
+		{
+			VectorPointF temp, result;
+			for (int i : index)
+			{
+				temp.push_back(base[i]);
+			}
+
+			Triangulate::Process(temp, result);
+
+			int tcount = result.size() / 3;
+
+			for (int i = 0; i < tcount; i++)
+			{
+				Plane2D::PointF p1 = result[i * 3 + 0];
+				Plane2D::PointF p2 = result[i * 3 + 1];
+				Plane2D::PointF p3 = result[i * 3 + 2];
+				//p1.GetX(), p1.GetY(), p2.GetX(), p2.GetY(), p3.GetX(), p3.GetY()
+			}
+
+			temp.clear();
+			result.clear();
+		}
+
+		base.clear();
 		
 		file.close();
 	}
