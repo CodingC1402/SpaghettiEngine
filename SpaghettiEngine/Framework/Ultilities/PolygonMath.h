@@ -2,6 +2,7 @@
 
 #include <vector>  // Include STL vector class.
 #include "Plane2D.h"
+#include "CornDirectX.h"
 
 // Typedef an STL vector of vertices which are used to represent
 // a polygon/contour and a series of triangles.
@@ -27,7 +28,7 @@ public:
         float Cx, float Cy,
         float Px, float Py);
 
-
+    static bool InsideTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 P);
 private:
     static bool Snip(const VectorPointF& contour, int u, int v, int w, int n, int* V);
 

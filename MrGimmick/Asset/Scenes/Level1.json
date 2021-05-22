@@ -1,18 +1,4 @@
 {
-	"Prefabs": [
-		{
-			"ID": 10001,
-			"Changes": [
-				{
-					"Prefabs":[0],
-					"ID": 1,
-					"Type" : "GameObject",
-					"Field": "Transform",
-					"Value": [-100, -50, 0]
-				}
-			]
-		}
-	],
 	"GameObjects": [
 		{
 			"ID": 1,

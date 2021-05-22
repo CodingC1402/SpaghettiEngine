@@ -16,6 +16,21 @@ void TriangleCollider2D::Set(Vector3 al, Vector3 bt, Vector3 gm)
 	C = gm;
 }
 
+Vector3 TriangleCollider2D::GetA()
+{
+	return A;
+}
+
+Vector3 TriangleCollider2D::GetB()
+{
+	return B;
+}
+
+Vector3 TriangleCollider2D::GetC()
+{
+	return C;
+}
+
 void TriangleCollider2D::Create(Vector3 al, Vector3 bt, Vector3 gm)
 {
 	A = al;

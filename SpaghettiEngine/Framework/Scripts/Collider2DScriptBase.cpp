@@ -23,6 +23,16 @@ void Collider2DScriptBase::OnStart()
 	body = dynamic_cast<PRigidBody2D>(_ownerObj->GetScript("RigidBody"));
 }
 
+void Collider2DScriptBase::OnUpdate()
+{
+	if (!_ownerObj)
+		return;
+	
+	position = _ownerObj->GetWorldTransform();
+
+	ScriptBase::OnUpdate();
+}
+
 Vector3 Collider2DScriptBase::GetPosition()
 {
 	if (!_ownerObj)

@@ -33,6 +33,7 @@ public:
 	static ColliderTypes* GetMap();
 
 	static void CheckBoxWithBox(PCollider2DScriptBase alpha, PCollider2DScriptBase beta);
+	static void CheckBoxWithTriangle(PCollider2DScriptBase alpha, PCollider2DScriptBase beta);
 protected:
 	void Unload();
 protected:

@@ -1,5 +1,7 @@
 #include "Physic.h"
+#include "PolygonMath.h"
 #include "BoxCollider2D.h"
+#include "TriangleCollider2D.h"
 
 PPhysic Physic::__instance = NULL;
 
@@ -13,6 +15,7 @@ void Physic::Init()
 		map->clear();
 	
 	map->insert(ColliderTypes::value_type(BoxCollider2DID * 100000000 + BoxCollider2DID, &CheckBoxWithBox));
+	map->insert(ColliderTypes::value_type(BoxCollider2DID * 100000000 + TriangleCollider2DID, &CheckBoxWithTriangle));
 }
 
 void Physic::Update()
@@ -120,7 +123,33 @@ void Physic::CheckBoxWithBox(PCollider2DScriptBase alpha, PCollider2DScriptBase 
 	float bottomEdge2 = block->GetPosition().y;
 
 	if (leftEdge1 < rightEdge2 && rightEdge1 > leftEdge2 && bottomEdge1 < topEdge2 && topEdge1 > bottomEdge2) {
-		object->_ownerObj->Translate(100, 100, 100);
+		object->_ownerObj->Translate(100, 100, 0);
+	}
+}
+
+void Physic::CheckBoxWithTriangle(PCollider2DScriptBase alpha, PCollider2DScriptBase beta)
+{
+	auto object = dynamic_cast<BoxCollider2D*>(alpha);
+	auto block = dynamic_cast<TriangleCollider2D*>(beta);
+
+	bool result = false;
+
+	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(), 
+		Vector3(object->GetPosition().x, object->GetPosition().y, object->GetPosition().z));
+
+	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(),
+		Vector3(object->GetPosition().x + object->GetSize().x, object->GetPosition().y, object->GetPosition().z));
+
+	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(),
+		Vector3(object->GetPosition().x, object->GetPosition().y + object->GetSize().y, object->GetPosition().z));
+
+	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(),
+		Vector3(object->GetPosition().x + object->GetSize().x, object->GetPosition().y + object->GetSize().y, object->GetPosition().z));
+
+	if (result)
+	{
+		//Response Collision
+		//object->_ownerObj->Translate(100, 100, 0);
 	}
 }
 

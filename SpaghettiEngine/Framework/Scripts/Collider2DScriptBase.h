@@ -13,6 +13,7 @@ public:
 	virtual void OnEnabled() override;
 	virtual void OnDisabled() override;
 	virtual void OnStart() override;
+	virtual void OnUpdate() override;
 
 	virtual Vector3 GetPosition();
 	virtual Vector3 GetVelocity();
