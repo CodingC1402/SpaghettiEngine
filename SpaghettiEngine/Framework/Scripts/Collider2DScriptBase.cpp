@@ -48,6 +48,14 @@ Vector3 Collider2DScriptBase::GetVelocity()
 	return body->GetVelocity();
 }
 
+void Collider2DScriptBase::SetVelocity(Vector3 v)
+{
+	if (!body)
+		return;
+
+	body->SetVelocity(v);
+}
+
 long Collider2DScriptBase::GetID()
 {
 	return id;

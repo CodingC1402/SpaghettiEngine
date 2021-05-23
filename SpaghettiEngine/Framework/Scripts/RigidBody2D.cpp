@@ -15,11 +15,14 @@ void RigidBody2D::OnStart()
 
 void RigidBody2D::OnUpdate()
 {
+	Vector3 direction;
+
 	direction.x = 0;
-	direction.y = -1;
+	direction.y = 1;
 	direction.z = 0;
 
-	direction.y *= gravity * GameTimer::GetDeltaTime();
+	direction.y *= velocity.y * GameTimer::GetDeltaTime();
+	velocity.y -= gravity * GameTimer::GetDeltaTime();
 
 	_ownerObj->Translate(direction);
 }

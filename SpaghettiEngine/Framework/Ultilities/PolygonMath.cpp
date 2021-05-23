@@ -28,7 +28,6 @@ bool Triangulate::InsideTriangle(float Ax, float Ay,
     float Bx, float By,
     float Cx, float Cy,
     float Px, float Py)
-
 {
     float ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
     float cCROSSap, bCROSScp, aCROSSbp;
@@ -47,11 +46,77 @@ bool Triangulate::InsideTriangle(float Ax, float Ay,
     return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 }
 
+float Triangulate::MaxY(Vector3 A, Vector3 B, Vector3 C)
+{
+    return std::max(A.y, std::max(B.y, C.y));
+}
+
+float Triangulate::MaxX(Vector3 A, Vector3 B, Vector3 C)
+{
+    return std::max(A.x, std::max(B.x, C.x));
+}
+
+float Triangulate::MinY(Vector3 A, Vector3 B, Vector3 C)
+{
+    return std::min(A.y, std::min(B.y, C.y));
+}
+
+float Triangulate::MinX(Vector3 A, Vector3 B, Vector3 C)
+{
+    return std::min(A.x, std::min(B.x, C.x));
+}
+
 bool Triangulate::InsideTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 P)
 {
     return InsideTriangle(A.x, A.y, B.x, B.y, C.x, C.y, P.x, P.y);
 }
-;
+bool Triangulate::CheckBoxInsideTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 pos, Vector3 size)
+{
+    bool result = false;
+
+    result = result || Triangulate::InsideTriangle(A, B, C,
+        Vector3(pos.x, pos.y, pos.z));
+
+    result = result || Triangulate::InsideTriangle(A, B, C,
+        Vector3(pos.x + size.x, pos.y, pos.z));
+
+    result = result || Triangulate::InsideTriangle(A, B, C,
+        Vector3(pos.x, pos.y + size.y, pos.z));
+
+    result = result || Triangulate::InsideTriangle(A, B, C,
+        Vector3(pos.x + size.x, pos.y + size.y, pos.z));
+
+    return result;
+}
+
+bool Triangulate::CheckLineIntersect(Vector3 p1, Vector3 q1, Vector3 p2, Vector3 q2)
+{
+    // Find the four orientations needed for general and
+    // special cases
+    int o1 = Orientation(p1, q1, p2);
+    int o2 = Orientation(p1, q1, q2);
+    int o3 = Orientation(p2, q2, p1);
+    int o4 = Orientation(p2, q2, q1);
+
+    // General case
+    if (o1 != o2 && o3 != o4)
+        return true;
+
+    // Special Cases
+    // p1, q1 and p2 are colinear and p2 lies on segment p1q1
+    if (o1 == 0 && Segment(p1, p2, q1)) return true;
+
+    // p1, q1 and q2 are colinear and q2 lies on segment p1q1
+    if (o2 == 0 && Segment(p1, q2, q1)) return true;
+
+    // p2, q2 and p1 are colinear and p1 lies on segment p2q2
+    if (o3 == 0 && Segment(p2, p1, q2)) return true;
+
+    // p2, q2 and q1 are colinear and q1 lies on segment p2q2
+    if (o4 == 0 && Segment(p2, q1, q2)) return true;
+
+    return false; // Doesn't fall in any of the above cases}
+}
 
 bool Triangulate::Snip(const VectorPointF& contour, int u, int v, int w, int n, int* V)
 {
@@ -78,6 +143,27 @@ bool Triangulate::Snip(const VectorPointF& contour, int u, int v, int w, int n, 
     }
 
     return true;
+}
+
+bool Triangulate::Segment(Vector3 p, Vector3 q, Vector3 r)
+{
+    if (q.x <= std::max(p.x, r.x) && q.x >= std::min(p.x, r.x) &&
+        q.y <= std::max(p.y, r.y) && q.y >= std::min(p.y, r.y))
+        return true;
+
+    return false;
+}
+
+int Triangulate::Orientation(Vector3 p, Vector3 q, Vector3 r)
+{
+    // See https://www.geeksforgeeks.org/orientation-3-ordered-points/
+    // for details of below formula.
+    int val = (q.y - p.y) * (r.x - q.x) -
+        (q.x - p.x) * (r.y - q.y);
+
+    if (val == 0) return 0;  // colinear
+
+    return (val > 0) ? 1 : 2; // clock or counterclock wise
 }
 
 bool Triangulate::Process(const VectorPointF& contour, VectorPointF& result)
@@ -141,3 +227,4 @@ bool Triangulate::Process(const VectorPointF& contour, VectorPointF& result)
 
     return true;
 }
+

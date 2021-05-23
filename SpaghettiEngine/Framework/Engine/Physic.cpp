@@ -2,6 +2,7 @@
 #include "PolygonMath.h"
 #include "BoxCollider2D.h"
 #include "TriangleCollider2D.h"
+#include "GameTimer.h"
 
 PPhysic Physic::__instance = NULL;
 
@@ -127,35 +128,74 @@ void Physic::CheckBoxWithBox(PCollider2DScriptBase alpha, PCollider2DScriptBase 
 	}
 }
 
+bool IsBoxIntersectTri(BoxCollider2D* object, TriangleCollider2D* block, float& angle)
+{
+	Vector3 A = block->GetA();
+	Vector3 B = block->GetB();
+	Vector3 C = block->GetC();
+
+	if (Triangulate::CheckBoxInsideTriangle(A, B, C, object->GetPosition() + object->GetVelocity() * GameTimer::GetDeltaTime(), object->GetSize()))
+	{
+		Vector3 v = object->GetVelocity();
+		Vector3 pos = object->GetPosition() + object->GetVelocity() * GameTimer::GetDeltaTime();
+		if (v.y < 0 && object->GetPosition().y > Triangulate::MaxY(A, B, C))
+		{
+			if (A.y == Triangulate::MaxY(A, B, C))
+			{
+				if (pos.x < A.x && pos.x + object->GetSize().x > A.x)
+				{
+					angle = 0;
+				}
+				else if (pos.x < A.x && pos.x + object->GetSize().x < A.x)
+				{
+					if (B.x < C.x)
+						angle = std::atanf((B.y - A.y) / (B.x - A.x));
+					else if (B.x > C.x)
+						angle = std::atanf((C.y - A.y) / (C.x - A.x));
+					else if (B.y > C.y)
+						angle = std::atanf((B.y - A.y) / (B.x - A.x));
+					else
+						angle = std::atanf((C.y - A.y) / (C.x - A.x));
+				}
+			}
+			else if (B.y == Triangulate::MaxY(A, B, C))
+			{
+
+			}
+			else
+			{
+
+			}
+		}
+		else if (v.y > 0 && object->GetPosition().y < Triangulate::MinY(A, B, C))
+		{
+
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
 void Physic::CheckBoxWithTriangle(PCollider2DScriptBase alpha, PCollider2DScriptBase beta)
 {
 	auto object = dynamic_cast<BoxCollider2D*>(alpha);
 	auto block = dynamic_cast<TriangleCollider2D*>(beta);
 
-	bool result = false;
+	float angle = -1;
 
-	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(), 
-		Vector3(object->GetPosition().x, object->GetPosition().y, object->GetPosition().z));
-
-	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(),
-		Vector3(object->GetPosition().x + object->GetSize().x, object->GetPosition().y, object->GetPosition().z));
-
-	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(),
-		Vector3(object->GetPosition().x, object->GetPosition().y + object->GetSize().y, object->GetPosition().z));
-
-	result = result || Triangulate::InsideTriangle(block->GetA(), block->GetB(), block->GetC(),
-		Vector3(object->GetPosition().x + object->GetSize().x, object->GetPosition().y + object->GetSize().y, object->GetPosition().z));
-
-	if (result)
+	if (IsBoxIntersectTri(object, block, angle))
 	{
-		//Response Collision
-		object->_ownerObj->Translate(10, 10, 0);
+		object->_ownerObj->Translate(0, 10, 0);
+		object->SetVelocity(Vector3(0, 0, 0));
 	}
 }
+
+
 
 void Physic::Unload()
 {
 	rigidBodis.clear();
 	colliders.clear();
 }
-

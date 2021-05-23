@@ -28,7 +28,7 @@ public:
 protected:
 	Vector3 constVelocity = Vector3(0, 0, 0);
 	Vector3 velocity;
-	Vector3 direction;
+
 	float gravity = 10;
 	float mass = 10;
 private:
