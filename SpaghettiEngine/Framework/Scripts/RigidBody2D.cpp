@@ -13,6 +13,17 @@ void RigidBody2D::OnStart()
 	velocity = constVelocity;
 }
 
+void RigidBody2D::OnUpdate()
+{
+	direction.x = 0;
+	direction.y = -1;
+	direction.z = 0;
+
+	direction.y *= gravity * GameTimer::GetDeltaTime();
+
+	_ownerObj->Translate(direction);
+}
+
 void RigidBody2D::OnEnabled()
 {
 	Physic::GetInstance()->AddRigidBody(this);

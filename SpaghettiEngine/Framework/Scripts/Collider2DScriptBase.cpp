@@ -20,7 +20,7 @@ void Collider2DScriptBase::OnDisabled()
 
 void Collider2DScriptBase::OnStart()
 {
-	body = dynamic_cast<PRigidBody2D>(_ownerObj->GetScript("RigidBody"));
+	body = dynamic_cast<PRigidBody2D>(_ownerObj->GetScript("RigidBody2D"));
 }
 
 void Collider2DScriptBase::OnUpdate()

@@ -149,7 +149,7 @@ void Physic::CheckBoxWithTriangle(PCollider2DScriptBase alpha, PCollider2DScript
 	if (result)
 	{
 		//Response Collision
-		//object->_ownerObj->Translate(100, 100, 0);
+		object->_ownerObj->Translate(10, 10, 0);
 	}
 }
 

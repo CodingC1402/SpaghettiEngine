@@ -16,6 +16,8 @@ void MoveScript::OnStart()
 	down = InputSystem::GetInput("MoveDown");
 	left = InputSystem::GetInput("MoveLeft");
 	right = InputSystem::GetInput("MoveRight");
+
+	body = dynamic_cast<PRigidBody2D>(_ownerObj->GetScript("RigidBody2D"));
 }
 
 void MoveScript::OnUpdate()
@@ -50,5 +52,6 @@ void MoveScript::OnUpdate()
 	move.x *= movementSpeed * GameTimer::GetDeltaTime();
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
+	body->AddForce(move);
 	_ownerObj->Translate(move);
 }

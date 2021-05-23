@@ -11,6 +11,7 @@ class RigidBody2D : public ScriptBase
 public:
 	RigidBody2D(PScene owner);
 	virtual void OnStart() override;
+	virtual void OnUpdate() override;
 	virtual void OnEnabled() override;
 	virtual void OnDisabled() override;
 
@@ -25,8 +26,9 @@ public:
 
 	virtual void Load(json& inputObject) override;
 protected:
-	Vector3 constVelocity;
+	Vector3 constVelocity = Vector3(0, 0, 0);
 	Vector3 velocity;
+	Vector3 direction;
 	float gravity = 10;
 	float mass = 10;
 private:

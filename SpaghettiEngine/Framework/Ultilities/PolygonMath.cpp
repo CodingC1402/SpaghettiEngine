@@ -46,6 +46,7 @@ bool Triangulate::InsideTriangle(float Ax, float Ay,
 
     return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
 }
+
 bool Triangulate::InsideTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 P)
 {
     return InsideTriangle(A.x, A.y, B.x, B.y, C.x, C.y, P.x, P.y);
