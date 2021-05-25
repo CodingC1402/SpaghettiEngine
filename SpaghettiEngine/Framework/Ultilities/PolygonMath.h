@@ -8,6 +8,12 @@
 // a polygon/contour and a series of triangles.
 typedef std::vector<Plane2D::PointF> VectorPointF;
 
+struct Line2D
+{
+    Vector3 p1;
+    Vector3 p2;
+};
+
 class Triangulate
 {
 public:
@@ -35,7 +41,10 @@ public:
 
     static bool InsideTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 P);
     static bool CheckBoxInsideTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 pos, Vector3 size);
+
     static bool CheckLineIntersect(Vector3 p1, Vector3 q1, Vector3 p2, Vector3 q2);
+    static int CountLineIntersect(Vector3 p1, Vector3 q1, Vector3 pos, Vector3 size, Vector3 vel);
+    static bool CheckBoxIntersectTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 pos, Vector3 size);
 
 private:
     static bool Snip(const VectorPointF& contour, int u, int v, int w, int n, int* V);

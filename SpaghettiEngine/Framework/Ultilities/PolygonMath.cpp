@@ -118,6 +118,44 @@ bool Triangulate::CheckLineIntersect(Vector3 p1, Vector3 q1, Vector3 p2, Vector3
     return false; // Doesn't fall in any of the above cases}
 }
 
+int Triangulate::CountLineIntersect(Vector3 p1, Vector3 q1, Vector3 pos, Vector3 size, Vector3 velocity)
+{
+    int count = 0;
+    Vector3 vel = Vector3(abs(velocity.x), abs(velocity.y), abs(velocity.z));
+    CheckLineIntersect(p1, q1, pos, pos + vel) ? count++ : 0;
+    CheckLineIntersect(p1, q1, Vector3(pos.x, pos.y + size.y, pos.z) - vel, Vector3(pos.x, pos.y + size.y, pos.z) + vel) ? count++ : 0;
+    CheckLineIntersect(p1, q1, Vector3(pos.x + size.x, pos.y, pos.z) - vel, Vector3(pos.x + size.x, pos.y, pos.z) + vel) ? count++ : 0;
+    CheckLineIntersect(p1, q1, Vector3(pos.x + size.x, pos.y + size.y, pos.z) - vel, Vector3(pos.x + size.x, pos.y + size.y, pos.z) + vel) ? count++ : 0;
+
+    return count;
+}
+
+bool Triangulate::CheckBoxIntersectTriangle(Vector3 A, Vector3 B, Vector3 C, Vector3 pos, Vector3 size)
+{
+    bool result = false;
+    Vector3 p1 = pos;
+    Vector3 p2 = Vector3(pos.x, pos.y + size.y, pos.z);
+    Vector3 p3 = Vector3(pos.x + size.x, pos.y, pos.z);
+    Vector3 p4 = Vector3(pos.x + size.x, pos.y + size.y, pos.z);
+
+    result = result || CheckLineIntersect(p1, p2, A, B);
+    result = result || CheckLineIntersect(p2, p3, A, B);
+    result = result || CheckLineIntersect(p3, p4, A, B);
+    result = result || CheckLineIntersect(p1, p4, A, B);
+
+    result = result || CheckLineIntersect(p1, p2, C, B);
+    result = result || CheckLineIntersect(p2, p3, C, B);
+    result = result || CheckLineIntersect(p3, p4, C, B);
+    result = result || CheckLineIntersect(p1, p4, C, B);
+
+    result = result || CheckLineIntersect(p1, p2, A, C);
+    result = result || CheckLineIntersect(p2, p3, A, C);
+    result = result || CheckLineIntersect(p3, p4, A, C);
+    result = result || CheckLineIntersect(p1, p4, A, C);
+
+    return result;
+}
+
 bool Triangulate::Snip(const VectorPointF& contour, int u, int v, int w, int n, int* V)
 {
     int p;

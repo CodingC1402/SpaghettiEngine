@@ -34,6 +34,8 @@ public:
 
 	static void CheckBoxWithBox(PCollider2DScriptBase alpha, PCollider2DScriptBase beta);
 	static void CheckBoxWithTriangle(PCollider2DScriptBase alpha, PCollider2DScriptBase beta);
+
+	static void CheckBoxWithMap(PCollider2DScriptBase object, std::list<PCollider2DScriptBase> map);
 protected:
 	void Unload();
 protected:

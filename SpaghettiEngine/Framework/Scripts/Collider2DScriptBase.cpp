@@ -56,6 +56,14 @@ void Collider2DScriptBase::SetVelocity(Vector3 v)
 	body->SetVelocity(v);
 }
 
+void Collider2DScriptBase::AddForce(Vector3 v)
+{
+	if (!body)
+		return;
+
+	body->AddForce(v);
+}
+
 long Collider2DScriptBase::GetID()
 {
 	return id;

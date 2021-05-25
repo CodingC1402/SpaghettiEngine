@@ -18,6 +18,7 @@ public:
 	virtual Vector3 GetPosition();
 	virtual Vector3 GetVelocity();
 	virtual void SetVelocity(Vector3 v);
+	virtual void AddForce(Vector3 v);
 	virtual long GetID();
 	
 	virtual void SetTrigger(bool boolean);
