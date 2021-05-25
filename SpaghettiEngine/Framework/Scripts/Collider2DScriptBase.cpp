@@ -40,28 +40,12 @@ Vector3 Collider2DScriptBase::GetPosition()
 	return _ownerObj->GetWorldTransform();
 }
 
-Vector3 Collider2DScriptBase::GetVelocity()
+RigidBody2D* Collider2DScriptBase::GetBody()
 {
 	if (!body)
-		return Vector3(0, 0, 0);
+		return nullptr;
 
-	return body->GetVelocity();
-}
-
-void Collider2DScriptBase::SetVelocity(Vector3 v)
-{
-	if (!body)
-		return;
-
-	body->SetVelocity(v);
-}
-
-void Collider2DScriptBase::AddForce(Vector3 v)
-{
-	if (!body)
-		return;
-
-	body->AddForce(v);
+	return body;
 }
 
 long Collider2DScriptBase::GetID()

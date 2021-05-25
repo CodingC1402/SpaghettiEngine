@@ -14,11 +14,14 @@ public:
 	virtual void OnUpdate() override;
 	virtual void OnEnabled() override;
 	virtual void OnDisabled() override;
+	virtual void OnUpdatePhysic();
 
 	void SetConstVelocity(Vector3 v);
 	void SetVelocity(Vector3 v);
 	void AddForce(Vector3 delta);
 	void SetMass(float m);
+
+	void Fiction(float f);
 
 	Vector3 GetVelocity();
 	Vector3 GetConstVelocity();

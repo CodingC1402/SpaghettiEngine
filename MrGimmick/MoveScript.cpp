@@ -53,5 +53,5 @@ void MoveScript::OnUpdate()
 	move.y *= movementSpeed * GameTimer::GetDeltaTime();
 
 	body->AddForce(move);
-	_ownerObj->Translate(move);
+	//_ownerObj->Translate(move);
 }

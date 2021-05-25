@@ -54,6 +54,11 @@ void Physic::Update()
 			}
 		}
 	}
+
+	for (auto rigid : rigidBodis)
+	{
+		rigid->OnUpdatePhysic();
+	}
 }
 
 Physic::~Physic()
@@ -125,10 +130,10 @@ void Physic::CheckBoxWithTriangle(PCollider2DScriptBase alpha, PCollider2DScript
 	float angle = -1;
 
 	if (Triangulate::CheckBoxInsideTriangle(block->GetA(), block->GetB(), block->GetC(),
-		object->GetPosition() + object->GetVelocity() * GameTimer::GetDeltaTime(), object->GetSize())) 
+		object->GetPosition() + object->GetBody()->GetVelocity() * GameTimer::GetDeltaTime(), object->GetSize())) 
 	{
 		object->_ownerObj->Translate(0, 10, 0);
-		object->SetVelocity(Vector3(0, 0, 0));
+		object->GetBody()->SetVelocity(Vector3(0, 0, 0));
 	}
 }
 
@@ -142,7 +147,7 @@ void Physic::CheckBoxWithMap(PCollider2DScriptBase object, std::list<PCollider2D
 		auto temp = dynamic_cast<TriangleCollider2D*>(col);
 
 		if (Triangulate::CheckBoxInsideTriangle(temp->GetA(), temp->GetB(), temp->GetC(),
-			obj->GetPosition() + obj->GetVelocity() * GameTimer::GetDeltaTime(), obj->GetSize()))
+			obj->GetPosition() + obj->GetBody()->GetVelocity() * GameTimer::GetDeltaTime(), obj->GetSize()))
 		{
 			list.push_back(temp);
 		}
@@ -173,49 +178,119 @@ void Physic::CheckBoxWithMap(PCollider2DScriptBase object, std::list<PCollider2D
 				pts.push_back(temp->GetC());
 		}
 
-		Vector3 fpos = obj->GetPosition() + obj->GetVelocity() * GameTimer::GetDeltaTime();
-		if (obj->GetVelocity().y <= 0)
+		Vector3 fpos = obj->GetPosition() + obj->GetBody()->GetVelocity() * GameTimer::GetDeltaTime();
+
+		if (obj->GetBody()->GetVelocity().y < 0)
 		{
 			for (Vector3 temp : pts)
 			{
 				if (temp.x >= obj->GetPosition().x && temp.x <= fpos.x + obj->GetSize().x && temp.y >= alpha.y)
 					alpha = temp;
 			}
-
 			beta = Vector3(0, INT_MIN, 0);
 			gamma = Vector3(0, INT_MIN, 0);
-
 			for (Vector3 temp : pts)
 			{
 				if (temp != alpha && temp.x < alpha.x && temp.y > beta.y)
 					beta = temp;
-
 				if (temp != alpha && temp.x > alpha.x && temp.y > gamma.y)
 					gamma = temp;
 			}
-
 			if (beta.y == INT_MIN)
 				beta = gamma;
 			if (beta.y != INT_MIN && gamma.y != INT_MIN)
 			{
-				if (Triangulate::CountLineIntersect(alpha, gamma, obj->GetPosition(), obj->GetSize(), obj->GetVelocity()) >
-					Triangulate::CountLineIntersect(alpha, beta, obj->GetPosition(), obj->GetSize(), obj->GetVelocity()))
-				{
+				if (Triangulate::CountLineIntersect(alpha, gamma, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()) >
+					Triangulate::CountLineIntersect(alpha, beta, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()))
 					beta = gamma;
-				}
 			}
 
 			float angle;
 			if (alpha.x == beta.x)
 				angle = 90;
-
 			angle = std::atanf(abs((alpha.y - beta.y) / (alpha.x - beta.x)));
 
-			obj->_ownerObj->Translate(-obj->GetVelocity() * GameTimer::GetDeltaTime());
-			obj->_ownerObj->Translate(obj->GetVelocity().x * std::sin(angle) * GameTimer::GetDeltaTime(), 
-				obj->GetVelocity().y * std::cos(angle) * GameTimer::GetDeltaTime(), 0);
+			Vector3 force = Vector3(Vector3(-obj->GetBody()->GetVelocity().y * std::sin(angle), -obj->GetBody()->GetVelocity().y * std::cos(angle), 0));
 			
-			obj->AddForce(Vector3(0, -obj->GetVelocity().y * std::cos(angle), 0));
+			obj->GetBody()->AddForce(force);
+		}
+		else if (obj->GetBody()->GetVelocity().y > 0)
+		{
+			for (Vector3 temp : pts)
+			{
+				if (temp.x >= obj->GetPosition().x && temp.x <= fpos.x + obj->GetSize().x && temp.y <= alpha.y)
+					alpha = temp;
+			}
+			beta = Vector3(0, INT_MAX, 0);
+			gamma = Vector3(0, INT_MAX, 0);
+			for (Vector3 temp : pts)
+			{
+				if (temp != alpha && temp.x < alpha.x && temp.y < beta.y)
+					beta = temp;
+				if (temp != alpha && temp.x > alpha.x && temp.y < gamma.y)
+					gamma = temp;
+			}
+			if (beta.y == INT_MAX)
+				beta = gamma;
+			if (beta.y != INT_MAX && gamma.y != INT_MAX)
+			{
+				if (Triangulate::CountLineIntersect(alpha, gamma, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()) >
+					Triangulate::CountLineIntersect(alpha, beta, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()))
+					beta = gamma;
+			}
+		}
+
+		if (obj->GetBody()->GetVelocity().x < 0)
+		{
+			for (Vector3 temp : pts)
+			{
+				if (temp.y >= obj->GetPosition().y && temp.y <= fpos.y + obj->GetSize().y && temp.x >= alpha.x)
+					alpha = temp;
+			}
+			beta = Vector3(INT_MIN, 0, 0);
+			gamma = Vector3(INT_MIN, 0, 0);
+			for (Vector3 temp : pts)
+			{
+				if (temp != alpha && temp.y < alpha.y && temp.x > beta.x)
+					beta = temp;
+				if (temp != alpha && temp.y > alpha.y && temp.x > gamma.x)
+					gamma = temp;
+			}
+			if (beta.x == INT_MIN)
+				beta = gamma;
+			if (beta.x != INT_MIN && gamma.x != INT_MIN)
+			{
+				if (Triangulate::CountLineIntersect(alpha, gamma, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()) >
+					Triangulate::CountLineIntersect(alpha, beta, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()))
+					beta = gamma;
+			}
+		}
+		else if (obj->GetBody()->GetVelocity().x > 0)
+		{
+			for (Vector3 temp : pts)
+			{
+				if (temp.y >= obj->GetPosition().y && temp.y <= fpos.y + obj->GetSize().y && temp.x <= alpha.x)
+					alpha = temp;
+			}
+			beta = Vector3(INT_MAX, 0, 0);
+			gamma = Vector3(INT_MAX, 0, 0);
+			for (Vector3 temp : pts)
+			{
+				if (temp != alpha && temp.y < alpha.y && temp.x < beta.x)
+					beta = temp;
+				if (temp != alpha && temp.y > alpha.y && temp.x < gamma.x)
+					gamma = temp;
+			}
+			if (beta.x == INT_MAX)
+				beta = gamma;
+			if (beta.x != INT_MAX && gamma.x != INT_MAX)
+			{
+				if (Triangulate::CountLineIntersect(alpha, gamma, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()) >
+					Triangulate::CountLineIntersect(alpha, beta, obj->GetPosition(), obj->GetSize(), obj->GetBody()->GetVelocity()))
+					beta = gamma;
+			}
+
+			obj->GetBody()->Fiction(0.9);
 		}
 	}
 }

@@ -15,16 +15,7 @@ void RigidBody2D::OnStart()
 
 void RigidBody2D::OnUpdate()
 {
-	Vector3 direction;
-
-	direction.x = 0;
-	direction.y = 1;
-	direction.z = 0;
-
-	direction.y *= velocity.y * GameTimer::GetDeltaTime();
 	velocity.y -= gravity * GameTimer::GetDeltaTime();
-
-	_ownerObj->Translate(direction);
 }
 
 void RigidBody2D::OnEnabled()
@@ -35,6 +26,11 @@ void RigidBody2D::OnEnabled()
 void RigidBody2D::OnDisabled()
 {
 	Physic::GetInstance()->RemoveRigidBody(this);
+}
+
+void RigidBody2D::OnUpdatePhysic()
+{
+	_ownerObj->Translate(velocity * GameTimer::GetDeltaTime());
 }
 
 void RigidBody2D::SetConstVelocity(Vector3 v)
@@ -55,6 +51,11 @@ void RigidBody2D::AddForce(Vector3 delta)
 void RigidBody2D::SetMass(float m)
 {
 	mass = m;
+}
+
+void RigidBody2D::Fiction(float f)
+{
+	velocity *= f;
 }
 
 Vector3 RigidBody2D::GetVelocity()
