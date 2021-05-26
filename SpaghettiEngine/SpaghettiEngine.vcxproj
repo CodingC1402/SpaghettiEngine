@@ -19,30 +19,41 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Framework\Engine\Animation.h" />
-    <ClInclude Include="Framework\Engine\AnimationStateMachine.h" />
-    <ClInclude Include="Framework\Engine\App.h" />
-    <ClInclude Include="Framework\Engine\CornDirectX.h" />
-    <ClInclude Include="Framework\Engine\Game.h" />
-    <ClInclude Include="Framework\Engine\GameObj.h" />
-    <ClInclude Include="Framework\Engine\GameTimer.h" />
-    <ClInclude Include="Framework\Engine\GameWnd.h" />
-    <ClInclude Include="Framework\Engine\Graphics.h" />
-    <ClInclude Include="Framework\Engine\LoadingJson.h" />
-    <ClInclude Include="Framework\Engine\Input.h" />
-    <ClInclude Include="Framework\Engine\InputSystem.h" />
-    <ClInclude Include="Framework\Engine\Physic.h" />
-    <ClInclude Include="Framework\Engine\Prefabs.h" />
-    <ClInclude Include="Framework\Engine\ResourceContainer.h" />
-    <ClInclude Include="Framework\Engine\Scene.h" />
-    <ClInclude Include="Framework\Engine\SceneManager.h" />
-    <ClInclude Include="Framework\Engine\Setting.h" />
-    <ClInclude Include="Framework\Engine\Sound.h" />
-    <ClInclude Include="Framework\Engine\SpaghettiEnginePath.h" />
-    <ClInclude Include="Framework\Engine\Sprite.h" />
-    <ClInclude Include="Framework\Engine\Texture.h" />
-    <ClInclude Include="Framework\Engine\Transform.h" />
-    <ClInclude Include="Framework\Engine\WinMain.h" />
+    <ClInclude Include="Framework\Engine\AppComponents\App.h" />
+    <ClInclude Include="Framework\Engine\AppComponents\LoadingJson.h" />
+    <ClInclude Include="Framework\Engine\AppComponents\Setting.h" />
+    <ClInclude Include="Framework\Engine\AppComponents\SpaghettiEnginePath.h" />
+    <ClInclude Include="Framework\Engine\AppComponents\WinMain.h" />
+    <ClInclude Include="Framework\Engine\BTs\BlackBoard.h" />
+    <ClInclude Include="Framework\Engine\BTs\BTs.h" />
+    <ClInclude Include="Framework\Engine\BTs\Condition.h" />
+    <ClInclude Include="Framework\Engine\BTs\Macros.h" />
+    <ClInclude Include="Framework\Engine\BTs\Node.h" />
+    <ClInclude Include="Framework\Engine\BTs\ObservePattern.h" />
+    <ClInclude Include="Framework\Engine\BTs\ParalelNode.h" />
+    <ClInclude Include="Framework\Engine\BTs\SelectorNode.h" />
+    <ClInclude Include="Framework\Engine\BTs\SequenceNode.h" />
+    <ClInclude Include="Framework\Engine\BTs\ServiceNodes.h" />
+    <ClInclude Include="Framework\Engine\Containers\Animation.h" />
+    <ClInclude Include="Framework\Engine\Containers\Prefabs.h" />
+    <ClInclude Include="Framework\Engine\Containers\ResourceContainer.h" />
+    <ClInclude Include="Framework\Engine\Containers\Sprite.h" />
+    <ClInclude Include="Framework\Engine\Containers\Texture.h" />
+    <ClInclude Include="Framework\Engine\Containers\TileSet.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\Game.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\GameObj.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\Graphics.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\Physic.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\Scene.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\Transform.h" />
+    <ClInclude Include="Framework\Engine\ThirdParty\json.hpp" />
+    <ClInclude Include="Framework\Engine\Wrapper\CornDirectX.h" />
+    <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h" />
+    <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h" />
+    <ClInclude Include="Framework\Engine\Wrapper\Input.h" />
+    <ClInclude Include="Framework\Engine\Wrapper\InputSystem.h" />
+    <ClInclude Include="Framework\Engine\Wrapper\Sound.h" />
     <ClInclude Include="Framework\Scripts\Animator.h" />
     <ClInclude Include="Framework\Scripts\Render2DScriptBase.h" />
     <ClInclude Include="Framework\Scripts\Camera.h" />
@@ -53,7 +64,6 @@
     <ClInclude Include="Framework\Ultilities\ExMath.h" />
     <ClInclude Include="Framework\Ultilities\Extra.h" />
     <ClInclude Include="Framework\Ultilities\GraphicsMath.h" />
-    <ClInclude Include="Framework\Ultilities\json.hpp" />
     <ClInclude Include="Framework\Ultilities\Monitor.h" />
     <ClInclude Include="Framework\Ultilities\MultiThread.h" />
     <ClInclude Include="Framework\Ultilities\Path.h" />
@@ -68,28 +78,37 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Framework\Engine\Animation.cpp" />
-    <ClCompile Include="Framework\Engine\AnimationStateMachine.cpp" />
-    <ClCompile Include="Framework\Engine\App.cpp" />
-    <ClCompile Include="Framework\Engine\Game.cpp" />
-    <ClCompile Include="Framework\Engine\GameObj.cpp" />
-    <ClCompile Include="Framework\Engine\GameTimer.cpp" />
-    <ClCompile Include="Framework\Engine\GameWnd.cpp" />
-    <ClCompile Include="Framework\Engine\Graphics.cpp" />
-    <ClCompile Include="Framework\Engine\Input.cpp" />
-    <ClCompile Include="Framework\Engine\InputSystem.cpp" />
-    <ClCompile Include="Framework\Engine\LoadingJson.cpp" />
-    <ClCompile Include="Framework\Engine\Physic.cpp" />
-    <ClCompile Include="Framework\Engine\Prefabs.cpp" />
-    <ClCompile Include="Framework\Engine\ResourceContainer.cpp" />
-    <ClCompile Include="Framework\Engine\Scene.cpp" />
-    <ClCompile Include="Framework\Engine\SceneManager.cpp" />
-    <ClCompile Include="Framework\Engine\Setting.cpp" />
-    <ClCompile Include="Framework\Engine\Sound.cpp" />
-    <ClCompile Include="Framework\Engine\Sprite.cpp" />
-    <ClCompile Include="Framework\Engine\Texture.cpp" />
-    <ClCompile Include="Framework\Engine\Transform.cpp" />
-    <ClCompile Include="Framework\Engine\WinMain.cpp" />
+    <ClCompile Include="Framework\Engine\AppComponents\App.cpp" />
+    <ClCompile Include="Framework\Engine\AppComponents\LoadingJson.cpp" />
+    <ClCompile Include="Framework\Engine\AppComponents\Setting.cpp" />
+    <ClCompile Include="Framework\Engine\AppComponents\WinMain.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\BlackBoard.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\BTs.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\Condition.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\Node.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\ObservePattern.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\ParalelNode.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\SelectorNode.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\SequenceNode.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\ServiceNodes.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\Animation.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\Prefabs.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\ResourceContainer.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\Sprite.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\Texture.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\TileSet.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\Game.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\Physic.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp" />
+    <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp" />
+    <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp" />
+    <ClCompile Include="Framework\Engine\Wrapper\Input.cpp" />
+    <ClCompile Include="Framework\Engine\Wrapper\InputSystem.cpp" />
+    <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp" />
     <ClCompile Include="Framework\Scripts\Animator.cpp" />
     <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp" />
     <ClCompile Include="Framework\Scripts\Camera.cpp" />
@@ -202,7 +221,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -223,7 +242,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>
@@ -245,7 +264,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -265,7 +284,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Scripts;Framework\Window;Framework\Ultilities;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
     </ClCompile>
     <Link>

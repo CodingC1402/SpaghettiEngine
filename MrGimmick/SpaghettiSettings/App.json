@@ -1,6 +1,6 @@
 {
   "Name": "Mr Gimmick",
-  "Fps": 60,
+  "Fps": 30,
   "Resolution": {
     "Width": 256,
     "Height": 224

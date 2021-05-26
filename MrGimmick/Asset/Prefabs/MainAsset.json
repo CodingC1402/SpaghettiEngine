@@ -3,18 +3,6 @@
 		{
 			"ID": 10002,
 			"Changes": [
-				{
-					"ID": 1,
-					"Field": "Scripts",
-					"Type": "GameObject",
-					"Mode": "Append",
-					"Value": [
-						{
-							"RefIndex": 0,
-							"ID": 1
-						}
-					]
-				}
 			]
 		},
 		{
@@ -60,11 +48,5 @@
 		}
 	],
 	"Scripts": [
-		{
-			"ID": 1,
-			"Inputs": {
-				"ScriptType": "MoveScript"	
-			}
-		}
 	]
 }
