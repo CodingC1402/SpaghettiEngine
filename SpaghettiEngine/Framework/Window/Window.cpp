@@ -22,7 +22,7 @@ Window::WindowClass::WindowClass() noexcept
 	wc.hbrBackground = nullptr;
 	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = GetName();
-	wc.hIconSm = static_cast<HICON>(LoadImage(this->m_hInst, MAKEINTRESOURCE(IDI_ENGINEICON), IMAGE_ICON, 16, 16, 0));;
+	wc.hIconSm = static_cast<HICON>(LoadImage(this->m_hInst, MAKEINTRESOURCE(IDI_ENGINEICON), IMAGE_ICON, 16, 16, 0));
 	RegisterClassEx( &wc );
 }
 

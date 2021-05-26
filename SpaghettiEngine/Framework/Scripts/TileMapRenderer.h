@@ -51,6 +51,9 @@ protected:
     int height;
     int tileWidth;
     int tileHeight;
+
+    std::atomic<bool> _loading = false;
+
     std::vector<std::vector<Tile*>> tiles;
     std::list<PAnimatedTile> animatedTiles;
 

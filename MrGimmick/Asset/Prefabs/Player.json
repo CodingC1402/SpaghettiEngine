@@ -11,6 +11,9 @@
 				"Scripts": [
 					{
 						"ID": 1
+					},
+					{
+						"ID": 2
 					}
 				]
 			}
@@ -23,6 +26,12 @@
 				"ScriptType": "Animator",
 				"Animation": 20001,
 				"DrawLayer": 1
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "MoveScript"	
 			}
 		}
     ]
