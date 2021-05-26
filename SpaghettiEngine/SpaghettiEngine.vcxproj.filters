@@ -227,11 +227,11 @@
     <ClInclude Include="Framework\Engine\Wrapper\CornDirectX.h">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h">
       <Filter>FrameWork\Engine\Wrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h">
+      <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -379,14 +379,14 @@
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Input.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp">
+      <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -409,5 +409,6 @@
     <None Include="SpaghettiSettings\SceneManager.json">
       <Filter>FrameWork\Resource</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

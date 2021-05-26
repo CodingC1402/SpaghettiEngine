@@ -40,7 +40,7 @@ namespace LoadingJson
         //Tile map
         static constexpr const char* textureField = "Texture";
         static constexpr const char* fpsField = "FPS";
-        static constexpr const char* spritesField = "SPrites";
+        static constexpr const char* spritesField = "Sprites";
         static constexpr const char* animationsField = "Animations";
     protected:
         static std::list<std::string> _refFields;

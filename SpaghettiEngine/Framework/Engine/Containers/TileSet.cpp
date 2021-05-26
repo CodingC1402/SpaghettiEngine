@@ -7,11 +7,12 @@
 #include "CornException.h"
 #include "LoadingJson.h"
 
+CONTAINER_REGISTER(TileSetContainer, TileSet);
 using namespace nlohmann;
 
 void NormalTile::Load(Texture* texture, std::vector<int> sprites, float fps)
 {
-	sprite = texture->GetSprite(sprites[0] - 1);
+	sprite = texture->GetSprite(sprites[0]);
 }
 
 void NormalTile::Draw(const Vector3& position)
@@ -59,7 +60,9 @@ WTile TileSet::GetTile(int index)
 		throw CORN_EXCEPT_WITH_DESCRIPTION(os.str());
 	}
 	else
+	{
 		return _tiles[index];
+	}
 }
 
 void TileSet::Load(const std::string& path)
@@ -90,16 +93,16 @@ void TileSet::Load(const std::string& path)
 		std::vector<int> id = { 0 };
 		for (STile newTile; id[0] < texture->GetSpritesNumber(); id[0]++)
 		{
-			newTile = std::make_shared<Tile>();
+			newTile.reset(new NormalTile());
 			newTile->Load(texture.get(), id, 1);
 			_tiles.push_back(newTile);
 		}
 		id.clear();
 
 		fieldTracker++;
-		for (STile newTile; const auto & anim : jsonFile[Field::animationsField])
+		for (STile newTile; auto & anim : jsonFile[Field::animationsField])
 		{
-			newTile = std::make_shared<AnimatedTile>();
+			newTile.reset(new AnimatedTile());
 			id = anim[Field::spritesField].get<std::vector<int>>();
 			newTile->Load(texture.get(), id, anim[Field::fpsField].get<float>());
 			_tiles[anim[Field::idField].get<unsigned>()] = newTile;

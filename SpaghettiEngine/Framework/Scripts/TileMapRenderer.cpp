@@ -52,8 +52,6 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		json jsonFile;
 		file >> jsonFile;
 
-		texture = TextureContainer::GetInstance()->GetResource(jsonFile["Texture"].get<CULL>());
-
 		width = jsonFile["Width"].get<int>();
 		height = jsonFile["Height"].get<int>();
 		tileWidth = jsonFile["TileWidth"].get<int>();
@@ -78,8 +76,13 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 				_tiles[row].reserve(width);
 			}
 
-			tile = _tileSet->GetTile(index);
-			_tiles[row].emplace_back(tile);
+			if (index > 0)
+			{
+				tile = _tileSet->GetTile(index - 1);
+				_tiles[row].emplace_back(tile);
+			}
+			else
+				_tiles[row].emplace_back(WTile());
 			col++;
 		}
 
@@ -166,8 +169,11 @@ void TileMapRenderer::Draw(PCamera camera)
 		position.y = static_cast<float>(row * tileHeight);
 		for (int col = startCol; col < endCol; col++)
 		{
-			position.x = static_cast<float>(col * tileWidth);
-			_tiles[row][col].lock()->Draw(position);
+			if (!_tiles[row][col].expired())
+			{
+				position.x = static_cast<float>(col * tileWidth);
+				_tiles[row][col].lock()->Draw(position);
+			}
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace CLib
 	template<typename T>
 	constexpr T modulo(const T& f1, const T& f2)
 	{
-		return f1 - std::floor(f1 / f2) * f2;
+		return static_cast<T>(f1 - std::floor(f1 / f2) * f2);
 	}
 	template<typename T>
 	constexpr bool compare(const T& f1, const T& f2, const T& epsilon)
@@ -53,11 +53,5 @@ namespace CLib
 		if (fabs(f1 - f2) < 0.000001f)
 			return true;
 		return false;
-	}
-	template<typename T>
-	constexpr T modulo(const T& f1, const T& f2)
-	{
-		int i = std::floor(f1 / f2);
-		return static_cast<T>(f1 - (i * f2));
 	}
 }
