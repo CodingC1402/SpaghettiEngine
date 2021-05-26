@@ -17,6 +17,11 @@ float GameTimer::GetRealTime()
 	return __instance->realTime;
 }
 
+float GameTimer::GetGameTime()
+{
+	return __instance->gameTime;
+}
+
 float GameTimer::GetDeltaTime()
 {
 	return __instance->deltaTime;
@@ -41,7 +46,15 @@ void GameTimer::Start() const
 
 void GameTimer::Mark()
 {
+	constexpr float timeCap = 100000;
+
 	timer->Mark();
 	realTime = timer->GetSystemTime();
+	gameTime = timer->GetSystemTime() * timeScale;
 	deltaTime = timer->GetDeltaTime() * timeScale;
+
+	if (realTime >= timeCap)
+		realTime -= timeCap;
+	if (gameTime >= timeCap)
+		realTime -= timeCap;
 }

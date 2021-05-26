@@ -37,6 +37,11 @@ namespace LoadingJson
         static constexpr const char* transformField = "Transform";
         static constexpr const char* rotationField = "Rotation";
         static constexpr const char* scaleField = "Scale";
+        //Tile map
+        static constexpr const char* textureField = "Texture";
+        static constexpr const char* fpsField = "FPS";
+        static constexpr const char* spritesField = "Sprites";
+        static constexpr const char* animationsField = "Animations";
     protected:
         static std::list<std::string> _refFields;
     };

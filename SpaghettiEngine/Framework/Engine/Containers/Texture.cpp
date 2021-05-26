@@ -86,6 +86,16 @@ SSprite Texture::GetSprite(const unsigned int& index) noexcept
 	return sprites[index];
 }
 
+std::vector<SSprite> Texture::GetAllSprites() noexcept
+{
+	return sprites;
+}
+
+unsigned Texture::GetSpritesNumber() noexcept
+{
+	return sprites.size();
+}
+
 TextureContainer::TextureContainer()
 {
 	_name = RESOURCE_NAME(Texture);

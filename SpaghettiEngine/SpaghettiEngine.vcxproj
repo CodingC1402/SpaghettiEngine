@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.json" />
+    <None Include="cpp.hint" />
     <None Include="Input.json" />
     <None Include="SpaghettiSettings\SceneManager.json" />
   </ItemGroup>
