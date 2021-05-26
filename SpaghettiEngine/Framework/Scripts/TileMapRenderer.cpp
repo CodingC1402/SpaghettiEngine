@@ -4,6 +4,7 @@
 #include "Animation.h"
 #include "ExMath.h"
 #include "GraphicsMath.h"
+#include "LoadingJson.h"
 #include <fstream>
 #include <algorithm>
 #include <Setting.h>
@@ -15,63 +16,28 @@ using namespace std;
 
 REGISTER_FINISH(TileMapRenderer);
 
-void NormalTile::Load(const int& index, Texture* texture, const json& data)
-{
-	sprite = texture->GetSprite(index - 1);
-}
-
-void NormalTile::Draw(const Vector3& position)
-{
-	Graphics::DrawSprite(sprite, sprite->GetCenter(), position);
-}
-
-void AnimatedTile::Update()
-{
-	time += GameTimer::GetDeltaTime();
-	animation->Advance(frame, time);
-}
-
-void AnimatedTile::Load(const int& index, Texture* texture, const json& data)
-{
-	animation = AnimationContainer::GetInstance()->GetResource(data["Animations"][abs(index + 1)].get<CULL>());
-}
-
-void AnimatedTile::Draw(const Vector3& position)
-{
-	const SSprite currentSprite = animation->GetSpriteOfFrame(frame);
-	Vector3 center = currentSprite->GetCenter();
-	Graphics::DrawSprite(currentSprite, currentSprite->GetCenter(), position);
-}
-
 TileMapRenderer::TileMapRenderer(PScene owner) : Render2DScriptBase(owner), width(0), height(0), tileWidth(0), tileHeight(0)
 {
 	_name = TYPE_NAME(TileMapRenderer);
 }
 
-void TileMapRenderer::OnUpdate()
-{
-	for (const auto& tile : animatedTiles)
-		tile->Update();
-	Render2DScriptBase::OnUpdate();
-}
-
 void TileMapRenderer::Load(nlohmann::json& inputObject)
-{	
+{
 	json copy = inputObject;
 	std::string tileMapFilePath;
-	
+
 	constexpr const char* TileMapPath = "TileMapPath";
 	try
 	{
 		tileMapFilePath = copy[TileMapPath].get<std::string>();
 	}
-	catch(const std::exception&)
+	catch (const std::exception&)
 	{
 		std::wostringstream os;
 		os << "\n[Error field] " << TileMapPath;
 		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
-	
+
 	ifstream file(tileMapFilePath);
 	if (!file.is_open())
 	{
@@ -94,35 +60,26 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		tileHeight = jsonFile["TileHeight"].get<int>();
 		_pixelWidth = width * tileWidth;
 		_pixelHeight = height * tileHeight;
+		
+		_tileSet = TileSetContainer::GetInstance()->GetResource(jsonFile[LoadingJson::Field::idField]);
 
 		int row = 0;
 		int col = 0;
-		tiles.reserve(height);
-		tiles.emplace_back(std::vector<Tile*>());
-		tiles[0].reserve(width);
-		for (Tile* newTile; int index : jsonFile["Data"])
+		_tiles.reserve(height);
+		_tiles.emplace_back(std::vector<WTile>());
+		_tiles[0].reserve(width);
+		for (WTile tile; int index : jsonFile["Data"])
 		{
 			if (col == width)
 			{
-				tiles.emplace_back(std::vector<Tile*>());
+				_tiles.emplace_back(std::vector<WTile>());
 				col = 0;
 				row++;
-				tiles[row].reserve(width);
+				_tiles[row].reserve(width);
 			}
 
-			if (index > 0)
-				newTile = new NormalTile;
-			else if (index < 0)
-			{
-				newTile = new AnimatedTile();
-				animatedTiles.push_back(dynamic_cast<AnimatedTile*>(newTile));
-			}
-			else
-				newTile = new Tile();
-
-			newTile->Load(index, texture.get(), jsonFile);
-			tiles[row].emplace_back(newTile);
-
+			tile = _tileSet->GetTile(index);
+			_tiles[row].emplace_back(tile);
 			col++;
 		}
 
@@ -145,7 +102,7 @@ void TileMapRenderer::Draw(PCamera camera)
 	using CLib::ToInt;
 	using CLib::ceili;
 	using CLib::floori;
-	
+
 	const float halfHeightPx = (ToFloat(height) / 2.0f) * ToFloat(tileHeight);
 	const float halfWidthPx = (ToFloat(width) / 2.0f) * ToFloat(tileWidth);
 
@@ -155,7 +112,7 @@ void TileMapRenderer::Draw(PCamera camera)
 	transform._41 -= halfWidthPx;
 	transform = camera->GetMatrix(transform);
 	Graphics::SetSpriteTransform(transform);
-	
+
 	//get screen height and width then divide them by 2;
 	Size viewPort = Setting::GetHalfResolution();
 	Matrix tileMapMatrix;
@@ -163,10 +120,10 @@ void TileMapRenderer::Draw(PCamera camera)
 	tileMapMatrix = camera->GetWorldMatrix() * tileMapMatrix;
 
 	Vector3 points[4];
-	points[0] = {-static_cast<float>(viewPort.width), -static_cast<float>(viewPort.height), 0};
-	points[1] = {-static_cast<float>(viewPort.width),  static_cast<float>(viewPort.height), 0};
-	points[2] = { static_cast<float>(viewPort.width), -static_cast<float>(viewPort.height), 0};
-	points[3] = { static_cast<float>(viewPort.width),  static_cast<float>(viewPort.height), 0};
+	points[0] = { -static_cast<float>(viewPort.width), -static_cast<float>(viewPort.height), 0 };
+	points[1] = { -static_cast<float>(viewPort.width),  static_cast<float>(viewPort.height), 0 };
+	points[2] = { static_cast<float>(viewPort.width), -static_cast<float>(viewPort.height), 0 };
+	points[3] = { static_cast<float>(viewPort.width),  static_cast<float>(viewPort.height), 0 };
 
 	GraphicsMath::TransformVector3(points[0], points[0], tileMapMatrix);
 	GraphicsMath::TransformVector3(points[1], points[1], tileMapMatrix);
@@ -180,7 +137,7 @@ void TileMapRenderer::Draw(PCamera camera)
 			maxX = point.x;
 		else if (point.x < minX)
 			minX = point.x;
-		
+
 		if (point.y > maxY)
 			maxY = point.y;
 		else if (point.y < minY)
@@ -192,16 +149,16 @@ void TileMapRenderer::Draw(PCamera camera)
 	minY = _pixelHeight - (minY + _pixelHeight / 2.0f);
 	maxX = maxX + ToFloat(_pixelWidth) / 2.0f;
 	minX = minX + ToFloat(_pixelWidth) / 2.0f;
-	int startRow =	ceili(minY / ToFloat(tileWidth)) - 1;
-	int endRow =	ceili(maxY / ToFloat(tileWidth)) + 1;
-	int startCol =	ceili(minX / ToFloat(tileWidth)) - 1;
-	int endCol =	ceili(maxX / ToFloat(tileWidth)) + 1;
-	
+	int startRow = ceili(minY / ToFloat(tileWidth)) - 1;
+	int endRow = ceili(maxY / ToFloat(tileWidth)) + 1;
+	int startCol = ceili(minX / ToFloat(tileWidth)) - 1;
+	int endCol = ceili(maxX / ToFloat(tileWidth)) + 1;
+
 	startRow = startRow < 0 ? 0 : startRow;
 	endRow = endRow < height ? endRow : height;
 	startCol = startCol < 0 ? 0 : startCol;
 	endCol = endCol < width ? endCol : width;
-	
+
 	Vector3 position;
 	position.z = 0;
 	for (int row = startRow; row < endRow; row++)
@@ -210,15 +167,12 @@ void TileMapRenderer::Draw(PCamera camera)
 		for (int col = startCol; col < endCol; col++)
 		{
 			position.x = static_cast<float>(col * tileWidth);
-			tiles[row][col]->Draw(position);
+			_tiles[row][col].lock()->Draw(position);
 		}
 	}
 }
 
 TileMapRenderer::~TileMapRenderer()
 {
-	for (const auto& row : tiles)
-		for (const auto& col : row)
-			delete col;
-	tiles.clear();
+	_tiles.clear();
 }

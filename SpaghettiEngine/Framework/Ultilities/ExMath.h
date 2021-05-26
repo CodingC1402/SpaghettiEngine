@@ -54,4 +54,10 @@ namespace CLib
 			return true;
 		return false;
 	}
+	template<typename T>
+	constexpr T modulo(const T& f1, const T& f2)
+	{
+		int i = std::floor(f1 / f2);
+		return static_cast<T>(f1 - (i * f2));
+	}
 }

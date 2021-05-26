@@ -26,6 +26,8 @@ public:
 	[[nodiscard]] bool IsResourceUnused() const override;
 	[[nodiscard]] PImage GetImage() const;
 	[[nodiscard]] SSprite GetSprite(const unsigned int& index) noexcept;
+	[[nodiscard]] std::vector<SSprite> GetAllSprites() noexcept;
+	[[nodiscard]] unsigned GetSpritesNumber() noexcept;
 protected:
 	std::vector<SSprite>sprites;
 	PImage image;
