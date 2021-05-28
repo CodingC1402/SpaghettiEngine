@@ -127,8 +127,14 @@ void Graphics::SetPolygonTransform(const Matrix4& matrix)
 	GetInstance()->_lineTransformMatrix = matrix;
 }
 
-void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color)
+void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color, float width)
 {
+	if (!width)
+		return;
+
+	GetInstance()->_lineHandler->SetWidth(width);
+	GetInstance()->_lineHandler->Begin();
+
 	auto size = vertexes.size();
 	Vector2* dxVertexes = new Vector2[size + 1];
 	Vector3 transformed;
@@ -145,6 +151,7 @@ void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color)
 		size + 1,
 		color
 	);
+	GetInstance()->_lineHandler->End();
 }
 
 void Graphics::AddCamera(PCamera camera)
@@ -195,6 +202,10 @@ void Graphics::CreateResource()
 	result = D3DXCreateLine(renderDevice, &_lineHandler);
 	if (FAILED(result))
 		throw GRAPHICS_EXCEPT_CODE(result);
+	else if (!Setting::IsResolutionPixelPerfect())
+	{
+		_lineHandler->SetAntialias(TRUE);
+	}
 
 	if (!renderer)
 		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
@@ -373,15 +384,12 @@ void Graphics::Render()
 
 		if (_renderLock.try_lock())
 		{
-			_lineHandler->Begin();
-			_lineHandler->SetWidth(5);
 			const auto cameraScript = *cameraList.begin();
 			for (auto& renderer : _linesBuffer)
 				renderer->Draw(cameraScript);
 			_renderLock.unlock();
 			_lineTransformMatrix = Matrix4::GetDiagonalMatrix();
 		}
-		_lineHandler->End();
 		
 		if (!End())
 			Reset();
@@ -408,6 +416,7 @@ bool Graphics::End()
 		{
 			isDeviceLost = true;
 			spriteHandler->OnLostDevice();
+			_lineHandler->OnLostDevice();
 		}
 		else if (hr == D3DERR_DRIVERINTERNALERROR)
 		{

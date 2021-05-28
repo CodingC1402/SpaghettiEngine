@@ -41,9 +41,14 @@
 			"ID": 3,
 			"Inputs": {
 				"ScriptType": "LineRendererBase",
-				"Type": "Circle",
-				"Radius": 30,
-				"Color": [0, 255, 255]
+				"Type": "Polygon",
+				"Vertexes": [
+					[-10, -10, 0],
+					[-10, 10, 0],
+					[0, 0, 0]
+				],
+				"Color": [255, 0, 255],
+				"LineWidth": 2
 			}
 		}
     ]

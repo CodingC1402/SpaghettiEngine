@@ -10,7 +10,7 @@ void LineRendererBase::Draw(PCamera camera)
 	auto transformedVectexes = _vertexes;
 	for (auto& vectex : transformedVectexes)
 		vectex = vectex * matrix;
-	Graphics::Draw2DPolygon(transformedVectexes, _color);
+	Graphics::Draw2DPolygon(transformedVectexes, _color, _width);
 }
 
 void LineRendererBase::SetVertexes(const std::vector<Vector3>& vertextes)
@@ -47,6 +47,11 @@ void LineRendererBase::SetColor(Color color)
 	_color = color;
 }
 
+void LineRendererBase::SetWidth(const float width)
+{
+	_width = width;
+}
+
 void LineRendererBase::OnEnabled()
 {
 	Graphics::AddLineRender(this);
@@ -65,11 +70,12 @@ void LineRendererBase::Load(nlohmann::json& inputObject)
 	constexpr auto heightField = "Height";
 	constexpr auto radiusField = "Radius";
 	constexpr auto centerField = "Center";
+	constexpr auto lineWidthField = "LineWidth";
 
 	std::string type = inputObject[LoadingJson::Field::typeField].get<std::string>();
 	if (type == "Polygon")
 	{
-		_vertexes.reserve(inputObject[vertexesField].size());
+		_vertexes = std::vector<Vector3>(inputObject[vertexesField].size());
 		for (int i = 0; i < _vertexes.size(); i++)
 		{
 			auto vertexJson = inputObject[vertexesField][i];
@@ -97,4 +103,7 @@ void LineRendererBase::Load(nlohmann::json& inputObject)
 
 	if (inputObject[colorField] != nullptr)
 		_color = XRGB(inputObject[colorField][0], inputObject[colorField][1], inputObject[colorField][2]);
+
+	if (inputObject[lineWidthField] != nullptr)
+		_width = inputObject[lineWidthField].get<float>();
 }

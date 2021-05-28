@@ -13,6 +13,7 @@ public:
 	void SetCircle(float radius, const Vector3& center = Vector3());
 	void SetBox(const float width, const float height);
 	void SetColor(Color color);
+	void SetWidth(const float width);
 
 	void OnEnabled() override;
 	void OnDisabled() override;
@@ -23,6 +24,7 @@ protected:
 
 	std::vector<Vector3> _vertexes;
 	Color _color = WHITE;
+	float _width = 5;
 private:
 	REGISTER_START(LineRendererBase);
 };

@@ -67,7 +67,7 @@ public:
 	static void DrawSprite(const SSprite& sprite, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
 	
 	static void SetPolygonTransform(const Matrix4& matrix);
-	static void Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color = WHITE);
+	static void Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color = WHITE, float width = 2);
 	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
