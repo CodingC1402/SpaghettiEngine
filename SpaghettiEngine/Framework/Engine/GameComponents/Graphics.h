@@ -13,9 +13,11 @@
 /// Singleton directx9 wrapper
 /// </summary>
 
+typedef class LineRendererBase* PLineRendererBase;
 typedef class Render2DScriptBase* PRender2DScriptBase;
 typedef class Camera* PCamera;
 typedef class Graphics* PGraphics;
+
 
 class Graphics
 {
@@ -58,8 +60,14 @@ public:
 	static void AddRender2D(PRender2DScriptBase renderScript);
 	static void RemoveRender2D(PRender2DScriptBase renderScript);
 
+	static void AddLineRender(PLineRendererBase script);
+	static void RemoveLineRender(PLineRendererBase script);
+
 	static void SetSpriteTransform(Matrix4& matrix);
 	static void DrawSprite(const SSprite& sprite, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
+	
+	static void SetPolygonTransform(const Matrix4& matrix);
+	static void Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color = WHITE);
 	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
@@ -98,6 +106,10 @@ protected:
 	RenderDevice renderDevice = nullptr;
 	PresentParam presentParam;
 	SpriteHandler spriteHandler = nullptr;
+
+	LineHandler _lineHandler = nullptr;
+	Matrix4 _lineTransformMatrix;
+
 	ColorFormat colorFormat = ColorFormat::RGB32Bit;
 	UINT videoAdapter = D3DADAPTER_DEFAULT;
 	std::vector<DisplayMode> adapterMode;
@@ -111,6 +123,7 @@ protected:
 	bool isPixelPerfect = false;
 	std::list<PCamera> cameraList;
 	std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D;
+	std::list<PLineRendererBase> _linesBuffer;
 
 	static PGraphics __instance;
 private:

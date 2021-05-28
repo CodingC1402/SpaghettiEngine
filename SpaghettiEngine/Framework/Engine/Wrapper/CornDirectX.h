@@ -32,3 +32,6 @@ typedef D3DCOLOR Color;
 typedef D3DXIMAGE_INFO ImageInfo;
 typedef LPD3DXFONT FontHandler;
 typedef LPDIRECT3DTEXTURE9 PImage;
+typedef LPD3DXLINE LineHandler;
+
+typedef D3DXVECTOR2 Vector2;

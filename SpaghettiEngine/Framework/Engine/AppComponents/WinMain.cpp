@@ -4,6 +4,7 @@
 #include "SpriteRenderer.h"
 #include "Animator.h"
 #include "TileMapRenderer.h"
+#include "LineRenderBase.h"
 
 BOOL WinMain::Start(
 	HINSTANCE	hInstance,
@@ -25,4 +26,5 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new SpriteRenderer(nullptr);
 	dummyScript = new Animator(nullptr);
 	dummyScript = new TileMapRenderer(nullptr);
+	dummyScript = new LineRendererBase(nullptr);
 }

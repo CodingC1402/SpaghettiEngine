@@ -5,6 +5,7 @@
 #include "Render2DScriptBase.h"
 #include "Setting.h"
 #include "Sprite.h"
+#include "LineRenderBase.h"
 #include <fstream>
 #include <DirectXMath.h>
 
@@ -85,6 +86,16 @@ void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
+void Graphics::AddLineRender(PLineRendererBase script)
+{
+	GetInstance()->_linesBuffer.push_back(script);
+}
+
+void Graphics::RemoveLineRender(PLineRendererBase script)
+{
+	GetInstance()->_linesBuffer.remove(script);
+}
+
 void Graphics::SetSpriteTransform(Matrix4& matrix)
 {
 	if (Setting::IsWorldPointPixelPerfect())
@@ -107,6 +118,31 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 		&srcRect,
 		&dxCenter,
 		&dxPos,
+		color
+	);
+}
+
+void Graphics::SetPolygonTransform(const Matrix4& matrix)
+{
+	GetInstance()->_lineTransformMatrix = matrix;
+}
+
+void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color)
+{
+	auto size = vertexes.size();
+	Vector2* dxVertexes = new Vector2[size + 1];
+	Vector3 transformed;
+	for (int i = 0; i < size; i++)
+	{
+		transformed = vertexes[i] * GetInstance()->_lineTransformMatrix;
+		dxVertexes[i].x = transformed.x;
+		dxVertexes[i].y = transformed.y;
+	}
+	dxVertexes[size] = dxVertexes[0];
+
+	GetInstance()->_lineHandler->Draw(
+		dxVertexes,
+		size + 1,
 		color
 	);
 }
@@ -156,6 +192,7 @@ void Graphics::CreateResource()
 	if (FAILED(result))
 		throw GRAPHICS_EXCEPT_CODE(result);
 
+	result = D3DXCreateLine(renderDevice, &_lineHandler);
 	if (FAILED(result))
 		throw GRAPHICS_EXCEPT_CODE(result);
 
@@ -181,7 +218,11 @@ void Graphics::ReleaseResource()
 		renderDevice->Release();
 	if (spriteHandler)
 		spriteHandler->Release();
+	if (_lineHandler)
+		_lineHandler->Release();
 	renderDevice = nullptr;
+	_lineHandler = nullptr;
+	spriteHandler = nullptr;
 }
 
 void Graphics::FullScreen()
@@ -296,6 +337,7 @@ void Graphics::Render()
 		if (_renderLock.try_lock())
 		{
 			spriteHandler->Begin(ALPHABLEND);
+
 			const auto cameraScript = *cameraList.begin();
 			for (auto& layer : _renderBuffer2D)
 				for (auto renderScript2D = layer.begin(); renderScript2D != layer.end(); ++renderScript2D)
@@ -328,6 +370,18 @@ void Graphics::Render()
 			);
 		}
 		spriteHandler->End();
+
+		if (_renderLock.try_lock())
+		{
+			_lineHandler->Begin();
+			_lineHandler->SetWidth(5);
+			const auto cameraScript = *cameraList.begin();
+			for (auto& renderer : _linesBuffer)
+				renderer->Draw(cameraScript);
+			_renderLock.unlock();
+			_lineTransformMatrix = Matrix4::GetDiagonalMatrix();
+		}
+		_lineHandler->End();
 		
 		if (!End())
 			Reset();

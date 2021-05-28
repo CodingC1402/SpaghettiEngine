@@ -14,6 +14,9 @@
 					},
 					{
 						"ID": 2
+					},
+					{
+						"ID": 3
 					}
 				]
 			}
@@ -32,6 +35,15 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "MoveScript"	
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "LineRendererBase",
+				"Type": "Circle",
+				"Radius": 30,
+				"Color": [0, 255, 255]
 			}
 		}
     ]
