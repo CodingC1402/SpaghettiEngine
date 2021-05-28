@@ -6,7 +6,7 @@
 
 constexpr auto n = 4;
 
-Matrix4::Matrix4(float numbers[])
+Matrix4::Matrix4(const float numbers[])
 {
 	for (int r = 0; r < n; r++)
 		for (int c = 0; c < n; c++)
@@ -21,6 +21,17 @@ const float* Matrix4::operator[](unsigned row) const
 float* Matrix4::operator[](unsigned row)
 {
 	return _numbers[row];
+}
+
+Matrix4 Matrix4::GetDiagonalMatrix()
+{
+	float numbers[16] = {
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1
+	};
+	return Matrix4(numbers);
 }
 
 Matrix4& Matrix4::operator=(const Matrix4& matrix)
@@ -155,7 +166,7 @@ Matrix4 Matrix4::Div(const float& scalar) const
 	return rValue;
 }
 
-D3DXMATRIX Matrix4::ConvertToDxMatrix()
+D3DXMATRIX Matrix4::ConvertToDxMatrix() const
 {
 	auto dxMatrix = D3DXMATRIX();
 	dxMatrix._11 = _numbers[0][0];

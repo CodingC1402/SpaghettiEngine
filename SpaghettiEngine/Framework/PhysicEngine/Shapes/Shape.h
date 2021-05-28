@@ -1,5 +1,6 @@
 #pragma once
 #include "Body2D.h"
+#include "Matrix.h"
 
 class Shape;
 typedef std::weak_ptr<Shape> WShape;
@@ -16,6 +17,7 @@ public:
 	};
 public:
 	virtual void Initialize() = 0;
+	virtual void UpdateTransform(const Matrix4& matrix) = 0;
 	virtual void ComputeMass(float density) = 0;
 	virtual void SetOrient(float radians) = 0;
 	virtual void Draw(void) const = 0;

@@ -5,11 +5,13 @@
 class Matrix4
 {
 public:
-	Matrix4(float numbers[]);
+	Matrix4(const float numbers[]);
 	Matrix4() = default;
 
 	const float* operator[] (unsigned row) const;
 	float* operator[] (unsigned row);
+
+	static Matrix4 GetDiagonalMatrix();
 
 	Matrix4& operator= (const Matrix4& matrix);
 	Matrix4& operator*=(const Matrix4& matrix);
@@ -41,8 +43,9 @@ public:
 	float	GetDet(int n) const;
 	Matrix4 GetAdj() const;
 
-	D3DXMATRIX ConvertToDxMatrix();
+	D3DXMATRIX ConvertToDxMatrix() const;
 public:
+
 	PROPERTY(float, _11);
 	GET(_11) const { return _numbers[0][0]; }
 	SET(_11) { _numbers[0][0] = value; }

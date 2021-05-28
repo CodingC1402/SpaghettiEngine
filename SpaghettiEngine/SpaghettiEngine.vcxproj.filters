@@ -24,9 +24,6 @@
     <Filter Include="FrameWork\Resource">
       <UniqueIdentifier>{fc16ac28-7441-4030-8831-574bdebeeac1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts">
-      <UniqueIdentifier>{5171b50b-020f-4f2f-a64b-a0b52ea4d5aa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\Engine\AppComponents">
       <UniqueIdentifier>{07596afc-66c0-4a7d-b54a-0fa0f5a6cfc4}</UniqueIdentifier>
     </Filter>
@@ -272,6 +269,12 @@
     <ClInclude Include="Framework\Math\SMath.h">
       <Filter>FrameWork\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\Material.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\LineRenderBase.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -456,6 +459,12 @@
     </ClCompile>
     <ClCompile Include="Framework\Math\SMath.cpp">
       <Filter>FrameWork\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\Material.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\LineRenderBase.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
