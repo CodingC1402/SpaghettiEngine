@@ -146,9 +146,6 @@
     <ClInclude Include="Framework\Engine\Containers\ResourceContainer.h">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\Physic.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Scene.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
@@ -345,9 +342,6 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Containers\ResourceContainer.cpp">
       <Filter>FrameWork\Engine\Containers</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\Physic.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
