@@ -2,7 +2,6 @@
 #include "Monitor.h"
 #include "Setting.h"
 #include "json.hpp"
-#include "GraphicsMath.h"
 #include "Render2DScriptBase.h"
 #include "Setting.h"
 #include "Sprite.h"
@@ -86,24 +85,28 @@ void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
-void Graphics::SetSpriteTransform(Matrix& matrix)
+void Graphics::SetSpriteTransform(Matrix4& matrix)
 {
 	if (Setting::IsWorldPointPixelPerfect())
 	{
 		matrix._41 = std::round(matrix._41);
 		matrix._42 = std::round(matrix._42);
 	}
-	GetInstance()->spriteHandler->SetTransform(&matrix);
+	auto dxMatrix = matrix.ConvertToDxMatrix();
+	GetInstance()->spriteHandler->SetTransform(&dxMatrix);
 }
 
 void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Vector3& position, const Color& color)
 {
 	RECT srcRect = sprite->GetSourceRect();
+	auto dxCenter = center.ConvertToDxVector();
+	auto dxPos = position.ConvertToDxVector();
+
 	GetInstance()->spriteHandler->Draw(
 		sprite->GetSource()->GetImage(),
 		&srcRect,
-		&center,
-		&position,
+		&dxCenter,
+		&dxPos,
 		color
 	);
 }
@@ -307,13 +310,14 @@ void Graphics::Render()
 			os << std::floor(fps + 0.5) << std::endl;
 			const std::wstring str = os.str();
 
-			const auto temp = GraphicsMath::NewMatrix();
-			temp->_11 = 1;
-			temp->_22 = 1;
-			temp->_33 = 1;
-			temp->_44 = 1;
-			
-			spriteHandler->SetTransform(temp);
+			Matrix4 temp;
+			temp._11 = 1;
+			temp._22 = 1;
+			temp._33 = 1;
+			temp._44 = 1;
+			auto dxTemp = temp.ConvertToDxMatrix();
+
+			spriteHandler->SetTransform(&dxTemp);
 			fpsFont->DrawTextW(
 				spriteHandler,
 				str.c_str(),
@@ -322,7 +326,6 @@ void Graphics::Render()
 				DT_CHARSTREAM,
 				MAGENTA
 			);
-			delete temp;
 		}
 		spriteHandler->End();
 		

@@ -28,8 +28,8 @@ public:
 protected:
     std::vector<SSprite> _sprites;
     SSprite _currentSprite;
-    double _delay;
-    double _currentTime;
+    float _delay;
+    float _currentTime;
 }*PAnimatedTile;
 typedef std::shared_ptr<Tile> STile;
 typedef std::weak_ptr<Tile> WTile;

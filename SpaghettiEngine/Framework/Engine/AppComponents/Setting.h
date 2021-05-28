@@ -1,7 +1,7 @@
 #pragma once
 #include "Plane2D.h"
 #include "CornException.h"
-#include "ExMath.h"
+#include "SMath.h"
 #include <string>
 
 class Setting

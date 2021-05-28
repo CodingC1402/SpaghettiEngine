@@ -3,7 +3,7 @@
 #include "SpaghettiEnginePath.h"
 #include "Sprite.h"
 #include "GameTimer.h"
-#include "ExMath.h"
+#include "SMath.h"
 #include "CornException.h"
 #include "LoadingJson.h"
 
@@ -39,7 +39,7 @@ void AnimatedTile::Draw(const Vector3& position)
 	if (_currentTime != GameTimer::GetGameTime())
 	{
 		_currentTime = GameTimer::GetGameTime();
-		_currentSprite = _sprites[CLib::modulo<unsigned>(GameTimer::GetGameTime() / _delay, _sprites.size())];
+		_currentSprite = _sprites[SMath::modulo<unsigned>(GameTimer::GetGameTime() / _delay, _sprites.size())];
 	}
 	Vector3 center = _currentSprite->GetCenter();
 	Graphics::DrawSprite(_currentSprite, _currentSprite->GetCenter(), position);

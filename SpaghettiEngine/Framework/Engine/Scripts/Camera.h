@@ -1,6 +1,5 @@
 #pragma once
 #include "ScriptBase.h"
-#include "CornDirectX.h"
 
 typedef class Camera* PCamera;
 typedef const Camera* CPCamera;
@@ -10,7 +9,7 @@ class Camera : public ScriptBase
 	friend class Graphics;
 public:
 	Camera(PScene owner);
-	virtual Matrix	GetMatrix(const Matrix& originalMatrix);
+	virtual Matrix4	GetMatrix(const Matrix4& originalMatrix);
 	virtual void	OnUpdate() override;
 
 	virtual void	OnDisabled() override;
@@ -22,9 +21,9 @@ public:
 	virtual [[nodiscard]] PGameObj	GetFollow();
 	virtual void	RemoveFollow();
 protected:
-	Matrix cameraMatrix;
-	Matrix viewMatrix;
-	Matrix flipYMatrix;
+	Matrix4 cameraMatrix;
+	Matrix4 viewMatrix;
+	Matrix4 flipYMatrix;
 	
 	Scene::WBaseComponent _followingPtr;
 	PGameObj _followingObj;

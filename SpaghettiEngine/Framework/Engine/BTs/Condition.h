@@ -1,6 +1,6 @@
 #pragma once
 #include "BTs.h"
-#include "Macros.h"
+#include "BTMacros.h"
 #include "ObservePattern.h"
 
 template<typename T>
@@ -123,7 +123,7 @@ DEFINE_CONDITION_TYPE(CharCon, char);
 DEFINE_CONDITION_TYPE(IntCon, int);
 DEFINE_CONDITION_TYPE(UnsignedCon, unsigned);
 DEFINE_CONDITION_TYPE(FloatCon, float);
-DEFINE_CONDITION_TYPE(DoubleCon, double);
+DEFINE_CONDITION_TYPE(floatCon, float);
 DEFINE_CONDITION_TYPE(BoolCon, bool);
 DEFINE_CONDITION_TYPE(LongLongCon, long long);
 DEFINE_CONDITION_TYPE(UnsignedLongLongCon, unsigned long long);

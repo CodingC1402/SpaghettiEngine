@@ -2,7 +2,7 @@
 #include "CornException.h"
 #include "Graphics.h"
 #include "StringConverter.h"
-#include "GraphicsMath.h"
+#include "SMath.h"
 #include "Setting.h"
 
 REGISTER_FINISH(SpriteRenderer);
@@ -10,7 +10,6 @@ REGISTER_FINISH(SpriteRenderer);
 SpriteRenderer::SpriteRenderer(PScene owner) : Render2DScriptBase(owner)
 {
 	transformMatrix._11 = 1;
-	GraphicsMath::ZeroMatrix(&transformMatrix);
 
 	transformMatrix._11 = 1;
 	transformMatrix._22 = 1;
@@ -20,7 +19,7 @@ SpriteRenderer::SpriteRenderer(PScene owner) : Render2DScriptBase(owner)
 	_name = TYPE_NAME(SpriteRenderer);
 }
 
-Matrix SpriteRenderer::GetSpriteMatrix() const noexcept
+Matrix4 SpriteRenderer::GetSpriteMatrix() const noexcept
 {
 	return transformMatrix;
 }
@@ -48,7 +47,7 @@ void SpriteRenderer::Draw(PCamera camera)
 {
 	RECT srcRect = GetSourceRect();
 	Vector3 center = GetCenter();
-	Matrix transform = camera->GetMatrix(transformMatrix * GetWorldMatrix());
+	Matrix4 transform = camera->GetMatrix(transformMatrix * GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
 	Graphics::DrawSprite(sprite, GetCenter());
 }

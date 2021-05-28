@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "Macros.h"
+#include "BTMacros.h"
 #include "ObservePattern.h"
 #include "json.hpp"
 
@@ -153,7 +153,7 @@ private:
 		FIELD_REGISTER(char);
 		FIELD_REGISTER(string);
 		FIELD_REGISTER(float);
-		FIELD_REGISTER(double);
+		FIELD_REGISTER(float);
 		FIELD_REGISTER(unsigned);
 		FIELD_REGISTER(int);
 		FIELD_REGISTER(long long);

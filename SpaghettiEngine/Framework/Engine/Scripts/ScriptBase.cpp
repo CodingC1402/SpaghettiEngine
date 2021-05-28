@@ -58,7 +58,7 @@ const char* ScriptBase::GetName() const noexcept
 	return  _name.c_str();
 }
 
-Matrix ScriptBase::GetWorldMatrix() const noexcept
+Matrix4 ScriptBase::GetWorldMatrix() const noexcept
 {
 	return _ownerObj->GetWorldMatrix();
 }

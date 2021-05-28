@@ -10,9 +10,9 @@ typedef const unsigned long long* PCULL;
 namespace CLib
 {
 	template<typename T>
-	constexpr auto ToDouble(const T& value)
+	constexpr auto Tofloat(const T& value)
 	{
-		return static_cast<double>(value);
+		return static_cast<float>(value);
 	}
 	template<typename T>
 	constexpr auto ToFloat(const T& value)

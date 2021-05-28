@@ -30,8 +30,8 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 	{
 		Size resolution = Setting::GetResolution();
 		bool isPixelPerfect = Setting::IsResolutionPixelPerfect();
-		double ratioW = width / (double)resolution.width;
-		double ratioH = height / (double)resolution.height;
+		float ratioW = width / (float)resolution.width;
+		float ratioH = height / (float)resolution.height;
 		if (isPixelPerfect)
 		{
 			ratioW = (int)ratioW;

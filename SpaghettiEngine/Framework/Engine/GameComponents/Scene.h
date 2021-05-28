@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CornException.h"
-#include "ExMath.h"
+#include "SMath.h"
 #include <string>
 #include <list>
 #include <map>

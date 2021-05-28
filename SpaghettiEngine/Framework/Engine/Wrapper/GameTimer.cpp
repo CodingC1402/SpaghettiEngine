@@ -2,7 +2,7 @@
 
 PGameTimer GameTimer::__instance = NULL;
 
-void GameTimer::SetTimeScale(double value)
+void GameTimer::SetTimeScale(float value)
 {
 	__instance->timeScale = value;
 }

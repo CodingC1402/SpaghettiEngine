@@ -7,7 +7,7 @@ class GameTimer
 {
 	friend class Game;
 public:
-	static void SetTimeScale(double value);
+	static void SetTimeScale(float value);
 
 	static float GetTimeScale();
 	static float GetRealTime();
