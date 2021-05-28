@@ -4,6 +4,8 @@
 #include "GameWnd.h"
 #include "Texture.h"
 #include "MultiThread.h"
+#include "Matrix.h"
+#include "Vector3.h"
 #include <vector>
 #include <mutex>
 
@@ -56,7 +58,7 @@ public:
 	static void AddRender2D(PRender2DScriptBase renderScript);
 	static void RemoveRender2D(PRender2DScriptBase renderScript);
 
-	static void SetSpriteTransform(Matrix& matrix);
+	static void SetSpriteTransform(Matrix4& matrix);
 	static void DrawSprite(const SSprite& sprite, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
 	
 	static void AddCamera(PCamera camera);
@@ -103,8 +105,8 @@ protected:
 	bool isDeviceLost = false;
 
 	STimer timer;
-	double delayPerFrame;
-	double timeSinceLastFrame;
+	float delayPerFrame;
+	float timeSinceLastFrame;
 
 	bool isPixelPerfect = false;
 	std::list<PCamera> cameraList;

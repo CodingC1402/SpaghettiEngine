@@ -1,5 +1,5 @@
 #pragma once
-#include "ExMath.h"
+#include "SMath.h"
 #include "json.hpp"
 #include "Scene.h"
 #include "Prefabs.h"

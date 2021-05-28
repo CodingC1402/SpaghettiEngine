@@ -1,5 +1,5 @@
 #include "ServiceNodes.h"
-#include "Macros.h"
+#include "BTMacros.h"
 
 using namespace BTField;
 
@@ -104,7 +104,7 @@ Node::State Wait::Tick()
     else
     {
         auto now = std::chrono::system_clock::now();
-        std::chrono::duration<double> timepassed = now - _start;
+        std::chrono::duration<float> timepassed = now - _start;
         if (timepassed.count() * 1000 >= _waitMs)
         {
             auto result = _child->Tick();

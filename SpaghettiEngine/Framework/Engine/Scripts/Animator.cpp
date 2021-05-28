@@ -21,7 +21,7 @@ void Animator::OnUpdate()
 void Animator::Draw(PCamera camera)
 {
 	_sprite = _ani->GetSpriteOfFrame(frame);
-	Matrix transform = camera->GetMatrix(GetWorldMatrix());
+	Matrix4 transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
 	Graphics::DrawSprite(_sprite, _sprite->GetCenter());
 }

@@ -1,7 +1,7 @@
 #include "MoveScript.h"
 #include "GameTimer.h"
 #include "Graphics.h"
-#include "ExMath.h"
+#include "SMath.h"
 
 REGISTER_FINISH(MoveScript);
 

@@ -6,7 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include <mutex>
-#include "ExMath.h"
+#include "SMath.h"
 #include "CornException.h"
 #include "json.hpp"
 

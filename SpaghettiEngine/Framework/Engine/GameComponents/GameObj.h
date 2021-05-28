@@ -46,7 +46,7 @@ public:
 		string _extraDescription;
 	};
 public:
-	[[nodiscard]] Matrix			GetWorldMatrix();
+	[[nodiscard]] Matrix4			GetWorldMatrix();
 	[[nodiscard]] Vector3			GetWorldTransform() const;
 	[[nodiscard]] Vector3			GetWorldRotation() const;
 	[[nodiscard]] Vector3			GetWorldScale() const;
@@ -133,10 +133,10 @@ protected:
 	Vector3 _rotation; // In degree
 	Vector3 _scale;
 
-	Matrix _transformMatrix;
-	Matrix _rotationMatrix;
-	Matrix _scaleMatrix;
-	Matrix _worldMatrix;
+	Matrix4 _transformMatrix;
+	Matrix4 _rotationMatrix;
+	Matrix4 _scaleMatrix;
+	Matrix4 _worldMatrix;
 
 	list<std::shared_ptr<BaseComponent>> _scriptsPtr;
 	list<PScriptBase> _scripts;

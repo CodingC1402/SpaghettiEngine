@@ -23,7 +23,7 @@ void Timer::Start() noexcept
 void Timer::Mark() noexcept
 {
     const auto currentTimePoint = std::chrono::high_resolution_clock::now();
-    const std::chrono::duration<double> dif = currentTimePoint - previousTimePoint;
+    const std::chrono::duration<float> dif = currentTimePoint - previousTimePoint;
 
     deltaTime = dif.count();
     previousTimePoint = currentTimePoint;

@@ -27,21 +27,6 @@
     <Filter Include="Scripts">
       <UniqueIdentifier>{5171b50b-020f-4f2f-a64b-a0b52ea4d5aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scripts\Source Files">
-      <UniqueIdentifier>{267084b3-fe85-45d2-823a-3a09a971c41a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scripts\Header Files">
-      <UniqueIdentifier>{615871ca-dacb-45e0-b359-b35d32dd6191}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Ultilities">
-      <UniqueIdentifier>{9688644e-e7a1-4623-9913-164ed426aec7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Ultilities\Header Files">
-      <UniqueIdentifier>{8e04e15c-d81f-496d-8d2d-8533c1d3055d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Ultilities\Source Files">
-      <UniqueIdentifier>{cc6aefe8-77c4-4df2-b533-9b7f2cbae2da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\Engine\AppComponents">
       <UniqueIdentifier>{07596afc-66c0-4a7d-b54a-0fa0f5a6cfc4}</UniqueIdentifier>
     </Filter>
@@ -59,6 +44,27 @@
     </Filter>
     <Filter Include="FrameWork\Engine\Containers">
       <UniqueIdentifier>{82114ada-612c-43f0-83b4-972754f4a559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Utilities">
+      <UniqueIdentifier>{9688644e-e7a1-4623-9913-164ed426aec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\Scripts">
+      <UniqueIdentifier>{1b9a016a-5a86-479e-ac48-a5e3f9df770e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\PhysicEngine">
+      <UniqueIdentifier>{8330b262-acb3-437e-891e-a8b07925632f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\PhysicEngine\Components">
+      <UniqueIdentifier>{0deb4047-11bd-4001-9948-825099c8bdf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\PhysicEngine\Scripts">
+      <UniqueIdentifier>{6e91b973-a356-4e10-9511-85f3c73da653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\PhysicEngine\Shapes">
+      <UniqueIdentifier>{3b28d632-a55f-41f1-81aa-f4d0d581ac1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Math">
+      <UniqueIdentifier>{bcbf7e90-a662-41d4-a443-f383175b31a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -79,54 +85,6 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>FrameWork\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Scripts\SpriteRenderer.h">
-      <Filter>Scripts\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Scripts\ScriptBase.h">
-      <Filter>Scripts\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Scripts\Camera.h">
-      <Filter>Scripts\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\Monitor.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\Plane2D.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\StringConverter.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\Timer.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\GraphicsMath.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\Debug.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Scripts\Animator.h">
-      <Filter>Scripts\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Scripts\Render2DScriptBase.h">
-      <Filter>Scripts\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Scripts\TileMapRenderer.h">
-      <Filter>Scripts\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\ExMath.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\Path.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\MultiThread.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Ultilities\Extra.h">
-      <Filter>FrameWork\Ultilities\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\AppComponents\LoadingJson.h">
       <Filter>FrameWork\Engine\AppComponents</Filter>
@@ -170,7 +128,7 @@
     <ClInclude Include="Framework\Engine\BTs\Condition.h">
       <Filter>FrameWork\Engine\BTs</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\BTs\Macros.h">
+    <ClInclude Include="Framework\Engine\BTs\BTMacros.h">
       <Filter>FrameWork\Engine\BTs</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Containers\Sprite.h">
@@ -198,9 +156,6 @@
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\Transform.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Game.h">
@@ -233,6 +188,90 @@
     <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Utilities\MultiThread.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Path.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Plane2D.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\StringConverter.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Timer.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Debug.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\ExMath.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Extra.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Monitor.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\SpriteRenderer.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\TileMapRenderer.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Camera.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Render2DScriptBase.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\ScriptBase.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Scripts\Collider2DBase.h">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Scripts\RigidBody2D.h">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\Physic.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\Body2D.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\Collision.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Shapes\Shape.h">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Shapes\Circle.h">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Shapes\Polygon.h">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\PhysicMath.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Math\Vector3.h">
+      <Filter>FrameWork\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Math\Matrix.h">
+      <Filter>FrameWork\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Macros.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Math\SMath.h">
+      <Filter>FrameWork\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -246,54 +285,6 @@
     </ClCompile>
     <ClCompile Include="Framework\Window\KeyBoard.cpp">
       <Filter>FrameWork\Window\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\SpriteRenderer.cpp">
-      <Filter>Scripts\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\ScriptBase.cpp">
-      <Filter>Scripts\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\Camera.cpp">
-      <Filter>Scripts\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\Debug.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\GraphicsMath.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\Monitor.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\Plane2D.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\StringConverter.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\Timer.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\Animator.cpp">
-      <Filter>Scripts\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\Render2DScriptBase.cpp">
-      <Filter>Scripts\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Scripts\TileMapRenderer.cpp">
-      <Filter>Scripts\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\ExMath.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\Path.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\MultiThread.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Ultilities\Extra.cpp">
-      <Filter>FrameWork\Ultilities\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\AppComponents\Setting.cpp">
       <Filter>FrameWork\Engine\AppComponents</Filter>
@@ -361,9 +352,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
@@ -388,6 +376,87 @@
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Utilities\MultiThread.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Path.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Plane2D.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\StringConverter.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Timer.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Debug.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\ExMath.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Extra.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Monitor.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\SpriteRenderer.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\TileMapRenderer.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Camera.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Render2DScriptBase.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\ScriptBase.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Scripts\RigidBody2D.cpp">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Scripts\Collider2DBase.cpp">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\Physic.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\Body2D.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\Collision.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Shapes\Shape.cpp">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Shapes\Circle.cpp">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Shapes\Polygon.cpp">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\PhysicMath.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Math\Vector3.cpp">
+      <Filter>FrameWork\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Math\Matrix.cpp">
+      <Filter>FrameWork\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Math\SMath.cpp">
+      <Filter>FrameWork\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico">
@@ -410,5 +479,10 @@
       <Filter>FrameWork\Resource</Filter>
     </None>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Framework\Utilities\GitHub.txt">
+      <Filter>FrameWork\Utilities</Filter>
+    </Text>
   </ItemGroup>
 </Project>

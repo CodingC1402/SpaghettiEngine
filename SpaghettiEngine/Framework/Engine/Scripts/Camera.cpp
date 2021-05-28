@@ -1,7 +1,6 @@
 #include "Camera.h"
 #include "Setting.h"
 #include "Graphics.h"
-#include "GraphicsMath.h"
 #include "LoadingJson.h"
 
 REGISTER_FINISH(Camera);
@@ -9,25 +8,23 @@ REGISTER_FINISH(Camera);
 Camera::Camera(PScene owner) : ScriptBase(owner)
 {
 	_name = TYPE_NAME(Camera);
-	GraphicsMath::ZeroMatrix(&viewMatrix);
 	viewMatrix._11 = 1;
 	viewMatrix._22 = -1;
 	viewMatrix._33 = 1;
 	viewMatrix._44 = 1;
 
-	GraphicsMath::ZeroMatrix(&flipYMatrix);
 	flipYMatrix._11 = 1;
 	flipYMatrix._22 = -1;
 	flipYMatrix._33 = 1;
 	flipYMatrix._44 = 1;
 }
 
-Matrix Camera::GetMatrix(const Matrix& originalMatrix)
+Matrix4 Camera::GetMatrix(const Matrix4& originalMatrix)
 {
 	if (needRecalculateMatrix)
 	{
 		needRecalculateMatrix = false;
-		GraphicsMath::Inverse(GetWorldMatrix(), cameraMatrix);
+		cameraMatrix = GetWorldMatrix().Inverse();
 		cameraMatrix *= viewMatrix;
 	}
 	return flipYMatrix * originalMatrix * cameraMatrix;

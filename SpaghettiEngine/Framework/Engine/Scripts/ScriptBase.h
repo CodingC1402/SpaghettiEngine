@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObj.h"
-#include "CornDirectX.h"
+#include "Vector3.h"
 #include "json.hpp"
 #include "CornException.h"
 #include "Scene.h"
@@ -59,7 +59,7 @@ public:
 	void AssignOwner(const PGameObj& owner);
 	
 	[[nodiscard]] const char* GetName() const noexcept;
-	[[nodiscard]] Matrix	GetWorldMatrix() const noexcept;
+	[[nodiscard]] Matrix4	GetWorldMatrix() const noexcept;
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	

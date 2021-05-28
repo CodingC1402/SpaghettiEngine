@@ -2,14 +2,14 @@
 #include "json.hpp"
 #include "GameTimer.h"
 #include "Animation.h"
-#include "ExMath.h"
-#include "GraphicsMath.h"
+#include "SMath.h"
 #include "LoadingJson.h"
+#include "Graphics.h"
+#include "SMath.h"
+
 #include <fstream>
 #include <algorithm>
 #include <Setting.h>
-
-#include "Graphics.h"
 
 using namespace nlohmann;
 using namespace std;
@@ -101,16 +101,11 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 
 void TileMapRenderer::Draw(PCamera camera)
 {
-	using CLib::ToFloat;
-	using CLib::ToInt;
-	using CLib::ceili;
-	using CLib::floori;
-
-	const float halfHeightPx = (ToFloat(height) / 2.0f) * ToFloat(tileHeight);
-	const float halfWidthPx = (ToFloat(width) / 2.0f) * ToFloat(tileWidth);
+	const float halfHeightPx = (SMath::ToFloat(height) / 2.0f) * SMath::ToFloat(tileHeight);
+	const float halfWidthPx = (SMath::ToFloat(width) / 2.0f) * SMath::ToFloat(tileWidth);
 
 	//Set tiles map transform
-	Matrix transform = GetWorldMatrix();
+	Matrix4 transform = GetWorldMatrix();
 	transform._42 += halfHeightPx;
 	transform._41 -= halfWidthPx;
 	transform = camera->GetMatrix(transform);
@@ -118,8 +113,8 @@ void TileMapRenderer::Draw(PCamera camera)
 
 	//get screen height and width then divide them by 2;
 	Size viewPort = Setting::GetHalfResolution();
-	Matrix tileMapMatrix;
-	GraphicsMath::Inverse(GetWorldMatrix(), tileMapMatrix);
+	Matrix4 tileMapMatrix = GetWorldMatrix().Inverse();
+
 	tileMapMatrix = camera->GetWorldMatrix() * tileMapMatrix;
 
 	Vector3 points[4];
@@ -128,10 +123,10 @@ void TileMapRenderer::Draw(PCamera camera)
 	points[2] = { static_cast<float>(viewPort.width), -static_cast<float>(viewPort.height), 0 };
 	points[3] = { static_cast<float>(viewPort.width),  static_cast<float>(viewPort.height), 0 };
 
-	GraphicsMath::TransformVector3(points[0], points[0], tileMapMatrix);
-	GraphicsMath::TransformVector3(points[1], points[1], tileMapMatrix);
-	GraphicsMath::TransformVector3(points[2], points[2], tileMapMatrix);
-	GraphicsMath::TransformVector3(points[3], points[3], tileMapMatrix);
+	SMath::TransformVector3(points[0], points[0], tileMapMatrix);
+	SMath::TransformVector3(points[1], points[1], tileMapMatrix);
+	SMath::TransformVector3(points[2], points[2], tileMapMatrix);
+	SMath::TransformVector3(points[3], points[3], tileMapMatrix);
 
 	float maxX = points[0].x, maxY = points[0].y, minX = points[0].x, minY = points[0].y;
 	for (const auto& point : points)
@@ -150,12 +145,12 @@ void TileMapRenderer::Draw(PCamera camera)
 	std::swap(maxY, minY);
 	maxY = _pixelHeight - (maxY + _pixelHeight / 2.0f);
 	minY = _pixelHeight - (minY + _pixelHeight / 2.0f);
-	maxX = maxX + ToFloat(_pixelWidth) / 2.0f;
-	minX = minX + ToFloat(_pixelWidth) / 2.0f;
-	int startRow = ceili(minY / ToFloat(tileWidth)) - 1;
-	int endRow = ceili(maxY / ToFloat(tileWidth)) + 1;
-	int startCol = ceili(minX / ToFloat(tileWidth)) - 1;
-	int endCol = ceili(maxX / ToFloat(tileWidth)) + 1;
+	maxX = maxX + SMath::ToFloat(_pixelWidth) / 2.0f;
+	minX = minX + SMath::ToFloat(_pixelWidth) / 2.0f;
+	int startRow = SMath::ceili(minY / SMath::ToFloat(tileWidth)) - 1;
+	int endRow = SMath::ceili(maxY / SMath::ToFloat(tileWidth)) + 1;
+	int startCol = SMath::ceili(minX / SMath::ToFloat(tileWidth)) - 1;
+	int endCol = SMath::ceili(maxX / SMath::ToFloat(tileWidth)) + 1;
 
 	startRow = startRow < 0 ? 0 : startRow;
 	endRow = endRow < height ? endRow : height;

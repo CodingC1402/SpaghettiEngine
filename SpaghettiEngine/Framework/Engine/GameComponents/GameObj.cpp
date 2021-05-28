@@ -1,11 +1,11 @@
 #include "GameObj.h"
 #include "json.hpp"
 #include "CornException.h"
-#include "GraphicsMath.h"
 #include "ScriptBase.h"
 #include "Scene.h"
 #include "LoadingJson.h"
 #include "Setting.h"
+#include "SMath.h"
 #include <fstream>
 
 nlohmann::json GameObj::defaultJson = {
@@ -18,7 +18,7 @@ nlohmann::json GameObj::defaultJson = {
 };
 
 #pragma region Get
-Matrix GameObj::GetWorldMatrix()
+Matrix4 GameObj::GetWorldMatrix()
 {
 	CalculateWorldMatrix();
 	return _worldMatrix;
@@ -123,7 +123,7 @@ void GameObj::SetRotation(const Vector3& vec3)
 	if (_rotation == vec3)
 	{
 		_rotation = vec3;
-		GraphicsMath::Modulo(_rotation, 360.0f);
+		SMath::Modulo(_rotation, 360.0f);
 		_isRotationChanged = true;
 		ForceRecalculateMatrix();
 	}
@@ -166,7 +166,7 @@ void GameObj::Rotate(const Vector3& rotation)
 		return;
 	
 	_rotation += rotation;
-	GraphicsMath::Modulo(_rotation, 360.0f);
+	SMath::Modulo(_rotation, 360.0f);
 	_isRotationChanged = true;
 	ForceRecalculateMatrix();
 }
@@ -481,15 +481,15 @@ void GameObj::RecursiveClearScripts()
 }
 
 #pragma endregion 
-#pragma region Matrix Calculation
+#pragma region Matrix4 Calculation
 void GameObj::CalculateRotationMatrix()
 {
 	if (!_isRotationChanged)
 		return;
 	
-	const Matrix XAxis = GraphicsMath::GetXAxisRotateMatrix(_rotation.x);
-	const Matrix YAxis = GraphicsMath::GetYAxisRotateMatrix(_rotation.y);
-	const Matrix ZAxis = GraphicsMath::GetZAxisRotateMatrix(_rotation.z);
+	const Matrix4 XAxis = SMath::GetXAxisRotateMatrix(_rotation.x);
+	const Matrix4 YAxis = SMath::GetYAxisRotateMatrix(_rotation.y);
+	const Matrix4 ZAxis = SMath::GetZAxisRotateMatrix(_rotation.z);
 	
 	_rotationMatrix = XAxis * ZAxis * YAxis;
 	_isRotationChanged = false;
