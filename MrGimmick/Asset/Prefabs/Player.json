@@ -5,7 +5,7 @@
 			"Inputs": {
 				"Tag": "Player",
 				"GameObjects": [],
-				"Transform": [ 0, 0, 0 ],
+				"Transform": [ 0, 240, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
@@ -17,6 +17,12 @@
 					},
 					{
 						"ID": 3
+					},
+					{
+						"ID": 4
+					},
+					{
+						"ID": 5
 					}
 				]
 			}
@@ -42,6 +48,22 @@
 			"Inputs": {
 				"ScriptType": "CircleCollider",
 				"Radius": 10
+			}
+		},
+		{
+			"ID": 4,
+			"Inputs": {
+				"ScriptType": "CircleCollider",
+				"Radius": 5,
+				"OffSetY": 10
+			}
+		},
+		{
+			"ID": 5,
+			"Inputs": {
+				"ScriptType": "RigidBody2D",
+				"Mass": 5,
+				"GravityScale": 2
 			}
 		}
     ]

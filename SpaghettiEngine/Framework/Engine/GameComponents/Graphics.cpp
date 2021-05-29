@@ -302,7 +302,7 @@ void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 }
 
 
-void Graphics::Render()
+void Graphics::Render(float alpha)
 {
 	if (cameraList.empty())
 		return;

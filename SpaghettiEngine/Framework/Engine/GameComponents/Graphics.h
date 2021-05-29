@@ -88,7 +88,7 @@ protected:
 	void Init(const STimer& timer, const ColorFormat& colorFormat);
 
 	HRESULT Begin() const noexcept;
-	void Render();
+	void Render(float alpha);
 	bool End();
 	bool Reset();
 

@@ -10,6 +10,7 @@ class Camera : public ScriptBase
 public:
 	Camera(PScene owner);
 	virtual Matrix4	GetMatrix(const Matrix4& originalMatrix);
+	virtual Matrix4 GetMatrixWithoutScaleY(const Matrix4& originalMatrix);
 	virtual void	OnUpdate() override;
 
 	virtual void	OnDisabled() override;

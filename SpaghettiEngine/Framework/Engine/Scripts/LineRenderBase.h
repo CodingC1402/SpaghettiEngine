@@ -7,7 +7,7 @@ class LineRendererBase : public ScriptBase
 {
 	friend class Collider2DBase;
 public:
-	LineRendererBase(PScene owner, bool isDisabled = false) : ScriptBase(owner, isDisabled) {};
+	LineRendererBase(PScene owner, bool isDisabled = false);
 
 	virtual void Draw(PCamera camera);
 	void SetVertexes(const std::vector<Vector3>& vertextes);
@@ -15,6 +15,8 @@ public:
 	void SetBox(const float width, const float height);
 	void SetColor(Color color);
 	void SetWidth(const float width);
+	void SetOffSetX(const float x);
+	void SetOffSetY(const float y);
 
 	void OnEnabled() override;
 	void OnDisabled() override;
@@ -23,6 +25,7 @@ public:
 protected:
 	static constexpr unsigned _vertextesForCircle = 20;
 
+	Matrix4 _offSetMatrix;
 	std::vector<Vector3> _vertexes;
 	Color _color = ARGB(255, 0, 255, 127);
 	float _width = 2;

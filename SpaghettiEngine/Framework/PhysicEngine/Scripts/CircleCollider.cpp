@@ -15,7 +15,8 @@ void CircleCollider::Load(nlohmann::json& input)
 	if (input[_radiusField] != nullptr)
 		_shapeCircle->SetRadius(input[_radiusField].get<float>());
 	Collider2DBase::Load(input);
-	if (Setting::IsDebugMode())
+
+	if constexpr (Setting::IsDebugMode())
 	{
 		_lineRenderer->SetCircle(_shapeCircle->GetRadius());
 	}

@@ -1,15 +1,16 @@
 #include "Physic.h"
 #include "GameTimer.h"
+#include "SMath.h"
 
-float Physic::Update(const float& time)
+void Physic::Update(const float& time)
 {
 	_accumulator += GameTimer::GetDeltaTime();
-	while (_accumulator >= _step)
+	if (_accumulator >= _step)
 	{
-		Step();
-		_accumulator -= _step;
+		//Step();
+		_accumulator = SMath::modulo(_accumulator, _step);
 	}
-	return _accumulator / _step;
+	return;
 }
 
 void Physic::Step()
@@ -66,4 +67,19 @@ void Physic::RemoveShape(Shape* _shape)
 			return;
 		}
 	}
+}
+
+void Physic::AddBody(Body2D* body)
+{
+	_body2D.push_back(body);
+}
+
+void Physic::RemoveBody(Body2D* body)
+{
+	for (auto it = _body2D.begin(); it != _body2D.end(); ++it)
+		if (*it == body)
+		{
+			_body2D.erase(it);
+			return;
+		}
 }
