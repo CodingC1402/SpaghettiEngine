@@ -15,6 +15,13 @@ public:
 	[[nodiscard]] float GetDynamicFriction();
 	[[nodiscard]] float GetStaticFriction();
 
+	void SetNormal(const Vector3& vec);
+	void SetPenetration(const float& pen);
+
+	void SetRestituation(const float& f);
+	void SetDynamicFriction(const float& f);
+	void SetStaticFriction(const float& f);
+
 	bool Solve();
 	void Initialize();            // Recalculations for impulse solving
 	void ApplyImpulse();          // Solve impulse and apply

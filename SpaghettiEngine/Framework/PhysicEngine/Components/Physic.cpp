@@ -21,9 +21,7 @@ void Physic::Step()
 		{
 			Collision newCollide(_shapes[i], _shapes[j]);
 			if (newCollide.Solve())
-			{
 				_contacts.emplace_back(newCollide);
-			}
 		}
 	}
 }
@@ -40,10 +38,10 @@ float Physic::GetStep()
 
 void Physic::SetGravity(const float& gravity)
 {
-	_gravity = gravity;
+	_gravity.y = -gravity;
 }
 
-float Physic::GetGravity()
+const Vector3& Physic::GetGravity()
 {
 	return _gravity;
 }

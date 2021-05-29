@@ -28,21 +28,34 @@ public:
 	void SetVelocity(const Vector3& velocity);
 	[[nodiscard]] const Vector3& GetVelocity();
 
-	void SetPosity(const Vector3& pos);
+	void SetPosition(const Vector3& pos);
 	[[nodiscard]] const Vector3& GetPosition();
+
+	void SetWorldMatrix(const Matrix4& mat);
+	[[nodiscard]] const Matrix4& GetWorldMatrix();
+
+	void SetRotation(const float& degree);
+	[[nodiscard]] const float& GetRoation();
+
+	void SetGravityScale(const float& scale);
+	[[nodiscard]] const float& GetGravityScale();
 
 	void Assign(WMaterial material);
 	void SetStatic();
 
-	void ApplyImpulse(const Vector3& impulse, const Vector3& contactVector);
+	void ApplyImpulse(const Vector3& impulse);
 	void ApplyForce(const Vector3& force);
+
+	void IntergateForces();
+	void IntergateVelocity();
 protected:
 	static SBody2D _defaultBody;
 
-	Vector3 _position;
+	Matrix4 _worldMatrix; 
 	Vector3 _velocity;
 
 	Vector3 _force;
+	float _rotation = 0;
 
 	float _inertia = 0;
 	float _inverseInertia = 0;

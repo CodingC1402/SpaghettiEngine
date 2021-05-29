@@ -23,6 +23,16 @@ public:
 	static Matrix4	GetYAxisRotateMatrix(const float& degree);
 	static Matrix4	GetZAxisRotateMatrix(const float& degree);
 
+	template<typename T1, typename T2>
+	static constexpr auto Max(const T1& value1, const T2& value2)
+	{
+		return value1 > value2 ? value1 : value2;
+	}
+	template<typename T1, typename T2>
+	static constexpr auto Min(const T1& value1, const T2& value2)
+	{
+		return value1 < value2 ? value1 : value2;
+	}
 	template<typename T>
 	static constexpr auto Tofloat(const T& value)
 	{

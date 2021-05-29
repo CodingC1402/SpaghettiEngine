@@ -272,6 +272,9 @@
     <ClInclude Include="Framework\Engine\Scripts\LineRenderBase.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -459,6 +462,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\LineRenderBase.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
