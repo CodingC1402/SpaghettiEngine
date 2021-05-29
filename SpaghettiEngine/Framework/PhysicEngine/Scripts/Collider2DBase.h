@@ -1,19 +1,18 @@
 #pragma once
 
 #include "ScriptBase.h"
-#include "ObservePattern.h"
 #include "LineRenderBase.h"
 #include "Body2D.h"
 #include "Shape.h"
 
-class Collider2DBase : public Observer, public ScriptBase
+class Collider2DBase : public ScriptBase
 {
 public:
 	Collider2DBase(PScene owner);
 
 	void OnEnabled() override;
 	void OnDisabled() override;
-	void OnChange() override;
+	void OnChange();
 
 	void AssignOwner(const PGameObj& gameObj) override;
 

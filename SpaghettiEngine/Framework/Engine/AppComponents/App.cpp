@@ -6,6 +6,7 @@
 #include <iomanip>
 
 PApp App::__instance = nullptr;
+constexpr float _loopCap = 0.00001;
 
 App::~App() noexcept
 {
@@ -37,13 +38,16 @@ BOOL App::Go()
 		while ( running )
 		{
 			timer->Mark();
-
-			if (Window::ProcessMessages() == WM_QUIT)
+			_accumulation += timer->GetDeltaTime();
+			while (_accumulation >= _loopCap)
 			{
-				CallQuit();
+				if (Window::ProcessMessages() == WM_QUIT) {
+					CallQuit();
+					break;
+				}
+				DoFrame();
+				_accumulation -= _loopCap;
 			}
-
-			DoFrame();
 		}
 		
 		PostQuitMessage(1);

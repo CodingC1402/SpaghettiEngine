@@ -16,6 +16,30 @@ void PhysicComponent::Component2D::RemoveBody(WBody2D body)
 	CallOnChange();
 }
 
+void PhysicComponent::Component2D::CallOnChange()
+{
+	for (auto it = _colliders.begin(); it != _colliders.end(); ++it)
+		(*it)->OnChange();
+}
+
+void PhysicComponent::Component2D::Subscribe(Collider2DBase* collider)
+{
+	for (auto it = _colliders.begin(); it != _colliders.end(); ++it)
+		if (*it == collider)
+			return;
+	_colliders.push_back(collider);
+}
+
+void PhysicComponent::Component2D::UnSubscribe(Collider2DBase* collider)
+{
+	for (auto it = _colliders.begin(); it != _colliders.end(); ++it)
+		if (*it == collider)
+		{
+			_colliders.erase(it);
+			return;
+		}
+}
+
 WBody2D PhysicComponent::Component2D::GetBody2D()
 {
 	return _body;

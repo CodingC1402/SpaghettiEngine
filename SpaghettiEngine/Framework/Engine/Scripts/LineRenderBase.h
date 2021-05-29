@@ -24,8 +24,8 @@ protected:
 	static constexpr unsigned _vertextesForCircle = 20;
 
 	std::vector<Vector3> _vertexes;
-	Color _color = WHITE;
-	float _width = 5;
+	Color _color = ARGB(255, 0, 255, 127);
+	float _width = 2;
 private:
 	REGISTER_START(LineRendererBase);
 };
