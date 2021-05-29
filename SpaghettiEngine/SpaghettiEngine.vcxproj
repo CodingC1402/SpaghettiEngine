@@ -43,7 +43,6 @@
     <ClInclude Include="Framework\Engine\GameComponents\Game.h" />
     <ClInclude Include="Framework\Engine\GameComponents\GameObj.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Graphics.h" />
-    <ClInclude Include="Framework\Engine\GameComponents\Physic.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Scene.h" />
     <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h" />
     <ClInclude Include="Framework\Engine\Scripts\Animator.h" />
@@ -67,6 +66,7 @@
     <ClInclude Include="Framework\PhysicEngine\Components\Collision.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Material.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Physic.h" />
+    <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicMath.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\Collider2DBase.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\RigidBody2D.h" />
@@ -113,7 +113,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp" />
-    <ClCompile Include="Framework\Engine\GameComponents\Physic.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp" />
@@ -135,6 +134,7 @@
     <ClCompile Include="Framework\PhysicEngine\Components\Collision.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Material.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Physic.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicMath.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\Collider2DBase.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\RigidBody2D.cpp" />

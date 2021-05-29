@@ -6,6 +6,8 @@ class Shape;
 typedef std::weak_ptr<Shape> WShape;
 typedef std::shared_ptr<Shape> SShape;
 
+class Collision;
+
 class Shape
 {
 public:
@@ -16,14 +18,30 @@ public:
 		TypeCount
 	};
 public:
+	Shape();
 	virtual void Initialize() = 0;
-	virtual void UpdateTransform(const Matrix4& matrix) = 0;
-	virtual void ComputeMass(float density) = 0;
-	virtual void SetOrient(float radians) = 0;
-	virtual void Draw(void) const = 0;
-	virtual Type GetType(void) const = 0;
+	virtual Type GetType() const = 0;
+
+	[[nodiscard]] float GetRestitution();
+	[[nodiscard]] float GetStaticFriction();
+	[[nodiscard]] float GetDynamicFriction();
+	[[nodiscard]] float GetInverseMass();
+	[[nodiscard]] float GetMass();
+	[[nodiscard]] Vector3 GetVelocity();
+	[[nodiscard]] Vector3 GetGravityVector();
+	
+	void SetOffSetX(const float& x);
+	void SetOffSetY(const float& y);
+	[[nodiscard]] const float& GetOffSetX();
+	[[nodiscard]] const float& GetOffSetY();
+
+	void SetBody(WBody2D body);
+	void ToStaic();
 
 	WBody2D GetBody();
 protected:
 	WBody2D _body = Body2D::GetDefaultBody();
+
+	Matrix4 _offSetMatrix;
+	bool _isStatic = true;
 };

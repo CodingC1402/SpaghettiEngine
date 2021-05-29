@@ -2,6 +2,7 @@
 #include "json.hpp"
 #include "CornDirectX.h"
 #include "CornException.h"
+#include "PhysicComponent.h"
 #include "Scene.h"
 #include <memory>
 #include <list>
@@ -89,6 +90,8 @@ public:
 	void AddParentWithoutCalculateLocal(const PGameObj& gameObj);
 	void RemoveParentWithoutCalculateLocal();
 
+	PhysicComponent& GetPhysicComponent();
+
 	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	PScriptBase AddScript(const PScriptBase& script);
 	PGameObj	AddChild(const PGameObj& child);
@@ -137,6 +140,8 @@ protected:
 	Matrix4 _rotationMatrix;
 	Matrix4 _scaleMatrix;
 	Matrix4 _worldMatrix;
+
+	PhysicComponent _physic;
 
 	list<std::shared_ptr<BaseComponent>> _scriptsPtr;
 	list<PScriptBase> _scripts;

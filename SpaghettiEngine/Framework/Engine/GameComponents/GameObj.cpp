@@ -257,6 +257,10 @@ void GameObj::RemoveParentWithoutCalculateLocal()
 	parent = nullptr;
 	ForceRecalculateMatrix();
 }
+PhysicComponent& GameObj::GetPhysicComponent()
+{
+	return _physic;
+}
 #pragma endregion
 #pragma region Constructor/Destructor
 GameObj::GameObj(PScene owner, bool isDisabled)
