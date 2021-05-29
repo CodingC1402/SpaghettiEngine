@@ -6,10 +6,10 @@ class Collision
 {
 	friend class Physic;
 public:
-	Collision(WShape A, WShape B);
+	Collision(Shape* A, Shape* B);
 
-	[[nodiscard]] WShape GetShapeA();
-	[[nodiscard]] WShape GetShapeB();
+	[[nodiscard]] Shape* GetShapeA();
+	[[nodiscard]] Shape* GetShapeB();
 
 	[[nodiscard]] float GetRestituation();
 	[[nodiscard]] float GetDynamicFriction();
@@ -28,15 +28,15 @@ public:
 	void PositionalCorrection();  // Naive correction of positional penetration
 	void InfiniteMassCorrection();
 protected:
-	WShape _shapeA;
-	WShape _shapeB;
+	Shape* _shapeA = nullptr;
+	Shape* _shapeB = nullptr;
 
-	float _penetration;
+	float _penetration = 0;
 	Vector3 _normal;
 
-	float _restitution;
-	float _dynamicFriction;
-	float _staticFriction;
+	float _restitution = 0;
+	float _dynamicFriction = 0;
+	float _staticFriction = 0;
 
 	static std::vector<std::vector<bool (*)(Collision*)>> _collisionFunctions;
 };

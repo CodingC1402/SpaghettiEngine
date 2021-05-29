@@ -4,6 +4,7 @@
 #include "SpriteRenderer.h"
 #include "Animator.h"
 #include "TileMapRenderer.h"
+#include "CircleCollider.h"
 #include "LineRenderBase.h"
 
 BOOL WinMain::Start(
@@ -27,4 +28,5 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new Animator(nullptr);
 	dummyScript = new TileMapRenderer(nullptr);
 	dummyScript = new LineRendererBase(nullptr);
+	dummyScript = new CircleCollider(nullptr);
 }

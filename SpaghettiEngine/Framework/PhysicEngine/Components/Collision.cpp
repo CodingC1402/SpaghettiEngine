@@ -8,21 +8,23 @@ std::vector<std::vector<bool (*)(Collision*)>> Collision::_collisionFunctions = 
 	{&Polygon::PolygonCircle,& Polygon::PolygonPolygon}
 };
 
-Collision::Collision(WShape A, WShape B)
+Collision::Collision(Shape* A, Shape* B)
 {
 	_shapeA = A;
 	_shapeB = B;
 }
 
-WShape Collision::GetShapeA()
+Shape* Collision::GetShapeA()
 {
 	return _shapeA;
 }
 
-WShape Collision::GetShapeB()
+Shape* Collision::GetShapeB()
 {
 	return _shapeB;
 }
+
+
 
 float Collision::GetRestituation()
 {
@@ -67,7 +69,7 @@ void Collision::SetStaticFriction(const float& f)
 
 bool Collision::Solve()
 {
-	return (_collisionFunctions[static_cast<unsigned>(_shapeA.lock()->GetType())][static_cast<unsigned>(_shapeB.lock()->GetType())])(this);
+	return (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 }
 
 void Collision::Initialize()
@@ -79,6 +81,6 @@ void Collision::PositionalCorrection()
 {
 	constexpr float kSlop = 0.05f;
 	constexpr float percent = 0.4f;
-	float correctionFloat = percent * (SMath::Max(_penetration - kSlop, 0.0f) / (_shapeA.lock()->GetInverseMass() + _shapeB.lock()->GetInverseMass()));
+	float correctionFloat = percent * (SMath::Max(_penetration - kSlop, 0.0f) / (_shapeA->GetInverseMass() + _shapeB->GetInverseMass()));
 	Vector3 correction(_normal * correctionFloat);
 }

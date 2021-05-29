@@ -19,7 +19,6 @@ public:
 	};
 public:
 	Shape();
-	virtual void Initialize() = 0;
 	virtual Type GetType() const = 0;
 
 	[[nodiscard]] float GetRestitution();
@@ -34,6 +33,9 @@ public:
 	void SetOffSetY(const float& y);
 	[[nodiscard]] const float& GetOffSetX();
 	[[nodiscard]] const float& GetOffSetY();
+
+	void RemoveFromPhysic();
+	void AddToPhysic();
 
 	void SetBody(WBody2D body);
 	void ToStaic();

@@ -66,6 +66,10 @@ const float& Shape::GetOffSetY()
 	return _offSetMatrix._42;
 }
 
+void Shape::AddToPhysic()
+{
+}
+
 void Shape::SetBody(WBody2D body)
 {
 	if (!_isStatic)

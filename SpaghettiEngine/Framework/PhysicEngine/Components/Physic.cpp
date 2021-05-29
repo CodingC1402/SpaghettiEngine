@@ -45,3 +45,25 @@ const Vector3& Physic::GetGravity()
 {
 	return _gravity;
 }
+
+void Physic::AddShape(Shape* shape)
+{
+	for (auto& addedShape : _shapes)
+	{
+		if (addedShape == shape)
+			return;
+	}
+	_shapes.push_back(shape);
+}
+
+void Physic::RemoveShape(Shape* _shape)
+{
+	for (auto it = _shapes.begin(); it != _shapes.end(); ++it)
+	{
+		if (*it == _shape)
+		{
+			_shapes.erase(it);
+			return;
+		}
+	}
+}
