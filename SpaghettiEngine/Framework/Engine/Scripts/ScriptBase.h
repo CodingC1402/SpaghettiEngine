@@ -56,7 +56,7 @@ public:
 	};
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
-	void AssignOwner(const PGameObj& owner);
+	virtual void AssignOwner(const PGameObj& owner);
 	
 	[[nodiscard]] const char* GetName() const noexcept;
 	[[nodiscard]] Matrix4	GetWorldMatrix() const noexcept;

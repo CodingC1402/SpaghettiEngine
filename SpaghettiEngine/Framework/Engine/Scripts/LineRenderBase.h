@@ -5,6 +5,7 @@
 
 class LineRendererBase : public ScriptBase
 {
+	friend class Collider2DBase;
 public:
 	LineRendererBase(PScene owner, bool isDisabled = false) : ScriptBase(owner, isDisabled) {};
 

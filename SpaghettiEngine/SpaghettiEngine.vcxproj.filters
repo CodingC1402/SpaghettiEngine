@@ -275,6 +275,9 @@
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Scripts\CircleCollider.h">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -465,6 +468,9 @@
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Scripts\CircleCollider.cpp">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -11,10 +11,20 @@ Vector3 Circle::GetCenter() const
 	return _body.lock()->GetPosition();
 }
 
+void Circle::SetRadius(const float& radius)
+{
+	_radius = radius;
+}
+
+float& Circle::GetRadius()
+{
+	return _radius;
+}
+
 bool Circle::CircleCircle(Collision* collision)
 {
-	auto shapeA = std::dynamic_pointer_cast<Circle>(collision->GetShapeA().lock());
-	auto shapeB = std::dynamic_pointer_cast<Circle>(collision->GetShapeB().lock());
+	auto shapeA = dynamic_cast<Circle*>(collision->GetShapeA());
+	auto shapeB = dynamic_cast<Circle*>(collision->GetShapeB());
 
 	Vector3 normal = shapeA->GetCenter() - shapeB->GetCenter();
 	float sumRadius = shapeA->_radius + shapeB->_radius;
