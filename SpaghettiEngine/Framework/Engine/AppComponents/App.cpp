@@ -82,7 +82,7 @@ BOOL App::Go()
 void App::DoFrame() const
 {
 	game->Update();
-	float alpha = Physic::Update(timer->GetDeltaTime());
+	Physic::Update(timer->GetDeltaTime());
 	gfx->Render();
 }
 

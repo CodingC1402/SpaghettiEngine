@@ -30,6 +30,6 @@ protected:
 	static inline Vector3 _gravity = Vector3(0, -10.0f, 0);
 
 	static inline std::deque<Shape*> _shapes;
-	static inline std::deque<Body2D*> _2Dbody;
+	static inline std::deque<Body2D*> _body2D;
 	static inline std::list<Collision> _contacts;
 };

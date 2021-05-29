@@ -7,7 +7,7 @@ void Physic::Update(const float& time)
 	_accumulator += GameTimer::GetDeltaTime();
 	if (_accumulator >= _step)
 	{
-		//Step();
+		Step();
 		_accumulator = SMath::modulo(_accumulator, _step);
 	}
 	return;
@@ -25,6 +25,31 @@ void Physic::Step()
 				_contacts.emplace_back(newCollide);
 		}
 	}
+
+	for (auto& body : _body2D) {
+		body->IntergateForces();
+	}
+
+	for (auto& contact : _contacts) {
+		contact.Initialize();
+	}
+
+	for (auto& contact : _contacts) {
+		contact.ApplyImpulse();
+	}
+
+	for (auto& body : _body2D) {
+		body->IntergateVelocity();
+	}
+
+	for (auto& contact : _contacts) {
+		contact.PositionalCorrection();
+	}
+
+	for (auto& body : _body2D) {
+		body->SetForce(Vector3(0, 0, 0));
+	}
+	_contacts.clear();
 }
 
 void Physic::SetStep(const float& step)

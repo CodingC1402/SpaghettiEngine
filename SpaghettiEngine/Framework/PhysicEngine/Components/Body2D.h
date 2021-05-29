@@ -28,6 +28,9 @@ public:
 	void SetVelocity(const Vector3& velocity);
 	[[nodiscard]] const Vector3& GetVelocity();
 
+	void SetForce(const Vector3& force);
+	[[nodiscard]] const Vector3& GetForce();
+
 	void SetPosition(const Vector3& pos);
 	[[nodiscard]] const Vector3& GetPosition();
 
