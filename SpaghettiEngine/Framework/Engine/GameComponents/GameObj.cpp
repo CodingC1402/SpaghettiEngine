@@ -321,7 +321,7 @@ void GameObj::Load(nlohmann::json& input)
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::scriptsField;
 		for (const auto& script : input[Field::scriptsField])
-			dynamic_cast<PScriptBase>(_owner->GetComponent(script[Field::idField].get<CULL>()).get())->AssignOwner(this);
+			dynamic_cast<ScriptBase*>(_owner->GetComponent(script[Field::idField].get<CULL>()).get())->AssignOwner(this);
 
 		if (!(input[Field::isRootField] == nullptr || !input[Field::isRootField].get<bool>() || parent != nullptr))
 			_owner->PromoteGameObjToRoot(this);

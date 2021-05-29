@@ -40,15 +40,8 @@
 		{
 			"ID": 3,
 			"Inputs": {
-				"ScriptType": "LineRendererBase",
-				"Type": "Polygon",
-				"Vertexes": [
-					[-10, -10, 0],
-					[-10, 10, 0],
-					[0, 0, 0]
-				],
-				"Color": [255, 0, 255],
-				"LineWidth": 2
+				"ScriptType": "CircleCollider",
+				"Radius": 10
 			}
 		}
     ]

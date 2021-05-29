@@ -15,11 +15,17 @@ void Collider2DBase::OnEnabled()
 	PhysicComponent* physic = &_ownerObj->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
+
+	if constexpr (Setting::IsDebugMode())
+		_lineRenderer->OnEnabled();
 }
 
 void Collider2DBase::OnDisabled()
 {
 	_ownerObj->GetPhysicComponent().UnSubscribeTo2D(this);
+
+	if constexpr (Setting::IsDebugMode())
+		_lineRenderer->OnDisabled();
 }
 
 void Collider2DBase::OnChange()
