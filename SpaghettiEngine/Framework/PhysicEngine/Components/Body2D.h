@@ -14,14 +14,26 @@ typedef std::shared_ptr<Shape> SShape;
 
 class Body2D 
 {
+	friend class Shape;
 public:
 	static WBody2D GetDefaultBody();
 
 	void AddShape(const SShape& shape);
 	void RemoveShape(const SShape& shape);
 
-	void SetOrient(float radians);
+	void SetMass(const float& mass);
+	[[nodiscard]] const float& GetMass();
+	[[nodiscard]] const float& GetInverseMass();
+
+	void SetVelocity(const Vector3& velocity);
+	[[nodiscard]] const Vector3& GetVelocity();
+
+	void SetPosity(const Vector3& pos);
+	[[nodiscard]] const Vector3& GetPosition();
+
+	void Assign(WMaterial material);
 	void SetStatic();
+
 	void ApplyImpulse(const Vector3& impulse, const Vector3& contactVector);
 	void ApplyForce(const Vector3& force);
 protected:
@@ -38,9 +50,7 @@ protected:
 	float _mass = 0;
 	float _inverseMass = 0;
 
-	float _orient = 0;
-	float _torque = 0;
-	float _angularVelocity = 0;
+	float _gravityScale = 1;
 
 	std::list<SShape> _shapes;
 	WMaterial _material;
