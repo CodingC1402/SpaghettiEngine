@@ -150,3 +150,8 @@ D3DXVECTOR3 Vector3::ConvertToDxVector() const
 {
 	return D3DXVECTOR3(x, y, z);
 }
+
+Vector3 operator-(Vector3& vec)
+{
+	return Vector3(-vec.x, -vec.y, -vec.z);
+}

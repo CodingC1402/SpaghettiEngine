@@ -3,6 +3,8 @@
 #include "Setting.h"
 #include "Graphics.h"
 #include "Game.h"
+#include "GameTimer.h"
+#include "Physic.h"
 #include <iomanip>
 
 PApp App::__instance = nullptr;
@@ -25,6 +27,8 @@ BOOL App::Go()
 		timer = STimer(Timer::Create());
 		gfx = Graphics::GetInstance();
 		gfx->Init(timer, Graphics::ColorFormat::RGB32Bit);
+
+		Physic::SetStep(1 / Setting::GetFps());
 
 		game = Game::GetInstance();
 		game->Init();
@@ -78,6 +82,7 @@ BOOL App::Go()
 void App::DoFrame() const
 {
 	game->Update();
+	Physic::Update(timer->GetDeltaTime());
 	gfx->Render();
 }
 

@@ -2,6 +2,7 @@
 #include "json.hpp"
 #include "App.h"
 #include "StringConverter.h"
+#include "Physic.h"
 #include "SpaghettiEnginePath.h"
 #include <fstream>
 
@@ -73,10 +74,12 @@ void Setting::Load()
 		constexpr const char* PIXELPERFECT_RESOLUTION = "PixelPerfectResolution";
 		constexpr const char* PIXELPERFECT_WORLDPOINT = "PixelPerfectWorldPoint";
 		constexpr const char* CAPPEDLOOP = "CappedLoop";
+		constexpr const char* GRAVITY = "Gravity";
 		
 		json file;
 		jsonFile >> file;
 
+		Physic::SetGravity(file[GRAVITY].get<float>());
 		resolution.width = file[RESOLUTION][WIDTH].get<int>();
 		resolution.height = file[RESOLUTION][HEIGHT].get<int>();
 		halfResolution.width = resolution.width / 2;

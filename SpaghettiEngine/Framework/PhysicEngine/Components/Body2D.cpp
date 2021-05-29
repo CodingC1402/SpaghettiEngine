@@ -51,6 +51,16 @@ const Vector3& Body2D::GetVelocity()
 	return _velocity;
 }
 
+void Body2D::SetForce(const Vector3& force)
+{
+	_force = force;
+}
+
+const Vector3& Body2D::GetForce()
+{
+	return _force;
+}
+
 void Body2D::SetPosition(const Vector3& pos)
 {
 	_worldMatrix._41 = pos.x;

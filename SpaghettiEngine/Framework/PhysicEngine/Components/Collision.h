@@ -30,6 +30,8 @@ public:
 protected:
 	Shape* _shapeA = nullptr;
 	Shape* _shapeB = nullptr;
+	Body2D* _bodyA = nullptr;
+	Body2D* _bodyB = nullptr;
 
 	float _penetration = 0;
 	Vector3 _normal;
@@ -37,6 +39,9 @@ protected:
 	float _restitution = 0;
 	float _dynamicFriction = 0;
 	float _staticFriction = 0;
+
+	float _restituation = 1.0f;
+	float _inverseMassSum;
 
 	static std::vector<std::vector<bool (*)(Collision*)>> _collisionFunctions;
 };

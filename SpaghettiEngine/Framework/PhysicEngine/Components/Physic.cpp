@@ -1,15 +1,16 @@
 #include "Physic.h"
 #include "GameTimer.h"
+#include "SMath.h"
 
-float Physic::Update(const float& time)
+void Physic::Update(const float& time)
 {
 	_accumulator += GameTimer::GetDeltaTime();
-	while (_accumulator >= _step)
+	if (_accumulator >= _step)
 	{
 		Step();
-		_accumulator -= _step;
+		_accumulator = SMath::modulo(_accumulator, _step);
 	}
-	return _accumulator / _step;
+	return;
 }
 
 void Physic::Step()
@@ -24,6 +25,31 @@ void Physic::Step()
 				_contacts.emplace_back(newCollide);
 		}
 	}
+
+	for (auto& body : _body2D) {
+		body->IntergateForces();
+	}
+
+	for (auto& contact : _contacts) {
+		contact.Initialize();
+	}
+
+	for (auto& contact : _contacts) {
+		contact.ApplyImpulse();
+	}
+
+	for (auto& body : _body2D) {
+		body->IntergateVelocity();
+	}
+
+	for (auto& contact : _contacts) {
+		contact.PositionalCorrection();
+	}
+
+	for (auto& body : _body2D) {
+		body->SetForce(Vector3(0, 0, 0));
+	}
+	_contacts.clear();
 }
 
 void Physic::SetStep(const float& step)
@@ -66,4 +92,19 @@ void Physic::RemoveShape(Shape* _shape)
 			return;
 		}
 	}
+}
+
+void Physic::AddBody(Body2D* body)
+{
+	_body2D.push_back(body);
+}
+
+void Physic::RemoveBody(Body2D* body)
+{
+	for (auto it = _body2D.begin(); it != _body2D.end(); ++it)
+		if (*it == body)
+		{
+			_body2D.erase(it);
+			return;
+		}
 }

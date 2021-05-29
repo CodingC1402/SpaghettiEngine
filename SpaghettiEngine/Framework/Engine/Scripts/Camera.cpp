@@ -21,13 +21,18 @@ Camera::Camera(PScene owner) : ScriptBase(owner)
 
 Matrix4 Camera::GetMatrix(const Matrix4& originalMatrix)
 {
+	return flipYMatrix * GetMatrixWithoutScaleY(originalMatrix);
+}
+
+Matrix4 Camera::GetMatrixWithoutScaleY(const Matrix4& originalMatrix)
+{
 	if (needRecalculateMatrix)
 	{
 		needRecalculateMatrix = false;
 		cameraMatrix = GetWorldMatrix().Inverse();
 		cameraMatrix *= viewMatrix;
 	}
-	return flipYMatrix * originalMatrix * cameraMatrix;
+	return originalMatrix * cameraMatrix;
 }
 
 void Camera::OnUpdate()

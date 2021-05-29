@@ -6,6 +6,7 @@
 #include "TileMapRenderer.h"
 #include "CircleCollider.h"
 #include "LineRenderBase.h"
+#include "RigidBody2D.h"
 
 BOOL WinMain::Start(
 	HINSTANCE	hInstance,
@@ -23,10 +24,12 @@ void WinMain::RegisterSpaghettiScripts()
 {
 	ScriptBase* dummyScript;
 
+	// This is dumb : ^)
 	dummyScript = new Camera(nullptr);
 	dummyScript = new SpriteRenderer(nullptr);
 	dummyScript = new Animator(nullptr);
 	dummyScript = new TileMapRenderer(nullptr);
 	dummyScript = new LineRendererBase(nullptr);
 	dummyScript = new CircleCollider(nullptr);
+	dummyScript = new RigidBody2D(nullptr);
 }

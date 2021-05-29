@@ -49,10 +49,25 @@ void Collider2DBase::SetLineRendererOwner()
 
 void Collider2DBase::Load(nlohmann::json& input)
 {
+	float offSet = 0;
+
 	if (input[_offSetXField] != nullptr)
+	{
+		offSet = input[_offSetXField];
+		if constexpr (Setting::IsDebugMode()) {
+			_lineRenderer->SetOffSetX(offSet);
+		}
 		_shape->SetOffSetX(input[_offSetXField]);
+	}
 	if (input[_offSetYField] != nullptr)
-		_shape->SetOffSetY(input[_offSetYField]);
+	{
+		offSet = input[_offSetYField];
+		if constexpr (Setting::IsDebugMode()) {
+			_lineRenderer->SetOffSetY(offSet);
+		}
+		_shape->SetOffSetY(offSet);
+	}
+
 }
 
 Collider2DBase::~Collider2DBase()

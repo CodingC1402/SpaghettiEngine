@@ -17,7 +17,7 @@ protected:
 	PCamera cam;
 
 	Vector3 move;
-	float movementSpeed = 70;
+	float movementSpeed = 210;
 	bool isFlipped = false;
 private:
 	REGISTER_START(MoveScript);

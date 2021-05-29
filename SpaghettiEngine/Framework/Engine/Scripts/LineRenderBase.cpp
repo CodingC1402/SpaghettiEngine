@@ -4,12 +4,17 @@
 
 REGISTER_FINISH(LineRendererBase);
 
+LineRendererBase::LineRendererBase(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
+{
+	_offSetMatrix = Matrix4::GetDiagonalMatrix();
+}
+
 void LineRendererBase::Draw(PCamera camera)
 {
-	auto matrix = camera->GetMatrix(_ownerObj->GetWorldMatrix());
+	auto matrix = camera->GetMatrixWithoutScaleY(_ownerObj->GetWorldMatrix());
 	auto transformedVectexes = _vertexes;
 	for (auto& vectex : transformedVectexes)
-		vectex = vectex * matrix;
+		vectex = vectex * _offSetMatrix * matrix;
 	Graphics::Draw2DPolygon(transformedVectexes, _color, _width);
 }
 
@@ -52,6 +57,16 @@ void LineRendererBase::SetWidth(const float width)
 	_width = width;
 }
 
+void LineRendererBase::SetOffSetX(const float x)
+{
+	_offSetMatrix._41 = x;
+}
+
+void LineRendererBase::SetOffSetY(const float y)
+{
+	_offSetMatrix._42 = y;
+}
+
 void LineRendererBase::OnEnabled()
 {
 	Graphics::AddLineRender(this);
@@ -71,6 +86,8 @@ void LineRendererBase::Load(nlohmann::json& inputObject)
 	constexpr auto radiusField = "Radius";
 	constexpr auto centerField = "Center";
 	constexpr auto lineWidthField = "LineWidth";
+	constexpr auto offSetXField = "OffSetX";
+	constexpr auto offSetYField = "OffSetY";
 
 	std::string type = inputObject[LoadingJson::Field::typeField].get<std::string>();
 	if (type == "Polygon")
@@ -106,4 +123,9 @@ void LineRendererBase::Load(nlohmann::json& inputObject)
 
 	if (inputObject[lineWidthField] != nullptr)
 		_width = inputObject[lineWidthField].get<float>();
+
+	if (inputObject[offSetXField] != nullptr)
+		SetOffSetX(inputObject[offSetXField].get<float>());
+	if (inputObject[offSetYField] != nullptr)
+		SetOffSetY(inputObject[offSetYField].get<float>());
 }

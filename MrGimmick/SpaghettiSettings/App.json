@@ -6,5 +6,6 @@
     "Height": 224
   },
   "PixelPerfectResolution": true,
-  "PixelPerfectWorldPoint": true
+  "PixelPerfectWorldPoint": true,
+  "Gravity": 70
 }
