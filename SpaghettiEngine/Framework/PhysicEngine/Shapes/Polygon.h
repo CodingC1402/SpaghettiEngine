@@ -9,4 +9,6 @@ public:
 	static bool PolygonPolygon(Collision* collision);
 	static bool CirclePolygon(Collision* collision);
 	static bool PolygonCircle(Collision* collision);
+
+	void UpdateParameter() override;
 };

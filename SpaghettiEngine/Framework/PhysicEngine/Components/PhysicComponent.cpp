@@ -1,6 +1,11 @@
 #include "PhysicComponent.h"
 #include "Collider2DBase.h"
 
+PhysicComponent::Component2D::Component2D()
+{
+	_body = std::make_shared<Body2D>();
+}
+
 void PhysicComponent::Component2D::ChangeBody(WBody2D body)
 {
 	if (_body == body.lock())

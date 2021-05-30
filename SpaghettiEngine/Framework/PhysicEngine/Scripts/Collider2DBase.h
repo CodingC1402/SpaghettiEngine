@@ -1,14 +1,13 @@
 #pragma once
-
-#include "ScriptBase.h"
+#include "PhysicScriptBase.h"
 #include "LineRenderBase.h"
 #include "Body2D.h"
 #include "Shape.h"
 
-class Collider2DBase : public ScriptBase
+class Collider2DBase : public PhysicScriptBase
 {
 public:
-	Collider2DBase(PScene owner);
+	Collider2DBase(PScene owner, bool isDisabled = false);
 
 	void OnEnabled() override;
 	void OnDisabled() override;

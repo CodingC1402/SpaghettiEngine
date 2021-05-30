@@ -52,6 +52,7 @@ public:
 
         virtual void OnStart() {}
         virtual void OnUpdate() {}
+        virtual void OnFixedUpdate() {}
         virtual void OnEnd() {}
 
         virtual void OnDisabled() {}
@@ -112,6 +113,7 @@ protected:
     void Disable(); // Call before unload from scene manager
     void Start();
     void Update();
+    void FixedUpdate();
     void End();
 
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);

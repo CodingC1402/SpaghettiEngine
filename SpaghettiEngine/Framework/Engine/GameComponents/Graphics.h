@@ -85,10 +85,10 @@ protected:
 	void Window();
 	[[nodiscard]] SGameWnd GetCurrentWindow() const noexcept;
 	
-	void Init(const STimer& timer, const ColorFormat& colorFormat);
+	void Init(const ColorFormat& colorFormat);
 
 	HRESULT Begin() const noexcept;
-	void Render(float alpha);
+	void Render();
 	bool End();
 	bool Reset();
 

@@ -264,7 +264,7 @@ PCamera Graphics::GetActiveCamera()
 	return *(__instance->cameraList.begin());
 }
 
-void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
+void Graphics::Init(const ColorFormat& colorFormat)
 {
 	if constexpr (Setting::IsDebugMode())
 	{
@@ -281,7 +281,8 @@ void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 		delayPerFrame = 1 / fps;
 
 	renderer = Direct3DCreate9(D3D_SDK_VERSION);
-	this->timer = timer;
+	this->timer = STimer(Timer::Create());
+	timer->Start();
 	this->resolution = Setting::GetResolution();
 
 	ZeroMemory(&presentParam, sizeof(presentParam));
@@ -302,11 +303,12 @@ void Graphics::Init(const STimer& timer, const ColorFormat& colorFormat)
 }
 
 
-void Graphics::Render(float alpha)
+void Graphics::Render()
 {
 	if (cameraList.empty())
 		return;
 
+	timer->Mark();
 	timeSinceLastFrame += timer->GetDeltaTime();
 	if (timeSinceLastFrame < delayPerFrame)
 		return;

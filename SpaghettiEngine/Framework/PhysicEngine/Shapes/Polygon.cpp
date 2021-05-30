@@ -14,3 +14,7 @@ bool Polygon::PolygonCircle(Collision* collision)
 {
 	return false;
 }
+
+void Polygon::UpdateParameter()
+{
+}

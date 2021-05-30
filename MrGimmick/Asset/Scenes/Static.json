@@ -1,17 +1,5 @@
 {
   "Prefabs": [
-    {
-      "ID": 10001,
-      "Changes": [
-          {
-              "ID": 1,
-              "Prefabs": [0],
-              "Type" : "GameObject",
-              "Field": "Rotation",
-              "Value": [0, 0, 0]
-          }
-      ]
-    }
   ],
   "GameObjects": [
   ]

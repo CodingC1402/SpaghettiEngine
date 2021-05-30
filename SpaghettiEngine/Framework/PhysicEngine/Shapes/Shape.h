@@ -34,15 +34,18 @@ public:
 	[[nodiscard]] const float& GetOffSetX();
 	[[nodiscard]] const float& GetOffSetY();
 
+	virtual void UpdateParameter() = 0;
+
 	void RemoveFromPhysic();
 	void AddToPhysic();
 
 	void SetBody(WBody2D body);
-	void ToStaic();
+	void ToStatic();
 
 	WBody2D GetBody();
 protected:
-	WBody2D _body = Body2D::GetDefaultBody();
+	WBody2D _body;
+	SBody2D _staticBody;
 
 	Matrix4 _offSetMatrix;
 	bool _isStatic = true;

@@ -13,6 +13,7 @@ public:
 	
 	void Init();
 	void Update() const;
+	void FixUpdate() const;
 protected:
 	Game() = default;
 	~Game();

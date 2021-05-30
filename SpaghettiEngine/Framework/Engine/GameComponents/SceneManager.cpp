@@ -33,12 +33,8 @@ const wchar_t* SceneManager::SceneManagerException::What() const noexcept
 	return whatBuffer.c_str();
 }
 
-static float timeCounter = 0;
 void SceneManager::Update()
 {
-	static bool StartCounter = false;
-	timeCounter += GameTimer::GetDeltaTime();
-
 	auto SM = GetInstance();
 	if (!_isLoading)
 	{
@@ -80,6 +76,15 @@ void SceneManager::Update()
 		}
 	}
 	SM->constScene->Update();
+}
+
+void SceneManager::FixedUpdate()
+{
+	if (!(_isLoading || _startedLoadNewScene))
+	{
+		scenes[sceneIndex]->FixedUpdate();
+	}
+	constScene->FixedUpdate();
 }
 
 PSceneManager SceneManager::GetInstance()

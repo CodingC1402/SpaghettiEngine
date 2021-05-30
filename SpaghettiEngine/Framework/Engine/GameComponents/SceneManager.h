@@ -38,6 +38,7 @@ protected:
 
 	SceneManager();
 	void Update();
+	void FixedUpdate();
 	void Load();
 	void Init();
 protected:

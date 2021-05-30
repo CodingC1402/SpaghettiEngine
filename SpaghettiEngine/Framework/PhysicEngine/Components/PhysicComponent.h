@@ -3,6 +3,7 @@
 #include <list>
 
 class Collider2DBase;
+class GameObj;
 
 class PhysicComponent
 {
@@ -10,6 +11,8 @@ public:
 	class Component2D
 	{
 	public:
+		Component2D();
+
 		void ChangeBody(WBody2D body);
 		void RemoveBody(WBody2D body);
 
@@ -39,4 +42,5 @@ public:
 protected:
 	Component2D _2DComponents;
 	Component3D _3DComponents;
+	GameObj* _owner;
 };

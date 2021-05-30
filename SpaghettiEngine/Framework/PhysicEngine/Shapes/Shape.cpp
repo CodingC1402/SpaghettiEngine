@@ -9,6 +9,8 @@ WBody2D Shape::GetBody()
 Shape::Shape()
 {
 	_offSetMatrix = Matrix4::GetDiagonalMatrix();
+	_staticBody = std::make_shared<Body2D>();
+	_body = _staticBody;
 }
 
 float Shape::GetRestitution()
@@ -66,22 +68,34 @@ const float& Shape::GetOffSetY()
 	return _offSetMatrix._42;
 }
 
+void Shape::RemoveFromPhysic()
+{
+	Physic::RemoveShape(this);
+}
+
 void Shape::AddToPhysic()
 {
+	Physic::AddShape(this);
 }
 
 void Shape::SetBody(WBody2D body)
 {
 	if (!_isStatic)
 		return;
+	_body.lock()->RemoveShape(this);
 	_body = body;
 	_isStatic = false;
+	_staticBody.reset();
+	_body.lock()->AddShape(this);
 }
 
-void Shape::ToStaic()
+void Shape::ToStatic()
 {
 	if (_isStatic)
 		return;
-	_body = Body2D::GetDefaultBody();
+	_body.lock()->RemoveShape(this);
+	_staticBody = std::make_shared<Body2D>();
+	_staticBody->SetWorldMatrix(_body.lock()->GetWorldMatrix());
+	_body = _staticBody;
 	_isStatic = true;
 }

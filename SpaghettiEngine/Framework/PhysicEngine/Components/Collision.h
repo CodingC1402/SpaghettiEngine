@@ -41,7 +41,6 @@ protected:
 	float _staticFriction = 0;
 
 	float _restituation = 1.0f;
-	float _inverseMassSum;
 
 	static std::vector<std::vector<bool (*)(Collision*)>> _collisionFunctions;
 };
