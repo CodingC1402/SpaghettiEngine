@@ -68,7 +68,6 @@ public:
 
 	void Destroy() override;
 protected:
-	bool _isDisabled = false;
 	PGameObj _ownerObj = nullptr;
 	std::string _name;
 };

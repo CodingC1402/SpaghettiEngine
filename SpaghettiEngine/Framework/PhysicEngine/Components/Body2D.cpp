@@ -74,7 +74,7 @@ void Body2D::SetPosition(const Vector3& pos)
 	OnUpdateMatrix();
 }
 
-const Vector3& Body2D::GetPosition()
+const Vector3 Body2D::GetPosition()
 {
 	return Vector3(_worldMatrix._41, _worldMatrix._42, 0);
 }
@@ -162,7 +162,5 @@ void Body2D::IntergateVelocity()
 void Body2D::OnUpdateMatrix()
 {
 	for (auto& shape : _shapes)
-	{
 		shape->UpdateParameter();
-	}
 }

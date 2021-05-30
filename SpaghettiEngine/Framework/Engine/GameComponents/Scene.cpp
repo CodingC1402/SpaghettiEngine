@@ -49,16 +49,16 @@ void Scene::BaseComponent::Disable()
 {
     if (_isDisabled)
         return;
-    _isDisabled = true;
     OnDisabled();
+    _isDisabled = true;
 }
 
 void Scene::BaseComponent::Enable()
 {
     if (!_isDisabled)
         return;
-    _isDisabled = false;
     OnEnabled();
+    _isDisabled = false;
 }
 
 bool Scene::BaseComponent::IsDisabled()

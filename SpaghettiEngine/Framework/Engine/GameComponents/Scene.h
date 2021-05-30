@@ -81,7 +81,7 @@ public:
         virtual ~BaseComponent() = default;
     protected:
         PScene _owner = nullptr;
-        bool _isDisabled;
+        bool _isDisabled = false;
         std::weak_ptr<BaseComponent> _this;
     } *PBaseComponent;
     typedef std::shared_ptr<BaseComponent> SBaseComponent;

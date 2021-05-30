@@ -32,7 +32,7 @@ public:
 	[[nodiscard]] const Vector3& GetForce();
 
 	void SetPosition(const Vector3& pos);
-	[[nodiscard]] const Vector3& GetPosition();
+	[[nodiscard]] const Vector3 GetPosition();
 
 	void SetWorldMatrix(const Matrix4& mat);
 	[[nodiscard]] const Matrix4& GetWorldMatrix();

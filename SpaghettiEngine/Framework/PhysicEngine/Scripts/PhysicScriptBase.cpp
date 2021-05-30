@@ -8,5 +8,14 @@ PhysicScriptBase::PhysicScriptBase(PScene owner, bool isDisable)
 void PhysicScriptBase::AssignOwner(const PGameObj& owner)
 {
 	ScriptBase::AssignOwner(owner);
-	owner->AddPhysicComponent(this);
+}
+
+void PhysicScriptBase::OnDisabled()
+{
+	_ownerObj->RemovePhysicComponent(this);
+}
+
+void PhysicScriptBase::OnEnabled()
+{
+	_ownerObj->AddPhysicComponent(this);
 }

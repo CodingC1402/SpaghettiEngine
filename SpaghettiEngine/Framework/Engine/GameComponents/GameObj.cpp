@@ -380,7 +380,7 @@ void GameObj::OnStart()
 }
 void GameObj::OnUpdate()
 {
-	if (isDisabled)
+	if (_isDisabled)
 		return;
 
 	for (const auto& script : _scripts)
@@ -395,7 +395,7 @@ void GameObj::OnPhysicUpdate()
 }
 void GameObj::OnFixedUpdate()
 {
-	if (isDisabled)
+	if (_isDisabled)
 		return;
 
 	for (const auto& script : _scripts)

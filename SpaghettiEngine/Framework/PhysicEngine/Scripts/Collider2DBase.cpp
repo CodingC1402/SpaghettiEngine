@@ -12,6 +12,8 @@ Collider2DBase::Collider2DBase(PScene owner, bool isDisable)
 
 void Collider2DBase::OnEnabled()
 {
+	PhysicScriptBase::OnEnabled();
+
 	PhysicComponent* physic = &_ownerObj->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
@@ -23,6 +25,8 @@ void Collider2DBase::OnEnabled()
 
 void Collider2DBase::OnDisabled()
 {
+	PhysicScriptBase::OnDisabled();
+
 	_ownerObj->GetPhysicComponent().UnSubscribeTo2D(this);
 	Physic::RemoveShape(_shape.get());
 
