@@ -10,16 +10,22 @@ WBody2D Body2D::GetDefaultBody()
 	return _defaultBody;
 }
 
-void Body2D::AddShape(const SShape& shape)
+void Body2D::AddShape(Shape* shape)
 {
-	if (shape->GetBody().lock().get() == this)
-		return;
-	_shapes.push_back(shape);
+	for (auto it = _shapes.begin(); it != _shapes.end(); ++it)
+		if (*it == shape)
+			return;
+	_shapes.emplace_back(shape);
 }
 
-void Body2D::RemoveShape(const SShape& shape)
+void Body2D::RemoveShape(Shape* shape)
 {
-	_shapes.remove(shape);
+	for (auto it = _shapes.begin(); it != _shapes.end(); ++it)
+		if (*it == shape)
+		{
+			_shapes.erase(it);
+			return;
+		}
 }
 
 void Body2D::SetMass(const float& mass)
@@ -65,6 +71,7 @@ void Body2D::SetPosition(const Vector3& pos)
 {
 	_worldMatrix._41 = pos.x;
 	_worldMatrix._42 = pos.y;
+	OnUpdateMatrix();
 }
 
 const Vector3& Body2D::GetPosition()
@@ -75,6 +82,7 @@ const Vector3& Body2D::GetPosition()
 void Body2D::SetWorldMatrix(const Matrix4& mat)
 {
 	_worldMatrix = mat;
+	OnUpdateMatrix();
 }
 
 const Matrix4& Body2D::GetWorldMatrix()
@@ -101,6 +109,16 @@ void Body2D::SetGravityScale(const float& scale)
 const float& Body2D::GetGravityScale()
 {
 	return _gravityScale;
+}
+
+Vector3 Body2D::GetMoveVector()
+{
+	return Vector3();
+}
+
+float Body2D::GetRotation()
+{
+	return _rotation;
 }
 
 void Body2D::Assign(WMaterial material)
@@ -136,6 +154,15 @@ void Body2D::IntergateForces()
 
 void Body2D::IntergateVelocity()
 {
-	auto moveVec = _velocity * Physic::GetStep();
-	SMath::TranslateMatrix(_worldMatrix, moveVec);
+	_moveVec = _velocity * Physic::GetStep();
+	SMath::TranslateMatrix(_worldMatrix, _moveVec);
+	OnUpdateMatrix();
+}
+
+void Body2D::OnUpdateMatrix()
+{
+	for (auto& shape : _shapes)
+	{
+		shape->UpdateParameter();
+	}
 }

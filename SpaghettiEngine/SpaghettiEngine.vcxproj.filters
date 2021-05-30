@@ -278,6 +278,12 @@
     <ClInclude Include="Framework\PhysicEngine\Scripts\CircleCollider.h">
       <Filter>FrameWork\PhysicEngine\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.h">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\ContainerUtil.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -470,6 +476,9 @@
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Scripts\CircleCollider.cpp">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.cpp">
       <Filter>FrameWork\PhysicEngine\Scripts</Filter>
     </ClCompile>
   </ItemGroup>

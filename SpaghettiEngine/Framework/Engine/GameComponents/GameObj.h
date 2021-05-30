@@ -10,6 +10,7 @@
 
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
+typedef class PhysicScriptBase;
 
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;
@@ -21,6 +22,7 @@ using std::list;
 class GameObj : public Scene::BaseComponent
 {
 	friend class Scene;
+	friend class PhysicComponent;
 public:
 	class GameObjectFormatException : public CornException
 	{
@@ -62,6 +64,9 @@ public:
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetPath() const;
 
+	void AddPhysicComponent(PhysicScriptBase* script);
+	void RemovePhysicComponent(PhysicScriptBase* script);
+
 	void SetTag(const char* tag);
 	void SetRotation(const float& x, const float& y, const float& z);
 	void SetScale(const float& x, const float& y, const float& z);
@@ -80,6 +85,8 @@ public:
 
 	void OnStart() override;
 	void OnUpdate() override;
+	void OnPhysicUpdate();
+	void OnFixedUpdate() override;
 	void OnEnd() override;
 
 	void OnEnabled() override;
@@ -140,6 +147,8 @@ protected:
 	Matrix4 _rotationMatrix;
 	Matrix4 _scaleMatrix;
 	Matrix4 _worldMatrix;
+
+	std::deque<PhysicScriptBase*> _physicComponents;
 
 	PhysicComponent _physic;
 

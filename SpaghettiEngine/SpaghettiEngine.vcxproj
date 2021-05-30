@@ -70,10 +70,12 @@
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicMath.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\CircleCollider.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\Collider2DBase.h" />
+    <ClInclude Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\RigidBody2D.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Circle.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Polygon.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Shape.h" />
+    <ClInclude Include="Framework\Utilities\ContainerUtil.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
     <ClInclude Include="Framework\Utilities\ExMath.h" />
     <ClInclude Include="Framework\Utilities\Extra.h" />
@@ -139,6 +141,7 @@
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicMath.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\CircleCollider.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\Collider2DBase.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\RigidBody2D.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Shapes\Circle.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Shapes\Polygon.cpp" />

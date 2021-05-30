@@ -71,12 +71,17 @@ void Collision::SetStaticFriction(const float& f)
 
 bool Collision::Solve()
 {
+	if (_bodyA == _bodyB)
+		return false;
 	return (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 }
 
 void Collision::Initialize()
 {
+	_restituation = 0;
 
+	_staticFriction = 2;
+	_dynamicFriction = 1;
 }
 
 void Collision::ApplyImpulse()

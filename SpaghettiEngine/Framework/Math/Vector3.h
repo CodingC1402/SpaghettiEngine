@@ -56,4 +56,6 @@ protected:
 	float _numbers[3] = { 0 };
 };
 
-Vector3  operator- (const Vector3& vec);
+static inline Vector3  operator- (const Vector3& vec) {
+	return Vector3(-vec.x, -vec.y, -vec.z);
+}

@@ -63,7 +63,7 @@
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
 				"Mass": 5,
-				"GravityScale": 2
+				"GravityScale": 1
 			}
 		}
     ]

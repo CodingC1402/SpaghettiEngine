@@ -6,6 +6,8 @@
 #include "LoadingJson.h"
 #include "Setting.h"
 #include "SMath.h"
+#include "ContainerUtil.h"
+#include "Physic.h"
 #include <fstream>
 
 nlohmann::json GameObj::defaultJson = {
@@ -107,6 +109,18 @@ std::string GameObj::GetTag() const
 std::string GameObj::GetPath() const
 {
 	return path;
+}
+void GameObj::AddPhysicComponent(PhysicScriptBase* script)
+{
+	ContainerUtil::EmplaceBackUnique(_physicComponents, script);
+	if (_physicComponents.size() == 1)
+		Physic::AddGameObj(this);
+}
+void GameObj::RemovePhysicComponent(PhysicScriptBase* script)
+{
+	ContainerUtil::Erase(_physicComponents, script);
+	if (_physicComponents.size() == 0)
+		Physic::RemoveGameObj(this);
 }
 #pragma endregion
 #pragma region Set
@@ -374,6 +388,21 @@ void GameObj::OnUpdate()
 
 	for (const auto& child : _children)
 		child->OnUpdate();
+}
+void GameObj::OnPhysicUpdate()
+{
+	_physic.GetBody2D().lock()->SetWorldMatrix(GetWorldMatrix());
+}
+void GameObj::OnFixedUpdate()
+{
+	if (isDisabled)
+		return;
+
+	for (const auto& script : _scripts)
+		script->OnFixedUpdate();
+
+	for (const auto& child : _children)
+		child->OnFixedUpdate();
 }
 void GameObj::OnEnd()
 {

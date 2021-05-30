@@ -34,8 +34,8 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 		float ratioH = height / (float)resolution.height;
 		if (isPixelPerfect)
 		{
-			ratioW = (int)ratioW;
-			ratioH = (int)ratioH;
+			ratioW = std::floorf(ratioW);
+			ratioH = std::floorf(ratioH);
 		}
 
 		int contentWidth = width;
@@ -44,16 +44,16 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 		int contentPosY;
 		if (ratioW > ratioH)
 		{
-			contentHeight = (int)(resolution.height * ratioH + 0.5);
-			contentWidth = (int)(resolution.width * ratioH + 0.5);
+			contentHeight = std::round(static_cast<double>(resolution.height) * ratioH);
+			contentWidth =  std::round(static_cast<double>(resolution.width ) * ratioH);
 		}
 		else
 		{
-			contentWidth = (int)(resolution.width * ratioW + 0.5);;
-			contentHeight = (int)(resolution.height * ratioW + 0.5);
+			contentWidth =  std::round(static_cast<double>(resolution.width ) * ratioW);
+			contentHeight = std::round(static_cast<double>(resolution.height) * ratioW);
 		}
-		contentPosY = (int)(((long long)height - contentHeight) / 2.0 + 0.5);;
-		contentPosX = (int)(((long long)width - contentWidth) / 2.0 + 0.5);
+		contentPosY = std::round(((long long)height - contentHeight) / 2.0);
+		contentPosX = std::round(((long long)width - contentWidth) / 2.0);
 
 		contentWnd->SetPos(contentPosX, contentPosY);
 		contentWnd->SetWidth(contentWidth);

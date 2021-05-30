@@ -2,9 +2,9 @@
 #include "Physic.h"
 #include "Setting.h"
 
-Collider2DBase::Collider2DBase(PScene owner) 
+Collider2DBase::Collider2DBase(PScene owner, bool isDisable) 
 	:
-	ScriptBase(owner)
+	PhysicScriptBase(owner, isDisable)
 {
 	if constexpr (Setting::IsDebugMode())
 		_lineRenderer = dynamic_cast<LineRendererBase*>(ScriptFactory::CreateInstance("LineRendererBase", _owner));
@@ -15,6 +15,7 @@ void Collider2DBase::OnEnabled()
 	PhysicComponent* physic = &_ownerObj->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
+	Physic::AddShape(_shape.get());
 
 	if constexpr (Setting::IsDebugMode())
 		_lineRenderer->OnEnabled();
@@ -23,6 +24,7 @@ void Collider2DBase::OnEnabled()
 void Collider2DBase::OnDisabled()
 {
 	_ownerObj->GetPhysicComponent().UnSubscribeTo2D(this);
+	Physic::RemoveShape(_shape.get());
 
 	if constexpr (Setting::IsDebugMode())
 		_lineRenderer->OnDisabled();
@@ -35,7 +37,7 @@ void Collider2DBase::OnChange()
 
 void Collider2DBase::AssignOwner(const PGameObj& gameObj)
 {
-	ScriptBase::AssignOwner(gameObj);
+	PhysicScriptBase::AssignOwner(gameObj);
 	SetLineRendererOwner();
 }
 

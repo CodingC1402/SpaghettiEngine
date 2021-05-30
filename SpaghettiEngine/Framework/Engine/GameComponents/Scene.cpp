@@ -128,6 +128,12 @@ void Scene::Update()
         gameObj->OnUpdate();
 }
 
+void Scene::FixedUpdate()
+{
+    for (const auto& gameObj : _rootGameObjects)
+        gameObj->OnFixedUpdate();
+}
+
 void Scene::End()
 {
     for (const auto& gameObj : _rootGameObjects)

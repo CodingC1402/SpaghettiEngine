@@ -40,6 +40,11 @@ void Game::Update() const
 	sceneManager->Update();
 }
 
+void Game::FixUpdate() const
+{
+	sceneManager->FixedUpdate();
+}
+
 Game::~Game()
 {
 	delete input;

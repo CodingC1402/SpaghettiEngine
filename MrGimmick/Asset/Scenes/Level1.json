@@ -8,7 +8,7 @@
 					"ID": 1,
 					"Type" : "GameObject",
 					"Field": "Transform",
-					"Value": [-100, -50, 0]
+					"Value": [0, 50, 0]
 				}
 			]
 		}
@@ -33,6 +33,23 @@
 					}
 				]
 			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"IsRoot": true,
+				"Tag": "ColliderForTileMap",
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{
+						"ID": 3
+					}
+				]
+			}
 		}
 	],
 	"Scripts": [
@@ -50,6 +67,13 @@
 				"DrawLayer": 12,
 				"ScriptType": "TileMapRenderer",
 				"TileMapPath": "Asset/TileStuffs/stage1Foreground.json"
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "CircleCollider",
+				"Radius": 30
 			}
 		}
 	]

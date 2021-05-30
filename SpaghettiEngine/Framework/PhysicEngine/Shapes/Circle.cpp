@@ -8,7 +8,7 @@ Shape::Type Circle::GetType() const
 
 Vector3 Circle::GetCenter() const
 {
-	return _body.lock()->GetPosition();
+	return _center;
 }
 
 void Circle::SetRadius(const float& radius)
@@ -19,6 +19,15 @@ void Circle::SetRadius(const float& radius)
 float& Circle::GetRadius()
 {
 	return _radius;
+}
+
+void Circle::UpdateParameter()
+{
+	Matrix4 matrix = _body.lock()->GetWorldMatrix();
+	_center.x = matrix._41;
+	_center.y = matrix._42;
+	_center.z = 0;
+	_center = _center * _offSetMatrix;
 }
 
 bool Circle::CircleCircle(Collision* collision)

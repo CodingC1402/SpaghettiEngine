@@ -1,14 +1,16 @@
 #pragma once
-#include "ScriptBase.h"
+#include "PhysicScriptBase.h"
 #include "Body2D.h"
 
-class RigidBody2D : public ScriptBase
+class RigidBody2D : public PhysicScriptBase
 {
 public:
 	RigidBody2D(PScene owner, bool isDisabled = false);
 
 	void OnDisabled() override;
 	void OnEnabled() override;
+
+	void AfterPhysicUpdate();
 
 	void Load(nlohmann::json& input) override;
 protected:

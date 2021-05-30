@@ -18,8 +18,8 @@ class Body2D
 public:
 	static WBody2D GetDefaultBody();
 
-	void AddShape(const SShape& shape);
-	void RemoveShape(const SShape& shape);
+	void AddShape(Shape* shape);
+	void RemoveShape(Shape* shape);
 
 	void SetMass(const float& mass);
 	[[nodiscard]] const float& GetMass();
@@ -43,6 +43,9 @@ public:
 	void SetGravityScale(const float& scale);
 	[[nodiscard]] const float& GetGravityScale();
 
+	[[nodiscard]] Vector3 GetMoveVector();
+	[[nodiscard]] float GetRotation();
+
 	void Assign(WMaterial material);
 	void SetStatic();
 
@@ -51,6 +54,8 @@ public:
 
 	void IntergateForces();
 	void IntergateVelocity();
+
+	virtual void OnUpdateMatrix();
 protected:
 	static SBody2D _defaultBody;
 
@@ -68,6 +73,8 @@ protected:
 
 	float _gravityScale = 1;
 
-	std::list<SShape> _shapes;
+	Vector3 _moveVec;
+
+	std::list<Shape*> _shapes;
 	WMaterial _material;
 };

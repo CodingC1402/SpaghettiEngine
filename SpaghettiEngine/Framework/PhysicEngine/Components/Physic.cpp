@@ -1,16 +1,30 @@
 #include "Physic.h"
 #include "GameTimer.h"
+#include "RigidBody2D.h"
 #include "SMath.h"
+#include "Circle.h"
+#include "GameObj.h"
+#include "ContainerUtil.h"
 
-void Physic::Update(const float& time)
+bool Physic::Update()
 {
+	bool isRunUpdate = false;
 	_accumulator += GameTimer::GetDeltaTime();
 	if (_accumulator >= _step)
 	{
+		for (auto& obj : _gameObjs) {
+			obj->OnPhysicUpdate();
+		}
+
 		Step();
 		_accumulator = SMath::modulo(_accumulator, _step);
+		isRunUpdate = true;
+
+		for (auto& script : _rigid2DScripts) {
+			script->AfterPhysicUpdate();
+		}
 	}
-	return;
+	return isRunUpdate;
 }
 
 void Physic::Step()
@@ -20,6 +34,11 @@ void Physic::Step()
 	{
 		for (int j = i + 1; j < _shapes.size(); j++)
 		{
+			if (dynamic_cast<Circle*>(_shapes[j])->GetRadius() == 30)
+			{
+				int i = 30;
+			}
+
 			Collision newCollide(_shapes[i], _shapes[j]);
 			if (newCollide.Solve())
 				_contacts.emplace_back(newCollide);
@@ -72,39 +91,42 @@ const Vector3& Physic::GetGravity()
 	return _gravity;
 }
 
-void Physic::AddShape(Shape* shape)
+void Physic::AddRigid2DScript(RigidBody2D* script)
 {
-	for (auto& addedShape : _shapes)
-	{
-		if (addedShape == shape)
-			return;
-	}
-	_shapes.push_back(shape);
+	ContainerUtil::EmplaceBackUnique(_rigid2DScripts, script);
 }
 
-void Physic::RemoveShape(Shape* _shape)
+void Physic::RemoveRigid2DScript(RigidBody2D* script)
 {
-	for (auto it = _shapes.begin(); it != _shapes.end(); ++it)
-	{
-		if (*it == _shape)
-		{
-			_shapes.erase(it);
-			return;
-		}
-	}
+	ContainerUtil::Erase(_rigid2DScripts, script);
+}
+
+void Physic::AddShape(Shape* shape)
+{
+	ContainerUtil::EmplaceBackUnique(_shapes, shape);
+}
+
+void Physic::RemoveShape(Shape* shape)
+{
+	ContainerUtil::Erase(_shapes, shape);
 }
 
 void Physic::AddBody(Body2D* body)
 {
-	_body2D.push_back(body);
+	ContainerUtil::EmplaceBackUnique(_body2D, body);
 }
 
 void Physic::RemoveBody(Body2D* body)
 {
-	for (auto it = _body2D.begin(); it != _body2D.end(); ++it)
-		if (*it == body)
-		{
-			_body2D.erase(it);
-			return;
-		}
+	ContainerUtil::Erase(_body2D, body);
+}
+
+void Physic::AddGameObj(GameObj* gameObj)
+{
+	ContainerUtil::EmplaceBackUnique(_gameObjs, gameObj);
+}
+
+void Physic::RemoveGameObj(GameObj* gameObj)
+{
+	ContainerUtil::Erase(_gameObjs, gameObj);
 }

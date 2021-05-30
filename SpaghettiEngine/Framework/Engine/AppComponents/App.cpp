@@ -26,9 +26,9 @@ BOOL App::Go()
 	{
 		timer = STimer(Timer::Create());
 		gfx = Graphics::GetInstance();
-		gfx->Init(timer, Graphics::ColorFormat::RGB32Bit);
+		gfx->Init(Graphics::ColorFormat::RGB32Bit);
 
-		Physic::SetStep(1 / Setting::GetFps());
+		Physic::SetStep(1 / (Setting::GetFps() * 2));
 
 		game = Game::GetInstance();
 		game->Init();
@@ -82,7 +82,10 @@ BOOL App::Go()
 void App::DoFrame() const
 {
 	game->Update();
-	Physic::Update(timer->GetDeltaTime());
+	if (Physic::Update())
+	{
+		game->FixUpdate();
+	}
 	gfx->Render();
 }
 
