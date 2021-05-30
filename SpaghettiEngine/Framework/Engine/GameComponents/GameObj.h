@@ -134,7 +134,6 @@ protected:
 	bool _isScaleChanged = true;
 	bool _isChanged = true;
 	
-	bool isDisabled = false;
 	bool loaded = false;
 	string path; 
 	string tag;

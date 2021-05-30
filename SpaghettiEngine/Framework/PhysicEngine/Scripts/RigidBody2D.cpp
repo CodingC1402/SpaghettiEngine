@@ -12,6 +12,8 @@ RigidBody2D::RigidBody2D(PScene owner, bool isDisabled) : PhysicScriptBase(owner
 
 void RigidBody2D::OnDisabled()
 {
+	PhysicScriptBase::OnDisabled();
+
 	_ownerObj->GetPhysicComponent().Remove2DBody(_body);
 	Physic::RemoveRigid2DScript(this);
 	Physic::RemoveBody(_body.get());
@@ -19,6 +21,8 @@ void RigidBody2D::OnDisabled()
 
 void RigidBody2D::OnEnabled()
 {
+	PhysicScriptBase::OnEnabled();
+
 	_ownerObj->GetPhysicComponent().Set2DBody(_body);
 	Physic::AddRigid2DScript(this);
 	Physic::AddBody(_body.get());
@@ -26,7 +30,8 @@ void RigidBody2D::OnEnabled()
 
 void RigidBody2D::AfterPhysicUpdate()
 {
-	_ownerObj->Translate(_body->GetVelocity() * Physic::GetStep());
+	auto vec = _body->GetPosition() - GetWorldTransform();
+	_ownerObj->Translate(vec);
 }
 
 void RigidBody2D::Load(nlohmann::json& input)

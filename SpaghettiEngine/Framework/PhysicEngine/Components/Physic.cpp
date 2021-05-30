@@ -34,11 +34,6 @@ void Physic::Step()
 	{
 		for (int j = i + 1; j < _shapes.size(); j++)
 		{
-			if (dynamic_cast<Circle*>(_shapes[j])->GetRadius() == 30)
-			{
-				int i = 30;
-			}
-
 			Collision newCollide(_shapes[i], _shapes[j]);
 			if (newCollide.Solve())
 				_contacts.emplace_back(newCollide);

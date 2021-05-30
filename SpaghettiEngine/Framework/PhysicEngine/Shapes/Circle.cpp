@@ -35,7 +35,7 @@ bool Circle::CircleCircle(Collision* collision)
 	auto shapeA = dynamic_cast<Circle*>(collision->GetShapeA());
 	auto shapeB = dynamic_cast<Circle*>(collision->GetShapeB());
 
-	Vector3 normal = shapeA->GetCenter() - shapeB->GetCenter();
+	Vector3 normal = shapeB->GetCenter() - shapeA->GetCenter();
 	float sumRadius = shapeA->_radius + shapeB->_radius;
 	sumRadius *= sumRadius;
 

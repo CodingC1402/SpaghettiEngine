@@ -110,7 +110,7 @@ void Collision::ApplyImpulse()
 void Collision::PositionalCorrection()
 {
 	constexpr float kSlop = 0.05f;
-	constexpr float percent = 0.4f;
+	constexpr float percent = 0.8f;
 	float correctionFloat = percent * (SMath::Max(_penetration - kSlop, 0.0f) / (_shapeA->GetInverseMass() + _shapeB->GetInverseMass()));
 	Vector3 correction(_normal * correctionFloat);
 
