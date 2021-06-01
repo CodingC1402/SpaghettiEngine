@@ -2,6 +2,7 @@
 #include "Circle.h"
 #include "Polygon.h"
 #include "SMath.h"
+#include <cmath>
 
 std::vector<std::vector<bool (*)(Collision*)>> Collision::_collisionFunctions = {
 	{&Circle::CircleCircle, &Polygon::CirclePolygon,},
@@ -78,10 +79,14 @@ bool Collision::Solve()
 
 void Collision::Initialize()
 {
-	_restituation = 0;
+	SMaterial matA = _bodyA->GetMaterial().lock();
+	SMaterial matB = _bodyB->GetMaterial().lock();
+	_restitution = SMath::Min(matA->GetRestitution(), matB->GetRestitution());
 
-	_staticFriction = 2;
-	_dynamicFriction = 1;
+	_staticFriction = std::sqrt(matA->GetStaticFriction() * matA->GetStaticFriction() + matB->GetStaticFriction() * matB->GetStaticFriction());
+	_dynamicFriction = std::sqrt(matA->GetDynamicFriction() * matA->GetDynamicFriction() + matB->GetDynamicFriction() * matB->GetDynamicFriction());
+
+	Vector3 relativeVel = _bodyB->GetVelocity() - _bodyA->GetVelocity();
 }
 
 void Collision::ApplyImpulse()
@@ -92,26 +97,48 @@ void Collision::ApplyImpulse()
 		return;
 	}
 
-	Vector3 rv = _bodyB->GetVelocity() - _bodyA->GetVelocity();
-	float velAlongNormal = rv.Dot(_normal);
+	Vector3 relativeVel = _bodyB->GetVelocity() - _bodyA->GetVelocity();
+	float velAlongNormal = relativeVel.Dot(_normal);
 
 	if (velAlongNormal > 0)
 		return;
 
 	float inverseMassSum = _bodyA->GetInverseMass() + _bodyB->GetInverseMass();
-	float j = -1 * velAlongNormal;
+	float j = -(1.0f + _restitution) * velAlongNormal;
 	j /= inverseMassSum;
 
 	Vector3 impulse = _normal * j;
 	_bodyA->ApplyImpulse(-impulse);
 	_bodyB->ApplyImpulse(impulse);
+
+	Vector3 friction = relativeVel - (_normal * (relativeVel.Dot(_normal)));
+	friction = friction.GetUnitVector();
+	
+	float frictionForce = -relativeVel.Dot(friction);
+	frictionForce /= inverseMassSum;
+	
+	if (SMath::CompareFloat(frictionForce, 0.0f, 0.000001))
+		return;
+	
+	Vector3 tangentImpulse;
+	if (std::abs(frictionForce) < j * _staticFriction)
+		tangentImpulse = friction * frictionForce;
+	else
+		tangentImpulse = friction * (-j) * _dynamicFriction;
+
+	_bodyA->ApplyImpulse(-tangentImpulse);
+	_bodyB->ApplyImpulse(tangentImpulse);
 }
 
 void Collision::PositionalCorrection()
 {
+	float sumInverseMass = _shapeA->GetInverseMass() + _shapeB->GetInverseMass();
+	if (SMath::CompareFloat(sumInverseMass, 0.0f, 0.0000001))
+		return;
+
 	constexpr float kSlop = 0.05f;
 	constexpr float percent = 0.8f;
-	float correctionFloat = percent * (SMath::Max(_penetration - kSlop, 0.0f) / (_shapeA->GetInverseMass() + _shapeB->GetInverseMass()));
+	float correctionFloat = percent * (SMath::Max(_penetration - kSlop, 0.0f) / sumInverseMass);
 	Vector3 correction(_normal * correctionFloat);
 
 	auto bodyA = _shapeA->GetBody().lock();

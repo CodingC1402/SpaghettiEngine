@@ -37,12 +37,12 @@ void Body2D::SetMass(const float& mass)
 	_mass = mass;
 }
 
-const float& Body2D::GetMass()
+const float& Body2D::GetMass() const
 {
 	return _mass;
 }
 
-const float& Body2D::GetInverseMass()
+const float& Body2D::GetInverseMass() const
 {
 	return _inverseMass;
 }
@@ -52,7 +52,7 @@ void Body2D::SetVelocity(const Vector3& velocity)
 	_velocity = velocity;
 }
 
-const Vector3& Body2D::GetVelocity()
+const Vector3& Body2D::GetVelocity() const
 {
 	return _velocity;
 }
@@ -62,7 +62,7 @@ void Body2D::SetForce(const Vector3& force)
 	_force = force;
 }
 
-const Vector3& Body2D::GetForce()
+const Vector3& Body2D::GetForce() const
 {
 	return _force;
 }
@@ -74,7 +74,7 @@ void Body2D::SetPosition(const Vector3& pos)
 	OnUpdateMatrix();
 }
 
-const Vector3 Body2D::GetPosition()
+const Vector3 Body2D::GetPosition() const
 {
 	return Vector3(_worldMatrix._41, _worldMatrix._42, 0);
 }
@@ -85,7 +85,7 @@ void Body2D::SetWorldMatrix(const Matrix4& mat)
 	OnUpdateMatrix();
 }
 
-const Matrix4& Body2D::GetWorldMatrix()
+const Matrix4& Body2D::GetWorldMatrix() const
 {
 	return _worldMatrix;
 }
@@ -106,7 +106,7 @@ void Body2D::SetGravityScale(const float& scale)
 	_gravityScale = scale;
 }
 
-const float& Body2D::GetGravityScale()
+const float& Body2D::GetGravityScale() const
 {
 	return _gravityScale;
 }
@@ -121,9 +121,21 @@ float Body2D::GetRotation()
 	return _rotation;
 }
 
-void Body2D::Assign(WMaterial material)
+void Body2D::SetMaterial(WMaterial material)
 {
 	_material = material;
+}
+
+WMaterial Body2D::GetMaterial() const
+{
+	if (_material.expired())
+		_material = Material::GetDefaultMaterial();
+	return _material;
+}
+
+void Body2D::SetMaterialToDefault()
+{
+	_material = Material::GetDefaultMaterial();
 }
 
 void Body2D::SetStatic()

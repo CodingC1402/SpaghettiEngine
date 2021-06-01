@@ -50,6 +50,23 @@
 					}
 				]
 			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"IsRoot": true,
+				"Tag": "ColliderForTileMap",
+				"GameObjects": [
+				],
+				"Transform": [ 40, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{
+						"ID": 4
+					}
+				]
+			}
 		}
 	],
 	"Scripts": [
@@ -71,6 +88,13 @@
 		},
 		{
 			"ID": 3,
+			"Inputs": {
+				"ScriptType": "CircleCollider",
+				"Radius": 30
+			}
+		},
+		{
+			"ID": 4,
 			"Inputs": {
 				"ScriptType": "CircleCollider",
 				"Radius": 30

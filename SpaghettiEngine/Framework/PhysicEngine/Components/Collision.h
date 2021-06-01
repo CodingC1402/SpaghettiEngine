@@ -40,7 +40,5 @@ protected:
 	float _dynamicFriction = 0;
 	float _staticFriction = 0;
 
-	float _restituation = 1.0f;
-
 	static std::vector<std::vector<bool (*)(Collision*)>> _collisionFunctions;
 };

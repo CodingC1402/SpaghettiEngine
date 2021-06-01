@@ -99,6 +99,8 @@ float Vector3::Dot(const Vector3& vec) const
 Vector3 Vector3::GetUnitVector() const
 {
 	float mag = GetMagnitude();
+	if (mag == 0)
+		return Vector3();
 	return Div(mag);
 }
 

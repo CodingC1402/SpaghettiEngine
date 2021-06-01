@@ -22,31 +22,35 @@ public:
 	void RemoveShape(Shape* shape);
 
 	void SetMass(const float& mass);
-	[[nodiscard]] const float& GetMass();
-	[[nodiscard]] const float& GetInverseMass();
+	[[nodiscard]] const float& GetMass() const;
+	[[nodiscard]] const float& GetInverseMass() const;
 
 	void SetVelocity(const Vector3& velocity);
-	[[nodiscard]] const Vector3& GetVelocity();
+	[[nodiscard]] const Vector3& GetVelocity() const;
 
 	void SetForce(const Vector3& force);
-	[[nodiscard]] const Vector3& GetForce();
+	[[nodiscard]] const Vector3& GetForce() const;
 
 	void SetPosition(const Vector3& pos);
-	[[nodiscard]] const Vector3 GetPosition();
+	[[nodiscard]] const Vector3 GetPosition() const;
 
 	void SetWorldMatrix(const Matrix4& mat);
-	[[nodiscard]] const Matrix4& GetWorldMatrix();
+	[[nodiscard]] const Matrix4& GetWorldMatrix() const;
 
 	void SetRotation(const float& degree);
 	[[nodiscard]] const float& GetRoation();
 
 	void SetGravityScale(const float& scale);
-	[[nodiscard]] const float& GetGravityScale();
+	[[nodiscard]] const float& GetGravityScale() const;
+
 
 	[[nodiscard]] Vector3 GetMoveVector();
 	[[nodiscard]] float GetRotation();
 
-	void Assign(WMaterial material);
+	void SetMaterial(WMaterial material);
+	[[nodiscard]] WMaterial GetMaterial() const;
+
+	void SetMaterialToDefault();
 	void SetStatic();
 
 	void ApplyImpulse(const Vector3& impulse);
@@ -76,5 +80,5 @@ protected:
 	Vector3 _moveVec;
 
 	std::list<Shape*> _shapes;
-	WMaterial _material;
+	mutable WMaterial _material = Material::GetDefaultMaterial();
 };
