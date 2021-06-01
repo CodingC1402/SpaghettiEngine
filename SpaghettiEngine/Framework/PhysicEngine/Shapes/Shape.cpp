@@ -13,21 +13,6 @@ Shape::Shape()
 	_body = _staticBody;
 }
 
-float Shape::GetRestitution()
-{
-	return _body.lock()->_material.lock()->_restitution;
-}
-
-float Shape::GetStaticFriction()
-{
-	return _body.lock()->_material.lock()->_staticFriction;
-}
-
-float Shape::GetDynamicFriction()
-{
-	return _body.lock()->_material.lock()->_dynamicFriction;
-}
-
 Vector3 Shape::GetGravityVector()
 {
 	return Physic::GetGravity() * _body.lock()->_gravityScale;

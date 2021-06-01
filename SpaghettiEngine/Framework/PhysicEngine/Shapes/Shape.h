@@ -21,9 +21,6 @@ public:
 	Shape();
 	virtual Type GetType() const = 0;
 
-	[[nodiscard]] float GetRestitution();
-	[[nodiscard]] float GetStaticFriction();
-	[[nodiscard]] float GetDynamicFriction();
 	[[nodiscard]] float GetInverseMass();
 	[[nodiscard]] float GetMass();
 	[[nodiscard]] Vector3 GetVelocity();

@@ -1,4 +1,5 @@
 #include "Material.h"
+#include "SpaghettiEnginePath.h"
 
 Material::Material(const float staticFriction, const float dynamicFriction, const float restitution)
 	:
@@ -19,19 +20,36 @@ WMaterial Material::GetMaterial(const unsigned id)
 	return _materials[id];
 }
 
-float Material::GetStaticFriction() const noexcept
+bool Material::RemoveMaterial(const unsigned id)
+{
+	auto it = _materials.find(id);
+	if (it != _materials.end())
+	{
+		_materials.erase(id);
+		return true;
+	}
+	else
+		return false;
+}
+
+const float& Material::GetStaticFriction() const noexcept
 {
 	return _staticFriction;
 }
 
-float Material::GetDynamicFriction() const noexcept
+const float& Material::GetDynamicFriction() const noexcept
 {
 	return _dynamicFriction;
 }
 
-float Material::GetRestitution() const noexcept
+const float& Material::GetRestitution() const noexcept
 {
 	return _restitution;
+}
+
+WMaterial Material::GetDefaultMaterial()
+{
+	return _defaultMaterial;
 }
 
 void Material::SetStaticFriction(const float f) noexcept
