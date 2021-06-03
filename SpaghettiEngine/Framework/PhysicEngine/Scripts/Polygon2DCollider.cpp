@@ -14,6 +14,7 @@ Polygon2DCollider::Polygon2DCollider(PScene owner, bool isDisabled) : Collider2D
 void Polygon2DCollider::Load(nlohmann::json& input)
 {
 	std::vector<Vector3> loadedVertex(input[_vertexesField].size());
+	Collider2DBase::Load(input);
 	for (unsigned i = 0; i < loadedVertex.size(); i++)
 	{
 		loadedVertex[i].x = input[_vertexesField][i][0];

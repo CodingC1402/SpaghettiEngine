@@ -15,7 +15,7 @@ bool Polygon::PolygonPolygon(Collision* collision)
 	auto shapeB = dynamic_cast<Polygon*>(collision->GetShapeB());
 
 	Vector3 normal;
-	float penatration = 0;
+	double penatration = 0;
 
 	if (shapeA->GetCenter().y <= -85)
 	{
@@ -56,11 +56,11 @@ void Polygon::UpdateParameter()
 	_worldMatrix = matrix;
 	_worldVertexes = _vertexes;
 	for (auto& vertex : _worldVertexes)
-		vertex = vertex * _worldMatrix;
-	_center = _centroid * _worldMatrix;
+		vertex = vertex * _offSetMatrix * _worldMatrix;
+	_center = _centroid * _offSetMatrix * _worldMatrix;
 }
 
-bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penatration, Vector3& normal)
+bool Polygon::CheckCollideOnEachEdge(const Polygon& other, double& penatration, Vector3& normal)
 {
 	const auto& vertexes = this->GetVertexes();
 
@@ -68,7 +68,7 @@ bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penatration, V
 	auto size = vertexes.size();
 
 	Vector3 currentNormal;
-	float currentPen;
+	double currentPen;
 
 	edge = vertexes[0] - vertexes[1];
 	if (!CheckCollideOnOneEdge(edge, other, currentPen, currentNormal))
@@ -91,7 +91,7 @@ bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penatration, V
 	return true;
 }
 
-bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, float& edgePenatration, Vector3& edgeNormal)
+bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, double& edgePenatration, Vector3& edgeNormal)
 {
 	edgeNormal.x = edge.y;
 	edgeNormal.y = -edge.x;
@@ -102,7 +102,7 @@ bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, f
 	MinMaxDotAlongNormal* Left;
 	MinMaxDotAlongNormal* Right;
 
-	if (ADot.GetMaxDot() <= BDot.GetMaxDot())
+	if (ADot.GetMaxDot() >= BDot.GetMaxDot())
 	{
 		Left = &BDot;
 		Right = &ADot;
@@ -113,14 +113,10 @@ bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, f
 		Right = &BDot;
 	}
 
-	if (Left->GetMinDot() > Right->GetMaxDot())
+	if (Left->GetMaxDot() < Right->GetMinDot())
 		return false;
 
-	if (Right->GetMinDot() >= Left->GetMinDot())
-		edgePenatration = Right->GetMinDot() - Left->GetMinDot();
-	else
-		edgePenatration = Right->GetMaxDot() - Left->GetMinDot();
-	edgePenatration = std::abs(edgePenatration);
+	edgePenatration = std::abs(Left->GetMaxDot() - Right->GetMinDot());
 }
 
 void Polygon::SetVertexes(const std::vector<Vector3>& vertexes)
