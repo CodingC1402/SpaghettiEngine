@@ -1,5 +1,6 @@
 #include "Polygon.h"
 #include "Collision.h"
+#include "Circle.h"
 #include "SMath.h"
 #include <cmath>
 
@@ -28,9 +29,6 @@ bool Polygon::PolygonPolygon(Collision* collision)
 	if (normal.Dot(shapeB->GetCenter() - shapeA->GetCenter()) < 0)
 		normal = -normal;
 
-	penatration /= normal.GetMagnitude();
-	normal = normal.GetUnitVector();
-
 	collision->SetPenetration(penatration);
 	collision->SetNormal(normal);
 	return result;
@@ -38,6 +36,8 @@ bool Polygon::PolygonPolygon(Collision* collision)
 
 bool Polygon::PolygonCircle(Collision* collision)
 {
+	Polygon2D* polygon = dynamic_cast<Polygon2D*>(collision->GetShapeA());
+	Circle* circle = dynamic_cast<Circle*>(collision->GetShapeB());
 	return false;
 }
 
@@ -89,6 +89,7 @@ bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, f
 {
 	edgeNormal.x = edge.y;
 	edgeNormal.y = -edge.x;
+	edgeNormal = edgeNormal.GetUnitVector();
 
 	MinMaxDotAlongNormal ADot(*this, edgeNormal);
 	MinMaxDotAlongNormal BDot(other, edgeNormal);
@@ -111,6 +112,7 @@ bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, f
 		return false;
 
 	edgePenatration = std::abs(Left->GetMaxDot() - Right->GetMinDot());
+	return true;
 }
 
 void Polygon::SetVertexes(const std::vector<Vector3>& vertexes)
