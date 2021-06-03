@@ -28,7 +28,7 @@
     {
       "KeyCode": 38,
       "Name": "MoveUp",
-      "Type": "KeyState"
+      "Type": "KeyDown"
     },
     {
       "KeyCode": 39,

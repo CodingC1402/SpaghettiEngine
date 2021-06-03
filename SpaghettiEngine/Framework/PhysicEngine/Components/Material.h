@@ -29,5 +29,5 @@ protected:
 	float _restitution;
 protected:
 	static inline std::map<unsigned, SMaterial> _materials;
-	static inline SMaterial _defaultMaterial = std::make_shared<Material>(0.4f, 0.2f, 0.0f);
+	static inline SMaterial _defaultMaterial = std::make_shared<Material>(0.1f, 0.1f, 0.0f);
 };

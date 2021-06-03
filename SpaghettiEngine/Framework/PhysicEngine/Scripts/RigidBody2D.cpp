@@ -47,3 +47,38 @@ void RigidBody2D::Load(nlohmann::json& input)
 	if (input[_gravityScale] != nullptr)
 		_body->SetGravityScale(input[_gravityScale].get<float>());
 }
+
+void RigidBody2D::SetVelocity(const Vector3& velocity)
+{
+	_body->SetVelocity(velocity);
+}
+
+const Vector3& RigidBody2D::GetVelocity() const
+{
+	return _body->GetVelocity();
+}
+
+void RigidBody2D::SetMass(const float& mass)
+{
+	_body->SetMass(mass);
+}
+
+const float& RigidBody2D::GetMass() const
+{
+	return _body->GetMass();
+}
+
+void RigidBody2D::SetGravityScale(const float& scalar)
+{
+	_body->SetGravityScale(scalar);
+}
+
+const float& RigidBody2D::GetGravityScale() const
+{
+	return _body->GetGravityScale();
+}
+
+void RigidBody2D::ApplyImpulseForce(const Vector3& force)
+{
+	_body->ApplyImpulse(force);
+}

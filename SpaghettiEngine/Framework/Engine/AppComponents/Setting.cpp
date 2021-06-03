@@ -75,11 +75,13 @@ void Setting::Load()
 		constexpr const char* PIXELPERFECT_WORLDPOINT = "PixelPerfectWorldPoint";
 		constexpr const char* CAPPEDLOOP = "CappedLoop";
 		constexpr const char* GRAVITY = "Gravity";
+		constexpr const char* PHYSICSTEP = "PhysicStep";
 		
 		json file;
 		jsonFile >> file;
 
 		Physic::SetGravity(file[GRAVITY].get<float>());
+		Physic::SetStep(file[PHYSICSTEP].get<float>());
 		resolution.width = file[RESOLUTION][WIDTH].get<int>();
 		resolution.height = file[RESOLUTION][HEIGHT].get<int>();
 		halfResolution.width = resolution.width / 2;

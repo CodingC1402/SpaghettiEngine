@@ -40,7 +40,10 @@
 		{
 			"ID": 2,
 			"Inputs": {
-				"ScriptType": "MoveScript"	
+				"ScriptType": "MoveScript",
+				"SpeedRamUp": 700,
+				"SpeedCap": 120,
+				"JumpStrength": 300
 			}
 		},
 		{
@@ -67,8 +70,8 @@
 			"ID": 5,
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
-				"Mass": 5,
-				"GravityScale": 3
+				"Mass": 4,
+				"GravityScale": 4
 			}
 		}
     ]

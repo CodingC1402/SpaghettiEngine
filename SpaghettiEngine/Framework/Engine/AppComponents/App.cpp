@@ -28,8 +28,6 @@ BOOL App::Go()
 		gfx = Graphics::GetInstance();
 		gfx->Init(Graphics::ColorFormat::RGB32Bit);
 
-		Physic::SetStep(1 / (Setting::GetFps() * 2));
-
 		game = Game::GetInstance();
 		game->Init();
 

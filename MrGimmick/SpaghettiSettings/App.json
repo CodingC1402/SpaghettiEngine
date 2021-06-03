@@ -7,5 +7,6 @@
   },
   "PixelPerfectResolution": true,
   "PixelPerfectWorldPoint": true,
-  "Gravity": 120
+  "Gravity": 120,
+  "PhysicStep": 0.001
 }

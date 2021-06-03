@@ -5,6 +5,13 @@
 
 REGISTER_FINISH(MoveScript);
 
+void MoveScript::Load(nlohmann::json& input)
+{
+	_jumpStrength = input[JumpStrengthField].get<float>();
+	_speedCap = input[SpeedCapField].get<float>();
+	_speedRamUp = input[SpeedRamUpField].get<float>();
+}
+
 MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
 {
 	_name = TYPE_NAME(MoveScript);
@@ -12,6 +19,8 @@ MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
 
 void MoveScript::OnStart()
 {
+	_rigidBody = std::dynamic_pointer_cast<RigidBody2D>(_ownerObj->GetScript("RigidBody2D")->GetSharedPtr());
+
 	up = InputSystem::GetInput("MoveUp");
 	down = InputSystem::GetInput("MoveDown");
 	left = InputSystem::GetInput("MoveLeft");
@@ -25,9 +34,7 @@ void MoveScript::OnUpdate()
 	move.z = 0;
 
 	if (up->Check())
-		move.y += 1;
-	if (down->Check())
-		move.y -= 1;
+		move.y += _jumpStrength;
 	if (left->Check())
 	{
 		move.x -= 1;
@@ -47,8 +54,13 @@ void MoveScript::OnUpdate()
 		}
 	}
 
-	move.x *= movementSpeed * GameTimer::GetDeltaTime();
-	move.y *= movementSpeed * GameTimer::GetDeltaTime();
+	move.x *= _speedRamUp * GameTimer::GetDeltaTime();
 
-	_ownerObj->Translate(move);
+	Vector3 velocity = _rigidBody.lock()->GetVelocity();
+	if (move.x * velocity.x < 0)
+		velocity.x += move.x;
+	else if (abs(velocity.x) < _speedCap)
+		velocity.x += move.x;
+	velocity.y += move.y;
+	_rigidBody.lock()->SetVelocity(velocity);
 }
