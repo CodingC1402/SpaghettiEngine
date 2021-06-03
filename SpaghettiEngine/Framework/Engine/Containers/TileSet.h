@@ -5,7 +5,7 @@
 typedef class Tile
 {
 public:
-    virtual void Load(Texture* texture, std::vector<int> sprites, float delay) {}
+    virtual void Load(Texture* texture, std::vector<unsigned> sprites, float delay) {}
     virtual void Draw(const Vector3& position) {}
     virtual ~Tile() = default;
 protected:
@@ -13,7 +13,7 @@ protected:
 
 typedef class NormalTile : public Tile
 {
-    virtual void Load(Texture* texture, std::vector<int> sprites, float delay) override;
+    virtual void Load(Texture* texture, std::vector<unsigned> sprites, float delay) override;
     virtual void Draw(const Vector3& position) override;
 protected:
     SSprite sprite;
@@ -23,13 +23,13 @@ typedef class AnimatedTile : public Tile
 {
 
 public:
-    virtual void Load(Texture* texture, std::vector<int> sprites, float delay) override;
+    virtual void Load(Texture* texture, std::vector<unsigned> sprites, float delay) override;
     virtual void Draw(const Vector3& position) override;
 protected:
     std::vector<SSprite> _sprites;
     SSprite _currentSprite;
-    float _delay;
-    float _currentTime;
+    float _delay = 0;
+    float _currentTime = 0;
 }*PAnimatedTile;
 typedef std::shared_ptr<Tile> STile;
 typedef std::weak_ptr<Tile> WTile;

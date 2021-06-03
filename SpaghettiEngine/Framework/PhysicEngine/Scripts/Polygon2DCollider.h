@@ -12,7 +12,7 @@ public:
 	void Load(nlohmann::json& input) override;
 protected:
 	static constexpr auto _vertexesField = "Vertexes";
-	SPolygon _shapePolygon;
+	std::vector<SPolygon> _shapePolygon;
 private:
 	REGISTER_START(Polygon2DCollider);
 };

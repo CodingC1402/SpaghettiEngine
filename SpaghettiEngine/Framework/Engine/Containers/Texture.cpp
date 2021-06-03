@@ -93,7 +93,7 @@ std::vector<SSprite> Texture::GetAllSprites() noexcept
 
 unsigned Texture::GetSpritesNumber() noexcept
 {
-	return sprites.size();
+	return static_cast<unsigned>(sprites.size());
 }
 
 TextureContainer::TextureContainer()

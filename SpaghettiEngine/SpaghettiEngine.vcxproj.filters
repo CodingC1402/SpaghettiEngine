@@ -290,6 +290,9 @@
     <ClInclude Include="Framework\Engine\Wrapper\Color.h">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h">
+      <Filter>FrameWork\Engine\ThirdParty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -492,6 +495,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Color.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp">
+      <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

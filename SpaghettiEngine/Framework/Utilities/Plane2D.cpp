@@ -58,7 +58,7 @@ void Plane2D::Point::operator=( const tagPOINTS& swpt )
 
 Plane2D::Point::operator PointF()
 {
-	return PointF( x, y );
+	return PointF( static_cast<float>(x), static_cast<float>(y));
 }
 #pragma endregion
 
@@ -83,8 +83,8 @@ Plane2D::PointF::PointF( const tagPOINTS& swpt )
 
 Plane2D::PointF::PointF( const tagPOINT& wpt )
 {
-	x = wpt.x;
-	y = wpt.y;
+	x = static_cast<float>(wpt.x);
+	y = static_cast<float>(wpt.y);
 }
 
 PointF PointF::operator+( const PointF& pt )
@@ -105,8 +105,8 @@ void  PointF::operator= ( const PointF& pt )
 
 void Plane2D::PointF::operator=( const tagPOINT& wpt )
 {
-	x = wpt.x;
-	y = wpt.y;
+	x = static_cast<float>(wpt.x);
+	y = static_cast<float>(wpt.y);
 }
 
 void Plane2D::PointF::operator=( const tagPOINTS& swpt )

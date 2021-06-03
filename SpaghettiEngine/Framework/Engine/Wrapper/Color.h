@@ -18,7 +18,8 @@ public:
 		return (_color >> _alphaMask) & _mask;
 	}
 	SET(alpha) {
-		(_color & (_mask << _alphaMask)) | (static_cast<Int32>(value & _mask) << _alphaMask);
+		_color |= (_mask << _alphaMask); 
+		_color &= (static_cast<Int32>(value & _mask) << _alphaMask);
 	}
 
 	PROPERTY(Byte, red);
@@ -26,7 +27,8 @@ public:
 		return (_color >> _redMask) & _mask;
 	}
 	SET(red) {
-		(_color & (_mask << _redMask)) | (static_cast<Int32>(value & _mask) << _redMask);
+		_color |= (_mask << _redMask);
+		_color &= (static_cast<Int32>(value & _mask) << _redMask);
 	}
 
 	PROPERTY(Byte, green);
@@ -34,7 +36,8 @@ public:
 		return (_color >> _greenMask) & _mask;
 	}
 	SET(green) {
-		(_color & (_mask << _greenMask)) | (static_cast<Int32>(value & _mask) << _greenMask);
+		_color |= (_mask << _greenMask);
+		_color &= (static_cast<Int32>(value & _greenMask) << _greenMask);
 	}
 
 	PROPERTY(Byte, blue);
@@ -42,7 +45,8 @@ public:
 		return (_color >> _blueMask) & _mask;
 	}
 	SET(blue) {
-		(_color & (_mask << _blueMask)) | (static_cast<Int32>(value & _mask) << _blueMask);
+		_color |= (_mask << _blueMask);
+		_color &= (static_cast<Int32>(value & _blueMask) << _blueMask);
 	}
 protected:
 	static constexpr Byte _alphaMask = 24;
@@ -54,7 +58,6 @@ protected:
 };
 
 #define XRGB Color
-#define RGB XRGB
 #define ARGB(alpha, r, g, b) Color(alpha, r, g, b);
 
 // decrease drag time but increase memory use so use wisely :v,

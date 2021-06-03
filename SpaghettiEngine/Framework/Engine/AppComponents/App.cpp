@@ -8,7 +8,7 @@
 #include <iomanip>
 
 PApp App::__instance = nullptr;
-constexpr float _loopCap = 0.00001;
+constexpr float _loopCap = 0.00001f;
 
 App::~App() noexcept
 {

@@ -437,11 +437,11 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	//Key board message
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
-		m_kbKeyInput->OnKeyPressed( static_cast<unsigned char>(wParam), lParam );
+		m_kbKeyInput->OnKeyPressed( static_cast<unsigned char>(wParam), static_cast<int>(lParam) );
 		break;
 	case WM_SYSKEYUP:
 	case WM_KEYUP:
-		m_kbKeyInput->OnKeyRelease( static_cast<unsigned char>(wParam), lParam );
+		m_kbKeyInput->OnKeyRelease( static_cast<unsigned char>(wParam), static_cast<int>(lParam));
 		break;
 	case WM_CHAR:
 		m_kbKeyInput->OnChar( static_cast<wchar_t>(wParam) );

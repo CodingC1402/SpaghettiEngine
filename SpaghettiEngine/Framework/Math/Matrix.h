@@ -1,7 +1,7 @@
 #pragma once
 #include "Macros.h"
 
-class D3DXMATRIX;
+struct D3DXMATRIX;
 
 class Matrix4
 {

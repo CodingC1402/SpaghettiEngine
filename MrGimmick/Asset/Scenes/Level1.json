@@ -41,21 +41,11 @@
 				"Tag": "ColliderForTileMapPart1",
 				"GameObjects": [
 				],
-				"Transform": [ 0, 0, 0 ],
+				"Transform": [-1032, -376, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					{ "ID": 3 },
-					{ "ID": 4 },
-					{ "ID": 5 },
-					{ "ID": 6 },
-					{ "ID": 7 },
-					{ "ID": 8 },
-					{ "ID": 9 },
-					{ "ID": 10},
-					{ "ID": 11},
-					{ "ID": 12},
-					{ "ID": 13}
+					{ "ID": 3 }
 				]
 			}
 		}
@@ -81,145 +71,11 @@
 			"ID": 3,
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
-				"OffSetX": -8,
-				"OffSetY": 8,
 				"Vertexes": [
-					[-1024, 384, 0],
-					[-1008, 384, 0],
-					[-1008, 16, 0],
-					[-1024, 16, 0] 
-				]
-			}
-		},
-		{
-			"ID": 4,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-1032, 16, 0],
-					[-1032, 40, 0],
-					[-632, 40, 0],
-					[-632, 16, 0] 
-				]
-			}
-		},
-		{
-			"ID": 5,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-648, 16, 0],
-					[-648, 72, 0],
-					[-744, 72, 0],
-					[-744, 16, 0] 
-				]
-			}
-		},
-		{
-			"ID": 6,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-824, 16, 0],
-					[-824, 56, 0],
-					[-792, 56, 0],
-					[-792, 16, 0] 
-				]
-			}
-		},
-		{
-			"ID": 7,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-568, 16, 0],
-					[-568, 40, 0],
-					[-312, 40, 0],
-					[-312, 16, 0] 
-				]
-			}
-		},
-		{
-			"ID": 8,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-552, 40, 0],
-					[-456, 40, 0],
-					[-488, 56, 0],
-					[-520, 56, 0] 
-				]
-			}
-		},
-		{
-			"ID": 9,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-424, 40, 0],
-					[-328, 40, 0],
-					[-360, 56, 0],
-					[-392, 56, 0] 
-				]
-			}
-		},
-		{
-			"ID": 10,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-248, 8, 0],
-					[-248, 40, 0],
-					[-40, 40, 0],
-					[-40, 8, 0] 
-				]
-			}
-		},
-		{
-			"ID": 11,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-152, 40, 0],
-					[-152, 104, 0],
-					[-120, 104, 0],
-					[-120, 40, 0] 
-				]
-			}
-		},
-		{
-			"ID": 12,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-152, 40, 0],
-					[-152, 72, 0],
-					[-168, 72, 0],
-					[-232, 40, 0] 
-				]
-			}
-		},
-		{
-			"ID": 13,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-8, 8, 0],
-					[-8, 392, 0],
-					[-24, 392, 0],
-					[-24, 8, 0] 
-				]
-			}
-		},
-		{
-			"ID": 14,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-8, 8, 0],
-					[-8, 392, 0],
-					[-24, 392, 0],
-					[-24, 8, 0] 
+					[0, 400],
+					[600, 400],
+					[600, 416],
+					[0, 416]
 				]
 			}
 		}

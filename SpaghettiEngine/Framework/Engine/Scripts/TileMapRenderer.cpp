@@ -56,8 +56,8 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		height = jsonFile["Height"].get<int>();
 		tileWidth = jsonFile["TileWidth"].get<int>();
 		tileHeight = jsonFile["TileHeight"].get<int>();
-		_pixelWidth = width * tileWidth;
-		_pixelHeight = height * tileHeight;
+		_pixelWidth = static_cast<float>(width * tileWidth);
+		_pixelHeight = static_cast<float>(height * tileHeight);
 		
 		_tileSet = TileSetContainer::GetInstance()->GetResource(jsonFile[LoadingJson::Field::idField]);
 

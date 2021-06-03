@@ -9,9 +9,8 @@ constexpr auto n = 4;
 
 Matrix4::Matrix4(const float numbers[])
 {
-	for (int r = 0; r < n; r++)
-		for (int c = 0; c < n; c++)
-			_numbers[r][c] = numbers[r * n + c];
+	for (int i = 0; i < n * n; i++)
+		_numbers[i / n][i % n] = numbers[i];
 }
 
 const float* Matrix4::operator[](unsigned row) const

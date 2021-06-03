@@ -2,7 +2,7 @@
 #include <deque>
 #include <list>
 
-static struct ContainerUtil
+struct ContainerUtil
 {
 	template<typename T>
 	static inline bool Erase(std::deque<T>& container, const T& toErase)

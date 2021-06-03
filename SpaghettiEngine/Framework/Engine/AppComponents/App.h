@@ -29,6 +29,6 @@ protected:
 	bool running = false;
 	float _accumulation = 0.0f;
 
-	static constexpr float _loopCap = 0.00001f;
+	static constexpr float _loopCap = 0.0001f;
 	static PApp __instance;
 };

@@ -9,7 +9,7 @@
 
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
-typedef class PhysicScriptBase;
+typedef class PhysicScriptBase* PPhysicScriptBase;
 
 typedef class GameObj* PGameObj;
 typedef std::shared_ptr<GameObj> SGameObj;

@@ -44,16 +44,16 @@ void GameWnd::OnSizeChanged(UINT width, UINT height)
 		int contentPosY;
 		if (ratioW > ratioH)
 		{
-			contentHeight = std::round(static_cast<double>(resolution.height) * ratioH);
-			contentWidth =  std::round(static_cast<double>(resolution.width ) * ratioH);
+			contentHeight = static_cast<int>(std::round(static_cast<double>(resolution.height) * ratioH));
+			contentWidth =  static_cast<int>(std::round(static_cast<double>(resolution.width ) * ratioH));
 		}
 		else
 		{
-			contentWidth =  std::round(static_cast<double>(resolution.width ) * ratioW);
-			contentHeight = std::round(static_cast<double>(resolution.height) * ratioW);
+			contentWidth =  static_cast<int>(std::round(static_cast<double>(resolution.width ) * ratioW));
+			contentHeight = static_cast<int>(std::round(static_cast<double>(resolution.height) * ratioW));
 		}
-		contentPosY = std::round(((long long)height - contentHeight) / 2.0);
-		contentPosX = std::round(((long long)width - contentWidth) / 2.0);
+		contentPosY = static_cast<int>(std::round(((long long)height - contentHeight) / 2.0));
+		contentPosX = static_cast<int>(std::round(((long long)width - contentWidth) / 2.0));
 
 		contentWnd->SetPos(contentPosX, contentPosY);
 		contentWnd->SetWidth(contentWidth);

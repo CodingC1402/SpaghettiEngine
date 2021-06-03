@@ -117,7 +117,7 @@ void Collision::ApplyImpulse()
 	float frictionForce = -relativeVel.Dot(friction);
 	frictionForce /= inverseMassSum;
 	
-	if (SMath::CompareFloat(frictionForce, 0.0f, 0.000001))
+	if (SMath::CompareFloat(frictionForce, 0.0f, 0.000001f))
 		return;
 	
 	Vector3 tangentImpulse;
@@ -133,7 +133,7 @@ void Collision::ApplyImpulse()
 void Collision::PositionalCorrection()
 {
 	float sumInverseMass = _shapeA->GetInverseMass() + _shapeB->GetInverseMass();
-	if (SMath::CompareFloat(sumInverseMass, 0.0f, 0.0000001))
+	if (SMath::CompareFloat(sumInverseMass, 0.0f, 0.0000001f))
 		return;
 
 	constexpr float kSlop = 0.05f;

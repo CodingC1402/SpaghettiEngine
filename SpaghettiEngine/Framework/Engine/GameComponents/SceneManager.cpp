@@ -116,11 +116,11 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 
 		sceneIndex = callLoadSceneIndex.load();
 	}
-	catch (const CornException& e)
+	catch (const CornException&)
 	{
 		throw;
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		std::ostringstream os;
 		os << "[Error] Standard exception has occurred while loading and unloading scene\n";
@@ -204,7 +204,7 @@ void SceneManager::Load()
 		scenes.push_back(SScene(new Scene("decoy"))); //Add decoy scene
 
 		callLoadSceneIndex = file[Start].get<int>();
-		sceneIndex = scenes.size() - 1;
+		sceneIndex = static_cast<unsigned>(scenes.size()) - 1u;
 		constScene = SScene(new Scene(file[StaticScene].get<std::string>()));
 	}
 	catch (...)

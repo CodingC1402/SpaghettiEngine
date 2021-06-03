@@ -207,7 +207,7 @@ void Container<T>::ResourceList::LoadEntriesList(const std::string& path)
 				_entries.emplace(entry["ID"].get<ULL>(), entry["Path"].get<std::string>());
 			}
 		}
-		catch (const std::exception& e)
+		catch (const std::exception&)
 		{
 			std::ostringstream os;
 			os << "[Type] Entry list error";
