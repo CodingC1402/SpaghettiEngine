@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include "SMath.h"
+#include "CornDirectX.h"
 #include <cmath>
 #include <iterator>
 #include <algorithm>
@@ -32,6 +33,23 @@ Matrix4 Matrix4::GetDiagonalMatrix()
 		0, 0, 0, 1
 	};
 	return Matrix4(numbers);
+}
+
+bool Matrix4::operator==(const Matrix4& matrix)
+{
+	for (int i = 0, r, c; i < n * n; i++)
+	{
+		r = i / n;
+		c = i - n * r;
+		if (matrix[r][c] != (*this)[r][c])
+			return false;
+	}
+	return true;
+}
+
+bool Matrix4::operator!=(const Matrix4& matrix)
+{
+	return !(*this == matrix);
 }
 
 Matrix4& Matrix4::operator=(const Matrix4& matrix)

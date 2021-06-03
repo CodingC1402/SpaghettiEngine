@@ -8,6 +8,7 @@
 #include <mutex>
 #include "SMath.h"
 #include "CornException.h"
+#include "CornWnd.h"
 #include "json.hpp"
 
 //============================================================{Resource Base}=====================================================//

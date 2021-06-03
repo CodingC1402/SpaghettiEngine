@@ -1,6 +1,9 @@
 #include "LineRenderBase.h"
 #include "SMath.h"
 #include "LoadingJson.h"
+#include "Graphics.h"
+#include "Camera.h"
+#include "Vector3.h"
 
 REGISTER_FINISH(LineRendererBase);
 

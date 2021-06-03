@@ -1,6 +1,7 @@
 #include "Collider2DBase.h"
 #include "Physic.h"
 #include "Setting.h"
+#include "LineRenderBase.h"
 
 Collider2DBase::Collider2DBase(PScene owner, bool isDisable) 
 	:

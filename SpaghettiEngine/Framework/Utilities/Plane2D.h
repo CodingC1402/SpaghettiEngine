@@ -1,5 +1,7 @@
 #pragma once
-#include "CornWnd.h"
+
+struct tagPOINT;
+struct tagPOINTS;
 
 namespace Plane2D
 {
@@ -16,14 +18,14 @@ namespace Plane2D
 		PointF() = default;
 		PointF( const float& fX, const float& fY );
 		PointF( const PointF& pt );
-		PointF( const POINTS& swpt );
-		PointF( const POINT& wpt );
+		PointF( const tagPOINTS& swpt );
+		PointF( const tagPOINT& wpt );
 
 		PointF	operator+( const PointF& pt );
 		PointF	operator-( const PointF& pt );
 		void	operator=( const PointF& pt );
-		void	operator=( const POINT& wpt );
-		void	operator=( const POINTS& swpt );
+		void	operator=( const tagPOINT& wpt );
+		void	operator=( const tagPOINTS& swpt );
 		operator Point();
 	};
 
@@ -36,14 +38,14 @@ namespace Plane2D
 		Point() = default;
 		Point( const int& iX, const int& iY );
 		Point( const Point& pt );
-		Point( const POINTS& swpt );
-		Point( const POINT& wpt );
+		Point( const tagPOINTS& swpt );
+		Point( const tagPOINT& wpt );
 
 		Point	operator+	( const Point& pt );
 		Point	operator-	( const Point& pt );
 		void	operator=	( const Point& pt );
-		void	operator=	( const POINT& wpt );
-		void	operator=	( const POINTS& swpt );
+		void	operator=	( const tagPOINT& wpt );
+		void	operator=	( const tagPOINTS& swpt );
 		operator PointF();
 	};
 

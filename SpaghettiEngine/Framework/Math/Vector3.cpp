@@ -1,4 +1,5 @@
 #include "Vector3.h"
+#include "CornDirectX.h"
 #include <cmath>
 #include <algorithm>
 #include <iterator>

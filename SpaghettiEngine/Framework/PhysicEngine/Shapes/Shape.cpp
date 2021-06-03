@@ -53,6 +53,16 @@ const float& Shape::GetOffSetY()
 	return _offSetMatrix._42;
 }
 
+Vector3& Shape::GetCenter()
+{
+	return _center;
+}
+
+float& Shape::GetRadius()
+{
+	return _radius;
+}
+
 void Shape::RemoveFromPhysic()
 {
 	Physic::RemoveShape(this);

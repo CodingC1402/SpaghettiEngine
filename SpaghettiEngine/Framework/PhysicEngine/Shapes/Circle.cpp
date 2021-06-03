@@ -6,26 +6,20 @@ Shape::Type Circle::GetType() const
 	return Shape::Type::Circle;
 }
 
-Vector3 Circle::GetCenter() const
-{
-	return _center;
-}
-
 void Circle::SetRadius(const float& radius)
 {
 	_radius = radius;
 }
 
-float& Circle::GetRadius()
-{
-	return _radius;
-}
-
 void Circle::UpdateParameter()
 {
 	Matrix4 matrix = _body.lock()->GetWorldMatrix();
-	_center.x = matrix._41;
-	_center.y = matrix._42;
+	if (matrix == _worldMatrix)
+		return;
+
+	_worldMatrix = matrix;
+	_center.x = _worldMatrix._41;
+	_center.y = _worldMatrix._42;
 	_center.z = 0;
 	_center = _center * _offSetMatrix;
 }
@@ -56,4 +50,9 @@ bool Circle::CircleCircle(Collision* collision)
 		collision->SetNormal(Vector3(0, 1, 0));
 		return true;
 	}
+}
+
+bool Circle::CirclePolygon(Collision* collision)
+{
+	return false;
 }

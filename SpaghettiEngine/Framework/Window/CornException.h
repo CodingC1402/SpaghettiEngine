@@ -2,7 +2,6 @@
 #include <exception>
 #include <string>
 #include <sstream>
-#include "CornWnd.h"
 #include "StringConverter.h"
 
 class CornException : public std::exception

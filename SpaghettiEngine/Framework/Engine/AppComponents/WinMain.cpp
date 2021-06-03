@@ -7,6 +7,7 @@
 #include "CircleCollider.h"
 #include "LineRenderBase.h"
 #include "RigidBody2D.h"
+#include "Polygon2DCollider.h"
 
 BOOL WinMain::Start(
 	HINSTANCE	hInstance,
@@ -32,4 +33,5 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new LineRendererBase(nullptr);
 	dummyScript = new CircleCollider(nullptr);
 	dummyScript = new RigidBody2D(nullptr);
+	dummyScript = new Polygon2DCollider(nullptr);
 }

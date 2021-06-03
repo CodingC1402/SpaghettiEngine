@@ -1,5 +1,6 @@
 #pragma once
 #include "Plane2D.h"
+#include "CornWnd.h"
 
 using Plane2D::Size;
 

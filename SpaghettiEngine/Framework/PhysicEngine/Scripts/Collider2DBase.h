@@ -1,8 +1,9 @@
 #pragma once
 #include "PhysicScriptBase.h"
-#include "LineRenderBase.h"
 #include "Body2D.h"
 #include "Shape.h"
+
+class LineRendererBase;
 
 class Collider2DBase : public PhysicScriptBase
 {

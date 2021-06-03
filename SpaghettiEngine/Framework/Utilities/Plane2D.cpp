@@ -1,4 +1,5 @@
 #include "Plane2D.h"
+#include "CornWnd.h"
 
 using namespace Plane2D;
 
@@ -15,13 +16,13 @@ Plane2D::Point::Point( const Point& pt )
 	y = pt.y;
 }
 
-Plane2D::Point::Point( const POINTS& swpt )
+Plane2D::Point::Point( const tagPOINTS& swpt )
 {
 	x = swpt.x;
 	y = swpt.y;
 }
 
-Plane2D::Point::Point( const POINT& wpt )
+Plane2D::Point::Point( const tagPOINT& wpt )
 {
 	x = wpt.x;
 	y = wpt.y;
@@ -43,13 +44,13 @@ void  Point::operator= ( const Point& pt )
 	y = pt.y;
 }
 
-void Plane2D::Point::operator=( const POINT& wpt )
+void Plane2D::Point::operator=( const tagPOINT& wpt )
 {
 	x = wpt.x;
 	y = wpt.y;
 }
 
-void Plane2D::Point::operator=( const POINTS& swpt )
+void Plane2D::Point::operator=( const tagPOINTS& swpt )
 {
 	x = swpt.x;
 	y = swpt.y;
@@ -74,13 +75,13 @@ Plane2D::PointF::PointF( const PointF& pt )
 	y = pt.y;
 }
 
-Plane2D::PointF::PointF( const POINTS& swpt )
+Plane2D::PointF::PointF( const tagPOINTS& swpt )
 {
 	x = swpt.x;
 	y = swpt.y;
 }
 
-Plane2D::PointF::PointF( const POINT& wpt )
+Plane2D::PointF::PointF( const tagPOINT& wpt )
 {
 	x = wpt.x;
 	y = wpt.y;
@@ -102,13 +103,13 @@ void  PointF::operator= ( const PointF& pt )
 	y = pt.y;
 }
 
-void Plane2D::PointF::operator=( const POINT& wpt )
+void Plane2D::PointF::operator=( const tagPOINT& wpt )
 {
 	x = wpt.x;
 	y = wpt.y;
 }
 
-void Plane2D::PointF::operator=( const POINTS& swpt )
+void Plane2D::PointF::operator=( const tagPOINTS& swpt )
 {
 	x = swpt.x;
 	y = swpt.y;
