@@ -46,8 +46,13 @@
 		{
 			"ID": 3,
 			"Inputs": {
-				"ScriptType": "CircleCollider",
-				"Radius": 10
+				"ScriptType": "Polygon2DCollider",
+				"Vertexes": [
+					[-8, -8, 0],
+					[-8, 8, 0],
+					[8, 8, 0],
+					[8, -8, 0] 
+				]
 			}
 		},
 		{

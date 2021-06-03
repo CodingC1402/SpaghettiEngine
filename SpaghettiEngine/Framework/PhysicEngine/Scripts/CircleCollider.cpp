@@ -1,5 +1,6 @@
 #include "CircleCollider.h"
 #include "Circle.h"
+#include "LineRenderBase.h"
 #include "Setting.h"
 
 REGISTER_FINISH(CircleCollider);
@@ -8,6 +9,7 @@ CircleCollider::CircleCollider(PScene owner) : Collider2DBase(owner)
 {
 	_shapeCircle = std::make_shared<Circle>();
 	_shape = _shapeCircle;
+	_name = TYPE_NAME(CircleCollider);
 }
 
 void CircleCollider::Load(nlohmann::json& input)

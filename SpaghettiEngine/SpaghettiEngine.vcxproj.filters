@@ -284,6 +284,12 @@
     <ClInclude Include="Framework\Utilities\ContainerUtil.h">
       <Filter>FrameWork\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Scripts\Polygon2DCollider.h">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Wrapper\Color.h">
+      <Filter>FrameWork\Engine\Wrapper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -480,6 +486,12 @@
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.cpp">
       <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Scripts\Polygon2DCollider.cpp">
+      <Filter>FrameWork\PhysicEngine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Wrapper\Color.cpp">
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

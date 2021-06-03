@@ -1,6 +1,7 @@
 #pragma once
-#include "CornDirectX.h"
 #include "Macros.h"
+
+class D3DXMATRIX;
 
 class Matrix4
 {
@@ -12,6 +13,9 @@ public:
 	float* operator[] (unsigned row);
 
 	static Matrix4 GetDiagonalMatrix();
+
+	bool	 operator==(const Matrix4& matrix);
+	bool	 operator!=(const Matrix4& matrix);
 
 	Matrix4& operator= (const Matrix4& matrix);
 	Matrix4& operator*=(const Matrix4& matrix);

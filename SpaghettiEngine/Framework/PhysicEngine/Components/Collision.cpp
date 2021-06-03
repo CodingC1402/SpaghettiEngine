@@ -5,7 +5,7 @@
 #include <cmath>
 
 std::vector<std::vector<bool (*)(Collision*)>> Collision::_collisionFunctions = {
-	{&Circle::CircleCircle, &Polygon::CirclePolygon,},
+	{&Circle::CircleCircle, &Circle::CirclePolygon,},
 	{&Polygon::PolygonCircle,& Polygon::PolygonPolygon}
 };
 

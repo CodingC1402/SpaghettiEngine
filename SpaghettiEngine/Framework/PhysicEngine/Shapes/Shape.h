@@ -31,6 +31,9 @@ public:
 	[[nodiscard]] const float& GetOffSetX();
 	[[nodiscard]] const float& GetOffSetY();
 
+	[[nodiscard]] Vector3& GetCenter();
+	[[nodiscard]] float& GetRadius();
+
 	virtual void UpdateParameter() = 0;
 
 	void RemoveFromPhysic();
@@ -45,5 +48,10 @@ protected:
 	SBody2D _staticBody;
 
 	Matrix4 _offSetMatrix;
+	Matrix4 _worldMatrix;
 	bool _isStatic = true;
+
+	//Use for broad phase
+	Vector3 _center;
+	float _radius;
 };

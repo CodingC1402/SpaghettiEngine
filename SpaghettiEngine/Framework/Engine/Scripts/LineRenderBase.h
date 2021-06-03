@@ -1,7 +1,8 @@
 #pragma once
 #include "ScriptBase.h"
-#include "Graphics.h"
-#include "Camera.h"
+#include "Color.h"
+
+typedef class Camera* PCamera;
 
 class LineRendererBase : public ScriptBase
 {
@@ -27,7 +28,7 @@ protected:
 
 	Matrix4 _offSetMatrix;
 	std::vector<Vector3> _vertexes;
-	Color _color = ARGB(255, 0, 255, 127);
+	Color _color = GREEN;
 	float _width = 2;
 private:
 	REGISTER_START(LineRendererBase);

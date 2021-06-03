@@ -1,5 +1,6 @@
 #pragma once
 #include "CornDirectX.h"
+#include "Color.h"
 #include "CornException.h"
 #include "GameWnd.h"
 #include "Texture.h"

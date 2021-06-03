@@ -65,7 +65,7 @@ PGameObj GameObj::GetParent() const
 {
 	return parent;
 }
-PGameObj GameObj::GetChild(UINT index) const
+PGameObj GameObj::GetChild(unsigned index) const
 {
 	if (index >= _children.size())
 		return nullptr;
@@ -74,7 +74,7 @@ PGameObj GameObj::GetChild(UINT index) const
 	std::advance(iterator, index);
 	return  *iterator;
 }
-PScriptBase GameObj::GetScript(UINT index) const noexcept
+PScriptBase GameObj::GetScript(unsigned index) const noexcept
 {
 	if (index >= _scripts.size())
 		return nullptr;

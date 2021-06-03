@@ -53,6 +53,7 @@
     <ClInclude Include="Framework\Engine\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Engine\Scripts\TileMapRenderer.h" />
     <ClInclude Include="Framework\Engine\ThirdParty\json.hpp" />
+    <ClInclude Include="Framework\Engine\Wrapper\Color.h" />
     <ClInclude Include="Framework\Engine\Wrapper\CornDirectX.h" />
     <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h" />
     <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h" />
@@ -71,6 +72,7 @@
     <ClInclude Include="Framework\PhysicEngine\Scripts\CircleCollider.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\Collider2DBase.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.h" />
+    <ClInclude Include="Framework\PhysicEngine\Scripts\Polygon2DCollider.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\RigidBody2D.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Circle.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Polygon.h" />
@@ -125,6 +127,7 @@
     <ClCompile Include="Framework\Engine\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\TileMapRenderer.cpp" />
+    <ClCompile Include="Framework\Engine\Wrapper\Color.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\Input.cpp" />
@@ -139,6 +142,7 @@
     <ClCompile Include="Framework\PhysicEngine\Components\Physic.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicMath.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Scripts\Polygon2DCollider.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\CircleCollider.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\Collider2DBase.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.cpp" />
@@ -257,6 +261,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -278,6 +283,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -299,6 +305,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -320,6 +327,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

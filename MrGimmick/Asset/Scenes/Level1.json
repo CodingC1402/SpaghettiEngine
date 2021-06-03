@@ -64,6 +64,9 @@
 				"Scripts": [
 					{
 						"ID": 4
+					},
+					{
+						"ID": 5
 					}
 				]
 			}
@@ -98,6 +101,18 @@
 			"Inputs": {
 				"ScriptType": "CircleCollider",
 				"Radius": 30
+			}
+		},
+		{
+			"ID": 5,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Vertexes": [
+					[100, -100, 0],
+					[100, -70, 0],
+					[-100, -70, 0],
+					[-100, -100, 0] 
+				]
 			}
 		}
 	]

@@ -1,4 +1,5 @@
-﻿#include "Window.h"
+﻿#include <Windows.h>
+#include "Window.h"
 #include "Monitor.h"
 
 #define FULLSCREENSTYLE WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP

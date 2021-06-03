@@ -2,6 +2,8 @@
 #include "Macros.h"
 #include "Matrix.h"
 
+class D3DXVECTOR3;
+
 class Vector3
 {
 public:
