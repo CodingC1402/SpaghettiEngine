@@ -48,7 +48,7 @@ unsigned PrefabHierarchy::GetIndexRecursive(std::vector<unsigned>& accessIndexes
 			return _value;
 		return _children[accessIndexes[level]]->GetIndexRecursive(accessIndexes, ++level);
 	}
-	catch(const std::exception& e)
+	catch(const std::exception&)
 	{	
 		std::ostringstream os;
 		os << "[Access indexed] ";
@@ -100,7 +100,7 @@ void ApplyChangeToInputField(nlohmann::json& input, nlohmann::json& change)
 			break;
 		case Prefab::ChangeMode::Truncate:
 			input[field].clear();
-			[[fallthough]]
+			[[fallthrough]];
 		case Prefab::ChangeMode::Update:
 			for (auto& ref : change[Field::valueField])
 				if (!ref.empty())
@@ -208,7 +208,7 @@ SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohma
 		}
 		return prefabHierarchy;
 	}
-	catch (const CornException& e)
+	catch (const CornException&)
 	{
 		throw;
 	}

@@ -135,7 +135,7 @@ void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color, 
 	GetInstance()->_lineHandler->SetWidth(width);
 	GetInstance()->_lineHandler->Begin();
 
-	auto size = vertexes.size();
+	const auto size = vertexes.size();
 	Vector2* dxVertexes = new Vector2[size + 1];
 	Vector3 transformed;
 	for (int i = 0; i < size; i++)
@@ -148,10 +148,11 @@ void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color, 
 
 	GetInstance()->_lineHandler->Draw(
 		dxVertexes,
-		size + 1,
+		static_cast<DWORD>(size + 1u),
 		color
 	);
 	GetInstance()->_lineHandler->End();
+	delete[] dxVertexes;
 }
 
 void Graphics::AddCamera(PCamera camera)
@@ -376,7 +377,7 @@ void Graphics::Render()
 			fpsFont->DrawTextW(
 				spriteHandler,
 				str.c_str(),
-				str.size(),
+				static_cast<INT>(str.size()),
 				&fpsRect,
 				DT_CHARSTREAM,
 				MAGENTA

@@ -10,7 +10,7 @@
 CONTAINER_REGISTER(TileSetContainer, TileSet);
 using namespace nlohmann;
 
-void NormalTile::Load(Texture* texture, std::vector<int> sprites, float fps)
+void NormalTile::Load(Texture* texture, std::vector<unsigned> sprites, float fps)
 {
 	sprite = texture->GetSprite(sprites[0]);
 }
@@ -20,7 +20,7 @@ void NormalTile::Draw(const Vector3& position)
 	Graphics::DrawSprite(sprite, sprite->GetCenter(), position);
 }
 
-void AnimatedTile::Load(Texture* texture, std::vector<int> sprites, float fps)
+void AnimatedTile::Load(Texture* texture, std::vector<unsigned> sprites, float fps)
 {
 	if (fps <= 0.0001)
 	{
@@ -39,7 +39,7 @@ void AnimatedTile::Draw(const Vector3& position)
 	if (_currentTime != GameTimer::GetGameTime())
 	{
 		_currentTime = GameTimer::GetGameTime();
-		_currentSprite = _sprites[SMath::modulo<unsigned>(GameTimer::GetGameTime() / _delay, _sprites.size())];
+		_currentSprite = _sprites[SMath::modulo<unsigned>(static_cast<unsigned>(GameTimer::GetGameTime() / _delay), static_cast<unsigned>(_sprites.size()))];
 	}
 	Vector3 center = _currentSprite->GetCenter();
 	Graphics::DrawSprite(_currentSprite, _currentSprite->GetCenter(), position);
@@ -90,7 +90,7 @@ void TileSet::Load(const std::string& path)
 		fieldTracker++;
 		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
 
-		std::vector<int> id = { 0 };
+		std::vector<unsigned> id = { 0 };
 		for (STile newTile; id[0] < texture->GetSpritesNumber(); id[0]++)
 		{
 			newTile.reset(new NormalTile());
@@ -103,7 +103,7 @@ void TileSet::Load(const std::string& path)
 		for (STile newTile; auto & anim : jsonFile[Field::animationsField])
 		{
 			newTile.reset(new AnimatedTile());
-			id = anim[Field::spritesField].get<std::vector<int>>();
+			id = anim[Field::spritesField].get<std::vector<unsigned>>();
 			newTile->Load(texture.get(), id, anim[Field::fpsField].get<float>());
 			_tiles[anim[Field::idField].get<unsigned>()] = newTile;
 		}

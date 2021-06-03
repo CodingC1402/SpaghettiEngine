@@ -47,7 +47,7 @@ void LoadingJson::ID::ConvertRefFieldIDs(nlohmann::json& refField, Scene::Compon
             ref[Field::idField] = ID::CreateTopLevelID(ref[Field::idField], type, refID);
         }
     }
-    catch (const std::exception& e)
+    catch (const std::exception&)
     {
         throw;
     }

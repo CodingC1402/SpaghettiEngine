@@ -15,19 +15,13 @@ bool Polygon::PolygonPolygon(Collision* collision)
 	auto shapeB = dynamic_cast<Polygon*>(collision->GetShapeB());
 
 	Vector3 normal;
-	double penatration = 0;
-
-	if (shapeA->GetCenter().y <= -85)
-	{
-		int i = 0;
-	}
+	float penatration = 0;
 
 	result = shapeA->CheckCollideOnEachEdge(*shapeB, penatration, normal);
 	if (!result)
-		penatration = 0;
+		return false;
 
 	result = shapeB->CheckCollideOnEachEdge(*shapeA, penatration, normal);
-
 	if (!result)
 		return false;
 
@@ -60,7 +54,7 @@ void Polygon::UpdateParameter()
 	_center = _centroid * _offSetMatrix * _worldMatrix;
 }
 
-bool Polygon::CheckCollideOnEachEdge(const Polygon& other, double& penatration, Vector3& normal)
+bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penatration, Vector3& normal)
 {
 	const auto& vertexes = this->GetVertexes();
 
@@ -68,7 +62,7 @@ bool Polygon::CheckCollideOnEachEdge(const Polygon& other, double& penatration, 
 	auto size = vertexes.size();
 
 	Vector3 currentNormal;
-	double currentPen;
+	float currentPen;
 
 	edge = vertexes[0] - vertexes[1];
 	if (!CheckCollideOnOneEdge(edge, other, currentPen, currentNormal))
@@ -78,7 +72,7 @@ bool Polygon::CheckCollideOnEachEdge(const Polygon& other, double& penatration, 
 
 	for (unsigned i = 1; i < size; i++)
 	{
-		edge = vertexes[i] - vertexes[(i + 1) % size];
+		edge = vertexes[i] - vertexes[(static_cast<unsigned long long>(i) + 1) % size];
 		if (!CheckCollideOnOneEdge(edge, other, currentPen, currentNormal))
 			return false;
 
@@ -91,7 +85,7 @@ bool Polygon::CheckCollideOnEachEdge(const Polygon& other, double& penatration, 
 	return true;
 }
 
-bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, double& edgePenatration, Vector3& edgeNormal)
+bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, float& edgePenatration, Vector3& edgeNormal)
 {
 	edgeNormal.x = edge.y;
 	edgeNormal.y = -edge.x;
@@ -126,7 +120,7 @@ void Polygon::SetVertexes(const std::vector<Vector3>& vertexes)
 
 	for (const auto& vertex : vertexes)
 		centroid += vertex;
-	centroid /= vertexes.size();
+	centroid /= static_cast<float>(vertexes.size());
 
 	float pow2Distance = 0;
 

@@ -6,10 +6,7 @@
 Collider2DBase::Collider2DBase(PScene owner, bool isDisable) 
 	:
 	PhysicScriptBase(owner, isDisable)
-{
-	if constexpr (Setting::IsDebugMode())
-		_lineRenderer = dynamic_cast<LineRendererBase*>(ScriptFactory::CreateInstance("LineRendererBase", _owner));
-}
+{}
 
 void Collider2DBase::OnEnabled()
 {
@@ -18,10 +15,12 @@ void Collider2DBase::OnEnabled()
 	PhysicComponent* physic = &_ownerObj->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
-	Physic::AddShape(_shape.get());
+	for (auto& shape : _shapes)
+		Physic::AddShape(shape.get());
 
 	if constexpr (Setting::IsDebugMode())
-		_lineRenderer->OnEnabled();
+		for (auto& linerender : _lineRenderer)
+			linerender->OnEnabled();
 }
 
 void Collider2DBase::OnDisabled()
@@ -29,10 +28,12 @@ void Collider2DBase::OnDisabled()
 	PhysicScriptBase::OnDisabled();
 
 	_ownerObj->GetPhysicComponent().UnSubscribeTo2D(this);
-	Physic::RemoveShape(_shape.get());
+	for (auto& shape : _shapes)
+		Physic::RemoveShape(shape.get());
 
 	if constexpr (Setting::IsDebugMode())
-		_lineRenderer->OnDisabled();
+		for (auto& linerender : _lineRenderer)
+			linerender->OnDisabled();
 }
 
 void Collider2DBase::OnChange()
@@ -43,15 +44,8 @@ void Collider2DBase::OnChange()
 void Collider2DBase::AssignOwner(const PGameObj& gameObj)
 {
 	PhysicScriptBase::AssignOwner(gameObj);
-	SetLineRendererOwner();
-}
-
-void Collider2DBase::SetLineRendererOwner()
-{
-	if constexpr (Setting::IsDebugMode())
-	{
-		_lineRenderer->_ownerObj = _ownerObj;
-	}
+	if constexpr(Setting::IsDebugMode())
+		SetLineRendererOwner();
 }
 
 void Collider2DBase::Load(nlohmann::json& input)
@@ -61,30 +55,43 @@ void Collider2DBase::Load(nlohmann::json& input)
 	if (input[_offSetXField] != nullptr)
 	{
 		offSet = input[_offSetXField];
-		if constexpr (Setting::IsDebugMode()) {
-			_lineRenderer->SetOffSetX(offSet);
-		}
-		_shape->SetOffSetX(input[_offSetXField]);
+
+		if constexpr (Setting::IsDebugMode())
+			for (auto& linerender : _lineRenderer)
+				linerender->SetOffSetX(offSet);
+
+		for (auto& shape : _shapes)
+			shape->SetOffSetX(offSet);
 	}
 	if (input[_offSetYField] != nullptr)
 	{
 		offSet = input[_offSetYField];
-		if constexpr (Setting::IsDebugMode()) {
-			_lineRenderer->SetOffSetY(offSet);
-		}
-		_shape->SetOffSetY(offSet);
+
+		if constexpr (Setting::IsDebugMode())
+			for (auto& linerender : _lineRenderer)
+				linerender->SetOffSetY(offSet);
+
+		for (auto& shape : _shapes)
+			shape->SetOffSetY(offSet);
 	}
 
 }
 
 Collider2DBase::~Collider2DBase()
 {
-	delete _lineRenderer;
-	_lineRenderer = nullptr;
+	for (int i = 0; i < _lineRenderer.size(); i++)
+		delete _lineRenderer[i];
+}
+
+void Collider2DBase::SetLineRendererOwner()
+{
+	for (auto& linerender : _lineRenderer)
+		linerender->AssignOwner(_ownerObj);
 }
 
 void Collider2DBase::ChangeBody(WBody2D body)
 {
 	_body = body;
-	_shape->SetBody(_body);
+	for (auto& shape : _shapes)
+		shape->SetBody(_body);
 }

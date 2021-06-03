@@ -8,7 +8,7 @@ REGISTER_FINISH(CircleCollider);
 CircleCollider::CircleCollider(PScene owner) : Collider2DBase(owner)
 {
 	_shapeCircle = std::make_shared<Circle>();
-	_shape = _shapeCircle;
+	_shapes.push_back(_shapeCircle);
 	_name = TYPE_NAME(CircleCollider);
 }
 
@@ -16,10 +16,13 @@ void CircleCollider::Load(nlohmann::json& input)
 {
 	if (input[_radiusField] != nullptr)
 		_shapeCircle->SetRadius(input[_radiusField].get<float>());
-	Collider2DBase::Load(input);
 
 	if constexpr (Setting::IsDebugMode())
 	{
-		_lineRenderer->SetCircle(_shapeCircle->GetRadius());
+		_lineRenderer.emplace_back(new LineRendererBase(_owner));
+		_lineRenderer[0]->AssignOwner(_ownerObj);
+		_lineRenderer[0]->SetCircle(_shapeCircle->GetRadius());
 	}
+
+	Collider2DBase::Load(input);
 }

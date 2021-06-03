@@ -46,7 +46,7 @@ protected:
 
 constexpr bool Setting::IsDebugMode()
 {
-	return _isDebugMode;
+	return true;
 }
 
 #define APPSETTING_EXCEPT(description) Setting::AppSettingException(__LINE__,__FILE__,description)

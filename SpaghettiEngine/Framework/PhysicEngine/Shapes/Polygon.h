@@ -29,12 +29,12 @@ public:
 	static bool PolygonCircle(Collision* collision);
 
 	void SetVertexes(const std::vector<Vector3>& vertexes);
-	[[nodiscar]] const std::vector<Vector3>& GetVertexes() const;
+	[[nodiscard]] const std::vector<Vector3>& GetVertexes() const;
 
 	void UpdateParameter() override;
 protected:
-	bool CheckCollideOnEachEdge(const Polygon& other, double& penatration, Vector3& normal);
-	bool CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, double& edgePenatration, Vector3& edgeNormal);
+	bool CheckCollideOnEachEdge(const Polygon& other, float& penatration, Vector3& normal);
+	bool CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, float& edgePenatration, Vector3& edgeNormal);
 protected:
 	std::vector<Vector3> _vertexes;
 	std::vector<Vector3> _worldVertexes;

@@ -23,8 +23,8 @@ protected:
 	void ChangeBody(WBody2D body);
 protected:
 	WBody2D _body;
-	SShape _shape;
-	LineRendererBase* _lineRenderer;
+	std::vector<SShape> _shapes;
+	std::vector<LineRendererBase*> _lineRenderer;
 
 	static constexpr auto _offSetXField = "OffSetX";
 	static constexpr auto _offSetYField = "OffSetY";
