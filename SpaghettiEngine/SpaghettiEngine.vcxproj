@@ -61,6 +61,7 @@
     <ClInclude Include="Framework\Engine\Wrapper\Input.h" />
     <ClInclude Include="Framework\Engine\Wrapper\InputSystem.h" />
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h" />
+    <ClInclude Include="Framework\Engine\Wrapper\SoundEffect.h" />
     <ClInclude Include="Framework\Math\Matrix.h" />
     <ClInclude Include="Framework\Math\SMath.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />
@@ -236,6 +237,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
