@@ -37,6 +37,13 @@ public:
 			(*i).Stop();
 		}
 	}
+	void ChangeVolume(float vol)
+	{
+		for (auto i = sounds.begin(); i != sounds.end(); i++)
+		{
+			(*i).ChangeVolume(vol);
+		}
+	}
 private:
 	std::mt19937 rng;
 	std::uniform_int_distribution<unsigned int> soundDist;

@@ -46,3 +46,8 @@ void SoundSystem::Channel::PlaySoundBuffer(Sound& s, float freqMod, float vol)
 	pSource->SetVolume(vol);
 	pSource->Start();
 }
+
+void SoundSystem::Channel::ChangeVolume(float vol)
+{
+	pSource->SetVolume(vol);
+}

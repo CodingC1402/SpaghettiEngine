@@ -86,6 +86,7 @@ public:
 			}
 		}
 		void PlaySoundBuffer(class Sound& s, float freqMod, float vol);
+		void ChangeVolume(float vol);
 		void Stop()
 		{
 			assert(pSource && pSound);
@@ -285,6 +286,13 @@ public:
 		for (auto pChannel : activeChannelPtrs)
 		{
 			pChannel->Stop();
+		}
+	}
+	void ChangeVolume(float vol)
+	{
+		for (auto pChannel : activeChannelPtrs)
+		{
+			pChannel->ChangeVolume(vol);
 		}
 	}
 	~Sound()
