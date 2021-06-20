@@ -93,6 +93,14 @@ public:
 			pSource->Stop();
 			pSource->FlushSourceBuffers();
 		}
+		void Pause()
+		{
+			pSource->Stop();
+		}
+		void Continue()
+		{
+			pSource->Start();
+		}
 	private:
 		XAUDIO2_BUFFER xaBuffer;
 		IXAudio2SourceVoice* pSource = nullptr;
@@ -280,6 +288,20 @@ public:
 	void Play(float freqMod, float vol)
 	{
 		SoundSystem::Get().PlaySoundBuffer(*this, freqMod, vol);
+	}
+	void Continue()
+	{
+		for (auto pChannel : activeChannelPtrs)
+		{
+			pChannel->Continue();
+		}
+	}
+	void Pause()
+	{
+		for (auto pChannel : activeChannelPtrs)
+		{
+			pChannel->Pause();
+		}
 	}
 	void Stop()
 	{

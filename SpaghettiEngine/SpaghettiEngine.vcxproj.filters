@@ -293,8 +293,8 @@
     <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Wrapper\SoundEffect.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+    <ClInclude Include="Framework\Engine\Scripts\Audio.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

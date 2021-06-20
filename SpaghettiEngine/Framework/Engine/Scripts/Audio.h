@@ -3,11 +3,11 @@
 #include <random>
 #include <initializer_list>
 
-class SoundEffect
+class Audio
 {
 public:
-	SoundEffect() = default;
-	SoundEffect(const std::initializer_list<std::wstring>& wavFiles,
+	Audio() = default;
+	Audio(const std::initializer_list<std::wstring>& wavFiles,
 		float freqDev, unsigned int seed)
 		:
 		rng(seed),
@@ -19,7 +19,11 @@ public:
 			sounds.emplace_back(f);
 		}
 	}
-	void Play(float vol)
+	void PlayAt(float vol, int pos)
+	{
+		sounds[pos].Play(freqDist(rng), vol);
+	}
+	void PlayRandom(float vol)
 	{
 		sounds[soundDist(rng)].Play(freqDist(rng), vol);
 	}
@@ -30,7 +34,21 @@ public:
 			(*i).Play(freqDist(rng), vol);
 		}
 	}
-	void Stop()
+	void ContinueAll()
+	{
+		for (auto i = sounds.begin(); i != sounds.end(); i++)
+		{
+			(*i).Continue();
+		}
+	}
+	void PauseAll()
+	{
+		for (auto i = sounds.begin(); i != sounds.end(); i++)
+		{
+			(*i).Pause();
+		}
+	}
+	void StopAll ()
 	{
 		for (auto i = sounds.begin(); i != sounds.end(); i++)
 		{
@@ -45,6 +63,7 @@ public:
 		}
 	}
 private:
+	float masterVol = 100;
 	std::mt19937 rng;
 	std::uniform_int_distribution<unsigned int> soundDist;
 	std::normal_distribution<float> freqDist;
