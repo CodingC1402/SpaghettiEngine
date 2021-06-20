@@ -12,32 +12,35 @@ Shape::Type Polygon::GetType() const
 bool Polygon::PolygonPolygon(Collision* collision)
 {
 	bool result = false;
-	auto shapeA = dynamic_cast<Polygon*>(collision->GetShapeA());
-	auto shapeB = dynamic_cast<Polygon*>(collision->GetShapeB());
+	const auto shapeA = dynamic_cast<Polygon*>(collision->GetShapeA());
+	const auto shapeB = dynamic_cast<Polygon*>(collision->GetShapeB());
 
 	Vector3 normal;
-	float penatration = 0;
+	float penetration = 0;
 
-	result = shapeA->CheckCollideOnEachEdge(*shapeB, penatration, normal);
+	result = shapeA->CheckCollideOnEachEdge(*shapeB, penetration, normal);
 	if (!result)
 		return false;
 
-	result = shapeB->CheckCollideOnEachEdge(*shapeA, penatration, normal);
+	result = shapeB->CheckCollideOnEachEdge(*shapeA, penetration, normal);
 	if (!result)
 		return false;
 
 	if (normal.Dot(shapeB->GetCenter() - shapeA->GetCenter()) < 0)
 		normal = -normal;
 
-	collision->SetPenetration(penatration);
+	collision->SetPenetration(penetration);
 	collision->SetNormal(normal);
 	return result;
 }
 
 bool Polygon::PolygonCircle(Collision* collision)
 {
-	Polygon2D* polygon = dynamic_cast<Polygon2D*>(collision->GetShapeA());
-	Circle* circle = dynamic_cast<Circle*>(collision->GetShapeB());
+	const auto polygon = dynamic_cast<Polygon2D*>(collision->GetShapeA());
+	const auto circle = dynamic_cast<Circle*>(collision->GetShapeB());
+
+	
+	
 	return false;
 }
 
@@ -54,20 +57,19 @@ void Polygon::UpdateParameter()
 	_center = _centroid * _offSetMatrix * _worldMatrix;
 }
 
-bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penatration, Vector3& normal)
+bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penetration, Vector3& normal) const
 {
 	const auto& vertexes = this->GetVertexes();
 
-	Vector3 edge;
-	auto size = vertexes.size();
+	const auto size = vertexes.size();
 
 	Vector3 currentNormal;
 	float currentPen;
 
-	edge = vertexes[0] - vertexes[1];
+	Vector3 edge = vertexes[0] - vertexes[1];
 	if (!CheckCollideOnOneEdge(edge, other, currentPen, currentNormal))
 		return false;
-	penatration = currentPen;
+	penetration = currentPen;
 	normal = currentNormal;
 
 	for (unsigned i = 1; i < size; i++)
@@ -76,16 +78,16 @@ bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penatration, V
 		if (!CheckCollideOnOneEdge(edge, other, currentPen, currentNormal))
 			return false;
 
-		if (currentPen < penatration)
+		if (currentPen < penetration)
 		{
-			penatration = currentPen;
+			penetration = currentPen;
 			normal = currentNormal;
 		}
 	}
 	return true;
 }
 
-bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, float& edgePenatration, Vector3& edgeNormal)
+bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, float& edgePenetration, Vector3& edgeNormal) const
 {
 	edgeNormal.x = edge.y;
 	edgeNormal.y = -edge.x;
@@ -111,7 +113,7 @@ bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, f
 	if (Left->GetMaxDot() < Right->GetMinDot())
 		return false;
 
-	edgePenatration = std::abs(Left->GetMaxDot() - Right->GetMinDot());
+	edgePenetration = std::abs(Left->GetMaxDot() - Right->GetMinDot());
 	return true;
 }
 
@@ -126,9 +128,9 @@ void Polygon::SetVertexes(const std::vector<Vector3>& vertexes)
 
 	float pow2Distance = 0;
 
-	for (const auto& vertex : vertexes)
+	for (float currentDisPow2; const auto& vertex : vertexes)
 	{
-		float currentDisPow2 = (vertex - centroid).GetPow2Magnitude();
+		currentDisPow2 = (vertex - centroid).GetPow2Magnitude();
 		if (currentDisPow2 > pow2Distance)
 			pow2Distance = currentDisPow2;
 	}

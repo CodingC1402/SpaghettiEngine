@@ -65,6 +65,7 @@ public:
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
+	[[nodiscard]] WGameObj	GetGameObject() const noexcept;
 	void Load(nlohmann::json& input) override { }
 	Scene::SBaseComponent   Clone() override;
 

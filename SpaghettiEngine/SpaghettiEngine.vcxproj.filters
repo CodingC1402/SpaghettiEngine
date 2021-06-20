@@ -293,6 +293,9 @@
     <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -498,6 +501,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

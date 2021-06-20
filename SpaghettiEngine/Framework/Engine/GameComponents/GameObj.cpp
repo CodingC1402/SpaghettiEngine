@@ -122,6 +122,21 @@ void GameObj::RemovePhysicComponent(PhysicScriptBase* script)
 	if (_physicComponents.size() == 0)
 		Physic::RemoveGameObj(this);
 }
+void GameObj::SendCollideExitEvent(CollideEvent& e)
+{
+	for (const auto& script : _scripts)
+		script->OnCollideExit(e);
+}
+void GameObj::SendCollideEvent(CollideEvent& e)
+{
+	for (const auto& script : _scripts)
+		script->OnCollide(e);
+}
+void GameObj::SendCollideEnterEvent(CollideEvent& e)
+{
+	for (const auto& script : _scripts)
+		script->OnCollideEnter(e);
+}
 #pragma endregion
 #pragma region Set
 void GameObj::SetTag(const char* newTag)

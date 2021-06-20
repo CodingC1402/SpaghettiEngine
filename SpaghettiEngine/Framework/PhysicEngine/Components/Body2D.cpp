@@ -2,6 +2,7 @@
 #include "Shape.h"
 #include "SMath.h"
 #include "Physic.h"
+#include "Collider2DBase.h"
 
 SBody2D Body2D::_defaultBody = std::make_shared<Body2D>();
 
@@ -109,6 +110,21 @@ void Body2D::SetGravityScale(const float& scale)
 const float& Body2D::GetGravityScale() const
 {
 	return _gravityScale;
+}
+
+void Body2D::SetColliderScript(WCollider2DBase collider)
+{
+	_colliderScript = collider;
+}
+
+WCollider2DBase Body2D::GetColliderScript() const
+{
+	return _colliderScript;
+}
+
+void Body2D::SendEvent(CollideEvent& e)
+{
+	_colliderScript.lock()
 }
 
 Vector3 Body2D::GetMoveVector()

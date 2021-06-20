@@ -66,6 +66,10 @@ public:
 	void AddPhysicComponent(PhysicScriptBase* script);
 	void RemovePhysicComponent(PhysicScriptBase* script);
 
+	void SendCollideExitEvent(CollideEvent& e);
+	void SendCollideEvent(CollideEvent& e);
+	void SendCollideEnterEvent(CollideEvent& e);
+
 	void SetTag(const char* tag);
 	void SetRotation(const float& x, const float& y, const float& z);
 	void SetScale(const float& x, const float& y, const float& z);

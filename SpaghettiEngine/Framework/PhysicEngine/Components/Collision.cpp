@@ -74,7 +74,14 @@ bool Collision::Solve()
 {
 	if (_bodyA == _bodyB)
 		return false;
-	return (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
+	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
+	if (isCollide)
+	{
+		CollideEvent eventA(_shapeB);
+		CollideEvent eventB(_shapeA);
+		_shapeA->SendEvent(eventA);
+		_shapeB->SendEvent(eventB);
+	}
 }
 
 void Collision::Initialize()

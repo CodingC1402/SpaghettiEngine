@@ -78,6 +78,11 @@ Vector3 ScriptBase::GetWorldScale() const noexcept
 	return _ownerObj->GetWorldScale();
 }
 
+WGameObj ScriptBase::GetGameObject() const noexcept
+{
+	return std::dynamic_pointer_cast<GameObj>(_ownerObj->GetSharedPtr());
+}
+
 Scene::SBaseComponent ScriptBase::Clone()
 {
 	return nullptr;

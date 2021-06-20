@@ -65,6 +65,7 @@
     <ClInclude Include="Framework\Math\SMath.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Body2D.h" />
+    <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Collision.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Material.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Physic.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="Framework\Math\SMath.cpp" />
     <ClCompile Include="Framework\Math\Vector3.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Body2D.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Collision.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Material.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Physic.cpp" />

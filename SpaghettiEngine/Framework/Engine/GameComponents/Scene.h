@@ -2,6 +2,7 @@
 
 #include "CornException.h"
 #include "SMath.h"
+#include "CollideEvent.h"
 #include <string>
 #include <list>
 #include <map>
@@ -60,6 +61,10 @@ public:
 
         virtual void Disable();
         virtual void Enable();
+
+        virtual void OnCollide(CollideEvent& e) {};
+        virtual void OnCollideEnter(CollideEvent& e) {};
+        virtual void OnCollideExit(CollideEvent& e) {};
 
         virtual bool [[nodiscard]] IsDisabled();
 

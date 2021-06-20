@@ -1,8 +1,9 @@
 #pragma once
 #include <memory>
+#include <list>
 #include "Vector3.h"
 #include "Material.h"
-#include <list>
+#include "CollideEvent.h"
 
 class Body2D;
 typedef std::weak_ptr<Body2D> WBody2D;
@@ -11,6 +12,9 @@ typedef std::shared_ptr<Body2D> SBody2D;
 class Shape;
 typedef std::weak_ptr<Shape> WShape;
 typedef std::shared_ptr<Shape> SShape;
+
+class Collider2DBase;
+typedef std::weak_ptr<Collider2DBase> WCollider2DBase;
 
 class Body2D 
 {
@@ -43,6 +47,10 @@ public:
 	void SetGravityScale(const float& scale);
 	[[nodiscard]] const float& GetGravityScale() const;
 
+	void SetColliderScript(WCollider2DBase collider);
+	[[nodiscard]] WCollider2DBase GetColliderScript() const;
+
+	void SendEvent(CollideEvent& e);
 
 	[[nodiscard]] Vector3 GetMoveVector();
 	[[nodiscard]] float GetRotation();
@@ -62,6 +70,8 @@ public:
 	virtual void OnUpdateMatrix();
 protected:
 	static SBody2D _defaultBody;
+
+	WCollider2DBase _colliderScript;
 
 	Matrix4 _worldMatrix; 
 	Vector3 _velocity;
