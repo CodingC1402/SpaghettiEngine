@@ -23,6 +23,20 @@ public:
 	{
 		sounds[soundDist(rng)].Play(freqDist(rng), vol);
 	}
+	void PlayAll(float vol)
+	{
+		for (auto i = sounds.begin(); i != sounds.end(); i++)
+		{
+			(*i).Play(freqDist(rng), vol);
+		}
+	}
+	void Stop()
+	{
+		for (auto i = sounds.begin(); i != sounds.end(); i++)
+		{
+			(*i).Stop();
+		}
+	}
 private:
 	std::mt19937 rng;
 	std::uniform_int_distribution<unsigned int> soundDist;

@@ -280,6 +280,13 @@ public:
 	{
 		SoundSystem::Get().PlaySoundBuffer(*this, freqMod, vol);
 	}
+	void Stop()
+	{
+		for (auto pChannel : activeChannelPtrs)
+		{
+			pChannel->Stop();
+		}
+	}
 	~Sound()
 	{
 		{
