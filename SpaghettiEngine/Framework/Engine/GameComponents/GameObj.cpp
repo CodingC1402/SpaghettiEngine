@@ -525,6 +525,9 @@ SGameObj GameObj::Clone() const
 {
 	auto cloneObj = _owner->CreateGameObject();
 
+	cloneObj->tag = tag;
+	cloneObj->path = path;
+
 	for (const auto& script : _scripts)
 		cloneObj->AddScriptClone(script);
 	for (const auto& child : _children)

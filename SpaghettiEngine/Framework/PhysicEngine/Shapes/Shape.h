@@ -20,12 +20,13 @@ public:
 	{
 		Circle,
 		Polygon,
-		TypeCount
+		TypeCount,
+		Invalid
 	};
 public:
 	Shape();
 	virtual  ~Shape() = default;
-	[[nodiscard]] virtual Type GetType() const = 0;
+	[[nodiscard]] virtual Type GetType() const;
 
 	void SetOwnerScript(WCollider2DBase owner);
 	[[nodiscard]] WCollider2DBase GetOwnerScript();

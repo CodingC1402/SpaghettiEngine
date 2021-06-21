@@ -40,4 +40,4 @@ protected:
 	std::vector<Vector3> _vertexes;
 	std::vector<Vector3> _worldVertexes;
 	Vector3 _centroid;
-} Polygon2D; //fuck you gdi for stealling polygon name and used for a function : ^)
+} Polygon2D; //fuck you gdi for stealing polygon name and used for a function : ^)

@@ -10,6 +10,7 @@ public:
 	void OnUpdate() override;
 
 	void OnCollide(CollideEvent& e) override;
+	SScriptBase Clone() const override;
 protected:
 	Vector3 originalPos;
 	bool onWayBack = false;

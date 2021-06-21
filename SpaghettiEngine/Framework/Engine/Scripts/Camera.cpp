@@ -61,17 +61,19 @@ void Camera::Load(json& input)
 	using LoadingJson::Field;
 	if (!input[LoadingJson::Field::gameObjectsField].empty())
 	{
-		_followingPtr = _owner->GetComponent(input[LoadingJson::Field::gameObjectsField][0][Field::idField]);
+		_followingPtr = std::dynamic_pointer_cast<GameObj>(_owner->GetComponent(input[LoadingJson::Field::gameObjectsField][0][Field::idField]));
 	}
 }
 
 void Camera::SetFollow(PGameObj followObj)
 {
-	_followingPtr = followObj->GetSharedPtr();
+	_followingPtr = std::dynamic_pointer_cast<GameObj>(followObj->GetSharedPtr());
 }
 
 PGameObj Camera::GetFollow()
 {
+	if (_followingPtr.expired())
+		return nullptr;
 	return _followingPtr.lock().get();
 }
 
@@ -80,7 +82,7 @@ void Camera::RemoveFollow()
 	_followingPtr.reset();
 }
 
-SScriptBase Camera::Clone()
+SScriptBase Camera::Clone() const
 {
 	auto clone = std::dynamic_pointer_cast<Camera>(ScriptBase::Clone());
 

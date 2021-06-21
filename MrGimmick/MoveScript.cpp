@@ -13,9 +13,7 @@ void MoveScript::Load(nlohmann::json& input)
 }
 
 MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
-{
-	_name = TYPE_NAME(MoveScript);
-}
+{}
 
 void MoveScript::OnStart()
 {
@@ -63,4 +61,18 @@ void MoveScript::OnUpdate()
 		velocity.x += move.x;
 	velocity.y += move.y;
 	_rigidBody.lock()->SetVelocity(velocity);
+}
+
+SScriptBase MoveScript::Clone() const
+{
+	auto clone = std::dynamic_pointer_cast<MoveScript>(ScriptBase::Clone());
+
+	clone->_speedCap = _speedCap;
+	clone->_jumpStrength = _jumpStrength;
+	clone->_speedRamUp = _speedRamUp;
+
+	clone->move = move;
+	clone->isFlipped = isFlipped;
+
+	return SScriptBase();
 }

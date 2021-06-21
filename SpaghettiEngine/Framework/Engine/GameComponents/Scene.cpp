@@ -143,7 +143,11 @@ void Scene::End()
 SGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
 {
     auto clonedGameObj = std::dynamic_pointer_cast<GameObj>(toClone->Clone());
+
+    clonedGameObj->OnStart();
+    clonedGameObj->OnEnabled();
     clonedGameObj->Move(worldPosition);
+
     return clonedGameObj;
 }
 

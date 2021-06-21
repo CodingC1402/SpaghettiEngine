@@ -49,8 +49,8 @@ void SceneManager::Update()
 					loadingSceneJob.get();
 
 					scenes[sceneIndex]->LoadComponent();
-					scenes[sceneIndex]->Enable();
 					scenes[sceneIndex]->Start();
+					scenes[sceneIndex]->Enable();
 
 					CleanUpAfterLoad();
 					_startedLoadNewScene = false;

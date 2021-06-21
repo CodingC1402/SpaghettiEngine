@@ -7,7 +7,6 @@ REGISTER_FINISH(RigidBody2D);
 
 RigidBody2D::RigidBody2D(PScene owner, bool isDisabled) : PhysicScriptBase(owner, isDisabled)
 {
-	_name = TYPE_NAME(RigidBody2D);
 	_body = std::make_shared<Body2D>();
 }
 
@@ -33,6 +32,15 @@ void RigidBody2D::AfterPhysicUpdate()
 {
 	auto vec = _body->GetPosition() - GetWorldTransform();
 	_ownerObj->Translate(vec);
+}
+
+SScriptBase RigidBody2D::Clone() const
+{
+	auto clone = std::dynamic_pointer_cast<RigidBody2D>(ScriptBase::Clone());
+	
+	clone->_body.reset(_body->Clone());
+
+	return clone;
 }
 
 void RigidBody2D::Load(nlohmann::json& input)

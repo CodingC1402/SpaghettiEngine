@@ -15,6 +15,11 @@ Shape::Shape()
 	_radius = 0;
 }
 
+Shape::Type Shape::GetType() const
+{
+	return Shape::Type::Invalid;
+}
+
 Vector3 Shape::GetGravityVector() const
 {
 	return Physic::GetGravity() * _body.lock()->_gravityScale;

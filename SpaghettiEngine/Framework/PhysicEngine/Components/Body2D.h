@@ -75,7 +75,7 @@ public:
 protected:
 	static SBody2D		_defaultBody;
 
-	GameObj*			_gameObject;
+	GameObj*			_gameObject = nullptr;
 
 	Matrix4				_worldMatrix; 
 	Vector3				_velocity;
