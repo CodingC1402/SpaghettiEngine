@@ -8,6 +8,8 @@
 #include <string>
 
 typedef class ScriptBase* PScriptBase;
+typedef std::shared_ptr<ScriptBase> SScriptBase;
+
 typedef const ScriptBase* CPScriptBase;
 typedef class PhysicScriptBase* PPhysicScriptBase;
 
@@ -48,6 +50,10 @@ public:
 		string _extraDescription;
 	};
 public:
+	GameObj(PScene owner, bool isDisabled = false);
+	GameObj(GameObj& obj);
+	GameObj& operator= (GameObj& obj);
+
 	[[nodiscard]] Matrix4			GetWorldMatrix();
 	[[nodiscard]] Vector3			GetWorldTransform() const;
 	[[nodiscard]] Vector3			GetWorldRotation() const;
@@ -80,8 +86,13 @@ public:
 	void SetTransform(const Vector3& vec3);
 	void Rotate(const float& x, const float& y, const float& z);
 	void Rotate(const Vector3& rotation);
+
+	void Move(const Vector3& vector);
+	void Move(const float& x, const float& y, const float& z);
+
 	void Translate(const Vector3& vector);
 	void Translate(const float& x, const float& y, const float& z);
+
 	void ForceRecalculateMatrix();
 
 	void Load(nlohmann::json& input) override;
@@ -96,6 +107,10 @@ public:
 	void OnEnabled() override;
 	void OnDisabled() override;
 
+	void OnCollide(CollideEvent& e) override;
+	void OnCollideEnter(CollideEvent& e) override;
+	void OnCollideExit(CollideEvent& e) override;
+
 	void RemoveParent();
 	void AddParent(const PGameObj& gameObj);
 	void AddParentWithoutCalculateLocal(const PGameObj& gameObj);
@@ -103,14 +118,17 @@ public:
 
 	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	PScriptBase AddScript(const PScriptBase& script);
+	PScriptBase AddScript(const SScriptBase& script);
+	PScriptBase AddScriptClone(const PScriptBase& script);
+
 	PGameObj	AddChild(const PGameObj& child);
+	PGameObj	AddChildClone(const PGameObj& child);
 	PGameObj	AddChild();
 
 	void RemoveChild(const PGameObj& child);
 	void RemoveScript(const PScriptBase& script);
 	
 	std::shared_ptr<BaseComponent> Clone() override;
-	GameObj(PScene owner, bool isDisabled = false);
 
 	void RecursiveClearScripts(); //Use by scripts to call end once then pass on
 	void ClearScripts(); //Use by scripts to call end once then pass on

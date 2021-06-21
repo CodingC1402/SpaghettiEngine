@@ -16,7 +16,7 @@ class CollideEvent
 {
 public:
 	[[nodiscard]] WBody2D GetBody() const;
-	[[nodiscard]] WGameObj GetObject() const;
+	[[nodiscard]] WGameObj GetGameObject() const;
 
 	[[nodiscard]] bool GetIsHandled() const;
 	void SetIsHandled(bool handled);

@@ -92,8 +92,8 @@ void Collision::Initialize()
 {
 	SMaterial matA = _bodyA->GetMaterial().lock();
 	SMaterial matB = _bodyB->GetMaterial().lock();
-	_restitution = SMath::Min(matA->GetRestitution(), matB->GetRestitution());
 
+	_restitution = std::sqrt(matA->GetRestitution() * matA->GetRestitution() + matB->GetRestitution() * matB->GetRestitution());
 	_staticFriction = std::sqrt(matA->GetStaticFriction() * matA->GetStaticFriction() + matB->GetStaticFriction() * matB->GetStaticFriction());
 	_dynamicFriction = std::sqrt(matA->GetDynamicFriction() * matA->GetDynamicFriction() + matB->GetDynamicFriction() * matB->GetDynamicFriction());
 

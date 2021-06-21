@@ -1,6 +1,8 @@
 #include "MaterialContainer.h"
 #include "SpaghettiEnginePath.h"
 
+CONTAINER_REGISTER(MaterialContainer, Material);
+
 MaterialContainer::MaterialContainer()
 {
 	_name = RESOURCE_NAME(Material);

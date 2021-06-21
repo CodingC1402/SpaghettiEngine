@@ -140,6 +140,13 @@ void Scene::End()
         gameObj->OnEnd();
 }
 
+SGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
+{
+    auto clonedGameObj = std::dynamic_pointer_cast<GameObj>(toClone->Clone());
+    clonedGameObj->Move(worldPosition);
+    return clonedGameObj;
+}
+
 void Scene::DestroyComponent(PBaseComponent component)
 {
     component->Destroy();

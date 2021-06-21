@@ -121,6 +121,8 @@ protected:
     void FixedUpdate();
     void End();
 
+    SGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
+
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
     void Load();
     void LoadComponent();

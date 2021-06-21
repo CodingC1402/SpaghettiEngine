@@ -22,7 +22,6 @@ class ScriptFactory
 {
 public:
 	static PScriptBase CreateInstance(std::string const& typeName, PScene owner);
-	static PScriptBase CopyInstance(CPScriptBase instance);
 protected:
 	static ScriptTypes* GetMap();
 private:
@@ -66,7 +65,7 @@ public:
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
 	[[nodiscard]] WGameObj	GetGameObject() const noexcept;
-	void Load(nlohmann::json& input) override { }
+	void Load(nlohmann::json& input) override;
 	Scene::SBaseComponent   Clone() override;
 
 	void Destroy() override;

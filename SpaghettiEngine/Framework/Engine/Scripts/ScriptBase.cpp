@@ -83,9 +83,17 @@ WGameObj ScriptBase::GetGameObject() const noexcept
 	return std::dynamic_pointer_cast<GameObj>(_ownerObj->GetSharedPtr());
 }
 
+void ScriptBase::Load(nlohmann::json& input)
+{
+	if (_ownerObj == nullptr)
+		throw CORN_EXCEPT_WITH_DESCRIPTION(L"You can't have a script without an owner");
+}
+
 Scene::SBaseComponent ScriptBase::Clone()
 {
-	return nullptr;
+	auto cloneScript = std::make_shared<ScriptBase>(ScriptFactory::CreateInstance(_name, _owner));
+	*cloneScript.get() = *this;
+	return cloneScript;
 }
 
 void ScriptBase::Destroy()

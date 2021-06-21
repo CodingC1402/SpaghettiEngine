@@ -8,7 +8,7 @@ WBody2D CollideEvent::GetBody() const
 	return _collideWith;
 }
 
-WGameObj CollideEvent::GetObject() const
+WGameObj CollideEvent::GetGameObject() const
 {
 	return std::dynamic_pointer_cast<GameObj>(GetBody().lock()->GetGameObject()->GetSharedPtr());
 }

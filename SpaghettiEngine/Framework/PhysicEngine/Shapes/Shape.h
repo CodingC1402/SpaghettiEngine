@@ -2,6 +2,7 @@
 #include "Body2D.h"
 #include "Matrix.h"
 #include "CollideEvent.h"
+#include "IClonable.h"
 
 class Shape;
 typedef std::weak_ptr<Shape> WShape;
@@ -12,7 +13,7 @@ typedef std::weak_ptr<Collider2DBase> WCollider2DBase;
 
 class Collision;
 
-class Shape
+class Shape : public IClonable<Shape>
 {
 public:
 	enum class Type

@@ -44,6 +44,19 @@ bool Polygon::PolygonCircle(Collision* collision)
 	return false;
 }
 
+Shape* Polygon::Clone() const
+{
+	Polygon* clonePoly = new Polygon();
+
+	clonePoly->_center = _center;
+	clonePoly->_radius = _radius;
+	clonePoly->_centroid = _centroid;
+	clonePoly->_offSetMatrix = _offSetMatrix;
+	clonePoly->_vertexes = _vertexes;
+
+	return clonePoly;
+}
+
 void Polygon::UpdateParameter()
 {
 	Matrix4 matrix = _body.lock()->GetWorldMatrix();

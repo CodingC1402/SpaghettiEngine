@@ -1,6 +1,9 @@
 {
 	"Prefabs": [
 		{
+			"ID": 10004
+		},
+		{
 			"ID": 10001,
 			"Changes": [
 				{
@@ -8,7 +11,7 @@
 					"ID": 1,
 					"Type" : "GameObject",
 					"Field": "Transform",
-					"Value": [-900, 80, 0]
+					"Value": [-900, 100, 0]
 				}
 			]
 		}
@@ -45,7 +48,27 @@
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					{ "ID": 3 }
+					{ "ID": 3 },
+					{
+						"ID": 4
+					}
+				]
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"IsRoot": true,
+				"Tag": "ColliderForTileMapPart1",
+				"GameObjects": [
+				],
+				"Transform": [0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{
+						"ID": 4
+					}
 				]
 			}
 		}
@@ -139,6 +162,14 @@
 					[512, 384],
 					[0, 384]
 				]
+			}
+		},
+		{
+			"ID": 4,
+			"Inputs": {
+				"DrawLayer": 12,
+				"ScriptType": "CircleCollider",
+				"Radius": 100
 			}
 		}
 	]

@@ -3,6 +3,7 @@
 #include <list>
 #include "Vector3.h"
 #include "Material.h"
+#include "IClonable.h"
 #include "CollideEvent.h"
 
 class Body2D;
@@ -16,7 +17,7 @@ typedef std::shared_ptr<Shape> SShape;
 class Collider2DBase;
 typedef std::weak_ptr<Collider2DBase> WCollider2DBase;
 
-class Body2D 
+class Body2D : IClonable<Body2D>
 {
 	friend class Shape;
 public:
@@ -59,6 +60,8 @@ public:
 	void SetMaterial(WMaterial material);
 	[[nodiscard]] WMaterial GetMaterial() const;
 
+	Body2D* Clone() override;
+
 	void SetMaterialToDefault();
 	void SetStatic();
 
@@ -70,28 +73,28 @@ public:
 
 	virtual void OnUpdateMatrix();
 protected:
-	static SBody2D _defaultBody;
+	static SBody2D		_defaultBody;
 
-	GameObj* _gameObject;
+	GameObj*			_gameObject;
 
-	Matrix4 _worldMatrix; 
-	Vector3 _velocity;
+	Matrix4				_worldMatrix; 
+	Vector3				_velocity;
 
-	Vector3 _force;
-	float _rotation = 0;
+	Vector3				_force;
+	float				_rotation = 0;
 
-	float _inertia = 0;
-	float _inverseInertia = 0;
+	float				_inertia = 0;
+	float				_inverseInertia = 0;
 
-	float _mass = 0;
-	float _inverseMass = 0;
+	float				_mass = 0;
+	float				_inverseMass = 0;
 
-	float _gravityScale = 1;
+	float				_gravityScale = 1;
 
-	Vector3 _moveVec;
+	Vector3				_moveVec;
 
-	std::list<Shape*> _shapes;
-	std::list<WBody2D> _collidedBody;
-	std::list<WBody2D> _currentCollide;
-	mutable SMaterial _material = Material::GetDefaultMaterial().lock();
+	std::list<Shape*>	_shapes;
+	std::list<WBody2D>	_collidedBody;
+	std::list<WBody2D>	_currentCollide;
+	mutable SMaterial	_material = Material::GetDefaultMaterial().lock();
 };

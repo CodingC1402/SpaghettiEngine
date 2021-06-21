@@ -10,11 +10,8 @@ typedef std::weak_ptr<Material> WMaterial;
 class Material : public Resource
 {
 public:
+	Material();
 	Material(const float staticFriction, const float dynamicFriction, const float restitution);
-	static WMaterial CreateMaterial(const unsigned id, const float staticFriction, const float dynamicFriction, const float restitution);
-	[[nodiscard]] static WMaterial GetMaterial(const unsigned id);
-
-	static bool RemoveMaterial(const unsigned id);
 	[[nodiscard]] static WMaterial GetDefaultMaterial();
 
 	[[nodiscard]] const float& GetStaticFriction() const noexcept;
@@ -31,6 +28,5 @@ protected:
 	float _dynamicFriction;
 	float _restitution;
 protected:
-	static inline std::map<unsigned, SMaterial> _materials;
 	static inline SMaterial _defaultMaterial = std::make_shared<Material>(0.1f, 0.1f, 0.0f);
 };

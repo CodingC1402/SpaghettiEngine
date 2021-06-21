@@ -61,6 +61,7 @@
     <ClInclude Include="Framework\Engine\Wrapper\Input.h" />
     <ClInclude Include="Framework\Engine\Wrapper\InputSystem.h" />
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h" />
+    <ClInclude Include="Framework\Interfaces\IClonable.h" />
     <ClInclude Include="Framework\Math\Matrix.h" />
     <ClInclude Include="Framework\Math\SMath.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />
@@ -68,6 +69,7 @@
     <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Collision.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Material.h" />
+    <ClInclude Include="Framework\PhysicEngine\Components\MaterialContainer.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Physic.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicMath.h" />
@@ -143,6 +145,7 @@
     <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Collision.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Material.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Components\MaterialContainer.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Physic.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicMath.cpp" />
@@ -289,7 +292,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Interfaces;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <ShowIncludes>false</ShowIncludes>
       <OmitFramePointers>true</OmitFramePointers>
@@ -340,7 +343,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Interfaces;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <ShowIncludes>false</ShowIncludes>
       <OmitFramePointers>true</OmitFramePointers>

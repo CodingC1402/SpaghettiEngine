@@ -1,36 +1,19 @@
 #include "Material.h"
 #include "SpaghettiEnginePath.h"
 
+Material::Material()
+{
+	this->_staticFriction = _defaultMaterial->_staticFriction;
+	this->_dynamicFriction = _defaultMaterial->_dynamicFriction;
+	this->_restitution = _defaultMaterial->_restitution;
+}
+
 Material::Material(const float staticFriction, const float dynamicFriction, const float restitution)
 	:
 	_staticFriction(staticFriction),
 	_dynamicFriction(dynamicFriction),
 	_restitution(restitution)
 {}
-
-WMaterial Material::CreateMaterial(const unsigned id, const float staticFriction, const float dynamicFriction, const float restitution)
-{
-	SMaterial newMaterial = std::make_shared<Material>(staticFriction, dynamicFriction, restitution);
-	_materials.emplace(id, newMaterial);
-	return newMaterial;
-}
-
-WMaterial Material::GetMaterial(const unsigned id)
-{
-	return _materials[id];
-}
-
-bool Material::RemoveMaterial(const unsigned id)
-{
-	auto it = _materials.find(id);
-	if (it != _materials.end())
-	{
-		_materials.erase(id);
-		return true;
-	}
-	else
-		return false;
-}
 
 const float& Material::GetStaticFriction() const noexcept
 {

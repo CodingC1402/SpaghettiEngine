@@ -199,6 +199,22 @@ void GameObj::Rotate(const Vector3& rotation)
 	_isRotationChanged = true;
 	ForceRecalculateMatrix();
 }
+
+void GameObj::Move(const Vector3& vector)
+{
+	if (vector == Vector3(0, 0, 0))
+		return;
+
+	_transform = vector;
+	_isTransformChanged = true;
+	ForceRecalculateMatrix();
+}
+
+void GameObj::Move(const float& x, const float& y, const float& z)
+{
+	Move(Vector3(x, y, z));
+}
+
 void GameObj::Translate(const float& x, const float& y, const float& z)
 {
 	Translate(Vector3(x, y, z));
@@ -297,6 +313,39 @@ GameObj::GameObj(PScene owner, bool isDisabled)
 	_physic(this),
 	BaseComponent(owner, isDisabled)
 {}
+
+GameObj::GameObj(GameObj & obj)
+	:
+	_physic(this),
+	BaseComponent(obj._owner, obj.IsDisabled())
+{
+	*this = obj;
+}
+
+GameObj& GameObj::operator=(GameObj& obj)
+{
+	if (obj.IsDisabled())
+		Disable();
+	else
+		Enable();
+
+	auto cloneObj = std::dynamic_pointer_cast<GameObj>(obj.Clone());
+	auto cloneObjPtr = cloneObj.get();
+
+	_children = cloneObjPtr->_children;
+	_childrenPtr = cloneObjPtr->_childrenPtr;
+
+	_scripts = cloneObjPtr->_scripts;
+	_scriptsPtr = cloneObjPtr->_scriptsPtr;
+
+	SetTransform(cloneObj->GetTransform());
+	SetRotation(cloneObj->GetRotation());
+	SetScale(cloneObj->GetScale());
+
+	
+
+	return *this;
+}
 
 void GameObj::RecursiveMarkForDelete()
 {
@@ -452,33 +501,65 @@ void GameObj::OnDisabled()
 	for (const auto& child : _children)
 		child->OnDisabled();
 }
+
+void GameObj::OnCollide(CollideEvent& e)
+{
+	for (auto& script : _scripts)
+		script->OnCollide(e);
+}
+
+void GameObj::OnCollideEnter(CollideEvent& e)
+{
+	for (auto& script : _scripts)
+		script->OnCollideEnter(e);
+}
+
+void GameObj::OnCollideExit(CollideEvent& e)
+{
+	for (auto& script : _scripts)
+		script->OnCollideExit(e);
+}
 #pragma endregion
 #pragma region  Child
 std::shared_ptr<Scene::BaseComponent> GameObj::Clone()
 {
-	return nullptr;
+	auto cloneObj = std::make_shared<GameObj>(_owner, _isDisabled);
+	for (const auto& script : _scripts)
+		cloneObj->AddScriptClone(script);
+	for (const auto& child : _children)
+		cloneObj->AddChildClone(child);
+	return cloneObj;
 }
 PGameObj GameObj::AddChild(const PGameObj& child)
 {
+	child->AddParent(this);
 	_childrenPtr.push_back(child->GetSharedPtr());
 	_children.push_back(child);
 	return _children.back();
 }
+PGameObj GameObj::AddChildClone(const PGameObj& child)
+{
+	SGameObj cloneObject = std::dynamic_pointer_cast<GameObj>(child->Clone());
+	return AddChild(cloneObject.get());
+}
 PGameObj GameObj::AddChild()
 {
-	const Scene::SBaseComponent newObj(new GameObj(_owner), Scene::DestroyComponent);
-	_childrenPtr.push_back(newObj);
-	_children.push_back(dynamic_cast<PGameObj>(_childrenPtr.back().get()));
-	_childrenPtr.back()->AssignSharedPtr(_childrenPtr.back());
-	_children.back()->Load(defaultJson);
-	return _children.back();
+	auto newObj = _owner->CreateGameObject();
+
+	auto result = AddChild(newObj.get());
+	result->Load(defaultJson);
+	return result;
 }
 PScriptBase GameObj::AddScript(const std::string& scriptName, nlohmann::json& inputObject)
 {
 	PScriptBase newScript = ScriptFactory::CreateInstance(scriptName, _owner);
 	const Scene::SBaseComponent sharedPtr(newScript, Scene::DestroyComponent);
 	newScript->AssignSharedPtr(sharedPtr);
+	newScript->AssignOwner(this);
 	newScript->Load(inputObject);
+	newScript->OnStart();
+	if (!newScript->IsDisabled())
+		newScript->OnEnabled();
 	_scriptsPtr.push_back(sharedPtr);
 	_scripts.push_back(newScript);
 	return _scripts.back();
@@ -487,7 +568,17 @@ PScriptBase GameObj::AddScript(const PScriptBase& script)
 {
 	_scriptsPtr.push_back(script->GetSharedPtr());
 	_scripts.push_back(script);
+	script->AssignOwner(this);
 	return _scripts.back();
+}
+PScriptBase GameObj::AddScript(const SScriptBase& script)
+{
+	return AddScript(script.get());
+}
+PScriptBase GameObj::AddScriptClone(const PScriptBase& script)
+{
+	SScriptBase cloneScript = std::dynamic_pointer_cast<ScriptBase>(script->Clone());
+	return AddScript(cloneScript.get());
 }
 void GameObj::RemoveChild(const PGameObj& child)
 {

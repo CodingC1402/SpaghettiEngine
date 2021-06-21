@@ -222,8 +222,4 @@ void SceneManager::Load()
 void SceneManager::Init()
 {
 	Load();
-	constScene->Load();
-	constScene->LoadComponent();
-	constScene->Enable();
-	constScene->Start();
 }

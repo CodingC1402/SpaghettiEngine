@@ -191,6 +191,27 @@ WMaterial Body2D::GetMaterial() const
 	return _material;
 }
 
+Body2D* Body2D::Clone() const
+{
+	auto cloneBody = new Body2D();
+
+	cloneBody->_velocity	= _velocity;
+	cloneBody->_force		= _force;
+	cloneBody->_rotation	= _rotation;
+	cloneBody->_mass		= _mass;
+	cloneBody->_inverseMass = _inverseMass;
+	cloneBody->_gravityScale = _gravityScale;
+	cloneBody->_moveVec		= _moveVec;
+	cloneBody->_material	= _material;
+
+	for (const auto& shape : _shapes)
+	{
+		cloneBody->_shapes.push_back(shape->Clone());
+	}
+
+	return cloneBody;
+}
+
 void Body2D::SetMaterialToDefault()
 {
 	_material = Material::GetDefaultMaterial().lock();
