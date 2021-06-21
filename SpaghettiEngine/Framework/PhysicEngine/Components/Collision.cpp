@@ -77,11 +77,15 @@ bool Collision::Solve()
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 	if (isCollide)
 	{
-		CollideEvent eventA(_shapeB);
-		CollideEvent eventB(_shapeA);
+		CollideEvent eventA(_shapeB->GetBody());
+		CollideEvent eventB(_shapeA->GetBody());
 		_shapeA->SendEvent(eventA);
 		_shapeB->SendEvent(eventB);
+
+		if (eventA.GetIsHandled() || eventB.GetIsHandled())
+			return false;
 	}
+	return isCollide;
 }
 
 void Collision::Initialize()

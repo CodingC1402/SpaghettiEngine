@@ -5,17 +5,12 @@
 
 WBody2D CollideEvent::GetBody() const
 {
-	return _collideWith->GetBody();
-}
-
-WCollider2DBase CollideEvent::GetScript() const
-{
-	return GetBody().lock()->GetColliderScript();
+	return _collideWith;
 }
 
 WGameObj CollideEvent::GetObject() const
 {
-	return GetScript().lock()->GetGameObject();
+	return std::dynamic_pointer_cast<GameObj>(GetBody().lock()->GetGameObject()->GetSharedPtr());
 }
 
 bool CollideEvent::GetIsHandled() const
@@ -28,7 +23,7 @@ void CollideEvent::SetIsHandled(bool handled)
 	_isCollisionHandled = handled;
 }
 
-CollideEvent::CollideEvent(Shape* collideWith)
+CollideEvent::CollideEvent(WBody2D collideWith)
 {
 	_collideWith = collideWith;
 }

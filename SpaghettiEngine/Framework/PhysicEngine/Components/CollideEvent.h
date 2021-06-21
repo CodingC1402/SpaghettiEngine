@@ -16,15 +16,14 @@ class CollideEvent
 {
 public:
 	[[nodiscard]] WBody2D GetBody() const;
-	[[nodiscard]] WCollider2DBase GetScript() const;
 	[[nodiscard]] WGameObj GetObject() const;
 
 	[[nodiscard]] bool GetIsHandled() const;
 	void SetIsHandled(bool handled);
 
-	CollideEvent(Shape* collideWith);
+	CollideEvent(WBody2D collideWith);
 protected:
-	Shape* _collideWith;
+	WBody2D _collideWith;
 	bool _isCollisionHandled = false;
 };
 

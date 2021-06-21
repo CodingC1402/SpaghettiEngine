@@ -15,7 +15,6 @@ public:
 	void OnDisabled() override;
 	void OnChange();
 
-	void SentCollideEvent(CollideEvent& e);
 	void AssignOwner(const PGameObj& gameObj) override;
 
 	void Load(nlohmann::json& input) override;

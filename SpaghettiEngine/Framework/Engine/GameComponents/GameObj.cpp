@@ -294,6 +294,7 @@ PhysicComponent& GameObj::GetPhysicComponent()
 #pragma region Constructor/Destructor
 GameObj::GameObj(PScene owner, bool isDisabled)
 	:
+	_physic(this),
 	BaseComponent(owner, isDisabled)
 {}
 

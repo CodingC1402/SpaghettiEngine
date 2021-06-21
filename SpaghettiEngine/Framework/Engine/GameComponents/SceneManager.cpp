@@ -8,6 +8,7 @@
 #include "Prefabs.h"
 #include "Extra.h"
 #include "GameTimer.h"
+#include "MaterialContainer.h"
 #include <fstream>
 #include <future>
 
@@ -135,6 +136,7 @@ void SceneManager::CleanUpAfterLoad()
 	PrefabsContainer::GetInstance()->UnloadUnusedResources();
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
+	MaterialContainer::GetInstance()->UnloadUnusedResources();
 }
 
 void SceneManager::CallLoadNextScene()

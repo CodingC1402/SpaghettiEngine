@@ -34,6 +34,7 @@ protected:
 	static constexpr auto _velocityField = "Velocity";
 	static constexpr auto _massField = "Mass";
 	static constexpr auto _gravityScale = "GravityScale";
+	static constexpr auto _materialField = "Material";
 private:
 	REGISTER_START(RigidBody2D);
 };

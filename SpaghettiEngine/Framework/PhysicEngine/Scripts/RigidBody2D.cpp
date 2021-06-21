@@ -1,6 +1,7 @@
 #include "RigidBody2D.h"
 #include "PhysicComponent.h"
 #include "Physic.h"
+#include "MaterialContainer.h"
 
 REGISTER_FINISH(RigidBody2D);
 
@@ -46,6 +47,8 @@ void RigidBody2D::Load(nlohmann::json& input)
 		_body->SetMass(input[_massField].get<float>());
 	if (input[_gravityScale] != nullptr)
 		_body->SetGravityScale(input[_gravityScale].get<float>());
+	if (input[_materialField] != nullptr)
+		_body->SetMaterial(MaterialContainer::GetInstance()->GetResource(input[_materialField].get<CULL>()));
 }
 
 void RigidBody2D::SetVelocity(const Vector3& velocity)

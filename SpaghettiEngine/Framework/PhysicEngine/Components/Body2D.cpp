@@ -112,19 +112,63 @@ const float& Body2D::GetGravityScale() const
 	return _gravityScale;
 }
 
-void Body2D::SetColliderScript(WCollider2DBase collider)
+void Body2D::SetGameObject(GameObj* collider)
 {
-	_colliderScript = collider;
+	_gameObject = collider;
 }
 
-WCollider2DBase Body2D::GetColliderScript() const
+GameObj* Body2D::GetGameObject() const
 {
-	return _colliderScript;
+	return _gameObject;
 }
 
 void Body2D::SendEvent(CollideEvent& e)
 {
-	_colliderScript.lock()
+	_gameObject->OnCollide(e);
+	_currentCollide.emplace_back(e.GetBody());
+}
+
+void Body2D::SendExitEnterEvent()
+{
+	std::list<WBody2D> newCurrentCollide;
+	bool isNewCollide = false;
+
+	/// <summary>
+	/// Loop and remove the repeated collide and add the new collide to newCurrentCollide
+	/// </summary>
+	for (auto newIt = _currentCollide.begin(); newIt != _currentCollide.end(); ++newIt)
+	{
+		isNewCollide = true;
+
+		for (auto oldIt = _collidedBody.begin(); oldIt != _collidedBody.end(); ++oldIt)
+		{
+			if ((*newIt).lock() == (*oldIt).lock())
+			{
+				_collidedBody.erase(oldIt);
+				isNewCollide = false;
+				break;
+			}
+		}
+
+		if (isNewCollide)
+			newCurrentCollide.emplace_back(*newIt);
+	}
+
+	for (const auto& oldBody : _collidedBody)
+	{
+		CollideEvent newEvent(oldBody);
+		_gameObject->OnCollideExit(newEvent);
+	}
+
+	for (const auto& newBody : newCurrentCollide)
+	{
+		CollideEvent newEvent(newBody);
+		_gameObject->OnCollideEnter(newEvent);
+	}
+
+	_collidedBody = _currentCollide;
+	newCurrentCollide.clear();
+	_currentCollide.clear();
 }
 
 Vector3 Body2D::GetMoveVector()
@@ -139,19 +183,17 @@ float Body2D::GetRotation()
 
 void Body2D::SetMaterial(WMaterial material)
 {
-	_material = material;
+	_material = material.lock();
 }
 
 WMaterial Body2D::GetMaterial() const
 {
-	if (_material.expired())
-		_material = Material::GetDefaultMaterial();
 	return _material;
 }
 
 void Body2D::SetMaterialToDefault()
 {
-	_material = Material::GetDefaultMaterial();
+	_material = Material::GetDefaultMaterial().lock();
 }
 
 void Body2D::SetStatic()

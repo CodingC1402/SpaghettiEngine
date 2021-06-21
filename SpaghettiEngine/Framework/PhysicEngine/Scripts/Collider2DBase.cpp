@@ -41,11 +41,6 @@ void Collider2DBase::OnChange()
 	ChangeBody(_ownerObj->GetPhysicComponent().GetBody2D());
 }
 
-void Collider2DBase::SentCollideEvent(CollideEvent& e)
-{
-	_ownerObj->SentCollideEvent(e);
-}
-
 void Collider2DBase::AssignOwner(const PGameObj& gameObj)
 {
 	PhysicScriptBase::AssignOwner(gameObj);

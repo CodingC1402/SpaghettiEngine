@@ -47,10 +47,11 @@ public:
 	void SetGravityScale(const float& scale);
 	[[nodiscard]] const float& GetGravityScale() const;
 
-	void SetColliderScript(WCollider2DBase collider);
-	[[nodiscard]] WCollider2DBase GetColliderScript() const;
+	void SetGameObject(GameObj* collider);
+	[[nodiscard]] GameObj* GetGameObject() const;
 
 	void SendEvent(CollideEvent& e);
+	void SendExitEnterEvent();
 
 	[[nodiscard]] Vector3 GetMoveVector();
 	[[nodiscard]] float GetRotation();
@@ -71,7 +72,7 @@ public:
 protected:
 	static SBody2D _defaultBody;
 
-	WCollider2DBase _colliderScript;
+	GameObj* _gameObject;
 
 	Matrix4 _worldMatrix; 
 	Vector3 _velocity;
@@ -90,5 +91,7 @@ protected:
 	Vector3 _moveVec;
 
 	std::list<Shape*> _shapes;
-	mutable WMaterial _material = Material::GetDefaultMaterial();
+	std::list<WBody2D> _collidedBody;
+	std::list<WBody2D> _currentCollide;
+	mutable SMaterial _material = Material::GetDefaultMaterial().lock();
 };

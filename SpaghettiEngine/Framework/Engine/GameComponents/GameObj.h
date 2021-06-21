@@ -65,6 +65,7 @@ public:
 
 	void AddPhysicComponent(PhysicScriptBase* script);
 	void RemovePhysicComponent(PhysicScriptBase* script);
+	PhysicComponent& GetPhysicComponent();
 
 	void SendCollideExitEvent(CollideEvent& e);
 	void SendCollideEvent(CollideEvent& e);
@@ -99,8 +100,6 @@ public:
 	void AddParent(const PGameObj& gameObj);
 	void AddParentWithoutCalculateLocal(const PGameObj& gameObj);
 	void RemoveParentWithoutCalculateLocal();
-
-	PhysicComponent& GetPhysicComponent();
 
 	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	PScriptBase AddScript(const PScriptBase& script);
