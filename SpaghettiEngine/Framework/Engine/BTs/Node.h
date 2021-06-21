@@ -21,7 +21,8 @@ public:
 	{
 		Success,
 		Running,
-		Failure
+		Failure,
+		Invalid
 	};
 public:
 	void AssignPtr(WNode ptr);

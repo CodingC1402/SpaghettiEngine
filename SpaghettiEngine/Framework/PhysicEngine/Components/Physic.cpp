@@ -63,7 +63,12 @@ void Physic::Step()
 	for (auto& body : _body2D) {
 		body->SetForce(Vector3(0, 0, 0));
 	}
+
 	_contacts.clear();
+	for (auto& body : _body2D)
+	{
+		body->SendExitEnterEvent();
+	}
 }
 
 void Physic::SetStep(const float& step)

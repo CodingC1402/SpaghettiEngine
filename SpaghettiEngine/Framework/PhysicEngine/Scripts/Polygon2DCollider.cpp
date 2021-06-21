@@ -6,9 +6,7 @@
 REGISTER_FINISH(Polygon2DCollider);
 
 Polygon2DCollider::Polygon2DCollider(PScene owner, bool isDisabled) : Collider2DBase(owner , isDisabled)
-{
-	_name = TYPE_NAME(Polygon2DCollider);
-}
+{}
 
 void Polygon2DCollider::Load(nlohmann::json& input)
 {

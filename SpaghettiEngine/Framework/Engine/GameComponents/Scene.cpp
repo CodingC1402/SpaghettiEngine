@@ -140,6 +140,17 @@ void Scene::End()
         gameObj->OnEnd();
 }
 
+SGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
+{
+    auto clonedGameObj = std::dynamic_pointer_cast<GameObj>(toClone->Clone());
+
+    clonedGameObj->OnStart();
+    clonedGameObj->OnEnabled();
+    clonedGameObj->Move(worldPosition);
+
+    return clonedGameObj;
+}
+
 void Scene::DestroyComponent(PBaseComponent component)
 {
     component->Destroy();
@@ -252,7 +263,7 @@ SGameObj Scene::CreateGameObject()
     return newObj;
 }
 
-SScriptBase Scene::CreateSpriteBase(const std::string& scriptName)
+SScriptBase Scene::CreateScriptBase(const std::string& scriptName)
 {
     SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this));
     newScript->AssignSharedPtr(newScript);

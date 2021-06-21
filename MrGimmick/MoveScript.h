@@ -11,12 +11,13 @@ public:
 	MoveScript(PScene owner);
 	void OnStart() override;
 	void OnUpdate() override;
+
+	SScriptBase Clone() const override;
 protected:
 	SInput up;
 	SInput down;
 	SInput left;
 	SInput right;
-	PCamera cam;
 
 	float _speedCap = 150;
 	float _jumpStrength = 200;

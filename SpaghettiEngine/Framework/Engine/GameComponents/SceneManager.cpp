@@ -8,6 +8,7 @@
 #include "Prefabs.h"
 #include "Extra.h"
 #include "GameTimer.h"
+#include "MaterialContainer.h"
 #include <fstream>
 #include <future>
 
@@ -48,8 +49,8 @@ void SceneManager::Update()
 					loadingSceneJob.get();
 
 					scenes[sceneIndex]->LoadComponent();
-					scenes[sceneIndex]->Enable();
 					scenes[sceneIndex]->Start();
+					scenes[sceneIndex]->Enable();
 
 					CleanUpAfterLoad();
 					_startedLoadNewScene = false;
@@ -135,6 +136,7 @@ void SceneManager::CleanUpAfterLoad()
 	PrefabsContainer::GetInstance()->UnloadUnusedResources();
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
+	MaterialContainer::GetInstance()->UnloadUnusedResources();
 }
 
 void SceneManager::CallLoadNextScene()
@@ -220,8 +222,4 @@ void SceneManager::Load()
 void SceneManager::Init()
 {
 	Load();
-	constScene->Load();
-	constScene->LoadComponent();
-	constScene->Enable();
-	constScene->Start();
 }

@@ -3,9 +3,10 @@
 		{
 			"ID": 1,
 			"Inputs": {
-				"Tag": "Player",
+				"Tag": "Star",
+				"IsRoot": true,
 				"GameObjects": [],
-				"Transform": [ 0, 0, 0 ],
+				"Transform": [ -900, 200, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
@@ -17,12 +18,6 @@
 					},
 					{
 						"ID": 3
-					},
-					{
-						"ID": 4
-					},
-					{
-						"ID": 5
 					}
 				]
 			}
@@ -33,17 +28,14 @@
 			"ID": 1,
 			"Inputs": {
 				"ScriptType": "Animator",
-				"Animation": 20001,
+				"Animation": 20002,
 				"DrawLayer": 1
 			}
 		},
 		{
 			"ID": 2,
 			"Inputs": {
-				"ScriptType": "MoveScript",
-				"SpeedRamUp": 700,
-				"SpeedCap": 120,
-				"JumpStrength": 300
+				"ScriptType": "StarScript"
 			}
 		},
 		{
@@ -56,23 +48,6 @@
 					[8, 8],
 					[8, -8] 
 				]
-			}
-		},
-		{
-			"ID": 4,
-			"Inputs": {
-				"ScriptType": "CircleCollider",
-				"Radius": 5,
-				"OffSetY": 10
-			}
-		},
-		{
-			"ID": 5,
-			"Inputs": {
-				"ScriptType": "RigidBody2D",
-				"Mass": 4,
-				"GravityScale": 4,
-				"Material": 10001
 			}
 		}
     ]

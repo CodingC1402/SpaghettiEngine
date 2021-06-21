@@ -27,6 +27,7 @@ public:
 
 	void AfterPhysicUpdate();
 
+	SScriptBase Clone() const override;
 	void Load(nlohmann::json& input) override;
 protected:
 	SBody2D _body;
@@ -34,6 +35,7 @@ protected:
 	static constexpr auto _velocityField = "Velocity";
 	static constexpr auto _massField = "Mass";
 	static constexpr auto _gravityScale = "GravityScale";
+	static constexpr auto _materialField = "Material";
 private:
 	REGISTER_START(RigidBody2D);
 };

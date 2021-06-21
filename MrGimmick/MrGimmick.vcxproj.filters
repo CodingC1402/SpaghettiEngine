@@ -21,9 +21,21 @@
     <ClCompile Include="MoveScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StarScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackMove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StarScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackMove.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

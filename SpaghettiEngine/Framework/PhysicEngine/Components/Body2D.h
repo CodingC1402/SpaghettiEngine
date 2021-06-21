@@ -1,8 +1,10 @@
 #pragma once
 #include <memory>
+#include <list>
 #include "Vector3.h"
 #include "Material.h"
-#include <list>
+#include "IClonable.h"
+#include "CollideEvent.h"
 
 class Body2D;
 typedef std::weak_ptr<Body2D> WBody2D;
@@ -12,7 +14,10 @@ class Shape;
 typedef std::weak_ptr<Shape> WShape;
 typedef std::shared_ptr<Shape> SShape;
 
-class Body2D 
+class Collider2DBase;
+typedef std::weak_ptr<Collider2DBase> WCollider2DBase;
+
+class Body2D : IClonable<Body2D>
 {
 	friend class Shape;
 public:
@@ -43,12 +48,19 @@ public:
 	void SetGravityScale(const float& scale);
 	[[nodiscard]] const float& GetGravityScale() const;
 
+	void SetGameObject(GameObj* collider);
+	[[nodiscard]] GameObj* GetGameObject() const;
+
+	void SendEvent(CollideEvent& e);
+	void SendExitEnterEvent();
 
 	[[nodiscard]] Vector3 GetMoveVector();
 	[[nodiscard]] float GetRotation();
 
 	void SetMaterial(WMaterial material);
 	[[nodiscard]] WMaterial GetMaterial() const;
+
+	Body2D* Clone() const override;
 
 	void SetMaterialToDefault();
 	void SetStatic();
@@ -61,24 +73,28 @@ public:
 
 	virtual void OnUpdateMatrix();
 protected:
-	static SBody2D _defaultBody;
+	static SBody2D		_defaultBody;
 
-	Matrix4 _worldMatrix; 
-	Vector3 _velocity;
+	GameObj*			_gameObject = nullptr;
 
-	Vector3 _force;
-	float _rotation = 0;
+	Matrix4				_worldMatrix; 
+	Vector3				_velocity;
 
-	float _inertia = 0;
-	float _inverseInertia = 0;
+	Vector3				_force;
+	float				_rotation = 0;
 
-	float _mass = 0;
-	float _inverseMass = 0;
+	float				_inertia = 0;
+	float				_inverseInertia = 0;
 
-	float _gravityScale = 1;
+	float				_mass = 0;
+	float				_inverseMass = 0;
 
-	Vector3 _moveVec;
+	float				_gravityScale = 1;
 
-	std::list<Shape*> _shapes;
-	mutable WMaterial _material = Material::GetDefaultMaterial();
+	Vector3				_moveVec;
+
+	std::list<Shape*>	_shapes;
+	std::list<WBody2D>	_collidedBody;
+	std::list<WBody2D>	_currentCollide;
+	mutable SMaterial	_material = Material::GetDefaultMaterial().lock();
 };

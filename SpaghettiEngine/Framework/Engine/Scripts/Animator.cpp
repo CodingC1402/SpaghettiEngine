@@ -8,9 +8,7 @@ REGISTER_FINISH(Animator);
 Animator::Animator(PScene owner)
 	:
 	Render2DScriptBase(owner)
-{
-	_name = TYPE_NAME(Animator);
-}
+{}
 
 void Animator::OnUpdate()
 {
@@ -24,6 +22,18 @@ void Animator::Draw(PCamera camera)
 	Matrix4 transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
 	Graphics::DrawSprite(_sprite, _sprite->GetCenter());
+}
+
+SScriptBase Animator::Clone() const
+{
+	auto animClone = std::dynamic_pointer_cast<Animator>(Render2DScriptBase::Clone());
+
+	animClone->_ani = _ani;
+	animClone->_sprite = _sprite;
+	animClone->frame = frame;
+	animClone->time = time;
+
+	return animClone;
 }
 
 void Animator::Load(nlohmann::json& inputObject)

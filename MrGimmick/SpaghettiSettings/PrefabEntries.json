@@ -10,5 +10,9 @@
   {
     "ID": 10003,
     "Path": "Asset/Prefabs/Camera.json"
+  },
+  {
+    "ID": 10004,
+    "Path": "Asset/Prefabs/Star.json"
   }
 ]

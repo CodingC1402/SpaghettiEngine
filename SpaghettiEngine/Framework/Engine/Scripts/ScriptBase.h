@@ -22,7 +22,6 @@ class ScriptFactory
 {
 public:
 	static PScriptBase CreateInstance(std::string const& typeName, PScene owner);
-	static PScriptBase CopyInstance(CPScriptBase instance);
 protected:
 	static ScriptTypes* GetMap();
 private:
@@ -37,8 +36,8 @@ struct DerivedRegister : public ScriptFactory {
 	}
 };
 
-#define REGISTER_START(NAME) static DerivedRegister<NAME> reg
-#define REGISTER_FINISH(NAME) DerivedRegister<NAME> NAME::reg(#NAME)
+#define REGISTER_START(NAME) protected: std::string GetType() const noexcept override; private: static DerivedRegister<NAME> reg
+#define REGISTER_FINISH(NAME) DerivedRegister<NAME> NAME::reg(#NAME); std::string NAME::GetType() const noexcept { return #NAME; }
 #define TYPE_NAME(TYPE) #TYPE
 
 
@@ -58,20 +57,23 @@ public:
 	};
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
+
 	virtual void AssignOwner(const PGameObj& owner);
 	
-	[[nodiscard]] const char* GetName() const noexcept;
 	[[nodiscard]] Matrix4	GetWorldMatrix() const noexcept;
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
-	void Load(nlohmann::json& input) override { }
-	Scene::SBaseComponent   Clone() override;
+	[[nodiscard]] WGameObj	GetGameObject() const noexcept;
+
+	[[nodiscard]] virtual std::string GetType() const noexcept = 0;
+	[[nodiscard]] virtual SScriptBase Clone() const;
+
+	void Load(nlohmann::json& input) override;
 
 	void Destroy() override;
 protected:
 	PGameObj _ownerObj = nullptr;
-	std::string _name;
 };
 
 #define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)

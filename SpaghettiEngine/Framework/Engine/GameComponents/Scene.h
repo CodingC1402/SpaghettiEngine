@@ -2,6 +2,7 @@
 
 #include "CornException.h"
 #include "SMath.h"
+#include "CollideEvent.h"
 #include <string>
 #include <list>
 #include <map>
@@ -61,6 +62,10 @@ public:
         virtual void Disable();
         virtual void Enable();
 
+        virtual void OnCollide(CollideEvent& e) {};
+        virtual void OnCollideEnter(CollideEvent& e) {};
+        virtual void OnCollideExit(CollideEvent& e) {};
+
         virtual bool [[nodiscard]] IsDisabled();
 
         virtual void Load(nlohmann::json& input) = 0;
@@ -70,8 +75,6 @@ public:
         void DisableWithoutUpdate();
         //Don't use
         void EnableWithoutUpdate();
-
-        virtual std::shared_ptr<BaseComponent> Clone() = 0;
 
         /// Get the shared_ptr of the component which is owned by a scene
         [[nodiscard]] std::shared_ptr<BaseComponent> GetSharedPtr() const;
@@ -99,7 +102,7 @@ public:
 public:
     // Only work in load
     [[nodiscard]] SGameObj CreateGameObject();
-    [[nodiscard]] std::shared_ptr<ScriptBase> CreateSpriteBase(const std::string& scriptName);
+    [[nodiscard]] std::shared_ptr<ScriptBase> CreateScriptBase(const std::string& scriptName);
     [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
 
     static void DestroyComponent(PBaseComponent component);
@@ -115,6 +118,8 @@ protected:
     void Update();
     void FixedUpdate();
     void End();
+
+    SGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
 
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
     void Load();

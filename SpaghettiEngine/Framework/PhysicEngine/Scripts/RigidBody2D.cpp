@@ -1,12 +1,12 @@
 #include "RigidBody2D.h"
 #include "PhysicComponent.h"
 #include "Physic.h"
+#include "MaterialContainer.h"
 
 REGISTER_FINISH(RigidBody2D);
 
 RigidBody2D::RigidBody2D(PScene owner, bool isDisabled) : PhysicScriptBase(owner, isDisabled)
 {
-	_name = TYPE_NAME(RigidBody2D);
 	_body = std::make_shared<Body2D>();
 }
 
@@ -34,6 +34,15 @@ void RigidBody2D::AfterPhysicUpdate()
 	_ownerObj->Translate(vec);
 }
 
+SScriptBase RigidBody2D::Clone() const
+{
+	auto clone = std::dynamic_pointer_cast<RigidBody2D>(ScriptBase::Clone());
+	
+	clone->_body.reset(_body->Clone());
+
+	return clone;
+}
+
 void RigidBody2D::Load(nlohmann::json& input)
 {
 	if (input[_velocityField] != nullptr)
@@ -46,6 +55,8 @@ void RigidBody2D::Load(nlohmann::json& input)
 		_body->SetMass(input[_massField].get<float>());
 	if (input[_gravityScale] != nullptr)
 		_body->SetGravityScale(input[_gravityScale].get<float>());
+	if (input[_materialField] != nullptr)
+		_body->SetMaterial(MaterialContainer::GetInstance()->GetResource(input[_materialField].get<CULL>()));
 }
 
 void RigidBody2D::SetVelocity(const Vector3& velocity)

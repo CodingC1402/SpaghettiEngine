@@ -22,6 +22,8 @@ Node::State Selector::Tick()
         else
             return Tick();
         break;
+    default:
+        return State::Invalid;
     }
 }
 

@@ -11,6 +11,15 @@ void Circle::SetRadius(const float& radius)
 	_radius = radius;
 }
 
+Shape* Circle::Clone() const
+{
+	Circle* cloneCircle = new Circle();
+	cloneCircle->_center = _center;
+	cloneCircle->_offSetMatrix = _offSetMatrix;
+	cloneCircle->_radius = _radius;
+	return cloneCircle;
+}
+
 void Circle::UpdateParameter()
 {
 	Matrix4 matrix = _body.lock()->GetWorldMatrix();

@@ -1,9 +1,11 @@
 #include "PhysicComponent.h"
 #include "Collider2DBase.h"
 
-PhysicComponent::Component2D::Component2D()
+PhysicComponent::Component2D::Component2D(GameObj* owner)
 {
 	_body = std::make_shared<Body2D>();
+	_owner = owner;
+	_body->SetGameObject(owner);
 }
 
 void PhysicComponent::Component2D::ChangeBody(WBody2D body)
@@ -11,13 +13,17 @@ void PhysicComponent::Component2D::ChangeBody(WBody2D body)
 	if (_body == body.lock())
 		return;
 	_body = body.lock();
+	_body->SetGameObject(_owner);
 	CallOnChange();
 }
 
 void PhysicComponent::Component2D::RemoveBody(WBody2D body)
 {
 	if (_body == body.lock())
+	{
 		_body = std::make_shared<Body2D>();
+		_body->SetGameObject(_owner);
+	}
 	CallOnChange();
 }
 
@@ -73,4 +79,11 @@ void PhysicComponent::Remove2DBody(WBody2D body)
 WBody2D PhysicComponent::GetBody2D()
 {
 	return _2DComponents.GetBody2D();
+}
+
+PhysicComponent::PhysicComponent(GameObj* owner)
+	:
+	_2DComponents(owner)
+{
+	_owner = owner;
 }

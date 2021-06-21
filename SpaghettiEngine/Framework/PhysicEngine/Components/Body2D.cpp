@@ -2,6 +2,7 @@
 #include "Shape.h"
 #include "SMath.h"
 #include "Physic.h"
+#include "Collider2DBase.h"
 
 SBody2D Body2D::_defaultBody = std::make_shared<Body2D>();
 
@@ -111,6 +112,65 @@ const float& Body2D::GetGravityScale() const
 	return _gravityScale;
 }
 
+void Body2D::SetGameObject(GameObj* collider)
+{
+	_gameObject = collider;
+}
+
+GameObj* Body2D::GetGameObject() const
+{
+	return _gameObject;
+}
+
+void Body2D::SendEvent(CollideEvent& e)
+{
+	_gameObject->OnCollide(e);
+	_currentCollide.emplace_back(e.GetBody());
+}
+
+void Body2D::SendExitEnterEvent()
+{
+	std::list<WBody2D> newCurrentCollide;
+	bool isNewCollide = false;
+
+	/// <summary>
+	/// Loop and remove the repeated collide and add the new collide to newCurrentCollide
+	/// </summary>
+	for (auto newIt = _currentCollide.begin(); newIt != _currentCollide.end(); ++newIt)
+	{
+		isNewCollide = true;
+
+		for (auto oldIt = _collidedBody.begin(); oldIt != _collidedBody.end(); ++oldIt)
+		{
+			if ((*newIt).lock() == (*oldIt).lock())
+			{
+				_collidedBody.erase(oldIt);
+				isNewCollide = false;
+				break;
+			}
+		}
+
+		if (isNewCollide)
+			newCurrentCollide.emplace_back(*newIt);
+	}
+
+	for (const auto& oldBody : _collidedBody)
+	{
+		CollideEvent newEvent(oldBody);
+		_gameObject->OnCollideExit(newEvent);
+	}
+
+	for (const auto& newBody : newCurrentCollide)
+	{
+		CollideEvent newEvent(newBody);
+		_gameObject->OnCollideEnter(newEvent);
+	}
+
+	_collidedBody = _currentCollide;
+	newCurrentCollide.clear();
+	_currentCollide.clear();
+}
+
 Vector3 Body2D::GetMoveVector()
 {
 	return Vector3();
@@ -123,19 +183,36 @@ float Body2D::GetRotation()
 
 void Body2D::SetMaterial(WMaterial material)
 {
-	_material = material;
+	_material = material.lock();
 }
 
 WMaterial Body2D::GetMaterial() const
 {
-	if (_material.expired())
-		_material = Material::GetDefaultMaterial();
 	return _material;
+}
+
+Body2D* Body2D::Clone() const
+{
+	auto cloneBody = new Body2D();
+
+	cloneBody->_velocity	= _velocity;
+	cloneBody->_force		= _force;
+	cloneBody->_rotation	= _rotation;
+	cloneBody->_mass		= _mass;
+	cloneBody->_inverseMass = _inverseMass;
+	cloneBody->_gravityScale = _gravityScale;
+	cloneBody->_moveVec		= _moveVec;
+	cloneBody->_material	= _material;
+
+	for (const auto& shape : _shapes)
+		cloneBody->_shapes.push_back(shape->Clone());
+
+	return cloneBody;
 }
 
 void Body2D::SetMaterialToDefault()
 {
-	_material = Material::GetDefaultMaterial();
+	_material = Material::GetDefaultMaterial().lock();
 }
 
 void Body2D::SetStatic()

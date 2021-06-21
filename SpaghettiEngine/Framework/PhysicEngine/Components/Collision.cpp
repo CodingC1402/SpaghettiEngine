@@ -74,15 +74,26 @@ bool Collision::Solve()
 {
 	if (_bodyA == _bodyB)
 		return false;
-	return (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
+	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
+	if (isCollide)
+	{
+		CollideEvent eventA(_shapeB->GetBody());
+		CollideEvent eventB(_shapeA->GetBody());
+		_shapeA->SendEvent(eventA);
+		_shapeB->SendEvent(eventB);
+
+		if (eventA.GetIsHandled() || eventB.GetIsHandled())
+			return false;
+	}
+	return isCollide;
 }
 
 void Collision::Initialize()
 {
 	SMaterial matA = _bodyA->GetMaterial().lock();
 	SMaterial matB = _bodyB->GetMaterial().lock();
-	_restitution = SMath::Min(matA->GetRestitution(), matB->GetRestitution());
 
+	_restitution = std::sqrt(matA->GetRestitution() * matA->GetRestitution() + matB->GetRestitution() * matB->GetRestitution());
 	_staticFriction = std::sqrt(matA->GetStaticFriction() * matA->GetStaticFriction() + matB->GetStaticFriction() * matB->GetStaticFriction());
 	_dynamicFriction = std::sqrt(matA->GetDynamicFriction() * matA->GetDynamicFriction() + matB->GetDynamicFriction() * matB->GetDynamicFriction());
 

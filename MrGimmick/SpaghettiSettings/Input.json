@@ -39,6 +39,11 @@
       "KeyCode": 40,
       "Name": "MoveDown",
       "Type": "KeyState"
+    },
+    {
+      "KeyCode": 90,
+      "Name": "Attack",
+      "Type": "KeyPress"
     }
   ]
 }

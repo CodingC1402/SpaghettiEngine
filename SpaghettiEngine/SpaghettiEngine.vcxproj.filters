@@ -63,6 +63,9 @@
     <Filter Include="FrameWork\Math">
       <UniqueIdentifier>{bcbf7e90-a662-41d4-a443-f383175b31a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Interfaces">
+      <UniqueIdentifier>{db9949dc-dbea-45e5-ad47-9f2c32d4b72b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Window\Window.h">
@@ -293,6 +296,15 @@
     <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\MaterialContainer.h">
+      <Filter>FrameWork\Engine\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Interfaces\IClonable.h">
+      <Filter>FrameWork\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -498,6 +510,12 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\MaterialContainer.cpp">
+      <Filter>FrameWork\Engine\Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
