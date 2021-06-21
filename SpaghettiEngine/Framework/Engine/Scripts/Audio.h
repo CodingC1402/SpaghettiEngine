@@ -8,8 +8,9 @@ class Audio
 public:
 	Audio() = default;
 	Audio(const std::initializer_list<std::wstring>& wavFiles,
-		float freqDev, unsigned int seed)
+		float freqDev, float masterVol, unsigned int seed)
 		:
+		masterVolume(masterVol),
 		rng(seed),
 		freqDist(1.0f, freqDev),
 		soundDist(0, wavFiles.size() - 1)
@@ -19,51 +20,25 @@ public:
 			sounds.emplace_back(f);
 		}
 	}
-	void PlayAt(float vol, int pos)
-	{
-		sounds[pos].Play(freqDist(rng), vol);
-	}
-	void PlayRandom(float vol)
-	{
-		sounds[soundDist(rng)].Play(freqDist(rng), vol);
-	}
-	void PlayAll(float vol)
-	{
-		for (auto i = sounds.begin(); i != sounds.end(); i++)
-		{
-			(*i).Play(freqDist(rng), vol);
-		}
-	}
-	void ContinueAll()
-	{
-		for (auto i = sounds.begin(); i != sounds.end(); i++)
-		{
-			(*i).Continue();
-		}
-	}
-	void PauseAll()
-	{
-		for (auto i = sounds.begin(); i != sounds.end(); i++)
-		{
-			(*i).Pause();
-		}
-	}
-	void StopAll ()
-	{
-		for (auto i = sounds.begin(); i != sounds.end(); i++)
-		{
-			(*i).Stop();
-		}
-	}
-	void ChangeVolume(float vol)
-	{
-		for (auto i = sounds.begin(); i != sounds.end(); i++)
-		{
-			(*i).ChangeVolume(vol);
-		}
-	}
+
+	void PlayAt(float vol, int pos);
+	void PlayRandom(float vol);
+	void PlayAll(float vol);
+
+	void ContinueAt(int pos);
+	void ContinueAll();
+
+	void PauseAt(int pos);
+	void PauseAll();
+
+	void StopAt(int pos);
+	void StopAll();
+
+	void ChangeVolumeAt(float vol, int pos);
+	void ChangeVolumeAll(float vol);
+	void ChangeMasterVolume(float vol);
 private:
-	float masterVol = 100;
+	float masterVolume = 1.0f;
 	std::mt19937 rng;
 	std::uniform_int_distribution<unsigned int> soundDist;
 	std::normal_distribution<float> freqDist;

@@ -123,6 +123,7 @@
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp" />
+    <ClCompile Include="Framework\Engine\Scripts\Audio.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\LineRenderBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Render2DScriptBase.cpp" />

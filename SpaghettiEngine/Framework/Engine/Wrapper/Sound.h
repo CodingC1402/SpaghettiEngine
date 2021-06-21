@@ -13,6 +13,7 @@
 
 #include <wrl\client.h>
 #include <objbase.h>
+#include <cassert>
 
 class ComManager
 {

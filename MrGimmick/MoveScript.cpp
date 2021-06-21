@@ -19,7 +19,7 @@ MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
 
 void MoveScript::OnStart()
 {
-	sound = Audio({ L"clsn4.wav", L"clsn1.wav" }, 0.037f, std::random_device()());
+	sound = Audio({ L"clsn4.wav", L"clsn1.wav" }, 0.037f, 0.1f, std::random_device()());
 	_rigidBody = std::dynamic_pointer_cast<RigidBody2D>(_ownerObj->GetScript("RigidBody2D")->GetSharedPtr());
 
 	up = InputSystem::GetInput("MoveUp");
@@ -37,12 +37,12 @@ void MoveScript::OnUpdate()
 	if (up->Check())
 	{
 		move.y += _jumpStrength;
-		sound.PlayAt(0.5f, 1);
+		sound.PlayAt(1.0f, 1);
 	}
 	if (left->Check())
 	{
 		move.x -= 1;
-		sound.PlayAt(0.5f, 0);
+		sound.PauseAt(1);
 		if (!isFlipped)
 		{
 			_ownerObj->SetScale(-1, 1, 1);

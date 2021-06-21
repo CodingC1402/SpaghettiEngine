@@ -502,6 +502,9 @@
     <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Audio.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Framework\Window\Icon.ico">
