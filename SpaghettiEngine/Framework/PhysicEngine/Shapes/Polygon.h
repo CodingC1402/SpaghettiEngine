@@ -31,7 +31,7 @@ public:
 	void SetVertexes(const std::vector<Vector3>& vertexes);
 	[[nodiscard]] const std::vector<Vector3>& GetVertexes() const;
 
-	Shape* Clone() override;
+	Shape* Clone() const override;
 	void UpdateParameter() override;
 protected:
 	bool CheckCollideOnEachEdge(const Polygon& other, float& penetration, Vector3& normal) const;

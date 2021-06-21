@@ -16,6 +16,8 @@ public:
 	
 	virtual void Draw(PCamera camera) override;
 	virtual void Load(nlohmann::json& inputObject) override;
+
+	SScriptBase Clone() const override;
 protected:
 	Matrix4 transformMatrix;
 	SSprite sprite;

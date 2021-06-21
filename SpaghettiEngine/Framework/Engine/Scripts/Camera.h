@@ -21,13 +21,14 @@ public:
 	virtual void	SetFollow(PGameObj followObj);
 	virtual [[nodiscard]] PGameObj	GetFollow();
 	virtual void	RemoveFollow();
+
+	SScriptBase Clone() override;
 protected:
 	Matrix4 cameraMatrix;
 	Matrix4 viewMatrix;
 	Matrix4 flipYMatrix;
 	
-	Scene::WBaseComponent _followingPtr;
-	PGameObj _followingObj;
+	WGameObj _followingPtr;
 	float _dragFactor = 0.7f;
 	
 	int oldW = 0;

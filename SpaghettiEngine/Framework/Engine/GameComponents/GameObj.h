@@ -128,7 +128,7 @@ public:
 	void RemoveChild(const PGameObj& child);
 	void RemoveScript(const PScriptBase& script);
 	
-	std::shared_ptr<BaseComponent> Clone() override;
+	SGameObj Clone() const;
 
 	void RecursiveClearScripts(); //Use by scripts to call end once then pass on
 	void ClearScripts(); //Use by scripts to call end once then pass on

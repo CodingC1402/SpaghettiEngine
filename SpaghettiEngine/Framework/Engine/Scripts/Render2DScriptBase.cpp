@@ -4,9 +4,7 @@
 REGISTER_FINISH(Render2DScriptBase);
 
 Render2DScriptBase::Render2DScriptBase(PScene owner) : ScriptBase(owner)
-{
-	_name = TYPE_NAME(Render2DScriptBase);
-}
+{}
 
 int Render2DScriptBase::GetDrawLayer()
 {
@@ -48,5 +46,14 @@ void Render2DScriptBase::Load(nlohmann::json& inputObject)
 	}
 
 	ScriptBase::Load(inputObject);
+}
+
+SScriptBase Render2DScriptBase::Clone() const
+{
+	auto clone = std::dynamic_pointer_cast<Render2DScriptBase>(ScriptBase::Clone());
+
+	clone->_drawLayer = _drawLayer;
+
+	return clone;
 }
 

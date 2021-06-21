@@ -205,9 +205,7 @@ Body2D* Body2D::Clone() const
 	cloneBody->_material	= _material;
 
 	for (const auto& shape : _shapes)
-	{
 		cloneBody->_shapes.push_back(shape->Clone());
-	}
 
 	return cloneBody;
 }

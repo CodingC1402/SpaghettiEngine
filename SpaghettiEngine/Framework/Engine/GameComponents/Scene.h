@@ -76,8 +76,6 @@ public:
         //Don't use
         void EnableWithoutUpdate();
 
-        virtual std::shared_ptr<BaseComponent> Clone() = 0;
-
         /// Get the shared_ptr of the component which is owned by a scene
         [[nodiscard]] std::shared_ptr<BaseComponent> GetSharedPtr() const;
         void AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr);
@@ -104,7 +102,7 @@ public:
 public:
     // Only work in load
     [[nodiscard]] SGameObj CreateGameObject();
-    [[nodiscard]] std::shared_ptr<ScriptBase> CreateSpriteBase(const std::string& scriptName);
+    [[nodiscard]] std::shared_ptr<ScriptBase> CreateScriptBase(const std::string& scriptName);
     [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
 
     static void DestroyComponent(PBaseComponent component);

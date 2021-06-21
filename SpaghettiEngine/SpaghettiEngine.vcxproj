@@ -266,7 +266,7 @@
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Interfaces;Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <ShowIncludes>false</ShowIncludes>
       <IntrinsicFunctions>false</IntrinsicFunctions>
@@ -292,7 +292,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Interfaces;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Interfaces;Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Interfaces;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <ShowIncludes>false</ShowIncludes>
       <OmitFramePointers>true</OmitFramePointers>
@@ -318,7 +318,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Interfaces;Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
@@ -343,7 +343,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Interfaces;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Framework\Interfaces;Framework\PhysicEngine\Shapes;Framework\PhysicEngine\Components;Framework\PhysicEngine\Scripts;Framework\Interfaces;Framework\Math;Framework\Window;Framework\Utilities;Framework\Engine\Scripts;Framework\Engine\Wrapper;Framework\Engine\ThirdParty;Framework\Engine\Containers;Framework\Engine\BTs;Framework\Engine\GameComponents;Framework\Engine\AppComponents</AdditionalIncludeDirectories>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
       <ShowIncludes>false</ShowIncludes>
       <OmitFramePointers>true</OmitFramePointers>

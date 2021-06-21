@@ -60,7 +60,7 @@ public:
 	void SetMaterial(WMaterial material);
 	[[nodiscard]] WMaterial GetMaterial() const;
 
-	Body2D* Clone() override;
+	Body2D* Clone() const override;
 
 	void SetMaterialToDefault();
 	void SetStatic();

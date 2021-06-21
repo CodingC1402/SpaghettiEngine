@@ -17,9 +17,7 @@ using namespace std;
 REGISTER_FINISH(TileMapRenderer);
 
 TileMapRenderer::TileMapRenderer(PScene owner) : Render2DScriptBase(owner), width(0), height(0), tileWidth(0), tileHeight(0)
-{
-	_name = TYPE_NAME(TileMapRenderer);
-}
+{}
 
 void TileMapRenderer::Load(nlohmann::json& inputObject)
 {
@@ -76,12 +74,12 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 				_tiles[row].reserve(width);
 			}
 
-			if (index > 0)
+			if (index > 0) // If > 0 then it's a animated tile or a normal tile
 			{
 				tile = _tileSet->GetTile(index - 1);
 				_tiles[row].emplace_back(tile);
 			}
-			else
+			else // If = 0 then it's empty
 				_tiles[row].emplace_back(WTile());
 			col++;
 		}
@@ -171,6 +169,18 @@ void TileMapRenderer::Draw(PCamera camera)
 			}
 		}
 	}
+}
+
+SScriptBase TileMapRenderer::Clone() const
+{
+	auto clone = std::dynamic_pointer_cast<TileMapRenderer>(Render2DScriptBase::Clone());
+
+	clone->_pixelHeight = _pixelHeight;
+	clone->_pixelWidth = _pixelWidth;
+	clone->_tiles = _tiles;
+	clone->_tileSet = _tileSet;
+
+	return clone;
 }
 
 TileMapRenderer::~TileMapRenderer()

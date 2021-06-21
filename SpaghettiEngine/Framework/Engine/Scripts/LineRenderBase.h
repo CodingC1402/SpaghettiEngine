@@ -23,8 +23,11 @@ public:
 	void OnDisabled() override;
 
 	virtual void Load(nlohmann::json& inputObject) override;
+	SScriptBase Clone() const override;
 protected:
-	static constexpr unsigned _vertextesForCircle = 20;
+	static constexpr unsigned _vertextesForCircle = 50;
+	static constexpr unsigned _minVertexesForCircle = 10;
+	static constexpr float _radiusToMaxVertexesNumber = 200;
 
 	Matrix4 _offSetMatrix;
 	std::vector<Vector3> _vertexes;

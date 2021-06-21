@@ -13,6 +13,8 @@ public:
 
     void Load(nlohmann::json& inputObject) override;
     void Draw(PCamera camera) override;
+
+    SScriptBase Clone() const override;
     ~TileMapRenderer() override;
 protected:
     float _pixelHeight;

@@ -15,8 +15,6 @@ SpriteRenderer::SpriteRenderer(PScene owner) : Render2DScriptBase(owner)
 	transformMatrix._22 = 1;
 	transformMatrix._33 = 1;
 	transformMatrix._44 = 1;
-
-	_name = TYPE_NAME(SpriteRenderer);
 }
 
 Matrix4 SpriteRenderer::GetSpriteMatrix() const noexcept
@@ -99,4 +97,14 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 	Render2DScriptBase::Load(inputObject);
+}
+
+SScriptBase SpriteRenderer::Clone() const
+{
+	auto clone = std::dynamic_pointer_cast<SpriteRenderer>(ScriptBase::Clone());
+
+	clone->transformMatrix = transformMatrix;
+	clone->sprite = sprite;
+
+	return clone;
 }

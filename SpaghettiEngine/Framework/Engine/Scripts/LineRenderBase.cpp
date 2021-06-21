@@ -2,6 +2,7 @@
 #include "SMath.h"
 #include "LoadingJson.h"
 #include "Graphics.h"
+#include "SMath.h"
 #include "Camera.h"
 #include "Vector3.h"
 
@@ -30,7 +31,7 @@ void LineRendererBase::SetCircle(float radius, const Vector3& center)
 {
 	if (radius <= 0)
 		return;
-	_vertexes = std::vector<Vector3>(_vertextesForCircle);
+	_vertexes = std::vector<Vector3>(SMath::Lerp(_minVertexesForCircle, _vertextesForCircle, radius / _radiusToMaxVertexesNumber));
 	_vertexes[0] = center;
 	_vertexes[0].y += radius;
 
@@ -131,4 +132,16 @@ void LineRendererBase::Load(nlohmann::json& inputObject)
 		SetOffSetX(inputObject[offSetXField].get<float>());
 	if (inputObject[offSetYField] != nullptr)
 		SetOffSetY(inputObject[offSetYField].get<float>());
+}
+
+SScriptBase LineRendererBase::Clone() const
+{
+	auto clone = std::dynamic_pointer_cast<LineRendererBase>(ScriptBase::Clone());
+
+	clone->_color = _color;
+	clone->_offSetMatrix = _offSetMatrix;
+	clone->_vertexes = _vertexes;
+	clone->_width = _width;
+
+	return clone;
 }

@@ -87,7 +87,7 @@ PScriptBase GameObj::GetScript(const std::string& name) const noexcept
 {
 	for (const auto& script : _scripts)
 	{
-		if (script->GetName() == name)
+		if (script->GetType() == name)
 			return script;
 	}
 	return nullptr;
@@ -97,7 +97,7 @@ std::list<PScriptBase> GameObj::GetAllScripts(const std::string& name) const noe
 	std::list<PScriptBase> rList;
 	for (const auto& script : _scripts)
 	{
-		if (script->GetName() == name)
+		if (script->GetType() == name)
 			rList.emplace_back(script);
 	}
 	return rList;
@@ -521,13 +521,16 @@ void GameObj::OnCollideExit(CollideEvent& e)
 }
 #pragma endregion
 #pragma region  Child
-std::shared_ptr<Scene::BaseComponent> GameObj::Clone()
+SGameObj GameObj::Clone() const
 {
-	auto cloneObj = std::make_shared<GameObj>(_owner, _isDisabled);
+	auto cloneObj = _owner->CreateGameObject();
+
 	for (const auto& script : _scripts)
 		cloneObj->AddScriptClone(script);
 	for (const auto& child : _children)
 		cloneObj->AddChildClone(child);
+	cloneObj->OnEnabled();
+
 	return cloneObj;
 }
 PGameObj GameObj::AddChild(const PGameObj& child)
@@ -539,7 +542,7 @@ PGameObj GameObj::AddChild(const PGameObj& child)
 }
 PGameObj GameObj::AddChildClone(const PGameObj& child)
 {
-	SGameObj cloneObject = std::dynamic_pointer_cast<GameObj>(child->Clone());
+	SGameObj cloneObject = child->Clone();
 	return AddChild(cloneObject.get());
 }
 PGameObj GameObj::AddChild()
@@ -577,7 +580,7 @@ PScriptBase GameObj::AddScript(const SScriptBase& script)
 }
 PScriptBase GameObj::AddScriptClone(const PScriptBase& script)
 {
-	SScriptBase cloneScript = std::dynamic_pointer_cast<ScriptBase>(script->Clone());
+	SScriptBase cloneScript = script->Clone();
 	return AddScript(cloneScript.get());
 }
 void GameObj::RemoveChild(const PGameObj& child)

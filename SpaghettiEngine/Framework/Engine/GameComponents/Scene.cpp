@@ -259,7 +259,7 @@ SGameObj Scene::CreateGameObject()
     return newObj;
 }
 
-SScriptBase Scene::CreateSpriteBase(const std::string& scriptName)
+SScriptBase Scene::CreateScriptBase(const std::string& scriptName)
 {
     SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this));
     newScript->AssignSharedPtr(newScript);
