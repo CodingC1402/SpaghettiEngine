@@ -33,6 +33,24 @@ void SoundSystem::Channel::VoiceCallback::OnBufferEnd(void* pBufferContext)
 	SoundSystem::Get().DeactivateChannel(chan);
 }
 
+SoundSystem::Channel::Channel(SoundSystem& sys)
+{
+	static VoiceCallback vcb;
+	ZeroMemory(&xaBuffer, sizeof(xaBuffer));
+	xaBuffer.pContext = this;
+	sys.pEngine->CreateSourceVoice(&pSource, &sys.format, 0u, 2.0f, &vcb);
+}
+
+SoundSystem::Channel::~Channel()
+{
+	assert(!pSound);
+	if (pSource)
+	{
+		pSource->DestroyVoice();
+		pSource = nullptr;
+	}
+}
+
 void SoundSystem::Channel::PlaySoundBuffer(Sound& s, float freqMod, float vol)
 {
 	assert(pSource && !pSound);
@@ -50,4 +68,21 @@ void SoundSystem::Channel::PlaySoundBuffer(Sound& s, float freqMod, float vol)
 void SoundSystem::Channel::ChangeVolume(float vol)
 {
 	pSource->SetVolume(vol);
+}
+
+void SoundSystem::Channel::Stop()
+{
+	assert(pSource && pSound);
+	pSource->Stop();
+	pSource->FlushSourceBuffers();
+}
+
+void SoundSystem::Channel::Pause()
+{
+	pSource->Stop();
+}
+
+void SoundSystem::Channel::Continue()
+{
+	pSource->Start();
 }

@@ -1,5 +1,18 @@
 #include "Audio.h"
 
+Audio::Audio(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed)
+	:
+	masterVolume(masterVol),
+	rng(seed),
+	freqDist(1.0f, freqDev),
+	soundDist(0, wavFiles.size() - 1)
+{
+	for (auto& f : wavFiles)
+	{
+		sounds.emplace_back(f);
+	}
+}
+
 void Audio::PlayAt(float vol, int pos)
 {
 	if (pos >= sounds.size())

@@ -7,19 +7,7 @@ class Audio
 {
 public:
 	Audio() = default;
-	Audio(const std::initializer_list<std::wstring>& wavFiles,
-		float freqDev, float masterVol, unsigned int seed)
-		:
-		masterVolume(masterVol),
-		rng(seed),
-		freqDist(1.0f, freqDev),
-		soundDist(0, wavFiles.size() - 1)
-	{
-		for (auto& f : wavFiles)
-		{
-			sounds.emplace_back(f);
-		}
-	}
+	Audio(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed);
 
 	void PlayAt(float vol, int pos);
 	void PlayRandom(float vol);
