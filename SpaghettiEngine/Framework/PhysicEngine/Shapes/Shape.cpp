@@ -15,6 +15,11 @@ Shape::Shape()
 	_radius = 0;
 }
 
+Shape::~Shape()
+{
+	Physic::RemoveShape(this);
+}
+
 Shape::Type Shape::GetType() const
 {
 	return Shape::Type::Invalid;

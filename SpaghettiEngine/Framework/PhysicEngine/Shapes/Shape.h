@@ -2,7 +2,6 @@
 #include "Body2D.h"
 #include "Matrix.h"
 #include "CollideEvent.h"
-#include "IClonable.h"
 
 class Shape;
 typedef std::weak_ptr<Shape> WShape;
@@ -13,7 +12,7 @@ typedef std::weak_ptr<Collider2DBase> WCollider2DBase;
 
 class Collision;
 
-class Shape : public IClonable<Shape>
+class Shape
 {
 public:
 	enum class Type
@@ -25,7 +24,8 @@ public:
 	};
 public:
 	Shape();
-	virtual  ~Shape() = default;
+	virtual ~Shape();
+
 	[[nodiscard]] virtual Type GetType() const;
 
 	void SetOwnerScript(WCollider2DBase owner);
@@ -53,7 +53,8 @@ public:
 
 	void SetBody(WBody2D body);
 	void ToStatic();
-
+	
+	virtual Shape* Clone() const = 0;
 	WBody2D GetBody() const;
 protected:
 	WCollider2DBase _ownerScript;

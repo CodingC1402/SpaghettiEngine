@@ -14,6 +14,7 @@ typedef std::weak_ptr<GameObj> WGameObj;
 
 class CollideEvent
 {
+	friend class Collision;
 public:
 	[[nodiscard]] WBody2D GetBody() const;
 	[[nodiscard]] WGameObj GetGameObject() const;
@@ -22,6 +23,9 @@ public:
 	void SetIsHandled(bool handled);
 
 	CollideEvent(WBody2D collideWith);
+	CollideEvent() = default;
+protected:
+	void Reset(WBody2D collideWith);
 protected:
 	WBody2D _collideWith;
 	bool _isCollisionHandled = false;

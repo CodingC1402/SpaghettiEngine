@@ -61,7 +61,6 @@
     <ClInclude Include="Framework\Engine\Wrapper\Input.h" />
     <ClInclude Include="Framework\Engine\Wrapper\InputSystem.h" />
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h" />
-    <ClInclude Include="Framework\Interfaces\IClonable.h" />
     <ClInclude Include="Framework\Math\Matrix.h" />
     <ClInclude Include="Framework\Math\SMath.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />

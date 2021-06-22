@@ -31,14 +31,18 @@ void LineRendererBase::SetCircle(float radius, const Vector3& center)
 {
 	if (radius <= 0)
 		return;
-	_vertexes = std::vector<Vector3>(SMath::Lerp(_minVertexesForCircle, _vertextesForCircle, radius / _radiusToMaxVertexesNumber));
+
+	unsigned numberOfVertexes = SMath::Lerp(_minVertexesForCircle, _vertextesForCircle, radius / _radiusToMaxVertexesNumber);
+	if (numberOfVertexes == 0)
+		return;
+	_vertexes = std::vector<Vector3>(numberOfVertexes);
 	_vertexes[0] = center;
 	_vertexes[0].y += radius;
 
-	Matrix4 rotationZ = SMath::GetZAxisRotateMatrix(360 / _vertextesForCircle);
-	for (int i = 1; i < _vertextesForCircle; i++)
+	Matrix4 rotationZ = SMath::GetZAxisRotateMatrix(360 / numberOfVertexes);
+	for (int i = 1; i < numberOfVertexes; i++)
 	{
-		_vertexes[i] = _vertexes[i - 1] * rotationZ;
+		_vertexes[i] = _vertexes[static_cast<long long>(i) - 1] * rotationZ;
 	}
 }
 

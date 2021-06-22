@@ -260,6 +260,9 @@ void GameObj::RemoveParent()
 }
 void GameObj::AddParent(const PGameObj& gameObj)
 {
+	if (parent == gameObj)
+		return;
+
 	if (parent)
 		RemoveParent();
 

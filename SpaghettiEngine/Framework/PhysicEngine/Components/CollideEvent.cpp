@@ -27,3 +27,9 @@ CollideEvent::CollideEvent(WBody2D collideWith)
 {
 	_collideWith = collideWith;
 }
+
+void CollideEvent::Reset(WBody2D collideWith)
+{
+	_collideWith = collideWith;
+	_isCollisionHandled = false;
+}
