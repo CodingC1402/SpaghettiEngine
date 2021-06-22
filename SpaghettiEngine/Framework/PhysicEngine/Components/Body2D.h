@@ -3,7 +3,6 @@
 #include <list>
 #include "Vector3.h"
 #include "Material.h"
-#include "IClonable.h"
 #include "CollideEvent.h"
 
 class Body2D;
@@ -17,11 +16,13 @@ typedef std::shared_ptr<Shape> SShape;
 class Collider2DBase;
 typedef std::weak_ptr<Collider2DBase> WCollider2DBase;
 
-class Body2D : IClonable<Body2D>
+class Body2D
 {
 	friend class Shape;
 public:
 	static WBody2D GetDefaultBody();
+
+	virtual ~Body2D();
 
 	void AddShape(Shape* shape);
 	void RemoveShape(Shape* shape);
@@ -52,7 +53,8 @@ public:
 	[[nodiscard]] GameObj* GetGameObject() const;
 
 	void SendEvent(CollideEvent& e);
-	void SendExitEnterEvent();
+	// The return boolean is used to determined whether it should remove it body from event list or not
+	bool SendExitEnterEvent();
 
 	[[nodiscard]] Vector3 GetMoveVector();
 	[[nodiscard]] float GetRotation();
@@ -60,7 +62,7 @@ public:
 	void SetMaterial(WMaterial material);
 	[[nodiscard]] WMaterial GetMaterial() const;
 
-	Body2D* Clone() const override;
+	Body2D* Clone() const;
 
 	void SetMaterialToDefault();
 	void SetStatic();

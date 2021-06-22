@@ -1,4 +1,5 @@
 #include "PhysicComponent.h"
+#include "Physic.h"
 #include "Collider2DBase.h"
 
 PhysicComponent::Component2D::Component2D(GameObj* owner)
@@ -23,6 +24,7 @@ void PhysicComponent::Component2D::RemoveBody(WBody2D body)
 	{
 		_body = std::make_shared<Body2D>();
 		_body->SetGameObject(_owner);
+		Physic::AddBody(_body.get());
 	}
 	CallOnChange();
 }

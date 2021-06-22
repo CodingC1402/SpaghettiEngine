@@ -2,10 +2,11 @@
 #include "Circle.h"
 #include "LineRenderBase.h"
 #include "Setting.h"
+#include "Physic.h"
 
 REGISTER_FINISH(CircleCollider);
 
-CircleCollider::CircleCollider(PScene owner) : Collider2DBase(owner)
+CircleCollider::CircleCollider(PScene owner, bool isDisabled) : Collider2DBase(owner, isDisabled)
 {
 	_shapes.push_back(std::make_shared<Circle>());
 }

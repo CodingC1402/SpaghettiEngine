@@ -9,6 +9,9 @@ std::vector<std::vector<bool (*)(Collision*)>> Collision::_collisionFunctions = 
 	{&Polygon::PolygonCircle,& Polygon::PolygonPolygon}
 };
 
+CollideEvent Collision::_shapeACollideTemplate;
+CollideEvent Collision::_shapeBCollideTemplate;
+
 Collision::Collision(Shape* A, Shape* B)
 {
 	_shapeA = A;
@@ -77,12 +80,12 @@ bool Collision::Solve()
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 	if (isCollide)
 	{
-		CollideEvent eventA(_shapeB->GetBody());
-		CollideEvent eventB(_shapeA->GetBody());
-		_shapeA->SendEvent(eventA);
-		_shapeB->SendEvent(eventB);
+		_shapeACollideTemplate.Reset(_shapeB->GetBody());
+		_shapeBCollideTemplate.Reset(_shapeA->GetBody());
+		_shapeA->SendEvent(_shapeACollideTemplate);
+		_shapeB->SendEvent(_shapeBCollideTemplate);
 
-		if (eventA.GetIsHandled() || eventB.GetIsHandled())
+		if (_shapeACollideTemplate.GetIsHandled() || _shapeBCollideTemplate.GetIsHandled())
 			return false;
 	}
 	return isCollide;

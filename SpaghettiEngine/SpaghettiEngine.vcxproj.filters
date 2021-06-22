@@ -302,9 +302,6 @@
     <ClInclude Include="Framework\PhysicEngine\Components\MaterialContainer.h">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Interfaces\IClonable.h">
-      <Filter>FrameWork\Interfaces</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">

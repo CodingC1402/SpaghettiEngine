@@ -11,6 +11,11 @@ WBody2D Body2D::GetDefaultBody()
 	return _defaultBody;
 }
 
+Body2D::~Body2D()
+{
+	Physic::RemoveBody(this);
+}
+
 void Body2D::AddShape(Shape* shape)
 {
 	for (auto it = _shapes.begin(); it != _shapes.end(); ++it)
@@ -126,9 +131,14 @@ void Body2D::SendEvent(CollideEvent& e)
 {
 	_gameObject->OnCollide(e);
 	_currentCollide.emplace_back(e.GetBody());
+
+	// This is to check if previously the checking list is empty if yes is insert to event list.
+	// It will be determined to be remove or not in the physic Step() function at the end;
+	if (_collidedBody.empty())
+		Physic::AddCollidedBody(this);
 }
 
-void Body2D::SendExitEnterEvent()
+bool Body2D::SendExitEnterEvent()
 {
 	std::list<WBody2D> newCurrentCollide;
 	bool isNewCollide = false;
@@ -139,7 +149,7 @@ void Body2D::SendExitEnterEvent()
 	for (auto newIt = _currentCollide.begin(); newIt != _currentCollide.end(); ++newIt)
 	{
 		isNewCollide = true;
-
+	
 		for (auto oldIt = _collidedBody.begin(); oldIt != _collidedBody.end(); ++oldIt)
 		{
 			if ((*newIt).lock() == (*oldIt).lock())
@@ -149,7 +159,7 @@ void Body2D::SendExitEnterEvent()
 				break;
 			}
 		}
-
+	
 		if (isNewCollide)
 			newCurrentCollide.emplace_back(*newIt);
 	}
@@ -159,16 +169,18 @@ void Body2D::SendExitEnterEvent()
 		CollideEvent newEvent(oldBody);
 		_gameObject->OnCollideExit(newEvent);
 	}
-
+	
 	for (const auto& newBody : newCurrentCollide)
 	{
 		CollideEvent newEvent(newBody);
 		_gameObject->OnCollideEnter(newEvent);
 	}
 
-	_collidedBody = _currentCollide;
+	_collidedBody = std::move(_currentCollide);
 	newCurrentCollide.clear();
 	_currentCollide.clear();
+
+	return _collidedBody.empty(); // This is used by the physic to know whether it should remove this or not;
 }
 
 Vector3 Body2D::GetMoveVector()

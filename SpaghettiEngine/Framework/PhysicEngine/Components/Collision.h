@@ -40,5 +40,7 @@ protected:
 	float _dynamicFriction = 0;
 	float _staticFriction = 0;
 
+	static CollideEvent _shapeACollideTemplate;
+	static CollideEvent _shapeBCollideTemplate;
 	static std::vector<std::vector<bool (*)(Collision*)>> _collisionFunctions;
 };

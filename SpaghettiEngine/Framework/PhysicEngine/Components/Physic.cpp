@@ -12,14 +12,18 @@ bool Physic::Update()
 	_accumulator += GameTimer::GetDeltaTime();
 	if (_accumulator >= _step)
 	{
+		// Update the parameter of all the objects in physic simulation
 		for (auto& obj : _gameObjs) {
 			obj->OnPhysicUpdate();
 		}
 
+		// The actual cal calculation of the physic engine
 		Step();
+
 		_accumulator = SMath::modulo(_accumulator, _step);
 		isRunUpdate = true;
 
+		// Project the update back to the game engine obj
 		for (auto& script : _rigid2DScripts) {
 			script->AfterPhysicUpdate();
 		}
@@ -64,11 +68,19 @@ void Physic::Step()
 		body->SetForce(Vector3(0, 0, 0));
 	}
 
-	_contacts.clear();
-	for (auto& body : _body2D)
+	for (auto iterator = _collidedBody.begin(); iterator != _collidedBody.end();)
 	{
-		body->SendExitEnterEvent();
+		if ((*iterator)->SendExitEnterEvent())
+		{
+			auto toEraseIt = iterator;
+			++iterator;
+
+			_collidedBody.erase(toEraseIt);
+		}
+		else
+			++iterator;
 	}
+	_contacts.clear();
 }
 
 void Physic::SetStep(const float& step)
@@ -119,6 +131,18 @@ void Physic::AddBody(Body2D* body)
 void Physic::RemoveBody(Body2D* body)
 {
 	ContainerUtil::Erase(_body2D, body);
+}
+
+void Physic::AddCollidedBody(Body2D* body)
+{
+	_collidedBody.emplace(body);
+}
+
+void Physic::RemoveCollidedBody(Body2D* body)
+{
+	auto it = _collidedBody.find(body);
+	if (it != _collidedBody.end())
+		_collidedBody.erase(it);
 }
 
 void Physic::AddGameObj(GameObj* gameObj)
