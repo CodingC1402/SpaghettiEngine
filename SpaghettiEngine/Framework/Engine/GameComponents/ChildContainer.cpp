@@ -1,8 +1,6 @@
 #include "ChildContainer.h"
 #include "GameObj.h"
 
-//===========================================================================================================================//
-
 ChildContainer::ChildContainer(PGameObj owner)
 {
 	_owner = owner;
@@ -24,18 +22,18 @@ PGameObj ChildContainer::GetItemWithTag(const std::string& tag)
 	return nullptr;
 }
 
-std::deque<PGameObj> ChildContainer::GetAllItemsWithName(const std::string& name)
+std::list<PGameObj> ChildContainer::GetAllItemsWithName(const std::string& name)
 {
-	std::deque<PGameObj> rValues;
+	std::list<PGameObj> rValues;
 	for (auto& object : _container)
 		if (object->GetName() == name)
 			rValues.push_back(object);
 	return rValues;
 }
 
-std::deque<PGameObj> ChildContainer::GetAllItemsWithTag(const std::string& tag)
+std::list<PGameObj> ChildContainer::GetAllItemsWithTag(const std::string& tag)
 {
-	std::deque<PGameObj> rValues;
+	std::list<PGameObj> rValues;
 	for (auto& object : _container)
 		if (object->GetTag() == tag)
 			rValues.push_back(object);
@@ -54,12 +52,23 @@ void ChildContainer::AddItem(PGameObj child)
 	if (!child)
 		return;
 
+	// If it's parent is null then it could be a root object if owner is not null
+	// Then it's a root object.
 	if (child->GetParent())
-		child->GetParent()->GetChildContainer().RemoveItem(child);
+	{
+		auto& container = child->GetParent()->GetChildContainer();
+		container.RemoveChildWithoutEvent(child);
+		container._container.erase(child->GetContainerIterator());
+	}
+	else if (child->GetOwner())
+		child->GetOwner()->RemoveFromRoot(child);
 
-	child->_parent = _owner;
+	// Disability and then call event accordingly
 	_owner->GetTransform().AddChild(&child->GetTransform());
+	child->SetParentInternally(child);
+
 	Corntainer::AddItem(child);
+	child->SetContainerIterator(--_container.end());
 }
 
 void ChildContainer::RemoveAllItem()
@@ -93,7 +102,10 @@ void ChildContainer::RemoveItemsWithName(const std::string& name)
 	for (auto it = _container.begin(); it != _container.end();)
 	{
 		if ((*it)->GetName() == name)
+		{
+			RemoveChild(*it);
 			it = _container.erase(it);
+		}
 		else
 			++it;
 	}
@@ -104,13 +116,27 @@ void ChildContainer::RemoveItemsWithTag(const std::string& tag)
 	for (auto it = _container.begin(); it != _container.end();)
 	{
 		if ((*it)->GetTag() == tag)
+		{
+			RemoveChild(*it);
 			it = _container.erase(it);
+		}
 		else
 			++it;
 	}
 }
 
 void ChildContainer::RemoveChild(PGameObj object)
+{
+	bool childBefore = object->IsDisabled();
+	RemoveChildWithoutEvent(object);
+	if (childBefore && !object->IsDisabled())
+		object->OnEnabled();
+
+	if (object->GetOwner())
+		object->GetOwner()->AddToRoot(object);
+}
+
+void ChildContainer::RemoveChildWithoutEvent(PGameObj object)
 {
 	_owner->GetTransform().RemoveChild(&object->GetTransform());
 	object->_parent = nullptr;

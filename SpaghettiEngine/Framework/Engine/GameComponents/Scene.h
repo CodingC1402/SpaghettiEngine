@@ -23,6 +23,7 @@ class Scene
     friend class BaseComponent;
     friend class GameObj;
     friend class SceneManager;
+    friend class ChildContainer;
 public:
     class SceneException : public CornException
     {
@@ -45,13 +46,13 @@ public:
     };
 public:
     // Create game object and tell smart pointer what to use
-    [[nodiscard]] SGameObj CreateGameObject();
+    [[nodiscard]] PGameObj CreateGameObject(bool isDisabled);
     // Create script and tell smart pointer what to use
-    [[nodiscard]] std::shared_ptr<ScriptBase> CreateScriptBase(const std::string& scriptName);
+    [[nodiscard]] PScriptBase CreateScriptBase(const std::string& scriptName, bool isDisabled);
 
     [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
 
-    SGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
+    PGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
 
     // The actual function to tell smart pointer to destroy component with Destroy function.
     static void DestroyComponent(PBaseComponent component);
@@ -60,6 +61,9 @@ protected:
 
     void AddToTrashBin(SBaseComponent destroyedComponent);
     void EraseTrashBin();
+
+    void AddToRoot(const PGameObj& object);
+    void RemoveFromRoot(const PGameObj& object);
 
     void Start();
     void Update();
@@ -78,9 +82,10 @@ protected:
     std::string path;
 
     // Call each time before game object update
-    std::list<SBaseComponent> _trashBin;
-    std::list<SBaseComponent> _gameObjects;
-    std::list<SBaseComponent> _scripts;
+    std::list<SBaseComponent>   _trashBin;
+    std::list<SBaseComponent>   _gameObjects;
+    std::list<PGameObj>         _rootObjects;
+    std::list<SBaseComponent>   _scripts;
 
     std::map<CULL, Entry>* _tempComponentContainer = nullptr;
     std::stack<PScriptBase>* _callEnable = nullptr;

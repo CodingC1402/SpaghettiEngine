@@ -8,6 +8,7 @@ CLASS_FORWARD_DECLARATION(ScriptBase);
 
 class ScriptContainer : public Corntainer<PScriptBase>
 {
+	friend class GameObj;
 public:
 	ScriptContainer(PGameObj owner);
 
@@ -15,7 +16,7 @@ public:
 	// Return the first script of the style
 	[[nodiscard]] PScriptBase				GetItemType(const std::string& type);
 	// Return all the script of the same style
-	[[nodiscard]] std::deque<PScriptBase>	GetAllItemsType(const std::string& type);
+	[[nodiscard]] std::list<PScriptBase>	GetAllItemsType(const std::string& type);
 
 	SScriptBase	AddItemClone(PScriptBase script);
 	void		AddItem(PScriptBase script) override;

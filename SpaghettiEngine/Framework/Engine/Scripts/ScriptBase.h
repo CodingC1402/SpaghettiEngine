@@ -22,7 +22,7 @@ void* CreateT(PScene owner) { return new T(owner); }
 class ScriptFactory
 {
 public:
-	static PScriptBase CreateInstance(std::string const& typeName, PScene owner);
+	static PScriptBase CreateInstance(std::string const& typeName, PScene owner, bool isDisabled = false);
 protected:
 	static ScriptTypes* GetMap();
 private:
@@ -68,13 +68,14 @@ public:
 	[[nodiscard]] WGameObj	GetGameObject() const noexcept;
 
 	[[nodiscard]] virtual std::string GetType() const noexcept = 0;
-	[[nodiscard]] virtual SScriptBase Clone() const;
+	[[nodiscard]] virtual PScriptBase Clone() const;
 
 	void Load(nlohmann::json& input) override;
 private:
 	void Destroy() override;
 private:
 	PGameObj _ownerObj = nullptr;
+	std::list<PScriptBase>::iterator _containerIterator;
 };
 
 #define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)

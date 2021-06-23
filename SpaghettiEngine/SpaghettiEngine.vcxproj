@@ -85,6 +85,7 @@
     <ClInclude Include="Framework\PhysicEngine\Shapes\Polygon.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Shape.h" />
     <ClInclude Include="Framework\Utilities\ContainerUtil.h" />
+    <ClInclude Include="Framework\Utilities\Corntainer.h" />
     <ClInclude Include="Framework\Utilities\Debug.h" />
     <ClInclude Include="Framework\Utilities\ExMath.h" />
     <ClInclude Include="Framework\Utilities\Extra.h" />
@@ -126,7 +127,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\ChildContainer.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp" />
-    <ClCompile Include="Framework\Engine\GameComponents\GameObjChildParent.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObjScriptOwner.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp" />

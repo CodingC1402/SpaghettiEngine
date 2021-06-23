@@ -4,17 +4,42 @@
 // Normal Event
 void GameObj::OnStart()
 {
-	for (const auto& script : _scripts)
-		script.lock()->OnStart();
+	if (!_parent && GetOwner())
+		GetOwner()->AddToRoot(this);
+
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		(*it)->OnStart();
+	}
+
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnStart();
+	}
+
+	if (!IsDisabled())
+		OnEnabled();
 }
 
 void GameObj::OnUpdate()
 {
-	if (_isDisabled)
+	if (IsDisabled())
 		return;
 
-	for (const auto& script : _scripts)
-		script.lock()->OnUpdate();
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		if (!(*it)->IsDisabled())
+			(*it)->OnUpdate();
+	}
+
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnUpdate();
+	}
 }
 
 void GameObj::OnPhysicUpdate()
@@ -25,67 +50,123 @@ void GameObj::OnPhysicUpdate()
 void GameObj::Destroy()
 {
 	if (_parent)
-		_parent->RemoveChild(this);
+		_parent->GetChildContainer().RemoveItem(this);
 
 	BaseComponent::Destroy();
 }
 
 void GameObj::OnFixedUpdate()
 {
-	if (_isDisabled)
+	if (IsDisabled())
 		return;
 
-	for (const auto& script : _scripts)
-		script.lock()->OnFixedUpdate();
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		if (!(*it)->IsDisabled())
+			(*it)->OnFixedUpdate();
+	}
+
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnFixedUpdate();
+	}
 }
 
 void GameObj::OnEnabled()
 {
-	if (_isDisabled)
+	if (IsDisabled())
 		return;
 
-	for (const auto& script : _scripts)
-		script.lock()->OnEnabled();
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		if (!(*it)->IsDisabled())
+			(*it)->OnEnabled();
+	}
 
-	for (const auto& child : _children)
-		child.lock()->OnEnabled();
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnEnabled();
+		(*it)->SetParentDisability(false);
+	}
 }
 
 void GameObj::OnDisabled()
 {
-	if (_isDisabled)
+	if (IsDisabled())
 		return;
 
-	for (const auto& script : _scripts)
-		script.lock()->OnDisabled();
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		if (!(*it)->IsDisabled())
+			(*it)->OnDisabled();
+	}
 
-	for (const auto& child : _children)
-		child.lock()->OnDisabled();
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnDisabled();
+		(*it)->SetParentDisability(true);
+	}
 }
 
 void GameObj::OnCollide(CollideEvent& e)
 {
-	for (auto& script : _scripts)
-		script.lock()->OnCollide(e);
+	if (IsDisabled())
+		return;
 
-	for (const auto& child : _children)
-		child.lock()->OnCollide(e);
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		if (!(*it)->IsDisabled())
+			(*it)->OnCollide(e);
+	}
+
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnCollide(e);
+	}
 }
 
 void GameObj::OnCollideEnter(CollideEvent& e)
 {
-	for (auto& script : _scripts)
-		script.lock()->OnCollideEnter(e);
+	if (IsDisabled)
+		return;
 
-	for (const auto& child : _children)
-		child.lock()->OnCollideEnter(e);
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		if (!(*it)->IsDisabled())
+			(*it)->OnCollideEnter(e);
+	}
+
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnCollideEnter(e);
+	}
 }
 
 void GameObj::OnCollideExit(CollideEvent& e)
 {
-	for (auto& script : _scripts)
-		script.lock()->OnCollideExit(e);
+	if (IsDisabled)
+		return;
 
-	for (const auto& child : _children)
-		child.lock()->OnCollideExit(e);
+	auto scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		if (!(*it)->IsDisabled())
+			(*it)->OnCollideExit(e);
+	}
+
+	auto childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		(*it)->OnCollideExit(e);
+	}
 }

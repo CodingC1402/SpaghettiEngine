@@ -19,48 +19,88 @@ nlohmann::json GameObj::defaultJson = {
 	{LoadingJson::Field::tagField, "new"}
 };
 
-SGameObj GameObj::Clone() const
+PGameObj GameObj::Clone() const
 {
-	auto cloneObj = _owner->CreateGameObject();
+	auto cloneObj = GetOwner()->CreateGameObject(false);
 
 	cloneObj->_tag = _tag;
 	cloneObj->_name = _name;
 	cloneObj->_children = _children;
 
-	for (const auto& script : _scripts)
-		cloneObj->AddScriptClone(script.lock().get());
+	auto& scriptsContainer = _scripts.GetContainer();
+	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
+	{
+		cloneObj->GetScriptContainer().AddItem((*it)->Clone());
+	}
+
+	auto& childrenContainer = _children.GetContainer();
+	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	{
+		cloneObj->GetChildContainer().AddItem((*it)->Clone());
+	}
 
 	return cloneObj;
 }
 
-#pragma region Get
-PScriptBase GameObj::GetScript(unsigned index) const noexcept
+#pragma region Set
+void GameObj::SetParentDisability(bool value)
 {
-	if (index >= _scripts.size())
-		return nullptr;
+	_isParentDisabled = value;
+}
+void GameObj::SetContainerIterator(std::list<PGameObj>::iterator it)
+{
+	_containerIterator = it;
+}
+void GameObj::SetParent(PGameObj parent)
+{
+	if (!parent && !_parent)
+		return;
 
-	auto iterator = _scripts.begin();
-	std::advance(iterator, index);
-	return (*iterator).lock().get();
+	if (!_parent)
+		_parent->GetChildContainer().RemoveItem(this);
+	_parent = parent;
+
+	if (_parent)
+		_parent->GetChildContainer().AddItem(this);
 }
-PScriptBase GameObj::GetScript(const std::string& name) const noexcept
+void GameObj::SetName(const std::string& name)
 {
-	for (const auto& script : _scripts)
-	{
-		if (script.lock()->GetType() == name)
-			return script.lock().get();
-	}
-	return nullptr;
+	_name = name;
 }
-std::list<PScriptBase> GameObj::GetAllScripts(const std::string& name) const noexcept
+void GameObj::SetTag(const std::string& tag)
 {
-	std::list<PScriptBase> rList;
-	for (const auto& script : _scripts)
+	_tag = tag;
+}
+#pragma endregion
+
+#pragma region Get
+bool GameObj::GetParentDisability()
+{
+	return _isParentDisabled;
+}
+PhysicComponent& GameObj::GetPhysicComponent()
+{
+	return _physic;
+}
+std::list<PGameObj>::iterator GameObj::GetContainerIterator() const
+{
+	return _containerIterator;
+}
+void GameObj::SetParentInternally(PGameObj obj)
+{
+	bool before = IsDisabled();
+
+	_parent = obj;
+	bool after = BaseComponent::IsDisabled() || obj->IsDisabled();
+
+	if (before != after) // only call if there is a different in disability
 	{
-		if (script.lock()->GetType() == name)
-			rList.emplace_back(script.lock().get());
+		if (after)
+			OnDisabled();
+		else
+			OnEnabled();
 	}
-	return rList;
+	_isParentDisabled = obj->IsDisabled();
 }
 std::string GameObj::GetTag() const
 {
@@ -74,7 +114,11 @@ ChildContainer& GameObj::GetChildContainer()
 {
 	return _children;
 }
-PGameObj GameObj::GetParent()
+ScriptContainer& GameObj::GetScriptContainer()
+{
+	return _scripts;
+}
+PGameObj GameObj::GetParent() const
 {
 	return _parent;
 }
@@ -86,29 +130,11 @@ bool GameObj::IsDestroyed() const
 {
 	return _isReadyForDelete;
 }
-void GameObj::SetParent(PGameObj parent)
+bool GameObj::IsDisabled() const
 {
-	if (!_parent)
-		_parent->GetChildContainer().RemoveItem(this);
-	_parent = parent;
-
-	if(_parent)
-		_parent->GetChildContainer().AddItem(this);
-}
-void GameObj::SetName(const std::string& name)
-{
-	_name = name;
-}
-void GameObj::SetTag(const std::string& tag)
-{
-	_tag = tag;
+	return BaseComponent::IsDisabled() || (GetParent() && _isParentDisabled);
 }
 #pragma endregion
-
-PhysicComponent& GameObj::GetPhysicComponent()
-{
-	return _physic;
-}
 
 #pragma region Constructor/Destructor
 
@@ -116,6 +142,7 @@ GameObj::GameObj(PScene owner, bool isDisabled)
 	:
 	_physic(this),
 	_children(this),
+	_scripts(this),
 	BaseComponent(owner, isDisabled)
 {}
 
@@ -123,7 +150,8 @@ GameObj::GameObj(GameObj & obj)
 	:
 	_physic(this),
 	_children(this),
-	BaseComponent(obj._owner, obj.IsDisabled())
+	_scripts(this),
+	BaseComponent(obj.GetOwner(), obj.IsDisabled())
 {
 	*this = obj;
 }
@@ -182,13 +210,13 @@ void GameObj::Load(nlohmann::json& input)
 			fieldTracker = Field::gameObjectsField;
 
 		for (const auto& child : input[Field::gameObjectsField])
-			dynamic_cast<PGameObj>(_owner->GetComponent(child[Field::idField].get<CULL>()).get())->SetParent(this);
+			dynamic_cast<PGameObj>(GetOwner()->GetComponent(child[Field::idField].get<CULL>()).get())->SetParent(this);
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::scriptsField;
 
 		for (const auto& script : input[Field::scriptsField])
-			dynamic_cast<ScriptBase*>(_owner->GetComponent(script[Field::idField].get<CULL>()).get())->AssignOwner(this);
+			dynamic_cast<ScriptBase*>(GetOwner()->GetComponent(script[Field::idField].get<CULL>()).get())->SetGameObject(this);
 	}
 	catch (const CornException&)
 	{

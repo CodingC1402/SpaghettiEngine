@@ -43,7 +43,7 @@ public:
     virtual void OnCollideExit(CollideEvent& e) {};
 #pragma endregion
 
-    virtual bool [[nodiscard]] IsDisabled();
+    virtual bool [[nodiscard]] IsDisabled() const;
     virtual void Load(nlohmann::json& input) = 0;
 
     bool CallDestroy();
@@ -54,7 +54,7 @@ public:
     void AssignPtr(std::list<SBaseComponent>::iterator iterator);
 
     [[nodiscard]] PScene GetOwner() const;
-
+    void SetOwner(PScene owner);
 protected:
 
     virtual void Destroy();

@@ -22,7 +22,7 @@ void BaseComponent::Enable()
     _isDisabled = false;
 }
 
-bool BaseComponent::IsDisabled()
+bool BaseComponent::IsDisabled() const
 {
     return _isDisabled;
 }
@@ -76,5 +76,10 @@ void BaseComponent::AssignPtr(std::list<SBaseComponent>::iterator iterator)
 PScene BaseComponent::GetOwner() const
 {
     return _owner;
+}
+
+void BaseComponent::SetOwner(PScene owner)
+{
+    _owner = owner;
 }
 

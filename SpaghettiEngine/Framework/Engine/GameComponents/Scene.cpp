@@ -74,13 +74,14 @@ void Scene::End()
         gameObj->OnEnd();
 }
 
-SGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
+PGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
 {
-    auto clonedGameObj = std::dynamic_pointer_cast<GameObj>(toClone->Clone());
+    auto clonedGameObj = toClone->Clone();
 
+    AddToRoot(clonedGameObj);
     clonedGameObj->OnStart();
     clonedGameObj->OnEnabled();
-    clonedGameObj->Move(worldPosition);
+    clonedGameObj->GetTransform().Move(worldPosition);
 
     return clonedGameObj;
 }
@@ -122,13 +123,13 @@ void Scene::Load()
         {
             // No need to call enable for gameObj cause it's useless and save it for in game enable/disable
             auto scriptType = script[Field::inputsField][Field::scriptTypeField].get<std::string>();
-            SBaseComponent newScript = CreateScriptBase(scriptType);
+            SBaseComponent newScript = CreateScriptBase(scriptType, false)->GetSharedPtr();
             SetUpAddComponent(newScript, script);
         }
         //Load object
         for (auto& gameObj : jsonFile[Field::gameObjectsField])
         {
-            SBaseComponent newObj = CreateGameObject();
+            SBaseComponent newObj = CreateGameObject(false)->GetSharedPtr();
             SetUpAddComponent(newObj, gameObj);
         }
     }
@@ -190,6 +191,23 @@ void Scene::EraseTrashBin()
     _trashBin.clear();
 }
 
+void Scene::AddToRoot(const PGameObj& object)
+{
+    if (!object)
+        return;
+
+    _rootObjects.push_back(object);
+    object->SetContainerIterator(--_rootObjects.end());
+}
+
+void Scene::RemoveFromRoot(const PGameObj& object)
+{
+    if (!object)
+        return;
+
+    _rootObjects.erase(object->GetContainerIterator());
+}
+
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)
     :
     _component(component),
@@ -201,22 +219,26 @@ void Scene::Entry::Load()
     _component->Load(_loadJson);
 }
 
-SGameObj Scene::CreateGameObject()
+PGameObj Scene::CreateGameObject(bool isDisabled)
 {
-    SGameObj newObj = std::make_shared<GameObj>(this, DestroyComponent);
+    SGameObj newObj = std::make_shared<GameObj>(this, isDisabled, DestroyComponent);
+
     _gameObjects.push_back(newObj);
     auto it = --_gameObjects.end();
     newObj->AssignPtr(it);
-    return newObj;
+
+    return newObj.get();
 }
 
-SScriptBase Scene::CreateScriptBase(const std::string& scriptName)
+PScriptBase Scene::CreateScriptBase(const std::string& scriptName, bool isDisabled)
 {
     SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this), DestroyComponent);
+
     _scripts.push_back(newScript);
     auto it = --_scripts.end();
     newScript->AssignPtr(it);
-    return newScript;
+
+    return newScript.get();
 }
 
 SBaseComponent& Scene::GetComponent(CULL& id) const

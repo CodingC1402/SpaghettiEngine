@@ -10,7 +10,7 @@ ScriptTypes* ScriptFactory::GetMap()
 	return map;
 }
 
-PScriptBase ScriptFactory::CreateInstance(std::string const& typeName, PScene owner)
+PScriptBase ScriptFactory::CreateInstance(std::string const& typeName, PScene owner, bool isDisabled)
 {
 	const auto iterator = map->find(typeName);
 	if (iterator == GetMap()->end())
@@ -48,10 +48,10 @@ ScriptBase::ScriptBase(PScene owner, bool isDisabled)
 void ScriptBase::SetGameObject(PGameObj owner)
 {
 	if (!_ownerObj)
-		_ownerObj->RemoveScript(this);
+		_ownerObj->GetScriptContainer().RemoveItem(this);
 
 	if (owner)
-		owner->AddScript(this);
+		owner->GetScriptContainer().AddItem(this);
 
 	_ownerObj = owner;
 	if (!_ownerObj)
@@ -82,10 +82,9 @@ WGameObj ScriptBase::GetGameObject() const noexcept
 	return std::dynamic_pointer_cast<GameObj>(_ownerObj->GetSharedPtr());
 }
 
-SScriptBase ScriptBase::Clone() const
+PScriptBase ScriptBase::Clone() const
 {
-	auto cloneScript = _owner->CreateScriptBase(GetType());
-	cloneScript->_isDisabled = _isDisabled;
+	auto cloneScript = GetOwner()->CreateScriptBase(GetType(), false);
 	return cloneScript;
 }
 
@@ -98,7 +97,7 @@ void ScriptBase::Load(nlohmann::json& input)
 void ScriptBase::Destroy()
 {
 	if (_ownerObj)
-		_ownerObj->RemoveScript(this);
+		_ownerObj->GetScriptContainer().RemoveItem(this);
 
 	BaseComponent::Destroy();
 }

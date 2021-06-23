@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "BaseComponent.h"
 #include "ChildContainer.h"
+#include "ScriptContainer.h"
 #include "Transform.h"
 
 #include <memory>
@@ -52,18 +53,17 @@ public:
 	GameObj(GameObj& obj);
 	GameObj& operator= (GameObj& obj);
 
-	[[nodiscard]] PScriptBase		GetScript(const unsigned index) const noexcept;
-	[[nodiscard]] PScriptBase		GetScript(const std::string& name) const noexcept;
-	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetName() const;
 	[[nodiscard]] ChildContainer&	GetChildContainer();
-	[[nodiscard]] PGameObj			GetParent();
+	[[nodiscard]] ScriptContainer&	GetScriptContainer();
+	[[nodiscard]] PGameObj			GetParent() const;
 
 	[[nodiscard]] Transform&		GetTransform();
 	[[nodiscard]] PhysicComponent&	GetPhysicComponent();
 
 	[[nodiscard]] bool				IsDestroyed() const;
+	[[nodiscard]] bool				IsDisabled() const override;
 
 	void SetParent(PGameObj parent);
 	void SetName(const std::string& name);
@@ -82,13 +82,21 @@ public:
 	void OnCollideEnter(CollideEvent& e) override;
 	void OnCollideExit(CollideEvent& e) override;
 	
-	SGameObj Clone() const;
+	PGameObj Clone() const;
 protected:
 	void OnPhysicUpdate();
 private:
 	void Destroy() override;
-protected:
+	void SetContainerIterator(std::list<PGameObj>::iterator it);
+	std::list<PGameObj>::iterator GetContainerIterator() const;
+
+	void SetParentInternally(PGameObj obj);
+
+	void SetParentDisability(bool value);
+	bool GetParentDisability();
+private:
 	PGameObj _parent = nullptr;
+	bool _isParentDisabled = false;
 
 	bool _isReadyForDelete = false;
 
@@ -97,11 +105,12 @@ protected:
 	string _name;
 
 	ChildContainer _children;
+	ScriptContainer _scripts;
+
 	PhysicComponent _physic;
 	Transform _transform;
 
-	list<WScriptBase> _scripts;
-
+	std::list<PGameObj>::iterator _containerIterator;
 	static nlohmann::json defaultJson;
 };
 

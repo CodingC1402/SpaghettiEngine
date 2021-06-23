@@ -1,6 +1,6 @@
 #pragma once;
 
-#include <deque>
+#include <list>
 #include <string>
 #include <vector>
 
@@ -9,7 +9,7 @@ class Corntainer
 {
 public:
 	T& operator[](unsigned index);
-	[[nodiscard]] std::deque<T> GetAllItem();
+	[[nodiscard]] std::list<T> GetAllItem();
 	[[nodiscard]] unsigned		GetSize();
 
 	virtual void AddItem(T item);
@@ -17,7 +17,9 @@ public:
 	virtual void RemoveAllItem();
 	virtual void RemoveItem(T item);
 protected:
-	std::deque<T> _container;
+	std::list<T>& GetContainer() const;
+protected:
+	std::list<T> _container;
 };
 
 template<typename T>
@@ -27,7 +29,7 @@ inline T& Corntainer<T>::operator[](unsigned index)
 }
 
 template<typename T>
-inline std::deque<T> Corntainer<T>::GetAllItem()
+inline std::list<T> Corntainer<T>::GetAllItem()
 {
 	return _container;
 }
@@ -59,4 +61,10 @@ inline void Corntainer<T>::RemoveItem(T item)
 			_container.erase(it);
 			return;
 		}
+}
+
+template<typename T>
+inline std::list<T>& Corntainer<T>::GetContainer() const
+{
+	return _container;
 }
