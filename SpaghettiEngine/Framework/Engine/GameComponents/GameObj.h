@@ -61,6 +61,10 @@ public:
 
 	[[nodiscard]] bool				IsDisabled() const override;
 	[[nodiscard]] bool				IsRoot() const;
+	[[nodiscard]] bool				IsUpdateByScene() const;
+
+	bool BecomeRootObject();
+	bool RemoveFromRoot();
 
 	void SetParent(PGameObj parent);
 	void SetName(const std::string& name);

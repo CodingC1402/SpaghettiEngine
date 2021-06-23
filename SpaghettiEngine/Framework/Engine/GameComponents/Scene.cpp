@@ -121,7 +121,8 @@ void Scene::Load()
         {
             SBaseComponent newObj = CreateGameObject(false)->GetSharedPtr();
 
-            if (gameObj[Field::isInstantiate].empty() || gameObj[Field::isInstantiate].get<bool>())
+            auto isRoot = gameObj[Field::inputsField][Field::isRootField];
+            if (!isRoot.empty() &&  isRoot.get<bool>())
                 AddToRoot(dynamic_cast<PGameObj>(newObj.get()));
 
             SetUpAddComponent(newObj, gameObj);

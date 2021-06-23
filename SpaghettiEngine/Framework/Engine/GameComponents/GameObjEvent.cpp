@@ -5,17 +5,13 @@
 // Normal Event
 void GameObj::OnStart()
 {
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		(*it)->OnStart();
-	}
+	_scripts.IteratingWithLamda([](PScriptBase script) {
+		script->OnStart();
+	});
 
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		(*it)->OnStart();
-	}
+	_children.IteratingWithLamda([](PGameObj child) {
+		child->OnStart();
+	});
 
 	if (!IsDisabled())
 		OnEnabled();
@@ -26,18 +22,114 @@ void GameObj::OnUpdate()
 	if (IsDisabled())
 		return;
 
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		if (!(*it)->IsDisabled())
-			(*it)->OnUpdate();
-	}
+	_scripts.IteratingWithLamda([](PScriptBase script) {
+		if (!script->IsDisabled())
+			script->OnUpdate();
+	});
 
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
+	_children.IteratingWithLamda([](PGameObj child) {
+		child->OnUpdate();
+	});
+}
+
+void GameObj::OnFixedUpdate()
+{
+	if (IsDisabled())
+		return;
+
+	_scripts.IteratingWithLamda([](PScriptBase script) {
+		if (!script->IsDisabled())
+			script->OnFixedUpdate();
+	});
+
+	_children.IteratingWithLamda([](PGameObj child) {
+		child->OnFixedUpdate();
+	});
+}
+
+void GameObj::OnEnabled()
+{
+	if (IsDisabled())
+		return;
+
+	_scripts.IteratingWithLamda([](PScriptBase script) {
+		if (!script->IsDisabled())
+			script->OnEnabled();
+	});
+
+	auto it = _children.Begin();
+	bool result = _children.GetSize() == 0;
+	while (!result)
 	{
-		(*it)->OnUpdate();
+		(*it)->OnEnabled();
+		(*it)->SetParentDisability(false);
+		result = _children.Iterate(it);
 	}
+}
+
+void GameObj::OnDisabled()
+{
+	if (IsDisabled())
+		return;
+
+	_scripts.IteratingWithLamda([](PScriptBase script) {
+		if (!script->IsDisabled())
+			script->OnDisabled();
+		});
+
+	auto it = _children.Begin();
+	bool result = _children.GetSize() == 0;
+	while (!result)
+	{
+		(*it)->OnDisabled();
+		(*it)->SetParentDisability(true);
+		result = _children.Iterate(it);
+	}
+}
+
+void GameObj::OnCollide(CollideEvent& e)
+{
+	if (IsDisabled())
+		return;
+
+	_scripts.IteratingWithLamdaEvent([](PScriptBase script, CollideEvent& e) {
+		if (!script->IsDisabled())
+			script->OnCollide(e);
+	}, e);
+
+	_children.IteratingWithLamdaEvent([](PGameObj child, CollideEvent& e) {
+		child->OnCollide(e);
+	}, e);
+}
+
+void GameObj::OnCollideEnter(CollideEvent& e)
+{
+	if (IsDisabled())
+		return;
+
+	_scripts.IteratingWithLamdaEvent([](PScriptBase script, CollideEvent& e) {
+		if (!script->IsDisabled())
+			script->OnCollideEnter(e);
+	}, e);
+
+	_children.IteratingWithLamdaEvent([](PGameObj child, CollideEvent& e) {
+		child->OnCollideEnter(e);
+	}, e);
+}
+
+void GameObj::OnCollideExit(CollideEvent& e)
+{
+	if (IsDisabled())
+		return;
+
+	_scripts.IteratingWithLamdaEvent([](PScriptBase script, CollideEvent& e) {
+		if (!script->IsDisabled())
+			script->OnCollideExit(e);
+	}, e);
+
+	_children.IteratingWithLamdaEvent([](PGameObj child, CollideEvent& e) {
+		child->OnCollideExit(e);
+	}, e);
 }
 
 void GameObj::OnPhysicUpdate()
@@ -54,140 +146,17 @@ void GameObj::Destroy()
 		// Remove from the container of parent and remove from transform too but do nothing else.
 		_parent->GetChildContainer().RemoveChildWithoutEvent(this);
 
-	if (GetChildContainer().GetSize() > 0)
-	{
-		auto container = GetChildContainer().GetAllItem();
-		for (auto it = container.begin(); it != container.end(); ++it)
-			(*it)->CallDestroy();
-	}
-	GetChildContainer().RemoveAllItem();
-
-	if (GetScriptContainer().GetSize() > 0)
-	{
-		auto container = GetScriptContainer().GetAllItem();
-		for (auto it = container.begin(); it != container.end(); ++it)
-		{
-			(*it)->CallDestroy();
-			(*it)->Disable();
-		}
-	}
+	// Remove scripts
+	_scripts.IteratingWithLamda([](PScriptBase script) {
+		script->CallDestroy();
+		});
 	GetScriptContainer().RemoveAllItem();
 
+	// Remove objects
+	_children.IteratingWithLamda([](PGameObj child) {
+		child->CallDestroy();
+		});
+	GetChildContainer().RemoveAllItem();
+
 	BaseComponent::Destroy();
-}
-
-void GameObj::OnFixedUpdate()
-{
-	if (IsDisabled())
-		return;
-
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		if (!(*it)->IsDisabled())
-			(*it)->OnFixedUpdate();
-	}
-
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		(*it)->OnFixedUpdate();
-	}
-}
-
-void GameObj::OnEnabled()
-{
-	if (IsDisabled())
-		return;
-
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		if (!(*it)->IsDisabled())
-			(*it)->OnEnabled();
-	}
-
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		(*it)->OnEnabled();
-		(*it)->SetParentDisability(false);
-	}
-}
-
-void GameObj::OnDisabled()
-{
-	if (IsDisabled())
-		return;
-
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		if (!(*it)->IsDisabled())
-			(*it)->OnDisabled();
-	}
-
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		(*it)->OnDisabled();
-		(*it)->SetParentDisability(true);
-	}
-}
-
-void GameObj::OnCollide(CollideEvent& e)
-{
-	if (IsDisabled())
-		return;
-
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		if (!(*it)->IsDisabled())
-			(*it)->OnCollide(e);
-	}
-
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		(*it)->OnCollide(e);
-	}
-}
-
-void GameObj::OnCollideEnter(CollideEvent& e)
-{
-	if (IsDisabled())
-		return;
-
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		if (!(*it)->IsDisabled())
-			(*it)->OnCollideEnter(e);
-	}
-
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		(*it)->OnCollideEnter(e);
-	}
-}
-
-void GameObj::OnCollideExit(CollideEvent& e)
-{
-	if (IsDisabled())
-		return;
-
-	auto scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		if (!(*it)->IsDisabled())
-			(*it)->OnCollideExit(e);
-	}
-
-	auto childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		(*it)->OnCollideExit(e);
-	}
 }

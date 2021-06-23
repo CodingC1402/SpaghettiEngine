@@ -57,7 +57,7 @@ void ScriptContainer::AddItem(PScriptBase script)
 
 	bool after = script->IsDisabled(); // Check after changing owner
 
-	Corntainer::AddItem(script);
+	Add(script);
 	script->SetContainerIterator(--_container.end());
 
 	if (after != before)
@@ -85,7 +85,7 @@ void ScriptContainer::RemoveItem(PScriptBase object)
 		return;
 
 	RemoveScript(object);
-	_container.erase(object->GetContainerIterator());
+	Erase(object->GetContainerIterator());
 }
 
 void ScriptContainer::RemoveItemsType(const std::string& type)

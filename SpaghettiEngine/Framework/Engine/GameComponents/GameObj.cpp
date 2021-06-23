@@ -142,7 +142,32 @@ bool GameObj::IsRoot() const
 {
 	return _isRoot;
 }
+bool GameObj::IsUpdateByScene() const
+{
+	if (GetParent())
+		return GetParent()->IsUpdateByScene();
+	return IsRoot();
+}
 #pragma endregion
+
+bool GameObj::BecomeRootObject()
+{
+	if (IsRoot())
+		return false;
+
+	if (GetParent())
+		SetParent(nullptr);
+	GetOwner()->AddToRoot(this);
+	return true;
+}
+bool GameObj::RemoveFromRoot()
+{
+	if (!IsRoot())
+		return false;
+
+	GetOwner()->RemoveFromRoot(this);
+	return true;
+}
 
 #pragma region Constructor/Destructor
 

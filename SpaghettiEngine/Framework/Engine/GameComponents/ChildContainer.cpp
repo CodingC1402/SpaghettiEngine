@@ -56,12 +56,12 @@ void ChildContainer::AddItem(PGameObj child)
 	// Then it's a root object.
 	if (child->GetParent())
 		child->GetParent()->GetChildContainer().RemoveChildWithoutEvent(child);
-	else if (child->GetOwner())
+	else if (child->IsRoot())
 		child->GetOwner()->RemoveFromRoot(child);
 
 	_owner->GetTransform().AddChild(&child->GetTransform());
 
-	Corntainer::AddItem(child);
+	Add(child);
 	child->SetContainerIterator(--_container.end());
 
 	child->SetParentInternally(child);
@@ -83,7 +83,7 @@ void ChildContainer::RemoveItem(PGameObj object)
 		return;
 
 	RemoveChild(object);
-	_container.erase(object->GetContainerIterator());
+	Erase(object->GetContainerIterator());
 	return;
 }
 
@@ -94,7 +94,7 @@ void ChildContainer::RemoveItemsWithName(const std::string& name)
 		if ((*it)->GetName() == name)
 		{
 			RemoveChild(*it);
-			it = _container.erase(it);
+			it = Erase(it);
 		}
 		else
 			++it;
@@ -108,7 +108,7 @@ void ChildContainer::RemoveItemsWithTag(const std::string& tag)
 		if ((*it)->GetTag() == tag)
 		{
 			RemoveChild(*it);
-			it = _container.erase(it);
+			it = Erase(it);
 		}
 		else
 			++it;
@@ -122,9 +122,6 @@ void ChildContainer::RemoveChild(PGameObj object)
 	object->_parent = nullptr;
 	if (childBefore && !object->IsDisabled())
 		object->OnEnabled();
-
-	if (object->GetOwner())
-		object->GetOwner()->AddToRoot(object);
 }
 
 void ChildContainer::RemoveChildFromTransform(PGameObj object)
@@ -135,5 +132,5 @@ void ChildContainer::RemoveChildFromTransform(PGameObj object)
 void ChildContainer::RemoveChildWithoutEvent(PGameObj object)
 {
 	RemoveChildFromTransform(object);
-	_container.erase(object->GetContainerIterator());
+	Erase(object->GetContainerIterator());
 }
