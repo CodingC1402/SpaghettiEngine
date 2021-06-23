@@ -59,8 +59,8 @@ public:
 	[[nodiscard]] Transform&		GetTransform();
 	[[nodiscard]] PhysicComponent&	GetPhysicComponent();
 
-	[[nodiscard]] bool				IsDestroyed() const;
 	[[nodiscard]] bool				IsDisabled() const override;
+	[[nodiscard]] bool				IsRoot() const;
 
 	void SetParent(PGameObj parent);
 	void SetName(const std::string& name);
@@ -84,10 +84,13 @@ protected:
 	void OnPhysicUpdate();
 private:
 	void Destroy() override;
+
+	[[nodiscard]] BaseComponent::Type GetComponentType() const override;
+
 	void SetContainerIterator(std::list<PGameObj>::iterator it);
-	BaseComponent::Type GetComponentType() const override;
 	std::list<PGameObj>::iterator GetContainerIterator() const;
 
+	void SetIsRoot(bool value);
 	void SetParentInternally(PGameObj obj);
 
 	void SetParentDisability(bool value);
@@ -95,8 +98,7 @@ private:
 private:
 	PGameObj _parent = nullptr;
 	bool _isParentDisabled = false;
-
-	bool _isReadyForDelete = false;
+	bool _isRoot = false;
 
 	bool _loaded = false;
 	string _tag;

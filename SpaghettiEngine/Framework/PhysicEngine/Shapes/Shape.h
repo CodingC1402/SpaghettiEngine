@@ -52,7 +52,6 @@ public:
 	void AddToPhysic();
 
 	void SetBody(WBody2D body);
-	void ToStatic();
 	
 	virtual Shape* Clone() const = 0;
 	WBody2D GetBody() const;
@@ -60,7 +59,6 @@ protected:
 	WCollider2DBase _ownerScript;
 
 	WBody2D _body;
-	SBody2D _staticBody;
 
 	Matrix4 _offSetMatrix;
 	Matrix4 _worldMatrix;

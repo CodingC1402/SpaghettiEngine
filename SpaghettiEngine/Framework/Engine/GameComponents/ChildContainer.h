@@ -24,8 +24,11 @@ public:
 	void RemoveItemsWithName(const std::string& name);
 	void RemoveItemsWithTag(const std::string& tag);
 protected:
-	// Used to do all the operation needed when remove child
+	// Call of the thing that needed so that other function can safely erase it from container.
 	void RemoveChild(PGameObj object);
+	// Use to do thing that doesn't involve event before delete
+	void RemoveChildFromTransform(PGameObj object);
+	// Use to remove child from the list and to all the stuff needed without moving it or call events
 	void RemoveChildWithoutEvent(PGameObj object);
 protected:
 	PGameObj _owner;

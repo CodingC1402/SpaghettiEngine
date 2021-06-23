@@ -26,8 +26,8 @@ void PhysicComponent::Component2D::RemoveBody(WBody2D body)
 		_body = std::make_shared<Body2D>();
 		_body->SetGameObject(_owner);
 		Physic::AddBody(_body.get());
+		CallOnChange();
 	}
-	CallOnChange();
 }
 
 void PhysicComponent::Component2D::CallOnChange()

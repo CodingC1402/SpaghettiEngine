@@ -55,11 +55,7 @@ void ChildContainer::AddItem(PGameObj child)
 	// If it's parent is null then it could be a root object if owner is not null
 	// Then it's a root object.
 	if (child->GetParent())
-	{
-		auto& container = child->GetParent()->GetChildContainer();
-		container.RemoveChildWithoutEvent(child);
-		container._container.erase(child->GetContainerIterator());
-	}
+		child->GetParent()->GetChildContainer().RemoveChildWithoutEvent(child);
 	else if (child->GetOwner())
 		child->GetOwner()->RemoveFromRoot(child);
 
@@ -122,7 +118,7 @@ void ChildContainer::RemoveItemsWithTag(const std::string& tag)
 void ChildContainer::RemoveChild(PGameObj object)
 {
 	bool childBefore = object->IsDisabled();
-	RemoveChildWithoutEvent(object);
+	RemoveChildFromTransform(object);
 	object->_parent = nullptr;
 	if (childBefore && !object->IsDisabled())
 		object->OnEnabled();
@@ -131,7 +127,13 @@ void ChildContainer::RemoveChild(PGameObj object)
 		object->GetOwner()->AddToRoot(object);
 }
 
-void ChildContainer::RemoveChildWithoutEvent(PGameObj object)
+void ChildContainer::RemoveChildFromTransform(PGameObj object)
 {
 	_owner->GetTransform().RemoveChild(&object->GetTransform());
+}
+
+void ChildContainer::RemoveChildWithoutEvent(PGameObj object)
+{
+	RemoveChildFromTransform(object);
+	_container.erase(object->GetContainerIterator());
 }

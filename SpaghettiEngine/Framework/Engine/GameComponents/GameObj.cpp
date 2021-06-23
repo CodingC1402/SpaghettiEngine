@@ -90,6 +90,10 @@ std::list<PGameObj>::iterator GameObj::GetContainerIterator() const
 {
 	return _containerIterator;
 }
+void GameObj::SetIsRoot(bool value)
+{
+	_isRoot = value;
+}
 void GameObj::SetParentInternally(PGameObj obj)
 {
 	bool before = IsDisabled();
@@ -130,13 +134,13 @@ Transform& GameObj::GetTransform()
 {
 	return _transform;
 }
-bool GameObj::IsDestroyed() const
-{
-	return _isReadyForDelete;
-}
 bool GameObj::IsDisabled() const
 {
 	return BaseComponent::IsDisabled() || (GetParent() && _isParentDisabled);
+}
+bool GameObj::IsRoot() const
+{
+	return _isRoot;
 }
 #pragma endregion
 

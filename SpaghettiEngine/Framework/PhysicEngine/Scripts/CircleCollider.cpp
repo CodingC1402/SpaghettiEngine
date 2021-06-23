@@ -19,7 +19,7 @@ void CircleCollider::Load(nlohmann::json& input)
 
 	if constexpr (Setting::IsDebugMode())
 	{
-		_lineRenderer.emplace_back(GetOwner()->CreateScriptBase(TYPE_NAME(LineRendererBase), false));
+		_lineRenderer.push_back(dynamic_cast<LineRendererBase*>(GetOwner()->CreateScriptBase(TYPE_NAME(LineRendererBase), false)));
 		_lineRenderer[0]->SetGameObject(GetGameObject());
 		_lineRenderer[0]->SetCircle(circle->GetRadius());
 	}

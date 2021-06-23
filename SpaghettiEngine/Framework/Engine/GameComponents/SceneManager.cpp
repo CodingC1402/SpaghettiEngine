@@ -37,44 +37,64 @@ const wchar_t* SceneManager::SceneManagerException::What() const noexcept
 void SceneManager::Update()
 {
 	auto SM = GetInstance();
-	if (!_isLoading)
+
+	// Wil implement the async stuff in the future for now let's just keep it single thread :D
+	//if (!_isLoading)
+	//{
+	//	static std::future<void> loadingSceneJob;
+	//	if (_startedLoadNewScene)
+	//	{
+	//		if (loadingSceneJob.wait_for(std::chrono::nanoseconds(1)) == std::future_status::ready)
+	//		{
+	//			try
+	//			{
+	//				loadingSceneJob.get();
+	//
+	//				scenes[sceneIndex]->LoadComponent();
+	//				scenes[sceneIndex]->Start();
+	//
+	//				CleanUpAfterLoad();
+	//				_startedLoadNewScene = false;
+	//			}
+	//			catch (const CornException&)
+	//			{
+	//				throw;
+	//			}
+	//			catch (const std::exception&)
+	//			{
+	//				throw;
+	//			}
+	//		}
+	//	}
+	//	else if (callLoadSceneIndex != sceneIndex)
+	//	{
+	//		_isLoading = true;
+	//		_startedLoadNewScene = true;
+	//
+	//
+	//		//Would try async stuff but this game engine have never designed around async so this is just a bad implementation.
+	//		loadingSceneJob = std::async(std::launch::async, &SceneManager::StartLoadScene, this, scenes[sceneIndex], scenes[callLoadSceneIndex]);
+	//	}
+	//	else
+	//	{
+	//		SM->scenes[sceneIndex]->Update();
+	//	}
+	//}
+
+	if (callLoadSceneIndex != sceneIndex)
 	{
-		static std::future<void> loadingSceneJob;
-		if (_startedLoadNewScene)
-		{
-			if (loadingSceneJob.wait_for(std::chrono::nanoseconds(1)) == std::future_status::ready)
-			{
-				try
-				{
-					loadingSceneJob.get();
+		SM->scenes[sceneIndex]->Unload();
 
-					scenes[sceneIndex]->LoadComponent();
-					scenes[sceneIndex]->Start();
+		sceneIndex = callLoadSceneIndex;
 
-					CleanUpAfterLoad();
-					_startedLoadNewScene = false;
-				}
-				catch (const CornException&)
-				{
-					throw;
-				}
-				catch (const std::exception&)
-				{
-					throw;
-				}
-			}
-		}
-		else if (callLoadSceneIndex != sceneIndex)
-		{
-			_isLoading = true;
-			_startedLoadNewScene = true;
-			loadingSceneJob = std::async(std::launch::async, &SceneManager::StartLoadScene, this, scenes[sceneIndex], scenes[callLoadSceneIndex]);
-		}
-		else
-		{
-			SM->scenes[sceneIndex]->Update();
-		}
+		SM->scenes[sceneIndex]->Load();
+		SM->scenes[sceneIndex]->LoadComponent();
+		SM->scenes[sceneIndex]->Start();
+
+		CleanUpAfterLoad();
 	}
+
+	SM->scenes[sceneIndex]->Update();
 	SM->constScene->Update();
 }
 
@@ -96,37 +116,37 @@ PSceneManager SceneManager::GetInstance()
 
 void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 {
-	DestructSetFlagThreadSafe setFlag (_isLoading, false);
-
-	if (callLoadSceneIndex >= scenes.size() - 1)
-	{
-		std::ostringstream os;
-		os << "LoadScene called with index ";
-		os << callLoadSceneIndex << std::endl;
-		os << "But the number of scenes is ";
-		os << scenes.size() - 1 << std::endl;
-		throw SCENEMANAGER_EXCEPT(os.str());
-	}
-
-	try
-	{
-		current->Unload();
-		toLoad->Load();
-
-		sceneIndex = callLoadSceneIndex.load();
-	}
-	catch (const CornException&)
-	{
-		throw;
-	}
-	catch (const std::exception&)
-	{
-		std::ostringstream os;
-		os << "[Error] Standard exception has occurred while loading and unloading scene\n";
-		os << "[Scene] " << callLoadSceneIndex << std::endl;
-		throw SCENEMANAGER_EXCEPT(os.str());
-	}
-	return;
+	//DestructSetFlagThreadSafe setFlag (_isLoading, false);
+	//
+	//if (callLoadSceneIndex >= scenes.size() - 1)
+	//{
+	//	std::ostringstream os;
+	//	os << "LoadScene called with index ";
+	//	os << callLoadSceneIndex << std::endl;
+	//	os << "But the number of scenes is ";
+	//	os << scenes.size() - 1 << std::endl;
+	//	throw SCENEMANAGER_EXCEPT(os.str());
+	//}
+	//
+	//try
+	//{
+	//	current->Unload();
+	//	toLoad->Load();
+	//
+	//	sceneIndex = callLoadSceneIndex.load();
+	//}
+	//catch (const CornException&)
+	//{
+	//	throw;
+	//}
+	//catch (const std::exception&)
+	//{
+	//	std::ostringstream os;
+	//	os << "[Error] Standard exception has occurred while loading and unloading scene\n";
+	//	os << "[Scene] " << callLoadSceneIndex << std::endl;
+	//	throw SCENEMANAGER_EXCEPT(os.str());
+	//}
+	//return;
 }
 
 void SceneManager::CleanUpAfterLoad()
@@ -220,4 +240,15 @@ void SceneManager::Load()
 void SceneManager::Init()
 {
 	Load();
+	constScene->Load();
+	constScene->LoadComponent();
+	constScene->Start();
+}
+
+void SceneManager::Unload()
+{
+	scenes[sceneIndex]->Unload();
+	constScene->Unload();
+
+	CleanUpAfterLoad();
 }

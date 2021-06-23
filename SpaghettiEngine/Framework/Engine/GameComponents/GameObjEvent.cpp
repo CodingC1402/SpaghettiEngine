@@ -5,9 +5,6 @@
 // Normal Event
 void GameObj::OnStart()
 {
-	if (!_parent && GetOwner())
-		GetOwner()->AddToRoot(this);
-
 	auto scriptsContainer = _scripts.GetContainer();
 	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
 	{
@@ -50,8 +47,28 @@ void GameObj::OnPhysicUpdate()
 
 void GameObj::Destroy()
 {
-	if (_parent)
-		_parent->GetChildContainer().RemoveItem(this);
+	if (IsRoot())
+		// Just remove from root if it's root.
+		GetOwner()->RemoveFromRoot(this);
+	else if (_parent)
+		// Remove from the container of parent and remove from transform too but do nothing else.
+		_parent->GetChildContainer().RemoveChildWithoutEvent(this);
+
+	if (GetChildContainer().GetSize() > 0)
+	{
+		auto container = GetChildContainer().GetAllItem();
+		for (auto it = container.begin(); it != container.end(); ++it)
+			(*it)->CallDestroy();
+	}
+	GetChildContainer().RemoveAllItem();
+
+	if (GetScriptContainer().GetSize() > 0)
+	{
+		auto container = GetScriptContainer().GetAllItem();
+		for (auto it = container.begin(); it != container.end(); ++it)
+			(*it)->CallDestroy();
+	}
+	GetScriptContainer().RemoveAllItem();
 
 	BaseComponent::Destroy();
 }

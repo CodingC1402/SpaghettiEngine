@@ -22,6 +22,11 @@ void BaseComponent::Enable()
     _isDisabled = false;
 }
 
+bool BaseComponent::IsDeleted() const
+{
+    return _isDeleted;
+}
+
 bool BaseComponent::IsDisabled() const
 {
     return _isDisabled;
@@ -55,6 +60,14 @@ void BaseComponent::SetName(const std::string& name)
 std::string BaseComponent::GetName()
 {
     return _name;
+}
+
+bool BaseComponent::SetToDeleted()
+{
+    if (IsDeleted())
+        return false;
+    _isDeleted = true;
+    return true;
 }
 
 std::list<SBaseComponent>::iterator BaseComponent::GetIterator() const

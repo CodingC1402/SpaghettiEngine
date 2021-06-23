@@ -43,6 +43,8 @@ public:
     virtual void OnCollideExit(CollideEvent& e) {};
 #pragma endregion
 
+    [[nodiscard]] bool IsDeleted() const;
+
     virtual bool [[nodiscard]] IsDisabled() const;
     virtual void Load(nlohmann::json& input) = 0;
 
@@ -60,10 +62,12 @@ protected:
     virtual void Destroy();
     virtual ~BaseComponent() = default;
 private: // Can only be used by scene
+    bool SetToDeleted();
     std::list<SBaseComponent>::iterator GetIterator() const;
 private:
     PScene _owner = nullptr;
     bool _isDisabled = false;
+    bool _isDeleted = false;
 
     std::string _name;
 

@@ -36,6 +36,7 @@ namespace LoadingJson
         static constexpr const char* scriptTypeField = "ScriptType";
         //GameObj
         static constexpr const char* isRootField = "IsRoot";
+        static constexpr const char* isInstantiate = "Instantiate"; // Use for game object to know if they should be instantiate when created or not.
         static constexpr const char* tagField = "Tag";
         static constexpr const char* transformField = "Transform";
         static constexpr const char* rotationField = "Rotation";

@@ -15,6 +15,7 @@ void Collider2DBase::OnEnabled()
 	PhysicComponent* physic = &GetGameObject()->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
+
 	for (auto& shape : _shapes)
 		Physic::AddShape(shape.get());
 
@@ -28,6 +29,7 @@ void Collider2DBase::OnDisabled()
 	PhysicScriptBase::OnDisabled();
 
 	GetGameObject()->GetPhysicComponent().UnSubscribeTo2D(this);
+
 	for (auto& shape : _shapes)
 		Physic::RemoveShape(shape.get());
 

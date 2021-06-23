@@ -107,6 +107,8 @@ BaseComponent::Type ScriptBase::GetComponentType() const
 
 void ScriptBase::Destroy()
 {
+	this->Disable();
+
 	if (_ownerObj)
 		_ownerObj->GetScriptContainer().RemoveItem(this);
 

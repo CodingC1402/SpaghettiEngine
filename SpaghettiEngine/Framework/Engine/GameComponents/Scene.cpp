@@ -43,13 +43,13 @@ const wchar_t* Scene::SceneException::What() const noexcept
 
 void Scene::Start()
 {
-    for (const auto& gameObj : _gameObjects)
+    for (const auto& gameObj : _rootObjects)
         gameObj->OnStart();
 }
 
 void Scene::Update()
 {
-    for (auto it = _gameObjects.begin(); it != _gameObjects.end();)
+    for (auto it = _rootObjects.begin(); it != _rootObjects.end();)
     {
         (*it)->OnUpdate();
         ++it;
@@ -60,7 +60,7 @@ void Scene::Update()
 
 void Scene::FixedUpdate()
 {
-    for (const auto& gameObj : _gameObjects)
+    for (const auto& gameObj : _rootObjects)
         gameObj->OnFixedUpdate();
 }
 
@@ -120,6 +120,10 @@ void Scene::Load()
         for (auto& gameObj : jsonFile[Field::gameObjectsField])
         {
             SBaseComponent newObj = CreateGameObject(false)->GetSharedPtr();
+
+            if (gameObj[Field::isInstantiate].empty() || gameObj[Field::isInstantiate].get<bool>())
+                AddToRoot(dynamic_cast<PGameObj>(newObj.get()));
+
             SetUpAddComponent(newObj, gameObj);
         }
     }
@@ -143,7 +147,9 @@ void Scene::Load()
 void Scene::LoadComponent()
 {
     for (auto& val : *_tempComponentContainer | std::views::values)
+    {
         val.Load();
+    }
 
     _tempComponentContainer->clear();
     delete _tempComponentContainer;
@@ -153,8 +159,9 @@ void Scene::LoadComponent()
 void Scene::Unload()
 {
     _scripts.clear();
-    _gameObjects.clear();
-    _trashBin.clear();
+    for (auto it = _gameObjects.begin(); it != _gameObjects.end(); ++it)
+        (*it)->CallDestroy();
+    EraseTrashBin();
 }
 
 void Scene::AddToTrashBin(SBaseComponent destroyedComponent)
@@ -164,21 +171,34 @@ void Scene::AddToTrashBin(SBaseComponent destroyedComponent)
 
 void Scene::EraseTrashBin()
 {
-    for (const auto& component : _trashBin)
+    SBaseComponent component;
+    while (!_trashBin.empty())
     {
-        switch (component->GetComponentType())
+        component = _trashBin.front();
+
+        if (!component->IsDeleted())
         {
-        case BaseComponent::Type::gameObj:
-            _gameObjects.erase(component->GetIterator());
-            break;
-        case BaseComponent::Type::script:
-            _scripts.erase(component->GetIterator());
-            break;
-        default:
-            break;
+            switch (component->GetComponentType())
+            {
+            case BaseComponent::Type::gameObj:
+                _gameObjects.erase(component->GetIterator());
+                break;
+            case BaseComponent::Type::script:
+                _scripts.erase(component->GetIterator());
+                break;
+            default:
+                break;
+            }
+            component->SetToDeleted();
         }
+
+        _trashBin.pop_front();
+
+        // Have to reset here and cannot rely on the component = _trashBin.front() line
+        // Cause if we do it like that the component may not get call destroy and in turn won't call for
+        // the deletion of child objects and scripts
+        component.reset();
     }
-    _trashBin.clear();
 }
 
 void Scene::AddToRoot(const PGameObj& object)
@@ -188,6 +208,7 @@ void Scene::AddToRoot(const PGameObj& object)
 
     _rootObjects.push_back(object);
     object->SetContainerIterator(--_rootObjects.end());
+    object->SetIsRoot(true);
 }
 
 void Scene::RemoveFromRoot(const PGameObj& object)
@@ -196,6 +217,7 @@ void Scene::RemoveFromRoot(const PGameObj& object)
         return;
 
     _rootObjects.erase(object->GetContainerIterator());
+    object->SetIsRoot(false);
 }
 
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)
