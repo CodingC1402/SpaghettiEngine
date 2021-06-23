@@ -15,16 +15,32 @@ bool Polygon::PolygonPolygon(Collision* collision)
 	const auto shapeA = dynamic_cast<Polygon*>(collision->GetShapeA());
 	const auto shapeB = dynamic_cast<Polygon*>(collision->GetShapeB());
 
+	Vector3 normalA;
+	Vector3 normalB;
+	float penetrationA = 0;
+	float penetrationB = 0;
+
 	Vector3 normal;
 	float penetration = 0;
 
-	result = shapeA->CheckCollideOnEachEdge(*shapeB, penetration, normal);
+	result = shapeA->CheckCollideOnEachEdge(*shapeB, penetrationA, normalA);
 	if (!result)
 		return false;
 
-	result = shapeB->CheckCollideOnEachEdge(*shapeA, penetration, normal);
+	result = shapeB->CheckCollideOnEachEdge(*shapeA, penetrationB, normalB);
 	if (!result)
 		return false;
+
+	if (penetrationA < penetrationB)
+	{
+		normal = normalA;
+		penetration = penetrationA;
+	}
+	else
+	{
+		normal = normalB;
+		penetration = penetrationB;
+	}
 
 	if (normal.Dot(shapeB->GetCenter() - shapeA->GetCenter()) < 0)
 		normal = -normal;
