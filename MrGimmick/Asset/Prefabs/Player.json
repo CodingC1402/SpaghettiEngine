@@ -1,4 +1,9 @@
 {
+	"Prefabs": [
+		{
+			"ID": 10004
+		}
+	],
     "GameObjects": [
 		{
 			"ID": 1,

@@ -6,6 +6,8 @@
 #include "Setting.h"
 #include "LoadingJson.h"
 #include "App.h"
+#include "BaseComponent.h"
+
 #include <sstream>
 #include <fstream>
 #include <ranges>
@@ -39,65 +41,6 @@ const wchar_t* Scene::SceneException::What() const noexcept
     return whatBuffer.c_str();
 }
 
-Scene::BaseComponent::BaseComponent(PScene owner, bool isDisabled)
-    :
-    _owner(owner),
-    _isDisabled(isDisabled)
-{}
-
-void Scene::BaseComponent::Disable()
-{
-    if (_isDisabled)
-        return;
-    OnDisabled();
-    _isDisabled = true;
-}
-
-void Scene::BaseComponent::Enable()
-{
-    if (!_isDisabled)
-        return;
-    OnEnabled();
-    _isDisabled = false;
-}
-
-bool Scene::BaseComponent::IsDisabled()
-{
-    return _isDisabled;
-}
-
-void Scene::BaseComponent::Destroy()
-{
-    if (!_isDisabled)
-        this->Disable();
-    delete this;
-}
-
-void Scene::BaseComponent::DisableWithoutUpdate()
-{
-    _isDisabled = true;
-}
-
-void Scene::BaseComponent::EnableWithoutUpdate()
-{
-    _isDisabled = false;
-}
-
-std::shared_ptr<Scene::BaseComponent> Scene::BaseComponent::GetSharedPtr() const
-{
-    return _this.lock();
-}
-
-void Scene::BaseComponent::AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr)
-{
-    _this = shared_ptr;
-}
-
-PScene Scene::BaseComponent::GetOwner() const
-{
-    return _owner;
-}
-
 void Scene::Enable()
 {
     if (_callEnable)
@@ -118,25 +61,51 @@ void Scene::Enable()
 
 void Scene::Start()
 {
-    for (const auto& gameObj : _rootGameObjects)
+    for (const auto& gameObj : _gameObjects)
         gameObj->OnStart();
+
+    for (const auto& script : _scripts)
+        script->OnStart();
 }
 
 void Scene::Update()
 {
-    for (const auto& gameObj : _rootGameObjects)
-        gameObj->OnUpdate();
+    for (auto it = _gameObjects.begin(); it != _gameObjects.end();)
+    {
+        if ((*it)->IsDestroyed())
+        {
+            it = _gameObjects.erase(it);
+        }
+        else
+        {
+            (*it)->OnUpdate();
+            ++it;
+        }
+    }
+
+    for (auto it = _scripts.begin(); it != _scripts.end();)
+    {
+        if ((*it)->GetGameObject().expired())
+        {
+            it = _scripts.erase(it);
+        }
+        else
+        {
+            (*it)->OnUpdate();
+            ++it;
+        }
+    }
 }
 
 void Scene::FixedUpdate()
 {
-    for (const auto& gameObj : _rootGameObjects)
+    for (const auto& gameObj : _gameObjects)
         gameObj->OnFixedUpdate();
 }
 
 void Scene::End()
 {
-    for (const auto& gameObj : _rootGameObjects)
+    for (const auto& gameObj : _gameObjects)
         gameObj->OnEnd();
 }
 
@@ -156,7 +125,7 @@ void Scene::DestroyComponent(PBaseComponent component)
     component->Destroy();
 }
 
-void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type)
+void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json)
 {
     using LoadingJson::Field;
     component->AssignSharedPtr(component);
@@ -186,15 +155,17 @@ void Scene::Load()
         for (auto& script : jsonFile[Field::scriptsField])
         {
             // No need to call enable for gameObj cause it's useless and save it for in game enable/disable
-            _callEnable->push(ScriptFactory::CreateInstance(script[Field::inputsField][Field::scriptTypeField].get<std::string>(), this));
+            SScriptBase newScript;
+            newScript.reset(ScriptFactory::CreateInstance(script[Field::inputsField][Field::scriptTypeField].get<std::string>(), this));
+            _scripts.push_back(newScript);
             SBaseComponent newScript(_callEnable->top(), DestroyComponent);
-            SetUpAddComponent(newScript, script, ComponentType::script);
+            SetUpAddComponent(newScript, script);
         }
         //Load object
         for (auto& gameObj : jsonFile[Field::gameObjectsField])
         {
             SBaseComponent newObj(new GameObj(this), DestroyComponent);
-            SetUpAddComponent(newObj, gameObj, ComponentType::gameObj);
+            SetUpAddComponent(newObj, gameObj);
         }
     }
     catch (const CornException&)
@@ -270,7 +241,7 @@ SScriptBase Scene::CreateScriptBase(const std::string& scriptName)
     return newScript;
 }
 
-Scene::SBaseComponent& Scene::GetComponent(CULL& id) const
+SBaseComponent& Scene::GetComponent(CULL& id) const
 {
     if (!_tempComponentContainer)
         throw SCENE_EXCEPTION("Trying to get component using id after load");

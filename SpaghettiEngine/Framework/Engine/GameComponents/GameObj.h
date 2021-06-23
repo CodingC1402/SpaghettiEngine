@@ -3,24 +3,21 @@
 #include "CornException.h"
 #include "PhysicComponent.h"
 #include "Scene.h"
+#include "BaseComponent.h"
+#include "Transform.h"
+
 #include <memory>
 #include <list>
 #include <string>
 
-typedef class ScriptBase* PScriptBase;
-typedef std::shared_ptr<ScriptBase> SScriptBase;
-
-typedef const ScriptBase* CPScriptBase;
 typedef class PhysicScriptBase* PPhysicScriptBase;
 
-typedef class GameObj* PGameObj;
-typedef std::shared_ptr<GameObj> SGameObj;
-typedef std::unique_ptr<GameObj> UGameObj;
-typedef std::weak_ptr<GameObj> WGameObj;
+CLASS_FORWARD_DECLARATION(ScriptBase);
+CLASS_FORWARD_DECLARATION(GameObj);
 
 using std::string;
 using std::list;
-class GameObj : public Scene::BaseComponent
+class GameObj : public BaseComponent
 {
 	friend class Scene;
 	friend class PhysicComponent;
@@ -54,20 +51,13 @@ public:
 	GameObj(GameObj& obj);
 	GameObj& operator= (GameObj& obj);
 
-	[[nodiscard]] Matrix4			GetWorldMatrix();
-	[[nodiscard]] Vector3			GetWorldTransform() const;
-	[[nodiscard]] Vector3			GetWorldRotation() const;
-	[[nodiscard]] Vector3			GetWorldScale() const;
-	[[nodiscard]] Vector3			GetTransform() const;
-	[[nodiscard]] Vector3			GetRotation() const;
-	[[nodiscard]] Vector3			GetScale() const;
 	[[nodiscard]] PScriptBase		GetScript(const unsigned index) const noexcept;
 	[[nodiscard]] PScriptBase		GetScript(const std::string& name) const noexcept;
 	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
-	[[nodiscard]] PGameObj			GetParent() const;
-	[[nodiscard]] PGameObj			GetChild(unsigned index) const;
 	[[nodiscard]] string			GetTag() const;
-	[[nodiscard]] string			GetPath() const;
+	[[nodiscard]] bool				IsDestroyed() const;
+
+	void SetTag(const std::string& tag);
 
 	void AddPhysicComponent(PhysicScriptBase* script);
 	void RemovePhysicComponent(PhysicScriptBase* script);
@@ -76,24 +66,6 @@ public:
 	void SendCollideExitEvent(CollideEvent& e);
 	void SendCollideEvent(CollideEvent& e);
 	void SendCollideEnterEvent(CollideEvent& e);
-
-	void SetTag(const char* tag);
-	void SetRotation(const float& x, const float& y, const float& z);
-	void SetScale(const float& x, const float& y, const float& z);
-	void SetTransform(const float& x, const float& y, const float& z);
-	void SetRotation(const Vector3& vec3);
-	void SetScale(const Vector3& vec3);
-	void SetTransform(const Vector3& vec3);
-	void Rotate(const float& x, const float& y, const float& z);
-	void Rotate(const Vector3& rotation);
-
-	void Move(const Vector3& vector);
-	void Move(const float& x, const float& y, const float& z);
-
-	void Translate(const Vector3& vector);
-	void Translate(const float& x, const float& y, const float& z);
-
-	void ForceRecalculateMatrix();
 
 	void Load(nlohmann::json& input) override;
 	void Destroy() override;
@@ -111,68 +83,27 @@ public:
 	void OnCollideEnter(CollideEvent& e) override;
 	void OnCollideExit(CollideEvent& e) override;
 
-	void RemoveParent();
-	void AddParent(const PGameObj& gameObj);
-	void AddParentWithoutCalculateLocal(const PGameObj& gameObj);
-	void RemoveParentWithoutCalculateLocal();
-
 	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	PScriptBase AddScript(const PScriptBase& script);
 	PScriptBase AddScript(const SScriptBase& script);
 	PScriptBase AddScriptClone(const PScriptBase& script);
 
-	PGameObj	AddChild(const PGameObj& child);
-	PGameObj	AddChildClone(const PGameObj& child);
-	PGameObj	AddChild();
-
-	void RemoveChild(const PGameObj& child);
+	void ClearScripts(); //Use by scripts to call end once then pass on
 	void RemoveScript(const PScriptBase& script);
 	
 	SGameObj Clone() const;
-
-	void RecursiveClearScripts(); //Use by scripts to call end once then pass on
-	void ClearScripts(); //Use by scripts to call end once then pass on
-protected:
-	void RecursiveMarkForDelete();
-
-	void RecursiveClearScriptsWithoutCallEnd();
-	void ClearScriptsWithoutCallEnd();
-
-	void CalculateRotationMatrix();
-	void CalculateTransformMatrix();
-	void CalculateScaleMatrix();
-	void CalculateWorldMatrix();
 protected:
 	PGameObj parent = nullptr;
-	list<std::shared_ptr<BaseComponent>> _childrenPtr;
-	list<PGameObj> _children;
 
 	bool _isReadyForDelete = false;
-	
-	bool _isTransformChanged = true;
-	bool _isRotationChanged = true;
-	bool _isScaleChanged = true;
-	bool _isChanged = true;
-	
+
 	bool loaded = false;
-	string path; 
-	string tag;
-
-	Vector3 _transform;
-	Vector3 _rotation; // In degree
-	Vector3 _scale;
-
-	Matrix4 _transformMatrix;
-	Matrix4 _rotationMatrix;
-	Matrix4 _scaleMatrix;
-	Matrix4 _worldMatrix;
+	string _tag;
 
 	std::deque<PhysicScriptBase*> _physicComponents;
-
 	PhysicComponent _physic;
 
-	list<std::shared_ptr<BaseComponent>> _scriptsPtr;
-	list<PScriptBase> _scripts;
+	list<SScriptBase> _scriptsPtr;
 	static nlohmann::json defaultJson;
 };
 

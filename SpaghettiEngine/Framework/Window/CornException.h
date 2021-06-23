@@ -34,3 +34,4 @@ private:
 };
 
 #define CORN_EXCEPT_WITH_DESCRIPTION(description) CornDescriptionException(__LINE__,__FILE__,description)
+#define CORN_EXCEPTION_TYPE(type, extra) type(__LINE__,__FILE__,extra)

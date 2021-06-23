@@ -5,6 +5,7 @@
 #include "CornException.h"
 #include "GameObj.h"
 #include "Scene.h"
+#include "BaseComponent.h"
 #include <string>
 #include <unordered_map>
 
@@ -41,7 +42,7 @@ struct DerivedRegister : public ScriptFactory {
 #define TYPE_NAME(TYPE) #TYPE
 
 
-class ScriptBase : public Scene::BaseComponent
+class ScriptBase : public BaseComponent
 {
 	friend class GameObj;
 public:

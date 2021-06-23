@@ -3,6 +3,8 @@
 #include "CornException.h"
 #include "SMath.h"
 #include "CollideEvent.h"
+#include "Macros.h"
+
 #include <string>
 #include <list>
 #include <map>
@@ -10,14 +12,10 @@
 #include <json.hpp>
 #include <stack>
 
-typedef class GameObj* PGameObj;
-typedef std::shared_ptr<GameObj> SGameObj;
-
-typedef class ScriptBase* PScriptBase;
-
-typedef class Scene* PScene;
-typedef std::unique_ptr<Scene> UScene;
-typedef std::shared_ptr<Scene> SScene;
+CLASS_FORWARD_DECLARATION(GameObj);
+CLASS_FORWARD_DECLARATION(ScriptBase);
+CLASS_FORWARD_DECLARATION(Scene);
+CLASS_FORWARD_DECLARATION(BaseComponent);
 
 using namespace nlohmann;
 class Scene
@@ -35,61 +33,6 @@ public:
         std::string _description;
     };
 
-    enum class ComponentType
-    {
-        invalid = -1,
-        gameObj = 1,
-        script = 2
-    };
-    typedef class BaseComponent
-    {
-    public:
-        BaseComponent(PScene owner, bool isDisabled = false);
-
-        BaseComponent(const BaseComponent&) = delete;
-        BaseComponent(const BaseComponent&&) = delete;
-        BaseComponent& operator=(const BaseComponent&) = delete;
-        BaseComponent& operator=(const BaseComponent&&) = delete;
-
-        virtual void OnStart() {}
-        virtual void OnUpdate() {}
-        virtual void OnFixedUpdate() {}
-        virtual void OnEnd() {}
-
-        virtual void OnDisabled() {}
-        virtual void OnEnabled() {}
-
-        virtual void Disable();
-        virtual void Enable();
-
-        virtual void OnCollide(CollideEvent& e) {};
-        virtual void OnCollideEnter(CollideEvent& e) {};
-        virtual void OnCollideExit(CollideEvent& e) {};
-
-        virtual bool [[nodiscard]] IsDisabled();
-
-        virtual void Load(nlohmann::json& input) = 0;
-        virtual void Destroy();
-
-        //Don't use
-        void DisableWithoutUpdate();
-        //Don't use
-        void EnableWithoutUpdate();
-
-        /// Get the shared_ptr of the component which is owned by a scene
-        [[nodiscard]] std::shared_ptr<BaseComponent> GetSharedPtr() const;
-        void AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr);
-        [[nodiscard]] PScene GetOwner() const;
-    protected:
-        virtual ~BaseComponent() = default;
-    protected:
-        PScene _owner = nullptr;
-        bool _isDisabled = false;
-        std::weak_ptr<BaseComponent> _this;
-    } *PBaseComponent;
-    typedef std::shared_ptr<BaseComponent> SBaseComponent;
-    typedef std::weak_ptr<BaseComponent> WBaseComponent;
-
     class Entry
     {
     public:
@@ -105,6 +48,7 @@ public:
     [[nodiscard]] std::shared_ptr<ScriptBase> CreateScriptBase(const std::string& scriptName);
     [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
 
+    SGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
     static void DestroyComponent(PBaseComponent component);
 protected:
     Scene(std::string path);
@@ -114,14 +58,13 @@ protected:
 
     void Enable(); // Call after load from main thread
     void Disable(); // Call before unload from scene manager
+
     void Start();
     void Update();
     void FixedUpdate();
     void End();
 
-    SGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
-
-    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
+    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json);
     void Load();
     void LoadComponent();
     void Unload();
@@ -129,7 +72,8 @@ protected:
     std::string path;
 
     // Will update every loop
-    std::list<SBaseComponent> _rootGameObjects;
+    std::list<SGameObj> _gameObjects;
+    std::list<SScriptBase> _scripts;
     std::map<CULL, Entry>* _tempComponentContainer = nullptr;
     std::stack<PScriptBase>* _callEnable = nullptr;
 };
