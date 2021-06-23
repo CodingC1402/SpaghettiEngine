@@ -27,7 +27,7 @@ public:
 
 	void AfterPhysicUpdate();
 
-	SScriptBase Clone() const override;
+	PScriptBase Clone() const override;
 	void Load(nlohmann::json& input) override;
 protected:
 	SBody2D _body;

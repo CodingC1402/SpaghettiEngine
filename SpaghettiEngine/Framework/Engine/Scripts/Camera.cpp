@@ -82,9 +82,9 @@ void Camera::RemoveFollow()
 	_followingPtr.reset();
 }
 
-SScriptBase Camera::Clone() const
+PScriptBase Camera::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<Camera>(ScriptBase::Clone());
+	auto clone = dynamic_cast<Camera*>(ScriptBase::Clone());
 
 	clone->_dragFactor = _dragFactor;
 	clone->_followingPtr = _followingPtr;

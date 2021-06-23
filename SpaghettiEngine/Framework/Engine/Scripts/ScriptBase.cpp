@@ -77,9 +77,9 @@ Vector3 ScriptBase::GetWorldScale() const noexcept
 	return _ownerObj->GetTransform().GetWorldScale();
 }
 
-WGameObj ScriptBase::GetGameObject() const noexcept
+PGameObj ScriptBase::GetGameObject() const noexcept
 {
-	return std::dynamic_pointer_cast<GameObj>(_ownerObj->GetSharedPtr());
+	return _ownerObj;
 }
 
 PScriptBase ScriptBase::Clone() const

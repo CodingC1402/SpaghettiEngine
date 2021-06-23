@@ -65,7 +65,7 @@ public:
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
-	[[nodiscard]] WGameObj	GetGameObject() const noexcept;
+	[[nodiscard]] PGameObj	GetGameObject() const noexcept;
 
 	[[nodiscard]] virtual std::string GetType() const noexcept = 0;
 	[[nodiscard]] virtual PScriptBase Clone() const;

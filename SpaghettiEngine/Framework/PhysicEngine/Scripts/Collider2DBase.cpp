@@ -77,14 +77,14 @@ void Collider2DBase::Load(nlohmann::json& input)
 
 }
 
-SScriptBase Collider2DBase::Clone() const
+PScriptBase Collider2DBase::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<Collider2DBase>(PhysicScriptBase::Clone());
+	auto clone = dynamic_cast<Collider2DBase*>(PhysicScriptBase::Clone());
 
 	if constexpr (Setting::IsDebugMode())
 	{
 		for (const auto& lineRenderer : _lineRenderer)
-			clone->_lineRenderer.push_back(std::dynamic_pointer_cast<LineRendererBase>(lineRenderer->Clone()));
+			clone->_lineRenderer.push_back(dynamic_cast<LineRendererBase*>(lineRenderer->Clone()));
 	}
 
 	SShape clonedShape;

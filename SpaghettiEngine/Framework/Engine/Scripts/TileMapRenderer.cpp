@@ -171,9 +171,9 @@ void TileMapRenderer::Draw(PCamera camera)
 	}
 }
 
-SScriptBase TileMapRenderer::Clone() const
+PScriptBase TileMapRenderer::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<TileMapRenderer>(Render2DScriptBase::Clone());
+	auto clone = dynamic_cast<TileMapRenderer*>(Render2DScriptBase::Clone());
 
 	clone->_pixelHeight = _pixelHeight;
 	clone->_pixelWidth = _pixelWidth;

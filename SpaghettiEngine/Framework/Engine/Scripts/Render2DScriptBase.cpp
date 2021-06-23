@@ -48,9 +48,9 @@ void Render2DScriptBase::Load(nlohmann::json& inputObject)
 	ScriptBase::Load(inputObject);
 }
 
-SScriptBase Render2DScriptBase::Clone() const
+PScriptBase Render2DScriptBase::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<Render2DScriptBase>(ScriptBase::Clone());
+	auto clone = dynamic_cast<Render2DScriptBase*>(ScriptBase::Clone());
 
 	clone->_drawLayer = _drawLayer;
 

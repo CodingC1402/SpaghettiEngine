@@ -99,9 +99,9 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 	Render2DScriptBase::Load(inputObject);
 }
 
-SScriptBase SpriteRenderer::Clone() const
+PScriptBase SpriteRenderer::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<SpriteRenderer>(ScriptBase::Clone());
+	auto clone = dynamic_cast<SpriteRenderer*>(ScriptBase::Clone());
 
 	clone->transformMatrix = transformMatrix;
 	clone->sprite = sprite;

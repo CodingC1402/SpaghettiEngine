@@ -138,9 +138,9 @@ void LineRendererBase::Load(nlohmann::json& inputObject)
 		SetOffSetY(inputObject[offSetYField].get<float>());
 }
 
-SScriptBase LineRendererBase::Clone() const
+PScriptBase LineRendererBase::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<LineRendererBase>(ScriptBase::Clone());
+	auto clone = dynamic_cast<LineRendererBase*>(ScriptBase::Clone());
 
 	clone->_color = _color;
 	clone->_offSetMatrix = _offSetMatrix;
