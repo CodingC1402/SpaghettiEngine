@@ -158,7 +158,6 @@ void Scene::LoadComponent()
 
 void Scene::Unload()
 {
-    _scripts.clear();
     for (auto it = _gameObjects.begin(); it != _gameObjects.end(); ++it)
         (*it)->CallDestroy();
     EraseTrashBin();
@@ -192,12 +191,11 @@ void Scene::EraseTrashBin()
             component->SetToDeleted();
         }
 
-        _trashBin.pop_front();
-
         // Have to reset here and cannot rely on the component = _trashBin.front() line
         // Cause if we do it like that the component may not get call destroy and in turn won't call for
         // the deletion of child objects and scripts
         component.reset();
+        _trashBin.pop_front();
     }
 }
 

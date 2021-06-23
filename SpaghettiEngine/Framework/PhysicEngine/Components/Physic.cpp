@@ -131,6 +131,7 @@ void Physic::AddBody(Body2D* body)
 void Physic::RemoveBody(Body2D* body)
 {
 	ContainerUtil::Erase(_body2D, body);
+	RemoveCollidedBody(body);
 }
 
 void Physic::AddCollidedBody(Body2D* body)
