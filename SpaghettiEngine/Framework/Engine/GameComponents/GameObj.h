@@ -12,8 +12,6 @@
 #include <list>
 #include <string>
 
-typedef class PhysicScriptBase* PPhysicScriptBase;
-
 CLASS_FORWARD_DECLARATION(ScriptBase);
 CLASS_FORWARD_DECLARATION(GameObj);
 
@@ -21,6 +19,7 @@ using std::string;
 using std::list;
 class GameObj : public BaseComponent
 {
+	friend class Physic;
 	friend class Scene;
 	friend class PhysicComponent;
 	friend class ChildContainer;
@@ -86,6 +85,7 @@ protected:
 private:
 	void Destroy() override;
 	void SetContainerIterator(std::list<PGameObj>::iterator it);
+	BaseComponent::Type GetComponentType() const override;
 	std::list<PGameObj>::iterator GetContainerIterator() const;
 
 	void SetParentInternally(PGameObj obj);

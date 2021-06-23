@@ -15,7 +15,7 @@ LineRendererBase::LineRendererBase(PScene owner, bool isDisabled) : ScriptBase(o
 
 void LineRendererBase::Draw(PCamera camera)
 {
-	auto matrix = camera->GetMatrixWithoutScaleY(_ownerObj->GetWorldMatrix());
+	auto matrix = camera->GetMatrixWithoutScaleY(GetGameObject()->GetTransform().GetWorldMatrix());
 	auto transformedVectexes = _vertexes;
 	for (auto& vectex : transformedVectexes)
 		vectex = vectex * _offSetMatrix * matrix;

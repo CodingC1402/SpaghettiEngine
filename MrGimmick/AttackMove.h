@@ -11,7 +11,7 @@ public:
 	void OnUpdate() override;
 	void Load(nlohmann::json& input);
 protected:
-	SGameObj _starPrefab;
+	PGameObj _starPrefab;
 	SInput _attackKey;
 private:
 	REGISTER_START(AttackMove);

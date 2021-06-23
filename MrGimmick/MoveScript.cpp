@@ -17,7 +17,7 @@ MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
 
 void MoveScript::OnStart()
 {
-	_rigidBody = std::dynamic_pointer_cast<RigidBody2D>(_ownerObj->GetScript("RigidBody2D")->GetSharedPtr());
+	_rigidBody = dynamic_cast<RigidBody2D*>(GetGameObject()->GetScriptContainer().GetItemType(TYPE_NAME(RigidBody2D)));
 
 	up = InputSystem::GetInput("MoveUp");
 	down = InputSystem::GetInput("MoveDown");
@@ -38,7 +38,7 @@ void MoveScript::OnUpdate()
 		move.x -= 1;
 		if (!isFlipped)
 		{
-			_ownerObj->SetScale(-1, 1, 1);
+			GetGameObject()->GetTransform().SetScale(-1, 1, 1);
 			isFlipped = true;
 		}
 	}
@@ -47,25 +47,25 @@ void MoveScript::OnUpdate()
 		move.x += 1;
 		if (isFlipped)
 		{
-			_ownerObj->SetScale(1, 1, 1);
+			GetGameObject()->GetTransform().SetScale(1, 1, 1);
 			isFlipped = false;
 		}
 	}
 
 	move.x *= _speedRamUp * GameTimer::GetDeltaTime();
 
-	Vector3 velocity = _rigidBody.lock()->GetVelocity();
+	Vector3 velocity = _rigidBody->GetVelocity();
 	if (move.x * velocity.x < 0)
 		velocity.x += move.x;
 	else if (abs(velocity.x) < _speedCap)
 		velocity.x += move.x;
 	velocity.y += move.y;
-	_rigidBody.lock()->SetVelocity(velocity);
+	_rigidBody->SetVelocity(velocity);
 }
 
-SScriptBase MoveScript::Clone() const
+PScriptBase MoveScript::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<MoveScript>(ScriptBase::Clone());
+	auto clone = dynamic_cast<MoveScript*>(ScriptBase::Clone());
 
 	clone->_speedCap = _speedCap;
 	clone->_jumpStrength = _jumpStrength;
@@ -74,5 +74,5 @@ SScriptBase MoveScript::Clone() const
 	clone->move = move;
 	clone->isFlipped = isFlipped;
 
-	return SScriptBase();
+	return clone;
 }

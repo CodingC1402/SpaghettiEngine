@@ -1,9 +1,12 @@
 #pragma once
-#include "Body2D.h"
 #include <list>
+#include <deque>
+#include "Macros.h"
 
-class Collider2DBase;
-class GameObj;
+CLASS_FORWARD_DECLARATION(Body2D);
+CLASS_FORWARD_DECLARATION(PhysicScriptBase);
+CLASS_FORWARD_DECLARATION(Collider2DBase);
+CLASS_FORWARD_DECLARATION(GameObj);
 
 class PhysicComponent
 {

@@ -166,7 +166,7 @@ void Scene::EraseTrashBin()
 {
     for (const auto& component : _trashBin)
     {
-        switch (component->GetType())
+        switch (component->GetComponentType())
         {
         case BaseComponent::Type::gameObj:
             _gameObjects.erase(component->GetIterator());
@@ -211,7 +211,7 @@ void Scene::Entry::Load()
 
 PGameObj Scene::CreateGameObject(bool isDisabled)
 {
-    SGameObj newObj = std::make_shared<GameObj>(this, isDisabled, DestroyComponent);
+    SGameObj newObj(new GameObj(this, isDisabled), DestroyComponent);
 
     _gameObjects.push_back(newObj);
     auto it = --_gameObjects.end();
@@ -231,7 +231,7 @@ PScriptBase Scene::CreateScriptBase(const std::string& scriptName, bool isDisabl
     return newScript.get();
 }
 
-SBaseComponent& Scene::GetComponent(CULL& id) const
+PBaseComponent Scene::GetComponent(CULL& id) const
 {
     if (!_tempComponentContainer)
         throw SCENE_EXCEPTION("Trying to get component using id after load");
@@ -243,5 +243,5 @@ SBaseComponent& Scene::GetComponent(CULL& id) const
         os << "[ID] " << id << std::endl;
         throw SCENE_EXCEPTION(os.str());
     }
-    return tempPointer->second._component;
+    return tempPointer->second._component.get();
 }

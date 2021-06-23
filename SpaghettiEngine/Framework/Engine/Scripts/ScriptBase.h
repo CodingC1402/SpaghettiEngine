@@ -67,15 +67,18 @@ public:
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
 	[[nodiscard]] PGameObj	GetGameObject() const noexcept;
+	[[nodiscard]] bool		IsDisabled() const noexcept;
 
 	[[nodiscard]] virtual std::string GetType() const noexcept = 0;
 	[[nodiscard]] virtual PScriptBase Clone() const;
 
 	void Load(nlohmann::json& input) override;
 private:
+	[[nodiscard]] BaseComponent::Type GetComponentType() const override;
 	void Destroy() override;
 
-
+	void SetContainerIterator(std::list<PScriptBase>::iterator it);
+	std::list<PScriptBase>::iterator GetContainerIterator() const;
 private:
 	PGameObj _ownerObj = nullptr;
 	std::list<PScriptBase>::iterator _containerIterator;

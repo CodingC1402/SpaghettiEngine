@@ -38,8 +38,8 @@ void Camera::OnUpdate()
 {
 	if (_followingPtr.use_count() > 0)
 	{
-		const Vector3 delta = _followingPtr.lock()->GetWorldTransform() - _ownerObj->GetWorldTransform();
-		_ownerObj->Translate(delta * _dragFactor);
+		const Vector3 delta = _followingPtr.lock()->GetTransform().GetWorldTransform() - GetGameObject()->GetTransform().GetWorldTransform();
+		GetGameObject()->GetTransform().Translate(delta * _dragFactor);
 	}
 	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
 	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
@@ -61,7 +61,8 @@ void Camera::Load(json& input)
 	using LoadingJson::Field;
 	if (!input[LoadingJson::Field::gameObjectsField].empty())
 	{
-		_followingPtr = std::dynamic_pointer_cast<GameObj>(_owner->GetComponent(input[LoadingJson::Field::gameObjectsField][0][Field::idField]));
+		auto gameObj = dynamic_cast<PGameObj>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0][Field::idField]));
+		_followingPtr = std::dynamic_pointer_cast<GameObj>(gameObj->GetSharedPtr());
 	}
 }
 

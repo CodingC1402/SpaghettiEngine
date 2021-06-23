@@ -1,5 +1,6 @@
 #include "GameObj.h"
 #include "ScriptBase.h"
+#include "Body2D.h"
 
 // Normal Event
 void GameObj::OnStart()
@@ -135,7 +136,7 @@ void GameObj::OnCollide(CollideEvent& e)
 
 void GameObj::OnCollideEnter(CollideEvent& e)
 {
-	if (IsDisabled)
+	if (IsDisabled())
 		return;
 
 	auto scriptsContainer = _scripts.GetContainer();
@@ -154,7 +155,7 @@ void GameObj::OnCollideEnter(CollideEvent& e)
 
 void GameObj::OnCollideExit(CollideEvent& e)
 {
-	if (IsDisabled)
+	if (IsDisabled())
 		return;
 
 	auto scriptsContainer = _scripts.GetContainer();

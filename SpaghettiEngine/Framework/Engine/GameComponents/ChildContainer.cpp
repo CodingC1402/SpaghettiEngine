@@ -63,12 +63,12 @@ void ChildContainer::AddItem(PGameObj child)
 	else if (child->GetOwner())
 		child->GetOwner()->RemoveFromRoot(child);
 
-	// Disability and then call event accordingly
 	_owner->GetTransform().AddChild(&child->GetTransform());
-	child->SetParentInternally(child);
 
 	Corntainer::AddItem(child);
 	child->SetContainerIterator(--_container.end());
+
+	child->SetParentInternally(child);
 }
 
 void ChildContainer::RemoveAllItem()
@@ -83,18 +83,12 @@ void ChildContainer::RemoveAllItem()
 
 void ChildContainer::RemoveItem(PGameObj object)
 {
-	if (!object)
+	if (!object || object->GetParent() != _owner)
 		return;
 
-	for (auto it = _container.begin(); it != _container.end(); ++it)
-	{
-		if ((*it) == object)
-		{
-			RemoveChild(object);
-			_container.erase(it);
-			return;
-		}
-	}
+	RemoveChild(object);
+	_container.erase(object->GetContainerIterator());
+	return;
 }
 
 void ChildContainer::RemoveItemsWithName(const std::string& name)
@@ -129,6 +123,7 @@ void ChildContainer::RemoveChild(PGameObj object)
 {
 	bool childBefore = object->IsDisabled();
 	RemoveChildWithoutEvent(object);
+	object->_parent = nullptr;
 	if (childBefore && !object->IsDisabled())
 		object->OnEnabled();
 
@@ -139,5 +134,4 @@ void ChildContainer::RemoveChild(PGameObj object)
 void ChildContainer::RemoveChildWithoutEvent(PGameObj object)
 {
 	_owner->GetTransform().RemoveChild(&object->GetTransform());
-	object->_parent = nullptr;
 }

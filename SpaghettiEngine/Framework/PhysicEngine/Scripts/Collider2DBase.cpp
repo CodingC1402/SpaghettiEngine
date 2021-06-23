@@ -81,7 +81,7 @@ bool Collider2DBase::CallDestroy()
 {
 	auto destroy = ScriptBase::CallDestroy();
 	if (!destroy)
-		return;
+		return false;
 
 	for (auto it = _lineRenderer.begin(); it != _lineRenderer.end(); ++it)
 		(*it)->CallDestroy();

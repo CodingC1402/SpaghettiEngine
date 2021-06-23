@@ -128,7 +128,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp" />
-    <ClCompile Include="Framework\Engine\GameComponents\GameObjScriptOwner.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />

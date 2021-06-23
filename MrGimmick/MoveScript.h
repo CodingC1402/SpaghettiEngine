@@ -12,7 +12,7 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 
-	SScriptBase Clone() const override;
+	PScriptBase Clone() const override;
 protected:
 	SInput up;
 	SInput down;
@@ -23,7 +23,7 @@ protected:
 	float _jumpStrength = 200;
 	float _speedRamUp = 700;
 
-	WRigidBody2D _rigidBody;
+	RigidBody2D* _rigidBody;
 
 	Vector3 move;
 	bool isFlipped = false;

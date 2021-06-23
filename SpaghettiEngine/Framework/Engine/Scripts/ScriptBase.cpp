@@ -47,15 +47,16 @@ ScriptBase::ScriptBase(PScene owner, bool isDisabled)
 
 void ScriptBase::SetGameObject(const PGameObj& owner)
 {
-	if (!_ownerObj)
-		_ownerObj->GetScriptContainer().RemoveItem(this);
+	if (!owner && !_ownerObj)
+		return;
 
 	if (owner)
 		owner->GetScriptContainer().AddItem(this);
+	else
+		_ownerObj->GetScriptContainer().RemoveItem(this);
 
-	_ownerObj = owner;
-	if (!_ownerObj)
-		this->CallDestroy();
+	if (!(_ownerObj || this->IsDisabled()))
+		this->Disable();
 }
 
 Matrix4 ScriptBase::GetWorldMatrix() const noexcept
@@ -82,6 +83,11 @@ PGameObj ScriptBase::GetGameObject() const noexcept
 	return _ownerObj;
 }
 
+bool ScriptBase::IsDisabled() const noexcept
+{
+	return BaseComponent::IsDisabled() || (GetGameObject() && GetGameObject()->IsDisabled());
+}
+
 PScriptBase ScriptBase::Clone() const
 {
 	auto cloneScript = GetOwner()->CreateScriptBase(GetType(), false);
@@ -94,10 +100,25 @@ void ScriptBase::Load(nlohmann::json& input)
 		throw CORN_EXCEPT_WITH_DESCRIPTION(L"You can't have a script without an owner");
 }
 
+BaseComponent::Type ScriptBase::GetComponentType() const
+{
+	return BaseComponent::Type::script;
+}
+
 void ScriptBase::Destroy()
 {
 	if (_ownerObj)
 		_ownerObj->GetScriptContainer().RemoveItem(this);
 
 	BaseComponent::Destroy();
+}
+
+void ScriptBase::SetContainerIterator(std::list<PScriptBase>::iterator it)
+{
+	_containerIterator = it;
+}
+
+std::list<PScriptBase>::iterator ScriptBase::GetContainerIterator() const
+{
+	return _containerIterator;
 }

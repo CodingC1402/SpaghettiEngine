@@ -535,9 +535,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\GameObjScriptOwner.cpp">
-      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\BaseComponent.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>

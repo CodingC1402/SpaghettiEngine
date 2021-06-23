@@ -51,17 +51,21 @@ void GameObj::SetContainerIterator(std::list<PGameObj>::iterator it)
 {
 	_containerIterator = it;
 }
+BaseComponent::Type GameObj::GetComponentType() const
+{
+	return BaseComponent::Type::gameObj;
+}
 void GameObj::SetParent(PGameObj parent)
 {
 	if (!parent && !_parent)
 		return;
 
-	if (!_parent)
+	// if parent is null then that mean that you have to become root, let the parent do that
+	// if your current parent is null then and the new parent null then it will return already.
+	if (parent)
+		parent->GetChildContainer().AddItem(this);
+	else
 		_parent->GetChildContainer().RemoveItem(this);
-	_parent = parent;
-
-	if (_parent)
-		_parent->GetChildContainer().AddItem(this);
 }
 void GameObj::SetName(const std::string& name)
 {
@@ -184,13 +188,13 @@ void GameObj::Load(nlohmann::json& input)
 			fieldTracker = Field::gameObjectsField;
 
 		for (const auto& child : input[Field::gameObjectsField])
-			dynamic_cast<PGameObj>(GetOwner()->GetComponent(child[Field::idField].get<CULL>()).get())->SetParent(this);
+			dynamic_cast<PGameObj>(GetOwner()->GetComponent(child[Field::idField].get<CULL>()))->SetParent(this);
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::scriptsField;
 
 		for (const auto& script : input[Field::scriptsField])
-			dynamic_cast<ScriptBase*>(GetOwner()->GetComponent(script[Field::idField].get<CULL>()).get())->SetGameObject(this);
+			dynamic_cast<ScriptBase*>(GetOwner()->GetComponent(script[Field::idField].get<CULL>()))->SetGameObject(this);
 	}
 	catch (const CornException&)
 	{

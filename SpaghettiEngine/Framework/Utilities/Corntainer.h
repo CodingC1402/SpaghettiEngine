@@ -1,4 +1,4 @@
-#pragma once;
+#pragma once
 
 #include <list>
 #include <string>
@@ -19,7 +19,7 @@ public:
 protected:
 	std::list<T>& GetContainer() const;
 protected:
-	std::list<T> _container;
+	mutable std::list<T> _container;
 };
 
 template<typename T>

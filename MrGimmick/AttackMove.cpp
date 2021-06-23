@@ -15,11 +15,11 @@ void AttackMove::OnUpdate()
 {
 	if (_attackKey->Check())
 	{
-		_owner->Instantiate(_starPrefab.get(), GetWorldTransform());
+		GetOwner()->Instantiate(_starPrefab, GetWorldTransform());
 	}
 }
 
 void AttackMove::Load(nlohmann::json& input)
 {
-	_starPrefab = std::dynamic_pointer_cast<GameObj>(_owner->GetComponent(input["GameObjects"][0]["ID"].get<CULL>()));
+	_starPrefab = dynamic_cast<GameObj*>(GetOwner()->GetComponent(input["GameObjects"][0]["ID"].get<CULL>()));
 }

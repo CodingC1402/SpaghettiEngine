@@ -50,7 +50,7 @@ public:
     // Create script and tell smart pointer what to use
     [[nodiscard]] PScriptBase CreateScriptBase(const std::string& scriptName, bool isDisabled);
 
-    [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
+    [[nodiscard]] PBaseComponent GetComponent(CULL& id) const;
 
     PGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
 
