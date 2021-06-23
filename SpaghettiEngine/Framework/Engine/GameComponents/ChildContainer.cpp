@@ -8,16 +8,6 @@ ChildContainer::ChildContainer(PGameObj owner)
 	_owner = owner;
 }
 
-PGameObj& ChildContainer::operator[](unsigned index)
-{
-	return _container[index];
-}
-
-unsigned ChildContainer::GetSize()
-{
-	return _container.size();
-}
-
 PGameObj ChildContainer::GetItem(const std::string& name)
 {
 	for (const auto& object : _container)
@@ -52,19 +42,50 @@ std::deque<PGameObj> ChildContainer::GetAllItemsWithTag(const std::string& tag)
 	return rValues;
 }
 
+SGameObj ChildContainer::AddItemClone(PGameObj child)
+{
+	SGameObj clone = child->Clone();
+	AddItem(clone.get());
+	return clone;
+}
+
 void ChildContainer::AddItem(PGameObj child)
 {
+	if (!child)
+		return;
 
+	if (child->GetParent())
+		child->GetParent()->GetChildContainer().RemoveItem(child);
+
+	child->_parent = _owner;
+	_owner->GetTransform().AddChild(&child->GetTransform());
+	Corntainer::AddItem(child);
 }
 
 void ChildContainer::RemoveAllItem()
 {
-	Corntainer::RemoveAllItem();
+	auto it = _container.begin();
+	while (!_container.empty())
+	{
+		RemoveChild(*it);
+		it = _container.erase(it);
+	}
 }
 
 void ChildContainer::RemoveItem(PGameObj object)
 {
-	Corntainer::RemoveItem(object);
+	if (!object)
+		return;
+
+	for (auto it = _container.begin(); it != _container.end(); ++it)
+	{
+		if ((*it) == object)
+		{
+			RemoveChild(object);
+			_container.erase(it);
+			return;
+		}
+	}
 }
 
 void ChildContainer::RemoveItemsWithName(const std::string& name)
@@ -87,4 +108,10 @@ void ChildContainer::RemoveItemsWithTag(const std::string& tag)
 		else
 			++it;
 	}
+}
+
+void ChildContainer::RemoveChild(PGameObj object)
+{
+	_owner->GetTransform().RemoveChild(&object->GetTransform());
+	object->_parent = nullptr;
 }

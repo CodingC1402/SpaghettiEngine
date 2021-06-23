@@ -1,10 +1,10 @@
 #include "BaseComponent.h"
 
 BaseComponent::BaseComponent(PScene owner, bool isDisabled)
-    :
-    _owner(owner),
-    _isDisabled(isDisabled)
-{}
+{
+    _owner = owner;
+    _isDisabled = isDisabled;
+}
 
 void BaseComponent::Disable()
 {
@@ -50,6 +50,11 @@ void BaseComponent::Destroy()
 void BaseComponent::SetName(const std::string& name)
 {
     _name = name;
+}
+
+std::string BaseComponent::GetName()
+{
+    return _name;
 }
 
 std::list<SBaseComponent>::iterator BaseComponent::GetIterator() const

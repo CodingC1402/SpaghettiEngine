@@ -22,6 +22,7 @@ class GameObj : public BaseComponent
 {
 	friend class Scene;
 	friend class PhysicComponent;
+	friend class ChildContainer;
 public:
 	class GameObjectFormatException : public CornException
 	{
@@ -57,6 +58,7 @@ public:
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetName() const;
 	[[nodiscard]] ChildContainer&	GetChildContainer();
+	[[nodiscard]] PGameObj			GetParent();
 
 	[[nodiscard]] Transform&		GetTransform();
 	[[nodiscard]] PhysicComponent&	GetPhysicComponent();
@@ -79,13 +81,6 @@ public:
 	void OnCollide(CollideEvent& e) override;
 	void OnCollideEnter(CollideEvent& e) override;
 	void OnCollideExit(CollideEvent& e) override;
-
-	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
-	PScriptBase AddScript(const PScriptBase& script);
-	PScriptBase AddScriptClone(const PScriptBase& script);
-
-	void ClearScripts(); //Use by scripts to call end once then pass on
-	void RemoveScript(const PScriptBase& script);
 	
 	SGameObj Clone() const;
 protected:

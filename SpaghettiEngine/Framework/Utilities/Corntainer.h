@@ -9,7 +9,8 @@ class Corntainer
 {
 public:
 	T& operator[](unsigned index);
-	std::deque<T> GetAllItem();
+	[[nodiscard]] std::deque<T> GetAllItem();
+	[[nodiscard]] unsigned		GetSize();
 
 	virtual void AddItem(T item);
 
@@ -29,6 +30,12 @@ template<typename T>
 inline std::deque<T> Corntainer<T>::GetAllItem()
 {
 	return _container;
+}
+
+template<typename T>
+inline unsigned Corntainer<T>::GetSize()
+{
+	return _container.size();
 }
 
 template<typename T>

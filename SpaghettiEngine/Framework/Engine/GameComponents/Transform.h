@@ -11,6 +11,7 @@ CLASS_FORWARD_DECLARATION(Transform);
 
 class Transform
 {
+	friend class ChildContainer;
 public:
 	class TransformException : public CornException
 	{
@@ -35,10 +36,6 @@ public:
 #pragma endregion
 
 #pragma region Setters
-	void SetParent(PTransform parent);
-	void AddChild(PTransform child);
-	void RemoveChild(PTransform child);
-
 	void SetRotation(const float& x, const float& y, const float& z);
 	void SetScale(const float& x, const float& y, const float& z);
 	void SetTransform(const float& x, const float& y, const float& z);
@@ -55,6 +52,10 @@ public:
 	void Translate(const float& x, const float& y, const float& z);
 #pragma endregion
 protected:
+	void SetParent(PTransform parent);
+	void AddChild(PTransform child);
+	void RemoveChild(PTransform child);
+
 	void ForceRecalculateMatrix();
 
 	void CalculateRotationMatrix();

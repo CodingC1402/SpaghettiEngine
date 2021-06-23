@@ -23,6 +23,9 @@ public:
     BaseComponent& operator=(const BaseComponent&) = delete;
     BaseComponent& operator=(const BaseComponent&&) = delete;
 
+    void SetName(const std::string& name);
+    [[nodiscard]] std::string GetName();
+
 #pragma region Events
     virtual void OnStart() {}
     virtual void OnUpdate() {}
@@ -51,14 +54,14 @@ public:
     void AssignPtr(std::list<SBaseComponent>::iterator iterator);
 
     [[nodiscard]] PScene GetOwner() const;
+
 protected:
-    virtual ~BaseComponent() = default;
+
     virtual void Destroy();
+    virtual ~BaseComponent() = default;
 private: // Can only be used by scene
     std::list<SBaseComponent>::iterator GetIterator() const;
-
-    void SetName(const std::string& name);
-protected:
+private:
     PScene _owner = nullptr;
     bool _isDisabled = false;
 

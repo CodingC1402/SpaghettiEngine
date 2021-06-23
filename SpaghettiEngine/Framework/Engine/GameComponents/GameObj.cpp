@@ -74,6 +74,10 @@ ChildContainer& GameObj::GetChildContainer()
 {
 	return _children;
 }
+PGameObj GameObj::GetParent()
+{
+	return _parent;
+}
 Transform& GameObj::GetTransform()
 {
 	return _transform;

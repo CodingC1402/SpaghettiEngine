@@ -59,7 +59,7 @@ public:
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
 
-	virtual void AssignOwner(const PGameObj& owner);
+	void SetGameObject(PGameObj owner);
 	
 	[[nodiscard]] Matrix4	GetWorldMatrix() const noexcept;
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
@@ -73,7 +73,7 @@ public:
 	void Load(nlohmann::json& input) override;
 private:
 	void Destroy() override;
-protected:
+private:
 	PGameObj _ownerObj = nullptr;
 };
 

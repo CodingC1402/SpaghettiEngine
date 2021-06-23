@@ -45,15 +45,17 @@ ScriptBase::ScriptBase(PScene owner, bool isDisabled)
 	BaseComponent(owner, isDisabled)
 {}
 
-void ScriptBase::AssignOwner(const PGameObj& owner)
+void ScriptBase::SetGameObject(PGameObj owner)
 {
-	if (_ownerObj == owner)
-		return;
-
-	if (_ownerObj)
+	if (!_ownerObj)
 		_ownerObj->RemoveScript(this);
+
+	if (owner)
+		owner->AddScript(this);
+
 	_ownerObj = owner;
-	_ownerObj->AddScript(this);
+	if (!_ownerObj)
+		this->CallDestroy();
 }
 
 Matrix4 ScriptBase::GetWorldMatrix() const noexcept
