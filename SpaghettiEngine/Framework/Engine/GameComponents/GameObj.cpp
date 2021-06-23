@@ -146,32 +146,6 @@ GameObj::GameObj(PScene owner, bool isDisabled)
 	BaseComponent(owner, isDisabled)
 {}
 
-GameObj::GameObj(GameObj & obj)
-	:
-	_physic(this),
-	_children(this),
-	_scripts(this),
-	BaseComponent(obj.GetOwner(), obj.IsDisabled())
-{
-	*this = obj;
-}
-
-GameObj& GameObj::operator=(GameObj& obj)
-{
-	if (obj.IsDisabled())
-		Disable();
-	else
-		Enable();
-
-	auto cloneObj = std::dynamic_pointer_cast<GameObj>(obj.Clone());
-	auto cloneObjPtr = cloneObj.get();
-
-	_scripts = cloneObjPtr->_scripts;
-	_children = cloneObjPtr->_children;
-
-	return *this;
-}
-
 #pragma endregion 
 void GameObj::Load(nlohmann::json& input)
 {

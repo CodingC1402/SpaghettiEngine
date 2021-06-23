@@ -45,10 +45,6 @@ void Scene::Start()
 {
     for (const auto& gameObj : _gameObjects)
         gameObj->OnStart();
-
-    for (const auto& gameObj : _gameObjects)
-        if (!gameObj->IsDisabled())
-            gameObj->OnEnabled();
 }
 
 void Scene::Update()
@@ -66,12 +62,6 @@ void Scene::FixedUpdate()
 {
     for (const auto& gameObj : _gameObjects)
         gameObj->OnFixedUpdate();
-}
-
-void Scene::End()
-{
-    for (const auto& gameObj : _gameObjects)
-        gameObj->OnEnd();
 }
 
 PGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)

@@ -45,7 +45,7 @@ ScriptBase::ScriptBase(PScene owner, bool isDisabled)
 	BaseComponent(owner, isDisabled)
 {}
 
-void ScriptBase::SetGameObject(PGameObj owner)
+void ScriptBase::SetGameObject(const PGameObj& owner)
 {
 	if (!_ownerObj)
 		_ownerObj->GetScriptContainer().RemoveItem(this);

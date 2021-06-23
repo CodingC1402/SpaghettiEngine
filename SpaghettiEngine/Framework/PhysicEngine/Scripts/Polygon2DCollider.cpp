@@ -53,7 +53,7 @@ void Polygon2DCollider::Load(nlohmann::json& input)
 
 		if constexpr (Setting::IsDebugMode())
 		{
-			_lineRenderer.emplace_back(new LineRendererBase(_owner));
+			_lineRenderer.emplace_back(GetOwner()->CreateScriptBase(TYPE_NAME(LineRendererBase), false));
 			_lineRenderer.back()->SetVertexes(polyVertexes);
 		}
 		polyVertexes.clear();

@@ -16,7 +16,7 @@ public:
 	[[nodiscard]] std::list<PGameObj>	GetAllItemsWithName(const std::string& name);
 	[[nodiscard]] std::list<PGameObj>	GetAllItemsWithTag(const std::string& tag);
 
-	SGameObj	AddItemClone(PGameObj child);
+	PGameObj	AddItemClone(PGameObj child);
 	void		AddItem(PGameObj child) override;
 	
 	void RemoveAllItem() override; 

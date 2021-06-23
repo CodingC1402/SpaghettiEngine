@@ -12,7 +12,7 @@ void Collider2DBase::OnEnabled()
 {
 	PhysicScriptBase::OnEnabled();
 
-	PhysicComponent* physic = &_ownerObj->GetPhysicComponent();
+	PhysicComponent* physic = &GetGameObject()->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
 	for (auto& shape : _shapes)
@@ -27,7 +27,7 @@ void Collider2DBase::OnDisabled()
 {
 	PhysicScriptBase::OnDisabled();
 
-	_ownerObj->GetPhysicComponent().UnSubscribeTo2D(this);
+	GetGameObject()->GetPhysicComponent().UnSubscribeTo2D(this);
 	for (auto& shape : _shapes)
 		Physic::RemoveShape(shape.get());
 
@@ -38,13 +38,13 @@ void Collider2DBase::OnDisabled()
 
 void Collider2DBase::OnChange()
 {
-	ChangeBody(_ownerObj->GetPhysicComponent().GetBody2D());
+	ChangeBody(GetGameObject()->GetPhysicComponent().GetBody2D());
 }
 
-void Collider2DBase::AssignOwner(const PGameObj& gameObj)
+void Collider2DBase::SetGameObject(const PGameObj& gameObj)
 {
-	PhysicScriptBase::AssignOwner(gameObj);
-	if constexpr(Setting::IsDebugMode())
+	PhysicScriptBase::SetGameObject(gameObj);
+	if constexpr (Setting::IsDebugMode())
 		SetLineRendererOwner();
 }
 
@@ -77,6 +77,18 @@ void Collider2DBase::Load(nlohmann::json& input)
 
 }
 
+bool Collider2DBase::CallDestroy()
+{
+	auto destroy = ScriptBase::CallDestroy();
+	if (!destroy)
+		return;
+
+	for (auto it = _lineRenderer.begin(); it != _lineRenderer.end(); ++it)
+		(*it)->CallDestroy();
+	_lineRenderer.clear();
+	return true;
+}
+
 PScriptBase Collider2DBase::Clone() const
 {
 	auto clone = dynamic_cast<Collider2DBase*>(PhysicScriptBase::Clone());
@@ -105,7 +117,7 @@ Collider2DBase::~Collider2DBase()
 void Collider2DBase::SetLineRendererOwner()
 {
 	for (auto& linerender : _lineRenderer)
-		linerender->AssignOwner(_ownerObj);
+		linerender->SetGameObject(GetGameObject());
 }
 
 void Collider2DBase::ChangeBody(WBody2D body)

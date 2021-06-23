@@ -46,7 +46,7 @@ public:
     virtual bool [[nodiscard]] IsDisabled() const;
     virtual void Load(nlohmann::json& input) = 0;
 
-    bool CallDestroy();
+    virtual bool CallDestroy();
     virtual Type GetType() = 0;
 
     /// Get the shared_ptr of the component which is owned by a scene

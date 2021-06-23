@@ -18,7 +18,7 @@ public:
 	// Return all the script of the same style
 	[[nodiscard]] std::list<PScriptBase>	GetAllItemsType(const std::string& type);
 
-	SScriptBase	AddItemClone(PScriptBase script);
+	PScriptBase	AddItemClone(PScriptBase script);
 	void		AddItem(PScriptBase script) override;
 
 	void RemoveAllItem() override;

@@ -45,6 +45,7 @@ struct DerivedRegister : public ScriptFactory {
 class ScriptBase : public BaseComponent
 {
 	friend class GameObj;
+	friend class ScriptContainer;
 public:
 	class ScriptException : public CornException
 	{
@@ -59,7 +60,7 @@ public:
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
 
-	void SetGameObject(PGameObj owner);
+	virtual void SetGameObject(const PGameObj& owner);
 	
 	[[nodiscard]] Matrix4	GetWorldMatrix() const noexcept;
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
@@ -73,6 +74,8 @@ public:
 	void Load(nlohmann::json& input) override;
 private:
 	void Destroy() override;
+
+
 private:
 	PGameObj _ownerObj = nullptr;
 	std::list<PScriptBase>::iterator _containerIterator;

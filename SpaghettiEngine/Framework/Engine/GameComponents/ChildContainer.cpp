@@ -40,10 +40,10 @@ std::list<PGameObj> ChildContainer::GetAllItemsWithTag(const std::string& tag)
 	return rValues;
 }
 
-SGameObj ChildContainer::AddItemClone(PGameObj child)
+PGameObj ChildContainer::AddItemClone(PGameObj child)
 {
-	SGameObj clone = child->Clone();
-	AddItem(clone.get());
+	PGameObj clone = child->Clone();
+	AddItem(clone);
 	return clone;
 }
 

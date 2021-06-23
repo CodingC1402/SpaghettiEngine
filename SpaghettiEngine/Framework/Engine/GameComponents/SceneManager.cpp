@@ -110,7 +110,6 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 
 	try
 	{
-		current->End();
 		current->Unload();
 		toLoad->Load();
 

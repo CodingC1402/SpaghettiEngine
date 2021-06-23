@@ -16,9 +16,10 @@ public:
 	void OnDisabled() override;
 	void OnChange();
 
-	void AssignOwner(const PGameObj& gameObj) override;
+	void SetGameObject(const PGameObj& gameObj) override;
 
 	void Load(nlohmann::json& input) override;
+	bool CallDestroy() override;
 
 	PScriptBase Clone() const override;
 	~Collider2DBase();

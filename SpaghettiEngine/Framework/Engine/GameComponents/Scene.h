@@ -68,7 +68,6 @@ protected:
     void Start();
     void Update();
     void FixedUpdate();
-    void End();
 
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json);
 

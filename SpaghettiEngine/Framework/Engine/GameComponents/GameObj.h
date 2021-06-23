@@ -50,8 +50,6 @@ public:
 	};
 public:
 	GameObj(PScene owner, bool isDisabled = false);
-	GameObj(GameObj& obj);
-	GameObj& operator= (GameObj& obj);
 
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetName() const;
