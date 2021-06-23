@@ -1,5 +1,4 @@
 #include "LoadingJson.h"
-#include "Scene.h"
 #include "CornException.h"
 #include "Prefabs.h"
 
@@ -8,9 +7,9 @@ std::list<std::string> LoadingJson::Field::_refFields{
     scriptsField
 };
 
-std::unordered_map<std::string, Scene::ComponentType> LoadingJson::ID::_typeDict{
-    {"GameObject", Scene::ComponentType::gameObj},
-    {"Script", Scene::ComponentType::script}
+std::unordered_map<std::string, BaseComponent::Type> LoadingJson::ID::_typeDict{
+    {"GameObject", BaseComponent::Type::gameObj},
+    {"Script", BaseComponent::Type::script}
 };
 
 bool LoadingJson::Field::IsRefField(const std::string& field)
@@ -22,7 +21,7 @@ bool LoadingJson::Field::IsRefField(const std::string& field)
 }
 
 #pragma region Convert IDs
-void LoadingJson::ID::ConvertRefFieldIDs(nlohmann::json& refField, Scene::ComponentType type, std::vector<SPrefabHierarchy>& listOfHierarchy, const unsigned& defaultID)
+void LoadingJson::ID::ConvertRefFieldIDs(nlohmann::json& refField, BaseComponent::Type type, std::vector<SPrefabHierarchy>& listOfHierarchy, const unsigned& defaultID)
 {
     if (refField.empty())
         return;
@@ -53,7 +52,7 @@ void LoadingJson::ID::ConvertRefFieldIDs(nlohmann::json& refField, Scene::Compon
     }
 }
 
-void LoadingJson::ID::ConvertComponentIDs(nlohmann::json& component, Scene::ComponentType type, std::vector<SPrefabHierarchy>& listOfHierarchy)
+void LoadingJson::ID::ConvertComponentIDs(nlohmann::json& component, BaseComponent::Type type, std::vector<SPrefabHierarchy>& listOfHierarchy)
 {
     const unsigned prefabID = component[Field::prefabIdField].get<unsigned>();
 
@@ -62,8 +61,8 @@ void LoadingJson::ID::ConvertComponentIDs(nlohmann::json& component, Scene::Comp
         type,
         prefabID);
 
-    ConvertRefFieldIDs(component[Field::inputsField][Field::gameObjectsField], Scene::ComponentType::gameObj, listOfHierarchy, prefabID);
-    ConvertRefFieldIDs(component[Field::inputsField][Field::scriptsField], Scene::ComponentType::script, listOfHierarchy, prefabID);
+    ConvertRefFieldIDs(component[Field::inputsField][Field::gameObjectsField], BaseComponent::Type::gameObj, listOfHierarchy, prefabID);
+    ConvertRefFieldIDs(component[Field::inputsField][Field::scriptsField], BaseComponent::Type::script, listOfHierarchy, prefabID);
 }
 
 void LoadingJson::ID::ConvertIDInJson(nlohmann::json& out, SPrefabHierarchy hierarchy)
@@ -73,9 +72,9 @@ void LoadingJson::ID::ConvertIDInJson(nlohmann::json& out, SPrefabHierarchy hier
         std::vector<SPrefabHierarchy> listHierarchy;
         PrefabHierarchy::ConstructVectorOfHierarchy(listHierarchy, hierarchy);
         for (auto & gameObj : out[Field::gameObjectsField])
-            ConvertComponentIDs(gameObj, Scene::ComponentType::gameObj, listHierarchy);
+            ConvertComponentIDs(gameObj, BaseComponent::Type::gameObj, listHierarchy);
         for (auto& script : out[Field::scriptsField])
-            ConvertComponentIDs(script, Scene::ComponentType::script, listHierarchy);
+            ConvertComponentIDs(script, BaseComponent::Type::script, listHierarchy);
     }
     catch (const std::exception& e)
     {
@@ -90,10 +89,10 @@ void LoadingJson::ID::ConvertIDInJson(nlohmann::json& out, SPrefabHierarchy hier
 }
 #pragma endregion
 
-Scene::ComponentType LoadingJson::ID::ConvertStrToType(const std::string& str)
+BaseComponent::Type LoadingJson::ID::ConvertStrToType(const std::string& str)
 {
     const auto rValue = _typeDict.find(str);
     if (rValue == _typeDict.end())
-        return Scene::ComponentType::invalid;
+        return BaseComponent::Type::invalid;
     return rValue->second;
 }

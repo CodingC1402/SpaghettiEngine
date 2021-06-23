@@ -10,7 +10,7 @@ public:
 	virtual void Load(nlohmann::json& inputObject) override;
 	virtual void Draw(PCamera camera) override;
 
-	SScriptBase Clone() const override;
+	PScriptBase Clone() const override;
 protected:
 	SAnimation _ani;
 	SSprite _sprite;

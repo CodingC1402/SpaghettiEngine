@@ -3,6 +3,8 @@
 #include "CornException.h"
 #include "SMath.h"
 #include "CollideEvent.h"
+#include "Macros.h"
+
 #include <string>
 #include <list>
 #include <map>
@@ -10,20 +12,18 @@
 #include <json.hpp>
 #include <stack>
 
-typedef class GameObj* PGameObj;
-typedef std::shared_ptr<GameObj> SGameObj;
-
-typedef class ScriptBase* PScriptBase;
-
-typedef class Scene* PScene;
-typedef std::unique_ptr<Scene> UScene;
-typedef std::shared_ptr<Scene> SScene;
+CLASS_FORWARD_DECLARATION(GameObj);
+CLASS_FORWARD_DECLARATION(ScriptBase);
+CLASS_FORWARD_DECLARATION(Scene);
+CLASS_FORWARD_DECLARATION(BaseComponent);
 
 using namespace nlohmann;
 class Scene
 {
+    friend class BaseComponent;
     friend class GameObj;
     friend class SceneManager;
+    friend class ChildContainer;
 public:
     class SceneException : public CornException
     {
@@ -35,61 +35,6 @@ public:
         std::string _description;
     };
 
-    enum class ComponentType
-    {
-        invalid = -1,
-        gameObj = 1,
-        script = 2
-    };
-    typedef class BaseComponent
-    {
-    public:
-        BaseComponent(PScene owner, bool isDisabled = false);
-
-        BaseComponent(const BaseComponent&) = delete;
-        BaseComponent(const BaseComponent&&) = delete;
-        BaseComponent& operator=(const BaseComponent&) = delete;
-        BaseComponent& operator=(const BaseComponent&&) = delete;
-
-        virtual void OnStart() {}
-        virtual void OnUpdate() {}
-        virtual void OnFixedUpdate() {}
-        virtual void OnEnd() {}
-
-        virtual void OnDisabled() {}
-        virtual void OnEnabled() {}
-
-        virtual void Disable();
-        virtual void Enable();
-
-        virtual void OnCollide(CollideEvent& e) {};
-        virtual void OnCollideEnter(CollideEvent& e) {};
-        virtual void OnCollideExit(CollideEvent& e) {};
-
-        virtual bool [[nodiscard]] IsDisabled();
-
-        virtual void Load(nlohmann::json& input) = 0;
-        virtual void Destroy();
-
-        //Don't use
-        void DisableWithoutUpdate();
-        //Don't use
-        void EnableWithoutUpdate();
-
-        /// Get the shared_ptr of the component which is owned by a scene
-        [[nodiscard]] std::shared_ptr<BaseComponent> GetSharedPtr() const;
-        void AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr);
-        [[nodiscard]] PScene GetOwner() const;
-    protected:
-        virtual ~BaseComponent() = default;
-    protected:
-        PScene _owner = nullptr;
-        bool _isDisabled = false;
-        std::weak_ptr<BaseComponent> _this;
-    } *PBaseComponent;
-    typedef std::shared_ptr<BaseComponent> SBaseComponent;
-    typedef std::weak_ptr<BaseComponent> WBaseComponent;
-
     class Entry
     {
     public:
@@ -100,36 +45,47 @@ public:
         json _loadJson;
     };
 public:
-    // Only work in load
-    [[nodiscard]] SGameObj CreateGameObject();
-    [[nodiscard]] std::shared_ptr<ScriptBase> CreateScriptBase(const std::string& scriptName);
-    [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
+    // Create game object and tell smart pointer what to use
+    [[nodiscard]] PGameObj CreateGameObject(bool isDisabled);
+    // Create script and tell smart pointer what to use
+    [[nodiscard]] PScriptBase CreateScriptBase(const std::string& scriptName, bool isDisabled);
 
+    [[nodiscard]] PBaseComponent GetComponent(CULL& id) const;
+
+    PGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
+
+    // The actual function to tell smart pointer to destroy component with Destroy function.
     static void DestroyComponent(PBaseComponent component);
 protected:
     Scene(std::string path);
 
-    void PromoteGameObjToRoot(PGameObj gameObj);
-    void DemoteGameObjFromRoot(PGameObj gameObj);
+    void AddToTrashBin(SBaseComponent destroyedComponent);
+    void EraseTrashBin();
 
-    void Enable(); // Call after load from main thread
-    void Disable(); // Call before unload from scene manager
+    void AddToRoot(const PGameObj& object);
+    void RemoveFromRoot(const PGameObj& object);
+
     void Start();
     void Update();
     void FixedUpdate();
-    void End();
 
-    SGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
+    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json);
 
-    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type);
+    // Compile script to create needed gameObject and scripts
     void Load();
+    // Actually call the gameObj and script to load
     void LoadComponent();
+    // Well unload stuff.
     void Unload();
 protected:
     std::string path;
 
-    // Will update every loop
-    std::list<SBaseComponent> _rootGameObjects;
+    // Call each time before game object update
+    std::list<SBaseComponent>   _trashBin;
+    std::list<SBaseComponent>   _gameObjects;
+    std::list<PGameObj>         _rootObjects;
+    std::list<SBaseComponent>   _scripts;
+
     std::map<CULL, Entry>* _tempComponentContainer = nullptr;
     std::stack<PScriptBase>* _callEnable = nullptr;
 };

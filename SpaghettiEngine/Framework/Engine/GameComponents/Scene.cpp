@@ -6,6 +6,8 @@
 #include "Setting.h"
 #include "LoadingJson.h"
 #include "App.h"
+#include "BaseComponent.h"
+
 #include <sstream>
 #include <fstream>
 #include <ranges>
@@ -39,114 +41,37 @@ const wchar_t* Scene::SceneException::What() const noexcept
     return whatBuffer.c_str();
 }
 
-Scene::BaseComponent::BaseComponent(PScene owner, bool isDisabled)
-    :
-    _owner(owner),
-    _isDisabled(isDisabled)
-{}
-
-void Scene::BaseComponent::Disable()
-{
-    if (_isDisabled)
-        return;
-    OnDisabled();
-    _isDisabled = true;
-}
-
-void Scene::BaseComponent::Enable()
-{
-    if (!_isDisabled)
-        return;
-    OnEnabled();
-    _isDisabled = false;
-}
-
-bool Scene::BaseComponent::IsDisabled()
-{
-    return _isDisabled;
-}
-
-void Scene::BaseComponent::Destroy()
-{
-    if (!_isDisabled)
-        this->Disable();
-    delete this;
-}
-
-void Scene::BaseComponent::DisableWithoutUpdate()
-{
-    _isDisabled = true;
-}
-
-void Scene::BaseComponent::EnableWithoutUpdate()
-{
-    _isDisabled = false;
-}
-
-std::shared_ptr<Scene::BaseComponent> Scene::BaseComponent::GetSharedPtr() const
-{
-    return _this.lock();
-}
-
-void Scene::BaseComponent::AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr)
-{
-    _this = shared_ptr;
-}
-
-PScene Scene::BaseComponent::GetOwner() const
-{
-    return _owner;
-}
-
-void Scene::Enable()
-{
-    if (_callEnable)
-    {
-        while (!_callEnable->empty())
-        {
-            _callEnable->top()->OnEnabled();
-            _callEnable->pop();
-        }
-        delete _callEnable;
-        _callEnable = nullptr;
-    }
-    else
-    {
-        throw SCENE_EXCEPTION("Call enable more than once or call enable before load");
-    }
-}
-
 void Scene::Start()
 {
-    for (const auto& gameObj : _rootGameObjects)
+    for (const auto& gameObj : _rootObjects)
         gameObj->OnStart();
 }
 
 void Scene::Update()
 {
-    for (const auto& gameObj : _rootGameObjects)
-        gameObj->OnUpdate();
+    for (auto it = _rootObjects.begin(); it != _rootObjects.end();)
+    {
+        (*it)->OnUpdate();
+        ++it;
+    }
+
+    EraseTrashBin();
 }
 
 void Scene::FixedUpdate()
 {
-    for (const auto& gameObj : _rootGameObjects)
+    for (const auto& gameObj : _rootObjects)
         gameObj->OnFixedUpdate();
 }
 
-void Scene::End()
+PGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
 {
-    for (const auto& gameObj : _rootGameObjects)
-        gameObj->OnEnd();
-}
+    auto clonedGameObj = toClone->Clone();
 
-SGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
-{
-    auto clonedGameObj = std::dynamic_pointer_cast<GameObj>(toClone->Clone());
-
+    AddToRoot(clonedGameObj);
     clonedGameObj->OnStart();
     clonedGameObj->OnEnabled();
-    clonedGameObj->Move(worldPosition);
+    clonedGameObj->GetTransform().Move(worldPosition);
 
     return clonedGameObj;
 }
@@ -156,13 +81,14 @@ void Scene::DestroyComponent(PBaseComponent component)
     component->Destroy();
 }
 
-void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, ComponentType type)
+void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json)
 {
     using LoadingJson::Field;
-    component->AssignSharedPtr(component);
     _tempComponentContainer->emplace(json[Field::idField].get<CULL>(), Entry(json[Field::inputsField], component));
+    if (!json[Field::nameField].empty())
+        component->SetName(json[Field::nameField].get<std::string>());
     if (!json[Field::isDisabled].empty() && json[Field::isDisabled].get<bool>())
-        component->DisableWithoutUpdate();
+        component->_isDisabled = true;
 }
 void Scene::Load()
 {
@@ -186,15 +112,19 @@ void Scene::Load()
         for (auto& script : jsonFile[Field::scriptsField])
         {
             // No need to call enable for gameObj cause it's useless and save it for in game enable/disable
-            _callEnable->push(ScriptFactory::CreateInstance(script[Field::inputsField][Field::scriptTypeField].get<std::string>(), this));
-            SBaseComponent newScript(_callEnable->top(), DestroyComponent);
-            SetUpAddComponent(newScript, script, ComponentType::script);
+            auto scriptType = script[Field::inputsField][Field::scriptTypeField].get<std::string>();
+            SBaseComponent newScript = CreateScriptBase(scriptType, false)->GetSharedPtr();
+            SetUpAddComponent(newScript, script);
         }
         //Load object
         for (auto& gameObj : jsonFile[Field::gameObjectsField])
         {
-            SBaseComponent newObj(new GameObj(this), DestroyComponent);
-            SetUpAddComponent(newObj, gameObj, ComponentType::gameObj);
+            SBaseComponent newObj = CreateGameObject(false)->GetSharedPtr();
+
+            if (gameObj[Field::isInstantiate].empty() || gameObj[Field::isInstantiate].get<bool>())
+                AddToRoot(dynamic_cast<PGameObj>(newObj.get()));
+
+            SetUpAddComponent(newObj, gameObj);
         }
     }
     catch (const CornException&)
@@ -217,7 +147,9 @@ void Scene::Load()
 void Scene::LoadComponent()
 {
     for (auto& val : *_tempComponentContainer | std::views::values)
+    {
         val.Load();
+    }
 
     _tempComponentContainer->clear();
     delete _tempComponentContainer;
@@ -226,23 +158,66 @@ void Scene::LoadComponent()
 
 void Scene::Unload()
 {
-    auto app = App::GetInstance();
-    for (PGameObj objPtr; auto & obj : _rootGameObjects)
-    {
-        objPtr = dynamic_cast<PGameObj>(obj.get());
-        objPtr->RecursiveClearScriptsWithoutCallEnd();
-        objPtr->RecursiveMarkForDelete();
-    }
-    _rootGameObjects.clear(); 
+    _scripts.clear();
+    for (auto it = _gameObjects.begin(); it != _gameObjects.end(); ++it)
+        (*it)->CallDestroy();
+    EraseTrashBin();
 }
 
-void Scene::Disable()
+void Scene::AddToTrashBin(SBaseComponent destroyedComponent)
 {
-    for (PGameObj objPtr; auto & obj : _rootGameObjects)
+    _trashBin.push_back(destroyedComponent);
+}
+
+void Scene::EraseTrashBin()
+{
+    SBaseComponent component;
+    while (!_trashBin.empty())
     {
-        objPtr = dynamic_cast<PGameObj>(obj.get());
-        objPtr->Disable();
+        component = _trashBin.front();
+
+        if (!component->IsDeleted())
+        {
+            switch (component->GetComponentType())
+            {
+            case BaseComponent::Type::gameObj:
+                _gameObjects.erase(component->GetIterator());
+                break;
+            case BaseComponent::Type::script:
+                _scripts.erase(component->GetIterator());
+                break;
+            default:
+                break;
+            }
+            component->SetToDeleted();
+        }
+
+        _trashBin.pop_front();
+
+        // Have to reset here and cannot rely on the component = _trashBin.front() line
+        // Cause if we do it like that the component may not get call destroy and in turn won't call for
+        // the deletion of child objects and scripts
+        component.reset();
     }
+}
+
+void Scene::AddToRoot(const PGameObj& object)
+{
+    if (!object)
+        return;
+
+    _rootObjects.push_back(object);
+    object->SetContainerIterator(--_rootObjects.end());
+    object->SetIsRoot(true);
+}
+
+void Scene::RemoveFromRoot(const PGameObj& object)
+{
+    if (!object)
+        return;
+
+    _rootObjects.erase(object->GetContainerIterator());
+    object->SetIsRoot(false);
 }
 
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)
@@ -256,21 +231,29 @@ void Scene::Entry::Load()
     _component->Load(_loadJson);
 }
 
-SGameObj Scene::CreateGameObject()
+PGameObj Scene::CreateGameObject(bool isDisabled)
 {
-    SGameObj newObj = std::make_shared<GameObj>(this);
-    newObj->AssignSharedPtr(newObj);
-    return newObj;
+    SGameObj newObj(new GameObj(this, isDisabled), DestroyComponent);
+
+    _gameObjects.push_back(newObj);
+    auto it = --_gameObjects.end();
+    newObj->AssignPtr(it);
+
+    return newObj.get();
 }
 
-SScriptBase Scene::CreateScriptBase(const std::string& scriptName)
+PScriptBase Scene::CreateScriptBase(const std::string& scriptName, bool isDisabled)
 {
-    SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this));
-    newScript->AssignSharedPtr(newScript);
-    return newScript;
+    SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this), DestroyComponent);
+
+    _scripts.push_back(newScript);
+    auto it = --_scripts.end();
+    newScript->AssignPtr(it);
+
+    return newScript.get();
 }
 
-Scene::SBaseComponent& Scene::GetComponent(CULL& id) const
+PBaseComponent Scene::GetComponent(CULL& id) const
 {
     if (!_tempComponentContainer)
         throw SCENE_EXCEPTION("Trying to get component using id after load");
@@ -282,22 +265,5 @@ Scene::SBaseComponent& Scene::GetComponent(CULL& id) const
         os << "[ID] " << id << std::endl;
         throw SCENE_EXCEPTION(os.str());
     }
-    return tempPointer->second._component;
-}
-
-void Scene::PromoteGameObjToRoot(PGameObj gameObj)
-{
-    if constexpr (Setting::IsDebugMode())
-    {
-        for (auto& rootObj : _rootGameObjects)
-            if (rootObj == gameObj->GetSharedPtr())
-                throw CORN_EXCEPT_WITH_DESCRIPTION(L"[Exception] Trying to add root gameObj to root, please make sure that you check it in remove parent in game obj");
-    }
-    _rootGameObjects.remove(gameObj->GetSharedPtr());
-    _rootGameObjects.push_back(gameObj->GetSharedPtr());
-}
-
-void Scene::DemoteGameObjFromRoot(PGameObj gameObj)
-{
-    _rootGameObjects.remove(gameObj->GetSharedPtr());
+    return tempPointer->second._component.get();
 }

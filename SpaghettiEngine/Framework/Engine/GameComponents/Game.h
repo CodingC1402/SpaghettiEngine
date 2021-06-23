@@ -14,6 +14,7 @@ public:
 	void Init();
 	void Update() const;
 	void FixUpdate() const;
+	void End();
 protected:
 	Game() = default;
 	~Game();

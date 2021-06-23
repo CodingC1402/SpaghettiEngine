@@ -5,6 +5,7 @@
 #include "CornException.h"
 #include "GameObj.h"
 #include "Scene.h"
+#include "BaseComponent.h"
 #include <string>
 #include <unordered_map>
 
@@ -21,7 +22,7 @@ void* CreateT(PScene owner) { return new T(owner); }
 class ScriptFactory
 {
 public:
-	static PScriptBase CreateInstance(std::string const& typeName, PScene owner);
+	static PScriptBase CreateInstance(std::string const& typeName, PScene owner, bool isDisabled = false);
 protected:
 	static ScriptTypes* GetMap();
 private:
@@ -41,9 +42,10 @@ struct DerivedRegister : public ScriptFactory {
 #define TYPE_NAME(TYPE) #TYPE
 
 
-class ScriptBase : public Scene::BaseComponent
+class ScriptBase : public BaseComponent
 {
 	friend class GameObj;
+	friend class ScriptContainer;
 public:
 	class ScriptException : public CornException
 	{
@@ -58,22 +60,28 @@ public:
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
 
-	virtual void AssignOwner(const PGameObj& owner);
+	virtual void SetGameObject(const PGameObj& owner);
 	
 	[[nodiscard]] Matrix4	GetWorldMatrix() const noexcept;
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
-	[[nodiscard]] WGameObj	GetGameObject() const noexcept;
+	[[nodiscard]] PGameObj	GetGameObject() const noexcept;
+	[[nodiscard]] bool		IsDisabled() const noexcept;
 
 	[[nodiscard]] virtual std::string GetType() const noexcept = 0;
-	[[nodiscard]] virtual SScriptBase Clone() const;
+	[[nodiscard]] virtual PScriptBase Clone() const;
 
 	void Load(nlohmann::json& input) override;
-
+private:
+	[[nodiscard]] BaseComponent::Type GetComponentType() const override;
 	void Destroy() override;
-protected:
+
+	void SetContainerIterator(std::list<PScriptBase>::iterator it);
+	std::list<PScriptBase>::iterator GetContainerIterator() const;
+private:
 	PGameObj _ownerObj = nullptr;
+	std::list<PScriptBase>::iterator _containerIterator;
 };
 
 #define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)

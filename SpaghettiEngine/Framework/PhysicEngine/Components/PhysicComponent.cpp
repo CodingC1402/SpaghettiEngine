@@ -1,6 +1,7 @@
 #include "PhysicComponent.h"
 #include "Physic.h"
 #include "Collider2DBase.h"
+#include "ContainerUtil.h"
 
 PhysicComponent::Component2D::Component2D(GameObj* owner)
 {
@@ -25,8 +26,8 @@ void PhysicComponent::Component2D::RemoveBody(WBody2D body)
 		_body = std::make_shared<Body2D>();
 		_body->SetGameObject(_owner);
 		Physic::AddBody(_body.get());
+		CallOnChange();
 	}
-	CallOnChange();
 }
 
 void PhysicComponent::Component2D::CallOnChange()
@@ -66,6 +67,26 @@ void PhysicComponent::SubscribeTo2D(Collider2DBase* script)
 void PhysicComponent::UnSubscribeTo2D(Collider2DBase* script)
 {
 	_2DComponents.UnSubscribe(script);
+}
+
+void PhysicComponent::AddPhysicComponent(PhysicScriptBase* component)
+{
+	if (!component)
+		return;
+
+	ContainerUtil::EmplaceBackUnique(_physicComponents, component);
+	Physic::AddGameObj(_owner);
+}
+
+void PhysicComponent::RemovePhysicComponent(PhysicScriptBase* component)
+{
+	if (!component)
+		return;
+
+	ContainerUtil::Erase(_physicComponents, component);
+
+	if (_physicComponents.empty())
+		Physic::RemoveGameObj(_owner);
 }
 
 void PhysicComponent::Set2DBody(WBody2D body)

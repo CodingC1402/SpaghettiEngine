@@ -39,11 +39,16 @@ protected:
 	SceneManager();
 	void Update();
 	void FixedUpdate();
+
 	void Load();
 	void Init();
+	void Unload();
 protected:
-	std::atomic<unsigned> sceneIndex;
-	std::atomic<unsigned> callLoadSceneIndex;
+	//std::atomic<unsigned> sceneIndex;
+	//std::atomic<unsigned> callLoadSceneIndex;
+
+	unsigned sceneIndex;
+	unsigned callLoadSceneIndex;
 
 	std::atomic_bool _isLoading = false;
 	bool _startedLoadNewScene = false;

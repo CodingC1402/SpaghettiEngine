@@ -1,13 +1,19 @@
 #pragma once
 #include "ScriptBase.h"
+#include "InputSystem.h"
 
-class AttackMove
+class AttackMove : public ScriptBase
 {
 public:
-	AttackMove(PScene owner, bool isDisabled);
+	AttackMove(PScene owner, bool isDisabled = false);
 
+	void OnStart() override;
+	void OnUpdate() override;
 	void Load(nlohmann::json& input);
 protected:
-	SGameObj _starPrefab;
+	PGameObj _starPrefab;
+	SInput _attackKey;
+private:
+	REGISTER_START(AttackMove);
 };
 

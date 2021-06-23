@@ -3,6 +3,7 @@
 #include "json.hpp"
 #include "Scene.h"
 #include "Prefabs.h"
+#include "BaseComponent.h"
 #include <unordered_map>
 
 namespace LoadingJson
@@ -20,6 +21,8 @@ namespace LoadingJson
         static constexpr const char* idField = "ID";
         static constexpr const char* inputsField = "Inputs";
         static constexpr const char* isDisabled = "IsDisabled";
+        static constexpr const char* isOwnedBySceneField = "OwnedByScene";
+        static constexpr const char* nameField = "Name";
         //Prefab
         static constexpr const char* prefabIdField = "PrefabID";
         static constexpr const char* changesField = "Changes";
@@ -33,6 +36,7 @@ namespace LoadingJson
         static constexpr const char* scriptTypeField = "ScriptType";
         //GameObj
         static constexpr const char* isRootField = "IsRoot";
+        static constexpr const char* isInstantiate = "Instantiate"; // Use for game object to know if they should be instantiate when created or not.
         static constexpr const char* tagField = "Tag";
         static constexpr const char* transformField = "Transform";
         static constexpr const char* rotationField = "Rotation";
@@ -50,15 +54,15 @@ namespace LoadingJson
     {
     public:
         static constexpr ULL CreateTopLevelID(CULL& localID, const unsigned& prefabIndex = 0);
-        static constexpr ULL CreateLocalLevelID(CULL& id, Scene::ComponentType type);
-        static constexpr ULL CreateTopLevelID(CULL& id, Scene::ComponentType type, const unsigned& prefabIndex);
+        static constexpr ULL CreateLocalLevelID(CULL& id, BaseComponent::Type type);
+        static constexpr ULL CreateTopLevelID(CULL& id, BaseComponent::Type type, const unsigned& prefabIndex);
         static constexpr bool CheckID(CULL& id);
         static constexpr bool CheckPrefabIndex(CULL& index);
         static void ConvertIDInJson(nlohmann::json& out, SPrefabHierarchy hierarchy);
-        static Scene::ComponentType ConvertStrToType(const std::string& str);
+        static BaseComponent::Type ConvertStrToType(const std::string& str);
     protected:
-        static void ConvertComponentIDs(nlohmann::json& component, Scene::ComponentType type, std::vector<SPrefabHierarchy>& listOfHierarchy);
-        static void ConvertRefFieldIDs(nlohmann::json& refField, Scene::ComponentType type, std::vector<SPrefabHierarchy>& listOfHierarchy, const unsigned& defaultID);
+        static void ConvertComponentIDs(nlohmann::json& component, BaseComponent::Type type, std::vector<SPrefabHierarchy>& listOfHierarchy);
+        static void ConvertRefFieldIDs(nlohmann::json& refField, BaseComponent::Type type, std::vector<SPrefabHierarchy>& listOfHierarchy, const unsigned& defaultID);
     public:
         static constexpr auto _bitForLocalId = 32u;
         static constexpr auto _bitForPrefabId = 16u;
@@ -69,7 +73,7 @@ namespace LoadingJson
         static constexpr auto _errorMaskPrefabIndex = _max << _bitForPrefabId;
         static constexpr auto _errorMaskComponentType = _max << _bitForComponentType;
 
-        static std::unordered_map<std::string, Scene::ComponentType> _typeDict;
+        static std::unordered_map<std::string, BaseComponent::Type> _typeDict;
     };
 }
 
@@ -78,12 +82,12 @@ constexpr ULL LoadingJson::ID::CreateTopLevelID(CULL& localID, const unsigned& p
     return localID | (static_cast<ULL>(prefabIndex) << (_bitForLocalId + _bitForComponentType));
 }
 
-constexpr ULL LoadingJson::ID::CreateLocalLevelID(CULL& id, Scene::ComponentType type)
+constexpr ULL LoadingJson::ID::CreateLocalLevelID(CULL& id, BaseComponent::Type type)
 {
     return id | (static_cast<ULL>(type) << _bitForLocalId);
 }
 
-constexpr ULL LoadingJson::ID::CreateTopLevelID(CULL& id, Scene::ComponentType type, const unsigned& prefabIndex)
+constexpr ULL LoadingJson::ID::CreateTopLevelID(CULL& id, BaseComponent::Type type, const unsigned& prefabIndex)
 {
     return id | (static_cast<ULL>(type) << _bitForLocalId) | (static_cast<ULL>(prefabIndex) << (_bitForLocalId + _bitForComponentType));
 }

@@ -22,7 +22,7 @@ public:
 	virtual [[nodiscard]] PGameObj	GetFollow();
 	virtual void	RemoveFollow();
 
-	SScriptBase Clone() const override;
+	PScriptBase Clone() const override;
 protected:
 	Matrix4 cameraMatrix;
 	Matrix4 viewMatrix;

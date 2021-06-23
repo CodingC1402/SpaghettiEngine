@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Game.h"
 #include "GameTimer.h"
+#include "SceneManager.h"
 #include "Physic.h"
 #include <iomanip>
 

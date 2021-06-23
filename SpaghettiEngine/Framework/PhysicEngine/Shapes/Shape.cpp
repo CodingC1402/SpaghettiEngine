@@ -10,8 +10,6 @@ WBody2D Shape::GetBody() const
 Shape::Shape()
 {
 	_offSetMatrix = Matrix4::GetDiagonalMatrix();
-	_staticBody = std::make_shared<Body2D>();
-	_body = _staticBody;
 	_radius = 0;
 }
 
@@ -102,22 +100,9 @@ void Shape::AddToPhysic()
 
 void Shape::SetBody(WBody2D body)
 {
-	if (!_isStatic)
-		return;
-	_body.lock()->RemoveShape(this);
-	_body = std::move(body);
+	if (!_body.expired())
+		_body.lock()->RemoveShape(this);
+	_body = body;
 	_isStatic = false;
-	_staticBody.reset();
 	_body.lock()->AddShape(this);
-}
-
-void Shape::ToStatic()
-{
-	if (_isStatic)
-		return;
-	_body.lock()->RemoveShape(this);
-	_staticBody = std::make_shared<Body2D>();
-	_staticBody->SetWorldMatrix(_body.lock()->GetWorldMatrix());
-	_body = _staticBody;
-	_isStatic = true;
 }

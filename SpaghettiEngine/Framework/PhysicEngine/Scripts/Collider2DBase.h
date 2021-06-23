@@ -16,11 +16,12 @@ public:
 	void OnDisabled() override;
 	void OnChange();
 
-	void AssignOwner(const PGameObj& gameObj) override;
+	void SetGameObject(const PGameObj& gameObj) override;
 
 	void Load(nlohmann::json& input) override;
+	bool CallDestroy() override;
 
-	SScriptBase Clone() const override;
+	PScriptBase Clone() const override;
 	~Collider2DBase();
 protected:
 	void SetLineRendererOwner();
@@ -28,7 +29,7 @@ protected:
 protected:
 	WBody2D _body;
 	std::vector<SShape> _shapes;
-	std::vector<SLineRendererBase> _lineRenderer;
+	std::vector<LineRendererBase*> _lineRenderer;
 
 	static constexpr auto _offSetXField = "OffSetX";
 	static constexpr auto _offSetYField = "OffSetY";

@@ -66,6 +66,9 @@
     <Filter Include="FrameWork\Interfaces">
       <UniqueIdentifier>{db9949dc-dbea-45e5-ad47-9f2c32d4b72b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\GameObject">
+      <UniqueIdentifier>{31da83a7-ad85-47d5-8271-4c2440e1232e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Window\Window.h">
@@ -156,9 +159,6 @@
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Game.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\GameObj.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Graphics.h">
@@ -302,6 +302,24 @@
     <ClInclude Include="Framework\PhysicEngine\Components\MaterialContainer.h">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\GameObj.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\BaseComponent.h">
+      <Filter>FrameWork\Engine\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Transform.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\ScriptContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\ChildContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Corntainer.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -380,9 +398,6 @@
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp">
@@ -513,6 +528,24 @@
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\MaterialContainer.cpp">
       <Filter>FrameWork\Engine\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\BaseComponent.cpp">
+      <Filter>FrameWork\Engine\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\ScriptContainer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\ChildContainer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@ const wchar_t *CornException::What() const noexcept
 {
     std::wostringstream oss;
     oss << GetType() << std::endl
-        << GetOriginString();
+        << GetOriginString() << std::endl;
     whatBuffer = oss.str();
     return whatBuffer.c_str();
 }

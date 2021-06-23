@@ -15,7 +15,7 @@ LineRendererBase::LineRendererBase(PScene owner, bool isDisabled) : ScriptBase(o
 
 void LineRendererBase::Draw(PCamera camera)
 {
-	auto matrix = camera->GetMatrixWithoutScaleY(_ownerObj->GetWorldMatrix());
+	auto matrix = camera->GetMatrixWithoutScaleY(GetGameObject()->GetTransform().GetWorldMatrix());
 	auto transformedVectexes = _vertexes;
 	for (auto& vectex : transformedVectexes)
 		vectex = vectex * _offSetMatrix * matrix;
@@ -138,9 +138,9 @@ void LineRendererBase::Load(nlohmann::json& inputObject)
 		SetOffSetY(inputObject[offSetYField].get<float>());
 }
 
-SScriptBase LineRendererBase::Clone() const
+PScriptBase LineRendererBase::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<LineRendererBase>(ScriptBase::Clone());
+	auto clone = dynamic_cast<LineRendererBase*>(ScriptBase::Clone());
 
 	clone->_color = _color;
 	clone->_offSetMatrix = _offSetMatrix;

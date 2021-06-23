@@ -21,7 +21,7 @@ void StarScript::OnUpdate()
 		}
 		else
 		{
-			_ownerObj->Translate(Vector3(-20, 0, 0) * GameTimer::GetDeltaTime());
+			GetGameObject()->GetTransform().Translate(Vector3(-20, 0, 0) * GameTimer::GetDeltaTime());
 		}
 	}
 	else
@@ -32,7 +32,7 @@ void StarScript::OnUpdate()
 		}
 		else
 		{
-			_ownerObj->Translate(Vector3(20, 0, 0) * GameTimer::GetDeltaTime());
+			GetGameObject()->GetTransform().Translate(Vector3(20, 0, 0) * GameTimer::GetDeltaTime());
 		}
 	}
 }
@@ -43,9 +43,9 @@ void StarScript::OnCollide(CollideEvent& e)
 		e.SetIsHandled(true);
 }
 
-SScriptBase StarScript::Clone() const
+PScriptBase StarScript::Clone() const
 {
-	auto clone = std::dynamic_pointer_cast<StarScript>(ScriptBase::Clone());
+	auto clone = dynamic_cast<StarScript*>(ScriptBase::Clone());
 
 	clone->onWayBack = onWayBack;
 	clone->originalPos = originalPos;

@@ -10,7 +10,7 @@ ScriptTypes* ScriptFactory::GetMap()
 	return map;
 }
 
-PScriptBase ScriptFactory::CreateInstance(std::string const& typeName, PScene owner)
+PScriptBase ScriptFactory::CreateInstance(std::string const& typeName, PScene owner, bool isDisabled)
 {
 	const auto iterator = map->find(typeName);
 	if (iterator == GetMap()->end())
@@ -45,46 +45,52 @@ ScriptBase::ScriptBase(PScene owner, bool isDisabled)
 	BaseComponent(owner, isDisabled)
 {}
 
-void ScriptBase::AssignOwner(const PGameObj& owner)
+void ScriptBase::SetGameObject(const PGameObj& owner)
 {
-	if (_ownerObj == owner)
+	if (!owner && !_ownerObj)
 		return;
 
-	if (_ownerObj)
-		_ownerObj->RemoveScript(this);
-	_ownerObj = owner;
-	_ownerObj->AddScript(this);
+	if (owner)
+		owner->GetScriptContainer().AddItem(this);
+	else
+		_ownerObj->GetScriptContainer().RemoveItem(this);
+
+	if (!(_ownerObj || this->IsDisabled()))
+		this->Disable();
 }
 
 Matrix4 ScriptBase::GetWorldMatrix() const noexcept
 {
-	return _ownerObj->GetWorldMatrix();
+	return _ownerObj->GetTransform().GetWorldMatrix();
 }
 
 Vector3 ScriptBase::GetWorldTransform() const noexcept
 {
-	return _ownerObj->GetWorldTransform();
+	return _ownerObj->GetTransform().GetWorldTransform();
 }
 
 Vector3 ScriptBase::GetWorldRotation() const noexcept
 {
-	return _ownerObj->GetWorldRotation();
+	return _ownerObj->GetTransform().GetWorldRotation();
 }
-
 Vector3 ScriptBase::GetWorldScale() const noexcept
 {
-	return _ownerObj->GetWorldScale();
+	return _ownerObj->GetTransform().GetWorldScale();
 }
 
-WGameObj ScriptBase::GetGameObject() const noexcept
+PGameObj ScriptBase::GetGameObject() const noexcept
 {
-	return std::dynamic_pointer_cast<GameObj>(_ownerObj->GetSharedPtr());
+	return _ownerObj;
 }
 
-SScriptBase ScriptBase::Clone() const
+bool ScriptBase::IsDisabled() const noexcept
 {
-	auto cloneScript = _owner->CreateScriptBase(GetType());
-	cloneScript->_isDisabled = _isDisabled;
+	return BaseComponent::IsDisabled() || (GetGameObject() && GetGameObject()->IsDisabled());
+}
+
+PScriptBase ScriptBase::Clone() const
+{
+	auto cloneScript = GetOwner()->CreateScriptBase(GetType(), false);
 	return cloneScript;
 }
 
@@ -94,12 +100,27 @@ void ScriptBase::Load(nlohmann::json& input)
 		throw CORN_EXCEPT_WITH_DESCRIPTION(L"You can't have a script without an owner");
 }
 
+BaseComponent::Type ScriptBase::GetComponentType() const
+{
+	return BaseComponent::Type::script;
+}
+
 void ScriptBase::Destroy()
 {
-	if (!_isDisabled)
-	{
-		OnEnd();
-		Disable();
-	}
+	this->Disable();
+
+	if (_ownerObj)
+		_ownerObj->GetScriptContainer().RemoveItem(this);
+
 	BaseComponent::Destroy();
+}
+
+void ScriptBase::SetContainerIterator(std::list<PScriptBase>::iterator it)
+{
+	_containerIterator = it;
+}
+
+std::list<PScriptBase>::iterator ScriptBase::GetContainerIterator() const
+{
+	return _containerIterator;
 }

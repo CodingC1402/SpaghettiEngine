@@ -12,9 +12,10 @@ void Collider2DBase::OnEnabled()
 {
 	PhysicScriptBase::OnEnabled();
 
-	PhysicComponent* physic = &_ownerObj->GetPhysicComponent();
+	PhysicComponent* physic = &GetGameObject()->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
+
 	for (auto& shape : _shapes)
 		Physic::AddShape(shape.get());
 
@@ -27,7 +28,8 @@ void Collider2DBase::OnDisabled()
 {
 	PhysicScriptBase::OnDisabled();
 
-	_ownerObj->GetPhysicComponent().UnSubscribeTo2D(this);
+	GetGameObject()->GetPhysicComponent().UnSubscribeTo2D(this);
+
 	for (auto& shape : _shapes)
 		Physic::RemoveShape(shape.get());
 
@@ -38,13 +40,13 @@ void Collider2DBase::OnDisabled()
 
 void Collider2DBase::OnChange()
 {
-	ChangeBody(_ownerObj->GetPhysicComponent().GetBody2D());
+	ChangeBody(GetGameObject()->GetPhysicComponent().GetBody2D());
 }
 
-void Collider2DBase::AssignOwner(const PGameObj& gameObj)
+void Collider2DBase::SetGameObject(const PGameObj& gameObj)
 {
-	PhysicScriptBase::AssignOwner(gameObj);
-	if constexpr(Setting::IsDebugMode())
+	PhysicScriptBase::SetGameObject(gameObj);
+	if constexpr (Setting::IsDebugMode())
 		SetLineRendererOwner();
 }
 
@@ -77,14 +79,26 @@ void Collider2DBase::Load(nlohmann::json& input)
 
 }
 
-SScriptBase Collider2DBase::Clone() const
+bool Collider2DBase::CallDestroy()
 {
-	auto clone = std::dynamic_pointer_cast<Collider2DBase>(PhysicScriptBase::Clone());
+	auto destroy = ScriptBase::CallDestroy();
+	if (!destroy)
+		return false;
+
+	for (auto it = _lineRenderer.begin(); it != _lineRenderer.end(); ++it)
+		(*it)->CallDestroy();
+	_lineRenderer.clear();
+	return true;
+}
+
+PScriptBase Collider2DBase::Clone() const
+{
+	auto clone = dynamic_cast<Collider2DBase*>(PhysicScriptBase::Clone());
 
 	if constexpr (Setting::IsDebugMode())
 	{
 		for (const auto& lineRenderer : _lineRenderer)
-			clone->_lineRenderer.push_back(std::dynamic_pointer_cast<LineRendererBase>(lineRenderer->Clone()));
+			clone->_lineRenderer.push_back(dynamic_cast<LineRendererBase*>(lineRenderer->Clone()));
 	}
 
 	SShape clonedShape;
@@ -105,7 +119,7 @@ Collider2DBase::~Collider2DBase()
 void Collider2DBase::SetLineRendererOwner()
 {
 	for (auto& linerender : _lineRenderer)
-		linerender->AssignOwner(_ownerObj);
+		linerender->SetGameObject(GetGameObject());
 }
 
 void Collider2DBase::ChangeBody(WBody2D body)

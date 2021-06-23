@@ -249,7 +249,7 @@ void Prefab::Load(const std::string& path)
 		
 		for (auto& object : loadedJson[Field::gameObjectsField])
 		{
-			const auto currentId = ID::CreateLocalLevelID(object[Field::idField].get<unsigned int>(), Scene::ComponentType::gameObj);
+			const auto currentId = ID::CreateLocalLevelID(object[Field::idField].get<unsigned int>(), BaseComponent::Type::gameObj);
 			if constexpr (Setting::IsDebugMode())
 			{
 				if (!ID::CheckID(object[Field::idField].get<unsigned int>()))
@@ -276,7 +276,7 @@ void Prefab::Load(const std::string& path)
 		}
 		for (auto& script : loadedJson[Field::scriptsField])
 		{
-			const auto currentId = ID::CreateLocalLevelID(script[Field::idField].get<unsigned int>(), Scene::ComponentType::script);
+			const auto currentId = ID::CreateLocalLevelID(script[Field::idField].get<unsigned int>(), BaseComponent::Type::script);
 			if constexpr(Setting::IsDebugMode())
 			{
 				if (!ID::CheckID(script[Field::idField].get<unsigned int>()))

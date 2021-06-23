@@ -23,7 +23,7 @@ public:
 	void OnDisabled() override;
 
 	virtual void Load(nlohmann::json& inputObject) override;
-	SScriptBase Clone() const override;
+	PScriptBase Clone() const override;
 protected:
 	static constexpr unsigned _vertextesForCircle = 50;
 	static constexpr unsigned _minVertexesForCircle = 10;
