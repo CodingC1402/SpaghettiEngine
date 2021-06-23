@@ -35,7 +35,6 @@ public:
 		{
 			std::wostringstream os;
 			os << GetOriginString() << std::endl;
-			os << "[Game object] " << _errorObj->GetPath().c_str() << std::endl;
 			os << "[Error field] " << _errorField.c_str() << std::endl;
 			os << "[Extra description] " << _extraDescription.c_str() << std::endl;
 			whatBuffer = os.str();
@@ -55,26 +54,20 @@ public:
 	[[nodiscard]] PScriptBase		GetScript(const std::string& name) const noexcept;
 	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
 	[[nodiscard]] string			GetTag() const;
+	[[nodiscard]] string			GetName() const;
+
+	[[nodiscard]] Transform&		GetTransform();
+	[[nodiscard]] PhysicComponent&	GetPhysicComponent();
+
 	[[nodiscard]] bool				IsDestroyed() const;
 
 	void SetTag(const std::string& tag);
 
-	void AddPhysicComponent(PhysicScriptBase* script);
-	void RemovePhysicComponent(PhysicScriptBase* script);
-	PhysicComponent& GetPhysicComponent();
-
-	void SendCollideExitEvent(CollideEvent& e);
-	void SendCollideEvent(CollideEvent& e);
-	void SendCollideEnterEvent(CollideEvent& e);
-
 	void Load(nlohmann::json& input) override;
-	void Destroy() override;
 
 	void OnStart() override;
 	void OnUpdate() override;
-	void OnPhysicUpdate();
 	void OnFixedUpdate() override;
-	void OnEnd() override;
 
 	void OnEnabled() override;
 	void OnDisabled() override;
@@ -83,9 +76,16 @@ public:
 	void OnCollideEnter(CollideEvent& e) override;
 	void OnCollideExit(CollideEvent& e) override;
 
+	void		AddParent(const PGameObj& parent);
+
+	PGameObj	AddChild();
+	PGameObj	AddChild(const PGameObj& gameObj);
+	PGameObj    AddChildClone(const PGameObj& gameObj);
+
+	void RemoveChild(const PGameObj& gameObj);
+
 	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	PScriptBase AddScript(const PScriptBase& script);
-	PScriptBase AddScript(const SScriptBase& script);
 	PScriptBase AddScriptClone(const PScriptBase& script);
 
 	void ClearScripts(); //Use by scripts to call end once then pass on
@@ -93,17 +93,24 @@ public:
 	
 	SGameObj Clone() const;
 protected:
-	PGameObj parent = nullptr;
+	void OnPhysicUpdate();
+private:
+	void Destroy() override;
+protected:
+	PGameObj _parent = nullptr;
 
 	bool _isReadyForDelete = false;
 
-	bool loaded = false;
+	bool _loaded = false;
 	string _tag;
+	string _name;
 
-	std::deque<PhysicScriptBase*> _physicComponents;
 	PhysicComponent _physic;
+	Transform _transform;
 
-	list<SScriptBase> _scriptsPtr;
+	list<WGameObj> _children;
+	list<WScriptBase> _scripts;
+
 	static nlohmann::json defaultJson;
 };
 

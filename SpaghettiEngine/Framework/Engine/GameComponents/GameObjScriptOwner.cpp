@@ -39,34 +39,10 @@ void GameObj::RemoveChild(const PGameObj& child)
 
 void GameObj::RemoveScript(const PScriptBase& script)
 {
-	_scriptsPtr.remove(script->GetSharedPtr());
 	_scripts.remove(script);
-}
-
-void GameObj::RecursiveClearScriptsWithoutCallEnd()
-{
-	for (const auto& child : _children)
-		child->RecursiveClearScriptsWithoutCallEnd();
-	ClearScriptsWithoutCallEnd();
-}
-
-void GameObj::ClearScriptsWithoutCallEnd()
-{
-	for (auto& script : _scripts)
-		script->Disable();
-	_scriptsPtr.clear();
-	_scripts.clear();
 }
 
 void GameObj::ClearScripts()
 {
-	for (auto& script : _scripts)
-		script->OnEnd();
-	ClearScriptsWithoutCallEnd();
-}
 
-void GameObj::RecursiveClearScripts()
-{
-	OnEnd();
-	RecursiveClearScriptsWithoutCallEnd();
 }

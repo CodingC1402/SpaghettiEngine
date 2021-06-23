@@ -71,7 +71,7 @@ public:
 	[[nodiscard]] virtual SScriptBase Clone() const;
 
 	void Load(nlohmann::json& input) override;
-
+private:
 	void Destroy() override;
 protected:
 	PGameObj _ownerObj = nullptr;

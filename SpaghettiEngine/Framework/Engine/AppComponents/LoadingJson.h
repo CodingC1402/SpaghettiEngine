@@ -21,6 +21,8 @@ namespace LoadingJson
         static constexpr const char* idField = "ID";
         static constexpr const char* inputsField = "Inputs";
         static constexpr const char* isDisabled = "IsDisabled";
+        static constexpr const char* isOwnedBySceneField = "OwnedByScene";
+        static constexpr const char* nameField = "Name";
         //Prefab
         static constexpr const char* prefabIdField = "PrefabID";
         static constexpr const char* changesField = "Changes";

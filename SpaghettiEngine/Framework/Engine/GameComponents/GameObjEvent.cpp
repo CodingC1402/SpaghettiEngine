@@ -1,28 +1,11 @@
 #include "GameObj.h"
 #include "ScriptBase.h"
 
-// Collision Event
-void GameObj::SendCollideExitEvent(CollideEvent& e)
-{
-	for (const auto& script : _scripts)
-		script->OnCollideExit(e);
-}
-void GameObj::SendCollideEvent(CollideEvent& e)
-{
-	for (const auto& script : _scripts)
-		script->OnCollide(e);
-}
-void GameObj::SendCollideEnterEvent(CollideEvent& e)
-{
-	for (const auto& script : _scripts)
-		script->OnCollideEnter(e);
-}
-
 // Normal Event
 void GameObj::OnStart()
 {
 	for (const auto& script : _scripts)
-		script->OnStart();
+		script.lock()->OnStart();
 }
 
 void GameObj::OnUpdate()
@@ -31,12 +14,20 @@ void GameObj::OnUpdate()
 		return;
 
 	for (const auto& script : _scripts)
-		script->OnUpdate();
+		script.lock()->OnUpdate();
 }
 
 void GameObj::OnPhysicUpdate()
 {
-	_physic.GetBody2D().lock()->SetWorldMatrix(GetWorldMatrix());
+	_physic.GetBody2D().lock()->SetWorldMatrix(_transform.GetWorldMatrix());
+}
+
+void GameObj::Destroy()
+{
+	if (_parent)
+		_parent->RemoveChild(this);
+
+	BaseComponent::Destroy();
 }
 
 void GameObj::OnFixedUpdate()
@@ -45,19 +36,7 @@ void GameObj::OnFixedUpdate()
 		return;
 
 	for (const auto& script : _scripts)
-		script->OnFixedUpdate();
-
-	for (const auto& child : _children)
-		child->OnFixedUpdate();
-}
-
-void GameObj::OnEnd()
-{
-	for (const auto& child : _children)
-		child->OnEnd();
-
-	for (const auto& script : _scripts)
-		script->OnEnd();
+		script.lock()->OnFixedUpdate();
 }
 
 void GameObj::OnEnabled()
@@ -66,10 +45,10 @@ void GameObj::OnEnabled()
 		return;
 
 	for (const auto& script : _scripts)
-		script->OnEnabled();
+		script.lock()->OnEnabled();
 
 	for (const auto& child : _children)
-		child->OnEnabled();
+		child.lock()->OnEnabled();
 }
 
 void GameObj::OnDisabled()
@@ -78,26 +57,35 @@ void GameObj::OnDisabled()
 		return;
 
 	for (const auto& script : _scripts)
-		script->OnDisabled();
+		script.lock()->OnDisabled();
 
 	for (const auto& child : _children)
-		child->OnDisabled();
+		child.lock()->OnDisabled();
 }
 
 void GameObj::OnCollide(CollideEvent& e)
 {
 	for (auto& script : _scripts)
-		script->OnCollide(e);
+		script.lock()->OnCollide(e);
+
+	for (const auto& child : _children)
+		child.lock()->OnCollide(e);
 }
 
 void GameObj::OnCollideEnter(CollideEvent& e)
 {
 	for (auto& script : _scripts)
-		script->OnCollideEnter(e);
+		script.lock()->OnCollideEnter(e);
+
+	for (const auto& child : _children)
+		child.lock()->OnCollideEnter(e);
 }
 
 void GameObj::OnCollideExit(CollideEvent& e)
 {
 	for (auto& script : _scripts)
-		script->OnCollideExit(e);
+		script.lock()->OnCollideExit(e);
+
+	for (const auto& child : _children)
+		child.lock()->OnCollideExit(e);
 }

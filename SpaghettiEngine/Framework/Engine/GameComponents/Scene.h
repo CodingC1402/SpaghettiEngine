@@ -20,6 +20,7 @@ CLASS_FORWARD_DECLARATION(BaseComponent);
 using namespace nlohmann;
 class Scene
 {
+    friend class BaseComponent;
     friend class GameObj;
     friend class SceneManager;
 public:
@@ -43,21 +44,22 @@ public:
         json _loadJson;
     };
 public:
-    // Only work in load
+    // Create game object and tell smart pointer what to use
     [[nodiscard]] SGameObj CreateGameObject();
+    // Create script and tell smart pointer what to use
     [[nodiscard]] std::shared_ptr<ScriptBase> CreateScriptBase(const std::string& scriptName);
+
     [[nodiscard]] SBaseComponent& GetComponent(CULL& id) const;
 
     SGameObj Instantiate(GameObj* toClone, Vector3 worldPosition);
+
+    // The actual function to tell smart pointer to destroy component with Destroy function.
     static void DestroyComponent(PBaseComponent component);
 protected:
     Scene(std::string path);
 
-    void PromoteGameObjToRoot(PGameObj gameObj);
-    void DemoteGameObjFromRoot(PGameObj gameObj);
-
-    void Enable(); // Call after load from main thread
-    void Disable(); // Call before unload from scene manager
+    void AddToTrashBin(SBaseComponent destroyedComponent);
+    void EraseTrashBin();
 
     void Start();
     void Update();
@@ -65,15 +67,21 @@ protected:
     void End();
 
     void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json);
+
+    // Compile script to create needed gameObject and scripts
     void Load();
+    // Actually call the gameObj and script to load
     void LoadComponent();
+    // Well unload stuff.
     void Unload();
 protected:
     std::string path;
 
-    // Will update every loop
-    std::list<SGameObj> _gameObjects;
-    std::list<SScriptBase> _scripts;
+    // Call each time before game object update
+    std::list<SBaseComponent> _trashBin;
+    std::list<SBaseComponent> _gameObjects;
+    std::list<SBaseComponent> _scripts;
+
     std::map<CULL, Entry>* _tempComponentContainer = nullptr;
     std::stack<PScriptBase>* _callEnable = nullptr;
 };

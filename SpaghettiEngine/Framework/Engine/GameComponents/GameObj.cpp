@@ -25,8 +25,8 @@ SGameObj GameObj::Clone() const
 
 	cloneObj->_tag = _tag;
 
-	for (const auto& script : _scriptsPtr)
-		cloneObj->AddScriptClone(script.get());
+	for (const auto& script : _scripts)
+		cloneObj->AddScriptClone(script.lock().get());
 
 	return cloneObj;
 }
@@ -34,35 +34,43 @@ SGameObj GameObj::Clone() const
 #pragma region Get
 PScriptBase GameObj::GetScript(unsigned index) const noexcept
 {
-	if (index >= _scriptsPtr.size())
+	if (index >= _scripts.size())
 		return nullptr;
 
-	auto iterator = _scriptsPtr.begin();
+	auto iterator = _scripts.begin();
 	std::advance(iterator, index);
-	return (*iterator).get();
+	return (*iterator).lock().get();
 }
 PScriptBase GameObj::GetScript(const std::string& name) const noexcept
 {
-	for (const auto& script : _scriptsPtr)
+	for (const auto& script : _scripts)
 	{
-		if (script->GetType() == name)
-			return script.get();
+		if (script.lock()->GetType() == name)
+			return script.lock().get();
 	}
 	return nullptr;
 }
 std::list<PScriptBase> GameObj::GetAllScripts(const std::string& name) const noexcept
 {
 	std::list<PScriptBase> rList;
-	for (const auto& script : _scriptsPtr)
+	for (const auto& script : _scripts)
 	{
-		if (script->GetType() == name)
-			rList.emplace_back(script.get());
+		if (script.lock()->GetType() == name)
+			rList.emplace_back(script.lock().get());
 	}
 	return rList;
 }
 std::string GameObj::GetTag() const
 {
 	return _tag;
+}
+std::string GameObj::GetName() const
+{
+	return _name;
+}
+Transform& GameObj::GetTransform()
+{
+	return _transform;
 }
 bool GameObj::IsDestroyed() const
 {
@@ -71,18 +79,6 @@ bool GameObj::IsDestroyed() const
 void GameObj::SetTag(const std::string& tag)
 {
 	_tag = tag;
-}
-void GameObj::AddPhysicComponent(PhysicScriptBase* script)
-{
-	ContainerUtil::EmplaceBackUnique(_physicComponents, script);
-	if (_physicComponents.size() == 1)
-		Physic::AddGameObj(this);
-}
-void GameObj::RemovePhysicComponent(PhysicScriptBase* script)
-{
-	ContainerUtil::Erase(_physicComponents, script);
-	if (_physicComponents.size() == 0)
-		Physic::RemoveGameObj(this);
 }
 #pragma endregion
 
@@ -116,7 +112,8 @@ GameObj& GameObj::operator=(GameObj& obj)
 	auto cloneObj = std::dynamic_pointer_cast<GameObj>(obj.Clone());
 	auto cloneObjPtr = cloneObj.get();
 
-	_scriptsPtr = cloneObjPtr->_scriptsPtr;
+	_scripts = cloneObjPtr->_scripts;
+	_children = cloneObjPtr->_children;
 
 	return *this;
 }
@@ -139,39 +136,31 @@ void GameObj::Load(nlohmann::json& input)
 		// use to check which field throw error
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::transformField;
-		_transform.x = input[Field::transformField][0].get<float>();
-		_transform.y = input[Field::transformField][1].get<float>();
-		_transform.z = input[Field::transformField][2].get<float>();
+		_transform.SetTransform(input[Field::transformField][0].get<float>(),
+								input[Field::transformField][1].get<float>(),
+								input[Field::transformField][2].get<float>());
 		
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::rotationField;
-		_rotation.x = input[Field::rotationField][0].get<float>();
-		_rotation.y = input[Field::rotationField][1].get<float>();
-		_rotation.z = input[Field::rotationField][2].get<float>();
+		_transform.SetRotation(	input[Field::rotationField][0].get<float>(),
+								input[Field::rotationField][1].get<float>(),
+								input[Field::rotationField][2].get<float>());
 		
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::scaleField;
-		_scale.x = input[Field::scaleField][0].get<float>();
-		_scale.y = input[Field::scaleField][1].get<float>();
-		_scale.z = input[Field::scaleField][2].get<float>();
-
-		_isTransformChanged = true;
-		_isRotationChanged = true;
-		_isScaleChanged = true;
-		_isChanged = true;
+		_transform.SetScale(input[Field::scaleField][0].get<float>(),
+							input[Field::scaleField][1].get<float>(),
+							input[Field::scaleField][2].get<float>());
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::gameObjectsField;
 		for (const auto & child : input[Field::gameObjectsField])
-			dynamic_cast<PGameObj>(_owner->GetComponent(child[Field::idField].get<CULL>()).get())->AddParentWithoutCalculateLocal(this);
+			dynamic_cast<PGameObj>(_owner->GetComponent(child[Field::idField].get<CULL>()).get())
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::scriptsField;
 		for (const auto& script : input[Field::scriptsField])
 			dynamic_cast<ScriptBase*>(_owner->GetComponent(script[Field::idField].get<CULL>()).get())->AssignOwner(this);
-
-		if (!(input[Field::isRootField] == nullptr || !input[Field::isRootField].get<bool>() || parent != nullptr))
-			_owner->PromoteGameObjToRoot(this);
 	}
 	catch (const CornException&)
 	{
@@ -181,10 +170,4 @@ void GameObj::Load(nlohmann::json& input)
 	{
 		throw GAMEOBJ_FORMAT_EXCEPT(fieldTracker.c_str(), this, e.what());
 	}
-}
-void GameObj::Destroy()
-{
-
-	
-	BaseComponent::Destroy();
 }

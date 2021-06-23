@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include <list>
 
 CLASS_FORWARD_DECLARATION(BaseComponent);
 
@@ -41,21 +42,29 @@ public:
 
     virtual bool [[nodiscard]] IsDisabled();
     virtual void Load(nlohmann::json& input) = 0;
-    virtual void Destroy();
+
+    bool CallDestroy();
+    virtual Type GetType() = 0;
 
     /// Get the shared_ptr of the component which is owned by a scene
     [[nodiscard]] std::shared_ptr<BaseComponent> GetSharedPtr() const;
-    void AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr);
+    void AssignPtr(std::list<SBaseComponent>::iterator iterator);
+
     [[nodiscard]] PScene GetOwner() const;
 protected:
     virtual ~BaseComponent() = default;
-private:    
-    //Don't use
-    void DisableWithoutUpdate();
-    //Don't use
-    void EnableWithoutUpdate();
+    virtual void Destroy();
+private: // Can only be used by scene
+    std::list<SBaseComponent>::iterator GetIterator() const;
+
+    void SetName(const std::string& name);
 protected:
     PScene _owner = nullptr;
     bool _isDisabled = false;
+
+    std::string _name;
+
+    // the pointer to it self in the scene container.
+    std::list<SBaseComponent>::iterator _iterator;
     std::weak_ptr<BaseComponent> _this;
 };

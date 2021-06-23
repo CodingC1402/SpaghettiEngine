@@ -50,7 +50,6 @@ void SceneManager::Update()
 
 					scenes[sceneIndex]->LoadComponent();
 					scenes[sceneIndex]->Start();
-					scenes[sceneIndex]->Enable();
 
 					CleanUpAfterLoad();
 					_startedLoadNewScene = false;

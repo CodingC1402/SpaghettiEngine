@@ -27,21 +27,34 @@ bool BaseComponent::IsDisabled()
     return _isDisabled;
 }
 
+bool BaseComponent::CallDestroy()
+{
+    if (_owner)
+    {
+        _owner->AddToTrashBin(_this.lock());
+        return true;
+    }
+    return false;
+}
+
 void BaseComponent::Destroy()
 {
     if (!_isDisabled)
         this->Disable();
+    // Call on end when the object is destroyed
+    this->OnEnd();
+
     delete this;
 }
 
-void BaseComponent::DisableWithoutUpdate()
+void BaseComponent::SetName(const std::string& name)
 {
-    _isDisabled = true;
+    _name = name;
 }
 
-void BaseComponent::EnableWithoutUpdate()
+std::list<SBaseComponent>::iterator BaseComponent::GetIterator() const
 {
-    _isDisabled = false;
+    return _iterator;
 }
 
 std::shared_ptr<BaseComponent> BaseComponent::GetSharedPtr() const
@@ -49,9 +62,10 @@ std::shared_ptr<BaseComponent> BaseComponent::GetSharedPtr() const
     return _this.lock();
 }
 
-void BaseComponent::AssignSharedPtr(const std::shared_ptr<BaseComponent>& shared_ptr)
+void BaseComponent::AssignPtr(std::list<SBaseComponent>::iterator iterator)
 {
-    _this = shared_ptr;
+    _iterator = iterator;
+    _this = *iterator;
 }
 
 PScene BaseComponent::GetOwner() const

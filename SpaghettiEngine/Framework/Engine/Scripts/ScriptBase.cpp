@@ -58,22 +58,21 @@ void ScriptBase::AssignOwner(const PGameObj& owner)
 
 Matrix4 ScriptBase::GetWorldMatrix() const noexcept
 {
-	return _ownerObj->GetWorldMatrix();
+	return _ownerObj->GetTransform().GetWorldMatrix();
 }
 
 Vector3 ScriptBase::GetWorldTransform() const noexcept
 {
-	return _ownerObj->GetWorldTransform();
+	return _ownerObj->GetTransform().GetWorldTransform();
 }
 
 Vector3 ScriptBase::GetWorldRotation() const noexcept
 {
-	return _ownerObj->GetWorldRotation();
+	return _ownerObj->GetTransform().GetWorldRotation();
 }
-
 Vector3 ScriptBase::GetWorldScale() const noexcept
 {
-	return _ownerObj->GetWorldScale();
+	return _ownerObj->GetTransform().GetWorldScale();
 }
 
 WGameObj ScriptBase::GetGameObject() const noexcept
@@ -96,10 +95,8 @@ void ScriptBase::Load(nlohmann::json& input)
 
 void ScriptBase::Destroy()
 {
-	if (!_isDisabled)
-	{
-		OnEnd();
-		Disable();
-	}
+	if (_ownerObj)
+		_ownerObj->RemoveScript(this);
+
 	BaseComponent::Destroy();
 }
