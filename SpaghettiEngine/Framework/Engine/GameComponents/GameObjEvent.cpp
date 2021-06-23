@@ -66,7 +66,10 @@ void GameObj::Destroy()
 	{
 		auto container = GetScriptContainer().GetAllItem();
 		for (auto it = container.begin(); it != container.end(); ++it)
+		{
 			(*it)->CallDestroy();
+			(*it)->Disable();
+		}
 	}
 	GetScriptContainer().RemoveAllItem();
 
