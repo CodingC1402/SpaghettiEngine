@@ -1,17 +1,29 @@
 #pragma once 
 
-#include <list>
-#include <string>
-#include <vector>
+#include "Corntainer.h"
 #include "Macros.h"
 
 CLASS_FORWARD_DECLARATION(GameObj);
 
-class ChildContainer
+class ChildContainer : public Corntainer<PGameObj>
 {
 public:
-	PGameObj GetGameObject(const std::string& name);
-	std::vector<PGameObj> GetGameObjects(const std::string& name);
+	ChildContainer(PGameObj owner);
+	PGameObj& operator[] (unsigned index);
+
+	[[nodiscard]] unsigned				GetSize();
+	[[nodiscard]] PGameObj				GetItem(const std::string& name);
+	[[nodiscard]] PGameObj				GetItemWithTag(const std::string& tag);
+	[[nodiscard]] std::deque<PGameObj>	GetAllItemsWithName(const std::string& name);
+	[[nodiscard]] std::deque<PGameObj>	GetAllItemsWithTag(const std::string& tag);
+
+	PGameObj	AddItemClone(PGameObj child);
+	void		AddItem(PGameObj child) override;
+	
+	void RemoveAllItem() override;
+	void RemoveItem(PGameObj object) override;
+	void RemoveItemsWithName(const std::string& name);
+	void RemoveItemsWithTag(const std::string& tag);
 protected:
-	std::list<PGameObj> _container;
+	PGameObj _owner;
 };

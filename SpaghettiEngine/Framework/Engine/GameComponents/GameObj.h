@@ -4,6 +4,7 @@
 #include "PhysicComponent.h"
 #include "Scene.h"
 #include "BaseComponent.h"
+#include "ChildContainer.h"
 #include "Transform.h"
 
 #include <memory>
@@ -55,12 +56,15 @@ public:
 	[[nodiscard]] list<PScriptBase> GetAllScripts(const std::string& name) const noexcept;
 	[[nodiscard]] string			GetTag() const;
 	[[nodiscard]] string			GetName() const;
+	[[nodiscard]] ChildContainer&	GetChildContainer();
 
 	[[nodiscard]] Transform&		GetTransform();
 	[[nodiscard]] PhysicComponent&	GetPhysicComponent();
 
 	[[nodiscard]] bool				IsDestroyed() const;
 
+	void SetParent(PGameObj parent);
+	void SetName(const std::string& name);
 	void SetTag(const std::string& tag);
 
 	void Load(nlohmann::json& input) override;
@@ -75,14 +79,6 @@ public:
 	void OnCollide(CollideEvent& e) override;
 	void OnCollideEnter(CollideEvent& e) override;
 	void OnCollideExit(CollideEvent& e) override;
-
-	void		AddParent(const PGameObj& parent);
-
-	PGameObj	AddChild();
-	PGameObj	AddChild(const PGameObj& gameObj);
-	PGameObj    AddChildClone(const PGameObj& gameObj);
-
-	void RemoveChild(const PGameObj& gameObj);
 
 	PScriptBase AddScript(const std::string& scriptName, nlohmann::json& inputObject);
 	PScriptBase AddScript(const PScriptBase& script);
@@ -105,10 +101,10 @@ protected:
 	string _tag;
 	string _name;
 
+	ChildContainer _children;
 	PhysicComponent _physic;
 	Transform _transform;
 
-	list<WGameObj> _children;
 	list<WScriptBase> _scripts;
 
 	static nlohmann::json defaultJson;

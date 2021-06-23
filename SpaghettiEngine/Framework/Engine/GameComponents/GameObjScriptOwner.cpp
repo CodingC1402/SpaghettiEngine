@@ -44,5 +44,6 @@ void GameObj::RemoveScript(const PScriptBase& script)
 
 void GameObj::ClearScripts()
 {
-
+	for (auto& script : _scripts)
+		script.lock()->Destroy();
 }

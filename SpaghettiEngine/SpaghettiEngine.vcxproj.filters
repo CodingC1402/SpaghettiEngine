@@ -311,6 +311,12 @@
     <ClInclude Include="Framework\Engine\GameComponents\Transform.h">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\ScriptContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\ChildContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -526,9 +532,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\GameObjChildParent.cpp">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\GameObjMatrix.cpp">
-      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClCompile>
@@ -539,6 +542,12 @@
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\ScriptContainer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\ChildContainer.cpp">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,62 +2,89 @@
 #include "GameObj.h"
 
 //===========================================================================================================================//
-#pragma region Parent_Function
-void GameObj::RemoveParent()
+
+ChildContainer::ChildContainer(PGameObj owner)
 {
-	if (!parent)
-		return;
-
-
-}
-void GameObj::AddParent(const PGameObj& gameObj)
-{
-	if (!gameObj)
-		gameObj->AddChild(this);
-}
-#pragma endregion
-//===========================================================================================================================//
-#pragma region Child_Function
-PGameObj GameObj::AddChild(const PGameObj& child)
-{
-	if (child->_parent == this || !child)
-		return child;
-
-	if (child->_parent)
-		child->_parent->RemoveChild(child);
-
-	_transform.AddChild(&child->GetTransform());
+	_owner = owner;
 }
 
-PGameObj GameObj::AddChildClone(const PGameObj& child)
+PGameObj& ChildContainer::operator[](unsigned index)
 {
-
+	return _container[index];
 }
 
-PGameObj GameObj::AddChild()
+unsigned ChildContainer::GetSize()
 {
-
+	return _container.size();
 }
-#pragma endregion
-//===========================================================================================================================//
-#pragma region ParentChild Getters
-PGameObj GameObj::GetParent() const
-{
-	return parent;
-}
-PGameObj GameObj::GetChild(unsigned index) const
-{
-	if (index >= _children.size())
-		return nullptr;
 
-	auto iterator = _children.begin();
-	std::advance(iterator, index);
-	return  *iterator;
-}
-#pragma endregion
-
-PGameObj ChildContainer::GetGameObject(const std::string& name)
+PGameObj ChildContainer::GetItem(const std::string& name)
 {
 	for (const auto& object : _container)
-		object->
+		if (object->GetName() == name)
+			return object;
+	return nullptr;
+}
+
+PGameObj ChildContainer::GetItemWithTag(const std::string& tag)
+{
+	for (const auto& object : _container)
+		if (object->GetTag() == tag)
+			return object;
+	return nullptr;
+}
+
+std::deque<PGameObj> ChildContainer::GetAllItemsWithName(const std::string& name)
+{
+	std::deque<PGameObj> rValues;
+	for (auto& object : _container)
+		if (object->GetName() == name)
+			rValues.push_back(object);
+	return rValues;
+}
+
+std::deque<PGameObj> ChildContainer::GetAllItemsWithTag(const std::string& tag)
+{
+	std::deque<PGameObj> rValues;
+	for (auto& object : _container)
+		if (object->GetTag() == tag)
+			rValues.push_back(object);
+	return rValues;
+}
+
+void ChildContainer::AddItem(PGameObj child)
+{
+
+}
+
+void ChildContainer::RemoveAllItem()
+{
+	Corntainer::RemoveAllItem();
+}
+
+void ChildContainer::RemoveItem(PGameObj object)
+{
+	Corntainer::RemoveItem(object);
+}
+
+void ChildContainer::RemoveItemsWithName(const std::string& name)
+{
+	for (auto it = _container.begin(); it != _container.end();)
+	{
+		if ((*it)->GetName() == name)
+			it = _container.erase(it);
+		else
+			++it;
+	}
+}
+
+void ChildContainer::RemoveItemsWithTag(const std::string& tag)
+{
+	for (auto it = _container.begin(); it != _container.end();)
+	{
+		if ((*it)->GetTag() == tag)
+			it = _container.erase(it);
+		else
+			++it;
+	}
 }

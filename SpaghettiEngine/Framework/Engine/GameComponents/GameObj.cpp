@@ -24,6 +24,8 @@ SGameObj GameObj::Clone() const
 	auto cloneObj = _owner->CreateGameObject();
 
 	cloneObj->_tag = _tag;
+	cloneObj->_name = _name;
+	cloneObj->_children = _children;
 
 	for (const auto& script : _scripts)
 		cloneObj->AddScriptClone(script.lock().get());
@@ -68,6 +70,10 @@ std::string GameObj::GetName() const
 {
 	return _name;
 }
+ChildContainer& GameObj::GetChildContainer()
+{
+	return _children;
+}
 Transform& GameObj::GetTransform()
 {
 	return _transform;
@@ -75,6 +81,19 @@ Transform& GameObj::GetTransform()
 bool GameObj::IsDestroyed() const
 {
 	return _isReadyForDelete;
+}
+void GameObj::SetParent(PGameObj parent)
+{
+	if (!_parent)
+		_parent->GetChildContainer().RemoveItem(this);
+	_parent = parent;
+
+	if(_parent)
+		_parent->GetChildContainer().AddItem(this);
+}
+void GameObj::SetName(const std::string& name)
+{
+	_name = name;
 }
 void GameObj::SetTag(const std::string& tag)
 {
@@ -88,15 +107,18 @@ PhysicComponent& GameObj::GetPhysicComponent()
 }
 
 #pragma region Constructor/Destructor
+
 GameObj::GameObj(PScene owner, bool isDisabled)
 	:
 	_physic(this),
+	_children(this),
 	BaseComponent(owner, isDisabled)
 {}
 
 GameObj::GameObj(GameObj & obj)
 	:
 	_physic(this),
+	_children(this),
 	BaseComponent(obj._owner, obj.IsDisabled())
 {
 	*this = obj;
@@ -121,10 +143,10 @@ GameObj& GameObj::operator=(GameObj& obj)
 #pragma endregion 
 void GameObj::Load(nlohmann::json& input)
 {
-	if (loaded)
+	if (_loaded)
 		return;
 
-	loaded = true;
+	_loaded = true;
 	using namespace nlohmann;
 	using namespace LoadingJson;
 	// Use to track which field so it can descibe precisely the error
@@ -154,11 +176,13 @@ void GameObj::Load(nlohmann::json& input)
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::gameObjectsField;
-		for (const auto & child : input[Field::gameObjectsField])
-			dynamic_cast<PGameObj>(_owner->GetComponent(child[Field::idField].get<CULL>()).get())
+
+		for (const auto& child : input[Field::gameObjectsField])
+			dynamic_cast<PGameObj>(_owner->GetComponent(child[Field::idField].get<CULL>()).get())->SetParent(this);
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::scriptsField;
+
 		for (const auto& script : input[Field::scriptsField])
 			dynamic_cast<ScriptBase*>(_owner->GetComponent(script[Field::idField].get<CULL>()).get())->AssignOwner(this);
 	}
