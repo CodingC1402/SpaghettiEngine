@@ -8,8 +8,28 @@
     "Path": "Asset/Animations/ArrowBrickToRight.json"
   },
   {
-    "ID": 20001,
-    "Path": "Asset/Animations/Running.json"
+    "ID": 30001,
+    "Path": "Asset/Animations/PlayerIdle.json"
+  },
+  {
+    "ID": 30002,
+    "Path": "Asset/Animations/PlayerHurt.json"
+  },
+  {
+    "ID": 30003,
+    "Path": "Asset/Animations/PlayerRunningRevUp.json"
+  },
+  {
+    "ID": 30004,
+    "Path": "Asset/Animations/PlayerRunning.json"
+  },
+  {
+    "ID": 30005,
+    "Path": "Asset/Animations/PlayerJump.json"
+  },
+  {
+    "ID": 30006,
+    "Path": "Asset/Animations/PlayerInSlide.json"
   },
   {
     "ID": 20002,
