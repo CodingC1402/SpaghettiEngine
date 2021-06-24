@@ -10,7 +10,7 @@ bool Physic::Update()
 {
 	bool isRunUpdate = false;
 	_accumulator += GameTimer::GetDeltaTime();
-	if (_accumulator >= _step)
+	while (_accumulator >= _step)
 	{
 		// Update the parameter of all the objects in physic simulation
 		for (auto& obj : _gameObjs) {
@@ -20,7 +20,11 @@ bool Physic::Update()
 		// The actual cal calculation of the physic engine
 		Step();
 
-		_accumulator = SMath::modulo(_accumulator, _step);
+		_accumulator -= _step;
+
+		float interpolateNumber = _accumulator * (1 - _stepInterpolation);
+		interpolateNumber = interpolateNumber > _baseStep ? _baseStep : interpolateNumber;
+		_step = _baseStep * _stepInterpolation + interpolateNumber;
 		isRunUpdate = true;
 
 		// Project the update back to the game engine obj
@@ -86,6 +90,7 @@ void Physic::Step()
 void Physic::SetStep(const float& step)
 {
 	_step = step;
+	_baseStep = step;
 }
 
 float Physic::GetStep()

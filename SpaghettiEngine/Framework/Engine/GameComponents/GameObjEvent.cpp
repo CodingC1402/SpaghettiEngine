@@ -12,9 +12,6 @@ void GameObj::OnStart()
 	_children.IteratingWithLamda([](PGameObj child) {
 		child->OnStart();
 	});
-
-	if (!IsDisabled())
-		OnEnabled();
 }
 
 void GameObj::OnUpdate()
@@ -148,12 +145,14 @@ void GameObj::Destroy()
 
 	// Remove scripts
 	_scripts.IteratingWithLamda([](PScriptBase script) {
+		script->Disable();
 		script->CallDestroy();
 		});
 	GetScriptContainer().RemoveAllItem();
 
 	// Remove objects
 	_children.IteratingWithLamda([](PGameObj child) {
+		child->Disable();
 		child->CallDestroy();
 		});
 	GetChildContainer().RemoveAllItem();

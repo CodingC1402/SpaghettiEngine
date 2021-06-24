@@ -1,5 +1,6 @@
 #include "AttackMove.h"
 #include "LoadingJson.h"
+#include "StarScript.h"
 
 REGISTER_FINISH(AttackMove);
 
@@ -15,7 +16,9 @@ void AttackMove::OnUpdate()
 {
 	if (_attackKey->Check())
 	{
-		GetOwner()->Instantiate(_starPrefab, GetWorldTransform());
+		auto attack = GetOwner()->Instantiate(_starPrefab, GetWorldTransform());
+		auto starScript = dynamic_cast<StarScript*>(attack->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
+		starScript->StartCounter();
 	}
 }
 

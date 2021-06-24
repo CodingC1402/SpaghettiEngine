@@ -13,6 +13,7 @@ PScriptBase ScriptContainer::GetItem(const std::string& name)
 			return (*it);
 		}
 	}
+	return nullptr;
 }
 
 PScriptBase ScriptContainer::GetItemType(const std::string& type)
@@ -24,6 +25,7 @@ PScriptBase ScriptContainer::GetItemType(const std::string& type)
 			return (*it);
 		}
 	}
+	return nullptr;
 }
 
 std::list<PScriptBase> ScriptContainer::GetAllItemsType(const std::string& type)

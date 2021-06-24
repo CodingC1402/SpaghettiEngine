@@ -13,6 +13,13 @@ void StarScript::OnEnabled()
 
 void StarScript::OnUpdate()
 {
+	if (coounterStarted)
+	{
+		counter += GameTimer::GetDeltaTime();
+		if (counter >= explodeTime)
+			GetGameObject()->CallDestroy();
+	}
+
 	if (onWayBack)
 	{
 		if (GetWorldTransform().x < originalPos.x)
@@ -35,6 +42,11 @@ void StarScript::OnUpdate()
 			GetGameObject()->GetTransform().Translate(Vector3(20, 0, 0) * GameTimer::GetDeltaTime());
 		}
 	}
+}
+
+void StarScript::StartCounter()
+{
+	coounterStarted = true;
 }
 
 void StarScript::OnCollide(CollideEvent& e)

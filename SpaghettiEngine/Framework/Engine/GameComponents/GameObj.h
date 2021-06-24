@@ -23,6 +23,7 @@ class GameObj : public BaseComponent
 	friend class Scene;
 	friend class PhysicComponent;
 	friend class ChildContainer;
+	friend class RootContainer;
 public:
 	class GameObjectFormatException : public CornException
 	{
@@ -56,8 +57,8 @@ public:
 	[[nodiscard]] ScriptContainer&	GetScriptContainer();
 	[[nodiscard]] PGameObj			GetParent() const;
 
-	[[nodiscard]] Transform&		GetTransform();
-	[[nodiscard]] PhysicComponent&	GetPhysicComponent();
+	[[nodiscard]] Transform&		GetTransform() const;
+	[[nodiscard]] PhysicComponent&	GetPhysicComponent() const;
 
 	[[nodiscard]] bool				IsDisabled() const override;
 	[[nodiscard]] bool				IsRoot() const;
@@ -111,8 +112,8 @@ private:
 	ChildContainer _children;
 	ScriptContainer _scripts;
 
-	PhysicComponent _physic;
-	Transform _transform;
+	mutable PhysicComponent _physic;
+	mutable Transform _transform;
 
 	std::list<PGameObj>::iterator _containerIterator;
 	static nlohmann::json defaultJson;

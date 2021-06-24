@@ -42,6 +42,9 @@ struct DerivedRegister : public ScriptFactory {
 #define TYPE_NAME(TYPE) #TYPE
 
 
+#define GET_FIRST_SCRIPT_OF_TYPE(ScriptType) dynamic_cast<ScriptType*>(GetGameObject()->GetScriptContainer().GetItemType(#ScriptType))
+#define GET_ALL_SCRIPTS_OF_TYPE(ScriptType) GetGameObject()->GetScriptContainer().GetAllItemType(#ScriptType)
+
 class ScriptBase : public BaseComponent
 {
 	friend class GameObj;

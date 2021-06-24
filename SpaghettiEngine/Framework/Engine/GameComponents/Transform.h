@@ -8,6 +8,7 @@
 #include <memory>
 
 CLASS_FORWARD_DECLARATION(Transform);
+CLASS_FORWARD_DECLARATION(GameObj);
 
 class Transform
 {
@@ -50,6 +51,8 @@ public:
 
 	void Translate(const Vector3& vector);
 	void Translate(const float& x, const float& y, const float& z);
+
+	Transform(PGameObj owner);
 #pragma endregion
 protected:
 	void SetParent(PTransform parent);
@@ -63,6 +66,8 @@ protected:
 	void CalculateScaleMatrix();
 	void CalculateWorldMatrix();
 protected:
+	PGameObj _owner;
+
 	PTransform _parentTransform;
 	std::deque<PTransform> _childTransform;
 

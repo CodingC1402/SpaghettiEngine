@@ -45,6 +45,7 @@
     <ClInclude Include="Framework\Engine\GameComponents\Game.h" />
     <ClInclude Include="Framework\Engine\GameComponents\GameObj.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Graphics.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\RootContainer.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Scene.h" />
     <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h" />
     <ClInclude Include="Framework\Engine\GameComponents\ScriptContainer.h" />
@@ -129,6 +130,7 @@
     <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\RootContainer.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\ScriptContainer.cpp" />

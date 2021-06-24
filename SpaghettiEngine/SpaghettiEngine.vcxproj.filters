@@ -69,6 +69,12 @@
     <Filter Include="FrameWork\Engine\GameComponents\GameObject">
       <UniqueIdentifier>{31da83a7-ad85-47d5-8271-4c2440e1232e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\Graphics">
+      <UniqueIdentifier>{e0bc74c7-1771-4313-83e0-742c413a8b5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\Scenes">
+      <UniqueIdentifier>{92f88517-a016-4fcd-9e5a-7690af03eefb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Window\Window.h">
@@ -152,16 +158,7 @@
     <ClInclude Include="Framework\Engine\Containers\ResourceContainer.h">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\Scene.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Game.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\Graphics.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\ThirdParty\json.hpp">
@@ -305,9 +302,6 @@
     <ClInclude Include="Framework\Engine\GameComponents\GameObj.h">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\BaseComponent.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Transform.h">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClInclude>
@@ -319,6 +313,21 @@
     </ClInclude>
     <ClInclude Include="Framework\Utilities\Corntainer.h">
       <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\RootContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Scene.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\BaseComponent.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Graphics.h">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,16 +400,7 @@
     <ClCompile Include="Framework\Engine\Containers\ResourceContainer.cpp">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\InputSystem.cpp">
@@ -535,9 +535,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\BaseComponent.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
     </ClCompile>
@@ -546,6 +543,21 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\ChildContainer.cpp">
       <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\RootContainer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\BaseComponent.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

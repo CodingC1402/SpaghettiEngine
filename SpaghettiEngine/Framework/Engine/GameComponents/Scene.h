@@ -4,6 +4,7 @@
 #include "SMath.h"
 #include "CollideEvent.h"
 #include "Macros.h"
+#include "RootContainer.h"
 
 #include <string>
 #include <list>
@@ -83,7 +84,7 @@ protected:
     // Call each time before game object update
     std::list<SBaseComponent>   _trashBin;
     std::list<SBaseComponent>   _gameObjects;
-    std::list<PGameObj>         _rootObjects;
+    RootContainer               _rootContainer;
     std::list<SBaseComponent>   _scripts;
 
     std::map<CULL, Entry>* _tempComponentContainer = nullptr;

@@ -18,18 +18,19 @@ public:
 
 	virtual void RemoveAllItem();
 	virtual void RemoveItem(T item);
+
+	void IteratingWithLamda(const std::function<void(T)>& lamdaFun) const;
+	void IteratingWithLamdaEvent(const std::function<void(T, CollideEvent&)>& lamdaFun, CollideEvent& e) const;
 protected:
-	void IteratingWithLamda(const std::function<void (T)>& lamdaFun);
-	void IteratingWithLamdaEvent(const std::function<void(T, CollideEvent&)>& lamdaFun, CollideEvent& e);
 
 	// Start of loops
-	ListIterator Begin();
+	ListIterator Begin() const;
 
 	//  Took in an iterator and return whether it is at the end of the list or not
-	bool Iterate(ListIterator& it);
+	bool Iterate(ListIterator& it) const;
 
 	// Use this to erase to make sure that it work while iterating.
-	ListIterator Erase(ListIterator);
+	ListIterator Erase(ListIterator) const;
 	void Add(T item);
 
 	std::list<T>& GetContainer() const;
@@ -48,11 +49,11 @@ inline std::list<T> Corntainer<T>::GetAllItem()
 template<typename T>
 inline unsigned Corntainer<T>::GetSize()
 {
-	return _container.size();
+	return static_cast<unsigned>(_container.size());
 }
 
 template<typename T>
-inline std::list<T>::iterator Corntainer<T>::Erase(ListIterator it)
+inline std::list<T>::iterator Corntainer<T>::Erase(ListIterator it) const
 {
 	if (_isIterating && it == _currentIterator)
 	{
@@ -91,7 +92,7 @@ inline void Corntainer<T>::RemoveItem(T item)
 }
 
 template<typename T>
-inline void Corntainer<T>::IteratingWithLamda(const std::function<void(T)>& lamdaFun)
+inline void Corntainer<T>::IteratingWithLamda(const std::function<void(T)>& lamdaFun) const
 {
 	ListIterator it = Begin();
 	bool result = _container.empty();
@@ -103,7 +104,7 @@ inline void Corntainer<T>::IteratingWithLamda(const std::function<void(T)>& lamd
 }
 
 template<typename T>
-inline void Corntainer<T>::IteratingWithLamdaEvent(const std::function<void(T, CollideEvent&)>& lamdaFun, CollideEvent& e)
+inline void Corntainer<T>::IteratingWithLamdaEvent(const std::function<void(T, CollideEvent&)>& lamdaFun, CollideEvent& e) const
 {
 	ListIterator it = Begin();
 	bool result = _container.empty();
@@ -115,7 +116,7 @@ inline void Corntainer<T>::IteratingWithLamdaEvent(const std::function<void(T, C
 }
 
 template<typename T>
-inline std::list<T>::iterator Corntainer<T>::Begin()
+inline std::list<T>::iterator Corntainer<T>::Begin() const
 {
 	_isIterating = true;
 	_currentIterator = _container.begin();
@@ -123,7 +124,7 @@ inline std::list<T>::iterator Corntainer<T>::Begin()
 }
 
 template<typename T>
-inline bool Corntainer<T>::Iterate(ListIterator& it)
+inline bool Corntainer<T>::Iterate(ListIterator& it) const
 {
 	if (!_isIterating)
 		return true;
