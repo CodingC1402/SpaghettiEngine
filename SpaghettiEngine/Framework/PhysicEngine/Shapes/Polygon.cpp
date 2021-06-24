@@ -3,6 +3,7 @@
 #include "Circle.h"
 #include "SMath.h"
 #include <cmath>
+#include <limits>
 
 Shape::Type Polygon::GetType() const
 {
@@ -55,9 +56,70 @@ bool Polygon::PolygonCircle(Collision* collision)
 	const auto polygon = dynamic_cast<Polygon2D*>(collision->GetShapeA());
 	const auto circle = dynamic_cast<Circle*>(collision->GetShapeB());
 
-	
-	
-	return false;
+	Vector3 normal;
+	float penetration;
+
+	if (!PolygonCircleCollision(*polygon, *circle, penetration, normal))
+		return false;
+
+	if (normal.Dot(collision->GetShapeB()->GetCenter() - collision->GetShapeA()->GetCenter()) < 0)
+		normal = -normal;
+
+	collision->SetPenetration(penetration);
+	collision->SetNormal(normal);
+
+	return true;
+}
+
+bool Polygon::PolygonCircleCollision(const Polygon& polygon, const Circle& circle, float& penetrationOut, Vector3& normalOut)
+{
+	float penetration;
+
+	float distance = std::numeric_limits<float>::max();
+	Vector3 closestVertex;
+
+	float leastPenetration = std::numeric_limits<float>::max();
+	Vector3 leastPenNormal;
+
+	auto Vertexes = polygon.GetVertexes();
+	// Check on normal of edges
+	unsigned numberOfVertex = Vertexes.size();
+	for (int i = 0; i < numberOfVertex; i++)
+	{
+		float currentDis = (Vertexes[i] - circle.GetCenter()).GetPow2Magnitude();
+		if (currentDis < distance)
+		{
+			distance = currentDis;
+			closestVertex = Vertexes[i];
+		}
+
+		Vector3 edge = Vertexes[i] - Vertexes[(i + 1) % numberOfVertex];
+		Vector3 normalUnit = Vector3(edge.y, -edge.x, 0).GetUnitVector();
+
+		if (!polygon.CheckCollideOnOneEdgeWithCircle(circle, normalUnit, penetration))
+			return false;
+
+		if (penetration < leastPenetration)
+		{
+			leastPenetration = penetration;
+			leastPenNormal = normalUnit;
+		}
+	}
+
+	// Check on normal of connect line between center and closest corner
+	Vector3 connectEdge = (closestVertex - circle.GetCenter()).GetUnitVector();
+	if (!polygon.CheckCollideOnOneEdgeWithCircle(circle, connectEdge, penetration))
+		return false;
+
+	if (penetration < leastPenetration)
+	{
+		leastPenetration = penetration;
+		leastPenNormal = connectEdge;
+	}
+
+	penetrationOut = leastPenetration;
+	normalOut = leastPenNormal;
+	return true;
 }
 
 Shape* Polygon::Clone() const
@@ -84,6 +146,42 @@ void Polygon::UpdateParameter()
 	for (auto& vertex : _worldVertexes)
 		vertex = vertex * _offSetMatrix * _worldMatrix;
 	_center = _centroid * _offSetMatrix * _worldMatrix;
+}
+
+
+bool Polygon::CheckCollideOnOneEdgeWithCircle(const Circle& circle, const Vector3& normal, float& penetration) const
+{
+	MinMaxDotAlongNormal PolyDot(*this, normal);
+
+	float centerDot = circle.GetCenter().Dot(normal);
+	float centerMaxDot = centerDot + circle.GetRadius();
+	float centerMinDot = centerDot - circle.GetRadius();
+
+	float biggerMax, biggerMin;
+	float smallerMax, smallerMin;
+
+	if (centerMaxDot > PolyDot.GetMaxDot())
+	{
+		biggerMax = centerMaxDot;
+		biggerMin = centerMinDot;
+
+		smallerMax = PolyDot.GetMaxDot();
+		smallerMin = PolyDot.GetMinDot();
+	}
+	else
+	{
+		biggerMax = PolyDot.GetMaxDot();
+		biggerMin = PolyDot.GetMinDot();
+
+		smallerMax = centerMaxDot;
+		smallerMin = centerMinDot;
+	}
+
+	if (smallerMax < biggerMin)
+		return false;
+
+	penetration = std::abs(smallerMax - biggerMin);
+	return true;
 }
 
 bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penetration, Vector3& normal) const

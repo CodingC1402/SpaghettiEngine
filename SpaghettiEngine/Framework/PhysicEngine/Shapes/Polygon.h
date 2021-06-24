@@ -3,6 +3,7 @@
 #include <vector>
 
 class Collision;
+class Circle;
 
 typedef class Polygon : public Shape
 {
@@ -28,12 +29,17 @@ public:
 	static bool PolygonPolygon(Collision* collision);
 	static bool PolygonCircle(Collision* collision);
 
+	/// Used by both polygon-circle and circle-polygon keep it here cause polygon is more complicated than circle so accessing stuff fast
+	/// Is better
+	static bool PolygonCircleCollision(const Polygon& polygon, const Circle& circle, float& penetration, Vector3& normal);
+
 	void SetVertexes(const std::vector<Vector3>& vertexes);
 	[[nodiscard]] const std::vector<Vector3>& GetVertexes() const;
 
 	Shape* Clone() const override;
 	void UpdateParameter() override;
 protected:
+	bool CheckCollideOnOneEdgeWithCircle(const Circle& circle, const Vector3& normal, float& penetration) const ;
 	bool CheckCollideOnEachEdge(const Polygon& other, float& penetration, Vector3& normal) const;
 	bool CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, float& edgePenetration, Vector3& edgeNormal) const;
 protected:
