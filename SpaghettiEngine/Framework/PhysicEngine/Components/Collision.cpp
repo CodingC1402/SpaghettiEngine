@@ -6,7 +6,7 @@
 
 std::vector<std::vector<bool (*)(Collision*)>> Collision::_collisionFunctions = {
 	{&Circle::CircleCircle, &Circle::CirclePolygon,},
-	{&Polygon::PolygonCircle,& Polygon::PolygonPolygon}
+	{&Polygon::PolygonCircle, &Polygon::PolygonPolygon}
 };
 
 CollideEvent Collision::_shapeACollideTemplate;

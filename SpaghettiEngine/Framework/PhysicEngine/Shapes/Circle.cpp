@@ -1,5 +1,6 @@
 #include "Circle.h"
 #include "Collision.h"
+#include "Polygon.h"
 
 Shape::Type Circle::GetType() const
 {
@@ -63,5 +64,20 @@ bool Circle::CircleCircle(Collision* collision)
 
 bool Circle::CirclePolygon(Collision* collision)
 {
-	return false;
+	const auto polygon = dynamic_cast<Polygon2D*>(collision->GetShapeB());
+	const auto circle = dynamic_cast<Circle*>(collision->GetShapeA());
+
+	Vector3 normal;
+	float penetration;
+
+	if (!Polygon::PolygonCircleCollision(*polygon, *circle, penetration, normal))
+		return false;
+
+	if (normal.Dot(collision->GetShapeB()->GetCenter() - collision->GetShapeA()->GetCenter()) < 0)
+		normal = -normal;
+
+	collision->SetPenetration(penetration);
+	collision->SetNormal(normal);
+
+	return true;
 }
