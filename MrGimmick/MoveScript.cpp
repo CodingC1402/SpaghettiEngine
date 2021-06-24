@@ -17,7 +17,7 @@ MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
 
 void MoveScript::OnStart()
 {
-	_rigidBody = dynamic_cast<RigidBody2D*>(GetGameObject()->GetScriptContainer().GetItemType(TYPE_NAME(RigidBody2D)));
+	_rigidBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 
 	up = InputSystem::GetInput("MoveUp");
 	down = InputSystem::GetInput("MoveDown");
