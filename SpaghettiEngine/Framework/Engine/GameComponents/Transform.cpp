@@ -178,6 +178,14 @@ void Transform::Translate(const float& x, const float& y, const float& z)
 {
 	Translate(Vector3(x, y, z));
 }
+Transform::Transform(PGameObj owner)
+{
+	_owner = owner;
+
+	_transformMatrix = Matrix4::GetDiagonalMatrix();
+	_rotationMatrix = Matrix4::GetDiagonalMatrix();
+	_scaleMatrix = Matrix4::GetDiagonalMatrix();
+}
 void Transform::Translate(const Vector3& vector)
 {
 	if (vector == Vector3(0, 0, 0))

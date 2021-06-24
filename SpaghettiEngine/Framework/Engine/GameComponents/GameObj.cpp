@@ -27,17 +27,21 @@ PGameObj GameObj::Clone() const
 	cloneObj->_name = _name;
 	cloneObj->_children = _children;
 
-	auto& scriptsContainer = _scripts.GetContainer();
-	for (auto it = scriptsContainer.begin(); it != scriptsContainer.end(); ++it)
-	{
-		cloneObj->GetScriptContainer().AddItem((*it)->Clone());
-	}
+	_scripts.IteratingWithLamda([&](PScriptBase script) {
+			cloneObj->GetScriptContainer().AddItem((script)->Clone());
+	});
 
-	auto& childrenContainer = _children.GetContainer();
-	for (auto it = childrenContainer.begin(); it != childrenContainer.end(); ++it)
-	{
-		cloneObj->GetChildContainer().AddItem((*it)->Clone());
-	}
+	_children.IteratingWithLamda([&](PGameObj child) {
+		cloneObj->GetChildContainer().AddItem((child)->Clone());
+	});
+
+	Vector3 rotation = GetTransform().GetWorldRotation();
+	Vector3 transform = GetTransform().GetWorldTransform();
+	Vector3 scale = GetTransform().GetWorldScale();
+
+	cloneObj->GetTransform().SetRotation(rotation);
+	cloneObj->GetTransform().SetTransform(transform);
+	cloneObj->GetTransform().SetScale(scale);
 
 	return cloneObj;
 }
@@ -82,7 +86,7 @@ bool GameObj::GetParentDisability()
 {
 	return _isParentDisabled;
 }
-PhysicComponent& GameObj::GetPhysicComponent()
+PhysicComponent& GameObj::GetPhysicComponent() const
 {
 	return _physic;
 }
@@ -130,7 +134,7 @@ PGameObj GameObj::GetParent() const
 {
 	return _parent;
 }
-Transform& GameObj::GetTransform()
+Transform& GameObj::GetTransform() const
 {
 	return _transform;
 }
@@ -176,6 +180,7 @@ GameObj::GameObj(PScene owner, bool isDisabled)
 	_physic(this),
 	_children(this),
 	_scripts(this),
+	_transform(this),
 	BaseComponent(owner, isDisabled)
 {}
 

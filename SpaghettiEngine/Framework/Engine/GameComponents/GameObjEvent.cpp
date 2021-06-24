@@ -12,9 +12,6 @@ void GameObj::OnStart()
 	_children.IteratingWithLamda([](PGameObj child) {
 		child->OnStart();
 	});
-
-	if (!IsDisabled())
-		OnEnabled();
 }
 
 void GameObj::OnUpdate()

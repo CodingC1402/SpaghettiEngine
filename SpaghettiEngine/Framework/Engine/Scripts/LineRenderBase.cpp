@@ -32,7 +32,7 @@ void LineRendererBase::SetCircle(float radius, const Vector3& center)
 	if (radius <= 0)
 		return;
 
-	unsigned numberOfVertexes = SMath::Lerp(_minVertexesForCircle, _vertextesForCircle, radius / _radiusToMaxVertexesNumber);
+	unsigned numberOfVertexes = static_cast<unsigned>(SMath::Lerp(_minVertexesForCircle, _vertextesForCircle, radius / _radiusToMaxVertexesNumber));
 	if (numberOfVertexes == 0)
 		return;
 	_vertexes = std::vector<Vector3>(numberOfVertexes);

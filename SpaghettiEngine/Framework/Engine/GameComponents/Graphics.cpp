@@ -388,8 +388,17 @@ void Graphics::Render()
 		if (_renderLock.try_lock())
 		{
 			const auto cameraScript = *cameraList.begin();
+
+			auto counter = 1;
 			for (auto& renderer : _linesBuffer)
+			{
 				renderer->Draw(cameraScript);
+				counter++;
+				if (counter == 79)
+				{
+					int chit = 1;
+				}
+			}
 			_renderLock.unlock();
 			_lineTransformMatrix = Matrix4::GetDiagonalMatrix();
 		}

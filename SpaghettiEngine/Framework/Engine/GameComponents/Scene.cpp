@@ -43,25 +43,29 @@ const wchar_t* Scene::SceneException::What() const noexcept
 
 void Scene::Start()
 {
-    for (const auto& gameObj : _rootObjects)
-        gameObj->OnStart();
+    _rootContainer.IteratingWithLamda([](PGameObj obj) {
+        obj->OnStart();
+        if (!obj->IsDisabled())
+            obj->OnEnabled();
+    });
 }
 
 void Scene::Update()
 {
-    for (auto it = _rootObjects.begin(); it != _rootObjects.end();)
-    {
-        (*it)->OnUpdate();
-        ++it;
-    }
+    _rootContainer.IteratingWithLamda([](PGameObj obj) {
+        obj->OnUpdate();
+    });
 
     EraseTrashBin();
 }
 
 void Scene::FixedUpdate()
 {
-    for (const auto& gameObj : _rootObjects)
-        gameObj->OnFixedUpdate();
+    _rootContainer.IteratingWithLamda([](PGameObj obj) {
+        obj->OnFixedUpdate();
+    });
+
+    EraseTrashBin();
 }
 
 PGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
@@ -90,6 +94,7 @@ void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json)
     if (!json[Field::isDisabled].empty() && json[Field::isDisabled].get<bool>())
         component->_isDisabled = true;
 }
+
 void Scene::Load()
 {
     try
@@ -205,9 +210,7 @@ void Scene::AddToRoot(const PGameObj& object)
     if (!object)
         return;
 
-    _rootObjects.push_back(object);
-    object->SetContainerIterator(--_rootObjects.end());
-    object->SetIsRoot(true);
+    _rootContainer.AddItem(object);
 }
 
 void Scene::RemoveFromRoot(const PGameObj& object)
@@ -215,8 +218,7 @@ void Scene::RemoveFromRoot(const PGameObj& object)
     if (!object)
         return;
 
-    _rootObjects.erase(object->GetContainerIterator());
-    object->SetIsRoot(false);
+    _rootContainer.RemoveItem(object);
 }
 
 Scene::Entry::Entry(json& loadJson, SBaseComponent& component)

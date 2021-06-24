@@ -8,7 +8,6 @@ CLASS_FORWARD_DECLARATION(ScriptBase);
 
 class ScriptContainer : public Corntainer<PScriptBase>
 {
-	friend class GameObj;
 public:
 	ScriptContainer(PGameObj owner);
 
