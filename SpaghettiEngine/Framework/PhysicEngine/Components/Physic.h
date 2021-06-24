@@ -43,7 +43,10 @@ protected:
 
 	static void Step();
 protected:
+	static inline float _stepInterpolation = 0.9f;
+	static inline float _baseStep = 0.02f;
 	static inline float _step = 0.02f;
+
 	static inline float _accumulator = 0;
 	static inline Vector3 _gravity = Vector3(0, -10.0f, 0);
 
