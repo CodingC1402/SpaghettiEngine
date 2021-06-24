@@ -21,7 +21,7 @@ public:
 	BTs();
 	Node::State Tick();
 	WBlackBoard GetBlackBoard();
-	SBTs Clone();
+	virtual SBTs Clone();
 protected:
 	SBlackBoard _bb;
 	WBTs _this;

@@ -15,7 +15,7 @@ SSprite Animation::GetSpriteOfFrame(const unsigned int& frame) const
 	return _frames[frame].sprite;
 }
 
-void Animation::Advance(unsigned int& frame, float& time)
+bool Animation::Advance(unsigned int& frame, float& time)
 {
 	UINT nextFrame = frame;
 	while (time >= 0)
@@ -28,12 +28,13 @@ void Animation::Advance(unsigned int& frame, float& time)
 			if (isLoop)
 				nextFrame = 0;
 			else
-				return;
+				return true;
 		}
 
 		time -= _frames[nextFrame].delay;
 	}
 	time += _frames[nextFrame].delay;
+	return false;
 }
 
 AnimationContainer::AnimationContainer()

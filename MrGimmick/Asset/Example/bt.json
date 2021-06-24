@@ -1,0 +1,147 @@
+{
+    "BlackBoard":
+    [
+        {
+            "Name": "speed",
+            "Type": "double",
+            "Value": 5
+        },
+        {
+            "Name": "playerInRange",
+            "Type": "bool",
+            "Value": false
+        },
+        {
+            "Name": "Heart",
+            "Type": "int",
+            "Value": 3
+        },
+        {
+            "Name": "text",
+            "Type": "string",
+            "Value": "Hi there bro"
+        }
+    ],
+    "Children":
+    [
+        {
+            "Type": "Sequence",
+            "Children": [
+                {
+                    "Type": "DoubleCon",
+                    "Input": {
+                        "Type": "GreaterOrEqual",
+                        "Field": "speed",
+                        "Value": 5
+                    },
+                    "Children": [
+                        {
+                            "Type": "PrintNode",
+                            "Input": {
+                                "String": "Print 1"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Type": "SleepNode",
+                    "Input": {
+                        "Duration": 3
+                    }
+                },
+                {
+                    "Type": "StringCon",
+                    "Input": {
+                        "Type": "NonEqual",
+                        "Field": "text",
+                        "Value": "haha"
+                    },
+                    "Children": [
+                        {
+                            "Type": "Loop",
+                            "Input": {
+                                "Loop": 3
+                            },
+                            "Children": [
+                                {
+                                    "Type": "Loop",
+                                    "Input": {
+                                        "Loop": 2
+                                    },
+                                    "Children": [
+                                        {
+                                            "Type": "Sequence",
+                                            "Children":[
+                                                {
+                                                    "Type": "PrintNode",
+                                                    "Input": {
+                                                        "String": "Print 2"
+                                                    }
+                                                },
+                                                {
+                                                    "Type": "PrintNode",
+                                                    "Input": {
+                                                        "String": "Looped"
+                                                    }
+                                                },
+                                                {
+                                                    "Type": "Wait",
+                                                    "Input": {
+                                                        "Duration": 10000,
+                                                        "OncePerTick": true
+                                                    },
+                                                    "Children": [
+                                                        {
+                                                            "Type": "FailAt",
+                                                            "Input": {
+                                                                "Number": 3
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Type": "PrintNode",
+                    "Input": {
+                        "String": "Print 3"
+                    }
+                },
+                {
+                    "Type": "Selector",
+                    "Children": [
+                        {
+                            "Type": "AlwaysSuccess",
+                            "Children": [
+                                {
+                                    "Type": "FailAt",
+                                    "Input": {
+                                        "Number": 3
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "Type": "PrintNode",
+                            "Input": {
+                                "String": "Print 4"
+                            }
+                        },
+                        {
+                            "Type": "FailAt",
+                            "Input": {
+                                "Number": 4
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
