@@ -15,9 +15,6 @@ public:
 	[[nodiscard]] SSprite GetCurrentSprite() const;
 protected:
 	void SetCurrentSprite(SSprite sprite);
-	void SetDefaultSprite(SSprite sprite);
-	[[nodiscard]] SSprite GetDefaultSprite() const;
 protected:
 	SSprite _currentSprite;
-	SSprite _defaultSprite;
 };
