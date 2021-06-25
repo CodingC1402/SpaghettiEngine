@@ -29,7 +29,7 @@ protected:
 	Matrix4 flipYMatrix;
 	
 	WGameObj _followingPtr;
-	float _dragFactor = 0.7f;
+	float _dragFactor = 1.0f;
 	
 	int oldW = 0;
 	int oldH = 0;

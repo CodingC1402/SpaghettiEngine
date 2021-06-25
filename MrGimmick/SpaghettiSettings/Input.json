@@ -1,48 +1,28 @@
 {
   "Inputs": [
     {
-      "KeyCode": 87,
-      "Name": "Up",
-      "Type": "KeyPress"
-    },
-    {
-      "KeyCode": 83,
-      "Name": "Down",
-      "Type": "KeyState"
-    },
-    {
-      "KeyCode": 65,
-      "Name": "Left",
-      "Type": "KeyUp"
-    },
-    {
-      "KeyCode": 68,
-      "Name": "Right",
-      "Type": "KeyPress"
-    },
-    {
       "KeyCode": 37,
       "Name": "MoveLeft",
-      "Type": "KeyState"
-    },
-    {
-      "KeyCode": 38,
-      "Name": "MoveUp",
-      "Type": "KeyDown"
+      "Type": "All"
     },
     {
       "KeyCode": 39,
       "Name": "MoveRight",
-      "Type": "KeyState"
+      "Type": "All"
     },
     {
-      "KeyCode": 40,
-      "Name": "MoveDown",
-      "Type": "KeyState"
+      "KeyCode": 88,
+      "Name": "Jump",
+      "Type": "All"
     },
     {
       "KeyCode": 90,
       "Name": "Attack",
+      "Type": "All"
+    },
+    {
+      "KeyCode": 120,
+      "Name": "FullScreen",
       "Type": "KeyPress"
     }
   ]

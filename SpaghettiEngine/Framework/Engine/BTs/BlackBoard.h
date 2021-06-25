@@ -7,6 +7,7 @@
 #include "BTMacros.h"
 #include "ObservePattern.h"
 #include "json.hpp"
+#include "Macros.h"
 
 class FieldFactory;
 class FieldBase;
@@ -15,6 +16,12 @@ typedef std::shared_ptr<FieldBase> SField;
 
 template<typename T>
 class Field;
+
+using BoolField = std::weak_ptr<Field<bool>>;
+using IntField = std::weak_ptr<Field<int>>;
+using DoubleField = std::weak_ptr<Field<double>>;
+using FloatField = std::weak_ptr<Field<float>>;
+using UnsignedField = std::weak_ptr<Field<unsigned>>;
 
 class FieldBase : public Observable
 {
@@ -113,7 +120,7 @@ public:
 #pragma endregion
 
 protected:
-	T _value;
+	T _value{};
 };
 #pragma endregion;
 

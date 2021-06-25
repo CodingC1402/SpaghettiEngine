@@ -48,6 +48,10 @@
     <ClInclude Include="Framework\Engine\GameComponents\Game.h" />
     <ClInclude Include="Framework\Engine\GameComponents\GameObj.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Graphics.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\Input.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\InputAll.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\InputState.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\InputSystem.h" />
     <ClInclude Include="Framework\Engine\GameComponents\RootContainer.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Scene.h" />
     <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h" />
@@ -66,8 +70,6 @@
     <ClInclude Include="Framework\Engine\Wrapper\CornDirectX.h" />
     <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h" />
     <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h" />
-    <ClInclude Include="Framework\Engine\Wrapper\Input.h" />
-    <ClInclude Include="Framework\Engine\Wrapper\InputSystem.h" />
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h" />
     <ClInclude Include="Framework\Math\Matrix.h" />
     <ClInclude Include="Framework\Math\SMath.h" />
@@ -136,6 +138,10 @@
     <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\Input.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\InputAll.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\InputState.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\InputSystem.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\RootContainer.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />
@@ -152,8 +158,6 @@
     <ClCompile Include="Framework\Engine\Wrapper\Color.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp" />
-    <ClCompile Include="Framework\Engine\Wrapper\Input.cpp" />
-    <ClCompile Include="Framework\Engine\Wrapper\InputSystem.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp" />
     <ClCompile Include="Framework\Math\Matrix.cpp" />
     <ClCompile Include="Framework\Math\SMath.cpp" />
