@@ -20,54 +20,54 @@ Collision::Collision(Shape* A, Shape* B)
 	_bodyB = B->GetBody().lock().get();
 }
 
-Shape* Collision::GetShapeA()
+Shape* Collision::GetShapeA() const noexcept
 {
 	return _shapeA;
 }
 
-Shape* Collision::GetShapeB()
+Shape* Collision::GetShapeB() const noexcept
 {
 	return _shapeB;
 }
 
 
 
-float Collision::GetRestituation()
+float Collision::GetRestituation() const noexcept
 {
 	return _restitution;
 }
 
-float Collision::GetDynamicFriction()
+float Collision::GetDynamicFriction() const noexcept
 {
 	return _dynamicFriction;
 }
 
-float Collision::GetStaticFriction()
+float Collision::GetStaticFriction() const noexcept
 {
 	return _staticFriction;
 }
 
-void Collision::SetNormal(const Vector3& vec)
+void Collision::SetNormal(const Vector3& vec) noexcept
 {
 	_normal = vec;
 }
 
-void Collision::SetPenetration(const float& pen)
+void Collision::SetPenetration(const float& pen) noexcept
 {
 	_penetration = pen;
 }
 
-void Collision::SetRestituation(const float& f)
+void Collision::SetRestituation(const float& f) noexcept
 {
 	_restitution = f;
 }
 
-void Collision::SetDynamicFriction(const float& f)
+void Collision::SetDynamicFriction(const float& f) noexcept
 {
 	_dynamicFriction = f;
 }
 
-void Collision::SetStaticFriction(const float& f)
+void Collision::SetStaticFriction(const float& f) noexcept
 {
 	_staticFriction = f;
 }
@@ -88,12 +88,21 @@ bool Collision::Solve()
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 	if (isCollide)
 	{
-		_shapeACollideTemplate.Reset(_shapeB->GetBody());
-		_shapeBCollideTemplate.Reset(_shapeA->GetBody());
-		_shapeA->SendEvent(_shapeACollideTemplate);
+
+		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody(), _shapeB->GetOwnerScript());
+		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody(), _shapeA->GetOwnerScript());
+		if (_shapeA->IsTriggerOnly())
+			_shapeACollideTemplate.SetToTrigger();
+		if (_shapeB->IsTriggerOnly())
+			_shapeBCollideTemplate.SetToTrigger();
+
+		_shapeA->SendEvent(_shapeACollideTemplate);			    
 		_shapeB->SendEvent(_shapeBCollideTemplate);
 
-		if (_shapeACollideTemplate.GetIsHandled() || _shapeBCollideTemplate.GetIsHandled())
+		bool ignoreCollision =	_shapeACollideTemplate.GetIsHandled() | _shapeACollideTemplate.IsCollideWithTrigger() | 
+								_shapeBCollideTemplate.GetIsHandled() | _shapeBCollideTemplate.IsCollideWithTrigger();
+
+		if (ignoreCollision)
 			return false;
 	}
 	return isCollide;

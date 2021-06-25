@@ -77,6 +77,10 @@ void Collider2DBase::Load(nlohmann::json& input)
 			shape->SetOffSetY(offSet);
 	}
 
+	if (!input[_isTriggerField].empty())
+		SetIsTrigger(input[_isTriggerField].get<bool>());
+
+	SetOwnerForShapes();
 }
 
 bool Collider2DBase::CallDestroy()
@@ -89,6 +93,21 @@ bool Collider2DBase::CallDestroy()
 		(*it)->CallDestroy();
 	_lineRenderer.clear();
 	return true;
+}
+
+void Collider2DBase::SetIsTrigger(bool value)
+{
+	if (_isTrigger == value)
+		return;
+
+	_isTrigger = value;
+	for (auto& shape : _shapes)
+		shape->SetTriggerOnly(_isTrigger);
+}
+
+bool Collider2DBase::IsTrigger() const
+{
+	return _isTrigger;
 }
 
 PScriptBase Collider2DBase::Clone() const
@@ -127,4 +146,10 @@ void Collider2DBase::ChangeBody(WBody2D body)
 	_body = body;
 	for (auto& shape : _shapes)
 		shape->SetBody(_body);
+}
+
+void Collider2DBase::SetOwnerForShapes()
+{
+	for (auto& shape : _shapes)
+		shape->SetOwnerScript(this);
 }

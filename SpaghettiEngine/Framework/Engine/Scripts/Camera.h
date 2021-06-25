@@ -11,7 +11,7 @@ public:
 	Camera(PScene owner);
 	virtual Matrix4	GetMatrix(const Matrix4& originalMatrix);
 	virtual Matrix4 GetMatrixWithoutScaleY(const Matrix4& originalMatrix);
-	virtual void	OnUpdate() override;
+	virtual void	OnFixedUpdate() override;
 
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
