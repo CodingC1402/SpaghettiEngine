@@ -28,8 +28,8 @@ public:
 
 	[[nodiscard]] virtual Type GetType() const;
 
-	void SetOwnerScript(WCollider2DBase owner);
-	[[nodiscard]] WCollider2DBase GetOwnerScript();
+	void SetOwnerScript(Collider2DBase* owner);
+	[[nodiscard]] Collider2DBase* GetOwnerScript();
 
 	[[nodiscard]] float GetInverseMass() const;
 	[[nodiscard]] float GetMass() const;
@@ -44,6 +44,9 @@ public:
 	[[nodiscard]] const Vector3& GetCenter() const;
 	[[nodiscard]] const float& GetRadius() const;
 
+	void SetTriggerOnly(bool value);
+	[[nodiscard]] bool IsTriggerOnly() const;
+
 	void SendEvent(CollideEvent& e);
 
 	virtual void UpdateParameter() = 0;
@@ -56,9 +59,10 @@ public:
 	virtual Shape* Clone() const = 0;
 	WBody2D GetBody() const;
 protected:
-	WCollider2DBase _ownerScript;
+	Collider2DBase* _ownerScript;
 
 	WBody2D _body;
+	bool _isTriggerOnly = false;
 
 	Matrix4 _offSetMatrix;
 	Matrix4 _worldMatrix;

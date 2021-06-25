@@ -3,22 +3,37 @@
 #include "Collider2DBase.h"
 #include "Shape.h"
 
-WBody2D CollideEvent::GetBody() const
+WBody2D CollideEvent::GetBody() const noexcept
 {
 	return _collideWith;
 }
 
-WGameObj CollideEvent::GetGameObject() const
+WGameObj CollideEvent::GetGameObject() const noexcept
 {
 	return std::dynamic_pointer_cast<GameObj>(GetBody().lock()->GetGameObject()->GetSharedPtr());
 }
 
-bool CollideEvent::GetIsHandled() const
+bool CollideEvent::GetIsHandled() const noexcept
 {
 	return _isCollisionHandled;
 }
 
-void CollideEvent::SetIsHandled(bool handled)
+bool CollideEvent::IsCollideWithTrigger() const noexcept
+{
+	return _isCollideWithTrigger;
+}
+
+Collider2DBase* CollideEvent::GetCollideWithScript() const noexcept
+{
+	return _collideWithScript;
+}
+
+Collider2DBase* CollideEvent::GetCollideScript() const noexcept
+{
+	return _collideScript;
+}
+
+void CollideEvent::SetIsHandled(bool handled) noexcept
 {
 	_isCollisionHandled = handled;
 }
@@ -28,8 +43,32 @@ CollideEvent::CollideEvent(WBody2D collideWith)
 	_collideWith = collideWith;
 }
 
-void CollideEvent::Reset(WBody2D collideWith)
+CollideEvent::CollideEvent(Collider2DBase* collideScript, WBody2D collideWith, Collider2DBase* collideWithScript)
 {
 	_collideWith = collideWith;
+	_collideScript = collideScript;
+	_collideWithScript = collideWithScript;
+}
+
+void CollideEvent::SetCollideWithScript(Collider2DBase* script) noexcept
+{
+	_collideWithScript = script;
+}
+
+void CollideEvent::SetCollideScript(Collider2DBase* script) noexcept
+{
+	_collideScript = script;
+}
+
+void CollideEvent::SetToTrigger() noexcept
+{
+	_isCollideWithTrigger = true;
+}
+
+void CollideEvent::Reset(Collider2DBase* collideScript, WBody2D collideWith, Collider2DBase* collideWithScript)
+{
+	_collideWith = collideWith;
+	_collideScript = collideScript;
+	_collideWithScript = collideWithScript;
 	_isCollisionHandled = false;
 }

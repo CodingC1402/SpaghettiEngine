@@ -28,12 +28,12 @@ Vector3 Shape::GetGravityVector() const
 	return Physic::GetGravity() * _body.lock()->_gravityScale;
 }
 
-void Shape::SetOwnerScript(WCollider2DBase owner)
+void Shape::SetOwnerScript(Collider2DBase* owner)
 {
 	_ownerScript = owner;
 }
 
-WCollider2DBase Shape::GetOwnerScript()
+Collider2DBase* Shape::GetOwnerScript()
 {
 	return  _ownerScript;
 }
@@ -81,6 +81,16 @@ const Vector3& Shape::GetCenter() const
 const float& Shape::GetRadius() const
 {
 	return _radius;
+}
+
+bool Shape::IsTriggerOnly() const
+{
+	return _isTriggerOnly;
+}
+
+void Shape::SetTriggerOnly(bool value)
+{
+	_isTriggerOnly = value;
 }
 
 void Shape::SendEvent(CollideEvent& e)

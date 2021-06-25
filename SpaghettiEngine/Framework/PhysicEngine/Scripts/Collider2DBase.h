@@ -21,16 +21,22 @@ public:
 	void Load(nlohmann::json& input) override;
 	bool CallDestroy() override;
 
+	void SetIsTrigger(bool value);
+	[[nodiscard]] bool IsTrigger() const;
+
 	PScriptBase Clone() const override;
 	~Collider2DBase();
 protected:
 	void SetLineRendererOwner();
 	void ChangeBody(WBody2D body);
+	void SetOwnerForShapes();
 protected:
 	WBody2D _body;
+	bool _isTrigger = false;
 	std::vector<SShape> _shapes;
 	std::vector<LineRendererBase*> _lineRenderer;
 
 	static constexpr auto _offSetXField = "OffSetX";
 	static constexpr auto _offSetYField = "OffSetY";
+	static constexpr auto _isTriggerField = "Trigger";
 };
