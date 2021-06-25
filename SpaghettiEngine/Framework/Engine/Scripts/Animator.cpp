@@ -41,9 +41,9 @@ void Animator::Load(nlohmann::json& inputObject)
 	{
 		using LoadingJson::Field;
 
-		std::string _treeFilePath = inputObject[Field::behaviorTreeField].get<std::string>();
+		std::string _treeFilePath = inputObject[Field::animationTreeField].get<std::string>();
 
-		_tree = std::make_shared<AnimationTree>();
+		_tree = AnimationTree::CreateAnimationTree();
 		_tree->Load(_treeFilePath);
 	}
 	catch (const CornException& e)

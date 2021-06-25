@@ -13,10 +13,13 @@ private:
 class BTs;
 typedef std::shared_ptr<BTs> SBTs;
 typedef std::weak_ptr<BTs> WBTs;
+
 class BTs
 {
 public:
-	static SBTs Load(const std::string& path);
+	[[nodiscard]] static SBTs CreateBehaviorTree(); // Use this to create behavior tree
+
+	void Load(const std::string& path);
 	void AssignPtr(WBTs ptr);
 	BTs();
 	Node::State Tick();

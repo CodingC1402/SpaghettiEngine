@@ -25,6 +25,7 @@ Node::State AnimationNode::Tick()
 
 void AnimationNode::OnInterrupted()
 {
+    LeafNode::OnInterrupted();
     Reset();
 }
 

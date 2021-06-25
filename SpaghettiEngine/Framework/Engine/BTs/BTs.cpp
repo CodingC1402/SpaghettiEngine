@@ -7,18 +7,22 @@ BTs::BTs()
 	_root = NodeFactory::Create("Root");
 }
 
-SBTs BTs::Load(const std::string& path)
+SBTs BTs::CreateBehaviorTree()
+{
+	SBTs newTree = std::make_shared<BTs>();
+	newTree->AssignPtr(newTree);
+	return newTree;
+}
+
+void BTs::Load(const std::string& path)
 {
 	std::fstream file;
 	file.open(path);
 	nlohmann::json input;
 	file >> input;
 
-	auto newTree = std::make_shared<BTs>();
-	newTree->AssignPtr(newTree);
-	newTree->_bb = BlackBoard::Load(input[BTField::blackBoardField]);
-	newTree->_root->Load(input, newTree->_this);
-	return newTree;
+	_bb = BlackBoard::Load(input[BTField::blackBoardField]);
+	_root->Load(input, _this);
 }
 
 void BTs::AssignPtr(WBTs ptr)

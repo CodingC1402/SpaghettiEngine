@@ -11,6 +11,8 @@ class AnimationTree : public BTs
 	friend class AnimationNode;
 	friend class Animator;
 public:
+	[[nodiscard]] static SAnimationTree CreateAnimationTree();
+
 	[[nodiscard]] SBTs Clone() override;
 	[[nodiscard]] SSprite GetCurrentSprite() const;
 protected:

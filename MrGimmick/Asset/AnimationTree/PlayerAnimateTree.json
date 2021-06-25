@@ -1,0 +1,221 @@
+{
+    "BlackBoard":
+    [
+        {
+            "Name": "IsInTube",
+            "Type": "bool",
+            "Value": false
+        },
+        {
+            "Name": "IsHurt",
+            "Type": "bool",
+            "Value": false
+        },
+        {
+            "Name": "IsGrounded",
+            "Type": "bool",
+            "Value": false
+        },
+        {
+            "Name": "IsRunning",
+            "Type": "bool",
+            "Value": false
+        }
+    ],
+
+    "Children": 
+    [
+        {
+            "Type": "Selector",
+            "Children": 
+            [
+                {
+                    "Type": "BoolCon",
+                    "Input": 
+                    {
+                        "Type": "Equal",
+                        "Field": "IsInTube",
+                        "Value": false
+                    },
+                    "Children":
+                    [
+                        {
+                            "Type": "Selector",
+                            "Children":
+                            [
+                                {
+                                    "Type": "BoolCon",
+                                    "Input":
+                                    {
+                                        "Type": "Equal",
+                                        "Field": "IsHurt",
+                                        "Value": false
+                                    },
+                                    "Children":
+                                    [
+                                        {
+                                            "Type": "Selector",
+                                            "Children":
+                                            [
+                                                {
+                                                    "Type": "BoolCon",
+                                                    "Input": 
+                                                    {
+                                                        "Type": "Equal",
+                                                        "Field": "IsGrounded",
+                                                        "Value": true
+                                                    },
+                                                    "Children":
+                                                    [
+                                                        {
+                                                            "Type": "Selector",
+                                                            "Children":
+                                                            [
+                                                                {
+                                                                    "Type": "BoolCon",
+                                                                    "Input": 
+                                                                    {
+                                                                        "Type": "Equal",
+                                                                        "Field": "IsRunning",
+                                                                        "Value": true
+                                                                    },
+                                                                    "Children":
+                                                                    [
+                                                                        {
+                                                                            "Type": "Sequence",
+                                                                            "Children":
+                                                                            [
+                                                                                {
+                                                                                    "Type": "AnimationNode", 
+                                                                                    "Input": {
+                                                                                        "ID": 30003
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "Type": "Wait",
+                                                                                    "Input": {
+                                                                                        "Duration": 200,
+                                                                                        "OncePerTick": false
+                                                                                    },
+                                                                                    "Children": [
+                                                                                        {
+                                                                                            "Type": "AnimationNode", 
+                                                                                            "Input": {
+                                                                                                "ID": 30004
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Type": "BoolCon",
+                                                                    "Input": 
+                                                                    {
+                                                                        "Type": "Equal",
+                                                                        "Field": "IsRunning",
+                                                                        "Value": false
+                                                                    },
+                                                                    "Children":
+                                                                    [
+                                                                        {
+                                                                            "Type": "Sequence",
+                                                                            "Children":
+                                                                            [
+                                                                                {
+                                                                                    "Type": "AnimationNode", 
+                                                                                    "Input": {
+                                                                                        "ID": 30000
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "Type": "Wait",
+                                                                                    "Input": {
+                                                                                        "Duration": 400,
+                                                                                        "OncePerTick": false
+                                                                                    },
+                                                                                    "Children": [
+                                                                                        {
+                                                                                            "Type": "AnimationNode", 
+                                                                                            "Input": {
+                                                                                                "ID": 30001
+                                                                                            }
+                                                                                        }
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]   
+                                                                }
+                                                            ]    
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "Type": "BoolCon",
+                                                    "Input": 
+                                                    {
+                                                        "Type": "Equal",
+                                                        "Field": "IsGrounded",
+                                                        "Value": false
+                                                    },
+                                                    "Children":
+                                                    [
+                                                        {
+                                                            "Type": "AnimationNode",
+                                                            "Input": {
+                                                                "ID": 30005
+                                                            }
+                                                        }
+                                                    ]   
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Type": "BoolCon",
+                                    "Input": 
+                                    {
+                                        "Type": "Equal",
+                                        "Field": "IsHurt",
+                                        "Value": true
+                                    },
+                                    "Children":
+                                    [
+                                        {
+                                            "Type": "AnimationNode",
+                                            "Input": {
+                                                "ID": 30002
+                                            }
+                                        }
+                                    ]   
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Type": "BoolCon",
+                    "Input": 
+                    {
+                        "Type": "Equal",
+                        "Field": "IsInTube",
+                        "Value": true
+                    },
+                    "Children":
+                    [
+                        {
+                            "Type": "AnimationNode",
+                            "Input": {
+                                "ID": 30006
+                            }
+                        }
+                    ]   
+                }
+            ]
+        }
+    ]
+}

@@ -48,7 +48,7 @@ public:
 			break;
 		}
 		_value = input[BTField::inputField][BTField::valueField].get<T>();
-		_field = std::dynamic_pointer_cast<Field<T>>(tree.lock()->GetBlackBoard().lock()->GetField<T>(input[BTField::inputField][BTField::fieldField].get<std::string>()).lock());
+		_field = tree.lock()->GetBlackBoard().lock()->GetField<T>(input[BTField::inputField][BTField::fieldField].get<std::string>());
 		_field.lock()->Subscribe(this);
 		_isTrue = (*_compareFunction)(_field.lock(), _value);
 		DecoratorNode::Load(input, tree);

@@ -32,7 +32,7 @@
   ],
   "Scripts": [
     {
-        "ID": 20001,
+        "ID": 1,
         "Inputs": {
           "ScriptType": "Polygon2DCollider",
           "Vertexes": [
