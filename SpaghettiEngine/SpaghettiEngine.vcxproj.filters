@@ -75,6 +75,9 @@
     <Filter Include="FrameWork\Engine\GameComponents\Scenes">
       <UniqueIdentifier>{92f88517-a016-4fcd-9e5a-7690af03eefb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Engine\AnimationComponents">
+      <UniqueIdentifier>{2fb6a5bf-48ff-4ff6-a3c0-3a2a6e4f92bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Window\Window.h">
@@ -215,9 +218,6 @@
     <ClInclude Include="Framework\Engine\Scripts\TileMapRenderer.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\Scripts\Camera.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
@@ -328,6 +328,18 @@
     </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Graphics.h">
       <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\AnimationComponents\AnimationTree.h">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\AnimationComponents\AnimationNode.h">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\BTs\TrueFalseLeafNode.h">
+      <Filter>FrameWork\Engine\BTs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -451,9 +463,6 @@
     <ClCompile Include="Framework\Engine\Scripts\TileMapRenderer.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
@@ -558,6 +567,18 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp">
       <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\AnimationComponents\AnimationTree.cpp">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\AnimationComponents\AnimationNode.cpp">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\BTs\TrueFalseLeafNode.cpp">
+      <Filter>FrameWork\Engine\BTs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

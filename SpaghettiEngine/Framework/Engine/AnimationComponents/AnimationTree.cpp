@@ -1,5 +1,12 @@
 #include "AnimationTree.h"
 
+SAnimationTree AnimationTree::CreateAnimationTree()
+{
+	SAnimationTree newTree = std::make_shared<AnimationTree>();
+	newTree->AssignPtr(newTree);
+	return newTree;
+}
+
 SBTs AnimationTree::Clone()
 {
 	auto clone = std::dynamic_pointer_cast<AnimationTree>(BTs::Clone());

@@ -7,10 +7,13 @@ class Observer;
 
 class Observer
 {
+	friend class Observable;
 public:
 	virtual void OnChange() = 0;
 	virtual ~Observer();
-protected:
+private:
+	void ChangeObserving(Observable* obervable);
+private:
 	Observable* _oberserving = nullptr;
 };
 
@@ -20,6 +23,6 @@ public:
 	virtual void UnSubscribe(Observer* observer);
 	virtual void Subscribe(Observer* observer);
 	virtual void CallOnChange();
-protected:
+private:
 	std::list<Observer*> _observers;
 };
