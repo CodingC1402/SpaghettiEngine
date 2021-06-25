@@ -8,6 +8,10 @@
     "Path": "Asset/Animations/ArrowBrickToRight.json"
   },
   {
+    "ID": 30000,
+    "Path": "Asset/Animations/PlayerStanding.json"
+  },
+  {
     "ID": 30001,
     "Path": "Asset/Animations/PlayerIdle.json"
   },
@@ -29,7 +33,7 @@
   },
   {
     "ID": 30006,
-    "Path": "Asset/Animations/PlayerInSlide.json"
+    "Path": "Asset/Animations/PlayerInTube.json"
   },
   {
     "ID": 20002,

@@ -36,6 +36,7 @@
     <ClInclude Include="Framework\Engine\BTs\SelectorNode.h" />
     <ClInclude Include="Framework\Engine\BTs\SequenceNode.h" />
     <ClInclude Include="Framework\Engine\BTs\ServiceNodes.h" />
+    <ClInclude Include="Framework\Engine\BTs\TrueFalseLeafNode.h" />
     <ClInclude Include="Framework\Engine\Containers\Animation.h" />
     <ClInclude Include="Framework\Engine\Containers\Prefabs.h" />
     <ClInclude Include="Framework\Engine\Containers\ResourceContainer.h" />
@@ -122,6 +123,7 @@
     <ClCompile Include="Framework\Engine\BTs\SelectorNode.cpp" />
     <ClCompile Include="Framework\Engine\BTs\SequenceNode.cpp" />
     <ClCompile Include="Framework\Engine\BTs\ServiceNodes.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\TrueFalseLeafNode.cpp" />
     <ClCompile Include="Framework\Engine\Containers\Animation.cpp" />
     <ClCompile Include="Framework\Engine\Containers\Prefabs.cpp" />
     <ClCompile Include="Framework\Engine\Containers\ResourceContainer.cpp" />
