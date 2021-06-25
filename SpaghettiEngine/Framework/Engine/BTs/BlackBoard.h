@@ -120,7 +120,7 @@ public:
 #pragma endregion
 
 protected:
-	T _value;
+	T _value{};
 };
 #pragma endregion;
 

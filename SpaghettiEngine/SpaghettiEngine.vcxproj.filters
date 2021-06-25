@@ -63,9 +63,6 @@
     <Filter Include="FrameWork\Math">
       <UniqueIdentifier>{bcbf7e90-a662-41d4-a443-f383175b31a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\Interfaces">
-      <UniqueIdentifier>{db9949dc-dbea-45e5-ad47-9f2c32d4b72b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\Engine\GameComponents\GameObject">
       <UniqueIdentifier>{31da83a7-ad85-47d5-8271-4c2440e1232e}</UniqueIdentifier>
     </Filter>
@@ -77,6 +74,9 @@
     </Filter>
     <Filter Include="FrameWork\Engine\AnimationComponents">
       <UniqueIdentifier>{2fb6a5bf-48ff-4ff6-a3c0-3a2a6e4f92bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\Input">
+      <UniqueIdentifier>{61f820df-41b7-4ec4-9d25-79e48d1cd266}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,12 +166,6 @@
     </ClInclude>
     <ClInclude Include="Framework\Engine\ThirdParty\json.hpp">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\Wrapper\Input.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\Wrapper\InputSystem.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h">
       <Filter>FrameWork\Engine\Wrapper</Filter>
@@ -341,6 +335,18 @@
     <ClInclude Include="Framework\Engine\BTs\TrueFalseLeafNode.h">
       <Filter>FrameWork\Engine\BTs</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Input.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\InputSystem.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\InputAll.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\InputState.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -415,16 +421,10 @@
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Wrapper\InputSystem.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\Wrapper\Input.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp">
@@ -579,6 +579,18 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\BTs\TrueFalseLeafNode.cpp">
       <Filter>FrameWork\Engine\BTs</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\InputSystem.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Input.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\InputAll.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\InputState.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@ public:
 	[[nodiscard]] bool GetGrounded() const noexcept;
 
 	void JumpAction();
+	void ResetJumpAction();
 	void MoveAction();
 
 	PScriptBase Clone() const override;
@@ -42,13 +43,14 @@ protected:
 	float _speedRamUp = 700;
 
 	float _baseGravityScale = 10;
+	float _gravityScale = 0;
 	float _minGravityScale = 1;
-	float _gsDropFactor = 0.75;
+	float _gsDrop = 9; // how much gravity scale drop in 1 sec
 	bool _isJumping = false; // Use to check if it's in a jumping phase
 
 	bool _isGrounded = false;
 
-	Vector3 move;
+	Vector3 _moveVec;
 	bool isFlipped = false;
 private:
 	REGISTER_START(MoveScript);

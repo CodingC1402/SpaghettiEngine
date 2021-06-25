@@ -64,7 +64,7 @@ void ChildContainer::AddItem(PGameObj child)
 	Add(child);
 	child->SetContainerIterator(--_container.end());
 
-	child->SetParentInternally(child);
+	child->SetParentInternally(_owner);
 }
 
 void ChildContainer::RemoveAllItem()

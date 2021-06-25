@@ -10,7 +10,7 @@
 			"Inputs": {
 				"Tag": "Player",
 				"GameObjects": [
-					{ "ID": 2}
+					{ "ID": 2 }
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],

@@ -3,7 +3,7 @@
 
 namespace Fields
 {
-	static class Player
+	class Player
 	{
 	public:
 		static constexpr auto _isInTube = "IsInTube";
@@ -16,7 +16,7 @@ namespace Fields
 		static constexpr auto _speedRamUpField = "SpeedRamUp";
 	};
 
-	static class Input
+	class Input
 	{
 	public:
 		static constexpr auto _moveLeft = "MoveLeft";
@@ -27,7 +27,7 @@ namespace Fields
 		static constexpr auto _fullScreen = "FullScreen";
 	};
 
-	static class Platform
+	class Platform
 	{
 	public:
 		static inline const std::string _platform = "Platform";

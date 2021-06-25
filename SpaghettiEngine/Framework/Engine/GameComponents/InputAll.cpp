@@ -27,20 +27,22 @@ InputAll::InputAll(const KeyCode& keyCode, const std::string& name) noexcept : I
 
 void InputAll::Update(const KeyBoard::Event& e) noexcept
 {
-	if (e.GetCode() != keyCode || !e.IsFirstTime())
+	if (e.GetCode() != keyCode)
 		return;
 
 
-	if (e.IsRelease() && _isKeyDown)
+	if (e.IsRelease())
 	{
 		_isKeyDown = false;
 		_isKeyRelease = true;
 	}
-	else if (e.IsPress() && !_isKeyDown)
+	else if (e.IsPress())
 	{
 		_isKeyDown = true;
 		_isKeyPress = true;
 	}
+
+	isInputActive = e.IsRelease() || e.IsPress();
 }
 
 void InputAll::Reset() noexcept

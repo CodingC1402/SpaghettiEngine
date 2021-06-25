@@ -3,22 +3,22 @@
     {
       "KeyCode": 37,
       "Name": "MoveLeft",
-      "Type": "KeyAll"
+      "Type": "All"
     },
     {
       "KeyCode": 39,
       "Name": "MoveRight",
-      "Type": "KeyAll"
+      "Type": "All"
     },
     {
       "KeyCode": 88,
       "Name": "Jump",
-      "Type": "KeyAll"
+      "Type": "All"
     },
     {
       "KeyCode": 90,
       "Name": "Attack",
-      "Type": "KeyAll"
+      "Type": "All"
     },
     {
       "KeyCode": 120,

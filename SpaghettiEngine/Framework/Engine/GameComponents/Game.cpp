@@ -15,8 +15,18 @@ void Game::Init()
 	sceneManager->Init();
 }
 
+static bool IwannaDie = false;
 void Game::Update() const
 {
+	if (InputSystem::GetInstance()->GetInput("FullScreen")->Check())
+	{
+		IwannaDie = !IwannaDie;
+		if (IwannaDie)
+			Graphics::ToFullScreenMode();
+		else
+			Graphics::ToWindowMode();
+	}
+
 	timer->Mark();
 	input->Update();
 

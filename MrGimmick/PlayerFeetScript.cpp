@@ -1,13 +1,14 @@
 #include "PlayerFeetScript.h"
 #include "FieldNames.h"
 
-void PlayerFeetScript::Load(nlohmann::json& input)
-{
-}
+REGISTER_FINISH(PlayerFeetScript);
+
+PlayerFeetScript::PlayerFeetScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
+{}
 
 void PlayerFeetScript::OnStart()
 {
-	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
+	_moveScript = dynamic_cast<MoveScript*>(GetGameObject()->GetParent()->GetScriptContainer().GetItemType("MoveScript"));
 }
 
 void PlayerFeetScript::OnCollideEnter(CollideEvent& e)

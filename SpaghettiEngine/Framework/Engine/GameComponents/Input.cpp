@@ -39,19 +39,19 @@ SInput Input::Create(const KeyCode& keyCode, const std::string& name, const Type
 	switch (t)
 	{
 	case Type::KeyUp:
-		return std::make_shared<InputKeyUp>(keyCode, name);
+		return std::shared_ptr<InputKeyUp>(new InputKeyUp(keyCode, name));
 		break;
 	case Type::KeyDown:
-		return std::make_shared<InputKeyDown>(keyCode, name);
+		return std::shared_ptr<InputKeyDown>(new InputKeyDown(keyCode, name));
 		break;
 	case Type::KeyPress:
-		return std::make_shared<InputKeyPress>(keyCode, name);
+		return std::shared_ptr<InputKeyPress>(new InputKeyPress(keyCode, name));
 		break;
 	case Type::KeyRelease:
-		return std::make_shared<InputKeyRelease>(keyCode, name);
+		return std::shared_ptr<InputKeyRelease>(new InputKeyRelease(keyCode, name));
 		break;
 	[[likely]] case Type::All:
-		return std::make_shared<InputAll>(keyCode, name);
+		return std::shared_ptr<InputAll>(new InputAll(keyCode, name));
 		break;
 	default:
 		return SInput();

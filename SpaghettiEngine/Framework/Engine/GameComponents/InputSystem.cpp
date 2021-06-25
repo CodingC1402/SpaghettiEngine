@@ -87,7 +87,7 @@ void InputSystem::Load()
 			auto type = input[TypeText].get<Input::Type>();
 			auto name = input[NameText].get<std::string>();
 			auto code = input[CodeText].get<KeyCode>();
-			inputs.push_back(SInput(Input::Create(code, name, type)));
+			inputs.push_back(Input::Create(code, name, type));
 		}
 	}
 	catch (...)
@@ -103,7 +103,9 @@ void InputSystem::Load()
 NLOHMANN_JSON_SERIALIZE_ENUM(Input::Type, {
 	{Input::Type::KeyPress, "KeyPress"},
 	{Input::Type::KeyUp, "KeyUp"},
-	{Input::Type::KeyState, "KeyState"},
+	{Input::Type::KeyDown, "KeyDown"},
+	{Input::Type::KeyRelease, "KeyRelease"},
+	{Input::Type::All, "All"}
 	})
 
 void InputSystem::Save()

@@ -27,17 +27,17 @@ private:
 template<typename T>
 inline void Animator::SetFieldValue(const std::string& fieldName, T value)
 {
-	_tree->GetBlackBoard().lock()->SetValue(fieldName, value);
+	_tree->GetBlackBoard().lock()->SetValue<T>(fieldName, value);
 }
 
 template<typename T>
 inline T Animator::GetFieldValue(const std::string& fieldName)
 {
-	return _tree->GetBlackBoard().lock()->GetValue(fieldName);
+	return _tree->GetBlackBoard().lock()->GetValue<T>(fieldName);
 }
 
 template<typename T>
 inline std::weak_ptr<Field<T>> Animator::GetField(const std::string& fieldName)
 {
-	return _tree->GetBlackBoard().lock()->GetField(fieldName);
+	return _tree->GetBlackBoard().lock()->GetField<T>(fieldName);
 }
