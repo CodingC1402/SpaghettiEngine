@@ -39,7 +39,7 @@
 			"Name": "Stage1",
 			"Inputs": {
 				"IsRoot": true,
-				"Tag": "ColliderForTileMap",
+				"Tag": "Platform",
 				"GameObjects": [
 				],
 				"Transform": [-1032, -376, 0 ],

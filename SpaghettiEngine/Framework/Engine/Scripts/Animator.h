@@ -14,6 +14,8 @@ public:
 	void SetFieldValue(const std::string& fieldName, T value);
 	template<typename T>
 	T GetFieldValue(const std::string& fieldName);
+	template<typename T>
+	std::weak_ptr<Field<T>> GetField(const std::string& fieldName);
 
 	PScriptBase Clone() const override;
 protected:
@@ -32,4 +34,10 @@ template<typename T>
 inline T Animator::GetFieldValue(const std::string& fieldName)
 {
 	return _tree->GetBlackBoard().lock()->GetValue(fieldName);
+}
+
+template<typename T>
+inline std::weak_ptr<Field<T>> Animator::GetField(const std::string& fieldName)
+{
+	return _tree->GetBlackBoard().lock()->GetField(fieldName);
 }

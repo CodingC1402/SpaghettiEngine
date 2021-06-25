@@ -9,29 +9,33 @@
 			"ID": 1,
 			"Inputs": {
 				"Tag": "Player",
-				"GameObjects": [],
+				"GameObjects": [
+					{ "ID": 2}
+				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					{
-						"ID": 1
-					},
-					{
-						"ID": 2
-					},
-					{
-						"ID": 3
-					},
-					{
-						"ID": 4
-					},
-					{
-						"ID": 5
-					},
-					{
-						"ID": 6
-					}
+					{ "ID": 1 },
+					{ "ID": 2 },
+					{ "ID": 3 },
+					{ "ID": 4 },
+					{ "ID": 5 },
+					{ "ID": 6 }
+				]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"Tag": "PlayerFeet",
+				"GameObjects": [],
+				"Transform": [ 0, -8, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{"ID": 2001},
+					{"ID": 2002}
 				]
 			}
 		}
@@ -92,6 +96,24 @@
 						"Prefabs": [0],
 						"ID": 1
 					}
+				]
+			}
+		},
+		{
+			"ID": 2001,
+			"Inputs": {
+				"ScriptType": "PlayerFeetScript"
+			}
+		},
+		{
+			"ID": 2002,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Vertexes": [
+					[-2, 2],
+					[-2, -2],
+					[2, -2],
+					[-2, -2] 
 				]
 			}
 		}
