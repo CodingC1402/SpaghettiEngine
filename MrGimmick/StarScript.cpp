@@ -51,7 +51,7 @@ void StarScript::StartCounter()
 
 void StarScript::OnCollide(CollideEvent& e)
 {
-	if (e.GetGameObject().lock()->GetTag() == "Player")
+	if (e.GetGameObject()->GetTag() == "Player")
 		e.SetIsHandled(true);
 }
 

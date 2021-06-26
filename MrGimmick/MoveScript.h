@@ -39,7 +39,7 @@ protected:
 	Animator* _animator;
 
 	float _speedCap = 150;
-	float _jumpStrength = 200;
+	float _jumpStrength = 50;
 	float _speedRamUp = 700;
 
 	float _baseGravityScale = 10;

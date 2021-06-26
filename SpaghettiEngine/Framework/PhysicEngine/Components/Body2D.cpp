@@ -130,17 +130,19 @@ GameObj* Body2D::GetGameObject() const
 void Body2D::SendEvent(CollideEvent& e)
 {
 	_gameObject->OnCollide(e);
-	_currentCollide.emplace_back(e.GetBody());
 
-	// This is to check if previously the checking list is empty if yes is insert to event list.
-	// It will be determined to be remove or not in the physic Step() function at the end;
-	if (_collidedBody.empty())
-		Physic::AddCollidedBody(this);
+	// This shit is QUACK ~~ unreliable af and waste full AF
+	//_currentCollide.insert(e.GetBody());
+	//
+	//// This is to check if previously the checking list is empty if yes is insert to event list.
+	//// It will be determined to be remove or not in the physic Step() function at the end;
+	//if (_collidedBody.empty())
+	//	Physic::AddCollidedBody(this);
 }
 
 bool Body2D::SendExitEnterEvent()
 {
-	std::list<WBody2D> newCurrentCollide;
+	std::list<Body2D*> newCurrentCollide;
 	bool isNewCollide = false;
 
 	/// <summary>
@@ -152,7 +154,7 @@ bool Body2D::SendExitEnterEvent()
 	
 		for (auto oldIt = _collidedBody.begin(); oldIt != _collidedBody.end(); ++oldIt)
 		{
-			if ((*newIt).lock() == (*oldIt).lock())
+			if ((*newIt) == (*oldIt))
 			{
 				_collidedBody.erase(oldIt);
 				isNewCollide = false;

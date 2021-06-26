@@ -40,6 +40,7 @@ public:
 		{
 			return m_tType == Type::Press;
 		}
+		// Only work for is press cause ya know? How can you release twice or more.
 		bool IsRelease() const noexcept
 		{
 			return m_tType == Type::Release;

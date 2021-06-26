@@ -30,7 +30,7 @@
 			"Inputs": {
 				"Tag": "PlayerFeet",
 				"GameObjects": [],
-				"Transform": [ 0, -8, 0 ],
+				"Transform": [ 0, -10, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
@@ -55,7 +55,7 @@
 				"ScriptType": "MoveScript",
 				"SpeedRamUp": 700,
 				"SpeedCap": 120,
-				"JumpStrength": 300
+				"JumpStrength": 200
 			}
 		},
 		{
@@ -84,7 +84,7 @@
 				"ScriptType": "RigidBody2D",
 				"Mass": 4,
 				"GravityScale": 4,
-				"Material": 10001
+				"Material": 30001
 			}
 		},
 		{
@@ -109,11 +109,12 @@
 			"ID": 2002,
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
+				"Trigger": true,
 				"Vertexes": [
-					[-2, 2],
-					[-2, -2],
-					[2, -2],
-					[-2, -2] 
+					[-5, 3],
+					[-5, -4],
+					[5, -4],
+					[5, 3] 
 				]
 			}
 		}

@@ -2,6 +2,8 @@
 #include "Circle.h"
 #include "Polygon.h"
 #include "SMath.h"
+#include "Collider2DBase.h"
+
 #include <cmath>
 
 std::vector<std::vector<bool (*)(Collision*)>> Collision::_collisionFunctions = {
@@ -88,9 +90,8 @@ bool Collision::Solve()
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 	if (isCollide)
 	{
-
-		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody(), _shapeB->GetOwnerScript());
-		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody(), _shapeA->GetOwnerScript());
+		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody().lock().get(), _shapeB->GetOwnerScript());
+		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody().lock().get(), _shapeA->GetOwnerScript());
 		if (_shapeA->IsTriggerOnly())
 			_shapeACollideTemplate.SetToTrigger();
 		if (_shapeB->IsTriggerOnly())
