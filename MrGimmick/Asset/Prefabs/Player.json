@@ -55,7 +55,7 @@
 				"ScriptType": "MoveScript",
 				"SpeedRamUp": 700,
 				"SpeedCap": 120,
-				"JumpStrength": 200
+				"JumpStrength": 230
 			}
 		},
 		{
@@ -83,7 +83,7 @@
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
 				"Mass": 4,
-				"GravityScale": 4,
+				"GravityScale": 6,
 				"Material": 30001
 			}
 		},

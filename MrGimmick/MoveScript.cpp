@@ -33,23 +33,12 @@ void MoveScript::OnStart()
 
 void MoveScript::OnUpdate()
 {
-	_moveVec.x = 0;
-	_moveVec.y = 0;
-	_moveVec.z = 0;
+	_moveVec = _rigidBody->GetVelocity();
 
 	JumpAction();
 	MoveAction();
 
-	_moveVec.x *= _speedRamUp * GameTimer::GetDeltaTime();
-
-	Vector3 velocity = _rigidBody->GetVelocity();
-	if (_moveVec.x * velocity.x < 0)
-		velocity.x += _moveVec.x;
-	else if (abs(velocity.x) < _speedCap)
-		velocity.x += _moveVec.x;
-	if (_moveVec.y > 0)
-		velocity.y = _moveVec.y;
-	_rigidBody->SetVelocity(velocity);
+	_rigidBody->SetVelocity(_moveVec);
 }
 
 void MoveScript::OnCollideEnter(CollideEvent& e)
@@ -82,7 +71,7 @@ void MoveScript::JumpAction()
 			ResetJumpAction();
 		else
 		{
-			_gravityScale -= _gsDrop * GameTimer::GetDeltaTime();
+			_gravityScale -= _gravityScale * _gsDropFactor * GameTimer::GetDeltaTime();
 			_rigidBody->SetGravityScale(_gravityScale);
 		}
 	}
@@ -108,24 +97,45 @@ void MoveScript::ResetJumpAction()
 
 void MoveScript::MoveAction()
 {
-	if (_leftInput->CheckKeyDown())
+	float totalVel = 0.0f;
+	CheckDirection(_leftInput->CheckKeyRelease(), _leftInput->CheckKeyDown(), -1, _isWalkingLeft, totalVel);
+	CheckDirection(_rightInput->CheckKeyRelease(), _rightInput->CheckKeyDown(), 1, _isWalkingRight, totalVel);
+
+	totalVel *= _speedRamUp * GameTimer::GetDeltaTime();
+	if (_moveVec.x * totalVel < 0.0f)
+		_moveVec.x += totalVel;
+	else if (abs(_moveVec.x) < _speedCap)
+		_moveVec.x += totalVel;
+
+	_isRunningField.lock()->SetValue(IsWalking());
+}
+
+void MoveScript::CheckDirection(const bool& keyRelease, const bool& keyDown, const int& factor, bool& directionMove, float& totalVel) noexcept
+{
+	if (keyDown)
 	{
-		_moveVec.x -= 1;
-		if (!isFlipped)
+		totalVel = factor;
+		if (isFlipped != (factor < 0))
 		{
-			GetGameObject()->GetTransform().SetScale(-1, 1, 1);
-			isFlipped = true;
+			GetGameObject()->GetTransform().SetScale(factor, 1, 1);
+			isFlipped = (factor < 0);
+		}
+		directionMove = true;
+	}
+	else if (keyRelease)
+	{
+		directionMove = false;
+		if (_moveVec.x * factor > 0) // Moving same direction
+		{
+			_moveVec.x -= factor * _reduceSpeed;
+			_moveVec.x = _moveVec.x * factor < 0 ? 0 : _moveVec.x;
 		}
 	}
-	if (_rightInput->CheckKeyDown())
-	{
-		_moveVec.x += 1;
-		if (isFlipped)
-		{
-			GetGameObject()->GetTransform().SetScale(1, 1, 1);
-			isFlipped = false;
-		}
-	}
+}
+
+bool MoveScript::IsWalking() const noexcept
+{
+	return _isWalkingLeft ^ _isWalkingRight;
 }
 
 PScriptBase MoveScript::Clone() const
