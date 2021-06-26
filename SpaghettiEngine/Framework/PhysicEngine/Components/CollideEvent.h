@@ -16,8 +16,8 @@ class CollideEvent
 {
 	friend class Collision;
 public:
-	[[nodiscard]] WBody2D GetBody() const noexcept;;
-	[[nodiscard]] WGameObj GetGameObject() const noexcept;;
+	[[nodiscard]] Body2D* GetBody() const noexcept;;
+	[[nodiscard]] GameObj* GetGameObject() const noexcept;;
 
 	[[nodiscard]] bool GetIsHandled() const noexcept;;
 	[[nodiscard]] bool IsCollideWithTrigger() const noexcept;
@@ -26,17 +26,17 @@ public:
 	[[nodiscard]] Collider2DBase* GetCollideScript() const noexcept;
 	void SetIsHandled(bool handled) noexcept;
 
-	CollideEvent(WBody2D collideWith);
-	CollideEvent(Collider2DBase* collideScript, WBody2D collideWith, Collider2DBase* collideWithScript);
+	CollideEvent(Body2D* collideWith);
+	CollideEvent(Collider2DBase* collideScript, Body2D* collideWith, Collider2DBase* collideWithScript);
 	CollideEvent() = default;
 protected:
 	void SetCollideWithScript(Collider2DBase* script) noexcept;
 	void SetCollideScript(Collider2DBase* script) noexcept;
 
 	void SetToTrigger() noexcept;
-	void Reset(Collider2DBase* collideScript, WBody2D collideWith, Collider2DBase* collideWithScript);
+	void Reset(Collider2DBase* collideScript, Body2D* collideWith, Collider2DBase* collideWithScript);
 protected:
-	WBody2D _collideWith;
+	Body2D* _collideWith;
 	bool _isCollideWithTrigger = false;
 	bool _isCollisionHandled = false;
 

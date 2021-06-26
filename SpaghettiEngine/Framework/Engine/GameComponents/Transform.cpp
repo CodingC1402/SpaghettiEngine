@@ -1,6 +1,7 @@
 #include "Transform.h"
 #include "SMath.h"
 #include "ContainerUtil.h"
+#include "GameObj.h"
 
 #pragma region Transform Getters
 PTransform Transform::GetParent() const
@@ -75,6 +76,7 @@ void Transform::AddChild(PTransform child)
 	if (this->_parentTransform == child)
 		throw CORN_EXCEPTION_TYPE(TransformException, L"You can't set a parent of a transform to child of that transform");
 
+	_childTransform.push_back(child);
 	child->_parentTransform = this;
 
 	child->_transform -= GetWorldTransform();
@@ -198,6 +200,10 @@ void Transform::Translate(const Vector3& vector)
 void Transform::ForceRecalculateMatrix()
 {
 	this->_isChanged = true;
+	if (_owner->GetTag() == "Player")
+	{
+		int oneH = 100;
+	}
 	for (auto& child : _childTransform)
 		child->ForceRecalculateMatrix();
 }

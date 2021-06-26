@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <list>
+#include <set>
+
 #include "Vector3.h"
 #include "Material.h"
 #include "CollideEvent.h"
@@ -96,7 +98,7 @@ protected:
 	Vector3				_moveVec;
 
 	std::list<Shape*>	_shapes;
-	std::list<WBody2D>	_collidedBody;
-	std::list<WBody2D>	_currentCollide;
+	std::set<Body2D*>	_collidedBody;
+	std::set<Body2D*>	_currentCollide;
 	mutable SMaterial	_material = Material::GetDefaultMaterial().lock();
 };

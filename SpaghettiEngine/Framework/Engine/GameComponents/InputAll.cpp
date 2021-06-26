@@ -30,19 +30,21 @@ void InputAll::Update(const KeyBoard::Event& e) noexcept
 	if (e.GetCode() != keyCode)
 		return;
 
+	bool isRelease = e.IsRelease();
+	bool isPress = e.IsPress() && e.IsFirstTime();
 
-	if (e.IsRelease())
+	if (isRelease)
 	{
 		_isKeyDown = false;
 		_isKeyRelease = true;
 	}
-	else if (e.IsPress())
+	else if (isPress)
 	{
 		_isKeyDown = true;
 		_isKeyPress = true;
 	}
 
-	isInputActive = e.IsRelease() || e.IsPress();
+	isInputActive = isRelease || isPress;
 }
 
 void InputAll::Reset() noexcept

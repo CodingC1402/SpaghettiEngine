@@ -21,7 +21,7 @@
       "Type": "All"
     },
     {
-      "KeyCode": 120,
+      "KeyCode": 122,
       "Name": "FullScreen",
       "Type": "KeyPress"
     }

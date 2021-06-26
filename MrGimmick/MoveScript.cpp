@@ -47,7 +47,8 @@ void MoveScript::OnUpdate()
 		velocity.x += _moveVec.x;
 	else if (abs(velocity.x) < _speedCap)
 		velocity.x += _moveVec.x;
-	velocity.y += _moveVec.y;
+	if (_moveVec.y > 0)
+		velocity.y = _moveVec.y;
 	_rigidBody->SetVelocity(velocity);
 }
 
@@ -79,8 +80,11 @@ void MoveScript::JumpAction()
 	{
 		if (_gravityScale <= _minGravityScale)
 			ResetJumpAction();
-		_gravityScale -= _gsDrop * GameTimer::GetDeltaTime();
-		_rigidBody->SetGravityScale(_gravityScale);
+		else
+		{
+			_gravityScale -= _gsDrop * GameTimer::GetDeltaTime();
+			_rigidBody->SetGravityScale(_gravityScale);
+		}
 	}
 
 	if (_isGrounded && _jumpInput->CheckKeyPress())

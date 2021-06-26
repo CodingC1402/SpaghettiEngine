@@ -2,6 +2,10 @@
     {
       "ID": 10001,
       "Path": "Asset/Materials/StarMaterial.json"
+    },
+    {
+      "ID": 30001,
+      "Path": "Asset/Materials/PlayerMaterial.json"
     }
 ]
   

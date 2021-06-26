@@ -12,7 +12,7 @@ void Polygon2DCollider::Load(nlohmann::json& input)
 {
 	// Load vertex
 	std::vector<Vector3> loadedVertex(input[_vertexesField].size());
-	Collider2DBase::Load(input);
+
 	for (unsigned i = 0; i < loadedVertex.size(); i++)
 	{
 		loadedVertex[i].x = input[_vertexesField][i][0];
