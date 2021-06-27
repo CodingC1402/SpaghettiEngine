@@ -30,12 +30,12 @@
     <ClCompile Include="PlayerFeetScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StarCreation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveScript.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StarScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AttackMove.h">
@@ -45,6 +45,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerFeetScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StarCreation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StarScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,7 +19,7 @@ public:
 	virtual void	Load(json& input) override;
 
 	virtual void	SetFollow(PGameObj followObj);
-	virtual [[nodiscard]] PGameObj	GetFollow();
+	[[nodiscard]] virtual PGameObj	GetFollow();
 	virtual void	RemoveFollow();
 
 	PScriptBase Clone() const override;

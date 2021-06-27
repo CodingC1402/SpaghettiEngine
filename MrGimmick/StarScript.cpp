@@ -13,7 +13,7 @@ void StarScript::OnStart()
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 }
 
-void StarScript::OnFixedUpdate()
+void StarScript::OnUpdate()
 {
 	if (_counterStarted)
 	{
@@ -33,7 +33,7 @@ void StarScript::Load(nlohmann::json& input)
 	_animExplodeTime = input[Fields::Star::_explodeAnimTime].get<float>();
 	_beforeUsable = input[Fields::Star::_beforeUsable].get<float>();
 
-	auto& startVel = input[Fields::Star::_beforeUsable];
+	auto& startVel = input[Fields::Star::_startVelocity];
 	_startVelocity.x = startVel[0].get<float>();
 	_startVelocity.y = startVel[1].get<float>();
 }

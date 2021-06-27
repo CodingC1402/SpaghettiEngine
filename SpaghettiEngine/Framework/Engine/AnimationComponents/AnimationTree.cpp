@@ -1,5 +1,7 @@
 #include "AnimationTree.h"
 
+REGISTER_BEHAVIOR_TREE_FINISH(AnimationTree);
+
 SAnimationTree AnimationTree::CreateAnimationTree()
 {
 	SAnimationTree newTree = std::make_shared<AnimationTree>();

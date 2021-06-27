@@ -12,6 +12,9 @@
 #include "AnimationNode.h"
 #include "TrueFalseLeafNode.h"
 
+#include "AnimationTree.h"
+#include "BTs.h"
+
 BOOL WinMain::Start(
 	HINSTANCE	hInstance,
 	HINSTANCE	hPrevInstance,
@@ -28,6 +31,7 @@ void WinMain::RegisterSpaghettiScripts()
 {
 	ScriptBase* dummyScript;
 	Node* dummyNode;
+	BTs* dummyTree;
 
 	// This is dumb : ^)
 	/// I think this is some sort of optimization the compiler do
@@ -45,4 +49,7 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyNode = new AnimationNode();
 	dummyNode = new TrueLeaf();
 	dummyNode = new FalseLeaf();
+
+	dummyTree = new BTs();
+	dummyTree = new AnimationTree();
 }

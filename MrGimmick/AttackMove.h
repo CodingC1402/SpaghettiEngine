@@ -16,10 +16,10 @@ public:
 	void OnUpdate() override;
 	void Load(nlohmann::json& input);
 protected:
-	PGameObj _starPrefab;
+	PGameObj _starPrefab = nullptr;
 
-	RigidBody2D* _rb;
-	StarScript* _starScript;
+	RigidBody2D* _rb = nullptr;
+	StarScript* _starScript = nullptr;
 
 	SInputAll _attackKey;
 private:

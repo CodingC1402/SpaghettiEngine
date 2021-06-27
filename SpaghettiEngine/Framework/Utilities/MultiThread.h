@@ -116,13 +116,13 @@ inline ThreadPtr<T>& ThreadPtr<T>::operator=(T* t)
 }
 
 template<typename T>
-inline ThreadPtr<T>::Access ThreadPtr<T>::operator->()
+inline typename ThreadPtr<T>::Access ThreadPtr<T>::operator->()
 {
 	return Access(this);
 }
 
 template<typename T>
-inline ThreadPtr<T>::Access ThreadPtr<T>::GetAccess()
+inline typename ThreadPtr<T>::Access ThreadPtr<T>::GetAccess()
 {
 	return Access(this);
 }

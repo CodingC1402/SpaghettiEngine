@@ -10,7 +10,7 @@ public:
 	StarScript(PScene owner, bool isDisabled = false);
 
 	void OnStart() override;
-	void OnFixedUpdate() override;
+	void OnUpdate() override;
 
 	void Load(nlohmann::json& input) override;
 	void Throw(const Vector3& _playerVel);

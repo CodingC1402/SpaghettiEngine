@@ -2,16 +2,16 @@
 #include "Macros.h"
 #include <fstream>
 
+BehaviorTreeFactory::TreeRegister<BTs> BTs::REGISTRY_KEY_BEHAVIOR_TREE("BTs");
+
 BTs::BTs()
 {
 	_root = NodeFactory::Create("Root");
 }
 
-SBTs BTs::CreateBehaviorTree()
+std::string BTs::GetType()
 {
-	SBTs newTree = std::make_shared<BTs>();
-	newTree->AssignPtr(newTree);
-	return newTree;
+	return "BTs";
 }
 
 void BTs::Load(const std::string& path)
@@ -42,7 +42,7 @@ WBlackBoard BTs::GetBlackBoard()
 
 SBTs BTs::Clone()
 {
-	auto newTree = std::make_shared<BTs>();
+	auto newTree = BehaviorTreeFactory::MakeShared<BTs>(GetType());
 	newTree->_bb = _bb->Clone();
 	newTree->_root = _root->Clone(newTree);
 	return newTree;

@@ -9,7 +9,7 @@
 template<typename T>
 class Corntainer
 {
-	typedef std::list<T>::iterator ListIterator;
+	using ListIterator = typename std::list<T>::iterator;
 public:
 	[[nodiscard]] std::list<T> GetAllItem();
 	[[nodiscard]] unsigned		GetSize();
@@ -37,7 +37,7 @@ protected:
 protected:
 	mutable bool _isIterating = false;
 	mutable std::list<T> _container;
-	mutable std::list<T>::iterator _currentIterator;
+	mutable typename std::list<T>::iterator _currentIterator;
 };
 
 template<typename T>
@@ -53,7 +53,7 @@ inline unsigned Corntainer<T>::GetSize()
 }
 
 template<typename T>
-inline std::list<T>::iterator Corntainer<T>::Erase(ListIterator it) const
+inline typename std::list<T>::iterator Corntainer<T>::Erase(ListIterator it) const
 {
 	if (_isIterating && it == _currentIterator)
 	{
@@ -116,7 +116,7 @@ inline void Corntainer<T>::IteratingWithLamdaEvent(const std::function<void(T, C
 }
 
 template<typename T>
-inline std::list<T>::iterator Corntainer<T>::Begin() const
+inline typename std::list<T>::iterator Corntainer<T>::Begin() const
 {
 	_isIterating = true;
 	_currentIterator = _container.begin();

@@ -4,12 +4,17 @@
 #include "Graphics.h"
 #include "SMath.h"
 
+REGISTER_FINISH(StarCreation);
+
+StarCreation::StarCreation(PScene owner, bool isDisabled) : Render2DScriptBase(owner, isDisabled)
+{}
+
 void StarCreation::OnStart()
 {
 	_starScript = GET_FIRST_SCRIPT_OF_TYPE(StarScript);
 }
 
-void StarCreation::OnFixedUpdate()
+void StarCreation::OnUpdate()
 {
 	_counter += GameTimer::GetDeltaTime();
 	_currentSpinAngle += _spinAngle * GameTimer::GetDeltaTime();
@@ -60,6 +65,7 @@ PScriptBase StarCreation::Clone() const
 
 	clone->_createTime = _createTime;
 	clone->_starAnim = _starAnim;
+	clone->_currentSprite = _currentSprite;
 
 	return clone;
 }

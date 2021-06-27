@@ -39,7 +39,11 @@
 		{
 			"ID": 2,
 			"Inputs": {
-				"ScriptType": "StarScript"
+				"ScriptType": "StarScript",
+				"ExplodeTime": 10,
+				"ExplodeAnimTime": 1,
+				"BeforeUsable": 0.75,
+				"StartVelocity": [20, 10]
 			}
 		},
 		{

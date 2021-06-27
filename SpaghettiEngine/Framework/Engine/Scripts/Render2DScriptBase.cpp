@@ -3,7 +3,7 @@
 
 REGISTER_FINISH(Render2DScriptBase);
 
-Render2DScriptBase::Render2DScriptBase(PScene owner) : ScriptBase(owner)
+Render2DScriptBase::Render2DScriptBase(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
 {}
 
 int Render2DScriptBase::GetDrawLayer()
