@@ -1,0 +1,60 @@
+{
+    "BlackBoard": [
+        {
+            "Name": "IsExploded",
+            "Type": "bool",
+            "Value": false
+        }
+    ],
+
+    "Children": [
+        {
+            "Type": "Selector",
+            "Children": [
+                {
+                    "Type": "BoolCon",
+                    "Input": {
+                        "Field": "IsExploded",
+                        "Type": "Equal",
+                        "Value": false 
+                    },
+                    "Children": [
+                        {
+                            "Type": "Sequence",
+                            "Children":[
+                                {
+                                    "Type": "AnimationNode", 
+                                    "Input": {
+                                        "ID": 20001
+                                    }
+                                },
+                                {
+                                    "Type": "AnimationNode", 
+                                    "Input": {
+                                        "ID": 20002
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Type": "BoolCon",
+                    "Input": {
+                        "Field": "IsExploded",
+                        "Type": "Equal",
+                        "Value": true
+                    },
+                    "Children": [
+                        {
+                            "Type": "AnimationNode", 
+                            "Input": {
+                                "ID": 20003
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,24 +1,35 @@
 #pragma once
 #include "ScriptBase.h"
+#include "RigidBody2D.h"
+#include "Animator.h"
 
 class StarScript : public ScriptBase
 {
+	friend class StarCreation;
 public:
 	StarScript(PScene owner, bool isDisabled = false);
 
-	void OnEnabled() override;
-	void OnUpdate() override;
-	
-	void StartCounter();
+	void OnStart() override;
+	void OnFixedUpdate() override;
+
+	void Load(nlohmann::json& input) override;
+	void Throw(const Vector3& _playerVel);
 	void OnCollide(CollideEvent& e) override;
 	PScriptBase Clone() const override;
 protected:
-	Vector3 originalPos;
-	bool onWayBack = false;
+	void SetCreated();
+protected:
+	RigidBody2D*	_rbBody = nullptr;
+	Animator*		_animator = nullptr;
+	BoolField		_explodedField;
 
-	bool coounterStarted = false;
-	float counter = 0;
-	float explodeTime = 10;
+	bool			_counterStarted = false;
+	float			_beforeUsable = false;
+	float			_counter = 0;
+	float			_explodeTime = 10; // In second
+	float			_animExplodeTime = 1;
+
+	Vector3			_startVelocity;
 private:
 	REGISTER_START(StarScript);
 };

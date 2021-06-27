@@ -1,52 +1,55 @@
 #include "StarScript.h"
 #include "GameTimer.h"
+#include "FieldNames.h"
 
 REGISTER_FINISH(StarScript);
 
 StarScript::StarScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
 {}
 
-void StarScript::OnEnabled()
+void StarScript::OnStart()
 {
-	originalPos = GetWorldTransform();
+	_rbBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
+	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 }
 
-void StarScript::OnUpdate()
+void StarScript::OnFixedUpdate()
 {
-	if (coounterStarted)
+	if (_counterStarted)
 	{
-		counter += GameTimer::GetDeltaTime();
-		if (counter >= explodeTime)
-			GetGameObject()->CallDestroy();
-	}
-
-	if (onWayBack)
-	{
-		if (GetWorldTransform().x < originalPos.x)
+		_counter += GameTimer::GetDeltaTime();
+		if (_counter >= _explodeTime)
 		{
-			onWayBack = false;
-		}
-		else
-		{
-			GetGameObject()->GetTransform().Translate(Vector3(-20, 0, 0) * GameTimer::GetDeltaTime());
-		}
-	}
-	else
-	{
-		if (GetWorldTransform().x > originalPos.x + 400)
-		{
-			onWayBack = true;
-		}
-		else
-		{
-			GetGameObject()->GetTransform().Translate(Vector3(20, 0, 0) * GameTimer::GetDeltaTime());
+			_explodedField.lock()->SetValue(true);
+			if (_counter >= _explodeTime + _animExplodeTime)
+				GetGameObject()->CallDestroy();
 		}
 	}
 }
 
-void StarScript::StartCounter()
+void StarScript::Load(nlohmann::json& input)
 {
-	coounterStarted = true;
+	_explodeTime = input[Fields::Star::_explodeTime].get<float>();
+	_animExplodeTime = input[Fields::Star::_explodeAnimTime].get<float>();
+	_beforeUsable = input[Fields::Star::_beforeUsable].get<float>();
+
+	auto& startVel = input[Fields::Star::_beforeUsable];
+	_startVelocity.x = startVel[0].get<float>();
+	_startVelocity.y = startVel[1].get<float>();
+}
+
+void StarScript::Throw(const Vector3& _playerVel)
+{
+	GetGameObject()->SetParent(nullptr);
+	if (_counter < _beforeUsable || !_counterStarted)
+	{
+		GetGameObject()->CallDestroy();
+		return;
+	}
+
+	_counterStarted = true;
+	_rbBody->Enable();
+	_rbBody->SetVelocity(_startVelocity + _playerVel);
 }
 
 void StarScript::OnCollide(CollideEvent& e)
@@ -59,8 +62,17 @@ PScriptBase StarScript::Clone() const
 {
 	auto clone = dynamic_cast<StarScript*>(ScriptBase::Clone());
 
-	clone->onWayBack = onWayBack;
-	clone->originalPos = originalPos;
+	clone->_beforeUsable	= _beforeUsable;
+	clone->_counterStarted	= _counterStarted;
+	clone->_counter			= _counter;
+	clone->_explodeTime		= _explodeTime ; // In second
+	clone->_animExplodeTime = _animExplodeTime;
 
 	return clone;
+}
+
+void StarScript::SetCreated()
+{
+	_animator->Enable();
+	_counterStarted = true;
 }
