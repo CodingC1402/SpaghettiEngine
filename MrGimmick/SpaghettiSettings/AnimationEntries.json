@@ -7,6 +7,7 @@
     "ID": 10002,
     "Path": "Asset/Animations/ArrowBrickToRight.json"
   },
+  
   {
     "ID": 30000,
     "Path": "Asset/Animations/PlayerStanding.json"
@@ -35,8 +36,21 @@
     "ID": 30006,
     "Path": "Asset/Animations/PlayerInTube.json"
   },
+
+  {
+    "ID": 20000,
+    "Path": "Asset/Animations/SmallStarAnim.json"
+  },
+  {
+    "ID": 20001,
+    "Path": "Asset/Animations/StarCreate.json"
+  },
   {
     "ID": 20002,
     "Path": "Asset/Animations/StarAnim.json"
+  },
+  {
+    "ID": 20003,
+    "Path": "Asset/Animations/StarExplode.json"
   }
 ]

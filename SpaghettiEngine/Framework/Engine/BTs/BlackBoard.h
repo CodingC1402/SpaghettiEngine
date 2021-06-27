@@ -67,8 +67,11 @@ class Field : public FieldBase
 	friend class BlackBoard;
 public:
 	inline void SetValue(const T& value) {
-		_value = value;
-		CallOnChange();
+		if (value != _value)
+		{
+			_value = value;
+			CallOnChange();
+		}
 	}
 	inline T GetValue() {
 		return _value;

@@ -54,8 +54,12 @@
 			"Inputs": {
 				"ScriptType": "MoveScript",
 				"SpeedRamUp": 700,
-				"SpeedCap": 120,
-				"JumpStrength": 230
+				"SpeedCap": 80,
+				"ReduceSpeed": 60,
+
+				"JumpStrength": 230,
+				"GSDropFactor": 4,
+				"GSMin": 1			
 			}
 		},
 		{
@@ -111,10 +115,10 @@
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
 				"Vertexes": [
-					[-5, 3],
-					[-5, -4],
-					[5, -4],
-					[5, 3] 
+					[-3, 3],
+					[-3, -2],
+					[3, -2],
+					[3, 3] 
 				]
 			}
 		}
