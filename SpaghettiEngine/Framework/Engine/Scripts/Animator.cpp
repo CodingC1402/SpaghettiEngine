@@ -18,10 +18,12 @@ void Animator::OnUpdate()
 
 void Animator::Draw(PCamera camera)
 {
+	auto sprite = _tree->GetCurrentSprite();
+	if (!sprite.use_count())
+		return;
+
 	Matrix4 transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
-
-	auto sprite = _tree->GetCurrentSprite();
 	Graphics::DrawSprite(sprite, sprite->GetCenter());
 }
 

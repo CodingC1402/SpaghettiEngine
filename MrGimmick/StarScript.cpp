@@ -11,11 +11,19 @@ void StarScript::OnStart()
 {
 	_polyCollider	= GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
 	_rbBody			= GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
+
 	_animator		= GET_FIRST_SCRIPT_OF_TYPE(Animator);
+	_explodedField	= _animator->GetField<bool>("IsExploded");
 }
 
 void StarScript::OnUpdate()
 {
+	if (_countUsable && _usableCounter < _beforeUsable)
+	{
+		_usableCounter += GameTimer::GetDeltaTime();
+		return;
+	}
+
 	if (_counterStarted)
 	{
 		_counter += GameTimer::GetDeltaTime();
@@ -42,13 +50,14 @@ void StarScript::Load(nlohmann::json& input)
 void StarScript::Throw(const Vector3& _playerVel)
 {
 	GetGameObject()->SetParent(nullptr);
-	if (_counter < _beforeUsable || !_counterStarted)
+	if (_usableCounter < _beforeUsable)
 	{
 		GetGameObject()->CallDestroy();
 		return;
 	}
 
 	_counterStarted = true;
+	_polyCollider->Enable();
 	_rbBody->Enable();
 	_rbBody->SetVelocity(_startVelocity + _playerVel);
 }
@@ -64,6 +73,7 @@ PScriptBase StarScript::Clone() const
 	auto clone = dynamic_cast<StarScript*>(ScriptBase::Clone());
 
 	clone->_beforeUsable	= _beforeUsable;
+	clone->_usableCounter	= _usableCounter;
 	clone->_counterStarted	= _counterStarted;
 	clone->_counter			= _counter;
 	clone->_explodeTime		= _explodeTime ; // In second
@@ -74,6 +84,6 @@ PScriptBase StarScript::Clone() const
 
 void StarScript::SetCreated()
 {
+	_countUsable = true;
 	_animator->Enable();
-	_counterStarted = true;
 }

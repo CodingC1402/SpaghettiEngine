@@ -17,7 +17,7 @@ void AttackMove::OnUpdate()
 {
 	if (_attackKey->CheckKeyPress())
 	{
-		auto star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform());
+		auto star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
 		star->SetParent(GetGameObject());
 		_starScript = dynamic_cast<StarScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
 	}
