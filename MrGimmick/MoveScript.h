@@ -6,7 +6,6 @@
 #include "RigidBody2D.h"
 #include "Animator.h"
 
-
 typedef std::shared_ptr<InputAll> SInputAll;
 
 class MoveScript : public ScriptBase

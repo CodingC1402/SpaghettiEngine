@@ -38,6 +38,12 @@ namespace Fields
 		static constexpr auto _createAnimTime	= "CreateAnimTime";
 		static constexpr auto _beforeUsable		= "BeforeUsable";
 		static constexpr auto _startVelocity	= "StartVelocity";
+
+		static constexpr auto _createTime		= "CreateTime";
+		static constexpr auto _smallStarAnim	= "SmallStarAnim";
+		static constexpr auto _radius			= "Radius";
+		static constexpr auto _numberOfStar		= "NumberOfStar";
+		static constexpr auto _spinAngle		= "SpinAngle";
 	};
 
 	class Platform

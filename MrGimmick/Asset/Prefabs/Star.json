@@ -18,21 +18,10 @@
 					},
 					{
 						"ID": 3
+					},
+					{
+						"ID": 4
 					}
-				]
-			}
-		},
-		{
-			"ID": 2,
-			"Inputs": {
-				"Tag": "StarCreation",
-				"IsRoot": false,
-				"GameObjects": [
-				],
-				"Transform": [ 0, 0, 0 ],
-				"Rotation": [ 0, 0, 0 ],
-				"Scale": [ 1, 1, 1 ],
-				"Scripts": [
 				]
 			}
 		}
@@ -72,7 +61,13 @@
 				"ScriptType": "StarCreation",
 				"GameObjects":[
 					{"ID": 1}
-				]
+				],
+				"DrawLayer": 1,
+				"CreateTime": 1.5,
+				"SmallStarAnim": 20000,
+				"NumberOfStar": 6,
+				"SpinAngle": 180,
+				"Radius": 20
 			}
 		}
     ]

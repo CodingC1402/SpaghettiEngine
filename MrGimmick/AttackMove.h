@@ -1,6 +1,11 @@
 #pragma once
 #include "ScriptBase.h"
 #include "InputSystem.h"
+#include "InputAll.h"
+#include "StarScript.h"
+#include "RigidBody2D.h"
+
+typedef std::shared_ptr<InputAll> SInputAll;
 
 class AttackMove : public ScriptBase
 {
@@ -12,7 +17,11 @@ public:
 	void Load(nlohmann::json& input);
 protected:
 	PGameObj _starPrefab;
-	SInput _attackKey;
+
+	RigidBody2D* _rb;
+	StarScript* _starScript;
+
+	SInputAll _attackKey;
 private:
 	REGISTER_START(AttackMove);
 };
