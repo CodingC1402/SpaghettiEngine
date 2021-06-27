@@ -18,7 +18,7 @@ void MoveScript::Load(nlohmann::json& input)
 	_minGravityScale = input[Fields::Player::_gsMin].get<float>();
 }
 
-MoveScript::MoveScript(PScene owner) : ScriptBase(owner)
+MoveScript::MoveScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
 {}
 
 void MoveScript::OnStart()

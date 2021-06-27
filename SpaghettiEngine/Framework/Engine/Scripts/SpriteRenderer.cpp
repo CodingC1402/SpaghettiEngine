@@ -7,7 +7,7 @@
 
 REGISTER_FINISH(SpriteRenderer);
 
-SpriteRenderer::SpriteRenderer(PScene owner) : Render2DScriptBase(owner)
+SpriteRenderer::SpriteRenderer(PScene owner, bool isDisabled) : Render2DScriptBase(owner, isDisabled)
 {
 	transformMatrix._11 = 1;
 

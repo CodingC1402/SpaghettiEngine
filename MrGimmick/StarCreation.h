@@ -6,8 +6,10 @@
 class StarCreation : public Render2DScriptBase
 {
 public:
+	StarCreation(PScene owner, bool isDisabled = false);
+
 	void OnStart() override;
-	void OnFixedUpdate() override;
+	void OnUpdate() override;
 
 	void Draw(PCamera script) override;
 
@@ -19,16 +21,19 @@ protected:
 	SSprite _currentSprite;
 
 	Matrix4 _rotationMatrix;
-	float _numberOfStar = 0;
+	float _numberOfStar		= 0;
 
-	float _spinAngle = 0.0f; // In 1 second;
+	float _spinAngle		= 0.0f; // In 1 second;
 	float _currentSpinAngle = 0.0f;
 
-	float _baseRadius = 0.0f;
-	float _radius = 0.0f;
+	float _baseRadius		= 0.0f;
+	float _radius			= 0.0f;
 
-	float _createTime = 0.0f;
-	float _counter = 0.0f;
+	float _createTime		= 0.0f;
+	float _counter			= 0.0f;
+
+	float _animCounter		= 0.0f;
+	unsigned _frame			= 0;
 private:
 	REGISTER_START(StarCreation);
 };

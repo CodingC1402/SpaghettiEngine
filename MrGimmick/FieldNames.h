@@ -17,6 +17,8 @@ namespace Fields
 		static constexpr auto _speedRamUpField		= "SpeedRamUp";
 		static constexpr auto _gsDropFactor			= "GSDropFactor";
 		static constexpr auto _gsMin				= "GSMin";
+
+		static constexpr auto _appearOffSet			= "AppearOffSet";
 	};
 
 	class Input

@@ -19,4 +19,6 @@ protected:
 	void SetCurrentSprite(SSprite sprite);
 protected:
 	SSprite _currentSprite;
+private:
+	REGISTER_BEHAVIOR_TREE_START(AnimationTree);
 };

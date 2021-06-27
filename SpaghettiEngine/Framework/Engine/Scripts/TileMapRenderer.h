@@ -9,7 +9,7 @@ typedef class TileMapRenderer* PTileMapRenderer;
 class TileMapRenderer : public Render2DScriptBase
 {
 public:
-    TileMapRenderer(PScene owner);
+    TileMapRenderer(PScene owner, bool isDisabled = false);
 
     void Load(nlohmann::json& inputObject) override;
     void Draw(PCamera camera) override;

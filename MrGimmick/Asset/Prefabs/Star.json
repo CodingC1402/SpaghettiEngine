@@ -21,6 +21,9 @@
 					},
 					{
 						"ID": 4
+					},
+					{
+						"ID": 5
 					}
 				]
 			}
@@ -39,7 +42,11 @@
 		{
 			"ID": 2,
 			"Inputs": {
-				"ScriptType": "StarScript"
+				"ScriptType": "StarScript",
+				"ExplodeTime": 10,
+				"ExplodeAnimTime": 1,
+				"BeforeUsable": 0.75,
+				"StartVelocity": [20, 10]
 			}
 		},
 		{
@@ -68,6 +75,16 @@
 				"NumberOfStar": 6,
 				"SpinAngle": 180,
 				"Radius": 20
+			}
+		},
+		{
+			"ID": 5,
+			"IsDisabled": true,
+			"Inputs": {
+				"ScriptType": "RigidBody2D",
+				"Mass": 2,
+				"GravityScale": 2,
+				"Material": 20001
 			}
 		}
     ]

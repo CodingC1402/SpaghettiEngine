@@ -53,7 +53,7 @@ Mouse::Event Mouse::Read() noexcept
 	}
 	else
 	{
-		return Event::Event();
+		return Event();
 	}
 }
 

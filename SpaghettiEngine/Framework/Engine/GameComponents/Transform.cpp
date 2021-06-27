@@ -94,6 +94,7 @@ void Transform::RemoveChild(PTransform child)
 	if (!ContainerUtil::Erase(_childTransform, child))
 		return;
 
+	child->_parentTransform = nullptr;
 	child->_transform += GetWorldTransform();
 	child->_rotation += GetWorldRotation();
 

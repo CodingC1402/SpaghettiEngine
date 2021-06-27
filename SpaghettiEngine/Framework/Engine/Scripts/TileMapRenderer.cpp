@@ -16,7 +16,13 @@ using namespace std;
 
 REGISTER_FINISH(TileMapRenderer);
 
-TileMapRenderer::TileMapRenderer(PScene owner) : Render2DScriptBase(owner), width(0), height(0), tileWidth(0), tileHeight(0)
+TileMapRenderer::TileMapRenderer(PScene owner, bool isDisabled) 
+	: 
+	Render2DScriptBase(owner, isDisabled), 
+	width(0), 
+	height(0), 
+	tileWidth(0), 
+	tileHeight(0)
 {}
 
 void TileMapRenderer::Load(nlohmann::json& inputObject)

@@ -21,14 +21,14 @@ nlohmann::json GameObj::defaultJson = {
 
 PGameObj GameObj::Clone() const
 {
-	auto cloneObj = GetOwner()->CreateGameObject(false);
+	auto cloneObj = GetOwner()->CreateGameObject(BaseComponent::IsDisabled());
 
 	cloneObj->_tag = _tag;
 	cloneObj->_name = _name;
 	cloneObj->_children = _children;
 
 	_scripts.IteratingWithLamda([&](PScriptBase script) {
-			cloneObj->GetScriptContainer().AddItem((script)->Clone());
+		cloneObj->GetScriptContainer().AddItem((script)->Clone());
 	});
 
 	_children.IteratingWithLamda([&](PGameObj child) {

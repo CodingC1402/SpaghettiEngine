@@ -45,7 +45,7 @@ public:
 
     [[nodiscard]] bool IsDeleted() const;
 
-    virtual bool [[nodiscard]] IsDisabled() const;
+    [[nodiscard]] virtual bool IsDisabled() const;
     virtual void Load(nlohmann::json& input) = 0;
 
     virtual bool CallDestroy();

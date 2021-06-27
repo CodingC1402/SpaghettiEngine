@@ -6,7 +6,7 @@ class SpriteRenderer : public Render2DScriptBase
 {
 	friend class Graphics;
 public:
-	SpriteRenderer(PScene owner);
+	SpriteRenderer(PScene owner, bool isDisabled = false);
 	
 	[[nodiscard]] virtual Matrix4		GetSpriteMatrix()	const noexcept;
 	[[nodiscard]] virtual Vector3		GetCenter()		const noexcept;

@@ -17,8 +17,8 @@ public:
 	PScriptBase Clone() const override;
 protected:
 	MoveScript* _moveScript = nullptr;
-	bool _isGrounded = false; // Because start on air
-	bool _isLastGrounded;
+	bool _isGrounded		= false; // Because start on air
+	bool _isLastGrounded	= false;
 private:
 	REGISTER_START(PlayerFeetScript);
 };

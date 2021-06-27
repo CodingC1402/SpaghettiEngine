@@ -6,7 +6,7 @@
 class Render2DScriptBase : public ScriptBase
 {
 public:
-	Render2DScriptBase(PScene owner);
+	Render2DScriptBase(PScene owner, bool isDisabled = false);
 
 	virtual int GetDrawLayer();
 	
@@ -18,7 +18,7 @@ public:
 	PScriptBase Clone() const override;
 protected:
 	// Max is 32 layer;
-	int _drawLayer; 
+	int _drawLayer = 0; 
 private:
 	REGISTER_START(Render2DScriptBase);
 };

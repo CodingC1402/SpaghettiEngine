@@ -8,7 +8,7 @@ class Camera : public ScriptBase
 {
 	friend class Graphics;
 public:
-	Camera(PScene owner);
+	Camera(PScene owner, bool isDisabled = false);
 	virtual Matrix4	GetMatrix(const Matrix4& originalMatrix);
 	virtual Matrix4 GetMatrixWithoutScaleY(const Matrix4& originalMatrix);
 	virtual void	OnFixedUpdate() override;
@@ -19,7 +19,7 @@ public:
 	virtual void	Load(json& input) override;
 
 	virtual void	SetFollow(PGameObj followObj);
-	virtual [[nodiscard]] PGameObj	GetFollow();
+	[[nodiscard]] virtual PGameObj	GetFollow();
 	virtual void	RemoveFollow();
 
 	PScriptBase Clone() const override;

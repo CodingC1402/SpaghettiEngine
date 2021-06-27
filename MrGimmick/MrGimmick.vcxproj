@@ -195,6 +195,7 @@
     <ClCompile Include="AttackMove.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="PlayerFeetScript.cpp" />
+    <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -203,6 +204,7 @@
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="PlayerFeetScript.h" />
+    <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,9 +6,9 @@
 
 REGISTER_FINISH(Animator);
 
-Animator::Animator(PScene owner)
+Animator::Animator(PScene owner, bool isDisabled)
 	:
-	Render2DScriptBase(owner)
+	Render2DScriptBase(owner, isDisabled)
 {}
 
 void Animator::OnUpdate()
@@ -18,10 +18,12 @@ void Animator::OnUpdate()
 
 void Animator::Draw(PCamera camera)
 {
+	auto sprite = _tree->GetCurrentSprite();
+	if (!sprite.use_count())
+		return;
+
 	Matrix4 transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
-
-	auto sprite = _tree->GetCurrentSprite();
 	Graphics::DrawSprite(sprite, sprite->GetCenter());
 }
 
@@ -43,7 +45,7 @@ void Animator::Load(nlohmann::json& inputObject)
 
 		std::string _treeFilePath = inputObject[Field::animationTreeField].get<std::string>();
 
-		_tree = AnimationTree::CreateAnimationTree();
+		_tree = MAKE_SHARE_BT(AnimationTree);
 		_tree->Load(_treeFilePath);
 	}
 	catch (const CornException& e)
