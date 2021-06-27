@@ -2,6 +2,7 @@
 #include "ScriptBase.h"
 #include "RigidBody2D.h"
 #include "Animator.h"
+#include "Polygon2DCollider.h"
 
 class StarScript : public ScriptBase
 {
@@ -19,17 +20,18 @@ public:
 protected:
 	void SetCreated();
 protected:
-	RigidBody2D*	_rbBody = nullptr;
-	Animator*		_animator = nullptr;
-	BoolField		_explodedField;
+	RigidBody2D*		_rbBody = nullptr;
+	Animator*			_animator = nullptr;
+	Polygon2DCollider*	_polyCollider = nullptr;
+	BoolField			_explodedField;
 
-	bool			_counterStarted = false;
-	float			_beforeUsable = false;
-	float			_counter = 0;
-	float			_explodeTime = 10; // In second
-	float			_animExplodeTime = 1;
+	bool				_counterStarted = false;
+	float				_beforeUsable = false;
+	float				_counter = 0;
+	float				_explodeTime = 10; // In second
+	float				_animExplodeTime = 1;
 
-	Vector3			_startVelocity;
+	Vector3				_startVelocity;
 private:
 	REGISTER_START(StarScript);
 };

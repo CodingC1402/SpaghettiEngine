@@ -1,5 +1,6 @@
 #include "AttackMove.h"
 #include "LoadingJson.h"
+#include "FieldNames.h"
 
 REGISTER_FINISH(AttackMove);
 
@@ -17,6 +18,7 @@ void AttackMove::OnUpdate()
 	if (_attackKey->CheckKeyPress())
 	{
 		auto star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform());
+		star->SetParent(GetGameObject());
 		_starScript = dynamic_cast<StarScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
 	}
 	if (_starScript && _attackKey->CheckKeyRelease())
@@ -29,4 +31,8 @@ void AttackMove::OnUpdate()
 void AttackMove::Load(nlohmann::json& input)
 {
 	_starPrefab = dynamic_cast<GameObj*>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0][LoadingJson::Field::idField].get<CULL>()));
+	auto offSet = input[Fields::Player::_appearOffSet];
+	_appearOffSet.x = offSet[0].get<float>();
+	_appearOffSet.y = offSet[1].get<float>();
+	_appearOffSet.z = offSet[2].get<float>();
 }

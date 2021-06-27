@@ -5,7 +5,7 @@
 
 REGISTER_FINISH(Camera);
 
-Camera::Camera(PScene owner) : ScriptBase(owner)
+Camera::Camera(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
 {
 	viewMatrix._11 = 1;
 	viewMatrix._22 = -1;

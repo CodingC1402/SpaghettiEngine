@@ -15,7 +15,7 @@ PScriptBase ScriptFactory::CreateInstance(std::string const& typeName, PScene ow
 	const auto iterator = map->find(typeName);
 	if (iterator == GetMap()->end())
 		return nullptr;
-	return static_cast<PScriptBase>(iterator->second(owner));
+	return static_cast<PScriptBase>(iterator->second(owner, isDisabled));
 }
 
 ScriptBase::ScriptException::ScriptException(int line, const char* file, PScriptBase errorScript, const std::wstring& extraDescription)
@@ -90,7 +90,7 @@ bool ScriptBase::IsDisabled() const noexcept
 
 PScriptBase ScriptBase::Clone() const
 {
-	auto cloneScript = GetOwner()->CreateScriptBase(GetType(), false);
+	auto cloneScript = GetOwner()->CreateScriptBase(GetType(), BaseComponent::IsDisabled());
 	return cloneScript;
 }
 

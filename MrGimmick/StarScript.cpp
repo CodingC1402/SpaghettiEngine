@@ -9,8 +9,9 @@ StarScript::StarScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisa
 
 void StarScript::OnStart()
 {
-	_rbBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
-	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
+	_polyCollider	= GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
+	_rbBody			= GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
+	_animator		= GET_FIRST_SCRIPT_OF_TYPE(Animator);
 }
 
 void StarScript::OnUpdate()

@@ -89,8 +89,10 @@ void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json)
 {
     using LoadingJson::Field;
     _tempComponentContainer->emplace(json[Field::idField].get<CULL>(), Entry(json[Field::inputsField], component));
+
     if (!json[Field::nameField].empty())
         component->SetName(json[Field::nameField].get<std::string>());
+
     if (!json[Field::isDisabled].empty() && json[Field::isDisabled].get<bool>())
         component->_isDisabled = true;
 }
@@ -113,10 +115,10 @@ void Scene::Load()
         _tempComponentContainer = new std::map<CULL, Entry>();
         if (!_callEnable)
             _callEnable = new std::stack<PScriptBase>();
+
         //Load script
         for (auto& script : jsonFile[Field::scriptsField])
         {
-            // No need to call enable for gameObj cause it's useless and save it for in game enable/disable
             auto scriptType = script[Field::inputsField][Field::scriptTypeField].get<std::string>();
             SBaseComponent newScript = CreateScriptBase(scriptType, false)->GetSharedPtr();
             SetUpAddComponent(newScript, script);
@@ -245,7 +247,7 @@ PGameObj Scene::CreateGameObject(bool isDisabled)
 
 PScriptBase Scene::CreateScriptBase(const std::string& scriptName, bool isDisabled)
 {
-    SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this), DestroyComponent);
+    SScriptBase newScript(ScriptFactory::CreateInstance(scriptName, this, isDisabled), DestroyComponent);
 
     _scripts.push_back(newScript);
     auto it = --_scripts.end();

@@ -16,8 +16,17 @@ void StarCreation::OnStart()
 
 void StarCreation::OnUpdate()
 {
+
 	_counter += GameTimer::GetDeltaTime();
+	// Control animation
+	_animCounter += GameTimer::GetDeltaTime();
+	if (_starAnim->Advance(_frame, _animCounter))
+		_currentSprite = _starAnim->GetSpriteOfFrame(_frame);
+	
+
 	_currentSpinAngle += _spinAngle * GameTimer::GetDeltaTime();
+
+
 
 	if (_counter >= _createTime)
 	{
@@ -53,6 +62,7 @@ void StarCreation::Load(nlohmann::json& input)
 	_numberOfStar	= input[Star::_numberOfStar].get<CULL>();
 	_spinAngle		= input[Star::_spinAngle].get<float>();
 	_baseRadius		= input[Star::_radius].get<float>();
+	_radius			= _baseRadius; // To prevent glitch
 
 	_rotationMatrix = SMath::GetZAxisRotateMatrix(360.0f / _numberOfStar);
 
@@ -63,9 +73,23 @@ PScriptBase StarCreation::Clone() const
 {
 	auto clone = dynamic_cast<StarCreation*>(Render2DScriptBase::Clone());
 
-	clone->_createTime = _createTime;
-	clone->_starAnim = _starAnim;
-	clone->_currentSprite = _currentSprite;
+	clone->_createTime		= _createTime;
+	clone->_counter			= _counter;
+
+	clone->_animCounter		= _animCounter;
+	clone->_frame			= _frame;
+
+	clone->_starAnim		= _starAnim;
+	clone->_currentSprite	= _currentSprite;
+
+	clone->_baseRadius		= _baseRadius;
+	clone->_radius			= _baseRadius; // Intentional! NOT A MISTAKE! >:V
+
+	clone->_spinAngle		= _spinAngle;
+	clone->_currentSpinAngle= _currentSpinAngle;
+
+	clone->_rotationMatrix	= _rotationMatrix;
+	clone->_numberOfStar	= _numberOfStar;
 
 	return clone;
 }

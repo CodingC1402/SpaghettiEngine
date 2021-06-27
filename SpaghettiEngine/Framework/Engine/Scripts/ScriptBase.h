@@ -12,12 +12,12 @@
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
 typedef std::weak_ptr<ScriptBase> WScriptBase;
-typedef std::unordered_map<std::string, void* (*)(PScene)> ScriptTypes;
+typedef std::unordered_map<std::string, void* (*)(PScene, bool)> ScriptTypes;
 
 typedef class GameObj* PGameObj;
 
 template<typename T>
-void* CreateT(PScene owner) { return new T(owner); }
+void* CreateT(PScene owner, bool isDisabled) { return new T(owner, isDisabled); }
 
 class ScriptFactory
 {
