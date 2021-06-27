@@ -1,6 +1,5 @@
 #include "AttackMove.h"
 #include "LoadingJson.h"
-#include "StarScript.h"
 
 REGISTER_FINISH(AttackMove);
 
@@ -9,20 +8,25 @@ AttackMove::AttackMove(PScene owner, bool isDisabled) : ScriptBase(owner, isDisa
 
 void AttackMove::OnStart()
 {
-	_attackKey = InputSystem::GetInput("Attack");
+	_attackKey = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("Attack"));
+	_rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 }
 
 void AttackMove::OnUpdate()
 {
-	if (_attackKey->Check())
+	if (_attackKey->CheckKeyPress())
 	{
-		auto attack = GetOwner()->Instantiate(_starPrefab, GetWorldTransform());
-		auto starScript = dynamic_cast<StarScript*>(attack->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
-		starScript->StartCounter();
+		auto star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform());
+		_starScript = dynamic_cast<StarScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
+	}
+	if (_starScript && _attackKey->CheckKeyRelease())
+	{
+		_starScript->Throw(_rb->GetVelocity());
+		_starScript = nullptr;
 	}
 }
 
 void AttackMove::Load(nlohmann::json& input)
 {
-	_starPrefab = dynamic_cast<GameObj*>(GetOwner()->GetComponent(input["GameObjects"][0]["ID"].get<CULL>()));
+	_starPrefab = dynamic_cast<GameObj*>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0][LoadingJson::Field::idField].get<CULL>()));
 }
