@@ -64,6 +64,11 @@ bool MoveScript::GetGrounded() const noexcept
 	return _isGrounded;
 }
 
+bool MoveScript::IsFlipped() const noexcept
+{
+	return isFlipped;
+}
+
 void MoveScript::JumpAction()
 {
 	if (_isJumping && _jumpInput->CheckKeyRelease())

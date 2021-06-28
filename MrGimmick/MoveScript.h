@@ -23,6 +23,8 @@ public:
 	void SetGrounded(bool value) noexcept; // Manage by PlayerfeetScript
 	[[nodiscard]] bool GetGrounded() const noexcept;
 
+	[[nodiscard]] bool IsFlipped() const noexcept;
+
 	void JumpAction();
 	void ResetJumpAction();
 	void MoveAction();

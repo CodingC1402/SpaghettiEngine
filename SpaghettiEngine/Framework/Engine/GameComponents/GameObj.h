@@ -64,9 +64,12 @@ public:
 	[[nodiscard]] bool				IsRoot() const;
 	[[nodiscard]] bool				IsUpdateByScene() const;
 
+	// Remove parent and move this object to root
 	bool BecomeRootObject();
+	// Remove this from root object and from game loop to add it back use BecomeRootObject() or add this as a child of a root obj
 	bool RemoveFromRoot();
 
+	// Set parent, can set to nullptr to remove from the gameLoop, to become root object use BecomeRootObject()
 	void SetParent(PGameObj parent);
 	void SetName(const std::string& name);
 	void SetTag(const std::string& tag);

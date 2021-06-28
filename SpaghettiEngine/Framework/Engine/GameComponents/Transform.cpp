@@ -72,6 +72,8 @@ void Transform::AddChild(PTransform child)
 
 	if (child->_parentTransform)
 		_parentTransform->RemoveChild(child);
+	else
+		child->ForceRecalculateMatrixFull();
 
 	if (this->_parentTransform == child)
 		throw CORN_EXCEPTION_TYPE(TransformException, L"You can't set a parent of a transform to child of that transform");
@@ -86,8 +88,6 @@ void Transform::AddChild(PTransform child)
 	child->_scale.x /= parentScale.x;
 	child->_scale.y /= parentScale.y;
 	child->_scale.z /= parentScale.z;
-
-	child->ForceRecalculateMatrix();
 }
 void Transform::RemoveChild(PTransform child)
 {
@@ -103,7 +103,7 @@ void Transform::RemoveChild(PTransform child)
 	child->_scale.y *= parentScale.y;
 	child->_scale.z *= parentScale.z;
 
-	child->ForceRecalculateMatrix();
+	child->ForceRecalculateMatrixFull();
 }
 void Transform::SetRotation(const float& x, const float& y, const float& z)
 {
@@ -201,12 +201,15 @@ void Transform::Translate(const Vector3& vector)
 void Transform::ForceRecalculateMatrix()
 {
 	this->_isChanged = true;
-	if (_owner->GetTag() == "Player")
-	{
-		int oneH = 100;
-	}
 	for (auto& child : _childTransform)
 		child->ForceRecalculateMatrix();
+}
+void Transform::ForceRecalculateMatrixFull()
+{
+	_isTransformChanged = true;
+	_isRotationChanged = true;
+	_isScaleChanged = true;
+	ForceRecalculateMatrix();
 }
 #pragma endregion
 

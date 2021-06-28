@@ -2,6 +2,7 @@
 #include "GameTimer.h"
 #include "FieldNames.h"
 #include "Graphics.h"
+#include "Setting.h"
 #include "SMath.h"
 
 REGISTER_FINISH(StarCreation);
@@ -50,7 +51,13 @@ void StarCreation::Draw(PCamera script)
 	position = position * SMath::GetZAxisRotateMatrix(_currentSpinAngle);
 	for (int i = 0; i < _numberOfStar; i++)
 	{
-		Graphics::DrawSprite(_currentSprite, Vector3(), position);
+		if constexpr (Setting::IsWorldPointPixelPerfect)
+		{
+			position.x = std::roundf(position.x);
+			position.y = std::roundf(position.y);
+		}
+
+		Graphics::DrawSprite(_currentSprite, _currentSprite->GetCenter(), position);
 		position = position * _rotationMatrix;
 	}
 }

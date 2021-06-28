@@ -59,7 +59,10 @@ protected:
 	void AddChild(PTransform child);
 	void RemoveChild(PTransform child);
 
+	// Recalculate only the world matrix, doesn't actually calculate stuff here
 	void ForceRecalculateMatrix();
+	// Recalculate everything including the three matrix, doesn't actually calculate stuff here
+	void ForceRecalculateMatrixFull();
 
 	void CalculateRotationMatrix();
 	void CalculateTransformMatrix();

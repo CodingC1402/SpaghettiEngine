@@ -43,10 +43,10 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "StarScript",
-				"ExplodeTime": 10,
-				"ExplodeAnimTime": 1,
-				"BeforeUsable": 0.75,
-				"StartVelocity": [20, 10]
+				"ExplodeTime": 7,
+				"ExplodeAnimTime": 0.6,
+				"BeforeUsable": 0.20,
+				"StartVelocity": [160, 80]
 			}
 		},
 		{
@@ -70,11 +70,11 @@
 					{"ID": 1}
 				],
 				"DrawLayer": 1,
-				"CreateTime": 1.5,
+				"CreateTime": 6,
 				"SmallStarAnim": 20000,
 				"NumberOfStar": 6,
-				"SpinAngle": 180,
-				"Radius": 20
+				"SpinAngle": 360,
+				"Radius": 30
 			}
 		},
 		{
@@ -83,7 +83,7 @@
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
 				"Mass": 2,
-				"GravityScale": 2,
+				"GravityScale": 4,
 				"Material": 20001
 			}
 		}
