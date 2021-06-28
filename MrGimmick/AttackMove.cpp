@@ -11,6 +11,7 @@ void AttackMove::OnStart()
 {
 	_attackKey = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("Attack"));
 	_rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
+	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
 }
 
 void AttackMove::OnUpdate()
@@ -23,7 +24,7 @@ void AttackMove::OnUpdate()
 	}
 	if (_starScript && _attackKey->CheckKeyRelease())
 	{
-		_starScript->Throw(_rb->GetVelocity());
+		_starScript->Throw(Vector3(), _moveScript->IsFlipped());
 		_starScript = nullptr;
 	}
 }

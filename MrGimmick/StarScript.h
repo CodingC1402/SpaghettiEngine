@@ -14,7 +14,7 @@ public:
 	void OnUpdate() override;
 
 	void Load(nlohmann::json& input) override;
-	void Throw(const Vector3& _playerVel);
+	void Throw(const Vector3& _playerVel, bool isFlipped);
 	void OnCollide(CollideEvent& e) override;
 	PScriptBase Clone() const override;
 protected:
@@ -29,6 +29,8 @@ protected:
 	float _counter			= 0;
 	float _explodeTime		= 10; // In second
 	float _animExplodeTime	= 1;
+
+	float _additionVel		= 30; // Add speed each update  to replenish the x axis vel
 
 	float _usableCounter	= 0;
 	float _beforeUsable		= 0;

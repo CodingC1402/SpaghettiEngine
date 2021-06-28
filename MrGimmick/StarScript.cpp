@@ -18,7 +18,7 @@ void StarScript::OnStart()
 
 void StarScript::OnUpdate()
 {
-	if (_countUsable && _usableCounter < _beforeUsable)
+	if (_countUsable)
 	{
 		_usableCounter += GameTimer::GetDeltaTime();
 		return;
@@ -27,9 +27,16 @@ void StarScript::OnUpdate()
 	if (_counterStarted)
 	{
 		_counter += GameTimer::GetDeltaTime();
+
+		auto vel = _rbBody->GetVelocity();
+		vel.x += _additionVel * GameTimer::GetDeltaTime() * (vel.x < 0 ? -1 : 1);
+		_rbBody->SetVelocity(vel);
+
 		if (_counter >= _explodeTime)
 		{
 			_explodedField.lock()->SetValue(true);
+			_rbBody->Disable();
+			_polyCollider->Disable();
 			if (_counter >= _explodeTime + _animExplodeTime)
 				GetGameObject()->CallDestroy();
 		}
@@ -47,19 +54,23 @@ void StarScript::Load(nlohmann::json& input)
 	_startVelocity.y = startVel[1].get<float>();
 }
 
-void StarScript::Throw(const Vector3& _playerVel)
+void StarScript::Throw(const Vector3& _playerVel, bool isFliped)
 {
-	GetGameObject()->SetParent(nullptr);
 	if (_usableCounter < _beforeUsable)
 	{
 		GetGameObject()->CallDestroy();
 		return;
 	}
+	GetGameObject()->BecomeRootObject();
 
 	_counterStarted = true;
+	_countUsable = false;
+
 	_polyCollider->Enable();
 	_rbBody->Enable();
-	_rbBody->SetVelocity(_startVelocity + _playerVel);
+	Vector3 throwVel = _startVelocity + _playerVel;
+	throwVel.x *= isFliped ? -1 : 1;
+	_rbBody->SetVelocity(throwVel);
 }
 
 void StarScript::OnCollide(CollideEvent& e)
@@ -78,6 +89,7 @@ PScriptBase StarScript::Clone() const
 	clone->_counter			= _counter;
 	clone->_explodeTime		= _explodeTime ; // In second
 	clone->_animExplodeTime = _animExplodeTime;
+	clone->_startVelocity	= _startVelocity;
 
 	return clone;
 }
