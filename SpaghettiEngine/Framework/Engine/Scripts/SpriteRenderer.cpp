@@ -43,7 +43,6 @@ RECT SpriteRenderer::GetSourceRect() const noexcept
 
 void SpriteRenderer::Draw(PCamera camera)
 {
-	RECT srcRect = GetSourceRect();
 	Vector3 center = GetCenter();
 	Matrix4 transform = camera->GetMatrix(transformMatrix * GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);

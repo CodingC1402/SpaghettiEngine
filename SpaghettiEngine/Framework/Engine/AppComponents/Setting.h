@@ -38,7 +38,7 @@ protected:
 	static Setting* __instance;
 	
 #ifdef _DEBUG
-	static constexpr bool _isDebugMode = false;
+	static constexpr bool _isDebugMode = true;
 #else
 	static constexpr bool _isDebugMode = false;
 #endif

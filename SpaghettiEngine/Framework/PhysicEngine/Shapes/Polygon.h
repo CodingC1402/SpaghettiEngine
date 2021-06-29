@@ -35,6 +35,7 @@ public:
 
 	void SetVertexes(const std::vector<Vector3>& vertexes);
 	[[nodiscard]] const std::vector<Vector3>& GetVertexes() const;
+	[[nodiscard]] const std::vector<Vector3>& GetWorldVertexes() const;
 
 	Shape* Clone() const override;
 	void UpdateParameter() override;

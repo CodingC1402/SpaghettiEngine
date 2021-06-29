@@ -9,10 +9,11 @@ class Polygon2DCollider : public Collider2DBase
 public:
 	Polygon2DCollider(PScene owner, bool isDisabled = false);
 
+	void OnFixedUpdate();
+
 	void Load(nlohmann::json& input) override;
 protected:
 	static constexpr auto _vertexesField = "Vertexes";
-	std::vector<SPolygon> _shapePolygon;
 private:
 	REGISTER_START(Polygon2DCollider);
 };

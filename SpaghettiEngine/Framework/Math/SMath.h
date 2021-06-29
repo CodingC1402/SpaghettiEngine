@@ -7,6 +7,15 @@ typedef unsigned long long* PULL;
 typedef const unsigned long long CULL;
 typedef const unsigned long long* PCULL;
 
+typedef unsigned char UnsignedTiny;
+typedef char Tiny;
+
+Tiny operator""_t (unsigned long long value);
+UnsignedTiny operator""_ut (unsigned long long value);
+
+short operator""_s (unsigned long long value);
+unsigned short operator""_us(unsigned long long value);
+
 class SMath
 {
 public:

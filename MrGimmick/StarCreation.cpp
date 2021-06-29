@@ -54,7 +54,7 @@ void StarCreation::Draw(PCamera script)
 	position = position * SMath::GetZAxisRotateMatrix(_currentSpinAngle);
 	for (int i = 0; i < _numberOfStar; i++)
 	{
-		if constexpr (Setting::IsWorldPointPixelPerfect)
+		if (Setting::IsWorldPointPixelPerfect())
 		{
 			position.x = std::roundf(position.x);
 			position.y = std::roundf(position.y);

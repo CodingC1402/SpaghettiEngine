@@ -81,7 +81,7 @@ bool Polygon::PolygonCircleCollision(const Polygon& polygon, const Circle& circl
 	float leastPenetration = std::numeric_limits<float>::max();
 	Vector3 leastPenNormal;
 
-	auto Vertexes = polygon.GetVertexes();
+	auto Vertexes = polygon.GetWorldVertexes();
 	// Check on normal of edges
 	unsigned numberOfVertex = Vertexes.size();
 	for (int i = 0; i < numberOfVertex; i++)
@@ -186,7 +186,7 @@ bool Polygon::CheckCollideOnOneEdgeWithCircle(const Circle& circle, const Vector
 
 bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penetration, Vector3& normal) const
 {
-	const auto& vertexes = this->GetVertexes();
+	const auto& vertexes = this->GetWorldVertexes();
 
 	const auto size = vertexes.size();
 
@@ -267,12 +267,17 @@ void Polygon::SetVertexes(const std::vector<Vector3>& vertexes)
 
 const std::vector<Vector3>& Polygon::GetVertexes() const
 {
+	return _vertexes;
+}
+
+const std::vector<Vector3>& Polygon::GetWorldVertexes() const
+{
 	return _worldVertexes;
 }
 
 Polygon::MinMaxDotAlongNormal::MinMaxDotAlongNormal(const Polygon& polygon, const Vector3& normal)
 {
-	const std::vector<Vector3>& vertexes = polygon.GetVertexes();
+	const std::vector<Vector3>& vertexes = polygon.GetWorldVertexes();
 	if (vertexes.empty())
 		return;
 

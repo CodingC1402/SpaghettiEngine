@@ -116,10 +116,10 @@
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
 				"Vertexes": [
-					[-1, 2],
-					[-1, -2],
-					[1, -2],
-					[1, 2] 
+					[-2, 2],
+					[-2, -2],
+					[2, -2],
+					[2, 2] 
 				]
 			}
 		}

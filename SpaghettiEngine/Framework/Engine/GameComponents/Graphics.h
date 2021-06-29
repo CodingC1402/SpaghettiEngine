@@ -14,8 +14,7 @@
 /// <summary>
 /// Singleton directx9 wrapper
 /// </summary>
-
-typedef class GameWnd;
+class GameWnd;
 typedef std::shared_ptr<GameWnd> SGameWnd;
 
 class DirectX9Graphic;
@@ -68,10 +67,8 @@ public:
 	static void AddRender2D(PRender2DScriptBase renderScript);
 	static void RemoveRender2D(PRender2DScriptBase renderScript);
 
-	static void SetSpriteTransform(Matrix4& matrix);
+	static void SetSpriteTransform(const Matrix4& matrix);
 	static void DrawSprite(const SSprite& sprite, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
-	
-	static void Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color = WHITE, float width = 2);
 	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
@@ -90,8 +87,8 @@ protected:
 protected:
 	static inline SGameWnd _wnd;
 	static inline bool _isFullScreen;
-	static inline float _width;
-	static inline float _height;
+	static inline unsigned _width;
+	static inline unsigned _height;
 
 	static inline STimer _timer;
 	static inline float _delayPerFrame;
@@ -99,6 +96,7 @@ protected:
 
 	static inline std::list<PCamera> _cameraList;
 	static inline std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D = std::move(std::vector<std::list<PRender2DScriptBase>>(32));
+
 	static SDirectX9Graphic _turdGraphic;
 };
 

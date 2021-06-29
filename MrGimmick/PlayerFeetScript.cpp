@@ -39,6 +39,7 @@ PScriptBase PlayerFeetScript::Clone() const
 	auto clone = dynamic_cast<PlayerFeetScript*>(ScriptBase::Clone());
 
 	clone->_isGrounded = _isGrounded;
+	clone->_isLastGrounded = _isLastGrounded;
 
 	return PScriptBase();
 }

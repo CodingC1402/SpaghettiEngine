@@ -38,8 +38,8 @@ protected:
 	BoolField _isRunningField;
 	BoolField _isGroundedField;
 
-	RigidBody2D* _rigidBody;
-	Animator* _animator;
+	RigidBody2D* _rigidBody = nullptr;
+	Animator* _animator = nullptr;
 
 	float _reduceSpeed = 60; // Reduce the speed when release button
 	float _speedCap = 150;

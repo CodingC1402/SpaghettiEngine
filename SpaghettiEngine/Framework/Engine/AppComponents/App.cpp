@@ -79,10 +79,6 @@ BOOL App::Go()
 void App::DoFrame() const
 {
 	game->Update();
-	if (Physic::Update())
-	{
-		game->FixUpdate();
-	}
 	Graphics::Render();
 }
 
