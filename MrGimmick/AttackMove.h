@@ -18,6 +18,7 @@ public:
 	void Load(nlohmann::json& input);
 protected:
 	PGameObj		_starPrefab = nullptr;
+	WGameObj		_currentStar;
 
 	RigidBody2D*	_rb = nullptr;
 	StarScript*		_starScript = nullptr;

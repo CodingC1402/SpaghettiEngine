@@ -16,10 +16,12 @@ void AttackMove::OnStart()
 
 void AttackMove::OnUpdate()
 {
-	if (_attackKey->CheckKeyPress())
+	if (_attackKey->CheckKeyPress() && _currentStar.expired())
 	{
 		auto star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
 		star->SetParent(GetGameObject());
+
+		_currentStar = std::dynamic_pointer_cast<GameObj>(star->GetSharedPtr());
 		_starScript = dynamic_cast<StarScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
 	}
 	if (_starScript && _attackKey->CheckKeyRelease())

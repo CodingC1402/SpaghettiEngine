@@ -34,6 +34,7 @@ protected:
 
 	float _animCounter		= 0.0f;
 	unsigned _frame			= 0;
+	bool _animEnded			= false;
 private:
 	REGISTER_START(StarCreation);
 };

@@ -94,7 +94,7 @@
                                                                                 {
                                                                                     "Type": "Wait",
                                                                                     "Input": {
-                                                                                        "Duration": 200,
+                                                                                        "Duration": 250,
                                                                                         "OncePerTick": false
                                                                                     },
                                                                                     "Children": [
@@ -133,7 +133,7 @@
                                                                                 {
                                                                                     "Type": "Wait",
                                                                                     "Input": {
-                                                                                        "Duration": 400,
+                                                                                        "Duration": 1500,
                                                                                         "OncePerTick": false
                                                                                     },
                                                                                     "Children": [

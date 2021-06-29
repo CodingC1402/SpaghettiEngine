@@ -20,7 +20,6 @@ protected:
 protected:
 	SGameWnd wnd = nullptr;
 	STimer timer = nullptr;
-	PGraphics gfx = nullptr;
 	PGame game = nullptr;
 
 	Size resolution;

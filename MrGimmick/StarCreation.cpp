@@ -23,13 +23,16 @@ void StarCreation::OnUpdate()
 
 	// Control animation
 	_animCounter += GameTimer::GetDeltaTime();
-	if (_starAnim->Advance(_frame, _animCounter))
+	auto oldFrame = _frame;
+	_animEnded = _starAnim->Advance(_frame, _animCounter);
+	if (oldFrame != _frame)
+	{
 		_currentSprite = _starAnim->GetSpriteOfFrame(_frame);
+		if (_animEnded)
+			_frame -= 2;
+	}
 	
-
 	_currentSpinAngle += _spinAngle * GameTimer::GetDeltaTime();
-
-
 
 	if (_counter >= _createTime)
 	{

@@ -22,9 +22,9 @@ void Game::Update() const
 	{
 		IwannaDie = !IwannaDie;
 		if (IwannaDie)
-			Graphics::ToFullScreenMode();
+			Graphics::FullScreen();
 		else
-			Graphics::ToWindowMode();
+			Graphics::Window();
 	}
 
 	timer->Mark();

@@ -14,9 +14,7 @@ constexpr float _loopCap = 0.00001f;
 App::~App() noexcept
 {
 	delete game;
-	delete gfx;
 	game = nullptr;
-	gfx = nullptr;
 }
 
 BOOL App::Go()
@@ -26,14 +24,14 @@ BOOL App::Go()
 	try
 	{
 		timer = STimer(Timer::Create());
-		gfx = Graphics::GetInstance();
-		gfx->Init(Graphics::ColorFormat::RGB32Bit);
+
+		auto wndSize = Setting::GetResolution();
+		wnd = std::make_shared<GameWnd>(wndSize.width, wndSize.height, Setting::GetAppName());
+		wnd->Show();
+		Graphics::Init(Graphics::ColorFormat::RGB32Bit, wnd);
 
 		game = Game::GetInstance();
 		game->Init();
-
-		wnd = gfx->GetCurrentWindow();
-		wnd->Show();
 
 		timer->Start();
 		running = true;
@@ -85,7 +83,7 @@ void App::DoFrame() const
 	{
 		game->FixUpdate();
 	}
-	gfx->Render();
+	Graphics::Render();
 }
 
 void App::CallQuit()

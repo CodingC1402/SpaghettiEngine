@@ -198,6 +198,21 @@ void Window::SetBGBrush(int r, int g, int b) noexcept
 	InvalidateRect(m_hWnd, NULL, TRUE);
 }
 
+void Window::SetHideCursor(bool value) noexcept
+{
+	_isHideCursor = value;
+}
+
+void Window::Focus() noexcept
+{
+	SetFocus(GetHwnd());
+}
+
+void Window::SetIsFocusOnClick(bool value) noexcept
+{
+	_isFocusOnClick = value;
+}
+
 void Window::SetPos(int x, int y) noexcept
 {
 	int dx = x - wndPos.x;
@@ -272,6 +287,16 @@ void Window::Hide() noexcept
 		return;
 	ShowWindow(m_hWnd, SW_HIDE);
 	isVisible = false;
+}
+
+bool Window::IsHideCursor() const noexcept
+{
+	return _isHideCursor;
+}
+
+bool Window::IsFocusOnClick() const noexcept
+{
+	return _isFocusOnClick;
 }
 
 Point Window::GetPos() const noexcept
@@ -376,18 +401,29 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		}
 		break;
 	}
+	case WM_LBUTTONUP:
+	{
+		const Point ptPos = MAKEPOINTS(lParam);
+		m_mMouseInput->OnLeftRelease(ptPos);
+		m_kbKeyInput->OnKeyRelease(VK_LBUTTON, 0);
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		const Point ptPos = MAKEPOINTS(lParam);
+		m_mMouseInput->OnRightRelease(ptPos);
+		m_kbKeyInput->OnKeyRelease(VK_RBUTTON, 0);
+		break;
+	}
 	case WM_LBUTTONDOWN:
 	{
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnLeftPress( ptPos );
 		m_kbKeyInput->OnKeyPressed( VK_LBUTTON, 0 );
-		break;
-	}
-	case WM_LBUTTONUP:
-	{
-		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput->OnLeftRelease( ptPos );
-		m_kbKeyInput->OnKeyRelease( VK_LBUTTON, 0 );
+
+		if (IsFocusOnClick())
+			Focus();
+
 		break;
 	}
 	case WM_RBUTTONDOWN:
@@ -395,13 +431,10 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		const Point ptPos = MAKEPOINTS( lParam );
 		m_mMouseInput->OnRightPress( ptPos );
 		m_kbKeyInput->OnKeyPressed( VK_RBUTTON, 0 );
-		break;
-	}
-	case WM_RBUTTONUP:
-	{
-		const Point ptPos = MAKEPOINTS( lParam );
-		m_mMouseInput->OnRightRelease( ptPos );
-		m_kbKeyInput->OnKeyRelease( VK_RBUTTON, 0 );
+
+		if (IsFocusOnClick())
+			Focus();
+
 		break;
 	}
 	case WM_MBUTTONDOWN:
@@ -460,6 +493,11 @@ LRESULT Window::HandleMsg( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 	case WM_SIZE:
 		OnSizeChanged(LOWORD(lParam), HIWORD(lParam));
 		break;
+	case WM_SETCURSOR:
+		if (IsHideCursor() && LOWORD(lParam) == HTCLIENT)
+		{
+			SetCursor(NULL);
+		}
 	}
 	return DefWindowProc( hWnd, msg, wParam, lParam );
 }

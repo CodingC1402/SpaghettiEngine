@@ -45,6 +45,8 @@
     <ClInclude Include="Framework\Engine\Containers\TileSet.h" />
     <ClInclude Include="Framework\Engine\GameComponents\BaseComponent.h" />
     <ClInclude Include="Framework\Engine\GameComponents\ChildContainer.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\DebugRenderer.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\DirectX9Graphic.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Game.h" />
     <ClInclude Include="Framework\Engine\GameComponents\GameObj.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Graphics.h" />
@@ -59,7 +61,6 @@
     <ClInclude Include="Framework\Engine\GameComponents\Transform.h" />
     <ClInclude Include="Framework\Engine\Scripts\Animator.h" />
     <ClInclude Include="Framework\Engine\Scripts\Camera.h" />
-    <ClInclude Include="Framework\Engine\Scripts\LineRenderBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\Render2DScriptBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\SpriteRenderer.h" />
@@ -134,6 +135,8 @@
     <ClCompile Include="Framework\Engine\Containers\TileSet.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\BaseComponent.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\ChildContainer.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\DebugRenderer.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\DirectX9Graphic.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp" />
@@ -149,7 +152,6 @@
     <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp" />
-    <ClCompile Include="Framework\Engine\Scripts\LineRenderBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Render2DScriptBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\SpriteRenderer.cpp" />
