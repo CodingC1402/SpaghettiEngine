@@ -90,8 +90,12 @@ bool Collision::Solve()
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 	if (isCollide)
 	{
-		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody().lock().get(), _shapeB->GetOwnerScript());
-		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody().lock().get(), _shapeA->GetOwnerScript());
+		// The normal is the unit vector that connect point from shapeA to shapeB
+		// so you have to * -1 on message for shapeB to reverse the unit vector to
+		// point from shapeB to shapeA.
+		// Remember that future me :D ? Or who ever copying this code ~~ god damn do it your self.
+		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody().lock().get(), _shapeB->GetOwnerScript(), _normal);
+		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody().lock().get(), _shapeA->GetOwnerScript(), _normal * -1);
 		if (_shapeA->IsTriggerOnly())
 			_shapeACollideTemplate.SetToTrigger();
 		if (_shapeB->IsTriggerOnly())

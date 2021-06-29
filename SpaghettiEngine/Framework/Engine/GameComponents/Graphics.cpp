@@ -150,7 +150,7 @@ void Graphics::Init(const ColorFormat& colorFormat, SGameWnd window)
 		static_cast<D3DFORMAT>(colorFormat),
 		_width,
 		_height,
-		_wnd->GetHwnd()
+		_wnd->GetContentWndHandler()
 	);
 }
 

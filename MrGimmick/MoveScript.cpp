@@ -45,14 +45,6 @@ void MoveScript::OnUpdate()
 	_rigidBody->SetVelocity(_moveVec);
 }
 
-void MoveScript::OnCollideEnter(CollideEvent& e)
-{
-}
-
-void MoveScript::OnCollideExit(CollideEvent& e)
-{
-}
-
 void MoveScript::SetGrounded(bool value) noexcept
 {
 	_isGrounded = value;

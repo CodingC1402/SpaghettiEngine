@@ -99,36 +99,6 @@ void GameObj::OnCollide(CollideEvent& e)
 	}, e);
 }
 
-void GameObj::OnCollideEnter(CollideEvent& e)
-{
-	if (IsDisabled())
-		return;
-
-	_scripts.IteratingWithLamdaEvent([](PScriptBase script, CollideEvent& e) {
-		if (!script->IsDisabled())
-			script->OnCollideEnter(e);
-	}, e);
-
-	_children.IteratingWithLamdaEvent([](PGameObj child, CollideEvent& e) {
-		child->OnCollideEnter(e);
-	}, e);
-}
-
-void GameObj::OnCollideExit(CollideEvent& e)
-{
-	if (IsDisabled())
-		return;
-
-	_scripts.IteratingWithLamdaEvent([](PScriptBase script, CollideEvent& e) {
-		if (!script->IsDisabled())
-			script->OnCollideExit(e);
-	}, e);
-
-	_children.IteratingWithLamdaEvent([](PGameObj child, CollideEvent& e) {
-		child->OnCollideExit(e);
-	}, e);
-}
-
 void GameObj::OnPhysicUpdate()
 {
 	_physic.GetBody2D().lock()->SetWorldMatrix(_transform.GetWorldMatrix());
