@@ -55,8 +55,6 @@ public:
 	[[nodiscard]] GameObj* GetGameObject() const;
 
 	void SendEvent(CollideEvent& e);
-	// The return boolean is used to determined whether it should remove it body from event list or not
-	bool SendExitEnterEvent();
 
 	[[nodiscard]] Vector3 GetMoveVector();
 	[[nodiscard]] float GetRotation();

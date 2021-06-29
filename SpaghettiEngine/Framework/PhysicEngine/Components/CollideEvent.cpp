@@ -8,6 +8,11 @@ Body2D* CollideEvent::GetBody() const noexcept
 	return _collideWith;
 }
 
+Vector3 CollideEvent::GetNormal() const noexcept
+{
+	return _collideNormal;
+}
+
 GameObj* CollideEvent::GetGameObject() const noexcept
 {
 	return dynamic_cast<GameObj*>(GetBody()->GetGameObject()->GetSharedPtr().get());
@@ -60,16 +65,22 @@ void CollideEvent::SetCollideScript(Collider2DBase* script) noexcept
 	_collideScript = script;
 }
 
+void CollideEvent::SetNormal(const Vector3& normal) noexcept
+{
+	_collideNormal = normal;
+}
+
 void CollideEvent::SetToTrigger() noexcept
 {
 	_isCollideWithTrigger = true;
 }
 
-void CollideEvent::Reset(Collider2DBase* collideScript, Body2D* collideWith, Collider2DBase* collideWithScript)
+void CollideEvent::Reset(Collider2DBase* collideScript, Body2D* collideWith, Collider2DBase* collideWithScript, const Vector3& normal)
 {
 	_collideWith = collideWith;
 	_collideScript = collideScript;
 	_collideWithScript = collideWithScript;
+	_collideNormal = normal;
 	_isCollisionHandled = false;
 	_isCollideWithTrigger = false;
 }

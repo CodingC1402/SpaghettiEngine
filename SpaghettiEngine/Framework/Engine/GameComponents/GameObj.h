@@ -84,8 +84,6 @@ public:
 	void OnDisabled() override;
 
 	void OnCollide(CollideEvent& e) override;
-	void OnCollideEnter(CollideEvent& e) override;
-	void OnCollideExit(CollideEvent& e) override;
 	
 	PGameObj Clone() const;
 protected:

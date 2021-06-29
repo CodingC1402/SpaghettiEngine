@@ -17,9 +17,6 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 
-	void OnCollideEnter(CollideEvent& e) override;
-	void OnCollideExit(CollideEvent& e) override;
-
 	void SetGrounded(bool value) noexcept; // Manage by PlayerfeetScript
 	[[nodiscard]] bool GetGrounded() const noexcept;
 

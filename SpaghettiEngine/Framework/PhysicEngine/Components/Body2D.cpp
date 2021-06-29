@@ -140,51 +140,6 @@ void Body2D::SendEvent(CollideEvent& e)
 	//	Physic::AddCollidedBody(this);
 }
 
-bool Body2D::SendExitEnterEvent()
-{
-	std::list<Body2D*> newCurrentCollide;
-	bool isNewCollide = false;
-
-	/// <summary>
-	/// Loop and remove the repeated collide and add the new collide to newCurrentCollide
-	/// </summary>
-	for (auto newIt = _currentCollide.begin(); newIt != _currentCollide.end(); ++newIt)
-	{
-		isNewCollide = true;
-	
-		for (auto oldIt = _collidedBody.begin(); oldIt != _collidedBody.end(); ++oldIt)
-		{
-			if ((*newIt) == (*oldIt))
-			{
-				_collidedBody.erase(oldIt);
-				isNewCollide = false;
-				break;
-			}
-		}
-	
-		if (isNewCollide)
-			newCurrentCollide.emplace_back(*newIt);
-	}
-
-	for (const auto& oldBody : _collidedBody)
-	{
-		CollideEvent newEvent(oldBody);
-		_gameObject->OnCollideExit(newEvent);
-	}
-	
-	for (const auto& newBody : newCurrentCollide)
-	{
-		CollideEvent newEvent(newBody);
-		_gameObject->OnCollideEnter(newEvent);
-	}
-
-	_collidedBody = std::move(_currentCollide);
-	newCurrentCollide.clear();
-	_currentCollide.clear();
-
-	return _collidedBody.empty(); // This is used by the physic to know whether it should remove this or not;
-}
-
 Vector3 Body2D::GetMoveVector()
 {
 	return Vector3();

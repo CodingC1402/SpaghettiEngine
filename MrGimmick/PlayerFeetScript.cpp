@@ -28,22 +28,10 @@ void PlayerFeetScript::OnFixedUpdate()
 void PlayerFeetScript::OnCollide(CollideEvent& e)
 {
 	auto collideWith = e.GetGameObject();
-	if (collideWith->GetTag() == Fields::Platform::_platform)
+
+	auto normal = e.GetNormal();
+	if (collideWith->GetTag() == Fields::Platform::_platform && normal.y < 0)
 		_isLastGrounded = true;
-}
-
-void PlayerFeetScript::OnCollideEnter(CollideEvent& e)
-{
-	//auto collideWith = e.GetGameObject();
-	//if (!_moveScript->GetGrounded() && collideWith->GetTag() == Fields::Platform::_platform)
-	//	_moveScript->SetGrounded(true);
-}
-
-void PlayerFeetScript::OnCollideExit(CollideEvent& e)
-{
-	//auto collideWith = e.GetGameObject();
-	//if (_moveScript->GetGrounded() && collideWith->GetTag() == Fields::Platform::_platform)
-	//	_moveScript->SetGrounded(false);
 }
 
 PScriptBase PlayerFeetScript::Clone() const

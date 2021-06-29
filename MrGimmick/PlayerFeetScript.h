@@ -12,8 +12,6 @@ public:
 	void OnFixedUpdate() override;
 
 	void OnCollide(CollideEvent& e) override;
-	void OnCollideEnter(CollideEvent& e) override;
-	void OnCollideExit(CollideEvent& e) override;
 	PScriptBase Clone() const override;
 protected:
 	MoveScript* _moveScript = nullptr;

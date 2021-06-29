@@ -39,8 +39,6 @@ public:
     virtual void Enable();
 
     virtual void OnCollide(CollideEvent& e) {};
-    virtual void OnCollideEnter(CollideEvent& e) {};
-    virtual void OnCollideExit(CollideEvent& e) {};
 #pragma endregion
 
     [[nodiscard]] bool IsDeleted() const;
