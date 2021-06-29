@@ -8,7 +8,7 @@ REGISTER_FINISH(Polygon2DCollider);
 Polygon2DCollider::Polygon2DCollider(PScene owner, bool isDisabled) : Collider2DBase(owner , isDisabled)
 {}
 
-void Polygon2DCollider::OnUpdate()
+void Polygon2DCollider::OnFixedUpdate()
 {
 	if constexpr (Setting::IsDebugMode())
 	{
@@ -16,14 +16,14 @@ void Polygon2DCollider::OnUpdate()
 		{
 			return;
 		}
-		
-		auto worldMatrix = GetWorldMatrix();
-		worldMatrix._41 += _shapes[0]->GetOffSetX();
-		worldMatrix._42 += _shapes[0]->GetOffSetY();
 
-		for (auto& shape : _shapePolygon)
+		auto worldMatrix = GetWorldMatrix();
+		worldMatrix._41 += _shapes[0u]->GetOffSetX();
+		worldMatrix._42 += _shapes[0u]->GetOffSetY();
+
+		for (auto& shape : _shapes)
 		{
-			DebugRenderer::DrawPolygon(shape->GetVertexes(), worldMatrix);
+			DebugRenderer::DrawPolygon(std::dynamic_pointer_cast<Polygon2D>(shape)->GetVertexes(), worldMatrix);
 		}
 	}
 }
@@ -33,16 +33,16 @@ void Polygon2DCollider::Load(nlohmann::json& input)
 	// Load vertex
 	std::vector<Vector3> loadedVertex(input[_vertexesField].size());
 
-	for (unsigned i = 0; i < loadedVertex.size(); i++)
+	for (unsigned i = 0u; i < loadedVertex.size(); i++)
 	{
-		loadedVertex[i].x = input[_vertexesField][i][0];
-		loadedVertex[i].y = input[_vertexesField][i][1];
-		loadedVertex[i].z = 0;
+		loadedVertex[i].x = input[_vertexesField][i][0u];
+		loadedVertex[i].y = input[_vertexesField][i][1u];
+		loadedVertex[i].z = 0.0f;
 	}
 	
 	TPPLPoly originalPoly;
 	originalPoly.Init(static_cast<long>(loadedVertex.size()));
-	for (int i = 0; i < loadedVertex.size(); i++)
+	for (unsigned i = 0u; i < loadedVertex.size(); i++)
 	{
 		originalPoly[i].x = loadedVertex[i].x;
 		originalPoly[i].y = loadedVertex[i].y;
@@ -56,7 +56,6 @@ void Polygon2DCollider::Load(nlohmann::json& input)
 
 	// In case of polygon being a concave
 	unsigned polyParNum = static_cast<unsigned>(partitionList.size());
-	_shapePolygon.reserve(polyParNum);
 	_shapes.reserve(polyParNum);
 
 	SPolygon newPoly;
@@ -64,11 +63,10 @@ void Polygon2DCollider::Load(nlohmann::json& input)
 	for (auto it = partitionList.begin(); it != partitionList.end(); ++it)
 	{
 		newPoly = std::make_shared<Polygon2D>();
-		for (int i = 0; i < it->GetNumPoints(); i++)
+		for (int i = 0u; i < it->GetNumPoints(); i++)
 			polyVertexes.push_back(Vector3(static_cast<float>((*it)[i].x), static_cast<float>((*it)[i].y), 0.0f));
 		newPoly->SetVertexes(polyVertexes);
 
-		_shapePolygon.push_back(newPoly);
 		_shapes.push_back(newPoly);
 
 		polyVertexes.clear();

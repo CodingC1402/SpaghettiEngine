@@ -11,7 +11,8 @@ typedef std::shared_ptr<DirectX9Graphic> SDirectX9Graphic;
 
 class DebugRenderer
 {
-	friend class Graphics;
+	friend class Game;
+	friend class Graphics; // Manage to let this class know when to draw.
 public:
 	static void DrawPolygon(const std::vector<Vector3>& vertexes, const Matrix4& matrix);
 	static void DrawCircle(const float& radius, const Matrix4& matrix);

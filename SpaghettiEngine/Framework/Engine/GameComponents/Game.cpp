@@ -3,6 +3,9 @@
 #include "GameTimer.h"
 #include "InputSystem.h"
 #include "Graphics.h"
+#include "Physic.h"
+#include "Setting.h"
+#include "DebugRenderer.h"
 
 Game* Game::__instance = nullptr;
 
@@ -28,9 +31,15 @@ void Game::Update() const
 	}
 
 	timer->Mark();
-	input->Update();
 
+	input->Update();
 	sceneManager->Update();
+	if (Physic::Update())
+	{
+		if constexpr (Setting::IsDebugMode())
+			DebugRenderer::Clear();
+		FixUpdate();
+	}
 }
 
 void Game::FixUpdate() const

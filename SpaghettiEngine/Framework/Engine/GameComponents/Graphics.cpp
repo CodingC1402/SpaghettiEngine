@@ -146,11 +146,6 @@ void Graphics::Render()
 	_timeSinceLastFrame += _timer->GetDeltaTime();
 	if (_timeSinceLastFrame < _delayPerFrame)
 	{
-		if constexpr (Setting::IsDebugMode())
-		{
-			// Clear if doesn't render.
-			DebugRenderer::Clear();
-		}
 		return;
 	}
 

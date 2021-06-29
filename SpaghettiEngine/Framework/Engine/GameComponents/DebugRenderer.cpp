@@ -22,13 +22,14 @@ void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix)
 	std::vector<Vector3> vertexes(static_cast<unsigned long long>(vertexesSize) + 1_ut);
 
 	vertexes.front().y = radius;
-	vertexes.front() = vertexes.front() * matrix;
 
 	for (unsigned i = 1; i < vertexes.size() - 1_ut; i++)
 	{
 		vertexes[i] = vertexes[i - 1_ut] * rotationMatrix;
 	}
 	vertexes.back() = vertexes.front();
+
+	_shapes.emplace_back(std::pair(std::move(vertexes), matrix));
 }
 
 void DebugRenderer::SetColor(const Color& color) noexcept
@@ -85,7 +86,6 @@ void DebugRenderer::Render(SDirectX9Graphic dxTurd, PCamera cameraScript)
 
 		delete[] dxVertexes;
 		dxVertexes = nullptr;
-		Clear();
 	}
 }
 
