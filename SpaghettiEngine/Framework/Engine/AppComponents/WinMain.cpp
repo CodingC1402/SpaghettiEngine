@@ -5,7 +5,6 @@
 #include "Animator.h"
 #include "TileMapRenderer.h"
 #include "CircleCollider.h"
-#include "LineRenderBase.h"
 #include "RigidBody2D.h"
 #include "Polygon2DCollider.h"
 
@@ -41,7 +40,6 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new SpriteRenderer(nullptr);
 	dummyScript = new Animator(nullptr);
 	dummyScript = new TileMapRenderer(nullptr);
-	dummyScript = new LineRendererBase(nullptr);
 	dummyScript = new CircleCollider(nullptr);
 	dummyScript = new RigidBody2D(nullptr);
 	dummyScript = new Polygon2DCollider(nullptr);

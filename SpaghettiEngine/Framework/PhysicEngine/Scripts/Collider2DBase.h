@@ -4,9 +4,6 @@
 #include "Shape.h"
 #include "CollideEvent.h"
 
-class LineRendererBase;
-typedef std::shared_ptr<LineRendererBase> SLineRendererBase;
-
 class Collider2DBase : public PhysicScriptBase
 {
 public:
@@ -27,14 +24,12 @@ public:
 	PScriptBase Clone() const override;
 	~Collider2DBase();
 protected:
-	void SetLineRendererOwner();
 	void ChangeBody(WBody2D body);
 	void SetOwnerForShapes();
 protected:
 	WBody2D _body;
 	bool _isTrigger = false;
 	std::vector<SShape> _shapes;
-	std::vector<LineRendererBase*> _lineRenderer;
 
 	static constexpr auto _offSetXField = "OffSetX";
 	static constexpr auto _offSetYField = "OffSetY";

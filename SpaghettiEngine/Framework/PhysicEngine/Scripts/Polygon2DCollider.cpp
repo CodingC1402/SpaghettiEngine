@@ -1,5 +1,4 @@
 #include "Polygon2DCollider.h"
-#include "LineRenderBase.h"
 #include "Setting.h"
 #include "polypartition.h"
 
@@ -51,16 +50,8 @@ void Polygon2DCollider::Load(nlohmann::json& input)
 		_shapePolygon.push_back(newPoly);
 		_shapes.push_back(newPoly);
 
-		if constexpr (Setting::IsDebugMode())
-		{
-			_lineRenderer.push_back(dynamic_cast<LineRendererBase*>(GetOwner()->CreateScriptBase(TYPE_NAME(LineRendererBase), false)));
-			_lineRenderer.back()->SetVertexes(polyVertexes);
-		}
 		polyVertexes.clear();
 	}
-
-	if constexpr (Setting::IsDebugMode())
-		SetLineRendererOwner();
 
 	Collider2DBase::Load(input);
 }

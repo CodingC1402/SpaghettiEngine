@@ -1,6 +1,5 @@
 #include "CircleCollider.h"
 #include "Circle.h"
-#include "LineRenderBase.h"
 #include "Setting.h"
 #include "Physic.h"
 
@@ -16,13 +15,6 @@ void CircleCollider::Load(nlohmann::json& input)
 	auto circle = std::dynamic_pointer_cast<Circle>(_shapes[0]);
 	if (input[_radiusField] != nullptr)
 		circle->SetRadius(input[_radiusField].get<float>());
-
-	if constexpr (Setting::IsDebugMode())
-	{
-		_lineRenderer.push_back(dynamic_cast<LineRendererBase*>(GetOwner()->CreateScriptBase(TYPE_NAME(LineRendererBase), false)));
-		_lineRenderer[0]->SetGameObject(GetGameObject());
-		_lineRenderer[0]->SetCircle(circle->GetRadius());
-	}
 
 	Collider2DBase::Load(input);
 }

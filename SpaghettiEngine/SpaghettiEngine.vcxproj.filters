@@ -263,9 +263,6 @@
     <ClInclude Include="Framework\PhysicEngine\Components\Material.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\LineRenderBase.h">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
@@ -346,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\InputState.h">
       <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\DirectX9Graphic.h">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\DebugRenderer.h">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -511,9 +514,6 @@
     <ClCompile Include="Framework\PhysicEngine\Components\Material.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\LineRenderBase.cpp">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
@@ -591,6 +591,12 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\InputState.cpp">
       <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\DirectX9Graphic.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\DebugRenderer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

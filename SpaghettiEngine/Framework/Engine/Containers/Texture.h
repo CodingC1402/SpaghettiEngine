@@ -15,6 +15,8 @@ typedef class Sprite* PSprite;
 typedef std::shared_ptr<Sprite> SSprite;
 typedef std::unique_ptr<Sprite> USprite;
 
+typedef struct IDirect3DTexture9* LPDIRECT3DTEXTURE9, * PDIRECT3DTEXTURE9;
+
 class Texture : public Resource
 {
 public:
@@ -23,13 +25,13 @@ public:
 	
 	void Load(const std::string& path) override;
 	[[nodiscard]] bool IsResourceUnused() const override;
-	[[nodiscard]] PImage GetImage() const;
+	[[nodiscard]] LPDIRECT3DTEXTURE9 GetImage() const;
 	[[nodiscard]] SSprite GetSprite(const unsigned int& index) noexcept;
 	[[nodiscard]] std::vector<SSprite> GetAllSprites() noexcept;
 	[[nodiscard]] unsigned GetSpritesNumber() noexcept;
 protected:
 	std::vector<SSprite>sprites;
-	PImage image;
+	LPDIRECT3DTEXTURE9 image;
 };
 
 class TextureContainer : public Container<Texture>

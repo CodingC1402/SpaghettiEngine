@@ -3,13 +3,11 @@
 #include "Color.h"
 #include "CornException.h"
 #include "Texture.h"
-#include "MultiThread.h"
 #include "Matrix.h"
 #include "Vector3.h"
 #include "Timer.h"
 
 #include <vector>
-#include <mutex>
 
 #define D3DADAPTER_DEFAULT 0
 
@@ -17,16 +15,11 @@
 /// Singleton directx9 wrapper
 /// </summary>
 
-typedef interface ID3DXFont* LPD3DXFONT;
-typedef LPD3DXFONT FontHandler;
-
-typedef struct _D3DDISPLAYMODE D3DDISPLAYMODE;
-typedef D3DDISPLAYMODE DisplayMode;
-
-typedef struct IDirect3DTexture9* PImage;
-
 typedef class GameWnd;
 typedef std::shared_ptr<GameWnd> SGameWnd;
+
+class DirectX9Graphic;
+typedef class std::shared_ptr<DirectX9Graphic> SDirectX9Graphic;
 
 typedef class LineRendererBase* PLineRendererBase;
 typedef class Render2DScriptBase* PRender2DScriptBase;
@@ -66,22 +59,18 @@ public:
 public:
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
-	
-	static PGraphics GetInstance();
-	static void ToFullScreenMode();
-	static void ToWindowMode();
-	static void LoadTexture(PImage& rTexture, const std::string& path, const Color& keyColor);
+
+	static SDirectX9Graphic GetDirectXGfx();
+
+	static void FullScreen();
+	static void Window();
 
 	static void AddRender2D(PRender2DScriptBase renderScript);
 	static void RemoveRender2D(PRender2DScriptBase renderScript);
 
-	static void AddLineRender(PLineRendererBase script);
-	static void RemoveLineRender(PLineRendererBase script);
-
 	static void SetSpriteTransform(Matrix4& matrix);
 	static void DrawSprite(const SSprite& sprite, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
 	
-	static void SetPolygonTransform(const Matrix4& matrix);
 	static void Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color = WHITE, float width = 2);
 	
 	static void AddCamera(PCamera camera);
@@ -90,74 +79,27 @@ public:
 	static void SetActiveCamera(PCamera setCamera);
 	[[nodiscard]] static PCamera GetActiveCamera();
 protected:
-	void ClearRenderBuffer2D();
-	void ClearRenderBuffer(); // for later if we want to add a 3D renderer
+	static void ClearRenderBuffer2D();
+	static void ClearRenderBuffer(); // for later if we want to add a 3D renderer
 
-	void CreateResource();
-	void ReleaseResource();
-
-	void FullScreen();
-	void Window();
-	[[nodiscard]] SGameWnd GetCurrentWindow() const noexcept;
+	[[nodiscard]] static SGameWnd GetCurrentWindow() noexcept;
 	
-	void Init(const ColorFormat& colorFormat);
+	static void Init(const ColorFormat& colorFormat, SGameWnd window);
+	static void Render();
 
-	HRESULT Begin() const noexcept;
-	void Render();
-	bool End();
-	bool Reset();
-
-	void UpdateCurrentVideoAdapter();
-
-	Graphics() noexcept;
-	~Graphics() noexcept;
 protected:
-	SGameWnd wnd;
-	RECT restoreRec;
-	bool isFullScreen = false;
-	Size resolution;
+	static inline SGameWnd _wnd;
+	static inline bool _isFullScreen;
+	static inline float _width;
+	static inline float _height;
 
-	Renderer renderer = nullptr;
-	RenderDevice renderDevice = nullptr;
-	PresentParam presentParam;
-	SpriteHandler spriteHandler = nullptr;
+	static inline STimer _timer;
+	static inline float _delayPerFrame;
+	static inline float _timeSinceLastFrame;
 
-	LineHandler _lineHandler = nullptr;
-	Matrix4 _lineTransformMatrix;
-
-	ColorFormat colorFormat = ColorFormat::RGB32Bit;
-	UINT videoAdapter = D3DADAPTER_DEFAULT;
-	std::vector<DisplayMode> adapterMode;
-
-	bool isDeviceLost = false;
-
-	STimer timer;
-	float delayPerFrame;
-	float timeSinceLastFrame;
-
-	bool isPixelPerfect = false;
-	std::list<PCamera> cameraList;
-	std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D;
-	std::list<PLineRendererBase> _linesBuffer;
-
-	static PGraphics __instance;
-private:
-	float fps = 0;
-	PTimer fpsTimer = Timer::Create();
-	RECT fpsRect;
-	FontHandler fpsFont = nullptr;
-
-	std::recursive_mutex _renderLock;
-
-	int index = 2;
-	int delta = -1;
-	int rgb[3] = { 255, 0, 1 };
-	bool jump = true;
-
-	void UpdateFPS() {
-		fpsTimer->Mark();
-		fps = fps * 0.8f + 0.2f * (1.0f / fpsTimer->GetDeltaTime());
-	}
+	static inline std::list<PCamera> _cameraList;
+	static inline std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D = std::move(std::vector<std::list<PRender2DScriptBase>>(32));
+	static SDirectX9Graphic _turdGraphic;
 };
 
 #define GRAPHICS_EXCEPT(description) Graphics::GraphicException(__LINE__,__FILE__,description)
