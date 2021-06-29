@@ -11,6 +11,7 @@ class DirectX9Graphic
 {
 	friend class Graphics;
 	friend class Texture;
+	friend class DebugRenderer;
 public:
 	~DirectX9Graphic();
 protected:
@@ -31,6 +32,9 @@ protected:
 	bool ResetRender();
 
 	void Present();
+
+	void StartRenderLine();
+	void EndRenderLine();
 
 	void StartRenderSprite();
 	void EndRenderSprite();

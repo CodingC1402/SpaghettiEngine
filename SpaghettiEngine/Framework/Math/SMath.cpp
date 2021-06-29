@@ -103,3 +103,23 @@ Matrix4 SMath::GetZAxisRotateMatrix(const float& degree)
 	ZAxis._22 = std::cosf(rad);
 	return ZAxis;
 }
+
+Tiny operator""_t(unsigned long long value)
+{
+	return static_cast<Tiny>(value);
+}
+
+UnsignedTiny operator""_ut(unsigned long long value)
+{
+	return static_cast<UnsignedTiny>(value);
+}
+
+short operator""_s(unsigned long long value)
+{
+	return static_cast<short>(value);
+}
+
+unsigned short operator""_us(unsigned long long value)
+{
+	return static_cast<unsigned short>(value);
+}

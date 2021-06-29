@@ -1,11 +1,32 @@
 #include "Polygon2DCollider.h"
 #include "Setting.h"
 #include "polypartition.h"
+#include "DebugRenderer.h"
 
 REGISTER_FINISH(Polygon2DCollider);
 
 Polygon2DCollider::Polygon2DCollider(PScene owner, bool isDisabled) : Collider2DBase(owner , isDisabled)
 {}
+
+void Polygon2DCollider::OnUpdate()
+{
+	if constexpr (Setting::IsDebugMode())
+	{
+		if (_shapes.empty())
+		{
+			return;
+		}
+		
+		auto worldMatrix = GetWorldMatrix();
+		worldMatrix._41 += _shapes[0]->GetOffSetX();
+		worldMatrix._42 += _shapes[0]->GetOffSetY();
+
+		for (auto& shape : _shapePolygon)
+		{
+			DebugRenderer::DrawPolygon(shape->GetVertexes(), worldMatrix);
+		}
+	}
+}
 
 void Polygon2DCollider::Load(nlohmann::json& input)
 {

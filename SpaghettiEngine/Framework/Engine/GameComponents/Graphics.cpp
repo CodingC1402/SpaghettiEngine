@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "Render2DScriptBase.h"
 #include "DirectX9Graphic.h"
+#include "DebugRenderer.h"
 
 #include <fstream>
 #include <DirectXMath.h>
@@ -34,14 +35,14 @@ void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 	_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
-void Graphics::SetSpriteTransform(Matrix4& matrix)
+void Graphics::SetSpriteTransform(const Matrix4& matrix)
 {
+	auto dxMatrix = matrix.ConvertToDxMatrix();
 	if (Setting::IsWorldPointPixelPerfect())
 	{
-		matrix._41 = std::round(matrix._41);
-		matrix._42 = std::round(matrix._42);
+		dxMatrix._41 = std::round(dxMatrix._41);
+		dxMatrix._42 = std::round(dxMatrix._42);
 	}
-	auto dxMatrix = matrix.ConvertToDxMatrix();
 	_turdGraphic->SetRenderTransform(dxMatrix);
 }
 
@@ -57,25 +58,6 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 		dxPos,
 		color
 	);
-}
-
-void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color, float width)
-{
-	if (!width)
-		return;
-
-	const auto size = vertexes.size();
-	Vector2* dxVertexes = new Vector2[size + 1];
-
-	for (int i = 0; i < size; i++)
-	{
-		dxVertexes[i].x = vertexes[i].x;
-		dxVertexes[i].y = vertexes[i].y;
-	}
-	dxVertexes[size] = dxVertexes[0];
-
-	_turdGraphic->RenderPolygon(dxVertexes, size + 1u, width, color);
-	delete[] dxVertexes;
 }
 
 void Graphics::AddCamera(PCamera camera)
@@ -144,7 +126,7 @@ void Graphics::Init(const ColorFormat& colorFormat, SGameWnd window)
 	_wnd = window;
 
 	auto resolution = Setting::GetResolution();
-	_width = resolution.width;
+	_width  = resolution.width;
 	_height = resolution.height;
 	_turdGraphic->Init(
 		static_cast<D3DFORMAT>(colorFormat),
@@ -163,7 +145,14 @@ void Graphics::Render()
 	_timer->Mark();
 	_timeSinceLastFrame += _timer->GetDeltaTime();
 	if (_timeSinceLastFrame < _delayPerFrame)
+	{
+		if constexpr (Setting::IsDebugMode())
+		{
+			// Clear if doesn't render.
+			DebugRenderer::Clear();
+		}
 		return;
+	}
 
 	if (_turdGraphic->StartRender())
 	{
@@ -178,6 +167,14 @@ void Graphics::Render()
 				(*renderScript2D)->Draw(cameraScript);
 		_turdGraphic->EndRenderSprite();
 
+		// Only available in debugMode cause why would you
+		// use this shit out side debug.
+		if constexpr (Setting::IsDebugMode())
+		{
+			// The debug renderer will begin the line render session itself.
+			SetSpriteTransform(Matrix4::GetDiagonalMatrix());
+			DebugRenderer::Render(_turdGraphic, cameraScript);
+		}
 
 		if (!_turdGraphic->EndRender())
 			_turdGraphic->ResetRender();

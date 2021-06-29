@@ -76,7 +76,6 @@ void DirectX9Graphic::RenderSprite(LPDIRECT3DTEXTURE9 texture, const RECT& sprit
 
 void DirectX9Graphic::RenderPolygon(const D3DXVECTOR2 vertexes[], const unsigned& size, const float& width, const D3DCOLOR& color)
 {
-	_lineHandler->Begin();
 	_lineHandler->SetWidth(width);
 
 	_lineHandler->Draw(
@@ -84,8 +83,6 @@ void DirectX9Graphic::RenderPolygon(const D3DXVECTOR2 vertexes[], const unsigned
 		static_cast<DWORD>(size),
 		color
 	);
-
-	_lineHandler->End();
 }
 
 bool DirectX9Graphic::StartRender()
@@ -132,6 +129,7 @@ bool DirectX9Graphic::ResetRender()
 		{
 			// reset success
 			_spriteHandler->OnResetDevice();
+			_lineHandler->OnResetDevice();
 			_isDeviceLost = false;
 			return true;
 		}
@@ -143,6 +141,16 @@ bool DirectX9Graphic::ResetRender()
 void DirectX9Graphic::Present()
 {
 	_renderDevice->Present(nullptr, nullptr, nullptr, nullptr);
+}
+
+void DirectX9Graphic::StartRenderLine()
+{
+	_lineHandler->End();
+}
+
+void DirectX9Graphic::EndRenderLine()
+{
+	_lineHandler->Begin();
 }
 
 void DirectX9Graphic::StartRenderSprite()

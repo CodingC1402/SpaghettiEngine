@@ -9,6 +9,8 @@ class Polygon2DCollider : public Collider2DBase
 public:
 	Polygon2DCollider(PScene owner, bool isDisabled = false);
 
+	void OnUpdate();
+
 	void Load(nlohmann::json& input) override;
 protected:
 	static constexpr auto _vertexesField = "Vertexes";
