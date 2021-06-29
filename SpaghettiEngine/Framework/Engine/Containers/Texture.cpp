@@ -3,6 +3,8 @@
 #include "Graphics.h"
 #include "Sprite.h"
 #include "SpaghettiEnginePath.h"
+#include "CornDirectX.h"
+
 #include <fstream>
 #include <sstream>
 

@@ -1,18 +1,32 @@
 #pragma once
-#include "CornDirectX.h"
+
 #include "Color.h"
 #include "CornException.h"
-#include "GameWnd.h"
 #include "Texture.h"
 #include "MultiThread.h"
 #include "Matrix.h"
 #include "Vector3.h"
+#include "Timer.h"
+
 #include <vector>
 #include <mutex>
+
+#define D3DADAPTER_DEFAULT 0
 
 /// <summary>
 /// Singleton directx9 wrapper
 /// </summary>
+
+typedef interface ID3DXFont* LPD3DXFONT;
+typedef LPD3DXFONT FontHandler;
+
+typedef struct _D3DDISPLAYMODE D3DDISPLAYMODE;
+typedef D3DDISPLAYMODE DisplayMode;
+
+typedef struct IDirect3DTexture9* PImage;
+
+typedef class GameWnd;
+typedef std::shared_ptr<GameWnd> SGameWnd;
 
 typedef class LineRendererBase* PLineRendererBase;
 typedef class Render2DScriptBase* PRender2DScriptBase;

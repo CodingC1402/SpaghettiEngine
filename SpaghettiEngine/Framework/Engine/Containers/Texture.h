@@ -1,7 +1,6 @@
 #pragma once
 #include "json.hpp"
 #include "CornException.h"
-#include "CornDirectX.h"
 #include "ResourceContainer.h"
 
 #include <string>

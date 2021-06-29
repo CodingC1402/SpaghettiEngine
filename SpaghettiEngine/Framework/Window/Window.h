@@ -52,6 +52,9 @@ public:
 
 	void ChangeWindowMode(bool isFullScreen);
 
+	void SetHideCursor(bool value) noexcept;
+	void Focus() noexcept;
+	void SetIsFocusOnClick(bool value) noexcept;
 	void SetPos(int x, int y) noexcept;
 	void SetWidth(int w) noexcept;
 	void SetHeight(int h) noexcept;
@@ -65,11 +68,13 @@ public:
 	void Show() noexcept;
 	void Hide() noexcept;
 
-	Point GetPos() const noexcept;
-	Size GetSize() const noexcept;
-	HWND GetHwnd() const noexcept;
-	PKeyBoard GetKeyBoard() const noexcept;
-	PMouse GetMouse() const noexcept;
+	[[nodiscard]] bool		IsHideCursor() const noexcept;
+	[[nodiscard]] bool		IsFocusOnClick() const noexcept;
+	[[nodiscard]] Point		GetPos() const noexcept;
+	[[nodiscard]] Size		GetSize() const noexcept;
+	[[nodiscard]] HWND		GetHwnd() const noexcept;
+	[[nodiscard]] PKeyBoard GetKeyBoard() const noexcept;
+	[[nodiscard]] PMouse	GetMouse() const noexcept;
 
 	static Window* Create(int iWidth = 800, int iHeight = 600, const wchar_t* name = L"DefaultWindow", PWindow parent = nullptr, int x = 0, int y = 0);
 	static DWORD ProcessMessages();
@@ -91,6 +96,9 @@ protected:
 	Point wndPos;
 	Size wndSize;
 	Size wndContentSize;
+
+	bool _isHideCursor = false;
+	bool _isFocusOnClick = false;
 	bool isFullScreen = false;
 	bool isVisible = false;
 

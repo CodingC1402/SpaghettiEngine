@@ -1,17 +1,16 @@
-﻿#include "Graphics.h"
+﻿#include "CornDirectX.h"
+#include "Graphics.h"
+#include "GameWnd.h"
 #include "Monitor.h"
 #include "Setting.h"
 #include "json.hpp"
-#include "Render2DScriptBase.h"
 #include "Setting.h"
 #include "Sprite.h"
 #include "LineRenderBase.h"
+#include "Render2DScriptBase.h"
+
 #include <fstream>
 #include <DirectXMath.h>
-
-#ifdef _DEBUG
-#include "Debug.h"
-#endif
 
 PGraphics Graphics::__instance = nullptr;
 
