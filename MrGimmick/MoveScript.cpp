@@ -61,6 +61,16 @@ bool MoveScript::IsFlipped() const noexcept
 	return isFlipped;
 }
 
+void MoveScript::SetAllowJump(bool value) noexcept
+{
+	_isAllowJump = value;
+}
+
+bool MoveScript::IsAllowJump() const noexcept
+{
+	return _isAllowJump;
+}
+
 void MoveScript::JumpAction()
 {
 	if (_isJumping && _jumpInput->CheckKeyRelease())
@@ -77,7 +87,7 @@ void MoveScript::JumpAction()
 		}
 	}
 
-	if (_isGrounded && _jumpInput->CheckKeyPress())
+	if (_isGrounded && _isAllowJump && _jumpInput->CheckKeyPress())
 	{
 		_isJumping = true;
 		_gravityScale = _rigidBody->GetGravityScale();
@@ -149,6 +159,7 @@ PScriptBase MoveScript::Clone() const
 
 	clone->_moveVec = _moveVec;
 	clone->isFlipped = isFlipped;
+	clone->_isAllowJump = _isAllowJump;
 
 	return clone;
 }
