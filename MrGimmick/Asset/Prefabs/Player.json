@@ -10,7 +10,8 @@
 			"Inputs": {
 				"Tag": "Player",
 				"GameObjects": [
-					{ "ID": 2 }
+					{ "ID": 2 },
+					{ "ID": 3 }
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
@@ -36,6 +37,20 @@
 				"Scripts": [
 					{"ID": 2001},
 					{"ID": 2002}
+				]
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"Tag": "PlayerHead",
+				"GameObjects": [],
+				"Transform": [0, 10, 0],
+				"Rotation": [0, 0, 0],
+				"Scale": [1, 1, 1],
+				"Scripts": [
+					{"ID": 3001},
+					{"ID": 3002}
 				]
 			}
 		}
@@ -67,10 +82,10 @@
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
 				"Vertexes": [
-					[-6, 0],
-					[-6, 6],
-					[6, 6],
-					[6, 0] 
+					[-4, 0],
+					[-4, 6],
+					[4, 6],
+					[4, 0] 
 				]
 			}
 		},
@@ -116,12 +131,31 @@
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
 				"Vertexes": [
-					[-2, 2],
-					[-2, -2],
-					[2, -2],
-					[2, 2] 
+					[-2,  2],
+					[-2, -4],
+					[ 2, -4],
+					[ 2,  2] 
 				]
 			}
+		},
+		{
+			"ID": 3001,
+			"Inputs": {
+				"ScriptType": "PlayerHead"
+			}
+		},
+		{
+			"ID": 3002,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Trigger": true,
+				"Vertexes": [
+					[-2, -2],
+					[-2,  4],
+					[ 2,  4],
+					[ 2, -2] 
+				]
+			}	
 		}
     ]
 }

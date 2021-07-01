@@ -22,6 +22,9 @@ public:
 
 	[[nodiscard]] bool IsFlipped() const noexcept;
 
+	void SetAllowJump(bool value) noexcept;
+	[[nodiscard]] bool IsAllowJump() const noexcept;
+
 	void JumpAction();
 	void ResetJumpAction();
 	void MoveAction();
@@ -53,6 +56,7 @@ protected:
 	bool _isJumping = false; // Use to check if it's in a jumping phase
 
 	bool _isGrounded = false;
+	bool _isAllowJump = true;
 
 	bool _isWalkingLeft = false;
 	bool _isWalkingRight = false;
