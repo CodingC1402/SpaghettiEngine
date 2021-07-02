@@ -27,13 +27,13 @@
     <ClCompile Include="AttackMove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerFeetScript.cpp">
+    <ClCompile Include="FeetScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StarCreation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerHead.cpp">
+    <ClCompile Include="HeadScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="FieldNames.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerFeetScript.h">
+    <ClInclude Include="FeetScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StarCreation.h">
@@ -56,7 +56,7 @@
     <ClInclude Include="StarScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerHead.h">
+    <ClInclude Include="HeadScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

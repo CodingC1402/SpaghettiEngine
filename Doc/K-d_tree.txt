@@ -1,0 +1,2 @@
+https://en.wikipedia.org/wiki/K-d_tree
+use this instead of quad tree

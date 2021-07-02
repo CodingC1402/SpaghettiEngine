@@ -1,22 +1,22 @@
-#include "PlayerFeetScript.h"
+#include "FeetScript.h"
 #include "FieldNames.h"
 
-REGISTER_FINISH(PlayerFeetScript);
+REGISTER_FINISH(FeetScript);
 
-PlayerFeetScript::PlayerFeetScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
+FeetScript::FeetScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
 {}
 
-void PlayerFeetScript::OnStart()
+void FeetScript::OnStart()
 {
 	_moveScript = dynamic_cast<MoveScript*>(GetGameObject()->GetParent()->GetScriptContainer().GetItemType("MoveScript"));
 }
 
-void PlayerFeetScript::OnUpdate()
+void FeetScript::OnUpdate()
 {
 
 }
 
-void PlayerFeetScript::OnFixedUpdate()
+void FeetScript::OnFixedUpdate()
 {
 	if (_isLastGrounded != _moveScript->GetGrounded())
 	{
@@ -25,7 +25,7 @@ void PlayerFeetScript::OnFixedUpdate()
 	_isLastGrounded = false;
 }
 
-void PlayerFeetScript::OnCollide(CollideEvent& e)
+void FeetScript::OnCollide(CollideEvent& e)
 {
 	auto collideWith = e.GetGameObject();
 
@@ -34,9 +34,9 @@ void PlayerFeetScript::OnCollide(CollideEvent& e)
 		_isLastGrounded = true;
 }
 
-PScriptBase PlayerFeetScript::Clone() const
+PScriptBase FeetScript::Clone() const
 {
-	auto clone = dynamic_cast<PlayerFeetScript*>(ScriptBase::Clone());
+	auto clone = dynamic_cast<FeetScript*>(ScriptBase::Clone());
 
 	clone->_isGrounded = _isGrounded;
 	clone->_isLastGrounded = _isLastGrounded;

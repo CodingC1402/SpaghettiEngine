@@ -2,10 +2,10 @@
 #include "ScriptBase.h"
 #include "MoveScript.h"
 
-class PlayerHead : public ScriptBase
+class HeadScript : public ScriptBase
 {
 public:
-	PlayerHead(PScene owner, bool isDisabled = true);
+	HeadScript(PScene owner, bool isDisabled = true);
 
 	void OnStart() override;
 	void OnFixedUpdate() override;
@@ -16,16 +16,16 @@ protected:
 	//
 	// this is to make sure that you can't jump if there is an obsticle over your head
 	// |            +---+ |
-	// +------------|---|-+
+	// +------------|-H-|-+
 	//   +---+      +---+
-	//   |   |
+	//   | H |
 	//   +---+    Doesn't allow
 	// 
 	// 	Allow Jump
 	//
 	bool _isCollideWithPlatform = false;
-	MoveScript* _moveScript;
+	MoveScript* _moveScript = nullptr;
 private:
-	REGISTER_START(PlayerHead);
+	REGISTER_START(HeadScript);
 };
 

@@ -2,10 +2,10 @@
 #include "ScriptBase.h"
 #include "MoveScript.h"
 
-class PlayerFeetScript : public ScriptBase
+class FeetScript : public ScriptBase
 {
 public:
-	PlayerFeetScript(PScene owner, bool isDisabled = false);
+	FeetScript(PScene owner, bool isDisabled = false);
 
 	void OnStart() override;
 	void OnUpdate() override;
@@ -18,6 +18,6 @@ protected:
 	bool _isGrounded		= false; // Because start on air
 	bool _isLastGrounded	= false;
 private:
-	REGISTER_START(PlayerFeetScript);
+	REGISTER_START(FeetScript);
 };
 

@@ -138,7 +138,7 @@ SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohma
 		if (changes != nullptr) // Apply changes and forward sub changes to sub prefabs
 		{
 			bool isSubChange = false;
-			for (ULL affectedId; auto & change : changes)
+			for (ULL affectedId; auto& change : changes)
 			{
 				isSubChange = false;
 				
