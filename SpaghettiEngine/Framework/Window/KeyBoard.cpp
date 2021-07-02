@@ -2,16 +2,16 @@
 
 PKeyBoard KeyBoard::instance = nullptr;
 
-KeyBoard::Event KeyBoard::ReadKey() noexcept
+KeyBoardEvent KeyBoard::ReadKey() noexcept
 {
 	if ( m_qKeyBuffer.size() > 0u )
 	{
-		KeyBoard::Event e = m_qKeyBuffer.front();
+		KeyBoardEvent e = m_qKeyBuffer.front();
 		m_qKeyBuffer.pop();
 		return e;
 	}
 
-	return KeyBoard::Event();
+	return KeyBoardEvent();
 }
 
 bool KeyBoard::IsKeyEmpty() noexcept
@@ -40,7 +40,7 @@ bool KeyBoard::IsCharEmpty() noexcept
 
 void KeyBoard::ClearKey() noexcept
 {
-	m_qKeyBuffer = std::queue<Event>();
+	m_qKeyBuffer = std::queue<KeyBoardEvent>();
 }
 
 void KeyBoard::ClearChar() noexcept
@@ -73,13 +73,13 @@ bool KeyBoard::IsAutoRepeatEnabled() noexcept
 
 void KeyBoard::OnKeyPressed( unsigned char ucKeycode, int lParam ) noexcept
 {
-	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Press, ucKeycode, !(lParam & 0x40000000)));
+	m_qKeyBuffer.push( KeyBoardEvent( KeyBoardEvent::Type::Press, ucKeycode, !(lParam & 0x40000000)));
 	TrimBuffer( m_qKeyBuffer );
 }
 
 void KeyBoard::OnKeyRelease( unsigned char ucKeycode, int lParam ) noexcept
 {
-	m_qKeyBuffer.push( KeyBoard::Event( KeyBoard::Event::Type::Release, ucKeycode, !(lParam & 0x40000000)));
+	m_qKeyBuffer.push( KeyBoardEvent( KeyBoardEvent::Type::Release, ucKeycode, !(lParam & 0x40000000)));
 	TrimBuffer( m_qKeyBuffer );
 }
 
@@ -91,7 +91,7 @@ void KeyBoard::OnChar( wchar_t c ) noexcept
 
 void KeyBoard::OnLostFocus() noexcept
 {
-	m_qKeyBuffer.push(Event());
+	m_qKeyBuffer.push(KeyBoardEvent());
 	TrimBuffer(m_qKeyBuffer);
 }
 
@@ -109,4 +109,37 @@ void KeyBoard::TrimBuffer( std::queue<T>& buffer ) noexcept
 	{
 		buffer.pop();
 	}
+}
+
+KeyBoardEvent::KeyBoardEvent() noexcept
+	: m_tType(Type::Invalid), m_ucCode(0u) 
+{}
+
+KeyBoardEvent::KeyBoardEvent(Type tType, unsigned char ucCode, bool isFirstTime) noexcept
+	: m_tType(tType), m_ucCode(ucCode), _isFirstTime(isFirstTime) 
+{}
+
+bool KeyBoardEvent::IsFirstTime() const noexcept
+{
+	return _isFirstTime;
+}
+
+bool KeyBoardEvent::IsPress() const noexcept
+{
+	return m_tType == Type::Press;
+}
+
+bool KeyBoardEvent::IsRelease() const noexcept
+{
+	return m_tType == Type::Release;
+}
+
+bool KeyBoardEvent::IsValid() const noexcept
+{
+	return m_tType != Type::Invalid;
+}
+
+unsigned char KeyBoardEvent::GetCode() const noexcept
+{
+	return m_ucCode;
 }

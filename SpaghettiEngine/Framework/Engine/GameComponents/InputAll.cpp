@@ -1,4 +1,6 @@
 #include "InputAll.h"
+#include "KeyBoard.h"
+#include "Mouse.h"
 
 bool InputAll::CheckKeyUp() const noexcept
 {
@@ -25,7 +27,7 @@ InputAll::InputAll(const KeyCode& keyCode, const std::string& name) noexcept : I
 	type = Type::All;
 }
 
-void InputAll::Update(const KeyBoard::Event& e) noexcept
+void InputAll::Update(const KeyBoardEvent& e) noexcept
 {
 	if (e.GetCode() != keyCode)
 		return;

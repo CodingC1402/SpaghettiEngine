@@ -1,10 +1,12 @@
 #include "InputState.h"
+#include "KeyBoard.h"
+#include "Mouse.h"
 
 InputKeyDown::InputKeyDown(const KeyCode& keyCode, const std::string& name) noexcept : Input(keyCode, name)
 {
 	type = Input::Type::KeyDown;
 }
-void InputKeyDown::Update(const KeyBoard::Event& e) noexcept
+void InputKeyDown::Update(const KeyBoardEvent& e) noexcept
 {
 	if (e.GetCode() != keyCode)
 		return;
@@ -18,7 +20,7 @@ InputKeyUp::InputKeyUp(const KeyCode& keyCode, const std::string& name) noexcept
 {
 	type = Input::Type::KeyUp;
 }
-void InputKeyUp::Update(const KeyBoard::Event& e) noexcept
+void InputKeyUp::Update(const KeyBoardEvent& e) noexcept
 {
 	if (e.GetCode() != keyCode)
 		return;
@@ -32,7 +34,7 @@ InputKeyPress::InputKeyPress(const KeyCode& keyCode, const std::string& name) no
 {
 	type = Input::Type::KeyPress;
 }
-void InputKeyPress::Update(const KeyBoard::Event& e) noexcept
+void InputKeyPress::Update(const KeyBoardEvent& e) noexcept
 {
 	if (e.GetCode() != keyCode)
 		return;
@@ -45,7 +47,7 @@ InputKeyRelease::InputKeyRelease(const KeyCode& keyCode, const std::string& name
 {
 	type = Type::KeyRelease;
 }
-void InputKeyRelease::Update(const KeyBoard::Event& e) noexcept
+void InputKeyRelease::Update(const KeyBoardEvent& e) noexcept
 {
 	if (e.GetCode() != keyCode)
 		return;

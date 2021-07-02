@@ -1,6 +1,9 @@
 ﻿#include "InputSystem.h"
 #include "json.hpp"
 #include "SpaghettiEnginePath.h"
+#include "KeyBoard.h"
+#include "Mouse.h"
+
 #include <sstream>
 #include <fstream>
 
@@ -46,7 +49,7 @@ void InputSystem::Update()
 	for (const auto& input : inputs)
 		input->Reset();
 
-	KeyBoard::Event e;
+	KeyBoardEvent e;
 	while (!kb->IsKeyEmpty())
 	{
 		e = kb->ReadKey();
