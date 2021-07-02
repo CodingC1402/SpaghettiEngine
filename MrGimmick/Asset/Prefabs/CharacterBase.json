@@ -1,0 +1,142 @@
+{
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"Tag": "Character",
+				"GameObjects": [
+					{ "ID": 2 },
+					{ "ID": 3 }
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 1 },
+					{ "ID": 2 },
+					{ "ID": 3 },
+					{ "ID": 4 },
+					{ "ID": 5 }
+				]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"Tag": "Feet",
+				"GameObjects": [],
+				"Transform": [ 0, -10, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{"ID": 2001},
+					{"ID": 2002}
+				]
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"Tag": "Head",
+				"GameObjects": [],
+				"Transform": [0, 6, 0],
+				"Rotation": [0, 0, 0],
+				"Scale": [1, 1, 1],
+				"Scripts": [
+					{"ID": 3001},
+					{"ID": 3002}
+				]
+			}
+		}
+    ],
+    "Scripts": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "Animator",
+				"AnimationTree": "",
+				"DrawLayer": 1
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "MoveScript",
+				"SpeedRamUp": 700,
+				"SpeedCap": 80,
+				"ReduceSpeed": 60,
+
+				"JumpStrength": 230,
+				"GSDropFactor": 4,
+				"GSMin": 1			
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Vertexes": [
+					[-4, 0],
+					[-4, 6],
+					[4, 6],
+					[4, 0] 
+				]
+			}
+		},
+		{
+			"ID": 4,
+			"Inputs": {
+				"ScriptType": "CircleCollider",
+				"Radius": 6,
+				"OffSetY": -4
+			}
+		},
+		{
+			"ID": 5,
+			"Inputs": {
+				"ScriptType": "RigidBody2D",
+				"Mass": 4,
+				"GravityScale": 6,
+				"Material": 30001
+			}
+		},
+		{
+			"ID": 2001,
+			"Inputs": {
+				"ScriptType": "FeetScript"
+			}
+		},
+		{
+			"ID": 2002,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Trigger": true,
+				"Vertexes": [
+					[-2,  2],
+					[-2, -4],
+					[ 2, -4],
+					[ 2,  2] 
+				]
+			}
+		},
+		{
+			"ID": 3001,
+			"Inputs": {
+				"ScriptType": "HeadScript"
+			}
+		},
+		{
+			"ID": 3002,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Trigger": true,
+				"Vertexes": [
+					[-1, -2],
+					[-1,  2],
+					[ 1,  2],
+					[ 1, -2] 
+				]
+			}	
+		}
+    ]
+}

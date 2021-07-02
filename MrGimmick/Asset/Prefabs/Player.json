@@ -2,112 +2,34 @@
 	"Prefabs": [
 		{
 			"ID": 10004
+		},
+		{
+			"ID": 40004,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "Script",
+					"Field": "AnimationTree",
+					"Value": "Asset/AnimationTree/PlayerAnimateTree.json"
+				},
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "Scripts",
+					"Mode": "Append",
+					"Value": [
+						{
+							"ID": 1
+						}
+					]
+				}
+			]
 		}
 	],
-    "GameObjects": [
-		{
-			"ID": 1,
-			"Inputs": {
-				"Tag": "Player",
-				"GameObjects": [
-					{ "ID": 2 },
-					{ "ID": 3 }
-				],
-				"Transform": [ 0, 0, 0 ],
-				"Rotation": [ 0, 0, 0 ],
-				"Scale": [ 1, 1, 1 ],
-				"Scripts": [
-					{ "ID": 1 },
-					{ "ID": 2 },
-					{ "ID": 3 },
-					{ "ID": 4 },
-					{ "ID": 5 },
-					{ "ID": 6 }
-				]
-			}
-		},
-		{
-			"ID": 2,
-			"Inputs": {
-				"Tag": "PlayerFeet",
-				"GameObjects": [],
-				"Transform": [ 0, -10, 0 ],
-				"Rotation": [ 0, 0, 0 ],
-				"Scale": [ 1, 1, 1 ],
-				"Scripts": [
-					{"ID": 2001},
-					{"ID": 2002}
-				]
-			}
-		},
-		{
-			"ID": 3,
-			"Inputs": {
-				"Tag": "PlayerHead",
-				"GameObjects": [],
-				"Transform": [0, 10, 0],
-				"Rotation": [0, 0, 0],
-				"Scale": [1, 1, 1],
-				"Scripts": [
-					{"ID": 3001},
-					{"ID": 3002}
-				]
-			}
-		}
-    ],
-    "Scripts": [
-		{
-			"ID": 1,
-			"Inputs": {
-				"ScriptType": "Animator",
-				"AnimationTree": "Asset/AnimationTree/PlayerAnimateTree.json",
-				"DrawLayer": 1
-			}
-		},
-		{
-			"ID": 2,
-			"Inputs": {
-				"ScriptType": "MoveScript",
-				"SpeedRamUp": 700,
-				"SpeedCap": 80,
-				"ReduceSpeed": 60,
 
-				"JumpStrength": 230,
-				"GSDropFactor": 4,
-				"GSMin": 1			
-			}
-		},
+	"Scripts": [
 		{
-			"ID": 3,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-4, 0],
-					[-4, 6],
-					[4, 6],
-					[4, 0] 
-				]
-			}
-		},
-		{
-			"ID": 4,
-			"Inputs": {
-				"ScriptType": "CircleCollider",
-				"Radius": 6,
-				"OffSetY": -4
-			}
-		},
-		{
-			"ID": 5,
-			"Inputs": {
-				"ScriptType": "RigidBody2D",
-				"Mass": 4,
-				"GravityScale": 6,
-				"Material": 30001
-			}
-		},
-		{
-			"ID": 6,
+			"ID": 1,
 			"Inputs": {
 				"ScriptType": "AttackMove",
 				"GameObjects": [
@@ -118,44 +40,6 @@
 				],
 				"AppearOffSet": [0, 20, 0]
 			}
-		},
-		{
-			"ID": 2001,
-			"Inputs": {
-				"ScriptType": "PlayerFeetScript"
-			}
-		},
-		{
-			"ID": 2002,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Trigger": true,
-				"Vertexes": [
-					[-2,  2],
-					[-2, -4],
-					[ 2, -4],
-					[ 2,  2] 
-				]
-			}
-		},
-		{
-			"ID": 3001,
-			"Inputs": {
-				"ScriptType": "PlayerHead"
-			}
-		},
-		{
-			"ID": 3002,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Trigger": true,
-				"Vertexes": [
-					[-2, -2],
-					[-2,  4],
-					[ 2,  4],
-					[ 2, -2] 
-				]
-			}	
 		}
-    ]
+	]
 }

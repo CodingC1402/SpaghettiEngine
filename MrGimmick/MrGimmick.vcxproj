@@ -194,8 +194,8 @@
   <ItemGroup>
     <ClCompile Include="AttackMove.cpp" />
     <ClCompile Include="MoveScript.cpp" />
-    <ClCompile Include="PlayerFeetScript.cpp" />
-    <ClCompile Include="PlayerHead.cpp" />
+    <ClCompile Include="FeetScript.cpp" />
+    <ClCompile Include="HeadScript.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -204,8 +204,8 @@
     <ClInclude Include="AttackMove.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="MoveScript.h" />
-    <ClInclude Include="PlayerFeetScript.h" />
-    <ClInclude Include="PlayerHead.h" />
+    <ClInclude Include="FeetScript.h" />
+    <ClInclude Include="HeadScript.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />
   </ItemGroup>
