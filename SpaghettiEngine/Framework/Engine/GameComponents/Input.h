@@ -6,6 +6,12 @@
 #include <memory>
 #include <mutex>
 
+class KeyBoard;
+class KeyBoardEvent;
+
+class Mouse;
+class MouseEvent;
+
 class Input;
 typedef Input* PInput;
 typedef std::shared_ptr<Input> SInput;
@@ -32,7 +38,7 @@ protected:
 	Input(const KeyCode& keyCode, const std::string& name) noexcept;
 	Type GetType() const noexcept;
 	bool CheckName(const std::string& name) const noexcept;
-	virtual void Update(const KeyBoard::Event& e) noexcept = 0;
+	virtual void Update(const KeyBoardEvent& e) noexcept = 0;
 	virtual void Reset() noexcept;
 	void LostFocus() noexcept;
 

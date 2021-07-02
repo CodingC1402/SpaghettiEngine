@@ -3,17 +3,17 @@
 PMouse Mouse::instance = nullptr;
 
 #pragma region public
-bool Mouse::IsLeftPress()
+bool Mouse::IsLeftPress() const noexcept
 {
 	return m_bLeftButtonPress;
 }
 
-bool Mouse::IsRightPress()
+bool Mouse::IsRightPress() const noexcept
 {
 	return m_bRightButtonPress;
 }
 
-bool Mouse::IsMiddlePress()
+bool Mouse::IsMiddlePress() const noexcept
 {
 	return m_bMiddleButtonPress;
 }
@@ -43,17 +43,17 @@ bool Mouse::IsEmpty() const noexcept
 	return m_qBuffer.empty();
 }
 
-Mouse::Event Mouse::Read() noexcept
+MouseEvent Mouse::Read() noexcept
 {
 	if (!m_qBuffer.empty())
 	{
-		Event e = m_qBuffer.front();
+		MouseEvent e = m_qBuffer.front();
 		m_qBuffer.pop();
 		return e;
 	}
 	else
 	{
-		return Event();
+		return MouseEvent();
 	}
 }
 
@@ -84,74 +84,74 @@ int Mouse::GetPosY() const noexcept
 #pragma region window
 void Mouse::OnMove( const Point& ptPos ) noexcept
 {
-	AddEvent( Event::Type::Move, ptPos );
+	AddEvent(MouseEvent::Type::Move, ptPos );
 }
 
 void Mouse::OnLeave() noexcept
 {
 	m_bIsInside = false;
-	AddEvent( Event::Type::Leave );
+	AddEvent(MouseEvent::Type::Leave );
 }
 
 void Mouse::OnEnter() noexcept
 {
 	m_bIsInside = true;
-	AddEvent( Event::Type::Enter );
+	AddEvent(MouseEvent::Type::Enter );
 }
 
 void Mouse::OnLeftPress( const Point& ptPos ) noexcept
 {
 	m_bLeftButtonPress = true;
-	AddEvent( Event::Type::LPress, ptPos );
+	AddEvent(MouseEvent::Type::LPress, ptPos );
 }
 
 void Mouse::OnLeftRelease( const Point& ptPos ) noexcept
 {
 	m_bLeftButtonPress = false;
-	AddEvent( Event::Type::LRelease, ptPos );
+	AddEvent(MouseEvent::Type::LRelease, ptPos );
 }
 
 void Mouse::OnRightPress( const Point& ptPos ) noexcept
 {
 	m_bRightButtonPress = true;
-	AddEvent( Event::Type::RPress );
+	AddEvent(MouseEvent::Type::RPress );
 }
 
 void Mouse::OnRightRelease( const Point& ptPos ) noexcept
 {
 	m_bRightButtonPress = false;
-	AddEvent( Event::Type::RRelease, ptPos );
+	AddEvent(MouseEvent::Type::RRelease, ptPos );
 }
 
 void Mouse::OnMiddlePress( const Point& ptPos ) noexcept
 {
 	m_bMiddleButtonPress = true;
-	AddEvent( Event::Type::MPress, ptPos );
+	AddEvent(MouseEvent::Type::MPress, ptPos );
 }
 
 void Mouse::OnMiddleRelease( const Point& ptPos ) noexcept
 {
 	m_bMiddleButtonPress = false;
-	AddEvent( Event::Type::MRelease, ptPos );
+	AddEvent(MouseEvent::Type::MRelease, ptPos );
 }
 
 void Mouse::OnWheelUp() noexcept
 {
-	AddEvent( Event::Type::WheelUp );
+	AddEvent(MouseEvent::Type::WheelUp );
 }
 
 void Mouse::OnWheelDown() noexcept
 {
-	AddEvent( Event::Type::WheelDown );
+	AddEvent(MouseEvent::Type::WheelDown );
 }
 
-void Mouse::AddEvent( const Event::Type& tEventType ) noexcept
+void Mouse::AddEvent( const MouseEvent::Type& tEventType ) noexcept
 {
-	m_qBuffer.push( Event( tEventType, *this ) );
+	m_qBuffer.push(MouseEvent( tEventType, *this ) );
 	TrimBuffer();
 }
 
-void Mouse::AddEvent( const Event::Type& tEventType, const Point& ptPos ) noexcept
+void Mouse::AddEvent( const MouseEvent::Type& tEventType, const Point& ptPos ) noexcept
 {
 	m_ptPosition = ptPos;
 	AddEvent( tEventType );
@@ -171,3 +171,60 @@ PMouse Mouse::GetInstance() noexcept
 	return instance;
 }
 #pragma endregion
+
+MouseEvent::MouseEvent() noexcept
+	:
+	m_tType(Type::Invalid),
+	m_bIsRightPress(false),
+	m_bIsLeftPress(false),
+	m_bIsMiddlePress(false),
+	m_ptPosition(Point(0, 0))
+{}
+
+MouseEvent::MouseEvent(Type tType, const Mouse& mParent) noexcept
+	: m_tType(tType),
+	m_bIsRightPress(mParent.IsRightPress()),
+	m_bIsLeftPress(mParent.IsLeftPress()),
+	m_bIsMiddlePress(mParent.IsMiddlePress()),
+	m_ptPosition(mParent.GetPosition())
+{}
+
+bool MouseEvent::IsValid() const noexcept
+{
+	return m_tType != Type::Invalid;
+}
+
+MouseEvent::Type MouseEvent::GetType() const noexcept
+{
+	return m_tType;
+}
+
+Point MouseEvent::GetPosition() const noexcept
+{
+	return m_ptPosition;
+}
+
+int MouseEvent::GetPosX() const noexcept
+{
+	return m_ptPosition.x;
+}
+
+int MouseEvent::GetPosY() const noexcept
+{
+	return m_ptPosition.y;
+}
+
+bool MouseEvent::IsLeftPressed() const noexcept
+{
+	return m_bIsLeftPress;
+}
+
+bool MouseEvent::IsRightPressed() const noexcept
+{
+	return m_bIsRightPress;
+}
+
+bool MouseEvent::IsMiddlePressed() const noexcept
+{
+	return m_bIsMiddlePress;
+}

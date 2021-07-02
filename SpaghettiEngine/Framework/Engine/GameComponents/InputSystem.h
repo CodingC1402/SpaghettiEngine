@@ -1,6 +1,7 @@
 #pragma once
 #include "Input.h"
 #include "CornException.h"
+
 #include <vector>
 #include <string>
 
@@ -37,7 +38,7 @@ protected:
 	PKeyBoard kb;
 	PMouse mouse;
 
-	KeyBoard::Event firstKeyPressEvent;
+	KeyBoardEvent firstKeyPressEvent;
 	std::wstring charInput;
 	std::vector<SInput> inputs;
 

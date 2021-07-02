@@ -10,7 +10,7 @@ class InputKeyDown : public Input
 	friend class Input;
 protected:
 	InputKeyDown(const KeyCode& keyCode, const std::string& name) noexcept;
-	virtual void Update(const KeyBoard::Event& e) noexcept override;
+	virtual void Update(const KeyBoardEvent& e) noexcept override;
 	virtual void Reset() noexcept override;
 };
 
@@ -21,7 +21,7 @@ class InputKeyUp : public Input
 protected:
 	InputKeyUp(const KeyCode& keyCode, const std::string& name) noexcept;
 	using Input::Input;
-	virtual void Update(const KeyBoard::Event& e) noexcept override;
+	virtual void Update(const KeyBoardEvent& e) noexcept override;
 	virtual void Reset() noexcept override;
 };
 
@@ -32,7 +32,7 @@ class InputKeyPress : public Input
 protected:
 	InputKeyPress(const KeyCode& keyCode, const std::string& name) noexcept;
 	using Input::Input;
-	virtual void Update(const KeyBoard::Event& e) noexcept override;
+	virtual void Update(const KeyBoardEvent& e) noexcept override;
 protected:
 	bool isFirstTime = true;
 };
@@ -44,7 +44,7 @@ class InputKeyRelease : public Input
 protected:
 	InputKeyRelease(const KeyCode& keyCode, const std::string& name) noexcept;
 	using Input::Input;
-	virtual void Update(const KeyBoard::Event& e) noexcept override;
+	virtual void Update(const KeyBoardEvent& e) noexcept override;
 protected:
 	bool isFirstTime = true;
 };

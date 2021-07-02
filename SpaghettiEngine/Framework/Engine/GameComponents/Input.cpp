@@ -1,6 +1,8 @@
 #include "Input.h"
 #include "InputState.h"
 #include "InputAll.h"
+#include "KeyBoard.h"
+#include "Mouse.h"
 
 bool Input::Check() noexcept
 {
