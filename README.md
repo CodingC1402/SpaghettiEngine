@@ -15,6 +15,7 @@ Support:
 - Scene Manager.
 - Static scene.
 - Event system.
+- Complete directX separation form the code.
 
 - SAT collision detection.
 - Physic materials.
@@ -35,3 +36,10 @@ To do:
 - K-d-tree.
 - A* path finding.
 - Ridable platform.
+- Surface ( like in unity )
+- Enemy script.
+- Health script.
+- Main menu.
+- Audio.
+- Settings.
+- UI Component.
