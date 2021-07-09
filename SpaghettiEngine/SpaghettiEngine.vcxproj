@@ -58,6 +58,7 @@
     <ClInclude Include="Framework\Engine\GameComponents\Scene.h" />
     <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h" />
     <ClInclude Include="Framework\Engine\GameComponents\ScriptContainer.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\Tag.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Transform.h" />
     <ClInclude Include="Framework\Engine\Scripts\Animator.h" />
     <ClInclude Include="Framework\Engine\Scripts\Camera.h" />
@@ -102,6 +103,7 @@
     <ClInclude Include="Framework\Utilities\Path.h" />
     <ClInclude Include="Framework\Utilities\Plane2D.h" />
     <ClInclude Include="Framework\Utilities\StringConverter.h" />
+    <ClInclude Include="Framework\Utilities\StringUtil.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Framework\Window\CornException.h" />
     <ClInclude Include="Framework\Window\CornWnd.h" />
@@ -149,6 +151,7 @@
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\ScriptContainer.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\Tag.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp" />
@@ -188,6 +191,7 @@
     <ClCompile Include="Framework\Utilities\Path.cpp" />
     <ClCompile Include="Framework\Utilities\Plane2D.cpp" />
     <ClCompile Include="Framework\Utilities\StringConverter.cpp" />
+    <ClCompile Include="Framework\Utilities\StringUtil.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />
     <ClCompile Include="Framework\Window\CornException.cpp" />
     <ClCompile Include="Framework\Window\KeyBoard.cpp" />

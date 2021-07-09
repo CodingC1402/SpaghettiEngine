@@ -1,11 +1,22 @@
 #pragma once
 #include <string>
 
+#include "Tag.h"
+
 namespace Fields
 {
+	class Character
+	{
+	public:
+		static constexpr auto _character			= "Character";
+	};
 	class Player
 	{
 	public:
+		static constexpr auto _player				= "Player";
+		static constexpr auto _head					= "Head";
+		static constexpr auto _feet					= "Feet";
+
 		static constexpr auto _isInTube				= "IsInTube";
 		static constexpr auto _isHurt				= "IsHurt";
 		static constexpr auto _isGrounded			= "IsGrounded";
@@ -52,5 +63,25 @@ namespace Fields
 	{
 	public:
 		static inline const std::string _platform = "Platform";
+	};
+
+	class SpecialTag
+	{
+	public:
+		[[nodiscard]] static Tag& GetPlatformTag();
+		[[nodiscard]] static Tag& GetCharacterTag();
+		[[nodiscard]] static Tag& GetPlayerTag();
+		[[nodiscard]] static Tag& GetHeadTag();
+		[[nodiscard]] static Tag& GetFeetTag();
+	private:
+		static void Load();
+	private:
+		static inline Tag _platformTag;
+		static inline Tag _characterTag;
+		static inline Tag _playerTag;
+		static inline Tag _headTag;
+		static inline Tag _feetTag;
+
+		static inline bool _isLoaded = false;
 	};
 }

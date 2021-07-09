@@ -75,7 +75,7 @@ void GameObj::SetName(const std::string& name)
 {
 	_name = name;
 }
-void GameObj::SetTag(const std::string& tag)
+void GameObj::SetTag(const Tag& tag)
 {
 	_tag = tag;
 }
@@ -114,7 +114,7 @@ void GameObj::SetParentInternally(PGameObj obj)
 	}
 	_isParentDisabled = obj->IsDisabled();
 }
-std::string GameObj::GetTag() const
+const Tag& GameObj::GetTag() const
 {
 	return _tag;
 }
@@ -198,7 +198,7 @@ void GameObj::Load(nlohmann::json& input)
 	
 	try
 	{
-		_tag = input[Field::tagField].get<std::string>();
+		_tag = std::move(Tag(input[Field::tagField]));
 		// use to check which field throw error
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::transformField;

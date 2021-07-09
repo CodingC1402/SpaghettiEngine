@@ -30,7 +30,7 @@ void FeetScript::OnCollide(CollideEvent& e)
 	auto collideWith = e.GetGameObject();
 
 	auto normal = e.GetNormal();
-	if (collideWith->GetTag() == Fields::Platform::_platform && normal.y < 0)
+	if (collideWith->GetTag().Collide(Fields::SpecialTag::GetPlatformTag()) && normal.y < 0)
 		_isLastGrounded = true;
 }
 

@@ -193,9 +193,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="FieldNames.cpp" />
+    <ClCompile Include="LevelSegment.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
     <ClCompile Include="HeadScript.cpp" />
+    <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -203,9 +206,11 @@
   <ItemGroup>
     <ClInclude Include="AttackMove.h" />
     <ClInclude Include="FieldNames.h" />
+    <ClInclude Include="LevelSegment.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />
     <ClInclude Include="HeadScript.h" />
+    <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />
   </ItemGroup>

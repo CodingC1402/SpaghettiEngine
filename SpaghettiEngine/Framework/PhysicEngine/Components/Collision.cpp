@@ -96,6 +96,7 @@ bool Collision::Solve()
 		// Remember that future me :D ? Or who ever copying this code ~~ god damn do it your self.
 		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody().lock().get(), _shapeB->GetOwnerScript(), _normal);
 		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody().lock().get(), _shapeA->GetOwnerScript(), _normal * -1);
+
 		if (_shapeA->IsTriggerOnly())
 			_shapeACollideTemplate.SetToTrigger();
 		if (_shapeB->IsTriggerOnly())

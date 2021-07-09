@@ -93,14 +93,14 @@ void ApplyChangeToInputField(nlohmann::json& input, nlohmann::json& change)
 
 		switch (change[Field::modeField].get<Prefab::ChangeMode>())
 		{
+		case Prefab::ChangeMode::Truncate:
+			input[field].clear();
+			[[fallthrough]];
 		case Prefab::ChangeMode::Append:
 			for (auto& ref : change[Field::valueField])
 				if (!ref.empty())
 					input[field].emplace_back(ref);
 			break;
-		case Prefab::ChangeMode::Truncate:
-			input[field].clear();
-			[[fallthrough]];
 		case Prefab::ChangeMode::Update:
 			for (auto& ref : change[Field::valueField])
 				if (!ref.empty())

@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include "Physic.h"
 #include "Setting.h"
+#include "Tag.h"
 #include "DebugRenderer.h"
 
 Game* Game::__instance = nullptr;
@@ -13,7 +14,9 @@ void Game::Init()
 {
 	timer = GameTimer::GetInstance();
 	timer->Start();
+
 	input = InputSystem::GetInstance();
+
 	sceneManager = SceneManager::GetInstance();
 	sceneManager->Init();
 }

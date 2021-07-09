@@ -75,7 +75,7 @@ void StarScript::Throw(const Vector3& _playerVel, bool isFliped)
 
 void StarScript::OnCollide(CollideEvent& e)
 {
-	if (e.GetGameObject()->GetTag() == "Player")
+	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetCharacterTag()))
 		e.SetIsHandled(true);
 }
 
