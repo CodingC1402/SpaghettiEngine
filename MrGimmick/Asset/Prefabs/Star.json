@@ -3,7 +3,7 @@
 		{
 			"ID": 1,
 			"Inputs": {
-				"Tag": "Star",
+				"Tag": "PlayerAttack",
 				"IsRoot": false,
 				"GameObjects": [],
 				"Transform": [ 0, 0, 0 ],

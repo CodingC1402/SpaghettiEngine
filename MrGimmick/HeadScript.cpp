@@ -3,6 +3,8 @@
 
 REGISTER_FINISH(HeadScript);
 
+// save compute time, doesn't need to recreate tag
+
 HeadScript::HeadScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
 {}
 
@@ -23,7 +25,7 @@ void HeadScript::OnCollide(CollideEvent& e)
 	//  \.../
 	//   \A/
 
-	if (e.GetNormal().y >= 0.25f && e.GetGameObject()->GetTag() == Fields::Platform::_platform)
+	if (e.GetNormal().y >= 0.25f && e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlatformTag()))
 	{
 		_isCollideWithPlatform = true;
 		_moveScript->ResetJumpAction();
