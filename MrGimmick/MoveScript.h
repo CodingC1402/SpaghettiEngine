@@ -11,8 +11,6 @@ typedef std::shared_ptr<InputAll> SInputAll;
 class MoveScript : public ScriptBase
 {
 public:
-	MoveScript(PScene owner, bool isDisabled = false);
-
 	void Load(nlohmann::json& input);
 	void OnStart() override;
 	void OnUpdate() override;

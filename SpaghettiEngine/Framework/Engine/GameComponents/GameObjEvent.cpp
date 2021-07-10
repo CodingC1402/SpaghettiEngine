@@ -54,14 +54,10 @@ void GameObj::OnEnabled()
 			script->OnEnabled();
 	});
 
-	auto it = _children.Begin();
-	bool result = _children.GetSize() == 0;
-	while (!result)
-	{
-		(*it)->OnEnabled();
-		(*it)->SetParentDisability(false);
-		result = _children.Iterate(it);
-	}
+	_children.IteratingWithLamda([](PGameObj child) {
+		child->OnEnabled();
+		child->SetParentDisability(false);
+	});
 }
 
 void GameObj::OnDisabled()
@@ -74,14 +70,10 @@ void GameObj::OnDisabled()
 			script->OnDisabled();
 		});
 
-	auto it = _children.Begin();
-	bool result = _children.GetSize() == 0;
-	while (!result)
-	{
-		(*it)->OnDisabled();
-		(*it)->SetParentDisability(true);
-		result = _children.Iterate(it);
-	}
+	_children.IteratingWithLamda([](PGameObj child) {
+		child->OnDisabled();
+		child->SetParentDisability(true);
+	});
 }
 
 void GameObj::OnCollide(CollideEvent& e)

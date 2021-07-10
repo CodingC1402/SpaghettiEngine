@@ -1,10 +1,7 @@
 #include "Render2DScriptBase.h"
 #include "Graphics.h"
 
-REGISTER_FINISH(Render2DScriptBase);
-
-Render2DScriptBase::Render2DScriptBase(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
-{}
+REGISTER_FINISH(Render2DScriptBase, ScriptBase) {}
 
 int Render2DScriptBase::GetDrawLayer()
 {

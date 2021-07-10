@@ -5,7 +5,6 @@
 class Animator : public Render2DScriptBase
 {
 public:
-	Animator(PScene owner, bool isDisabled = false);
 	virtual void OnUpdate() override;
 	virtual void Load(nlohmann::json& inputObject) override;
 	virtual void Draw(PCamera camera) override;

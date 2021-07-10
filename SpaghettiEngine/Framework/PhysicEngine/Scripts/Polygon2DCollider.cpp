@@ -3,10 +3,7 @@
 #include "polypartition.h"
 #include "DebugRenderer.h"
 
-REGISTER_FINISH(Polygon2DCollider);
-
-Polygon2DCollider::Polygon2DCollider(PScene owner, bool isDisabled) : Collider2DBase(owner , isDisabled)
-{}
+REGISTER_FINISH(Polygon2DCollider, Collider2DBase) {}
 
 void Polygon2DCollider::OnFixedUpdate()
 {

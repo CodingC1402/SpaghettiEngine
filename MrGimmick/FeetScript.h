@@ -5,8 +5,6 @@
 class FeetScript : public ScriptBase
 {
 public:
-	FeetScript(PScene owner, bool isDisabled = false);
-
 	void OnStart() override;
 	void OnUpdate() override;
 	void OnFixedUpdate() override;

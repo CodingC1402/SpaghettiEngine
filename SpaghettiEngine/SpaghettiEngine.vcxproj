@@ -65,6 +65,7 @@
     <ClInclude Include="Framework\Engine\Scripts\Render2DScriptBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\SpriteRenderer.h" />
+    <ClInclude Include="Framework\Engine\Scripts\Surface.h" />
     <ClInclude Include="Framework\Engine\Scripts\TileMapRenderer.h" />
     <ClInclude Include="Framework\Engine\ThirdParty\json.hpp" />
     <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Framework\Engine\Scripts\Render2DScriptBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\SpriteRenderer.cpp" />
+    <ClCompile Include="Framework\Engine\Scripts\Surface.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\TileMapRenderer.cpp" />
     <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\Color.cpp" />

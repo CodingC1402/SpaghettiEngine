@@ -6,8 +6,6 @@
 class Render2DScriptBase : public ScriptBase
 {
 public:
-	Render2DScriptBase(PScene owner, bool isDisabled = false);
-
 	virtual int GetDrawLayer();
 	
 	virtual void OnEnabled() override;

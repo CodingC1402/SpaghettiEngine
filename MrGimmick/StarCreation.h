@@ -6,8 +6,6 @@
 class StarCreation : public Render2DScriptBase
 {
 public:
-	StarCreation(PScene owner, bool isDisabled = false);
-
 	void OnStart() override;
 	void OnUpdate() override;
 

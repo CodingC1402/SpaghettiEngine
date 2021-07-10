@@ -5,10 +5,7 @@
 #include "Setting.h"
 #include "SMath.h"
 
-REGISTER_FINISH(StarCreation);
-
-StarCreation::StarCreation(PScene owner, bool isDisabled) : Render2DScriptBase(owner, isDisabled)
-{}
+REGISTER_FINISH(StarCreation, Render2DScriptBase) {}
 
 void StarCreation::OnStart()
 {

@@ -24,8 +24,6 @@ public:
 		LoadingSegmentB,
 	};
 public:
-	SegmentTrigger(PScene scene, bool isDisabled = false);
-
 	void OnCollide(CollideEvent& e) override;
 	void OnFixedUpdate() override;
 

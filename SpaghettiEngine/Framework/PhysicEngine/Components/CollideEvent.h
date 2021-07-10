@@ -43,6 +43,8 @@ protected:
 	bool _isCollideWithTrigger = false;
 	bool _isCollisionHandled = false;
 	Vector3	_collideNormal;
+	// The vector that represent 2 center of the 2 shape that collide
+	Vector3 _collideDir;
 
 	Collider2DBase* _collideScript = nullptr; // The object that get called event own this script;
 	Collider2DBase* _collideWithScript = nullptr;

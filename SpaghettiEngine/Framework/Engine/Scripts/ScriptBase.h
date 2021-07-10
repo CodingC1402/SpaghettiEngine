@@ -38,8 +38,9 @@ struct DerivedRegister : public ScriptFactory {
 	}
 };
 
-#define REGISTER_START(NAME) protected: std::string GetType() const noexcept override; private: static DerivedRegister<NAME> reg
-#define REGISTER_FINISH(NAME) DerivedRegister<NAME> NAME::reg(#NAME); std::string NAME::GetType() const noexcept { return #NAME; }
+#define REGISTER_START(NAME) protected: std::string GetType() const noexcept override; public: NAME(PScene owner, bool isDisabled = false); private: static DerivedRegister<NAME> reg
+// Register finish with constructor
+#define REGISTER_FINISH(NAME, BASECLASS) std::string NAME::GetType() const noexcept { return #NAME; } DerivedRegister<NAME> NAME::reg(#NAME); NAME::NAME(PScene owner, bool isDisabled) : BASECLASS(owner, isDisabled)
 #define TYPE_NAME(TYPE) #TYPE
 
 // Get first script of that type from parent game object of the game object owner.
