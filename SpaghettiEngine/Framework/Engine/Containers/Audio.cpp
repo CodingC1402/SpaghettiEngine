@@ -10,15 +10,10 @@ Audio::Audio() : Resource()
 	isLoop = false;
 }
 
-size_t Audio::GetNumberOfSounds() const noexcept
-{
-	return _sounds.size();
-}
-
 void Audio::Load(const std::string& path)
 {
 	using namespace nlohmann;
-
+	
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
@@ -28,7 +23,7 @@ void Audio::Load(const std::string& path)
 		os << " doesn't exist";
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Audio);
 	}
-
+	
 	constexpr const char* Sounds = "Sounds";
 	constexpr const char* Loop = "Loop";
 	constexpr const char* Frames = "Frames";
@@ -37,12 +32,12 @@ void Audio::Load(const std::string& path)
 	{
 		json jsonFile;
 		file >> jsonFile;
-
+	
 		auto path = jsonFile[Sounds].get<std::wstring>();
 		fieldTracker++;
-
+	
 		_sounds.emplace_back(path);
-
+	
 		fieldTracker++;
 		this->isLoop = jsonFile[Loop].get<bool>();
 	}
@@ -63,10 +58,100 @@ void Audio::Load(const std::string& path)
 			break;
 		}
 		os << std::endl;
-
+	
 		os << "[Exception] Field doesn't have the right format";
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Audio);
 	}
+}
+
+void Audio::PlayAt(float vol, int pos)
+{
+	if (pos >= _sounds.size())
+		return;
+
+	_sounds[pos].Play(freqDist(rng), vol * masterVolume);
+}
+
+void Audio::PlayRandom(float vol)
+{
+	_sounds[soundDist(rng)].Play(freqDist(rng), vol * masterVolume);
+}
+
+void Audio::PlayAll(float vol)
+{
+	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
+	{
+		(*i).Play(freqDist(rng), vol * masterVolume);
+	}
+}
+
+void Audio::ContinueAt(int pos)
+{
+	if (pos >= _sounds.size())
+		return;
+
+	_sounds[pos].Continue();
+}
+
+void Audio::ContinueAll()
+{
+	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
+	{
+		(*i).Continue();
+	}
+}
+
+void Audio::PauseAt(int pos)
+{
+	if (pos >= _sounds.size())
+		return;
+
+	_sounds[pos].Pause();
+}
+
+void Audio::PauseAll()
+{
+	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
+	{
+		(*i).Pause();
+	}
+}
+
+void Audio::StopAt(int pos)
+{
+	if (pos >= _sounds.size())
+		return;
+
+	_sounds[pos].Stop();
+}
+
+void Audio::StopAll()
+{
+	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
+	{
+		(*i).Stop();
+	}
+}
+
+void Audio::ChangeVolumeAt(float vol, int pos)
+{
+	if (pos >= _sounds.size())
+		return;
+
+	_sounds[pos].ChangeVolume(vol * masterVolume);
+}
+
+void Audio::ChangeVolumeAll(float vol)
+{
+	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
+	{
+		(*i).ChangeVolume(vol * masterVolume);
+	}
+}
+
+void Audio::ChangeMasterVolume(float vol)
+{
+	masterVolume = vol;
 }
 
 AudioContainer::AudioContainer()
