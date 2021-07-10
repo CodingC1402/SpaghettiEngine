@@ -38,6 +38,8 @@ Node::State Reverse::Tick()
     case State::Running:
         _runningNode = _child;
         return State::Running;
+    default:
+        return State::Invalid;
     }
 }
 

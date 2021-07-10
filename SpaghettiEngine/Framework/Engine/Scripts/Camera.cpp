@@ -2,12 +2,11 @@
 #include "Setting.h"
 #include "Graphics.h"
 #include "LoadingJson.h"
+#include "GameTimer.h"
+#include "SMath.h"
 
-REGISTER_FINISH(Camera);
-
-Camera::Camera(PScene owner) : ScriptBase(owner)
+REGISTER_FINISH(Camera, ScriptBase) 
 {
-	_name = TYPE_NAME(Camera);
 	viewMatrix._11 = 1;
 	viewMatrix._22 = -1;
 	viewMatrix._33 = 1;
@@ -35,12 +34,12 @@ Matrix4 Camera::GetMatrixWithoutScaleY(const Matrix4& originalMatrix)
 	return originalMatrix * cameraMatrix;
 }
 
-void Camera::OnUpdate()
+void Camera::OnFixedUpdate()
 {
 	if (_followingPtr.use_count() > 0)
 	{
-		const Vector3 delta = _followingObj->GetWorldTransform() - _ownerObj->GetWorldTransform();
-		_ownerObj->Translate(delta * _dragFactor);
+		const Vector3 delta = _followingPtr.lock()->GetTransform().GetWorldTransform() - GetGameObject()->GetTransform().GetWorldTransform();
+		GetGameObject()->GetTransform().Translate(delta);
 	}
 	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
 	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
@@ -62,24 +61,35 @@ void Camera::Load(json& input)
 	using LoadingJson::Field;
 	if (!input[LoadingJson::Field::gameObjectsField].empty())
 	{
-		_followingPtr = _owner->GetComponent(input[LoadingJson::Field::gameObjectsField][0][Field::idField]);
-		_followingObj = (dynamic_cast<PGameObj>(_followingPtr.lock().get()));
+		auto gameObj = dynamic_cast<PGameObj>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0][Field::idField]));
+		_followingPtr = std::dynamic_pointer_cast<GameObj>(gameObj->GetSharedPtr());
 	}
 }
 
 void Camera::SetFollow(PGameObj followObj)
 {
-	_followingPtr = followObj->GetSharedPtr();
-	_followingObj = (dynamic_cast<PGameObj>(_followingPtr.lock().get()));
+	_followingPtr = std::dynamic_pointer_cast<GameObj>(followObj->GetSharedPtr());
 }
 
 PGameObj Camera::GetFollow()
 {
-	return _followingObj;
+	if (_followingPtr.expired())
+		return nullptr;
+	return _followingPtr.lock().get();
 }
 
 void Camera::RemoveFollow()
 {
-	_followingObj = nullptr;
 	_followingPtr.reset();
+}
+
+PScriptBase Camera::Clone() const
+{
+	auto clone = dynamic_cast<Camera*>(ScriptBase::Clone());
+
+	clone->_followingPtr = _followingPtr;
+	clone->oldH = oldH;
+	clone->oldW = oldW;
+
+	return clone;
 }

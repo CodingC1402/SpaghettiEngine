@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\Engine\AnimationComponents;..\SpaghettiEngine\Framework\Interfaces;..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -115,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\Engine\AnimationComponents;..\SpaghettiEngine\Framework\Interfaces;..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -140,7 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\Engine\AnimationComponents;..\SpaghettiEngine\Framework\Interfaces;..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -167,7 +167,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\SpaghettiEngine\Framework\Engine\AnimationComponents;..\SpaghettiEngine\Framework\Interfaces;..\SpaghettiEngine\Framework\PhysicEngine\Shapes;..\SpaghettiEngine\Framework\PhysicEngine\Scripts;..\SpaghettiEngine\Framework\PhysicEngine\Components;..\SpaghettiEngine\Framework\Math;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;..\SpaghettiEngine\Framework\Engine;..\SpaghettiEngine\Framework\Engine\Wrapper;..\SpaghettiEngine\Framework\Engine\ThirdParty;..\SpaghettiEngine\Framework\Engine\BTs;..\SpaghettiEngine\Framework\Engine\AppComponents;..\SpaghettiEngine\Framework\Engine\Containers;..\SpaghettiEngine\Framework\Engine\Scripts;..\SpaghettiEngine\Framework\Engine\GameComponents;..\SpaghettiEngine\Framework\Utilities;..\SpaghettiEngine\Framework\Window;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -192,11 +192,27 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="FieldNames.cpp" />
+    <ClCompile Include="LevelSegment.cpp" />
     <ClCompile Include="MoveScript.cpp" />
+    <ClCompile Include="FeetScript.cpp" />
+    <ClCompile Include="HeadScript.cpp" />
+    <ClCompile Include="SegmentTrigger.cpp" />
+    <ClCompile Include="StarCreation.cpp" />
+    <ClCompile Include="StarScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="FieldNames.h" />
+    <ClInclude Include="LevelSegment.h" />
     <ClInclude Include="MoveScript.h" />
+    <ClInclude Include="FeetScript.h" />
+    <ClInclude Include="HeadScript.h" />
+    <ClInclude Include="SegmentTrigger.h" />
+    <ClInclude Include="StarCreation.h" />
+    <ClInclude Include="StarScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

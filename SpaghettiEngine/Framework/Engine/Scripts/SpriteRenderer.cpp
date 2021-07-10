@@ -5,9 +5,7 @@
 #include "SMath.h"
 #include "Setting.h"
 
-REGISTER_FINISH(SpriteRenderer);
-
-SpriteRenderer::SpriteRenderer(PScene owner) : Render2DScriptBase(owner)
+REGISTER_FINISH(SpriteRenderer, Render2DScriptBase)
 {
 	transformMatrix._11 = 1;
 
@@ -15,8 +13,6 @@ SpriteRenderer::SpriteRenderer(PScene owner) : Render2DScriptBase(owner)
 	transformMatrix._22 = 1;
 	transformMatrix._33 = 1;
 	transformMatrix._44 = 1;
-
-	_name = TYPE_NAME(SpriteRenderer);
 }
 
 Matrix4 SpriteRenderer::GetSpriteMatrix() const noexcept
@@ -45,7 +41,6 @@ RECT SpriteRenderer::GetSourceRect() const noexcept
 
 void SpriteRenderer::Draw(PCamera camera)
 {
-	RECT srcRect = GetSourceRect();
 	Vector3 center = GetCenter();
 	Matrix4 transform = camera->GetMatrix(transformMatrix * GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
@@ -99,4 +94,14 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 	}
 	Render2DScriptBase::Load(inputObject);
+}
+
+PScriptBase SpriteRenderer::Clone() const
+{
+	auto clone = dynamic_cast<SpriteRenderer*>(ScriptBase::Clone());
+
+	clone->transformMatrix = transformMatrix;
+	clone->sprite = sprite;
+
+	return clone;
 }

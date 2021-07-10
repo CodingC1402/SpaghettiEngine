@@ -1,12 +1,7 @@
 #include "Render2DScriptBase.h"
 #include "Graphics.h"
 
-REGISTER_FINISH(Render2DScriptBase);
-
-Render2DScriptBase::Render2DScriptBase(PScene owner) : ScriptBase(owner)
-{
-	_name = TYPE_NAME(Render2DScriptBase);
-}
+REGISTER_FINISH(Render2DScriptBase, ScriptBase) {}
 
 int Render2DScriptBase::GetDrawLayer()
 {
@@ -48,5 +43,14 @@ void Render2DScriptBase::Load(nlohmann::json& inputObject)
 	}
 
 	ScriptBase::Load(inputObject);
+}
+
+PScriptBase Render2DScriptBase::Clone() const
+{
+	auto clone = dynamic_cast<Render2DScriptBase*>(ScriptBase::Clone());
+
+	clone->_drawLayer = _drawLayer;
+
+	return clone;
 }
 

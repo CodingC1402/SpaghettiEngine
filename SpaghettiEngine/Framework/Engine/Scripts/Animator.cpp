@@ -2,36 +2,46 @@
 #include "GameTimer.h"
 #include "Graphics.h"
 #include "Setting.h"
+#include "LoadingJson.h"
 
-REGISTER_FINISH(Animator);
-
-Animator::Animator(PScene owner)
-	:
-	Render2DScriptBase(owner)
-{
-	_name = TYPE_NAME(Animator);
-}
+REGISTER_FINISH(Animator, Render2DScriptBase) {}
 
 void Animator::OnUpdate()
 {
-	time += GameTimer::GetDeltaTime();
-	_ani->Advance(frame, time);
+	_tree->Tick();
 }
 
 void Animator::Draw(PCamera camera)
 {
-	_sprite = _ani->GetSpriteOfFrame(frame);
+	auto sprite = _tree->GetCurrentSprite();
+	if (!sprite.use_count())
+		return;
+
 	Matrix4 transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
-	Graphics::DrawSprite(_sprite, _sprite->GetCenter());
+	Graphics::DrawSprite(sprite, sprite->GetCenter());
+}
+
+PScriptBase Animator::Clone() const
+{
+	auto animClone = dynamic_cast<Animator*>(Render2DScriptBase::Clone());
+
+	animClone->_tree = std::dynamic_pointer_cast<AnimationTree>(_tree->Clone());
+	animClone->_drawLayer = _drawLayer;
+
+	return animClone;
 }
 
 void Animator::Load(nlohmann::json& inputObject)
 {
 	try
 	{
-		_ani = AnimationContainer::GetInstance()->GetResource(inputObject["Animation"].get<CULL>());
-		frame = 0;
+		using LoadingJson::Field;
+
+		std::string _treeFilePath = inputObject[Field::animationTreeField].get<std::string>();
+
+		_tree = MAKE_SHARE_BT(AnimationTree);
+		_tree->Load(_treeFilePath);
 	}
 	catch (const CornException& e)
 	{

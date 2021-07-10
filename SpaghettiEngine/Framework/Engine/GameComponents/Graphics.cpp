@@ -1,19 +1,19 @@
-﻿#include "Graphics.h"
+﻿#include "CornDirectX.h"
+#include "Graphics.h"
+#include "GameWnd.h"
 #include "Monitor.h"
 #include "Setting.h"
 #include "json.hpp"
-#include "Render2DScriptBase.h"
 #include "Setting.h"
 #include "Sprite.h"
-#include "LineRenderBase.h"
+#include "Render2DScriptBase.h"
+#include "DirectX9Graphic.h"
+#include "DebugRenderer.h"
+
 #include <fstream>
 #include <DirectXMath.h>
 
-#ifdef _DEBUG
-#include "Debug.h"
-#endif
-
-PGraphics Graphics::__instance = nullptr;
+SDirectX9Graphic Graphics::_turdGraphic = std::make_shared<DirectX9Graphic>();
 
 Graphics::GraphicException::GraphicException(const int line, const char* file, std::wstring description) noexcept
 	: 
@@ -25,86 +25,25 @@ const wchar_t* Graphics::GraphicException::GetType() const noexcept
 	return L"∑(O_O;) Graphic Exception";
 }
 
-PGraphics Graphics::GetInstance()
-{
-	if (!__instance)
-		__instance = new Graphics();
-	return __instance;
-}
-
-void Graphics::ToFullScreenMode()
-{
-	__instance->FullScreen();
-}
-
-void Graphics::ToWindowMode()
-{
-	__instance->Window();
-}
-
-void Graphics::LoadTexture(PImage& rTexture, const std::string& path, const Color &keyColor)
-{
-	const std::wstring wPath = StringConverter::StrToWStr(path);
-	ImageInfo info;
-
-	HRESULT result = D3DXGetImageInfoFromFile(wPath.c_str(), &info);
-
-	if (result != D3D_OK)
-		throw GRAPHICS_EXCEPT_CODE(result);
-
-	const auto gfx = __instance;
-	result = D3DXCreateTextureFromFileEx(
-		gfx->renderDevice,
-		wPath.c_str(),
-		info.Width,
-		info.Height,
-		1,
-		D3DPOOL_DEFAULT,
-		D3DFMT_UNKNOWN,
-		D3DPOOL_DEFAULT,
-		D3DX_DEFAULT,
-		D3DX_DEFAULT,
-		keyColor,
-		&info,
-		nullptr,
-		&rTexture
-		);
-
-	if (result != D3D_OK)
-		throw GRAPHICS_EXCEPT_CODE(result);
-}
-
 void Graphics::AddRender2D(PRender2DScriptBase renderScript)
 {
-	std::lock_guard guard(__instance->_renderLock);
-	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
+	_renderBuffer2D[renderScript->GetDrawLayer()].emplace_back(renderScript);
 }
 
 void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 {
-	std::lock_guard guard(__instance->_renderLock);
-	__instance->_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
+	_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
-void Graphics::AddLineRender(PLineRendererBase script)
+void Graphics::SetSpriteTransform(const Matrix4& matrix)
 {
-	GetInstance()->_linesBuffer.push_back(script);
-}
-
-void Graphics::RemoveLineRender(PLineRendererBase script)
-{
-	GetInstance()->_linesBuffer.remove(script);
-}
-
-void Graphics::SetSpriteTransform(Matrix4& matrix)
-{
+	auto dxMatrix = matrix.ConvertToDxMatrix();
 	if (Setting::IsWorldPointPixelPerfect())
 	{
-		matrix._41 = std::round(matrix._41);
-		matrix._42 = std::round(matrix._42);
+		dxMatrix._41 = std::round(dxMatrix._41);
+		dxMatrix._42 = std::round(dxMatrix._42);
 	}
-	auto dxMatrix = matrix.ConvertToDxMatrix();
-	GetInstance()->spriteHandler->SetTransform(&dxMatrix);
+	_turdGraphic->SetRenderTransform(dxMatrix);
 }
 
 void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Vector3& position, const Color& color)
@@ -113,65 +52,28 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 	auto dxCenter = center.ConvertToDxVector();
 	auto dxPos = position.ConvertToDxVector();
 
-	GetInstance()->spriteHandler->Draw(
-		sprite->GetSource()->GetImage(),
-		&srcRect,
-		&dxCenter,
-		&dxPos,
+	_turdGraphic->RenderSprite(sprite->GetSource()->GetImage(),
+		srcRect,
+		dxCenter,
+		dxPos,
 		color
 	);
-}
-
-void Graphics::SetPolygonTransform(const Matrix4& matrix)
-{
-	GetInstance()->_lineTransformMatrix = matrix;
-}
-
-void Graphics::Draw2DPolygon(const std::vector<Vector3>& vertexes, Color color, float width)
-{
-	if (!width)
-		return;
-
-	GetInstance()->_lineHandler->SetWidth(width);
-	GetInstance()->_lineHandler->Begin();
-
-	const auto size = vertexes.size();
-	Vector2* dxVertexes = new Vector2[size + 1];
-	Vector3 transformed;
-	for (int i = 0; i < size; i++)
-	{
-		transformed = vertexes[i] * GetInstance()->_lineTransformMatrix;
-		dxVertexes[i].x = transformed.x;
-		dxVertexes[i].y = transformed.y;
-	}
-	dxVertexes[size] = dxVertexes[0];
-
-	GetInstance()->_lineHandler->Draw(
-		dxVertexes,
-		static_cast<DWORD>(size + 1u),
-		color
-	);
-	GetInstance()->_lineHandler->End();
-	delete[] dxVertexes;
 }
 
 void Graphics::AddCamera(PCamera camera)
 {
-	std::lock_guard guard(__instance->_renderLock);
-	__instance->cameraList.push_back(camera);
+	_cameraList.push_back(camera);
 }
 
 void Graphics::RemoveCamera(PCamera camera)
 {
-	std::lock_guard guard(__instance->_renderLock);
-	__instance->cameraList.remove(camera);
+	_cameraList.remove(camera);
 }
 
 void Graphics::SetActiveCamera(PCamera setCamera)
 {
-	std::lock_guard guard(__instance->_renderLock);
-	__instance->cameraList.remove(setCamera);
-	__instance->cameraList.emplace_front(setCamera);
+	_cameraList.remove(setCamera);
+	_cameraList.emplace_front(setCamera);
 }
 
 void Graphics::ClearRenderBuffer2D()
@@ -185,305 +87,94 @@ void Graphics::ClearRenderBuffer()
 	ClearRenderBuffer2D();
 }
 
-void Graphics::CreateResource()
+SGameWnd Graphics::GetCurrentWindow() noexcept
 {
-	renderer->CreateDevice(
-		videoAdapter,
-		D3DDEVTYPE_HAL,
-		wnd->GetContentWndHandler(),
-		D3DCREATE_HARDWARE_VERTEXPROCESSING,
-		&presentParam,
-		&renderDevice
-	);
-
-	HRESULT result = D3DXCreateSprite(renderDevice, &spriteHandler);
-	if (FAILED(result))
-		throw GRAPHICS_EXCEPT_CODE(result);
-
-	result = D3DXCreateLine(renderDevice, &_lineHandler);
-	if (FAILED(result))
-		throw GRAPHICS_EXCEPT_CODE(result);
-	else if (!Setting::IsResolutionPixelPerfect())
-	{
-		_lineHandler->SetAntialias(TRUE);
-	}
-
-	if (!renderer)
-		throw GRAPHICS_EXCEPT(L"Can't initialize directX properly");
-	if (!renderDevice)
-		throw GRAPHICS_EXCEPT(L"Can't initialize driectXDev, and there is no error code for this so... good luck fixing this ヽ(￣ω￣(。。 )ゝ ");
-
-	if constexpr (Setting::IsDebugMode())
-	{
-		result = D3DXCreateFont(
-		renderDevice,
-		16, 8, 0, 0, 0, 0, 0, 0, 0, L"Calibri", &fpsFont
-		);
-		if (FAILED(result))
-			throw GRAPHICS_EXCEPT_CODE(result);	
-	}
+	return _wnd;
 }
 
-void Graphics::ReleaseResource()
+SDirectX9Graphic Graphics::GetDirectXGfx()
 {
-	if (renderDevice)
-		renderDevice->Release();
-	if (spriteHandler)
-		spriteHandler->Release();
-	if (_lineHandler)
-		_lineHandler->Release();
-	renderDevice = nullptr;
-	_lineHandler = nullptr;
-	spriteHandler = nullptr;
+	return _turdGraphic;
 }
 
 void Graphics::FullScreen()
 {
-	if (isFullScreen)
+	if (_isFullScreen)
 		return;
 
-	isFullScreen = true;
-	wnd->ChangeWindowMode(true);
+	_isFullScreen = true;
+	_wnd->ChangeWindowMode(true);
 }
 
 void Graphics::Window()
 {
-	if (!isFullScreen)
+	if (!_isFullScreen)
 		return;
 
-	isFullScreen = false;
-	wnd->ChangeWindowMode(false);
-}
-
-SGameWnd Graphics::GetCurrentWindow() const noexcept
-{
-	return wnd;
+	_isFullScreen = false;
+	_wnd->ChangeWindowMode(false);
 }
 
 PCamera Graphics::GetActiveCamera()
 {
-	return *(__instance->cameraList.begin());
+	return *_cameraList.begin();
 }
 
-void Graphics::Init(const ColorFormat& colorFormat)
+void Graphics::Init(const ColorFormat& colorFormat, SGameWnd window)
 {
-	if constexpr (Setting::IsDebugMode())
-	{
-		fpsTimer->Start();
-		fpsRect.left = 3;
-		fpsRect.top = 3;
-		fpsRect.right = 50;
-		fpsRect.bottom = 20;
-	}
+	_timer.reset(Timer::Create());
+	_wnd = window;
 
-	if (const float fps = Setting::GetFps(); fps <= 0)
-		delayPerFrame = 0;
-	else
-		delayPerFrame = 1 / fps;
-
-	renderer = Direct3DCreate9(D3D_SDK_VERSION);
-	this->timer = STimer(Timer::Create());
-	timer->Start();
-	this->resolution = Setting::GetResolution();
-
-	ZeroMemory(&presentParam, sizeof(presentParam));
-
-	wnd = SGameWnd(GameWnd::Create(L"SpaghettiEngine"));
-
-	presentParam.Windowed = TRUE;
-	presentParam.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	presentParam.BackBufferFormat = static_cast<D3DFORMAT>(colorFormat);
-	presentParam.BackBufferCount = 1;
-	presentParam.BackBufferWidth = resolution.width;
-	presentParam.BackBufferHeight = resolution.height;
-	presentParam.hDeviceWindow = wnd->GetContentWndHandler();
-
-	isPixelPerfect = Setting::IsWorldPointPixelPerfect();
-
-	CreateResource();
+	auto resolution = Setting::GetResolution();
+	_width  = resolution.width;
+	_height = resolution.height;
+	_turdGraphic->Init(
+		static_cast<D3DFORMAT>(colorFormat),
+		_width,
+		_height,
+		_wnd->GetContentWndHandler()
+	);
 }
 
 
 void Graphics::Render()
 {
-	if (cameraList.empty())
+	if (_cameraList.empty())
 		return;
 
-	timer->Mark();
-	timeSinceLastFrame += timer->GetDeltaTime();
-	if (timeSinceLastFrame < delayPerFrame)
+	_timer->Mark();
+	_timeSinceLastFrame += _timer->GetDeltaTime();
+	if (_timeSinceLastFrame < _delayPerFrame)
+	{
 		return;
+	}
 
-	if constexpr(Setting::IsDebugMode())
+	if (_turdGraphic->StartRender())
 	{
-		rgb[index] += delta;
-		if (!(rgb[index] & 0xFF))
-		{
-			if (jump)
-			{
-				index += 2;
-				index %= 3;
-				rgb[index] += 1;
-				delta = 1;
-				jump = false;
-			}
-			else
-			{
-				rgb[index] -= 1;
-				index -= 1;
-				if (index < 0)
-					index = 2;
-				delta = -1;
-				jump = true;
-			}
-		}
-	}// For RGB background
+		_timeSinceLastFrame -= _delayPerFrame * static_cast<int>(_timeSinceLastFrame / _delayPerFrame);
+		_turdGraphic->Clear(Color(0, 0, 0, 0));
 
-	if (Begin() != 0)
-	{
-		timeSinceLastFrame -= delayPerFrame * static_cast<int>(timeSinceLastFrame / delayPerFrame);
 
-		if constexpr  (Setting::IsDebugMode())
-			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, XRGB(rgb[0], rgb[1], rgb[2]), 1.0f, 0);
-		else
-			renderDevice->Clear(0, nullptr, D3DCLEAR_TARGET, BLACK, 1.0f, 0);
+		_turdGraphic->StartRenderSprite();
+		const auto cameraScript = *_cameraList.begin();
+		for (auto& layer : _renderBuffer2D)
+			for (auto renderScript2D = layer.begin(); renderScript2D != layer.end(); ++renderScript2D)
+				(*renderScript2D)->Draw(cameraScript);
+		_turdGraphic->EndRenderSprite();
 
-		if (_renderLock.try_lock())
-		{
-			spriteHandler->Begin(ALPHABLEND);
-
-			const auto cameraScript = *cameraList.begin();
-			for (auto& layer : _renderBuffer2D)
-				for (auto renderScript2D = layer.begin(); renderScript2D != layer.end(); ++renderScript2D)
-					(*renderScript2D)->Draw(cameraScript);
-			_renderLock.unlock();
-		}
-		
+		// Only available in debugMode cause why would you
+		// use this shit out side debug.
 		if constexpr (Setting::IsDebugMode())
 		{
-			UpdateFPS();
-			std::wostringstream os;
-			os << std::floor(fps + 0.5) << std::endl;
-			const std::wstring str = os.str();
-
-			Matrix4 temp;
-			temp._11 = 1;
-			temp._22 = 1;
-			temp._33 = 1;
-			temp._44 = 1;
-			auto dxTemp = temp.ConvertToDxMatrix();
-
-			spriteHandler->SetTransform(&dxTemp);
-			fpsFont->DrawTextW(
-				spriteHandler,
-				str.c_str(),
-				static_cast<INT>(str.size()),
-				&fpsRect,
-				DT_CHARSTREAM,
-				MAGENTA
-			);
+			// The debug renderer will begin the line render session itself.
+			SetSpriteTransform(Matrix4::GetDiagonalMatrix());
+			DebugRenderer::Render(_turdGraphic, cameraScript);
 		}
-		spriteHandler->End();
 
-		if (_renderLock.try_lock())
-		{
-			const auto cameraScript = *cameraList.begin();
-			for (auto& renderer : _linesBuffer)
-				renderer->Draw(cameraScript);
-			_renderLock.unlock();
-			_lineTransformMatrix = Matrix4::GetDiagonalMatrix();
-		}
-		
-		if (!End())
-			Reset();
-
-		renderDevice->Present(nullptr, nullptr, nullptr, nullptr);
+		if (!_turdGraphic->EndRender())
+			_turdGraphic->ResetRender();
+		_turdGraphic->Present();
 	}
-}
-
-HRESULT Graphics::Begin() const noexcept
-{
-	return renderDevice->BeginScene();
-}
-
-bool Graphics::End()
-{
-	// device alive
-	if (!isDeviceLost)
-	{
-		renderDevice->EndScene();
-	}
-	if (const HRESULT hr = renderDevice->TestCooperativeLevel(); hr != D3D_OK)
-	{
-		if (hr == D3DERR_DEVICELOST)
-		{
-			isDeviceLost = true;
-			spriteHandler->OnLostDevice();
-			_lineHandler->OnLostDevice();
-		}
-		else if (hr == D3DERR_DRIVERINTERNALERROR)
-		{
-			PostQuitMessage(0);
-			throw GRAPHICS_EXCEPT(L"directX driver internal error");
-		}
-		return false;
-	}
-	return true;
-}
-
-bool Graphics::Reset()
-{
-	if (renderDevice->TestCooperativeLevel() == D3DERR_DEVICENOTRESET)
-	{
-		if (SUCCEEDED(renderDevice->Reset(&presentParam)))
-		{
-			// reset success
-			spriteHandler->OnResetDevice();
-			isDeviceLost = false;
-			return true;
-		}
-	}
-	// failed to reset
-	return false;
-}
-
-void Graphics::UpdateCurrentVideoAdapter()
-{
-	const auto monitor = Monitor::GetCurrentMonitor(wnd->GetHwnd());
-	const auto format = static_cast<D3DFORMAT>(colorFormat);
-	adapterMode.clear();
-	const UINT adapterCount = renderer->GetAdapterCount();
-	for (UINT i = 0; i < adapterCount; i++)
-	{
-		if (renderer->GetAdapterMonitor(i) == monitor)
-		{
-			videoAdapter = i;
-			break;
-		}
-	}
-
-	const UINT modeCount = renderer->GetAdapterModeCount(videoAdapter, format);
-	for (UINT i = 0; i < modeCount; i++)
-	{
-		DisplayMode mode;
-		if (renderer->EnumAdapterModes(videoAdapter, format, i, &mode) == D3D_OK)
-		{
-			adapterMode.push_back(mode);
-		}
-	}
-}
-
-Graphics::Graphics() noexcept
-{
-	ZeroMemory(&presentParam, sizeof(presentParam));
-	_renderBuffer2D = std::move(std::vector<std::list<PRender2DScriptBase>>(32));
-}
-Graphics::~Graphics() noexcept
-{
-	if (renderer)
-		renderer->Release();
-	renderer = nullptr;
-	ReleaseResource();
 }
 #pragma region  Exception
 Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, HRESULT code) noexcept

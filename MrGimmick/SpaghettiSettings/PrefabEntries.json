@@ -1,5 +1,14 @@
 [
   {
+    "ID": 90100,
+    "Path": "Asset/Prefabs/Level1/Level1Map.json"
+  },
+  {
+    "ID": 90101,
+    "Path": "Asset/Prefabs/Level1/Segment1.json"
+  },
+
+  {
     "ID": 10001,
     "Path": "Asset/Prefabs/MainAsset.json"
   },
@@ -10,5 +19,13 @@
   {
     "ID": 10003,
     "Path": "Asset/Prefabs/Camera.json"
+  },
+  {
+    "ID": 10004,
+    "Path": "Asset/Prefabs/Star.json"
+  },
+  {
+    "ID": 40004,
+    "Path": "Asset/Prefabs/CharacterBase.json"
   }
 ]

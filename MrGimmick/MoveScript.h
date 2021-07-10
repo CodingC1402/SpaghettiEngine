@@ -2,37 +2,65 @@
 #include "ScriptBase.h"
 #include "Camera.h"
 #include "InputSystem.h"
+#include "InputAll.h"
 #include "RigidBody2D.h"
-#include "AudioPlayer.h"
+#include "Animator.h"
+
+typedef std::shared_ptr<InputAll> SInputAll;
 
 class MoveScript : public ScriptBase
 {
 public:
 	void Load(nlohmann::json& input);
-	MoveScript(PScene owner);
 	void OnStart() override;
 	void OnUpdate() override;
-protected:
-	SInput up;
-	SInput down;
-	SInput left;
-	SInput right;
-	PCamera cam;
 
+	void SetGrounded(bool value) noexcept; // Manage by PlayerfeetScript
+	[[nodiscard]] bool GetGrounded() const noexcept;
+
+	[[nodiscard]] bool IsFlipped() const noexcept;
+
+	void SetAllowJump(bool value) noexcept;
+	[[nodiscard]] bool IsAllowJump() const noexcept;
+
+	void JumpAction();
+	void ResetJumpAction();
+	void MoveAction();
+	void CheckDirection(const bool& keyRelease, const bool& keyDown, const int& factor, bool& directionMove, float& totalVel) noexcept;
+
+	[[nodiscard]] bool IsWalking() const noexcept;
+
+	PScriptBase Clone() const override;
+protected:
+	SInputAll _leftInput;
+	SInputAll _rightInput;
+	SInputAll _jumpInput;
+
+	BoolField _isRunningField;
+	BoolField _isGroundedField;
+
+	RigidBody2D* _rigidBody = nullptr;
+	Animator* _animator = nullptr;
+
+	float _reduceSpeed = 60; // Reduce the speed when release button
 	float _speedCap = 150;
-	float _jumpStrength = 200;
+	float _jumpStrength = 50;
 	float _speedRamUp = 700;
 
-	WRigidBody2D _rigidBody;
+	float _baseGravityScale = 10;
+	float _gravityScale = 0;
+	float _minGravityScale = 2;
+	float _gsDropFactor = 2; // how much gravity scale drop in 1 sec
+	bool _isJumping = false; // Use to check if it's in a jumping phase
 
-	Vector3 move;
+	bool _isGrounded = false;
+	bool _isAllowJump = true;
+
+	bool _isWalkingLeft = false;
+	bool _isWalkingRight = false;
+
+	Vector3 _moveVec;
 	bool isFlipped = false;
-
-	AudioPlayer sound;
-private:
-	static constexpr auto SpeedCapField = "SpeedCap";
-	static constexpr auto JumpStrengthField = "JumpStrength";
-	static constexpr auto SpeedRamUpField = "SpeedRamUp";
 private:
 	REGISTER_START(MoveScript);
 };

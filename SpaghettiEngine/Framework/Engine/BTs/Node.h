@@ -21,7 +21,8 @@ public:
 	{
 		Success,
 		Running,
-		Failure
+		Failure,
+		Invalid
 	};
 public:
 	void AssignPtr(WNode ptr);
@@ -104,7 +105,7 @@ public:
 		static_assert(std::is_base_of<Node, T>::value, "You are registering a class that doesn't inherited from Node");
 	};
 public:
-	inline static std::shared_ptr<Node> Create(const std::string& name);
+	static std::shared_ptr<Node> Create(const std::string& name);
 protected:
 	template<typename T>
 	inline static void Register(const char* name);

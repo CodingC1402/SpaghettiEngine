@@ -63,6 +63,21 @@
     <Filter Include="FrameWork\Math">
       <UniqueIdentifier>{bcbf7e90-a662-41d4-a443-f383175b31a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\GameObject">
+      <UniqueIdentifier>{31da83a7-ad85-47d5-8271-4c2440e1232e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\Graphics">
+      <UniqueIdentifier>{e0bc74c7-1771-4313-83e0-742c413a8b5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\Scenes">
+      <UniqueIdentifier>{92f88517-a016-4fcd-9e5a-7690af03eefb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\AnimationComponents">
+      <UniqueIdentifier>{2fb6a5bf-48ff-4ff6-a3c0-3a2a6e4f92bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\Input">
+      <UniqueIdentifier>{61f820df-41b7-4ec4-9d25-79e48d1cd266}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Window\Window.h">
@@ -146,29 +161,11 @@
     <ClInclude Include="Framework\Engine\Containers\ResourceContainer.h">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\Scene.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\Game.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\GameObj.h">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\Graphics.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\ThirdParty\json.hpp">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\Wrapper\Input.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\Wrapper\InputSystem.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h">
       <Filter>FrameWork\Engine\Wrapper</Filter>
@@ -213,9 +210,6 @@
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Scripts\TileMapRenderer.h">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Scripts\Camera.h">
@@ -269,9 +263,6 @@
     <ClInclude Include="Framework\PhysicEngine\Components\Material.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\LineRenderBase.h">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
@@ -293,11 +284,80 @@
     <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\AudioPlayer.h">
-      <Filter>FrameWork\Engine\Scripts</Filter>
+    <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Containers\Audio.h">
+    <ClInclude Include="Framework\PhysicEngine\Components\MaterialContainer.h">
       <Filter>FrameWork\Engine\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\GameObj.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Transform.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\ScriptContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\ChildContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Corntainer.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\RootContainer.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Scene.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\BaseComponent.h">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Graphics.h">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\AnimationComponents\AnimationTree.h">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\AnimationComponents\AnimationNode.h">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\BTs\TrueFalseLeafNode.h">
+      <Filter>FrameWork\Engine\BTs</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Input.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\InputSystem.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\InputAll.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\InputState.h">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\DirectX9Graphic.h">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\DebugRenderer.h">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Tag.h">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\StringUtil.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Surface.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -370,31 +430,13 @@
     <ClCompile Include="Framework\Engine\Containers\ResourceContainer.cpp">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\Game.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp">
-      <Filter>FrameWork\Engine\GameComponents</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\Wrapper\InputSystem.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\Wrapper\Input.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp">
@@ -431,9 +473,6 @@
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\TileMapRenderer.cpp">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp">
@@ -484,9 +523,6 @@
     <ClCompile Include="Framework\PhysicEngine\Components\Material.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\LineRenderBase.cpp">
-      <Filter>FrameWork\Engine\Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
@@ -505,11 +541,80 @@
     <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\AudioPlayer.cpp">
-      <Filter>FrameWork\Engine\Scripts</Filter>
+    <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Containers\Audio.cpp">
+    <ClCompile Include="Framework\PhysicEngine\Components\MaterialContainer.cpp">
       <Filter>FrameWork\Engine\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\GameObj.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\GameObjEvent.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\ScriptContainer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\ChildContainer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\RootContainer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\BaseComponent.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Graphics.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\AnimationComponents\AnimationTree.cpp">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\AnimationComponents\AnimationNode.cpp">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\BTs\TrueFalseLeafNode.cpp">
+      <Filter>FrameWork\Engine\BTs</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\InputSystem.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Input.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\InputAll.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\InputState.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\DirectX9Graphic.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\DebugRenderer.cpp">
+      <Filter>FrameWork\Engine\GameComponents\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Tag.cpp">
+      <Filter>FrameWork\Engine\GameComponents\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\StringUtil.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Surface.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

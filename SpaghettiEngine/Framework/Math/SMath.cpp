@@ -1,5 +1,10 @@
 #include "SMath.h"
 
+float SMath::Lerp(const float& start, const float& end, const float t)
+{
+	return start + (end - start) * ((t > 1.0f ? 1.0f : t) < 0.0f ? 0.0f : t);
+}
+
 float SMath::ToRad(const float& degree)
 {
 	return degree * (pi / 180.0f);
@@ -97,4 +102,24 @@ Matrix4 SMath::GetZAxisRotateMatrix(const float& degree)
 	ZAxis._21 = -std::sinf(rad);
 	ZAxis._22 = std::cosf(rad);
 	return ZAxis;
+}
+
+Tiny operator""_t(unsigned long long value)
+{
+	return static_cast<Tiny>(value);
+}
+
+UnsignedTiny operator""_ut(unsigned long long value)
+{
+	return static_cast<UnsignedTiny>(value);
+}
+
+short operator""_s(unsigned long long value)
+{
+	return static_cast<short>(value);
+}
+
+unsigned short operator""_us(unsigned long long value)
+{
+	return static_cast<unsigned short>(value);
 }

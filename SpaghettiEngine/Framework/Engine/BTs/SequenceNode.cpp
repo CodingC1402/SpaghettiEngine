@@ -22,6 +22,8 @@ Node::State Sequence::Tick()
         else
             return Tick();
         break;
+    default:
+        return State::Invalid;
     }
 }
 

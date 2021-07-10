@@ -5,24 +5,25 @@
 #include "CornException.h"
 #include "GameObj.h"
 #include "Scene.h"
+#include "BaseComponent.h"
+
 #include <string>
 #include <unordered_map>
 
 typedef class ScriptBase* PScriptBase;
 typedef const ScriptBase* CPScriptBase;
 typedef std::weak_ptr<ScriptBase> WScriptBase;
-typedef std::unordered_map<std::string, void* (*)(PScene)> ScriptTypes;
+typedef std::unordered_map<std::string, void* (*)(PScene, bool)> ScriptTypes;
 
 typedef class GameObj* PGameObj;
 
 template<typename T>
-void* CreateT(PScene owner) { return new T(owner); }
+void* CreateT(PScene owner, bool isDisabled) { return new T(owner, isDisabled); }
 
 class ScriptFactory
 {
 public:
-	static PScriptBase CreateInstance(std::string const& typeName, PScene owner);
-	static PScriptBase CopyInstance(CPScriptBase instance);
+	static PScriptBase CreateInstance(std::string const& typeName, PScene owner, bool isDisabled = false);
 protected:
 	static ScriptTypes* GetMap();
 private:
@@ -37,14 +38,20 @@ struct DerivedRegister : public ScriptFactory {
 	}
 };
 
-#define REGISTER_START(NAME) static DerivedRegister<NAME> reg
-#define REGISTER_FINISH(NAME) DerivedRegister<NAME> NAME::reg(#NAME)
+#define REGISTER_START(NAME) protected: std::string GetType() const noexcept override; public: NAME(PScene owner, bool isDisabled = false); private: static DerivedRegister<NAME> reg
+// Register finish with constructor
+#define REGISTER_FINISH(NAME, BASECLASS) std::string NAME::GetType() const noexcept { return #NAME; } DerivedRegister<NAME> NAME::reg(#NAME); NAME::NAME(PScene owner, bool isDisabled) : BASECLASS(owner, isDisabled)
 #define TYPE_NAME(TYPE) #TYPE
 
+// Get first script of that type from parent game object of the game object owner.
+#define GET_FIRST_SCRIPT_OF_TYPE_FROM_PARENT(ScriptType) dynamic_cast<ScriptType*>(GetGameObject()->GetParent()->GetScriptContainer().GetItemType(#ScriptType))
+#define GET_FIRST_SCRIPT_OF_TYPE(ScriptType) dynamic_cast<ScriptType*>(GetGameObject()->GetScriptContainer().GetItemType(#ScriptType))
+#define GET_ALL_SCRIPTS_OF_TYPE(ScriptType) GetGameObject()->GetScriptContainer().GetAllItemType(#ScriptType)
 
-class ScriptBase : public Scene::BaseComponent
+class ScriptBase : public BaseComponent
 {
 	friend class GameObj;
+	friend class ScriptContainer;
 public:
 	class ScriptException : public CornException
 	{
@@ -58,20 +65,29 @@ public:
 	};
 public:
 	ScriptBase(PScene owner, bool isDisabled = false);
-	virtual void AssignOwner(const PGameObj& owner);
+
+	virtual void SetGameObject(const PGameObj& owner);
 	
-	[[nodiscard]] const char* GetName() const noexcept;
 	[[nodiscard]] Matrix4	GetWorldMatrix() const noexcept;
 	[[nodiscard]] Vector3	GetWorldTransform()	const noexcept;
 	[[nodiscard]] Vector3	GetWorldRotation() const noexcept;
 	[[nodiscard]] Vector3	GetWorldScale() const noexcept;	
-	void Load(nlohmann::json& input) override { }
-	Scene::SBaseComponent   Clone() override;
+	[[nodiscard]] PGameObj	GetGameObject() const noexcept;
+	[[nodiscard]] bool		IsDisabled() const noexcept;
 
+	[[nodiscard]] virtual std::string GetType() const noexcept = 0;
+	[[nodiscard]] virtual PScriptBase Clone() const;
+
+	void Load(nlohmann::json& input) override;
+private:
+	[[nodiscard]] BaseComponent::Type GetComponentType() const override;
 	void Destroy() override;
-protected:
+
+	void SetContainerIterator(std::list<PScriptBase>::iterator it);
+	std::list<PScriptBase>::iterator GetContainerIterator() const;
+private:
 	PGameObj _ownerObj = nullptr;
-	std::string _name;
+	std::list<PScriptBase>::iterator _containerIterator;
 };
 
 #define SCRIPT_FORMAT_EXCEPT(Script, Description) ScriptBase::ScriptException(__LINE__,__FILE__,Script,Description)

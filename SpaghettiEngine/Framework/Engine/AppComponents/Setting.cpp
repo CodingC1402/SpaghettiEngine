@@ -4,6 +4,7 @@
 #include "StringConverter.h"
 #include "Physic.h"
 #include "SpaghettiEnginePath.h"
+#include "Tag.h"
 #include <fstream>
 
 Setting* Setting::__instance = nullptr;
@@ -76,12 +77,15 @@ void Setting::Load()
 		constexpr const char* CAPPEDLOOP = "CappedLoop";
 		constexpr const char* GRAVITY = "Gravity";
 		constexpr const char* PHYSICSTEP = "PhysicStep";
+		constexpr const char* TAGS = "Tags";
 		
 		json file;
 		jsonFile >> file;
 
+		Tag::Load(file[TAGS]);
 		Physic::SetGravity(file[GRAVITY].get<float>());
 		Physic::SetStep(file[PHYSICSTEP].get<float>());
+
 		resolution.width = file[RESOLUTION][WIDTH].get<int>();
 		resolution.height = file[RESOLUTION][HEIGHT].get<int>();
 		halfResolution.width = resolution.width / 2;
@@ -90,7 +94,7 @@ void Setting::Load()
 		isResolutionPixelPerfect = file[PIXELPERFECT_RESOLUTION].get<bool>();
 		isWorldPointPixelPerfect = file[PIXELPERFECT_WORLDPOINT].get<bool>();
 		fps = file[FPS].get<float>();
-
+		
 		jsonFile.close();
 	}
 	catch (...)

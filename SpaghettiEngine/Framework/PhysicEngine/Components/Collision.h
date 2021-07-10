@@ -8,19 +8,19 @@ class Collision
 public:
 	Collision(Shape* A, Shape* B);
 
-	[[nodiscard]] Shape* GetShapeA();
-	[[nodiscard]] Shape* GetShapeB();
+	[[nodiscard]] Shape* GetShapeA() const noexcept;
+	[[nodiscard]] Shape* GetShapeB() const noexcept;
 
-	[[nodiscard]] float GetRestituation();
-	[[nodiscard]] float GetDynamicFriction();
-	[[nodiscard]] float GetStaticFriction();
+	[[nodiscard]] float GetRestituation() const noexcept;
+	[[nodiscard]] float GetDynamicFriction() const noexcept;
+	[[nodiscard]] float GetStaticFriction() const noexcept;
 
-	void SetNormal(const Vector3& vec);
-	void SetPenetration(const float& pen);
+	void SetNormal(const Vector3& vec) noexcept;
+	void SetPenetration(const float& pen) noexcept;
 
-	void SetRestituation(const float& f);
-	void SetDynamicFriction(const float& f);
-	void SetStaticFriction(const float& f);
+	void SetRestituation(const float& f) noexcept;
+	void SetDynamicFriction(const float& f) noexcept;
+	void SetStaticFriction(const float& f) noexcept;
 
 	bool Solve();
 	void Initialize();            // Recalculations for impulse solving
@@ -40,5 +40,7 @@ protected:
 	float _dynamicFriction = 0;
 	float _staticFriction = 0;
 
+	static CollideEvent _shapeACollideTemplate;
+	static CollideEvent _shapeBCollideTemplate;
 	static std::vector<std::vector<bool (*)(Collision*)>> _collisionFunctions;
 };

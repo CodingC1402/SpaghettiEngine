@@ -1,28 +1,32 @@
 #include "CircleCollider.h"
 #include "Circle.h"
-#include "LineRenderBase.h"
 #include "Setting.h"
+#include "Physic.h"
+#include "DebugRenderer.h"
 
-REGISTER_FINISH(CircleCollider);
-
-CircleCollider::CircleCollider(PScene owner) : Collider2DBase(owner)
+REGISTER_FINISH(CircleCollider, Collider2DBase)
 {
-	_shapeCircle = std::make_shared<Circle>();
-	_shapes.push_back(_shapeCircle);
-	_name = TYPE_NAME(CircleCollider);
+	_shapes.push_back(std::make_shared<Circle>());
+}
+
+void CircleCollider::OnFixedUpdate()
+{
+	if constexpr (Setting::IsDebugMode())
+	{
+		auto circle = std::dynamic_pointer_cast<Circle>(_shapes[0]);
+		auto worldMatrix = GetWorldMatrix();
+		worldMatrix._41 += circle->GetOffSetX();
+		worldMatrix._42 += circle->GetOffSetY();
+
+		DebugRenderer::DrawCircle(circle->GetRadius(), worldMatrix);
+	}
 }
 
 void CircleCollider::Load(nlohmann::json& input)
 {
+	auto circle = std::dynamic_pointer_cast<Circle>(_shapes[0]);
 	if (input[_radiusField] != nullptr)
-		_shapeCircle->SetRadius(input[_radiusField].get<float>());
-
-	if constexpr (Setting::IsDebugMode())
-	{
-		_lineRenderer.emplace_back(new LineRendererBase(_owner));
-		_lineRenderer[0]->AssignOwner(_ownerObj);
-		_lineRenderer[0]->SetCircle(_shapeCircle->GetRadius());
-	}
+		circle->SetRadius(input[_radiusField].get<float>());
 
 	Collider2DBase::Load(input);
 }

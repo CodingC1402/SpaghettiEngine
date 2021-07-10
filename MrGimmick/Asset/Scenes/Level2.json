@@ -3,14 +3,14 @@
     {
       "ID": 10001,
       "Changes": [
-          {
-              "ID": 1,
-              "Prefabs": [0],
-              "Type" : "GameObject",
-              "Field": "Rotation",
-              "Value": [0, 0, 45]
-          }
-      ]
+        {
+            "ID": 1,
+            "Prefabs": [0],
+            "Type" : "GameObject",
+            "Field": "Transform",
+            "Value": [0, 10, 0]
+        }
+    ]
     }
   ],
   "GameObjects": [
@@ -18,13 +18,13 @@
         "ID": 1,
         "Inputs": {
           	"IsRoot": true,
-			"Tag": "Sprite",
+			"Tag": "Collider",
 			"Transform": [ 0, 0, 0 ],
 			"Rotation": [ 0, 0, 0 ],
 			"Scale": [ 1, 1, 1 ],
             "Scripts": [
               {
-                "ID": 20001
+                "ID": 1
               }
             ]
         }
@@ -32,15 +32,15 @@
   ],
   "Scripts": [
     {
-        "ID": 20001,
+        "ID": 1,
         "Inputs": {
-            "ScriptType": "SpriteRenderer",
-            "Texture": 40002,
-            "Index": 0,
-            "OffSetX": 0,
-            "OffSetY": 0,
-            "ScaleX": 1,
-            "ScaleY": 1
+          "ScriptType": "Polygon2DCollider",
+          "Vertexes": [
+            [-100, 0],
+            [100, 0],
+            [100, -40],
+            [-100, -40]
+          ]
         }
     }
   ]

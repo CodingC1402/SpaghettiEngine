@@ -8,5 +8,14 @@
   "PixelPerfectResolution": true,
   "PixelPerfectWorldPoint": true,
   "Gravity": 120,
-  "PhysicStep": 0.001
+  "PhysicStep": 0.01,
+  "Tags": [
+    "Character",
+    "Player",
+    "Enemy",
+    "Head",
+    "Feet",
+    "PlayerAttack",
+    "Platform"
+  ]
 }

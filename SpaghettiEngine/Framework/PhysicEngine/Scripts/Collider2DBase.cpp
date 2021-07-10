@@ -1,7 +1,6 @@
 #include "Collider2DBase.h"
 #include "Physic.h"
 #include "Setting.h"
-#include "LineRenderBase.h"
 
 Collider2DBase::Collider2DBase(PScene owner, bool isDisable) 
 	:
@@ -12,40 +11,32 @@ void Collider2DBase::OnEnabled()
 {
 	PhysicScriptBase::OnEnabled();
 
-	PhysicComponent* physic = &_ownerObj->GetPhysicComponent();
+	PhysicComponent* physic = &GetGameObject()->GetPhysicComponent();
 	physic->SubscribeTo2D(this);
 	ChangeBody(physic->GetBody2D());
+
 	for (auto& shape : _shapes)
 		Physic::AddShape(shape.get());
-
-	if constexpr (Setting::IsDebugMode())
-		for (auto& linerender : _lineRenderer)
-			linerender->OnEnabled();
 }
 
 void Collider2DBase::OnDisabled()
 {
 	PhysicScriptBase::OnDisabled();
 
-	_ownerObj->GetPhysicComponent().UnSubscribeTo2D(this);
+	GetGameObject()->GetPhysicComponent().UnSubscribeTo2D(this);
+
 	for (auto& shape : _shapes)
 		Physic::RemoveShape(shape.get());
-
-	if constexpr (Setting::IsDebugMode())
-		for (auto& linerender : _lineRenderer)
-			linerender->OnDisabled();
 }
 
 void Collider2DBase::OnChange()
 {
-	ChangeBody(_ownerObj->GetPhysicComponent().GetBody2D());
+	ChangeBody(GetGameObject()->GetPhysicComponent().GetBody2D());
 }
 
-void Collider2DBase::AssignOwner(const PGameObj& gameObj)
+void Collider2DBase::SetGameObject(const PGameObj& gameObj)
 {
-	PhysicScriptBase::AssignOwner(gameObj);
-	if constexpr(Setting::IsDebugMode())
-		SetLineRendererOwner();
+	PhysicScriptBase::SetGameObject(gameObj);
 }
 
 void Collider2DBase::Load(nlohmann::json& input)
@@ -56,10 +47,6 @@ void Collider2DBase::Load(nlohmann::json& input)
 	{
 		offSet = input[_offSetXField];
 
-		if constexpr (Setting::IsDebugMode())
-			for (auto& linerender : _lineRenderer)
-				linerender->SetOffSetX(offSet);
-
 		for (auto& shape : _shapes)
 			shape->SetOffSetX(offSet);
 	}
@@ -67,26 +54,56 @@ void Collider2DBase::Load(nlohmann::json& input)
 	{
 		offSet = input[_offSetYField];
 
-		if constexpr (Setting::IsDebugMode())
-			for (auto& linerender : _lineRenderer)
-				linerender->SetOffSetY(offSet);
-
 		for (auto& shape : _shapes)
 			shape->SetOffSetY(offSet);
 	}
 
+	if (!input[_isTriggerField].empty())
+		SetIsTrigger(input[_isTriggerField].get<bool>());
+
+	SetOwnerForShapes();
+}
+
+bool Collider2DBase::CallDestroy()
+{
+	auto destroy = ScriptBase::CallDestroy();
+	if (!destroy)
+		return false;
+
+	return true;
+}
+
+void Collider2DBase::SetIsTrigger(bool value)
+{
+	if (_isTrigger == value)
+		return;
+
+	_isTrigger = value;
+	for (auto& shape : _shapes)
+		shape->SetTriggerOnly(_isTrigger);
+}
+
+bool Collider2DBase::IsTrigger() const
+{
+	return _isTrigger;
+}
+
+PScriptBase Collider2DBase::Clone() const
+{
+	auto clone = dynamic_cast<Collider2DBase*>(PhysicScriptBase::Clone());
+
+	SShape clonedShape;
+	for (const auto& shape : _shapes)
+	{
+		clonedShape.reset(shape->Clone());
+		clone->_shapes.push_back(clonedShape);
+	}
+
+	return clone;
 }
 
 Collider2DBase::~Collider2DBase()
 {
-	for (int i = 0; i < _lineRenderer.size(); i++)
-		delete _lineRenderer[i];
-}
-
-void Collider2DBase::SetLineRendererOwner()
-{
-	for (auto& linerender : _lineRenderer)
-		linerender->AssignOwner(_ownerObj);
 }
 
 void Collider2DBase::ChangeBody(WBody2D body)
@@ -94,4 +111,10 @@ void Collider2DBase::ChangeBody(WBody2D body)
 	_body = body;
 	for (auto& shape : _shapes)
 		shape->SetBody(_body);
+}
+
+void Collider2DBase::SetOwnerForShapes()
+{
+	for (auto& shape : _shapes)
+		shape->SetOwnerScript(this);
 }

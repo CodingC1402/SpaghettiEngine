@@ -23,7 +23,10 @@ public:
 	[[nodiscard]] size_t GetNumberOfFrames() const noexcept;
 	[[nodiscard]] SSprite GetSpriteOfFrame(const unsigned int& frame) const;
 	void Load(const std::string& path) override;
-	void Advance(unsigned int& frame, float& time);
+
+	// Return whether the frame is at the end or not
+	// Only return true when the animation doesn't loop
+	bool Advance(unsigned int& frame, float& time);
 protected:
 	std::vector<Frame> _frames;
 	bool isLoop;

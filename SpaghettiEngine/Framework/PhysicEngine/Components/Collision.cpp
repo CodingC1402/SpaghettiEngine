@@ -2,12 +2,17 @@
 #include "Circle.h"
 #include "Polygon.h"
 #include "SMath.h"
+#include "Collider2DBase.h"
+
 #include <cmath>
 
 std::vector<std::vector<bool (*)(Collision*)>> Collision::_collisionFunctions = {
 	{&Circle::CircleCircle, &Circle::CirclePolygon,},
-	{&Polygon::PolygonCircle,& Polygon::PolygonPolygon}
+	{&Polygon::PolygonCircle, &Polygon::PolygonPolygon}
 };
+
+CollideEvent Collision::_shapeACollideTemplate;
+CollideEvent Collision::_shapeBCollideTemplate;
 
 Collision::Collision(Shape* A, Shape* B)
 {
@@ -17,54 +22,54 @@ Collision::Collision(Shape* A, Shape* B)
 	_bodyB = B->GetBody().lock().get();
 }
 
-Shape* Collision::GetShapeA()
+Shape* Collision::GetShapeA() const noexcept
 {
 	return _shapeA;
 }
 
-Shape* Collision::GetShapeB()
+Shape* Collision::GetShapeB() const noexcept
 {
 	return _shapeB;
 }
 
 
 
-float Collision::GetRestituation()
+float Collision::GetRestituation() const noexcept
 {
 	return _restitution;
 }
 
-float Collision::GetDynamicFriction()
+float Collision::GetDynamicFriction() const noexcept
 {
 	return _dynamicFriction;
 }
 
-float Collision::GetStaticFriction()
+float Collision::GetStaticFriction() const noexcept
 {
 	return _staticFriction;
 }
 
-void Collision::SetNormal(const Vector3& vec)
+void Collision::SetNormal(const Vector3& vec) noexcept
 {
 	_normal = vec;
 }
 
-void Collision::SetPenetration(const float& pen)
+void Collision::SetPenetration(const float& pen) noexcept
 {
 	_penetration = pen;
 }
 
-void Collision::SetRestituation(const float& f)
+void Collision::SetRestituation(const float& f) noexcept
 {
 	_restitution = f;
 }
 
-void Collision::SetDynamicFriction(const float& f)
+void Collision::SetDynamicFriction(const float& f) noexcept
 {
 	_dynamicFriction = f;
 }
 
-void Collision::SetStaticFriction(const float& f)
+void Collision::SetStaticFriction(const float& f) noexcept
 {
 	_staticFriction = f;
 }
@@ -74,15 +79,47 @@ bool Collision::Solve()
 {
 	if (_bodyA == _bodyB)
 		return false;
-	return (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
+
+	// Broad phase
+	float radiusSum = _shapeA->GetRadius() + _shapeB->GetRadius();
+	Vector3 vec = _shapeA->GetCenter() - _shapeB->GetCenter();
+	float distance = vec.GetPow2Magnitude();
+	if (radiusSum * radiusSum < distance)
+		return false;
+
+	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
+	if (isCollide)
+	{
+		// The normal is the unit vector that connect point from shapeA to shapeB
+		// so you have to * -1 on message for shapeB to reverse the unit vector to
+		// point from shapeB to shapeA.
+		// Remember that future me :D ? Or who ever copying this code ~~ god damn do it your self.
+		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody().lock().get(), _shapeB->GetOwnerScript(), _normal);
+		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody().lock().get(), _shapeA->GetOwnerScript(), _normal * -1);
+
+		if (_shapeA->IsTriggerOnly())
+			_shapeACollideTemplate.SetToTrigger();
+		if (_shapeB->IsTriggerOnly())
+			_shapeBCollideTemplate.SetToTrigger();
+
+		_shapeA->SendEvent(_shapeACollideTemplate);			    
+		_shapeB->SendEvent(_shapeBCollideTemplate);
+
+		bool ignoreCollision =	_shapeACollideTemplate.GetIsHandled() | _shapeACollideTemplate.IsCollideWithTrigger() | 
+								_shapeBCollideTemplate.GetIsHandled() | _shapeBCollideTemplate.IsCollideWithTrigger();
+
+		if (ignoreCollision)
+			return false;
+	}
+	return isCollide;
 }
 
 void Collision::Initialize()
 {
 	SMaterial matA = _bodyA->GetMaterial().lock();
 	SMaterial matB = _bodyB->GetMaterial().lock();
-	_restitution = SMath::Min(matA->GetRestitution(), matB->GetRestitution());
 
+	_restitution = std::sqrt(matA->GetRestitution() * matA->GetRestitution() + matB->GetRestitution() * matB->GetRestitution());
 	_staticFriction = std::sqrt(matA->GetStaticFriction() * matA->GetStaticFriction() + matB->GetStaticFriction() * matB->GetStaticFriction());
 	_dynamicFriction = std::sqrt(matA->GetDynamicFriction() * matA->GetDynamicFriction() + matB->GetDynamicFriction() * matB->GetDynamicFriction());
 

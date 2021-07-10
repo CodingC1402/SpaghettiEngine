@@ -10,19 +10,28 @@ bool Physic::Update()
 {
 	bool isRunUpdate = false;
 	_accumulator += GameTimer::GetDeltaTime();
-	if (_accumulator >= _step)
+	while (_accumulator >= _step)
 	{
+		// Update the parameter of all the objects in physic simulation
 		for (auto& obj : _gameObjs) {
 			obj->OnPhysicUpdate();
 		}
 
+		// The actual cal calculation of the physic engine
 		Step();
-		_accumulator = SMath::modulo(_accumulator, _step);
-		isRunUpdate = true;
 
+		// Project the update back to the game engine obj
 		for (auto& script : _rigid2DScripts) {
 			script->AfterPhysicUpdate();
 		}
+
+
+		_accumulator -= _step;
+
+		float interpolateNumber = _accumulator * (1 - _stepInterpolation);
+		interpolateNumber = interpolateNumber > _baseStep ? _baseStep : interpolateNumber;
+		_step = _baseStep * _stepInterpolation + interpolateNumber;
+		isRunUpdate = true;
 	}
 	return isRunUpdate;
 }
@@ -63,12 +72,29 @@ void Physic::Step()
 	for (auto& body : _body2D) {
 		body->SetForce(Vector3(0, 0, 0));
 	}
+
+	// This shit is scary AF stay away from this future me!!!.
+	// Used for exit and enter event on collision : ^) wasteful af and useless af cause
+	// of how unreliable they are.
+	//for (auto iterator = _collidedBody.begin(); iterator != _collidedBody.end();)
+	//{
+	//	if ((*iterator)->SendExitEnterEvent())
+	//	{
+	//		auto toEraseIt = iterator;
+	//		++iterator;
+	//
+	//		_collidedBody.erase(toEraseIt);
+	//	}
+	//	else
+	//		++iterator;
+	//}
 	_contacts.clear();
 }
 
 void Physic::SetStep(const float& step)
 {
 	_step = step;
+	_baseStep = step;
 }
 
 float Physic::GetStep()
@@ -114,6 +140,19 @@ void Physic::AddBody(Body2D* body)
 void Physic::RemoveBody(Body2D* body)
 {
 	ContainerUtil::Erase(_body2D, body);
+	RemoveCollidedBody(body);
+}
+
+void Physic::AddCollidedBody(Body2D* body)
+{
+	_collidedBody.emplace(body);
+}
+
+void Physic::RemoveCollidedBody(Body2D* body)
+{
+	auto it = _collidedBody.find(body);
+	if (it != _collidedBody.end())
+		_collidedBody.erase(it);
 }
 
 void Physic::AddGameObj(GameObj* gameObj)

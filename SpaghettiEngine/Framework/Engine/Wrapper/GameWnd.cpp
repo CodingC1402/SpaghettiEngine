@@ -19,7 +19,10 @@ GameWnd::GameWnd(int width, int height, const wchar_t* name) : Window(width, hei
 {
 	contentWnd = Window::Create(width, height, L"", this, 0, 0);
 	contentWnd->Show();
+
 	this->SetBGBrush(0, 0, 0);
+	this->SetIsFocusOnClick(true);
+	this->SetHideCursor(true);
 }
 
 void GameWnd::OnSizeChanged(UINT width, UINT height)

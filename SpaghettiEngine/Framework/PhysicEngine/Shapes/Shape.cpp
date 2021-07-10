@@ -1,7 +1,8 @@
 #include "Shape.h"
+#include "Body2D.h"
 #include "Physic.h"
 
-WBody2D Shape::GetBody()
+WBody2D Shape::GetBody() const
 {
 	return _body;
 }
@@ -9,26 +10,45 @@ WBody2D Shape::GetBody()
 Shape::Shape()
 {
 	_offSetMatrix = Matrix4::GetDiagonalMatrix();
-	_staticBody = std::make_shared<Body2D>();
-	_body = _staticBody;
+	_radius = 0;
 }
 
-Vector3 Shape::GetGravityVector()
+Shape::~Shape()
+{
+	Physic::RemoveShape(this);
+}
+
+Shape::Type Shape::GetType() const
+{
+	return Shape::Type::Invalid;
+}
+
+Vector3 Shape::GetGravityVector() const
 {
 	return Physic::GetGravity() * _body.lock()->_gravityScale;
 }
 
-float Shape::GetInverseMass()
+void Shape::SetOwnerScript(Collider2DBase* owner)
+{
+	_ownerScript = owner;
+}
+
+Collider2DBase* Shape::GetOwnerScript()
+{
+	return  _ownerScript;
+}
+
+float Shape::GetInverseMass() const
 {
 	return _body.lock()->_inverseMass;
 }
 
-float Shape::GetMass()
+float Shape::GetMass() const
 {
 	return _body.lock()->_mass;
 }
 
-Vector3 Shape::GetVelocity()
+Vector3 Shape::GetVelocity() const
 {
 	return _body.lock()->GetVelocity();
 }
@@ -43,24 +63,39 @@ void Shape::SetOffSetY(const float& y)
 	_offSetMatrix._42 = y;
 }
 
-const float& Shape::GetOffSetX()
+float Shape::GetOffSetX() const
 {
 	return _offSetMatrix._41;
 }
 
-const float& Shape::GetOffSetY()
+float Shape::GetOffSetY() const
 {
 	return _offSetMatrix._42;
 }
 
-Vector3& Shape::GetCenter()
+const Vector3& Shape::GetCenter() const
 {
 	return _center;
 }
 
-float& Shape::GetRadius()
+const float& Shape::GetRadius() const
 {
 	return _radius;
+}
+
+bool Shape::IsTriggerOnly() const
+{
+	return _isTriggerOnly;
+}
+
+void Shape::SetTriggerOnly(bool value)
+{
+	_isTriggerOnly = value;
+}
+
+void Shape::SendEvent(CollideEvent& e)
+{
+	_body.lock()->SendEvent(e);
 }
 
 void Shape::RemoveFromPhysic()
@@ -75,22 +110,9 @@ void Shape::AddToPhysic()
 
 void Shape::SetBody(WBody2D body)
 {
-	if (!_isStatic)
-		return;
-	_body.lock()->RemoveShape(this);
+	if (!_body.expired())
+		_body.lock()->RemoveShape(this);
 	_body = body;
 	_isStatic = false;
-	_staticBody.reset();
 	_body.lock()->AddShape(this);
-}
-
-void Shape::ToStatic()
-{
-	if (_isStatic)
-		return;
-	_body.lock()->RemoveShape(this);
-	_staticBody = std::make_shared<Body2D>();
-	_staticBody->SetWorldMatrix(_body.lock()->GetWorldMatrix());
-	_body = _staticBody;
-	_isStatic = true;
 }

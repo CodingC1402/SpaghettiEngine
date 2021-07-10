@@ -48,17 +48,20 @@ public:
 			break;
 		}
 		_value = input[BTField::inputField][BTField::valueField].get<T>();
-		_field = std::dynamic_pointer_cast<Field<T>>(tree.lock()->GetBlackBoard().lock()->GetField<T>(input[BTField::inputField][BTField::fieldField].get<std::string>()).lock());
+		_field = tree.lock()->GetBlackBoard().lock()->GetField<T>(input[BTField::inputField][BTField::fieldField].get<std::string>());
 		_field.lock()->Subscribe(this);
 		_isTrue = (*_compareFunction)(_field.lock(), _value);
 		DecoratorNode::Load(input, tree);
+	}
+	inline void OnInterrupted() override {
+		DecoratorNode::OnInterrupted();
+		_isRunning = false;
 	}
 	inline void OnChange() override {
 		_isTrue = (*_compareFunction)(_field.lock(), _value);
 		if (_isRunning && !_isTrue)
 		{
 			OnInterrupted();
-			_isRunning = false;
 			_parent.lock()->Tick();
 		}
 	}
@@ -98,12 +101,12 @@ protected:
 		return (*field.get()) != value;
 	}
 protected:
-	bool (*_compareFunction)(std::shared_ptr<Field<T>>, T);
+	bool (*_compareFunction)(std::shared_ptr<Field<T>>, T) = nullptr;
 
 	bool _isTrue = false;
 	bool _isRunning = false;
 	std::weak_ptr<Field<T>> _field;
-	T _value;
+	T _value = {};
 
 	inline static std::unordered_map<std::string, Type> _typeStrings;
 private:

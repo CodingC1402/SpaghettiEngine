@@ -8,9 +8,8 @@ typedef std::weak_ptr<RigidBody2D> WRigidBody2D;
 
 class RigidBody2D : public PhysicScriptBase
 {
+	friend class PhysicComponent;
 public:
-	RigidBody2D(PScene owner, bool isDisabled = false);
-
 	void SetVelocity(const Vector3& velocity);
 	[[nodiscard]] const Vector3& GetVelocity() const;
 
@@ -27,13 +26,17 @@ public:
 
 	void AfterPhysicUpdate();
 
+	PScriptBase Clone() const override;
 	void Load(nlohmann::json& input) override;
+protected:
+	[[nodiscard]] SBody2D GetBody();
 protected:
 	SBody2D _body;
 
 	static constexpr auto _velocityField = "Velocity";
 	static constexpr auto _massField = "Mass";
 	static constexpr auto _gravityScale = "GravityScale";
+	static constexpr auto _materialField = "Material";
 private:
 	REGISTER_START(RigidBody2D);
 };

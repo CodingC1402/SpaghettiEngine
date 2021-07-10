@@ -119,7 +119,7 @@ protected:
 	std::string _description;
 };
 
-#define CONTAINER_REGISTER(containerName, resourceName) Container<resourceName>* Container<resourceName>::_instance = new containerName()
+#define CONTAINER_REGISTER(containerName, resourceName) template<> Container<resourceName>* Container<resourceName>::_instance = new containerName()
 #define RESOURCE_NAME(resourceName) #resourceName
 #define CONTAINER_EXCEPT(containerName, description) ContainerException(__LINE__,__FILE__,containerName,description)
 

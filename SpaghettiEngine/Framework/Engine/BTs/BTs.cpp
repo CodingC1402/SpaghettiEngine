@@ -2,23 +2,27 @@
 #include "Macros.h"
 #include <fstream>
 
+BehaviorTreeFactory::TreeRegister<BTs> BTs::REGISTRY_KEY_BEHAVIOR_TREE("BTs");
+
 BTs::BTs()
 {
 	_root = NodeFactory::Create("Root");
 }
 
-SBTs BTs::Load(const std::string& path)
+std::string BTs::GetType()
+{
+	return "BTs";
+}
+
+void BTs::Load(const std::string& path)
 {
 	std::fstream file;
 	file.open(path);
 	nlohmann::json input;
 	file >> input;
 
-	auto newTree = std::make_shared<BTs>();
-	newTree->AssignPtr(newTree);
-	newTree->_bb = BlackBoard::Load(input[BTField::blackBoardField]);
-	newTree->_root->Load(input, newTree->_this);
-	return newTree;
+	_bb = BlackBoard::Load(input[BTField::blackBoardField]);
+	_root->Load(input, _this);
 }
 
 void BTs::AssignPtr(WBTs ptr)
@@ -38,7 +42,7 @@ WBlackBoard BTs::GetBlackBoard()
 
 SBTs BTs::Clone()
 {
-	auto newTree = std::make_shared<BTs>();
+	auto newTree = BehaviorTreeFactory::MakeShared<BTs>(GetType());
 	newTree->_bb = _bb->Clone();
 	newTree->_root = _root->Clone(newTree);
 	return newTree;

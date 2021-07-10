@@ -6,8 +6,6 @@ class SpriteRenderer : public Render2DScriptBase
 {
 	friend class Graphics;
 public:
-	SpriteRenderer(PScene owner);
-	
 	[[nodiscard]] virtual Matrix4		GetSpriteMatrix()	const noexcept;
 	[[nodiscard]] virtual Vector3		GetCenter()		const noexcept;
 	[[nodiscard]] virtual SSprite		GetSprite()		const noexcept;
@@ -16,6 +14,8 @@ public:
 	
 	virtual void Draw(PCamera camera) override;
 	virtual void Load(nlohmann::json& inputObject) override;
+
+	PScriptBase Clone() const override;
 protected:
 	Matrix4 transformMatrix;
 	SSprite sprite;

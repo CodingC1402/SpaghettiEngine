@@ -9,56 +9,41 @@ typedef int KeyCode;
 typedef std::shared_ptr<KeyBoard> SKeyBoard;
 typedef KeyBoard* PKeyBoard;
 
+class KeyBoardEvent
+{
+public:
+	enum class Type
+	{
+		Press,
+		Release,
+		Invalid
+	};
+private:
+	Type m_tType;
+	unsigned char m_ucCode;
+	bool _isFirstTime = false;
+public:
+	KeyBoardEvent() noexcept;
+	KeyBoardEvent(Type tType, unsigned char ucCode, bool isFirstTime) noexcept;
+
+	[[nodiscard]]bool			IsFirstTime() const noexcept;
+	[[nodiscard]]bool			IsPress() const noexcept;
+	// Only work for is press cause ya know? How can you release twice or more.
+	[[nodiscard]]bool			IsRelease() const noexcept;
+	[[nodiscard]]bool			IsValid() const noexcept;
+	[[nodiscard]]unsigned char	GetCode() const noexcept;
+};
 
 //Singleton
 class KeyBoard
 {
 	friend class Window;
 public:
-	class Event
-	{
-	public:
-		enum class Type
-		{
-			Press,
-			Release,
-			Invalid
-		};
-	private:
-		Type m_tType;
-		unsigned char m_ucCode;
-		bool _isFirstTime = false;
-	public:
-		Event() noexcept : m_tType( Type::Invalid ), m_ucCode( 0u ) {}
-		Event( Type tType, unsigned char ucCode, bool isFirstTime ) noexcept : m_tType( tType ), m_ucCode( ucCode ), _isFirstTime(isFirstTime) {}
-
-		bool IsFirstTime() const noexcept
-		{
-			return _isFirstTime;
-		}
-		bool IsPress() const noexcept
-		{
-			return m_tType == Type::Press;
-		}
-		bool IsRelease() const noexcept
-		{
-			return m_tType == Type::Release;
-		}
-		bool IsValid() const noexcept
-		{
-			return m_tType != Type::Invalid;
-		}
-		unsigned char GetCode() const noexcept
-		{
-			return m_ucCode;
-		}
-	};
-public:
 	KeyBoard( const KeyBoard& ) = delete;
 	KeyBoard& operator=( const KeyBoard& ) = delete;
 
 	bool IsKeyEmpty() noexcept;
-	Event ReadKey() noexcept;
+	KeyBoardEvent ReadKey() noexcept;
 	void ClearKey() noexcept;
 
 	wchar_t ReadChar() noexcept;
@@ -86,7 +71,7 @@ private:
 private:
 	static constexpr unsigned int m_bufferSize = 16u;
 	bool m_autoRepeatEnabled = false;
-	std::queue<Event> m_qKeyBuffer;
+	std::queue<KeyBoardEvent> m_qKeyBuffer;
 	std::queue<wchar_t> m_qCharBuffer;
 
 	static PKeyBoard instance;

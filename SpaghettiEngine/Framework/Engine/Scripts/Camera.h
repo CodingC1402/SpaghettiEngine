@@ -8,10 +8,9 @@ class Camera : public ScriptBase
 {
 	friend class Graphics;
 public:
-	Camera(PScene owner);
 	virtual Matrix4	GetMatrix(const Matrix4& originalMatrix);
 	virtual Matrix4 GetMatrixWithoutScaleY(const Matrix4& originalMatrix);
-	virtual void	OnUpdate() override;
+	virtual void	OnFixedUpdate() override;
 
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;
@@ -19,16 +18,16 @@ public:
 	virtual void	Load(json& input) override;
 
 	virtual void	SetFollow(PGameObj followObj);
-	virtual [[nodiscard]] PGameObj	GetFollow();
+	[[nodiscard]] virtual PGameObj	GetFollow();
 	virtual void	RemoveFollow();
+
+	PScriptBase Clone() const override;
 protected:
 	Matrix4 cameraMatrix;
 	Matrix4 viewMatrix;
 	Matrix4 flipYMatrix;
 	
-	Scene::WBaseComponent _followingPtr;
-	PGameObj _followingObj;
-	float _dragFactor = 0.7f;
+	WGameObj _followingPtr;
 	
 	int oldW = 0;
 	int oldH = 0;

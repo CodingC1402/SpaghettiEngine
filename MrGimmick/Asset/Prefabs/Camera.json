@@ -20,7 +20,7 @@
 		{
 			"ID": 1,
 			"Inputs": {
-				"ScriptType": "Camera"		
+				"ScriptType": "Camera"
 			}
 		}
     ]

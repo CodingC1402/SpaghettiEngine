@@ -1,14 +1,16 @@
 ﻿#include "Texture.h"
 #include "json.hpp"
 #include "Graphics.h"
+#include "DirectX9Graphic.h"
 #include "Sprite.h"
 #include "SpaghettiEnginePath.h"
+
 #include <fstream>
 #include <sstream>
 
 CONTAINER_REGISTER(TextureContainer, Texture);
 
-PImage Texture::GetImage() const
+LPDIRECT3DTEXTURE9 Texture::GetImage() const
 {
 	return image;
 }
@@ -42,7 +44,7 @@ void Texture::Load(const std::string& path)
 		UINT green = file[KeyColor][Green].get<int>();
 		UINT blue = file[KeyColor][Blue].get<int>();
 		auto keyColor = ARGB(red, green, blue, 255);
-		Graphics::LoadTexture(image, path, keyColor);
+		Graphics::GetDirectXGfx()->LoadTexture(image, path, keyColor);
 
 		sprites.reserve(file[Sprites].size());
 		for (int x, y, w, h; const auto& sprite : file[Sprites])

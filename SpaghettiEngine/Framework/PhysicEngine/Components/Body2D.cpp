@@ -2,12 +2,18 @@
 #include "Shape.h"
 #include "SMath.h"
 #include "Physic.h"
+#include "Collider2DBase.h"
 
 SBody2D Body2D::_defaultBody = std::make_shared<Body2D>();
 
 WBody2D Body2D::GetDefaultBody()
 {
 	return _defaultBody;
+}
+
+Body2D::~Body2D()
+{
+	Physic::RemoveBody(this);
 }
 
 void Body2D::AddShape(Shape* shape)
@@ -111,6 +117,29 @@ const float& Body2D::GetGravityScale() const
 	return _gravityScale;
 }
 
+void Body2D::SetGameObject(GameObj* collider)
+{
+	_gameObject = collider;
+}
+
+GameObj* Body2D::GetGameObject() const
+{
+	return _gameObject;
+}
+
+void Body2D::SendEvent(CollideEvent& e)
+{
+	_gameObject->OnCollide(e);
+
+	// This shit is QUACK ~~ unreliable af and waste full AF
+	//_currentCollide.insert(e.GetBody());
+	//
+	//// This is to check if previously the checking list is empty if yes is insert to event list.
+	//// It will be determined to be remove or not in the physic Step() function at the end;
+	//if (_collidedBody.empty())
+	//	Physic::AddCollidedBody(this);
+}
+
 Vector3 Body2D::GetMoveVector()
 {
 	return Vector3();
@@ -123,19 +152,36 @@ float Body2D::GetRotation()
 
 void Body2D::SetMaterial(WMaterial material)
 {
-	_material = material;
+	_material = material.lock();
 }
 
 WMaterial Body2D::GetMaterial() const
 {
-	if (_material.expired())
-		_material = Material::GetDefaultMaterial();
 	return _material;
+}
+
+Body2D* Body2D::Clone() const
+{
+	auto cloneBody = new Body2D();
+
+	cloneBody->_velocity	= _velocity;
+	cloneBody->_force		= _force;
+	cloneBody->_rotation	= _rotation;
+	cloneBody->_mass		= _mass;
+	cloneBody->_inverseMass = _inverseMass;
+	cloneBody->_gravityScale = _gravityScale;
+	cloneBody->_moveVec		= _moveVec;
+	cloneBody->_material	= _material;
+
+	for (const auto& shape : _shapes)
+		cloneBody->_shapes.push_back(shape->Clone());
+
+	return cloneBody;
 }
 
 void Body2D::SetMaterialToDefault()
 {
-	_material = Material::GetDefaultMaterial();
+	_material = Material::GetDefaultMaterial().lock();
 }
 
 void Body2D::SetStatic()

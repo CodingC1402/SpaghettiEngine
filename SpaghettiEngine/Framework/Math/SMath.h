@@ -7,9 +7,19 @@ typedef unsigned long long* PULL;
 typedef const unsigned long long CULL;
 typedef const unsigned long long* PCULL;
 
+typedef unsigned char UnsignedTiny;
+typedef char Tiny;
+
+Tiny operator""_t (unsigned long long value);
+UnsignedTiny operator""_ut (unsigned long long value);
+
+short operator""_s (unsigned long long value);
+unsigned short operator""_us(unsigned long long value);
+
 class SMath
 {
 public:
+	static float	Lerp(const float& start, const float& end, const float t);
 	static float	ToRad(const float& degree);
 	static bool		CompareFloat(float x, float y, float epsilon = 0.000001f);
 	static void		TransformVector3(Vector3& outVec, Vector3& inVec, Matrix4& transformMatrix);
