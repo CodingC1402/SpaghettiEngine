@@ -1,104 +1,40 @@
 #include "AudioPlayer.h"
+#include "LoadingJson.h"
 
-AudioPlayer::AudioPlayer(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed)
-	:
-	masterVolume(masterVol),
-	rng(seed),
-	freqDist(1.0f, freqDev),
-	soundDist(0, wavFiles.size() - 1)
+REGISTER_FINISH(AudioPlayer, ScriptBase) {}
+
+void AudioPlayer::Load(nlohmann::json& inputObject)
 {
-	for (auto& f : wavFiles)
+	try
 	{
-		sounds.emplace_back(f);
+		using LoadingJson::Field;
+
+		std::string _filePath = inputObject["Audio"].get<std::string>();
+
+		_audio = AudioContainer::GetInstance()->GetResource(10001);
+		_audio->Load(_filePath);
 	}
-}
-
-void AudioPlayer::PlayAt(float vol, int pos)
-{
-	if (pos >= sounds.size())
-		return;
-
-	sounds[pos].Play(freqDist(rng), vol * masterVolume);
-}
-
-void AudioPlayer::PlayRandom(float vol)
-{
-	sounds[soundDist(rng)].Play(freqDist(rng), vol * masterVolume);
-}
-
-void AudioPlayer::PlayAll(float vol)
-{
-	for (auto i = sounds.begin(); i != sounds.end(); i++)
+	catch (const CornException& e)
 	{
-		(*i).Play(freqDist(rng), vol * masterVolume);
+		throw SCRIPT_FORMAT_EXCEPT(this, e.What());
 	}
-}
-
-void AudioPlayer::ContinueAt(int pos)
-{
-	if (pos >= sounds.size())
-		return;
-
-	sounds[pos].Continue();
-}
-
-void AudioPlayer::ContinueAll()
-{
-	for (auto i = sounds.begin(); i != sounds.end(); i++)
+	catch (const std::exception& e)
 	{
-		(*i).Continue();
+		throw SCRIPT_FORMAT_EXCEPT(this, StringConverter::StrToWStr(e.what()));
 	}
+	ScriptBase::Load(inputObject);
 }
 
-void AudioPlayer::PauseAt(int pos)
+void AudioPlayer::Play()
 {
-	if (pos >= sounds.size())
-		return;
-
-	sounds[pos].Pause();
+	_audio->PlayRandom(1.0f);
 }
 
-void AudioPlayer::PauseAll()
+PScriptBase AudioPlayer::Clone() const
 {
-	for (auto i = sounds.begin(); i != sounds.end(); i++)
-	{
-		(*i).Pause();
-	}
-}
+	auto clone = dynamic_cast<AudioPlayer*>(ScriptBase::Clone());
 
-void AudioPlayer::StopAt(int pos)
-{
-	if (pos >= sounds.size())
-		return;
+	//clone->_audio = 
 
-	sounds[pos].Stop();
-}
-
-void AudioPlayer::StopAll()
-{
-	for (auto i = sounds.begin(); i != sounds.end(); i++)
-	{
-		(*i).Stop();
-	}
-}
-
-void AudioPlayer::ChangeVolumeAt(float vol, int pos)
-{
-	if (pos >= sounds.size())
-		return;
-
-	sounds[pos].ChangeVolume(vol * masterVolume);
-}
-
-void AudioPlayer::ChangeVolumeAll(float vol)
-{
-	for (auto i = sounds.begin(); i != sounds.end(); i++)
-	{
-		(*i).ChangeVolume(vol * masterVolume);
-	}
-}
-
-void AudioPlayer::ChangeMasterVolume(float vol)
-{
-	masterVolume = vol;
+	return clone;
 }

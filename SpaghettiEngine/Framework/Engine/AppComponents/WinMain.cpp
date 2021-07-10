@@ -7,6 +7,7 @@
 #include "CircleCollider.h"
 #include "RigidBody2D.h"
 #include "Polygon2DCollider.h"
+#include "AudioPlayer.h"
 
 #include "AnimationNode.h"
 #include "TrueFalseLeafNode.h"
@@ -43,6 +44,7 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new CircleCollider(nullptr);
 	dummyScript = new RigidBody2D(nullptr);
 	dummyScript = new Polygon2DCollider(nullptr);
+	dummyScript = new AudioPlayer(nullptr);
 
 	dummyNode = new AnimationNode();
 	dummyNode = new TrueLeaf();

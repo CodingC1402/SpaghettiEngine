@@ -1,6 +1,7 @@
 #include "Audio.h"
 #include "json.hpp"
 #include "SpaghettiEnginePath.h"
+#include "StringConverter.h"
 #include <fstream>
 
 CONTAINER_REGISTER(AudioContainer, Audio);
@@ -25,20 +26,30 @@ void Audio::Load(const std::string& path)
 	}
 	
 	constexpr const char* Sounds = "Sounds";
+	constexpr const char* Frequency = "Frequency";
+	constexpr const char* MasterVolume = "MasterVolume";
 	constexpr const char* Loop = "Loop";
-	constexpr const char* Frames = "Frames";
+
 	int fieldTracker = 0;
 	try
 	{
 		json jsonFile;
 		file >> jsonFile;
-	
-		auto path = jsonFile[Sounds].get<std::wstring>();
-		fieldTracker++;
-	
+
+		rng = std::mt19937(std::random_device()());
+
+		auto tempPath = jsonFile[Sounds].get<std::string>();
+		std::wstring path = StringConverter::StrToWStr(tempPath);
 		_sounds.emplace_back(path);
-	
 		fieldTracker++;
+
+		auto freq = jsonFile[Frequency].get<float>();
+		freqDist = std::normal_distribution(1.0f, freq);
+		fieldTracker++;
+
+		masterVolume = jsonFile[MasterVolume].get<float>();
+		fieldTracker++;
+
 		this->isLoop = jsonFile[Loop].get<bool>();
 	}
 	catch (...)
@@ -51,9 +62,12 @@ void Audio::Load(const std::string& path)
 			os << Sounds;
 			break;
 		case 1:
-			os << Frames;
+			os << Frequency;
 			break;
 		case 2:
+			os << MasterVolume;
+			break;
+		case 3:
 			os << Loop;
 			break;
 		}

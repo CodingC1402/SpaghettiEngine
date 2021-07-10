@@ -1,4 +1,6 @@
 {
   "Sounds": "Asset/SoundEffect/se1.wav",
+  "Frequency": 0.037,
+  "MasterVolume": 0.5,
   "Loop": false
 }

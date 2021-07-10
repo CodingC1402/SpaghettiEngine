@@ -16,7 +16,8 @@
 					{ "ID": 2 },
 					{ "ID": 3 },
 					{ "ID": 4 },
-					{ "ID": 5 }
+					{ "ID": 5 },
+					{ "ID": 6 }
 				]
 			}
 		},
@@ -49,7 +50,7 @@
 			}
 		}
     ],
-    "Scripts": [
+	"Scripts": [
 		{
 			"ID": 1,
 			"Inputs": {
@@ -68,7 +69,7 @@
 
 				"JumpStrength": 230,
 				"GSDropFactor": 4,
-				"GSMin": 1			
+				"GSMin": 1
 			}
 		},
 		{
@@ -76,10 +77,10 @@
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
 				"Vertexes": [
-					[-4, 0],
-					[-4, 6],
-					[4, 6],
-					[4, 0] 
+					[ -4, 0 ],
+					[ -4, 6 ],
+					[ 4, 6 ],
+					[ 4, 0 ]
 				]
 			}
 		},
@@ -101,6 +102,13 @@
 			}
 		},
 		{
+			"ID": 6,
+			"Inputs": {
+				"ScriptType": "AudioPlayer",
+				"Audio": "Asset/Audio/Jumping.json"
+			}
+		},
+		{
 			"ID": 2001,
 			"Inputs": {
 				"ScriptType": "FeetScript"
@@ -112,10 +120,10 @@
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
 				"Vertexes": [
-					[-2,  2],
-					[-2, -4],
-					[ 2, -4],
-					[ 2,  2] 
+					[ -2, 2 ],
+					[ -2, -4 ],
+					[ 2, -4 ],
+					[ 2, 2 ]
 				]
 			}
 		},
@@ -131,12 +139,12 @@
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
 				"Vertexes": [
-					[-1, -2],
-					[-1,  2],
-					[ 1,  2],
-					[ 1, -2] 
+					[ -1, -2 ],
+					[ -1, 2 ],
+					[ 1, 2 ],
+					[ 1, -2 ]
 				]
-			}	
+			}
 		}
-    ]
+	]
 }

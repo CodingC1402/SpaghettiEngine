@@ -1,34 +1,16 @@
 #pragma once
-#include "Sound.h"
-#include <random>
-#include <initializer_list>
+#include "Audio.h"
+#include "ScriptBase.h"
 
-class AudioPlayer
+class AudioPlayer : public ScriptBase
 {
 public:
-	AudioPlayer() = default;
-	AudioPlayer(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed);
+	virtual void Load(nlohmann::json& inputObject) override;
+	virtual void Play();
 
-	void PlayAt(float vol, int pos);
-	void PlayRandom(float vol);
-	void PlayAll(float vol);
-
-	void ContinueAt(int pos);
-	void ContinueAll();
-
-	void PauseAt(int pos);
-	void PauseAll();
-
-	void StopAt(int pos);
-	void StopAll();
-
-	void ChangeVolumeAt(float vol, int pos);
-	void ChangeVolumeAll(float vol);
-	void ChangeMasterVolume(float vol);
+	PScriptBase Clone() const override;
+protected:
+	SAudio _audio;
 private:
-	float masterVolume = 1.0f;
-	std::mt19937 rng;
-	std::uniform_int_distribution<unsigned int> soundDist;
-	std::normal_distribution<float> freqDist;
-	std::vector<Sound> sounds;
+	REGISTER_START(AudioPlayer);
 };
