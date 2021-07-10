@@ -5,8 +5,6 @@
 class HeadScript : public ScriptBase
 {
 public:
-	HeadScript(PScene owner, bool isDisabled = true);
-
 	void OnStart() override;
 	void OnFixedUpdate() override;
 	void OnCollide(CollideEvent& e) override;

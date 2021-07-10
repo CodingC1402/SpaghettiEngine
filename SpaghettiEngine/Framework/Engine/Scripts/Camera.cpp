@@ -2,10 +2,10 @@
 #include "Setting.h"
 #include "Graphics.h"
 #include "LoadingJson.h"
+#include "GameTimer.h"
+#include "SMath.h"
 
-REGISTER_FINISH(Camera);
-
-Camera::Camera(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
+REGISTER_FINISH(Camera, ScriptBase) 
 {
 	viewMatrix._11 = 1;
 	viewMatrix._22 = -1;
@@ -39,7 +39,7 @@ void Camera::OnFixedUpdate()
 	if (_followingPtr.use_count() > 0)
 	{
 		const Vector3 delta = _followingPtr.lock()->GetTransform().GetWorldTransform() - GetGameObject()->GetTransform().GetWorldTransform();
-		GetGameObject()->GetTransform().Translate(delta * _dragFactor);
+		GetGameObject()->GetTransform().Translate(delta);
 	}
 	viewMatrix._41 = static_cast<float>(Setting::GetResolution().width) / 2.0f;
 	viewMatrix._42 = static_cast<float>(Setting::GetResolution().height) / 2.0f;
@@ -87,7 +87,6 @@ PScriptBase Camera::Clone() const
 {
 	auto clone = dynamic_cast<Camera*>(ScriptBase::Clone());
 
-	clone->_dragFactor = _dragFactor;
 	clone->_followingPtr = _followingPtr;
 	clone->oldH = oldH;
 	clone->oldW = oldW;

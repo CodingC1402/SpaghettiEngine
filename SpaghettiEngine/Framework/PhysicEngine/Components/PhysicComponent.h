@@ -1,8 +1,9 @@
 #pragma once
-#include <list>
-#include <deque>
 #include "Macros.h"
 
+#include <set>
+
+CLASS_FORWARD_DECLARATION(RigidBody2D);
 CLASS_FORWARD_DECLARATION(Body2D);
 CLASS_FORWARD_DECLARATION(PhysicScriptBase);
 CLASS_FORWARD_DECLARATION(Collider2DBase);
@@ -16,18 +17,20 @@ public:
 	public:
 		Component2D(GameObj* owner);
 
-		void ChangeBody(WBody2D body);
-		void RemoveBody(WBody2D body);
+		void ChangeBody(RigidBody2D* script);
+		void RemoveBody(RigidBody2D* script);
 
 		void CallOnChange();
 		void Subscribe(Collider2DBase* collider);
 		void UnSubscribe(Collider2DBase* collider);
 
-		[[nodiscard]] WBody2D GetBody2D();
+		[[nodiscard]] RigidBody2D* GetRigidBodyScript() const noexcept;
+		[[nodiscard]] WBody2D GetBody2D() const noexcept;
 	protected:
-		GameObj* _owner;
+		GameObj* _owner = nullptr;
 		SBody2D _body;
-		std::list<Collider2DBase*> _colliders;
+		RigidBody2D* _bodyScript = nullptr;
+		std::set<Collider2DBase*> _colliders;
 	};
 
 	class Component3D
@@ -43,14 +46,17 @@ public:
 	void AddPhysicComponent(PhysicScriptBase* component);
 	void RemovePhysicComponent(PhysicScriptBase* component);
 
-	void Set2DBody(WBody2D body);
-	void Remove2DBody(WBody2D body);
-	WBody2D GetBody2D();
+	void Set2DBody		(RigidBody2D* script);
+	void Remove2DBody	(RigidBody2D* script);
+
+	[[nodiscard]] WBody2D GetBody2D() const noexcept;
+	[[nodiscard]] RigidBody2D* GetRigidBody2DScript() const noexcept;
+
 	PhysicComponent(GameObj* owner);
 protected:
-	std::deque<PhysicScriptBase*> _physicComponents;
+	std::set<PhysicScriptBase*> _physicComponents;
 
-	Component2D _2DComponents;
-	Component3D _3DComponents;
+	mutable Component2D _2DComponents;
+	mutable Component3D _3DComponents;
 	GameObj* _owner;
 };

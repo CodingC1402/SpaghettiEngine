@@ -4,12 +4,7 @@
 #include "Setting.h"
 #include "LoadingJson.h"
 
-REGISTER_FINISH(Animator);
-
-Animator::Animator(PScene owner, bool isDisabled)
-	:
-	Render2DScriptBase(owner, isDisabled)
-{}
+REGISTER_FINISH(Animator, Render2DScriptBase) {}
 
 void Animator::OnUpdate()
 {

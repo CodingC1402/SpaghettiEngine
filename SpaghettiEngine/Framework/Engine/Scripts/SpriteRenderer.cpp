@@ -5,9 +5,7 @@
 #include "SMath.h"
 #include "Setting.h"
 
-REGISTER_FINISH(SpriteRenderer);
-
-SpriteRenderer::SpriteRenderer(PScene owner, bool isDisabled) : Render2DScriptBase(owner, isDisabled)
+REGISTER_FINISH(SpriteRenderer, Render2DScriptBase)
 {
 	transformMatrix._11 = 1;
 

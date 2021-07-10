@@ -2,10 +2,7 @@
 #include "GameTimer.h"
 #include "FieldNames.h"
 
-REGISTER_FINISH(StarScript);
-
-StarScript::StarScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
-{}
+REGISTER_FINISH(StarScript, ScriptBase) {}
 
 void StarScript::OnStart()
 {

@@ -1,6 +1,6 @@
 #include "LevelSegment.h"
 
-REGISTER_FINISH(LevelSegment);
+REGISTER_FINISH(LevelSegment, ScriptBase) {}
 
 void LevelSegment::PlayerEnter()
 {
@@ -18,6 +18,3 @@ void LevelSegment::PlayerExit()
 		enemy->CallDestroy();
 	_currentEnemies.clear();
 }
-
-LevelSegment::LevelSegment(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
-{}

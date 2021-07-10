@@ -5,7 +5,6 @@
 class LevelSegment : public ScriptBase
 {
 public:
-	LevelSegment(PScene owner, bool isDisabled = false);
 	void PlayerEnter();
 	void PlayerExit();
 protected:

@@ -8,8 +8,6 @@ class StarScript : public ScriptBase
 {
 	friend class StarCreation;
 public:
-	StarScript(PScene owner, bool isDisabled = false);
-
 	void OnStart() override;
 	void OnUpdate() override;
 

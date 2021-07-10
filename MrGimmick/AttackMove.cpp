@@ -2,10 +2,7 @@
 #include "LoadingJson.h"
 #include "FieldNames.h"
 
-REGISTER_FINISH(AttackMove);
-
-AttackMove::AttackMove(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
-{}
+REGISTER_FINISH(AttackMove, ScriptBase) {}
 
 void AttackMove::OnStart()
 {

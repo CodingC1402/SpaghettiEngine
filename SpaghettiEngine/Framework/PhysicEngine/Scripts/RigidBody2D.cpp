@@ -3,9 +3,7 @@
 #include "Physic.h"
 #include "MaterialContainer.h"
 
-REGISTER_FINISH(RigidBody2D);
-
-RigidBody2D::RigidBody2D(PScene owner, bool isDisabled) : PhysicScriptBase(owner, isDisabled)
+REGISTER_FINISH(RigidBody2D, PhysicScriptBase)
 {
 	_body = std::make_shared<Body2D>();
 }
@@ -14,7 +12,7 @@ void RigidBody2D::OnDisabled()
 {
 	PhysicScriptBase::OnDisabled();
 
-	GetGameObject()->GetPhysicComponent().Remove2DBody(_body);
+	GetGameObject()->GetPhysicComponent().Remove2DBody(this);
 	Physic::RemoveRigid2DScript(this);
 	Physic::RemoveBody(_body.get());
 }
@@ -23,7 +21,7 @@ void RigidBody2D::OnEnabled()
 {
 	PhysicScriptBase::OnEnabled();
 
-	GetGameObject()->GetPhysicComponent().Set2DBody(_body);
+	GetGameObject()->GetPhysicComponent().Set2DBody(this);
 	Physic::AddRigid2DScript(this);
 	Physic::AddBody(_body.get());
 }
@@ -57,6 +55,11 @@ void RigidBody2D::Load(nlohmann::json& input)
 		_body->SetGravityScale(input[_gravityScale].get<float>());
 	if (input[_materialField] != nullptr)
 		_body->SetMaterial(MaterialContainer::GetInstance()->GetResource(input[_materialField].get<CULL>()));
+}
+
+SBody2D RigidBody2D::GetBody()
+{
+	return _body;
 }
 
 void RigidBody2D::SetVelocity(const Vector3& velocity)

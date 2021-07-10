@@ -8,7 +8,6 @@ class Camera : public ScriptBase
 {
 	friend class Graphics;
 public:
-	Camera(PScene owner, bool isDisabled = false);
 	virtual Matrix4	GetMatrix(const Matrix4& originalMatrix);
 	virtual Matrix4 GetMatrixWithoutScaleY(const Matrix4& originalMatrix);
 	virtual void	OnFixedUpdate() override;
@@ -29,7 +28,6 @@ protected:
 	Matrix4 flipYMatrix;
 	
 	WGameObj _followingPtr;
-	float _dragFactor = 1.0f;
 	
 	int oldW = 0;
 	int oldH = 0;

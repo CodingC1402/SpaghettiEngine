@@ -6,8 +6,6 @@ class Circle;
 class CircleCollider : public Collider2DBase
 {
 public:
-	CircleCollider(PScene owner, bool isDisabled = false);
-
 	void OnFixedUpdate() override;
 
 	void Load(nlohmann::json& input) override;

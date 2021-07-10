@@ -356,6 +356,9 @@
     <ClInclude Include="Framework\Utilities\StringUtil.h">
       <Filter>FrameWork\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Surface.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -609,6 +612,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Utilities\StringUtil.cpp">
       <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Surface.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

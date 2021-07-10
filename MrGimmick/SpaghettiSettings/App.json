@@ -1,6 +1,6 @@
 {
   "Name": "Mr Gimmick",
-  "Fps": 60,
+  "Fps": 30,
   "Resolution": {
     "Width": 256,
     "Height": 224
@@ -8,7 +8,7 @@
   "PixelPerfectResolution": true,
   "PixelPerfectWorldPoint": true,
   "Gravity": 120,
-  "PhysicStep": 0.02,
+  "PhysicStep": 0.01,
   "Tags": [
     "Character",
     "Player",

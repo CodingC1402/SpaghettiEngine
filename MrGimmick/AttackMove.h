@@ -11,8 +11,6 @@ typedef std::shared_ptr<InputAll> SInputAll;
 class AttackMove : public ScriptBase
 {
 public:
-	AttackMove(PScene owner, bool isDisabled = false);
-
 	void OnStart() override;
 	void OnUpdate() override;
 	void Load(nlohmann::json& input);

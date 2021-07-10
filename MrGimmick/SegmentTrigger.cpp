@@ -1,10 +1,7 @@
 #include "SegmentTrigger.h"
 #include "FieldNames.h"
 
-REGISTER_FINISH(SegmentTrigger);
-
-SegmentTrigger::SegmentTrigger(PScene scene, bool isDisabled) : ScriptBase(scene, isDisabled)
-{}
+REGISTER_FINISH(SegmentTrigger, ScriptBase) {}
 
 void SegmentTrigger::OnCollide(CollideEvent& e)
 {

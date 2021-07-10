@@ -1,12 +1,7 @@
 #include "HeadScript.h"
 #include "FieldNames.h"
 
-REGISTER_FINISH(HeadScript);
-
-// save compute time, doesn't need to recreate tag
-
-HeadScript::HeadScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
-{}
+REGISTER_FINISH(HeadScript, ScriptBase) {}
 
 void HeadScript::OnStart()
 {

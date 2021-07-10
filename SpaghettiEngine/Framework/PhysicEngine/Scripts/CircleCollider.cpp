@@ -4,9 +4,7 @@
 #include "Physic.h"
 #include "DebugRenderer.h"
 
-REGISTER_FINISH(CircleCollider);
-
-CircleCollider::CircleCollider(PScene owner, bool isDisabled) : Collider2DBase(owner, isDisabled)
+REGISTER_FINISH(CircleCollider, Collider2DBase)
 {
 	_shapes.push_back(std::make_shared<Circle>());
 }

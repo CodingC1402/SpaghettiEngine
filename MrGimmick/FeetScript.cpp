@@ -1,10 +1,7 @@
 #include "FeetScript.h"
 #include "FieldNames.h"
 
-REGISTER_FINISH(FeetScript);
-
-FeetScript::FeetScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
-{}
+REGISTER_FINISH(FeetScript, ScriptBase) {}
 
 void FeetScript::OnStart()
 {

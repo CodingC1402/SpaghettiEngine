@@ -5,7 +5,7 @@
 #include "FieldNames.h"
 #include "FieldNames.h"
 
-REGISTER_FINISH(MoveScript);
+REGISTER_FINISH(MoveScript, ScriptBase) {}
 
 void MoveScript::Load(nlohmann::json& input)
 {
@@ -17,9 +17,6 @@ void MoveScript::Load(nlohmann::json& input)
 	_gsDropFactor =	input[Fields::Player::_gsDropFactor].get<float>();
 	_minGravityScale = input[Fields::Player::_gsMin].get<float>();
 }
-
-MoveScript::MoveScript(PScene owner, bool isDisabled) : ScriptBase(owner, isDisabled)
-{}
 
 void MoveScript::OnStart()
 {

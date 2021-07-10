@@ -14,14 +14,10 @@
 using namespace nlohmann;
 using namespace std;
 
-REGISTER_FINISH(TileMapRenderer);
-
-TileMapRenderer::TileMapRenderer(PScene owner, bool isDisabled) 
-	: 
-	Render2DScriptBase(owner, isDisabled), 
-	width(0), 
-	height(0), 
-	tileWidth(0), 
+REGISTER_FINISH(TileMapRenderer, Render2DScriptBase),
+	width(0),
+	height(0),
+	tileWidth(0),
 	tileHeight(0)
 {}
 
