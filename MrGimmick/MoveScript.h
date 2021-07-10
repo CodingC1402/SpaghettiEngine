@@ -3,7 +3,7 @@
 #include "Camera.h"
 #include "InputSystem.h"
 #include "RigidBody2D.h"
-#include "Audio.h"
+#include "AudioPlayer.h"
 
 class MoveScript : public ScriptBase
 {
@@ -28,7 +28,7 @@ protected:
 	Vector3 move;
 	bool isFlipped = false;
 
-	Audio sound;
+	AudioPlayer sound;
 private:
 	static constexpr auto SpeedCapField = "SpeedCap";
 	static constexpr auto JumpStrengthField = "JumpStrength";

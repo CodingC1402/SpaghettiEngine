@@ -1,6 +1,6 @@
-#include "Audio.h"
+#include "AudioPlayer.h"
 
-Audio::Audio(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed)
+AudioPlayer::AudioPlayer(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed)
 	:
 	masterVolume(masterVol),
 	rng(seed),
@@ -13,7 +13,7 @@ Audio::Audio(const std::initializer_list<std::wstring>& wavFiles, float freqDev,
 	}
 }
 
-void Audio::PlayAt(float vol, int pos)
+void AudioPlayer::PlayAt(float vol, int pos)
 {
 	if (pos >= sounds.size())
 		return;
@@ -21,12 +21,12 @@ void Audio::PlayAt(float vol, int pos)
 	sounds[pos].Play(freqDist(rng), vol * masterVolume);
 }
 
-void Audio::PlayRandom(float vol)
+void AudioPlayer::PlayRandom(float vol)
 {
 	sounds[soundDist(rng)].Play(freqDist(rng), vol * masterVolume);
 }
 
-void Audio::PlayAll(float vol)
+void AudioPlayer::PlayAll(float vol)
 {
 	for (auto i = sounds.begin(); i != sounds.end(); i++)
 	{
@@ -34,7 +34,7 @@ void Audio::PlayAll(float vol)
 	}
 }
 
-void Audio::ContinueAt(int pos)
+void AudioPlayer::ContinueAt(int pos)
 {
 	if (pos >= sounds.size())
 		return;
@@ -42,7 +42,7 @@ void Audio::ContinueAt(int pos)
 	sounds[pos].Continue();
 }
 
-void Audio::ContinueAll()
+void AudioPlayer::ContinueAll()
 {
 	for (auto i = sounds.begin(); i != sounds.end(); i++)
 	{
@@ -50,7 +50,7 @@ void Audio::ContinueAll()
 	}
 }
 
-void Audio::PauseAt(int pos)
+void AudioPlayer::PauseAt(int pos)
 {
 	if (pos >= sounds.size())
 		return;
@@ -58,7 +58,7 @@ void Audio::PauseAt(int pos)
 	sounds[pos].Pause();
 }
 
-void Audio::PauseAll()
+void AudioPlayer::PauseAll()
 {
 	for (auto i = sounds.begin(); i != sounds.end(); i++)
 	{
@@ -66,7 +66,7 @@ void Audio::PauseAll()
 	}
 }
 
-void Audio::StopAt(int pos)
+void AudioPlayer::StopAt(int pos)
 {
 	if (pos >= sounds.size())
 		return;
@@ -74,7 +74,7 @@ void Audio::StopAt(int pos)
 	sounds[pos].Stop();
 }
 
-void Audio::StopAll()
+void AudioPlayer::StopAll()
 {
 	for (auto i = sounds.begin(); i != sounds.end(); i++)
 	{
@@ -82,7 +82,7 @@ void Audio::StopAll()
 	}
 }
 
-void Audio::ChangeVolumeAt(float vol, int pos)
+void AudioPlayer::ChangeVolumeAt(float vol, int pos)
 {
 	if (pos >= sounds.size())
 		return;
@@ -90,7 +90,7 @@ void Audio::ChangeVolumeAt(float vol, int pos)
 	sounds[pos].ChangeVolume(vol * masterVolume);
 }
 
-void Audio::ChangeVolumeAll(float vol)
+void AudioPlayer::ChangeVolumeAll(float vol)
 {
 	for (auto i = sounds.begin(); i != sounds.end(); i++)
 	{
@@ -98,7 +98,7 @@ void Audio::ChangeVolumeAll(float vol)
 	}
 }
 
-void Audio::ChangeMasterVolume(float vol)
+void AudioPlayer::ChangeMasterVolume(float vol)
 {
 	masterVolume = vol;
 }

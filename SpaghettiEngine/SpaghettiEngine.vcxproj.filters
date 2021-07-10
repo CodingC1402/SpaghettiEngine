@@ -293,8 +293,11 @@
     <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\Audio.h">
+    <ClInclude Include="Framework\Engine\Scripts\AudioPlayer.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Containers\Audio.h">
+      <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -502,8 +505,11 @@
     <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp">
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\Audio.cpp">
+    <ClCompile Include="Framework\Engine\Scripts\AudioPlayer.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Containers\Audio.cpp">
+      <Filter>FrameWork\Engine\Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

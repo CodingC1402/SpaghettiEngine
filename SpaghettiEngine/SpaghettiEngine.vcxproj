@@ -35,6 +35,7 @@
     <ClInclude Include="Framework\Engine\BTs\SequenceNode.h" />
     <ClInclude Include="Framework\Engine\BTs\ServiceNodes.h" />
     <ClInclude Include="Framework\Engine\Containers\Animation.h" />
+    <ClInclude Include="Framework\Engine\Containers\Audio.h" />
     <ClInclude Include="Framework\Engine\Containers\Prefabs.h" />
     <ClInclude Include="Framework\Engine\Containers\ResourceContainer.h" />
     <ClInclude Include="Framework\Engine\Containers\Sprite.h" />
@@ -46,7 +47,7 @@
     <ClInclude Include="Framework\Engine\GameComponents\Scene.h" />
     <ClInclude Include="Framework\Engine\GameComponents\SceneManager.h" />
     <ClInclude Include="Framework\Engine\Scripts\Animator.h" />
-    <ClInclude Include="Framework\Engine\Scripts\Audio.h" />
+    <ClInclude Include="Framework\Engine\Scripts\AudioPlayer.h" />
     <ClInclude Include="Framework\Engine\Scripts\Camera.h" />
     <ClInclude Include="Framework\Engine\Scripts\LineRenderBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\Render2DScriptBase.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="Framework\Engine\BTs\SequenceNode.cpp" />
     <ClCompile Include="Framework\Engine\BTs\ServiceNodes.cpp" />
     <ClCompile Include="Framework\Engine\Containers\Animation.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\Audio.cpp" />
     <ClCompile Include="Framework\Engine\Containers\Prefabs.cpp" />
     <ClCompile Include="Framework\Engine\Containers\ResourceContainer.cpp" />
     <ClCompile Include="Framework\Engine\Containers\Sprite.cpp" />
@@ -123,7 +125,7 @@
     <ClCompile Include="Framework\Engine\GameComponents\Scene.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\SceneManager.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp" />
-    <ClCompile Include="Framework\Engine\Scripts\Audio.cpp" />
+    <ClCompile Include="Framework\Engine\Scripts\AudioPlayer.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\LineRenderBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Render2DScriptBase.cpp" />

@@ -3,11 +3,11 @@
 #include <random>
 #include <initializer_list>
 
-class Audio
+class AudioPlayer
 {
 public:
-	Audio() = default;
-	Audio(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed);
+	AudioPlayer() = default;
+	AudioPlayer(const std::initializer_list<std::wstring>& wavFiles, float freqDev, float masterVol, unsigned int seed);
 
 	void PlayAt(float vol, int pos);
 	void PlayRandom(float vol);
