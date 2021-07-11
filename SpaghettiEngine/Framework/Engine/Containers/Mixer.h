@@ -2,6 +2,7 @@
 #include <memory>
 #include <random>
 #include <initializer_list>
+#include <unordered_map>
 #include "Sound.h"
 #include "ResourceContainer.h"
 
@@ -15,6 +16,8 @@ class Mixer : public Resource
 public:
 	Mixer();
 	void Load(const std::string& path) override;
+
+	[[nodiscard]] int GetIndexPosition(std::string name);
 
 	void PlayAt(float vol, int pos);
 	void PlayRandom(float vol);
@@ -38,6 +41,7 @@ protected:
 	std::uniform_int_distribution<unsigned int> soundDist;
 	std::normal_distribution<float> freqDist;
 	std::vector<Sound> _sounds;
+	std::unordered_map<std::string, int> _soundMap;
 	bool isLoop;
 };
 

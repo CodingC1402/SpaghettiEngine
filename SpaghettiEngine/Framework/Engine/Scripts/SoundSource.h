@@ -11,6 +11,7 @@ public:
 	PScriptBase Clone() const override;
 protected:
 	SMixer _audio;
+	int index;
 private:
 	REGISTER_START(SoundSource);
 };

@@ -5,14 +5,16 @@ REGISTER_FINISH(SoundSource, ScriptBase) {}
 
 void SoundSource::Load(nlohmann::json& inputObject)
 {
+	constexpr const char* ID = "ID";
+	constexpr const char* Name = "Name";
+
 	try
 	{
 		using LoadingJson::Field;
 
-		std::string _filePath = inputObject["Audio"].get<std::string>();
-
-		_audio = MixerContainer::GetInstance()->GetResource(10001);
-		//_audio->Load(_filePath);
+		_audio = MixerContainer::GetInstance()->GetResource(inputObject[ID].get<CULL>());
+		string name = inputObject[Name].get<std::string>();
+		index = _audio->GetIndexPosition(name);
 	}
 	catch (const CornException& e)
 	{
@@ -27,7 +29,7 @@ void SoundSource::Load(nlohmann::json& inputObject)
 
 void SoundSource::Play()
 {
-	_audio->PlayAt(1.0f, 0);
+	_audio->PlayAt(1.0f, index);
 }
 
 PScriptBase SoundSource::Clone() const

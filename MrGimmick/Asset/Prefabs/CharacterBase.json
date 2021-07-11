@@ -105,7 +105,8 @@
 			"ID": 6,
 			"Inputs": {
 				"ScriptType": "SoundSource",
-				"Audio": "Asset/Audio/Jumping.json"
+				"ID": 10001,
+				"Name": "se4"
 			}
 		},
 		{

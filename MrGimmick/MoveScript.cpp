@@ -87,6 +87,7 @@ void MoveScript::JumpAction()
 
 	if (_isGrounded && _isAllowJump && _jumpInput->CheckKeyPress())
 	{
+		_audio->Play();
 
 		_isJumping = true;
 		_gravityScale = _rigidBody->GetGravityScale();

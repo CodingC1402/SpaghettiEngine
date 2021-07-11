@@ -37,10 +37,22 @@ void Mixer::Load(const std::string& path)
 		file >> jsonFile;
 
 		rng = std::mt19937(std::random_device()());
+		std::string folder = "Asset/Audio/";
+		std::string extention = ".wav";
+		int index = 0;
 
-		auto tempPath = jsonFile[Sounds].get<std::string>();
-		std::wstring path = StringConverter::StrToWStr(tempPath);
-		_sounds.emplace_back(path);
+		for (std::string sfilePath : jsonFile[Sounds])
+		{
+			std::wstring path = StringConverter::StrToWStr(sfilePath);
+			_sounds.emplace_back(path);
+
+			std::string name = sfilePath.erase(sfilePath.find(folder), folder.length());
+			name = name.erase(name.find(extention), extention.length());
+
+			_soundMap.insert(std::make_pair(name, index));
+			index++;
+		}
+
 		fieldTracker++;
 
 		auto freq = jsonFile[Frequency].get<float>();
@@ -75,6 +87,19 @@ void Mixer::Load(const std::string& path)
 	
 		os << "[Exception] Field doesn't have the right format";
 		throw RESOURCE_LOAD_EXCEPTION(os.str(), Mixer);
+	}
+}
+
+int Mixer::GetIndexPosition(std::string name)
+{
+	try
+	{
+		auto it = _soundMap.find(name);
+		return it->second;
+	}
+	catch (...)
+	{
+
 	}
 }
 
