@@ -1,61 +1,68 @@
 #include "Surface.h"
+#include "ScriptField.h"
+#include "Physic.h"
 #include <functional>
 
 REGISTER_FINISH(Surface, ScriptBase) {}
 
 void Surface::OnCollide(CollideEvent& e)
 {
-	auto rb = e.GetGameObject()->GetPhysicComponent().GetRigidBody2DScript();
-	if (!rb)
+	auto obj = e.GetGameObject();
+	auto rb = obj->GetPhysicComponent().GetRigidBody2DScript();
+	if (!rb || GetGameObject()->GetTag().Collide(obj->GetTag()))
 		return;
 
 	_collideNow.emplace(rb);
 }
 
-void ChangeVel(const std::set<RigidBody2D*>& rbSet, float vel)
+void Surface::OnFixedUpdate()
 {
-	Vector3 newVel;
-	for (auto& rb : rbSet)
+	_collided = std::move(_collideNow);
+	_collideNow.clear();
+	for (auto& rb : _collided)
 	{
-		newVel = rb->GetVelocity();
-		newVel.x += vel;
-		rb->SetVelocity(newVel);
+		rb->GetGameObject()->GetTransform().Translate(_moveVec * Physic::GetStep());
 	}
 }
 
-void Surface::OnFixedUpdate()
+NLOHMANN_JSON_SERIALIZE_ENUM(Surface::Direction, {
+	{Surface::Direction::Up, "Up"},
+	{Surface::Direction::Down, "Down"},
+	{Surface::Direction::Left, "Left"},
+	{Surface::Direction::Right, "Right"},
+	})
+
+void Surface::Load(nlohmann::json& input)
 {
-	auto oldIt = _collided.begin();
-	auto newIt = _collideNow.begin();
+	ScriptBase::Load(input);
 
-	std::set<RigidBody2D*> exit;
-	std::set<RigidBody2D*> enter;
+	_direction = input[Fields::Surface::GetDirectionField()].get<Direction>();
+	auto vel = input[Fields::Surface::GetVelocityField()].get<float>();
+	_ignoreTags = Tag(input[Fields::Surface::GetIgnoreTag()]);
 
-	while (oldIt != _collided.end() && newIt != _collideNow.end())
+	switch (_direction)
 	{
-		if (*oldIt == *newIt)
-		{
-			++oldIt;
-			++newIt;
-		}
-		else if (*oldIt > *newIt)
-		{
-			enter.insert(*newIt);
-			++newIt;
-		}
-		else if (*oldIt < *newIt)
-		{
-			exit.insert(*newIt);
-			++oldIt;
-		}
+	case Surface::Direction::Down:
+		vel *= -1;
+		[[fallthrough]];
+	case Surface::Direction::Up:
+		_moveVec.y = vel;
+		break;
+	[[likely]] case Surface::Direction::Left:
+		vel *= -1;
+		[[fallthrough]];
+	[[likely]] case Surface::Direction::Right:
+		_moveVec.x = vel;
+		break;
 	}
+}
 
-	exit.insert(oldIt, _collided.end());
-	enter.insert(newIt, _collideNow.end());
+ScriptBase* Surface::Clone() const
+{
+	auto clone = dynamic_cast<Surface*>(ScriptBase::Clone());
 
-	ChangeVel(exit, -_increaseVel);
-	ChangeVel(enter, _increaseVel);
+	clone->_moveVec = _moveVec;
+	clone->_direction = _direction;
 
-	_collided = std::move(_collideNow);
-	_collideNow.clear();
+	return clone;
 }

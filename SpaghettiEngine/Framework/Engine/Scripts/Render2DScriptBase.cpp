@@ -1,5 +1,6 @@
 #include "Render2DScriptBase.h"
 #include "Graphics.h"
+#include "ScriptField.h"
 
 REGISTER_FINISH(Render2DScriptBase, ScriptBase) {}
 
@@ -20,15 +21,15 @@ void Render2DScriptBase::OnDisabled()
 
 void Render2DScriptBase::Load(nlohmann::json& inputObject)
 {
+	using Fields::Render2DScriptBase;
 
-	static constexpr const char* DrawLayer = "DrawLayer";
 	try
 	{
-		_drawLayer = inputObject[DrawLayer] == nullptr ? 0 : inputObject[DrawLayer].get<int>();
+		_drawLayer = inputObject[Render2DScriptBase::GetDrawLayerField()] == nullptr ? 0 : inputObject[Render2DScriptBase::GetDrawLayerField()].get<int>();
 		if (_drawLayer < 0 || _drawLayer > 31)
 		{
 			std::wostringstream os;
-			os << "\n[Error Field] " << DrawLayer << "\n[Exception] DrawLayer can only be from 0 to 31";
+			os << "\n[Error Field] " << Render2DScriptBase::GetDrawLayerField() << "\n[Exception] DrawLayer can only be from 0 to 31";
 			throw SCRIPT_FORMAT_EXCEPT(this, os.str());
 		}
 	}
@@ -39,7 +40,7 @@ void Render2DScriptBase::Load(nlohmann::json& inputObject)
 	catch (const std::exception& e)
 	{
 		std::wostringstream os;
-		os << "\n[Error Field] " << DrawLayer << "\n[Exception] " << e.what();
+		os << "\n[Error Field] " << Render2DScriptBase::GetDrawLayerField() << "\n[Exception] " << e.what();
 	}
 
 	ScriptBase::Load(inputObject);

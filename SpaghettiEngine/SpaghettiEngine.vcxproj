@@ -64,6 +64,7 @@
     <ClInclude Include="Framework\Engine\Scripts\Camera.h" />
     <ClInclude Include="Framework\Engine\Scripts\Render2DScriptBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\ScriptBase.h" />
+    <ClInclude Include="Framework\Engine\Scripts\ScriptField.h" />
     <ClInclude Include="Framework\Engine\Scripts\SpriteRenderer.h" />
     <ClInclude Include="Framework\Engine\Scripts\Surface.h" />
     <ClInclude Include="Framework\Engine\Scripts\TileMapRenderer.h" />

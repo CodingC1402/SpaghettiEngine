@@ -1,7 +1,8 @@
-#include "Polygon2DCollider.h"
-#include "Setting.h"
-#include "polypartition.h"
 #include "DebugRenderer.h"
+#include "Polygon2DCollider.h"
+#include "polypartition.h"
+#include "ScriptField.h"
+#include "Setting.h"
 
 REGISTER_FINISH(Polygon2DCollider, Collider2DBase) {}
 
@@ -27,13 +28,15 @@ void Polygon2DCollider::OnFixedUpdate()
 
 void Polygon2DCollider::Load(nlohmann::json& input)
 {
+	using Fields::Polygon2DCollider;
+
 	// Load vertex
-	std::vector<Vector3> loadedVertex(input[_vertexesField].size());
+	std::vector<Vector3> loadedVertex(input[Polygon2DCollider::GetVertexesField()].size());
 
 	for (unsigned i = 0u; i < loadedVertex.size(); i++)
 	{
-		loadedVertex[i].x = input[_vertexesField][i][0u];
-		loadedVertex[i].y = input[_vertexesField][i][1u];
+		loadedVertex[i].x = input[Polygon2DCollider::GetVertexesField()][i][0u];
+		loadedVertex[i].y = input[Polygon2DCollider::GetVertexesField()][i][1u];
 		loadedVertex[i].z = 0.0f;
 	}
 	

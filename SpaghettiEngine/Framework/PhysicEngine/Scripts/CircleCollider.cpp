@@ -3,6 +3,7 @@
 #include "Setting.h"
 #include "Physic.h"
 #include "DebugRenderer.h"
+#include "ScriptField.h"
 
 REGISTER_FINISH(CircleCollider, Collider2DBase)
 {
@@ -25,8 +26,9 @@ void CircleCollider::OnFixedUpdate()
 void CircleCollider::Load(nlohmann::json& input)
 {
 	auto circle = std::dynamic_pointer_cast<Circle>(_shapes[0]);
-	if (input[_radiusField] != nullptr)
-		circle->SetRadius(input[_radiusField].get<float>());
+	if (input[Fields::CircleCollider::GetRadiusField()] != nullptr)
+		circle->SetRadius(input[Fields::CircleCollider::GetRadiusField()].get<float>());
 
 	Collider2DBase::Load(input);
 }
+
