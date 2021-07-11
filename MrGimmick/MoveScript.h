@@ -5,7 +5,6 @@
 #include "InputAll.h"
 #include "RigidBody2D.h"
 #include "Animator.h"
-#include "AudioPlayer.h"
 
 typedef std::shared_ptr<InputAll> SInputAll;
 
@@ -42,7 +41,6 @@ protected:
 
 	RigidBody2D* _rigidBody = nullptr;
 	Animator* _animator = nullptr;
-	AudioPlayer* _audioPlayer = nullptr;
 
 	float _reduceSpeed = 60; // Reduce the speed when release button
 	float _speedCap = 150;

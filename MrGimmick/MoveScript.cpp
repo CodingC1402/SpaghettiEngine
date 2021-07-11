@@ -20,7 +20,6 @@ void MoveScript::Load(nlohmann::json& input)
 
 void MoveScript::OnStart()
 {
-	_audioPlayer = GET_FIRST_SCRIPT_OF_TYPE(AudioPlayer);
 	_rigidBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 	_baseGravityScale = _rigidBody->GetGravityScale();
@@ -92,8 +91,6 @@ void MoveScript::JumpAction()
 		_baseGravityScale = _gravityScale;
 
 		_moveVec.y = _jumpStrength;
-
-		//_audioPlayer->Play();
 	}
 }
 

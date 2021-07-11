@@ -12,7 +12,7 @@ void AudioPlayer::Load(nlohmann::json& inputObject)
 		std::string _filePath = inputObject["Audio"].get<std::string>();
 
 		_audio = AudioContainer::GetInstance()->GetResource(10001);
-		_audio->Load(_filePath);
+		//_audio->Load(_filePath);
 	}
 	catch (const CornException& e)
 	{

@@ -1,4 +1,10 @@
 #pragma once
+#if (_WIN32_WINNT >= 0x0602) //_WIN32_WINNT_WIN8
+#include <XAudio2.h>
+#else
+#include <C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include/XAudio2.h>
+#endif
+
 #include <XAudio2.h>
 #include <memory>
 #include <stdexcept>
