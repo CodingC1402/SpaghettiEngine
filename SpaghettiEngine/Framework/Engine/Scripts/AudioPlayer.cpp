@@ -27,7 +27,7 @@ void AudioPlayer::Load(nlohmann::json& inputObject)
 
 void AudioPlayer::Play()
 {
-	_audio->PlayRandom(1.0f);
+	_audio->PlayAt(1.0f, 0);
 }
 
 PScriptBase AudioPlayer::Clone() const
