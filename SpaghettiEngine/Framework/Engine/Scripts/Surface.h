@@ -6,12 +6,25 @@
 class Surface : public ScriptBase
 {
 public:
+	enum class Direction
+	{
+		Up,
+		Down,
+		Left,
+		Right
+	};
+public:
 	void OnCollide(CollideEvent& e) override;
 	void OnFixedUpdate() override;
-protected:
+	void Load(nlohmann::json& input) override;
+	ScriptBase* Clone() const override;
+private:
 	std::set<RigidBody2D*> _collided;
 	std::set<RigidBody2D*> _collideNow;
-	float _increaseVel = 20;
+
+	Tag _ignoreTags;
+	Vector3 _moveVec;
+	Direction _direction;
 private:
 	REGISTER_START(Surface);
 };

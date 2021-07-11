@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "Setting.h"
 #include "LoadingJson.h"
+#include "ScriptField.h"
 
 REGISTER_FINISH(Animator, Render2DScriptBase) {}
 
@@ -37,8 +38,9 @@ void Animator::Load(nlohmann::json& inputObject)
 	try
 	{
 		using LoadingJson::Field;
+		using Fields::Animator;
 
-		std::string _treeFilePath = inputObject[Field::animationTreeField].get<std::string>();
+		std::string _treeFilePath = inputObject[Animator::GetAnimationTreeField()].get<std::string>();
 
 		_tree = MAKE_SHARE_BT(AnimationTree);
 		_tree->Load(_treeFilePath);

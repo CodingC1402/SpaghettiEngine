@@ -1,7 +1,8 @@
-#include "RigidBody2D.h"
+#include "MaterialContainer.h"
 #include "PhysicComponent.h"
 #include "Physic.h"
-#include "MaterialContainer.h"
+#include "RigidBody2D.h"
+#include "ScriptField.h"
 
 REGISTER_FINISH(RigidBody2D, PhysicScriptBase)
 {
@@ -43,18 +44,20 @@ PScriptBase RigidBody2D::Clone() const
 
 void RigidBody2D::Load(nlohmann::json& input)
 {
-	if (input[_velocityField] != nullptr)
+	using Fields::RigidBody2D;
+
+	if (input[RigidBody2D::GetVelocityField()] != nullptr)
 	{
-		Vector3 velocity(input[_velocityField][0], input[_velocityField][1], input[_velocityField][2]);
+		Vector3 velocity(input[RigidBody2D::GetVelocityField()][0], input[RigidBody2D::GetVelocityField()][1], input[RigidBody2D::GetVelocityField()][2]);
 		_body->SetVelocity(velocity);
 	}
 
-	if (input[_massField] != nullptr)
-		_body->SetMass(input[_massField].get<float>());
-	if (input[_gravityScale] != nullptr)
-		_body->SetGravityScale(input[_gravityScale].get<float>());
-	if (input[_materialField] != nullptr)
-		_body->SetMaterial(MaterialContainer::GetInstance()->GetResource(input[_materialField].get<CULL>()));
+	if (input[RigidBody2D::GetMassField()] != nullptr)
+		_body->SetMass(input[RigidBody2D::GetMassField()].get<float>());
+	if (input[RigidBody2D::GetGravityScaleField()] != nullptr)
+		_body->SetGravityScale(input[RigidBody2D::GetGravityScaleField()].get<float>());
+	if (input[RigidBody2D::GetMaterialField()] != nullptr)
+		_body->SetMaterial(MaterialContainer::GetInstance()->GetResource(input[RigidBody2D::GetMaterialField()].get<CULL>()));
 }
 
 SBody2D RigidBody2D::GetBody()

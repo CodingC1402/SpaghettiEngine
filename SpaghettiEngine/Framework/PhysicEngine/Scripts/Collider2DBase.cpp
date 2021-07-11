@@ -1,6 +1,7 @@
 #include "Collider2DBase.h"
 #include "Physic.h"
 #include "Setting.h"
+#include "ScriptField.h"
 
 Collider2DBase::Collider2DBase(PScene owner, bool isDisable) 
 	:
@@ -41,25 +42,26 @@ void Collider2DBase::SetGameObject(const PGameObj& gameObj)
 
 void Collider2DBase::Load(nlohmann::json& input)
 {
+	using Fields::Collider2DBase;
 	float offSet = 0;
 
-	if (input[_offSetXField] != nullptr)
+	if (input[Collider2DBase::GetOffSetXField()] != nullptr)
 	{
-		offSet = input[_offSetXField];
+		offSet = input[Collider2DBase::GetOffSetXField()];
 
 		for (auto& shape : _shapes)
 			shape->SetOffSetX(offSet);
 	}
-	if (input[_offSetYField] != nullptr)
+	if (input[Collider2DBase::GetOffSetYField()] != nullptr)
 	{
-		offSet = input[_offSetYField];
+		offSet = input[Collider2DBase::GetOffSetYField()];
 
 		for (auto& shape : _shapes)
 			shape->SetOffSetY(offSet);
 	}
 
-	if (!input[_isTriggerField].empty())
-		SetIsTrigger(input[_isTriggerField].get<bool>());
+	if (!input[Collider2DBase::GetTriggerField()].empty())
+		SetIsTrigger(input[Collider2DBase::GetTriggerField()].get<bool>());
 
 	SetOwnerForShapes();
 }

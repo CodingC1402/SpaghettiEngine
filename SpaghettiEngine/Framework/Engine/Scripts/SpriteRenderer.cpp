@@ -4,6 +4,7 @@
 #include "StringConverter.h"
 #include "SMath.h"
 #include "Setting.h"
+#include "ScriptField.h"
 
 REGISTER_FINISH(SpriteRenderer, Render2DScriptBase)
 {
@@ -52,24 +53,17 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 	std::string fieldTracker = "Start of the script";
 	try
 	{
-		constexpr const char* Path = "Texture";
-		constexpr const char* Index = "Index";
-		constexpr const char* OffSetX = "OffSetX";
-		constexpr const char* OffSetY = "OffSetY";
-		constexpr const char* ScaleX = "ScaleX";
-		constexpr const char* ScaleY = "ScaleY";
-		
-		fieldTracker = Path;
-		const auto textureID = inputObject[Path].get<CULL>();
-		fieldTracker = Index;
-		const auto index = inputObject[Index].get<int>();
+		using Fields::SpriteRenderer;
+		fieldTracker = SpriteRenderer::GetPathField();
+		const auto textureID = inputObject[SpriteRenderer::GetPathField()].get<CULL>();
+		fieldTracker = SpriteRenderer::GetIndexField();
+		const auto index = inputObject[SpriteRenderer::GetIndexField()].get<int>();
 
-		transformMatrix._41 = inputObject[OffSetX] == nullptr ? 0 : inputObject[OffSetX].get<float>();
-		transformMatrix._42 = inputObject[OffSetY] == nullptr ? 0 : inputObject[OffSetY].get<float>();
-		transformMatrix._11 = inputObject[ScaleX] == nullptr ? 1 : inputObject[ScaleX].get<float>();
-		transformMatrix._22 = inputObject[ScaleY] == nullptr ? 1 : inputObject[ScaleY].get<float>();
+		transformMatrix._41 = inputObject[SpriteRenderer::GetOffSetXField()] == nullptr ? 0 : inputObject[SpriteRenderer::GetOffSetXField()].get<float>();
+		transformMatrix._42 = inputObject[SpriteRenderer::GetOffSetYField()] == nullptr ? 0 : inputObject[SpriteRenderer::GetOffSetYField()].get<float>();
+		transformMatrix._11 = inputObject[SpriteRenderer::GetScaleXField() ] == nullptr ? 1 : inputObject[SpriteRenderer::GetScaleXField() ].get<float>();
+		transformMatrix._22 = inputObject[SpriteRenderer::GetScaleYField() ] == nullptr ? 1 : inputObject[SpriteRenderer::GetScaleYField() ].get<float>();
 
-		fieldTracker = Path;
 		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
 		sprite = texture->GetSprite(index);
 		if (sprite.use_count() == 0)

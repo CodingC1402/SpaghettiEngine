@@ -326,9 +326,6 @@
     <ClInclude Include="Framework\Engine\AnimationComponents\AnimationNode.h">
       <Filter>FrameWork\Engine\AnimationComponents</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
-      <Filter>FrameWork\Engine\AnimationComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\BTs\TrueFalseLeafNode.h">
       <Filter>FrameWork\Engine\BTs</Filter>
     </ClInclude>
@@ -357,6 +354,12 @@
       <Filter>FrameWork\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Scripts\Surface.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\ScriptField.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
   </ItemGroup>
@@ -583,9 +586,6 @@
     <ClCompile Include="Framework\Engine\AnimationComponents\AnimationNode.cpp">
       <Filter>FrameWork\Engine\AnimationComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
-      <Filter>FrameWork\Engine\AnimationComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\BTs\TrueFalseLeafNode.cpp">
       <Filter>FrameWork\Engine\BTs</Filter>
     </ClCompile>
@@ -614,6 +614,9 @@
       <Filter>FrameWork\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\Surface.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
   </ItemGroup>
