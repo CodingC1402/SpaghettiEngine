@@ -75,11 +75,13 @@
 			"ID": 3,
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-4, 0],
-					[-4, 6],
-					[4, 6],
-					[4, 0] 
+				"Polygons": [
+					[
+						-4, 0,
+						-4, 6,
+						 4, 6,
+						 4, 0 
+					]
 				]
 			}
 		},
@@ -111,11 +113,13 @@
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
-				"Vertexes": [
-					[-2,  2],
-					[-2, -4],
-					[ 2, -4],
-					[ 2,  2] 
+				"Polygons": [
+					[
+						 2,  2,
+						 2, -4,
+						-2, -4,
+						-2,  2 
+					]
 				]
 			}
 		},
@@ -130,11 +134,13 @@
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
-				"Vertexes": [
-					[-1, -2],
-					[-1,  2],
-					[ 1,  2],
-					[ 1, -2] 
+				"Polygons": [
+					[
+						-1, -2,
+						-1,  2,
+						 1,  2,
+						 1, -2 
+					]
 				]
 			}	
 		}

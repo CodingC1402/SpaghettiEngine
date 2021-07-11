@@ -44,11 +44,13 @@
 			"IsDisabled": true,
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[-8, -10],
-					[-8,  7],
-					[8 ,  7],
-					[8 , -10] 
+				"Polygons": [
+					[
+						-8, -10,
+						-8,   7,
+						8 ,   7,
+						8 , -10 
+					]
 				]
 			}
 		},
