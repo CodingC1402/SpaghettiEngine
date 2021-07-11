@@ -95,8 +95,8 @@
 			"ID": 5,
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
-				"Mass": 4,
-				"GravityScale": 6,
+				"Mass": 2,
+				"GravityScale": 4,
 				"Material": 30001
 			}
 		},
