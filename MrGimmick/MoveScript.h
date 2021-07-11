@@ -5,7 +5,7 @@
 #include "InputAll.h"
 #include "RigidBody2D.h"
 #include "Animator.h"
-#include "AudioPlayer.h"
+#include "SoundSource.h"
 
 typedef std::shared_ptr<InputAll> SInputAll;
 
@@ -40,7 +40,7 @@ protected:
 	BoolField _isRunningField;
 	BoolField _isGroundedField;
 
-	AudioPlayer* _audio = nullptr;
+	SoundSource* _audio = nullptr;
 	RigidBody2D* _rigidBody = nullptr;
 	Animator* _animator = nullptr;
 

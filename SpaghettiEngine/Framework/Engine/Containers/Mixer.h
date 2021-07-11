@@ -5,15 +5,15 @@
 #include "Sound.h"
 #include "ResourceContainer.h"
 
-typedef class Audio* PAudio;
-typedef std::shared_ptr<Audio> SAudio;
-typedef std::unique_ptr<Audio> UAudio;
+typedef class Mixer* PMixer;
+typedef std::shared_ptr<Mixer> SMixer;
+typedef std::unique_ptr<Mixer> UMixer;
 
-class Audio : public Resource
+class Mixer : public Resource
 {
-	friend class AudioContainer;
+	friend class MixerContainer;
 public:
-	Audio();
+	Mixer();
 	void Load(const std::string& path) override;
 
 	void PlayAt(float vol, int pos);
@@ -41,9 +41,9 @@ protected:
 	bool isLoop;
 };
 
-class AudioContainer : public Container<Audio>
+class MixerContainer : public Container<Mixer>
 {
 	friend class SceneManager;
 public:
-	AudioContainer();
+	MixerContainer();
 };

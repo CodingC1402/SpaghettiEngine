@@ -1,9 +1,9 @@
-#include "AudioPlayer.h"
+#include "SoundSource.h"
 #include "LoadingJson.h"
 
-REGISTER_FINISH(AudioPlayer, ScriptBase) {}
+REGISTER_FINISH(SoundSource, ScriptBase) {}
 
-void AudioPlayer::Load(nlohmann::json& inputObject)
+void SoundSource::Load(nlohmann::json& inputObject)
 {
 	try
 	{
@@ -11,7 +11,7 @@ void AudioPlayer::Load(nlohmann::json& inputObject)
 
 		std::string _filePath = inputObject["Audio"].get<std::string>();
 
-		_audio = AudioContainer::GetInstance()->GetResource(10001);
+		_audio = MixerContainer::GetInstance()->GetResource(10001);
 		//_audio->Load(_filePath);
 	}
 	catch (const CornException& e)
@@ -25,14 +25,14 @@ void AudioPlayer::Load(nlohmann::json& inputObject)
 	ScriptBase::Load(inputObject);
 }
 
-void AudioPlayer::Play()
+void SoundSource::Play()
 {
 	_audio->PlayAt(1.0f, 0);
 }
 
-PScriptBase AudioPlayer::Clone() const
+PScriptBase SoundSource::Clone() const
 {
-	auto clone = dynamic_cast<AudioPlayer*>(ScriptBase::Clone());
+	auto clone = dynamic_cast<SoundSource*>(ScriptBase::Clone());
 
 	//clone->_audio = 
 

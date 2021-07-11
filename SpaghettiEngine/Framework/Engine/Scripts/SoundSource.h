@@ -1,8 +1,8 @@
 #pragma once
-#include "Audio.h"
+#include "Mixer.h"
 #include "ScriptBase.h"
 
-class AudioPlayer : public ScriptBase
+class SoundSource : public ScriptBase
 {
 public:
 	virtual void Load(nlohmann::json& inputObject) override;
@@ -10,7 +10,7 @@ public:
 
 	PScriptBase Clone() const override;
 protected:
-	SAudio _audio;
+	SMixer _audio;
 private:
-	REGISTER_START(AudioPlayer);
+	REGISTER_START(SoundSource);
 };

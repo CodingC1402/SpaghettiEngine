@@ -1,17 +1,17 @@
-#include "Audio.h"
+#include "Mixer.h"
 #include "json.hpp"
 #include "SpaghettiEnginePath.h"
 #include "StringConverter.h"
 #include <fstream>
 
-CONTAINER_REGISTER(AudioContainer, Audio);
+CONTAINER_REGISTER(MixerContainer, Mixer);
 
-Audio::Audio() : Resource()
+Mixer::Mixer() : Resource()
 {
 	isLoop = false;
 }
 
-void Audio::Load(const std::string& path)
+void Mixer::Load(const std::string& path)
 {
 	using namespace nlohmann;
 	
@@ -22,7 +22,7 @@ void Audio::Load(const std::string& path)
 		os << "[Exception] File ";
 		os << path.c_str();
 		os << " doesn't exist";
-		throw RESOURCE_LOAD_EXCEPTION(os.str(), Audio);
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Mixer);
 	}
 	
 	constexpr const char* Sounds = "Sounds";
@@ -74,11 +74,11 @@ void Audio::Load(const std::string& path)
 		os << std::endl;
 	
 		os << "[Exception] Field doesn't have the right format";
-		throw RESOURCE_LOAD_EXCEPTION(os.str(), Audio);
+		throw RESOURCE_LOAD_EXCEPTION(os.str(), Mixer);
 	}
 }
 
-void Audio::PlayAt(float vol, int pos)
+void Mixer::PlayAt(float vol, int pos)
 {
 	if (pos >= _sounds.size())
 		return;
@@ -86,12 +86,12 @@ void Audio::PlayAt(float vol, int pos)
 	_sounds[pos].Play(freqDist(rng), vol * masterVolume);
 }
 
-void Audio::PlayRandom(float vol)
+void Mixer::PlayRandom(float vol)
 {
 	_sounds[soundDist(rng)].Play(freqDist(rng), vol * masterVolume);
 }
 
-void Audio::PlayAll(float vol)
+void Mixer::PlayAll(float vol)
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
@@ -99,7 +99,7 @@ void Audio::PlayAll(float vol)
 	}
 }
 
-void Audio::ContinueAt(int pos)
+void Mixer::ContinueAt(int pos)
 {
 	if (pos >= _sounds.size())
 		return;
@@ -107,7 +107,7 @@ void Audio::ContinueAt(int pos)
 	_sounds[pos].Continue();
 }
 
-void Audio::ContinueAll()
+void Mixer::ContinueAll()
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
@@ -115,7 +115,7 @@ void Audio::ContinueAll()
 	}
 }
 
-void Audio::PauseAt(int pos)
+void Mixer::PauseAt(int pos)
 {
 	if (pos >= _sounds.size())
 		return;
@@ -123,7 +123,7 @@ void Audio::PauseAt(int pos)
 	_sounds[pos].Pause();
 }
 
-void Audio::PauseAll()
+void Mixer::PauseAll()
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
@@ -131,7 +131,7 @@ void Audio::PauseAll()
 	}
 }
 
-void Audio::StopAt(int pos)
+void Mixer::StopAt(int pos)
 {
 	if (pos >= _sounds.size())
 		return;
@@ -139,7 +139,7 @@ void Audio::StopAt(int pos)
 	_sounds[pos].Stop();
 }
 
-void Audio::StopAll()
+void Mixer::StopAll()
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
@@ -147,7 +147,7 @@ void Audio::StopAll()
 	}
 }
 
-void Audio::ChangeVolumeAt(float vol, int pos)
+void Mixer::ChangeVolumeAt(float vol, int pos)
 {
 	if (pos >= _sounds.size())
 		return;
@@ -155,7 +155,7 @@ void Audio::ChangeVolumeAt(float vol, int pos)
 	_sounds[pos].ChangeVolume(vol * masterVolume);
 }
 
-void Audio::ChangeVolumeAll(float vol)
+void Mixer::ChangeVolumeAll(float vol)
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
@@ -163,13 +163,13 @@ void Audio::ChangeVolumeAll(float vol)
 	}
 }
 
-void Audio::ChangeMasterVolume(float vol)
+void Mixer::ChangeMasterVolume(float vol)
 {
 	masterVolume = vol;
 }
 
-AudioContainer::AudioContainer()
+MixerContainer::MixerContainer()
 {
-	_name = RESOURCE_NAME(Audio);
+	_name = RESOURCE_NAME(Mixer);
 	LoadEntries(SystemPath::AudioEntriesPath);
 }
