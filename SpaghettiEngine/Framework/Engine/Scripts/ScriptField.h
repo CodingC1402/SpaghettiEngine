@@ -89,7 +89,7 @@ namespace Fields
 	class Polygon2DCollider // Inherit from Collider2DBase
 	{
 	public:
-		static constexpr const char* GetVertexesField() { return "Vertexes"; }
+		static constexpr const char* GetPolygonsField() { return "Polygons"; }
 	};
 
 	class RigidBody2D // Inherit from PhysicScriptBase
