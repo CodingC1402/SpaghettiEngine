@@ -85,6 +85,8 @@
     <ClInclude Include="Framework\PhysicEngine\Components\Physic.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicMath.h" />
+    <ClInclude Include="Framework\PhysicEngine\Components\QTNode.h" />
+    <ClInclude Include="Framework\PhysicEngine\Components\QuadTree.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\CircleCollider.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\Collider2DBase.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.h" />
@@ -177,6 +179,8 @@
     <ClCompile Include="Framework\PhysicEngine\Components\Physic.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicMath.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Components\QTNode.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Components\QuadTree.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\Polygon2DCollider.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\CircleCollider.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\Collider2DBase.cpp" />

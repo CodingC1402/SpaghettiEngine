@@ -362,6 +362,12 @@
     <ClInclude Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.h">
       <Filter>FrameWork\PhysicEngine\Shapes</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\QuadTree.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\QTNode.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -618,6 +624,12 @@
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.cpp">
       <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\QuadTree.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\QTNode.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
