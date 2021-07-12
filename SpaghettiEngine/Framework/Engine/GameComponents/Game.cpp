@@ -8,8 +8,6 @@
 #include "Tag.h"
 #include "DebugRenderer.h"
 
-Game* Game::__instance = nullptr;
-
 void Game::Init()
 {
 	timer = GameTimer::GetInstance();
@@ -22,7 +20,7 @@ void Game::Init()
 }
 
 static bool IwannaDie = false;
-void Game::Update() const
+void Game::Update()
 {
 	if (InputSystem::GetInstance()->GetInput("FullScreen")->Check())
 	{
@@ -37,15 +35,10 @@ void Game::Update() const
 
 	input->Update();
 	sceneManager->Update();
-	if (Physic::Update())
-	{
-		if constexpr (Setting::IsDebugMode())
-			DebugRenderer::Clear();
-		FixUpdate();
-	}
+	Physic::Update();
 }
 
-void Game::FixUpdate() const
+void Game::FixUpdate()
 {
 	sceneManager->FixedUpdate();
 }
@@ -61,11 +54,4 @@ Game::~Game()
 	delete timer;
 	input = nullptr;
 	timer = nullptr;
-}
-
-Game* Game::GetInstance()
-{
-	if (!__instance)
-		__instance = new Game();
-	return __instance;
 }
