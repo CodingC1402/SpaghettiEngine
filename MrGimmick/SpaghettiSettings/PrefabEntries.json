@@ -15,6 +15,14 @@
     "ID": 90103,
     "Path": "Asset/Prefabs/Level1/Segment3.json"
   },
+  {
+    "ID": 90104,
+    "Path": "Asset/Prefabs/Level1/Segment4.json"
+  },
+  {
+    "ID": 90105,
+    "Path": "Asset/Prefabs/Level1/Segment5.json"
+  },
 
   {
     "ID": 10001,
