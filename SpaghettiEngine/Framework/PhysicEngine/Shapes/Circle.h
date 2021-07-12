@@ -10,6 +10,11 @@ public:
 	Shape* Clone() const override;
 	void UpdateParameter() override;
 
+	[[nodiscard]] const float& GetRadius() const;
+
 	static bool CircleCircle(Collision* collision);
 	static bool CirclePolygon(Collision* collision);
+protected:
+	//Use for broad phase
+	float _radius;
 };

@@ -1,6 +1,14 @@
 #include "Shape.h"
 #include "Body2D.h"
 #include "Physic.h"
+#include "Circle.h"
+#include "Polygon.h"
+
+std::unordered_map<const char*, Shape*(*)()> ShapeFactory::_functions
+{
+	{"Circle", &ShapeFactory::CreateNew<Circle> },
+	{"Polygon", &ShapeFactory::CreateNew<Polygon2D>}
+};
 
 WBody2D Shape::GetBody() const
 {
@@ -10,7 +18,11 @@ WBody2D Shape::GetBody() const
 Shape::Shape()
 {
 	_offSetMatrix = Matrix4::GetDiagonalMatrix();
-	_radius = 0;
+}
+
+const Vector3& Shape::GetCenter() const
+{
+	return _center;
 }
 
 Shape::~Shape()
@@ -73,16 +85,6 @@ float Shape::GetOffSetY() const
 	return _offSetMatrix._42;
 }
 
-const Vector3& Shape::GetCenter() const
-{
-	return _center;
-}
-
-const float& Shape::GetRadius() const
-{
-	return _radius;
-}
-
 bool Shape::IsTriggerOnly() const
 {
 	return _isTriggerOnly;
@@ -115,4 +117,9 @@ void Shape::SetBody(WBody2D body)
 	_body = body;
 	_isStatic = false;
 	_body.lock()->AddShape(this);
+}
+
+Shape* ShapeFactory::Create(const std::string& type)
+{
+	return _functions[type.c_str()]();
 }

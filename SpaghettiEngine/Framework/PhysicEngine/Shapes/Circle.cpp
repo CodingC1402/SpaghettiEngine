@@ -15,9 +15,14 @@ void Circle::SetRadius(const float& radius)
 Shape* Circle::Clone() const
 {
 	Circle* cloneCircle = new Circle();
+	
+	cloneCircle->_topLeft = _topLeft;
+	cloneCircle->_bottomRight = _bottomRight;
 	cloneCircle->_center = _center;
+
 	cloneCircle->_offSetMatrix = _offSetMatrix;
 	cloneCircle->_radius = _radius;
+
 	return cloneCircle;
 }
 
@@ -60,6 +65,11 @@ bool Circle::CircleCircle(Collision* collision)
 		collision->SetNormal(Vector3(0, 1, 0));
 		return true;
 	}
+}
+
+const float& Circle::GetRadius() const
+{
+	return _radius;
 }
 
 bool Circle::CirclePolygon(Collision* collision)

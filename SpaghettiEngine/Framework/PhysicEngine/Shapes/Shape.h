@@ -2,6 +2,7 @@
 #include "Body2D.h"
 #include "Matrix.h"
 #include "CollideEvent.h"
+#include <unordered_map>
 
 class Shape;
 typedef std::weak_ptr<Shape> WShape;
@@ -35,20 +36,17 @@ public:
 	[[nodiscard]] float GetMass() const;
 	[[nodiscard]] Vector3 GetVelocity() const;
 	[[nodiscard]] Vector3 GetGravityVector() const;
+	[[nodiscard]] const Vector3& GetCenter() const;
 	
 	void SetOffSetX(const float& x);
 	void SetOffSetY(const float& y);
 	[[nodiscard]] float GetOffSetX() const;
 	[[nodiscard]] float GetOffSetY() const;
 
-	[[nodiscard]] const Vector3& GetCenter() const;
-	[[nodiscard]] const float& GetRadius() const;
-
 	void SetTriggerOnly(bool value);
 	[[nodiscard]] bool IsTriggerOnly() const;
 
 	void SendEvent(CollideEvent& e);
-
 	virtual void UpdateParameter() = 0;
 
 	void RemoveFromPhysic();
@@ -68,7 +66,28 @@ protected:
 	Matrix4 _worldMatrix;
 	bool _isStatic = true;
 
-	//Use for broad phase
+	//AABB broad phase
+	Vector3 _topLeft;
+	Vector3 _bottomRight;
 	Vector3 _center;
-	float _radius;
+
+	Vector3 _worldTopLeft;
+	Vector3 _worldBottomRight;
+	Vector3 _worldCenter;
 };
+
+class ShapeFactory
+{
+public:
+	static Shape* Create(const std::string& type);
+protected:
+	template<typename T>
+	static Shape* CreateNew();
+	static std::unordered_map<const char*, Shape*(*)()> _functions;
+};
+
+template<typename T>
+inline Shape* ShapeFactory::CreateNew()
+{
+	return new T;
+}

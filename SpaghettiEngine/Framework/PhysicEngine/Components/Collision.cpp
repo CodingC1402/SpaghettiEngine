@@ -80,12 +80,7 @@ bool Collision::Solve()
 	if (_bodyA == _bodyB)
 		return false;
 
-	// Broad phase
-	float radiusSum = _shapeA->GetRadius() + _shapeB->GetRadius();
-	Vector3 vec = _shapeA->GetCenter() - _shapeB->GetCenter();
-	float distance = vec.GetPow2Magnitude();
-	if (radiusSum * radiusSum < distance)
-		return false;
+	// Add broad phase here
 
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 	if (isCollide)

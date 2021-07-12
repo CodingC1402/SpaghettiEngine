@@ -126,8 +126,10 @@ Shape* Polygon::Clone() const
 {
 	Polygon* clonePoly = new Polygon();
 
+	clonePoly->_topLeft = _topLeft;
+	clonePoly->_bottomRight = _bottomRight;
 	clonePoly->_center = _center;
-	clonePoly->_radius = _radius;
+
 	clonePoly->_centroid = _centroid;
 	clonePoly->_offSetMatrix = _offSetMatrix;
 	clonePoly->_vertexes = _vertexes;
@@ -145,7 +147,7 @@ void Polygon::UpdateParameter()
 	_worldVertexes = _vertexes;
 	for (auto& vertex : _worldVertexes)
 		vertex = vertex * _offSetMatrix * _worldMatrix;
-	_center = _centroid * _offSetMatrix * _worldMatrix;
+	_worldCenter = _center * _offSetMatrix * _worldMatrix;
 }
 
 
@@ -253,16 +255,7 @@ void Polygon::SetVertexes(const std::vector<Vector3>& vertexes)
 		centroid += vertex;
 	centroid /= static_cast<float>(vertexes.size());
 
-	float pow2Distance = 0;
-
-	for (float currentDisPow2; const auto& vertex : vertexes)
-	{
-		currentDisPow2 = (vertex - centroid).GetPow2Magnitude();
-		if (currentDisPow2 > pow2Distance)
-			pow2Distance = currentDisPow2;
-	}
-	_radius = std::sqrt(pow2Distance);
-	_centroid = centroid;
+	_center = centroid;
 }
 
 const std::vector<Vector3>& Polygon::GetVertexes() const
