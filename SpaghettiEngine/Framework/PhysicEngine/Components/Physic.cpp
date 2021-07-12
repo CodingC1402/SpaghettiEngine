@@ -4,7 +4,10 @@
 #include "SMath.h"
 #include "Circle.h"
 #include "GameObj.h"
+#include "Game.h"
 #include "ContainerUtil.h"
+#include "Setting.h"
+#include "DebugRenderer.h"
 
 bool Physic::Update()
 {
@@ -31,6 +34,15 @@ bool Physic::Update()
 		float interpolateNumber = _accumulator * (1 - _stepInterpolation);
 		interpolateNumber = interpolateNumber > _baseStep ? _baseStep : interpolateNumber;
 		_step = _baseStep * _stepInterpolation + interpolateNumber;
+
+		// Clear the line renderer for debugging.
+		if constexpr (Setting::IsDebugMode())
+		{
+			if (_accumulator < _step)
+				DebugRenderer::Clear();
+		}
+		Game::FixUpdate();
+
 		isRunUpdate = true;
 	}
 	return isRunUpdate;

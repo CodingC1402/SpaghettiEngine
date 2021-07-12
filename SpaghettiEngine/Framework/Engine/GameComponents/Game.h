@@ -7,23 +7,22 @@ typedef class SceneManager* PSceneManager;
 class Game
 {
 	friend class App;
+	friend class Physic;
 public:
 	Game(const Game&) = delete;
 	Game& operator=(const Game&) = delete;
-	
-	void Init();
-	void Update() const;
-	void FixUpdate() const;
-	void End();
 protected:
+	static void Init();
+	static void Update();
+	static void End();
+
+	// Will be called by physic
+	static void FixUpdate();
+
 	Game() = default;
 	~Game();
-
-	static Game* GetInstance();
 private:
-	PGameTimer timer = nullptr;
-	PInputSystem input = nullptr;
-	PSceneManager sceneManager = nullptr;
-
-	static Game* __instance;
+	inline static PGameTimer timer = nullptr;
+	inline static PInputSystem input = nullptr;
+	inline static PSceneManager sceneManager = nullptr;
 };
