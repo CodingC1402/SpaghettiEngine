@@ -23,8 +23,8 @@ public:
 	void PlayRandom(float vol);
 	void PlayAll(float vol);
 
-	void ContinueAt(int pos);
-	void ContinueAll();
+	void ResumeAt(int pos);
+	void ResumeAll();
 
 	void PauseAt(int pos);
 	void PauseAll();
@@ -35,6 +35,10 @@ public:
 	void ChangeVolumeAt(float vol, int pos);
 	void ChangeVolumeAll(float vol);
 	void ChangeMasterVolume(float vol);
+
+	[[nodiscard]] float GetMasterVolume();
+
+	bool IsPlayingAt(int pos);
 protected:
 	float masterVolume = 1.0f;
 	std::mt19937 rng;

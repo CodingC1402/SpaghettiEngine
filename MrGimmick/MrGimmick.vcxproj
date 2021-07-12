@@ -198,6 +198,7 @@
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
     <ClCompile Include="HeadScript.cpp" />
+    <ClCompile Include="PlaySoundScript.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />
     <ClInclude Include="HeadScript.h" />
+    <ClInclude Include="PlaySoundScript.h" />
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />

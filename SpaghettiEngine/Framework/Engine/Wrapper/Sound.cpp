@@ -1,6 +1,8 @@
 #include <assert.h>
 #include "Sound.h"
 
+SoundSystem* SoundSystem::__instance = nullptr;
+
 SoundSystem::Error::Error(std::string s) : runtime_error(std::string("SoundSystem::Error: ") + s)
 {
 }
@@ -9,15 +11,16 @@ SoundSystem::FileError::FileError(std::string s) : Error(std::string("SoundSyste
 {
 }
 
-SoundSystem& SoundSystem::Get()
+SoundSystem* SoundSystem::Get() noexcept
 {
-	static SoundSystem instance;
-	return instance;
+	if (!__instance)
+		__instance = new SoundSystem();
+	return __instance;
 }
 
 WAVEFORMATEX& SoundSystem::GetFormat()
 {
-	return Get().format;
+	return Get()->format;
 }
 
 void SoundSystem::PlaySoundBuffer(Sound& s, float freqMod, float vol)
@@ -78,7 +81,7 @@ void SoundSystem::Channel::VoiceCallback::OnBufferEnd(void* pBufferContext)
 	chan.Stop();
 	chan.pSound->RemoveChannel(chan);
 	chan.pSound = nullptr;
-	SoundSystem::Get().DeactivateChannel(chan);
+	SoundSystem::Get()->DeactivateChannel(chan);
 }
 
 void SoundSystem::Channel::VoiceCallback::OnBufferStart(void* pBufferContext)
@@ -142,7 +145,7 @@ void SoundSystem::Channel::Pause()
 	pSource->Stop();
 }
 
-void SoundSystem::Channel::Continue()
+void SoundSystem::Channel::Resume()
 {
 	pSource->Start();
 }
@@ -279,14 +282,19 @@ Sound::Sound(Sound&& donor) : nBytes(donor.nBytes), pData(std::move(donor.pData)
 
 void Sound::Play(float freqMod, float vol)
 {
-	SoundSystem::Get().PlaySoundBuffer(*this, freqMod, vol);
+	if (activeChannelPtrs.size() != 0)
+	{
+		Sound::Stop();
+	}
+
+	SoundSystem::Get()->PlaySoundBuffer(*this, freqMod, vol);
 }
 
-void Sound::Continue()
+void Sound::Resume()
 {
 	for (auto pChannel : activeChannelPtrs)
 	{
-		pChannel->Continue();
+		pChannel->Resume();
 	}
 }
 
@@ -312,6 +320,14 @@ void Sound::ChangeVolume(float vol)
 	{
 		pChannel->ChangeVolume(vol);
 	}
+}
+
+bool Sound::IsPlaying()
+{
+	if (activeChannelPtrs.size() != 0)
+		return true;
+
+	return false;
 }
 
 Sound::~Sound()

@@ -55,7 +55,7 @@ public:
 		void ChangeVolume(float vol);
 		void Stop();
 		void Pause();
-		void Continue();
+		void Resume();
 	private:
 		XAUDIO2_BUFFER xaBuffer;
 		IXAudio2SourceVoice* pSource = nullptr;
@@ -65,7 +65,7 @@ public:
 	};
 public:
 	SoundSystem(const SoundSystem&) = delete;
-	static SoundSystem& Get();
+	static SoundSystem* Get() noexcept;
 	static WAVEFORMATEX& GetFormat();
 	void PlaySoundBuffer(class Sound& s, float freqMod, float vol);
 private:
@@ -79,6 +79,8 @@ private:
 	std::mutex mutex;
 	std::vector<std::unique_ptr<Channel>> idleChannelPtrs;
 	std::vector<std::unique_ptr<Channel>> activeChannelPtrs;
+
+	static SoundSystem* __instance;
 };
 
 class Sound
@@ -90,10 +92,11 @@ public:
 	Sound(Sound&& donor);
 
 	void Play(float freqMod, float vol);
-	void Continue();
+	void Resume();
 	void Pause();
 	void Stop();
 	void ChangeVolume(float vol);
+	bool IsPlaying();
 
 	~Sound();
 private:

@@ -28,7 +28,7 @@ void Mixer::Load(const std::string& path)
 	constexpr const char* Sounds = "Sounds";
 	constexpr const char* Frequency = "Frequency";
 	constexpr const char* MasterVolume = "MasterVolume";
-	constexpr const char* Loop = "Loop";
+	//constexpr const char* Loop = "Loop";
 
 	int fieldTracker = 0;
 	try
@@ -60,9 +60,9 @@ void Mixer::Load(const std::string& path)
 		fieldTracker++;
 
 		masterVolume = jsonFile[MasterVolume].get<float>();
-		fieldTracker++;
-
-		this->isLoop = jsonFile[Loop].get<bool>();
+		//fieldTracker++;
+		//
+		//this->isLoop = jsonFile[Loop].get<bool>();
 	}
 	catch (...)
 	{
@@ -79,9 +79,9 @@ void Mixer::Load(const std::string& path)
 		case 2:
 			os << MasterVolume;
 			break;
-		case 3:
-			os << Loop;
-			break;
+		//case 3:
+		//	os << Loop;
+		//	break;
 		}
 		os << std::endl;
 	
@@ -113,6 +113,7 @@ void Mixer::PlayAt(float vol, int pos)
 
 void Mixer::PlayRandom(float vol)
 {
+	// Need to fix the random pos generator
 	_sounds[soundDist(rng)].Play(freqDist(rng), vol * masterVolume);
 }
 
@@ -124,19 +125,19 @@ void Mixer::PlayAll(float vol)
 	}
 }
 
-void Mixer::ContinueAt(int pos)
+void Mixer::ResumeAt(int pos)
 {
 	if (pos >= _sounds.size())
 		return;
 
-	_sounds[pos].Continue();
+	_sounds[pos].Resume();
 }
 
-void Mixer::ContinueAll()
+void Mixer::ResumeAll()
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
-		(*i).Continue();
+		(*i).Resume();
 	}
 }
 
@@ -191,6 +192,16 @@ void Mixer::ChangeVolumeAll(float vol)
 void Mixer::ChangeMasterVolume(float vol)
 {
 	masterVolume = vol;
+}
+
+float Mixer::GetMasterVolume()
+{
+	return masterVolume;
+}
+
+bool Mixer::IsPlayingAt(int pos)
+{
+	return _sounds[pos].IsPlaying();
 }
 
 MixerContainer::MixerContainer()

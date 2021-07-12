@@ -1,6 +1,5 @@
 {
-  "Sounds": [ "Asset/Audio/se4.wav" ],
+  "Sounds": [ "Asset/Audio/se5.wav", "Asset/Audio/se4.wav" ],
   "Frequency": 0.037,
-  "MasterVolume": 0.5,
-  "Loop": false
+  "MasterVolume": 0.5
 }

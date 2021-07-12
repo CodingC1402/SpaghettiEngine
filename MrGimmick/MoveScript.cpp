@@ -3,7 +3,6 @@
 #include "Graphics.h"
 #include "SMath.h"
 #include "FieldNames.h"
-#include "FieldNames.h"
 
 REGISTER_FINISH(MoveScript, ScriptBase) {}
 
@@ -20,7 +19,6 @@ void MoveScript::Load(nlohmann::json& input)
 
 void MoveScript::OnStart()
 {
-	_audio = GET_FIRST_SCRIPT_OF_TYPE(SoundSource);
 	_rigidBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 	_baseGravityScale = _rigidBody->GetGravityScale();
@@ -87,8 +85,6 @@ void MoveScript::JumpAction()
 
 	if (_isGrounded && _isAllowJump && _jumpInput->CheckKeyPress())
 	{
-		_audio->Play();
-
 		_isJumping = true;
 		_gravityScale = _rigidBody->GetGravityScale();
 		_baseGravityScale = _gravityScale;

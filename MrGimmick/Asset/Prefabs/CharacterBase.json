@@ -17,7 +17,8 @@
 					{ "ID": 3 },
 					{ "ID": 4 },
 					{ "ID": 5 },
-					{ "ID": 6 }
+					{ "ID": 6 },
+					{ "ID": 7 }
 				]
 			}
 		},
@@ -106,7 +107,16 @@
 			"Inputs": {
 				"ScriptType": "SoundSource",
 				"ID": 10001,
-				"Name": "se4"
+				"Name": "se5",
+				"Loop": true,
+				"Delay": 1.0,
+				"Volume": 1.0
+			}
+		},
+		{
+			"ID": 7,
+			"Inputs": {
+				"ScriptType": "PlaySoundScript"
 			}
 		},
 		{
