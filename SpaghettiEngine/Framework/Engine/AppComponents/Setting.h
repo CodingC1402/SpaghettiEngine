@@ -30,7 +30,9 @@ protected:
 protected:
 	Plane2D::Size resolution;
 	Plane2D::Size halfResolution;
+
 	std::wstring name;
+
 	bool isResolutionPixelPerfect = false;
 	bool isWorldPointPixelPerfect = false;
 	float fps;

@@ -10,6 +10,7 @@ Shape::Type Circle::GetType() const
 void Circle::SetRadius(const float& radius)
 {
 	_radius = radius;
+	_broadPhase.SetRadius(_radius);
 }
 
 Shape* Circle::Clone() const

@@ -8,6 +8,7 @@ class Game
 {
 	friend class App;
 	friend class Physic;
+	friend class SceneManager;
 public:
 	Game(const Game&) = delete;
 	Game& operator=(const Game&) = delete;
@@ -18,6 +19,7 @@ protected:
 
 	// Will be called by physic
 	static void FixUpdate();
+	static void ResetGameTimer() noexcept;
 
 	Game() = default;
 	~Game();

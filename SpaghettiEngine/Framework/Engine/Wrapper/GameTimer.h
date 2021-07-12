@@ -6,6 +6,7 @@ typedef class GameTimer* PGameTimer;
 class GameTimer
 {
 	friend class Game;
+	friend class SceneManager;
 public:
 	static void SetTimeScale(float value);
 
@@ -15,7 +16,8 @@ public:
 	static float GetDeltaTime();
 protected:
 	static PGameTimer GetInstance();
-	
+	static void ResetDeltaTime();
+
 	GameTimer();
 	~GameTimer() = default;
 	void Start() const;
@@ -27,5 +29,8 @@ protected:
 	float realTime = 0;
 	float gameTime = 0;
 
+private:
+	// If each frame exceed this number then wrong delta time is the least of your problem : |
+	static constexpr float MAX_DELTA_TIME = 3;
 	static PGameTimer __instance;
 };

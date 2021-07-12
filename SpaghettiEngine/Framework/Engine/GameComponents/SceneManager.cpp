@@ -7,8 +7,10 @@
 #include "Path.h"
 #include "Prefabs.h"
 #include "Extra.h"
-#include "GameTimer.h"
+#include "Game.h"
 #include "MaterialContainer.h"
+#include "TileSet.h"
+
 #include <fstream>
 #include <future>
 
@@ -92,6 +94,7 @@ void SceneManager::Update()
 		SM->scenes[sceneIndex]->Start();
 
 		CleanUpAfterLoad();
+		Game::ResetGameTimer();
 	}
 
 	SM->scenes[sceneIndex]->Update();
@@ -153,6 +156,7 @@ void SceneManager::CleanUpAfterLoad()
 {
 	PrefabsContainer::GetInstance()->UnloadUnusedResources();
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
+	TileSetContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
 	MaterialContainer::GetInstance()->UnloadUnusedResources();
 }

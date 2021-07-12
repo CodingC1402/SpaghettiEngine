@@ -17,13 +17,12 @@ void Game::Init()
 	if constexpr (Setting::IsDebugMode())
 	{
 		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, fullScreenKey, 0x7A); // F11
-		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, nextScreenKey, 0x7B); // F12
-		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, previousScreenKey, 0x79); // F10
+		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, nextScreenKey, 0xBE); // >
+		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, previousScreenKey, 0xBC); // <
 	}
 
 	timer = GameTimer::GetInstance();
 	timer->Start();
-	timer->SetTimeScale(0.1f);
 
 	input = InputSystem::GetInstance();
 
@@ -65,6 +64,12 @@ void Game::Update()
 void Game::FixUpdate()
 {
 	sceneManager->FixedUpdate();
+}
+
+void Game::ResetGameTimer() noexcept
+{
+	GameTimer::ResetDeltaTime();
+	Physic::Reset();
 }
 
 void Game::End()

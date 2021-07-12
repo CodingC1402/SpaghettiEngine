@@ -34,6 +34,14 @@ PGameTimer GameTimer::GetInstance()
 	return __instance;
 }
 
+void GameTimer::ResetDeltaTime()
+{
+	GetInstance()->Mark();
+	GetInstance()->deltaTime = 0;
+	GetInstance()->gameTime = 0;
+	GetInstance()->realTime = 0;
+}
+
 GameTimer::GameTimer()
 {
 	timer = Timer::Create();
@@ -49,9 +57,9 @@ void GameTimer::Mark()
 	constexpr float timeCap = 100000;
 
 	timer->Mark();
-	realTime = timer->GetSystemTime();
-	gameTime = timer->GetSystemTime() * timeScale;
-	deltaTime = timer->GetDeltaTime() * timeScale;
+	realTime	= timer->GetSystemTime();
+	gameTime	= timer->GetSystemTime() * timeScale;
+	deltaTime	= (timer->GetDeltaTime() >= MAX_DELTA_TIME ? MAX_DELTA_TIME : timer->GetDeltaTime()) * timeScale;
 
 	if (realTime >= timeCap)
 		realTime -= timeCap;
