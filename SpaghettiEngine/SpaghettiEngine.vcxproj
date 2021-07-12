@@ -69,7 +69,6 @@
     <ClInclude Include="Framework\Engine\Scripts\Surface.h" />
     <ClInclude Include="Framework\Engine\Scripts\TileMapRenderer.h" />
     <ClInclude Include="Framework\Engine\ThirdParty\json.hpp" />
-    <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h" />
     <ClInclude Include="Framework\Engine\Wrapper\Color.h" />
     <ClInclude Include="Framework\Engine\Wrapper\CornDirectX.h" />
     <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h" />
@@ -162,7 +161,6 @@
     <ClCompile Include="Framework\Engine\Scripts\SpriteRenderer.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Surface.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\TileMapRenderer.cpp" />
-    <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\Color.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp" />
