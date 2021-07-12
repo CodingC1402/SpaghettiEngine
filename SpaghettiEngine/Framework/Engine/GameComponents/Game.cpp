@@ -8,8 +8,19 @@
 #include "Tag.h"
 #include "DebugRenderer.h"
 
+constexpr auto fullScreenKey = "FullScreen";
+constexpr auto previousScreenKey = "PreviousScreen";
+constexpr auto nextScreenKey = "NextScreen";
+
 void Game::Init()
 {
+	if constexpr (Setting::IsDebugMode())
+	{
+		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, fullScreenKey, 0x7A); // F11
+		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, nextScreenKey, 0xBE); // >
+		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, previousScreenKey, 0xBC); // <
+	}
+
 	timer = GameTimer::GetInstance();
 	timer->Start();
 
@@ -22,14 +33,26 @@ void Game::Init()
 static bool IwannaDie = false;
 void Game::Update()
 {
-	if (InputSystem::GetInstance()->GetInput("FullScreen")->Check())
+	if constexpr (Setting::IsDebugMode())
 	{
-		IwannaDie = !IwannaDie;
-		if (IwannaDie)
-			Graphics::FullScreen();
-		else
-			Graphics::Window();
+		if (InputSystem::GetInstance()->GetInput(fullScreenKey)->Check())
+		{
+			IwannaDie = !IwannaDie;
+			if (IwannaDie)
+				Graphics::FullScreen();
+			else
+				Graphics::Window();
+		}
+		if (InputSystem::GetInstance()->GetInput(previousScreenKey)->Check())
+		{
+			sceneManager->CallLoadPreviousScene();
+		}
+		if (InputSystem::GetInstance()->GetInput(nextScreenKey)->Check())
+		{
+			sceneManager->CallLoadNextScene();
+		}
 	}
+	
 
 	timer->Mark();
 
@@ -41,6 +64,12 @@ void Game::Update()
 void Game::FixUpdate()
 {
 	sceneManager->FixedUpdate();
+}
+
+void Game::ResetGameTimer() noexcept
+{
+	GameTimer::ResetDeltaTime();
+	Physic::Reset();
 }
 
 void Game::End()

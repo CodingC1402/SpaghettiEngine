@@ -2,6 +2,9 @@
 #include "Body2D.h"
 #include "Matrix.h"
 #include "CollideEvent.h"
+#include "BroadPhaseShape.h"
+
+#include <map>
 
 class Shape;
 typedef std::weak_ptr<Shape> WShape;
@@ -14,6 +17,7 @@ class Collision;
 
 class Shape
 {
+	friend class ShapeFactory;
 public:
 	enum class Type
 	{
@@ -29,35 +33,36 @@ public:
 	[[nodiscard]] virtual Type GetType() const;
 
 	void SetOwnerScript(Collider2DBase* owner);
-	[[nodiscard]] Collider2DBase* GetOwnerScript();
+	[[nodiscard]] Collider2DBase* GetOwnerScript() const noexcept;
 
-	[[nodiscard]] float GetInverseMass() const;
-	[[nodiscard]] float GetMass() const;
-	[[nodiscard]] Vector3 GetVelocity() const;
-	[[nodiscard]] Vector3 GetGravityVector() const;
+	[[nodiscard]] float GetInverseMass() const noexcept;
+	[[nodiscard]] float GetMass() const noexcept;
+	[[nodiscard]] Vector3 GetVelocity() const noexcept;
+	[[nodiscard]] Vector3 GetGravityVector() const noexcept;
+	[[nodiscard]] const Vector3& GetCenter() const noexcept;
+	[[nodiscard]] const BroadPhaseShape& GetBroadPhase() const noexcept;
 	
 	void SetOffSetX(const float& x);
 	void SetOffSetY(const float& y);
-	[[nodiscard]] float GetOffSetX() const;
-	[[nodiscard]] float GetOffSetY() const;
-
-	[[nodiscard]] const Vector3& GetCenter() const;
-	[[nodiscard]] const float& GetRadius() const;
+	[[nodiscard]] float GetOffSetX() const noexcept;
+	[[nodiscard]] float GetOffSetY() const noexcept;
 
 	void SetTriggerOnly(bool value);
-	[[nodiscard]] bool IsTriggerOnly() const;
+	[[nodiscard]] bool IsTriggerOnly() const noexcept;
 
 	void SendEvent(CollideEvent& e);
 
-	virtual void UpdateParameter() = 0;
+	// Return whether they updated or not
+	virtual bool UpdateParameter();
 
 	void RemoveFromPhysic();
 	void AddToPhysic();
 
 	void SetBody(WBody2D body);
 	
-	virtual Shape* Clone() const = 0;
-	WBody2D GetBody() const;
+	virtual Shape* Clone() const;
+	[[nodiscard]] WBody2D GetBody() const noexcept;
+protected:
 protected:
 	Collider2DBase* _ownerScript;
 
@@ -68,7 +73,22 @@ protected:
 	Matrix4 _worldMatrix;
 	bool _isStatic = true;
 
-	//Use for broad phase
-	Vector3 _center;
-	float _radius;
+	BroadPhaseShape _broadPhase;
 };
+
+class ShapeFactory
+{
+public:
+	static Shape* Create(const std::string& type);
+	static Shape* Create(const Shape::Type& type);
+protected:
+	template<typename T>
+	static Shape* CreateNew();
+	static std::map<const char*, Shape*(*)()> _functions;
+};
+
+template<typename T>
+inline Shape* ShapeFactory::CreateNew()
+{
+	return new T;
+}

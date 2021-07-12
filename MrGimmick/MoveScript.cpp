@@ -122,7 +122,7 @@ void MoveScript::CheckDirection(const bool& keyRelease, const bool& keyDown, con
 {
 	if (keyDown)
 	{
-		totalVel = factor;
+		totalVel = static_cast<float>(factor);
 		if (isFlipped != (factor < 0))
 		{
 			GetGameObject()->GetTransform().SetScale(factor, 1, 1);

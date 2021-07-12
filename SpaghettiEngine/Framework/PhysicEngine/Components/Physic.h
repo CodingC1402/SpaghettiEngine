@@ -12,6 +12,7 @@ class GameObj;
 
 class Physic
 {
+	friend class Game;
 public:
 	//Return value is alpha used to interpolate render deltatime.
 	static bool Update();
@@ -41,6 +42,7 @@ public:
 protected:
 	Physic() = default;
 
+	static void Reset() noexcept;
 	static void Step();
 protected:
 	static inline float _stepInterpolation = 0.9f;

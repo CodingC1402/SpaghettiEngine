@@ -28,7 +28,6 @@ bool Physic::Update()
 			script->AfterPhysicUpdate();
 		}
 
-
 		_accumulator -= _step;
 
 		float interpolateNumber = _accumulator * (1 - _stepInterpolation);
@@ -46,6 +45,15 @@ bool Physic::Update()
 		isRunUpdate = true;
 	}
 	return isRunUpdate;
+}
+
+void Physic::Reset() noexcept
+{
+	_accumulator = 0;
+	_step = _baseStep;
+
+	if constexpr (Setting::IsDebugMode())
+		DebugRenderer::Clear();
 }
 
 void Physic::Step()

@@ -49,7 +49,7 @@ void StarCreation::Draw(PCamera script)
 
 	Vector3 position(0, _radius, 0);
 	position = position * SMath::GetZAxisRotateMatrix(_currentSpinAngle);
-	for (int i = 0; i < _numberOfStar; i++)
+	for (unsigned i = 0; i < _numberOfStar; i++)
 	{
 		if (Setting::IsWorldPointPixelPerfect())
 		{
@@ -68,7 +68,7 @@ void StarCreation::Load(nlohmann::json& input)
 
 	_createTime		= input[Star::_createTime].get<float>();
 	_starAnim		= AnimationContainer::GetInstance()->GetResource(input[Star::_smallStarAnim].get<CULL>());
-	_numberOfStar	= input[Star::_numberOfStar].get<CULL>();
+	_numberOfStar	= input[Star::_numberOfStar].get<unsigned>();
 	_spinAngle		= input[Star::_spinAngle].get<float>();
 	_baseRadius		= input[Star::_radius].get<float>();
 	_radius			= _baseRadius; // To prevent glitch

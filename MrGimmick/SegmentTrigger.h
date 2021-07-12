@@ -35,13 +35,13 @@ protected:
 	bool _playerInside = false;
 	bool _shouldTrigger = true;
 
-	State _state;
+	State _state = State::LoadingSegmentA;
 
-	SegmentTrigger* _previousTrigger;
-	SegmentTrigger* _nextTrigger;
+	SegmentTrigger* _previousTrigger = nullptr;
+	SegmentTrigger* _nextTrigger = nullptr;
 
-	LevelSegment* _segmentA;
-	LevelSegment* _segmentB;
+	LevelSegment* _segmentA = nullptr;
+	LevelSegment* _segmentB = nullptr;
 private:
 	REGISTER_START(SegmentTrigger);
 };

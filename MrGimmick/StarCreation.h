@@ -19,7 +19,7 @@ protected:
 	SSprite _currentSprite;
 
 	Matrix4 _rotationMatrix;
-	float _numberOfStar		= 0;
+	unsigned _numberOfStar	= 0;
 
 	float _spinAngle		= 0.0f; // In 1 second;
 	float _currentSpinAngle = 0.0f;

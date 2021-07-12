@@ -34,7 +34,7 @@ protected:
 typedef std::shared_ptr<Tile> STile;
 typedef std::weak_ptr<Tile> WTile;
 
-class TileSet : Resource
+class TileSet : public Resource
 {
 public:
 	WTile GetTile(int index);
