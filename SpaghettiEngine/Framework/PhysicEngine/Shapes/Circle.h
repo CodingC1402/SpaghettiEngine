@@ -8,7 +8,6 @@ public:
 	void SetRadius(const float& radius);
 
 	Shape* Clone() const override;
-	void UpdateParameter() override;
 
 	[[nodiscard]] const float& GetRadius() const;
 

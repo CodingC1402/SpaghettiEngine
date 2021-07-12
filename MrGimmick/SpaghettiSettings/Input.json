@@ -19,11 +19,6 @@
       "KeyCode": 90,
       "Name": "Attack",
       "Type": "All"
-    },
-    {
-      "KeyCode": 122,
-      "Name": "FullScreen",
-      "Type": "KeyPress"
     }
   ]
 }

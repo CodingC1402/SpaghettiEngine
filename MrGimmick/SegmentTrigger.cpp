@@ -5,7 +5,7 @@ REGISTER_FINISH(SegmentTrigger, ScriptBase) {}
 
 void SegmentTrigger::OnCollide(CollideEvent& e)
 {
-	if (e.GetGameObject()->GetTag().Contain(Fields::Player::_player));
+	if (e.GetGameObject()->GetTag().Contain(Fields::Player::_player))
 		_playerInside = true;
 }
 

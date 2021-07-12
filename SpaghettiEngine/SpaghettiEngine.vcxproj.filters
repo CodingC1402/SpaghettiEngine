@@ -359,6 +359,9 @@
     <ClInclude Include="Framework\Engine\Scripts\ScriptField.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.h">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -612,6 +615,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.cpp">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

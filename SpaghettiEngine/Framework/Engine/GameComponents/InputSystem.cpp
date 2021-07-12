@@ -90,7 +90,7 @@ void InputSystem::Load()
 			auto type = input[TypeText].get<Input::Type>();
 			auto name = input[NameText].get<std::string>();
 			auto code = input[CodeText].get<KeyCode>();
-			inputs.push_back(Input::Create(code, name, type));
+			CreateInput(type, name, code);
 		}
 	}
 	catch (...)
@@ -130,6 +130,11 @@ void InputSystem::Save()
 	oFile.open(SystemPath::InputPath, std::ios_base::trunc);
 	oFile << j;
 	oFile.close();
+}
+
+void InputSystem::CreateInput(const Input::Type& type, const std::string& name, const KeyCode& code)
+{
+	inputs.push_back(Input::Create(code, name, type));
 }
 
 InputSystem::InputSysException::InputSysException(int line, const char* file, std::wstring description) noexcept

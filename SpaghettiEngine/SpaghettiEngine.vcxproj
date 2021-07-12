@@ -90,6 +90,7 @@
     <ClInclude Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\Polygon2DCollider.h" />
     <ClInclude Include="Framework\PhysicEngine\Scripts\RigidBody2D.h" />
+    <ClInclude Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Circle.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Polygon.h" />
     <ClInclude Include="Framework\PhysicEngine\Shapes\Shape.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="Framework\PhysicEngine\Scripts\Collider2DBase.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\PhysicScriptBase.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Scripts\RigidBody2D.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Shapes\Circle.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Shapes\Polygon.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Shapes\Shape.cpp" />

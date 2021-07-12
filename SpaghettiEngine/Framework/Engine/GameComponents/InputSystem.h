@@ -33,6 +33,8 @@ protected:
 	void Load();
 	void Save();
 
+	void CreateInput(const Input::Type& type, const std::string& name, const KeyCode& code);
+
 	static PInputSystem GetInstance();
 protected:
 	PKeyBoard kb;

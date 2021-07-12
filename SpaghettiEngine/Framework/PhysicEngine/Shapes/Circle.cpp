@@ -14,29 +14,11 @@ void Circle::SetRadius(const float& radius)
 
 Shape* Circle::Clone() const
 {
-	Circle* cloneCircle = new Circle();
+	Circle* cloneCircle = dynamic_cast<Circle*>(Shape::Clone());
 	
-	cloneCircle->_topLeft = _topLeft;
-	cloneCircle->_bottomRight = _bottomRight;
-	cloneCircle->_center = _center;
-
-	cloneCircle->_offSetMatrix = _offSetMatrix;
 	cloneCircle->_radius = _radius;
 
 	return cloneCircle;
-}
-
-void Circle::UpdateParameter()
-{
-	Matrix4 matrix = _body.lock()->GetWorldMatrix();
-	if (matrix == _worldMatrix)
-		return;
-
-	_worldMatrix = matrix;
-	_center.x = _worldMatrix._41;
-	_center.y = _worldMatrix._42;
-	_center.z = 0;
-	_center = _center * _offSetMatrix;
 }
 
 bool Circle::CircleCircle(Collision* collision)

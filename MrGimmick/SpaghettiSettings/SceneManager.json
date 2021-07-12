@@ -3,6 +3,6 @@
     "Asset/Scenes/Level1.json",
     "Asset/Scenes/Level2.json"
   ],
-  "Start": 0,
+  "Start": 1,
   "StaticScene": "Asset/Scenes/Static.json"
 }
