@@ -1,6 +1,8 @@
 #include "QTNode.h"
+#include "Setting.h"
 
-constexpr int DrawColor = 0x00FFFF00FF;
+constexpr int DrawColor = 0xFFFF00FF;
+constexpr int AxisesColor = 0xFFFFFF00;
 
 // Right, Left, Down Up
 QTNode::QTNode(float xAxis, float yAxis, float width, float height, NodeType type)
@@ -138,7 +140,14 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 
 void QTNode::Draw()
 {
+	if constexpr (!Setting::IsDebugMode())
+		return;
+
 	DebugRenderer::DrawRectangle(Vector3(_yAxis - _width / 2.0f, _xAxis + _height / 2.0f, 0), _width, _height, Matrix4::GetDiagonalMatrix(), DrawColor);
+
+	DebugRenderer::DrawLine(Vector3(_yAxis, _xAxis + _height / 2.0f, 0), Vector3(_yAxis, _xAxis - _height / 2.0f, 0), Matrix4::GetDiagonalMatrix(), AxisesColor);
+	DebugRenderer::DrawLine(Vector3(_yAxis + _width / 2.0f, _xAxis, 0), Vector3(_yAxis - _width / 2.0f, _xAxis, 0), Matrix4::GetDiagonalMatrix(), AxisesColor);
+
 	for (auto& node : _subNodes)
 	{
 		if (node.use_count() > 0)

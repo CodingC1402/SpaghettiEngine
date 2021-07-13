@@ -38,9 +38,11 @@ bool Physic::Update()
 		if constexpr (Setting::IsDebugMode())
 		{
 			if (_accumulator < _step)
+			{
 				DebugRenderer::Clear();
+				_quadTree.Draw();
+			}
 		}
-		_quadTree.Draw();
 		Game::FixUpdate();
 
 		isRunUpdate = true;

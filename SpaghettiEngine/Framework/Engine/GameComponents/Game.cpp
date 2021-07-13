@@ -29,7 +29,7 @@ void Game::Init()
 
 	timer = GameTimer::GetInstance();
 	timer->Start();
-	//GameTimer::SetTimeScale(0.1f);
+	GameTimer::SetTimeScale(0.1f);
 
 	input = InputSystem::GetInstance();
 

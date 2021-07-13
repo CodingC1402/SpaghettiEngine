@@ -5,8 +5,6 @@
 #include "QuadTree.h"
 #include "SMath.h"
 
-constexpr unsigned TreeColor = 0x00FF00FFFF;
-
 void DebugRenderer::DrawPolygon(const std::vector<Vector3>& vertexes, const Matrix4& matrix, const Color& color)
 {
 	if constexpr (Setting::IsDebugMode())
@@ -14,7 +12,7 @@ void DebugRenderer::DrawPolygon(const std::vector<Vector3>& vertexes, const Matr
 		auto copy = vertexes;
 		copy.reserve(static_cast<unsigned long long>(vertexes.size()) + 1_ut);
 		copy.push_back(vertexes.front());
-		_shapes.emplace_back(std::pair(std::move(copy), std::pair(matrix, color != 0 ? color : _renderColor)));
+		_shapes.emplace_back(std::move(copy), std::pair(matrix, TranslateColor(color)));
 	}
 }
 
@@ -32,7 +30,7 @@ void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix, const
 	}
 	vertexes.back() = vertexes.front();
 
-	_shapes.emplace_back(std::pair(std::move(vertexes), std::pair(matrix, color != 0 ? color : _renderColor)));
+	_shapes.emplace_back(std::move(vertexes), std::pair(matrix, TranslateColor(color)));
 }
 
 void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, const Matrix4& matrix, const Color& color)
@@ -48,7 +46,13 @@ void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, co
 	bottomLeft.x = topLeft.x;
 
 	std::vector<Vector3> vertexes = { topLeft, topRight, bottomRight, bottomLeft, topLeft };
-	_shapes.emplace_back(std::move(vertexes), std::pair(matrix, color != 0 ? color : _renderColor));
+	_shapes.emplace_back(std::move(vertexes), std::pair(matrix, TranslateColor(color)));
+}
+
+void DebugRenderer::DrawLine(const Vector3& point1, const Vector3& point2, const Matrix4& matrix, const Color& color)
+{
+	std::vector<Vector3> vertexes = { point1, point2 };
+	_shapes.emplace_back(vertexes, std::pair(matrix, TranslateColor(color)));
 }
 
 void DebugRenderer::SetColor(const Color& color) noexcept
@@ -71,6 +75,11 @@ Color DebugRenderer::GetColor() noexcept
 float DebugRenderer::GetWidth() noexcept
 {
 	return _width;
+}
+
+Color DebugRenderer::TranslateColor(const Color& color) noexcept
+{
+	return color != 0 ? color : _renderColor;
 }
 
 void DebugRenderer::Render(SDirectX9Graphic dxTurd, PCamera cameraScript)
