@@ -82,6 +82,7 @@ void App::CallQuit()
 
 void App::Quit() const
 {
+	Game::Quit();
 	__instance = nullptr;
 	delete this;
 }

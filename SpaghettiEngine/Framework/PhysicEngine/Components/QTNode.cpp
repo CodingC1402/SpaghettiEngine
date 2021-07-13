@@ -56,7 +56,6 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, std::list<Collision>& co
 
 void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList)
 {
-	int index;
 	if (intersect.count() > 2)
 	{
 		// Up down left right

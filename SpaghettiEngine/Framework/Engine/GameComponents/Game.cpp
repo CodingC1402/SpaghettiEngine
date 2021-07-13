@@ -7,10 +7,16 @@
 #include "Setting.h"
 #include "Tag.h"
 #include "DebugRenderer.h"
+#include "App.h"
 
 constexpr auto fullScreenKey = "FullScreen";
 constexpr auto previousScreenKey = "PreviousScreen";
 constexpr auto nextScreenKey = "NextScreen";
+
+void Game::CallQuit()
+{
+	App::GetInstance()->CallQuit();
+}
 
 void Game::Init()
 {
@@ -52,13 +58,18 @@ void Game::Update()
 			sceneManager->CallLoadNextScene();
 		}
 	}
-	
 
 	timer->Mark();
 
 	input->Update();
 	sceneManager->Update();
 	Physic::Update();
+}
+
+void Game::Quit()
+{
+	sceneManager->Unload();
+	App::GetInstance()->CallQuit();
 }
 
 void Game::FixUpdate()
@@ -70,11 +81,6 @@ void Game::ResetGameTimer() noexcept
 {
 	GameTimer::ResetDeltaTime();
 	Physic::Reset();
-}
-
-void Game::End()
-{
-	sceneManager->Unload();
 }
 
 Game::~Game()

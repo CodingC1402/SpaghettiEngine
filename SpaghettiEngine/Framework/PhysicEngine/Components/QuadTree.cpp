@@ -32,4 +32,13 @@ void QuadTree::Insert(std::deque<Shape*>& shapes)
 	}
 
 	_root = std::make_shared<QTNode>((minY + maxY) / 2.0f, (minX + maxX) / 2.0f, maxX - minX, maxY - minY, QTNode::NodeType::Root);
+	for (auto& shape : shapes)
+	{
+		_root->Insert(shape);
+	}
+}
+
+void QuadTree::CreateCollisionList(std::list<Collision>& collisionList)
+{
+	_root->CreateCollisionList(collisionList);
 }
