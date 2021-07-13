@@ -11,6 +11,7 @@ public:
 	PScriptBase Clone() const override;
 protected:
 	int currentHealth;
+	int maxHealth;
 private:
 	REGISTER_START(HealthScript);
 };

@@ -29,8 +29,3 @@ void PlaySoundScript::OnUpdate()
 		_audio->Stop();
 	}
 }
-
-PScriptBase PlaySoundScript::Clone() const
-{
-	return PScriptBase();
-}

@@ -12,8 +12,6 @@ public:
 	void Load(nlohmann::json& input);
 	void OnStart() override;
 	void OnUpdate() override;
-
-	PScriptBase Clone() const override;
 protected:
 	SInputAll _play1Input;
 	SInputAll _play2Input;
