@@ -34,6 +34,12 @@ void SoundSystem::PlaySoundBuffer(Sound& s, float freqMod, float vol)
 	}
 }
 
+SoundSystem::~SoundSystem()
+{
+	pEngine->Release();
+	CoUninitialize();
+}
+
 SoundSystem::SoundSystem()
 {
 	format.wFormatTag = WAVE_FORMAT_PCM;
@@ -43,6 +49,7 @@ SoundSystem::SoundSystem()
 	format.nBlockAlign = 4;
 	format.wBitsPerSample = 16;
 	format.cbSize = 0;
+	CoInitializeEx(0, COINIT_MULTITHREADED);
 	XAudio2Create(&pEngine);
 	pEngine->CreateMasteringVoice(&pMaster);
 	for (int i = 0; i < nChannels; i++)
@@ -276,7 +283,7 @@ Sound::Sound(const std::wstring& fileName)
 	}
 }
 
-Sound::Sound(Sound&& donor) : nBytes(donor.nBytes), pData(std::move(donor.pData)), activeChannelPtrs(std::move(donor.activeChannelPtrs))
+Sound::Sound(Sound&& donor) noexcept : nBytes(donor.nBytes), pData(std::move(donor.pData)), activeChannelPtrs(std::move(donor.activeChannelPtrs))
 {
 }
 

@@ -68,6 +68,8 @@ public:
 	static SoundSystem* Get() noexcept;
 	static WAVEFORMATEX& GetFormat();
 	void PlaySoundBuffer(class Sound& s, float freqMod, float vol);
+
+	~SoundSystem();
 private:
 	SoundSystem();
 	void DeactivateChannel(Channel& channel);
@@ -89,7 +91,7 @@ class Sound
 public:
 	Sound(const std::wstring& fileName);
 	Sound(const Sound&) = delete;
-	Sound(Sound&& donor);
+	Sound(Sound&& donor) noexcept;
 
 	void Play(float freqMod, float vol);
 	void Resume();
