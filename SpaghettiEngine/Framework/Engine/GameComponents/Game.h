@@ -12,10 +12,15 @@ class Game
 public:
 	Game(const Game&) = delete;
 	Game& operator=(const Game&) = delete;
+
+	// Call the app to quit the game loop then call quit
+	static void CallQuit();
 protected:
 	static void Init();
 	static void Update();
-	static void End();
+
+	// Clean up resource
+	static void Quit();
 
 	// Will be called by physic
 	static void FixUpdate();
