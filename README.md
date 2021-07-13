@@ -5,7 +5,7 @@ It's a bad game engine.
 
 Keys:
 - < To load previous screen.
-- > To load next screen.
+- \> To load next screen.
 - F11 To fullscreen
 
 Support:
