@@ -107,7 +107,6 @@ void Setting::Load()
 	}
 }
 
-
 Setting::AppSettingException::AppSettingException(int line, const char* file, std::wstring description) noexcept
 	:
 	CornDescriptionException(line, file, description)

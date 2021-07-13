@@ -12,8 +12,8 @@ void QuadTree::Insert(std::deque<Shape*>& shapes)
 	if (shapes.empty())
 		return;
 
-	Vector3 topLeft = shapes[0]->GetBroadPhase().GetTopLeft();
-	Vector3 bottomRight = shapes[0]->GetBroadPhase().GetBottomRight();
+	Vector3 topLeft = shapes[0]->GetBroadPhase().GetWorldTopLeft();
+	Vector3 bottomRight = shapes[0]->GetBroadPhase().GetWorldBottomRight();
 
 	float minX = topLeft.x;
 	float maxX = bottomRight.x;
@@ -22,8 +22,8 @@ void QuadTree::Insert(std::deque<Shape*>& shapes)
 	
 	for (auto it = ++shapes.begin(); it != shapes.end(); ++it)
 	{
-		topLeft = (*it)->GetBroadPhase().GetTopLeft();
-		bottomRight = (*it)->GetBroadPhase().GetBottomRight();
+		topLeft = (*it)->GetBroadPhase().GetWorldTopLeft();
+		bottomRight = (*it)->GetBroadPhase().GetWorldBottomRight();
 
 		minX = minX > topLeft.x		? topLeft.x		: minX;
 		maxX = maxX < bottomRight.x ? bottomRight.x : maxX;
@@ -41,4 +41,10 @@ void QuadTree::Insert(std::deque<Shape*>& shapes)
 void QuadTree::CreateCollisionList(std::list<Collision>& collisionList)
 {
 	_root->CreateCollisionList(collisionList);
+}
+
+void QuadTree::Draw()
+{
+	if (_root.use_count() > 0)
+		_root->Draw();
 }

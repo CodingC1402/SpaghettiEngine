@@ -1,10 +1,11 @@
 #pragma once
 #include "Body2D.h"
 #include "Matrix.h"
+#include "Macros.h"
 #include "CollideEvent.h"
 #include "BroadPhaseShape.h"
 
-#include <map>
+#include <unordered_map>
 
 class Shape;
 typedef std::weak_ptr<Shape> WShape;
@@ -63,7 +64,6 @@ public:
 	virtual Shape* Clone() const;
 	[[nodiscard]] WBody2D GetBody() const noexcept;
 protected:
-protected:
 	Collider2DBase* _ownerScript;
 
 	WBody2D _body;
@@ -78,13 +78,21 @@ protected:
 
 class ShapeFactory
 {
+protected:
+	class FactoryInitializer
+	{
+	public:
+		FactoryInitializer();
+	};
 public:
 	static Shape* Create(const std::string& type);
 	static Shape* Create(const Shape::Type& type);
 protected:
 	template<typename T>
 	static Shape* CreateNew();
-	static std::map<const char*, Shape*(*)()> _functions;
+protected:
+	static inline std::unordered_map<std::string, Shape*(*)()> _functions;
+	static inline FactoryInitializer _initializer;
 };
 
 template<typename T>

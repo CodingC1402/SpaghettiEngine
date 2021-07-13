@@ -4,6 +4,11 @@
 #include "SMath.h"
 #include <string>
 
+// To disable draw quad tree just remove this.
+#define DRAW_QUAD_TREE
+// To enable draw quad tree use this
+// #define DRAW_QUAD_TREE_GRID
+
 class Setting
 {
 public:
@@ -22,7 +27,9 @@ public:
 	static bool IsWorldPointPixelPerfect();
 	static float GetFps();
 	
-	static constexpr bool IsDebugMode();
+	[[nodiscard]] static constexpr bool IsDebugMode();
+	[[nodiscard]] static constexpr bool IsDrawQuadTree();
+	[[nodiscard]] static constexpr bool IsDrawQuadTreeGrid();
 protected:
 	~Setting() = default;
 	Setting();
@@ -44,11 +51,33 @@ protected:
 #else
 	static constexpr bool _isDebugMode = false;
 #endif
+
+#ifdef DRAW_QUAD_TREE
+	static constexpr bool _isDrawQuadTree = true;
+#else
+	static constexpr bool _isDrawQuadTree = false;
+#endif
+
+#ifdef DRAW_QUAD_TREE_GRID
+	static constexpr bool _isDrawQuadTreeGrid = true;
+#else
+	static constexpr bool _isDrawQuadTreeGrid = false;
+#endif
 };
 
 constexpr bool Setting::IsDebugMode()
 {
 	return _isDebugMode;
+}
+
+constexpr bool Setting::IsDrawQuadTree()
+{
+	return _isDrawQuadTree;
+}
+
+constexpr bool Setting::IsDrawQuadTreeGrid()
+{
+	return _isDrawQuadTreeGrid;
 }
 
 #define APPSETTING_EXCEPT(description) Setting::AppSettingException(__LINE__,__FILE__,description)

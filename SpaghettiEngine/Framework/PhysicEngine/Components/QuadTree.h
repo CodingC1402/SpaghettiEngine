@@ -8,6 +8,8 @@ public:
 	void Clear();
 	void Insert(std::deque<Shape*>& shapes);
 	void CreateCollisionList(std::list<Collision>& collisionList);
+
+	void Draw();
 private:
 	SQTNode _root;
 };
