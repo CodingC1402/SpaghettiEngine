@@ -3,9 +3,10 @@ It's a bad game engine.
 
 ~Now it's a bad game engine that can do full screen stuff : ^D~
 
-< To load previous screen.
-> To load next screen.
-F11 To fullscreen
+Keys:
+- < To load previous screen.
+- > To load next screen.
+- F11 To fullscreen
 
 Support:
 - Flyweight pattern for Texture, Prefab, Sprite, Animation.
