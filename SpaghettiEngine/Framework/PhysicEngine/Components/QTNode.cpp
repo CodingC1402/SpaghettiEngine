@@ -116,21 +116,11 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 	else
 	{
 		// Right, Left, Down Up
-		switch (_type)
-		{
-		case NodeType::DownLeft:
-			CreateCollisionListWithEdgeIndex({ 2, 1 }, shape, collisionList);
-			break;
-		case NodeType::DownRight:
-			CreateCollisionListWithEdgeIndex({ 3, 1 }, shape, collisionList);
-			break;
-		case NodeType::UpLeft:
-			CreateCollisionListWithEdgeIndex({ 2, 0 }, shape, collisionList);
-			break;
-		case NodeType::UpRight:
-			CreateCollisionListWithEdgeIndex({ 3, 0 }, shape, collisionList);
-			break;
-		}
+		std::vector<unsigned> bitIndexes;
+		for (int i = 0; i < intersect.size(); i++)
+			if (intersect[i])
+				bitIndexes.push_back(i);
+		CreateCollisionListWithEdgeIndex(bitIndexes, shape, collisionList);
 
 		unsigned index = GetIndexFromBitSet(intersect);
 		if (_subNodes[index].use_count() > 0)
