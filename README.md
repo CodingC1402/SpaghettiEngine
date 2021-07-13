@@ -17,6 +17,8 @@ Support:
 - Event system.
 - Complete directX separation form the code.
 
+- Audio.
+
 - SAT collision detection.
 - Physic materials.
 - Debug mode line renderer.
@@ -24,6 +26,8 @@ Support:
 - RigidBody.
 - Polygon collider.
 - Circle collider.
+- QuadTree.
+- Surface ( like in unity )
 
 - Animator.
 - Animation tree.
@@ -33,13 +37,10 @@ Support:
 - Animated tile.
 
 To do:
-- K-d-tree.
 - A* path finding.
 - Ridable platform.
-- Surface ( like in unity )
 - Enemy script.
 - Health script.
 - Main menu.
-- Audio.
 - Settings.
 - UI Component.
