@@ -1,8 +1,9 @@
 #pragma once
 #include "Macros.h"
 #include "Shape.h"
+#include "Collision.h"
 #include <bitset>
-#include <list>
+#include <map>
 
 CLASS_FORWARD_DECLARATION(QTNode);
 constexpr auto edgeNum = 4;
@@ -24,10 +25,15 @@ public:
 		UpRight,
 		DownLeft,
 		DownRight,
-		Root
+		Root,
+		Invalid
 	};
 public:
 	QTNode(float xAxis, float yAxis, float width, float height, NodeType type);
+
+	void CreateCollisionList(std::list<Collision>& collisionList);
+	void CreateCollisionListWithShape(Shape* shape, std::list<Collision>& collisionList);
+	void CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList);
 
 	void Insert(Shape* shape);
 	void Remove(Shape* shape);
@@ -37,6 +43,14 @@ private:
 	void SetBitSet(const Vector3& point, std::bitset<edgeNum>& intersect);
 	void SetIntersectBitset(Shape* shape, std::bitset<edgeNum>& intersect);
 	void InsertToSub(Shape* shape, unsigned index);
+
+	void CheckSubNodeAndCallCreateCollision(Shape* shape, std::list<Collision>& collisionList, QTNode::NodeType type);
+
+	// Any shape that collide with the edge
+	void CreateCollisionListWithEdgeIndex(unsigned index, Shape* shape, std::list<Collision>& collisionList);
+	void CreateCollisionListWithEdgeIndex(const std::vector<unsigned>& indexes, Shape* shape, std::list<Collision>& collisionList);
+
+	[[nodiscard]] unsigned GetIndexFromBitSet(const std::bitset<edgeNum>& intersect) const noexcept;
 private:
 	float _xAxis;
 	float _yAxis;
@@ -47,11 +61,6 @@ private:
 	unsigned _shapeCounter = 0;
 	SQTNode _subNodes[4];
 
-	// Parent node
-	WQTNode _parent;
-	// Index in parent container
-	unsigned _index;
-
 	// Bit set is the edge that the BroadPhase rect intersect
-	std::list<std::pair<Shape*, std::bitset<edgeNum>>> _shapes;
+	std::map<Shape*, std::bitset<edgeNum>> _shapes;
 };

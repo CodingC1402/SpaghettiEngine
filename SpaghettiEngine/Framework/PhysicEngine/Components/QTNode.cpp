@@ -1,5 +1,6 @@
 #include "QTNode.h"
 
+// Up down left right
 QTNode::QTNode(float xAxis, float yAxis, float width, float height, NodeType type)
 {
 	_xAxis = xAxis;
@@ -9,33 +10,122 @@ QTNode::QTNode(float xAxis, float yAxis, float width, float height, NodeType typ
 	_type = type;
 }
 
+void QTNode::CreateCollisionList(std::list<Collision>& collisionList)
+{
+	for (auto& shape : _shapes)
+		CreateCollisionListWithShape(shape.first, shape.second, collisionList);
+
+	for (auto& node : _subNodes)
+		if (node.use_count() > 0)
+			node->CreateCollisionList(collisionList);
+}
+
+void QTNode::CheckSubNodeAndCallCreateCollision(Shape* shape, std::list<Collision>& collisionList, QTNode::NodeType type)
+{
+	unsigned index = static_cast<unsigned>(type);
+	if (_subNodes[index].use_count() > 0)
+		_subNodes[index]->CreateCollisionListWithShape(shape, collisionList);
+}
+void QTNode::CreateCollisionListWithEdgeIndex(unsigned index, Shape* shape, std::list<Collision>& collisionList)
+{
+	for (auto& collideShape : _shapes)
+	{
+		if (collideShape.second[index])
+			collisionList.push_back(Collision(shape, collideShape.first));
+	}
+}
+void QTNode::CreateCollisionListWithEdgeIndex(const std::vector<unsigned>& indexes, Shape* shape, std::list<Collision>& collisionList)
+{
+	bool isCollide = true;
+	for (auto& collideShape : _shapes)
+	{
+		isCollide = true;
+		for (const auto& index : indexes)
+			isCollide &= collideShape.second[index];
+		if (isCollide)
+			collisionList.push_back(Collision(shape, collideShape.first));
+	}
+}
+void QTNode::CreateCollisionListWithShape(Shape* shape, std::list<Collision>& collisionList)
+{
+	std::bitset<edgeNum> intersect;
+	SetIntersectBitset(shape, intersect);
+
+	CreateCollisionListWithShape(shape, intersect, collisionList);
+}
+
+void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList)
+{
+	int index;
+	if (intersect.count() > 2)
+	{
+		// Up down left right
+		switch (intersect.to_ulong())
+		{
+		case 0b1111:
+			for (int i = 0; i < edgeNum; i++)
+			{
+				if (_subNodes[i].use_count() > 0)
+					_subNodes[i]->CreateCollisionListWithShape(shape, collisionList);
+			}
+			break;
+		case 0b1101:
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpRight);
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownRight);
+			CreateCollisionListWithEdgeIndex(0u, shape, collisionList);
+			break;
+		case 0b1110:
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpLeft);
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownLeft);
+			CreateCollisionListWithEdgeIndex(1u, shape, collisionList);
+			break;
+		case 0b1011:
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpLeft);
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpRight);
+			CreateCollisionListWithEdgeIndex(2u, shape, collisionList);
+			break;
+		case 0b0111:
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownLeft);
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownRight);
+			CreateCollisionListWithEdgeIndex(3u, shape, collisionList);
+			break;
+		}
+	}
+	else
+	{
+		// Up down left right
+		switch (_type)
+		{
+		case NodeType::DownLeft:
+			CreateCollisionListWithEdgeIndex({ 1, 2 }, shape, collisionList);
+			break;
+		case NodeType::DownRight:
+			CreateCollisionListWithEdgeIndex({ 1, 3 }, shape, collisionList);
+			break;
+		case NodeType::UpLeft:
+			CreateCollisionListWithEdgeIndex({ 0, 2 }, shape, collisionList);
+			break;
+		case NodeType::UpRight:
+			CreateCollisionListWithEdgeIndex({ 0, 3 }, shape, collisionList);
+			break;
+		}
+
+		unsigned index = GetIndexFromBitSet(intersect);
+		if (_subNodes[index].use_count() > 0)
+			_subNodes[index]->CreateCollisionListWithShape(shape, collisionList);
+	}
+}
+
 void QTNode::Insert(Shape* shape)
 {
 	std::bitset<edgeNum> intersect;
 	SetIntersectBitset(shape, intersect);
 
 	if (intersect.count() > 2)
-		_shapes.push_back(std::pair(shape, intersect));
+		_shapes.insert(std::pair(shape, intersect));
 	else
 	{
-		unsigned index = 0;
-		// Up down left right
-		switch (intersect.to_ulong())
-		{
-		case 0b1001:
-			index = static_cast<unsigned>(NodeType::UpRight);
-			break;
-		case 0b1010:
-			index = static_cast<unsigned>(NodeType::UpLeft);
-			break;
-		case 0b0110:
-			index = static_cast<unsigned>(NodeType::DownLeft);
-			break;
-		case 0b0101:
-			index = static_cast<unsigned>(NodeType::DownRight);
-			break;
-		}
-
+		unsigned index = GetIndexFromBitSet(intersect);
 		InsertToSub(shape, index);
 	}
 	_shapeCounter++;
@@ -43,7 +133,23 @@ void QTNode::Insert(Shape* shape)
 
 void QTNode::Remove(Shape* shape)
 {
+	std::bitset<edgeNum> intersect;
+	SetIntersectBitset(shape, intersect);
 
+	if (intersect.count() > 2)
+		_shapes.erase(shape);
+	else
+	{
+		unsigned index = GetIndexFromBitSet(intersect);
+		if (_subNodes[index].use_count() > 0)
+		{
+			_subNodes[index]->Remove(shape);
+			if (_subNodes[index]->_shapeCounter == 0)
+				_subNodes[index].reset();
+		}
+	}
+
+	_shapeCounter--;
 }
 
 void QTNode::Clear()
@@ -85,8 +191,8 @@ void QTNode::InsertToSub(Shape* shape, unsigned index)
 	{
 		float xAxis;
 		float yAxis;
-		float width = _width / 2;
-		float height = _height / 2;
+		float width = _width / 2.0f;
+		float height = _height / 2.0f;
 		
 		NodeType type = static_cast<NodeType>(index);
 		switch (type)
@@ -113,4 +219,22 @@ void QTNode::InsertToSub(Shape* shape, unsigned index)
 	}
 
 	_subNodes[index]->Insert(shape);
+}
+
+unsigned QTNode::GetIndexFromBitSet(const std::bitset<edgeNum>& intersect) const noexcept
+{
+	// Up down left right
+	switch (intersect.to_ulong())
+	{
+	case 0b1001:
+		return static_cast<unsigned>(NodeType::UpRight);
+	case 0b1010:
+		return static_cast<unsigned>(NodeType::UpLeft);
+	case 0b0110:
+		return static_cast<unsigned>(NodeType::DownLeft);
+	case 0b0101:
+		return static_cast<unsigned>(NodeType::DownRight);
+	default:
+		return static_cast<unsigned>(NodeType::Invalid);
+	}
 }
