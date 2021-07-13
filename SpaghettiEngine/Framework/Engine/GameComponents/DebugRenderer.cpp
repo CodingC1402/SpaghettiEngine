@@ -18,7 +18,7 @@ void DebugRenderer::DrawPolygon(const std::vector<Vector3>& vertexes, const Matr
 
 void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix, const Color& color)
 {
-	unsigned vertexesSize = SMath::Lerp(_minVertexNumberForCircle, _maxVertexNumberForCircle, radius / _radiusToReachMaxVertexNum);
+	unsigned vertexesSize = static_cast<unsigned>(SMath::Lerp(_minVertexNumberForCircle, _maxVertexNumberForCircle, radius / _radiusToReachMaxVertexNum));
 	Matrix4 rotationMatrix = SMath::GetZAxisRotateMatrix(360.0f / vertexesSize);
 	std::vector<Vector3> vertexes(static_cast<unsigned long long>(vertexesSize) + 1_ut);
 
@@ -108,7 +108,7 @@ void DebugRenderer::Render(SDirectX9Graphic dxTurd, PCamera cameraScript)
 				dxVertexes[i].y = static_cast<FLOAT>(currentVec3.y);
 			}
 
-			dxTurd->RenderPolygon(dxVertexes, size, _width, shapeMatrix.second.second);
+			dxTurd->RenderPolygon(dxVertexes, static_cast<unsigned>(size), _width, shapeMatrix.second.second);
 		}
 
 		dxTurd->EndRenderLine();

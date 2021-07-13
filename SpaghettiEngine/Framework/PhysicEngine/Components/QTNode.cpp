@@ -133,10 +133,30 @@ void QTNode::Draw()
 	if constexpr (!Setting::IsDebugMode())
 		return;
 
-	DebugRenderer::DrawRectangle(Vector3(_yAxis - _width / 2.0f, _xAxis + _height / 2.0f, 0), _width, _height, Matrix4::GetDiagonalMatrix(), DrawColor);
+	if constexpr (Setting::IsDrawQuadTree())
+	{
+		DebugRenderer::DrawRectangle(
+			Vector3(_yAxis - _width / 2.0f, _xAxis + _height / 2.0f, 0),
+			_width,
+			_height,
+			Matrix4::GetDiagonalMatrix(),
+			DrawColor);
+	}
 
-	DebugRenderer::DrawLine(Vector3(_yAxis, _xAxis + _height / 2.0f, 0), Vector3(_yAxis, _xAxis - _height / 2.0f, 0), Matrix4::GetDiagonalMatrix(), AxisesColor);
-	DebugRenderer::DrawLine(Vector3(_yAxis + _width / 2.0f, _xAxis, 0), Vector3(_yAxis - _width / 2.0f, _xAxis, 0), Matrix4::GetDiagonalMatrix(), AxisesColor);
+	if constexpr (Setting::IsDrawQuadTreeGrid())
+	{
+		DebugRenderer::DrawLine(
+			Vector3(_yAxis, _xAxis + _height / 2.0f, 0), 
+			Vector3(_yAxis, _xAxis - _height / 2.0f, 0), 
+			Matrix4::GetDiagonalMatrix(), 
+			AxisesColor);
+
+		DebugRenderer::DrawLine(
+			Vector3(_yAxis + _width / 2.0f, _xAxis, 0), 
+			Vector3(_yAxis - _width / 2.0f, _xAxis, 0), 
+			Matrix4::GetDiagonalMatrix(), 
+			AxisesColor);
+	}
 
 	for (auto& node : _subNodes)
 	{

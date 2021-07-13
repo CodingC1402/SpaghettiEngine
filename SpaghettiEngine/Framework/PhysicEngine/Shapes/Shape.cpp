@@ -7,12 +7,6 @@
 constexpr auto circle = "Circle";
 constexpr auto polygon = "Polygon";
 
-std::map<const char*, Shape*(*)()> ShapeFactory::_functions
-{
-	{circle, &ShapeFactory::CreateNew<Circle> },
-	{polygon, &ShapeFactory::CreateNew<Polygon2D>}
-};
-
 Shape* ShapeFactory::Create(const Shape::Type& type)
 {
 	std::string typeStr;
@@ -166,4 +160,10 @@ void Shape::SetBody(WBody2D body)
 Shape* ShapeFactory::Create(const std::string& type)
 {
 	return _functions[type.c_str()]();
+}
+
+ShapeFactory::FactoryInitializer::FactoryInitializer()
+{
+	_functions.emplace(circle, &ShapeFactory::CreateNew<Circle>);
+	_functions.emplace(polygon, &ShapeFactory::CreateNew<Polygon2D>);
 }
