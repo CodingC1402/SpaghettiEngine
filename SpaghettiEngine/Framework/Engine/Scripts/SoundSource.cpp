@@ -139,7 +139,12 @@ PScriptBase SoundSource::Clone() const
 {
 	auto clone = dynamic_cast<SoundSource*>(ScriptBase::Clone());
 
-	//clone->_audio = 
+	clone->_audio = _audio;
+	clone->index = index;
+	clone->isRepeat = isRepeat;
+	clone->isStop = isStop;
+	clone->delay = delay;
+	clone->volume = volume;
 
 	return clone;
 }

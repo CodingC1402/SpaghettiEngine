@@ -194,6 +194,7 @@
   <ItemGroup>
     <ClCompile Include="AttackMove.cpp" />
     <ClCompile Include="FieldNames.cpp" />
+    <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="LevelSegment.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
@@ -207,6 +208,7 @@
   <ItemGroup>
     <ClInclude Include="AttackMove.h" />
     <ClInclude Include="FieldNames.h" />
+    <ClInclude Include="HealthScript.h" />
     <ClInclude Include="LevelSegment.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />
