@@ -2,6 +2,7 @@
 #include "Body2D.h"
 #include "Shape.h"
 #include "Macros.h"
+#include "QuadTree.h"
 #include "Collision.h"
 #include <deque>
 #include <set>
@@ -59,4 +60,6 @@ protected:
 
 	static inline std::list<Collision> _contacts;
 	static inline std::set<Body2D*> _collidedBody;
+
+	static inline QuadTree _quadTree;
 };

@@ -16,6 +16,7 @@ class DebugRenderer
 public:
 	static void DrawPolygon(const std::vector<Vector3>& vertexes, const Matrix4& matrix);
 	static void DrawCircle(const float& radius, const Matrix4& matrix);
+	static void DrawRectangle(Vector3 topLeft, float width, float height, const Matrix4& matrix);
 	static void SetColor(const Color& color) noexcept;
 	static void SetWidth(const float& width) noexcept;
 

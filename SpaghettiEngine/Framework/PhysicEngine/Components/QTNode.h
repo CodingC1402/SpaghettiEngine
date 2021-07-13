@@ -2,6 +2,7 @@
 #include "Macros.h"
 #include "Shape.h"
 #include "Collision.h"
+#include "DebugRenderer.h"
 #include <bitset>
 #include <map>
 
@@ -35,6 +36,7 @@ public:
 	void CreateCollisionListWithShape(Shape* shape, std::list<Collision>& collisionList);
 	void CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList);
 
+	void Draw();
 	void Insert(Shape* shape);
 	void Remove(Shape* shape);
 	void Clear();

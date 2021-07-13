@@ -32,6 +32,22 @@ void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix)
 	_shapes.emplace_back(std::pair(std::move(vertexes), matrix));
 }
 
+void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, const Matrix4& matrix)
+{
+	Vector3 topRight, bottomLeft, bottomRight;
+	topRight.x = topLeft.x + width;
+	topRight.y = topLeft.y;
+
+	bottomLeft.y = topLeft.y - height;
+	bottomRight.y = bottomLeft.y;
+
+	bottomRight.x = topRight.x;
+	bottomLeft.x = topLeft.x;
+
+	std::vector<Vector3> vertexes = { topLeft, topRight, bottomRight, bottomLeft, topLeft };
+	_shapes.emplace_back(std::move(vertexes), matrix);
+}
+
 void DebugRenderer::SetColor(const Color& color) noexcept
 {
 	if constexpr (Setting::IsDebugMode())

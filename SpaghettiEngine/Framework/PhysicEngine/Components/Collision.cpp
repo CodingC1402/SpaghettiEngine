@@ -79,23 +79,6 @@ bool Collision::Solve()
 {
 	if (_bodyA == _bodyB)
 		return false;
-
-	// Add broad phase here
-	auto topLeftA = _shapeA->GetBroadPhase().GetWorldTopLeft();
-	auto topLeftB = _shapeB->GetBroadPhase().GetWorldTopLeft();
-
-	auto bottomRightA = _shapeA->GetBroadPhase().GetWorldBottomRight();
-	auto bottomRightB = _shapeB->GetBroadPhase().GetWorldBottomRight();
-
-	float sum = (_shapeA->GetBroadPhase().GetWidth() + _shapeB->GetBroadPhase().GetWidth());
-	float distance = SMath::Max(bottomRightA.x, bottomRightB.x) - SMath::Min(topLeftA.x, topLeftB.x);
-	if (distance > sum)
-		return false;
-
-	sum = _shapeA->GetBroadPhase().GetHeight() + _shapeB->GetBroadPhase().GetHeight();
-	distance = SMath::Max(topLeftA.y, topLeftB.y) - SMath::Min(bottomRightA.y, bottomRightB.y);
-	if (distance > sum)
-		return false;
  
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
 	if (isCollide)

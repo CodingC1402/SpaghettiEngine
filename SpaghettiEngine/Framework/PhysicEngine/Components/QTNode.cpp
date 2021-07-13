@@ -1,6 +1,6 @@
 #include "QTNode.h"
 
-// Up down left right
+// Right, Left, Down Up
 QTNode::QTNode(float xAxis, float yAxis, float width, float height, NodeType type)
 {
 	_xAxis = xAxis;
@@ -58,7 +58,7 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 {
 	if (intersect.count() > 2)
 	{
-		// Up down left right
+		// Right, Left, Down Up
 		switch (intersect.to_ulong())
 		{
 		case 0b1111:
@@ -68,41 +68,41 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 					_subNodes[i]->CreateCollisionListWithShape(shape, collisionList);
 			}
 			break;
-		case 0b1101:
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpRight);
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownRight);
-			CreateCollisionListWithEdgeIndex(0u, shape, collisionList);
-			break;
-		case 0b1110:
+		case 0b0111:
 			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpLeft);
 			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownLeft);
-			CreateCollisionListWithEdgeIndex(1u, shape, collisionList);
+			CreateCollisionListWithEdgeIndex(3u, shape, collisionList);
 			break;
 		case 0b1011:
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpLeft);
 			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpRight);
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownRight);
 			CreateCollisionListWithEdgeIndex(2u, shape, collisionList);
 			break;
-		case 0b0111:
+		case 0b1101:
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpLeft);
+			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpRight);
+			CreateCollisionListWithEdgeIndex(1u, shape, collisionList);
+			break;
+		case 0b1110:
 			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownLeft);
 			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownRight);
-			CreateCollisionListWithEdgeIndex(3u, shape, collisionList);
+			CreateCollisionListWithEdgeIndex(0u, shape, collisionList);
 			break;
 		}
 	}
 	else
 	{
-		// Up down left right
+		// Right, Left, Down Up
 		switch (_type)
 		{
 		case NodeType::DownLeft:
 			CreateCollisionListWithEdgeIndex({ 1, 2 }, shape, collisionList);
 			break;
 		case NodeType::DownRight:
-			CreateCollisionListWithEdgeIndex({ 1, 3 }, shape, collisionList);
+			CreateCollisionListWithEdgeIndex({ 0, 2 }, shape, collisionList);
 			break;
 		case NodeType::UpLeft:
-			CreateCollisionListWithEdgeIndex({ 0, 2 }, shape, collisionList);
+			CreateCollisionListWithEdgeIndex({ 1, 3 }, shape, collisionList);
 			break;
 		case NodeType::UpRight:
 			CreateCollisionListWithEdgeIndex({ 0, 3 }, shape, collisionList);
@@ -112,6 +112,16 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 		unsigned index = GetIndexFromBitSet(intersect);
 		if (_subNodes[index].use_count() > 0)
 			_subNodes[index]->CreateCollisionListWithShape(shape, collisionList);
+	}
+}
+
+void QTNode::Draw()
+{
+	DebugRenderer::DrawRectangle(Vector3(_yAxis - _width / 2.0f, _xAxis + _height / 2.0f, 0), _width, _height, Matrix4::GetDiagonalMatrix());
+	for (auto& node : _subNodes)
+	{
+		if (node.use_count() > 0)
+			node->Draw();
 	}
 }
 
@@ -190,8 +200,8 @@ void QTNode::InsertToSub(Shape* shape, unsigned index)
 	{
 		float xAxis;
 		float yAxis;
-		float width = _width / 2.0f;
-		float height = _height / 2.0f;
+		float width = _width / 4.0f;
+		float height = _height / 4.0f;
 		
 		NodeType type = static_cast<NodeType>(index);
 		switch (type)
@@ -214,7 +224,7 @@ void QTNode::InsertToSub(Shape* shape, unsigned index)
 			break;
 		}
 
-		_subNodes[index] = std::make_shared<QTNode>(xAxis, yAxis, width, height, type);
+		_subNodes[index] = std::make_shared<QTNode>(xAxis, yAxis, width * 2.0f, height * 2.0f, type);
 	}
 
 	_subNodes[index]->Insert(shape);
@@ -222,16 +232,16 @@ void QTNode::InsertToSub(Shape* shape, unsigned index)
 
 unsigned QTNode::GetIndexFromBitSet(const std::bitset<edgeNum>& intersect) const noexcept
 {
-	// Up down left right
+	// Right, Left, Down Up
 	switch (intersect.to_ulong())
 	{
 	case 0b1001:
 		return static_cast<unsigned>(NodeType::UpRight);
-	case 0b1010:
+	case 0b0101:
 		return static_cast<unsigned>(NodeType::UpLeft);
 	case 0b0110:
 		return static_cast<unsigned>(NodeType::DownLeft);
-	case 0b0101:
+	case 0b1010:
 		return static_cast<unsigned>(NodeType::DownRight);
 	default:
 		return static_cast<unsigned>(NodeType::Invalid);

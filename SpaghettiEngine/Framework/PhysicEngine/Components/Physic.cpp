@@ -40,6 +40,7 @@ bool Physic::Update()
 			if (_accumulator < _step)
 				DebugRenderer::Clear();
 		}
+		_quadTree.Draw();
 		Game::FixUpdate();
 
 		isRunUpdate = true;
@@ -59,14 +60,16 @@ void Physic::Reset() noexcept
 void Physic::Step()
 {
 	_contacts.clear();
-	for (int i = 0; i < _shapes.size(); i++)
+	_quadTree.Insert(_shapes);
+	_quadTree.CreateCollisionList(_contacts);
+	
+	auto it = _contacts.begin();
+	while (it != _contacts.end())
 	{
-		for (int j = i + 1; j < _shapes.size(); j++)
-		{
-			Collision newCollide(_shapes[i], _shapes[j]);
-			if (newCollide.Solve())
-				_contacts.emplace_back(newCollide);
-		}
+		if (!(*it).Solve())
+			it = _contacts.erase(it);
+		else
+			++it;
 	}
 
 	for (auto& body : _body2D) {
