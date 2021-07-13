@@ -77,7 +77,6 @@ public:
 	int			GetPosY			() const noexcept;
 
 	static PMouse GetInstance() noexcept;
-	static void Destroy() noexcept;
 private:
 	Mouse() = default;
 	~Mouse() = default;

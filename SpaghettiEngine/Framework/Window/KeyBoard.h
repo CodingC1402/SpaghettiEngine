@@ -57,7 +57,6 @@ public:
 	bool IsAutoRepeatEnabled() noexcept;
 
 	static PKeyBoard GetInstance() noexcept;
-	static KeyBoard Destroy() noexcept;
 private:
 	KeyBoard() = default;
 	~KeyBoard() = default;
