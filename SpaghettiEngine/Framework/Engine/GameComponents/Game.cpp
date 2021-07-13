@@ -20,12 +20,9 @@ void Game::CallQuit()
 
 void Game::Init()
 {
-	if constexpr (Setting::IsDebugMode())
-	{
-		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, fullScreenKey, 0x7A); // F11
-		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, nextScreenKey, 0xBE); // >
-		InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, previousScreenKey, 0xBC); // <
-	}
+	InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, fullScreenKey, 0x7A); // F11
+	InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, nextScreenKey, 0xBE); // >
+	InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, previousScreenKey, 0xBC); // <
 
 	timer = GameTimer::GetInstance();
 	timer->Start();
@@ -40,24 +37,21 @@ void Game::Init()
 static bool IwannaDie = false;
 void Game::Update()
 {
-	if constexpr (Setting::IsDebugMode())
+	if (InputSystem::GetInstance()->GetInput(fullScreenKey)->Check())
 	{
-		if (InputSystem::GetInstance()->GetInput(fullScreenKey)->Check())
-		{
-			IwannaDie = !IwannaDie;
-			if (IwannaDie)
-				Graphics::FullScreen();
-			else
-				Graphics::Window();
-		}
-		if (InputSystem::GetInstance()->GetInput(previousScreenKey)->Check())
-		{
-			sceneManager->CallLoadPreviousScene();
-		}
-		if (InputSystem::GetInstance()->GetInput(nextScreenKey)->Check())
-		{
-			sceneManager->CallLoadNextScene();
-		}
+		IwannaDie = !IwannaDie;
+		if (IwannaDie)
+			Graphics::FullScreen();
+		else
+			Graphics::Window();
+	}
+	if (InputSystem::GetInstance()->GetInput(previousScreenKey)->Check())
+	{
+		sceneManager->CallLoadPreviousScene();
+	}
+	if (InputSystem::GetInstance()->GetInput(nextScreenKey)->Check())
+	{
+		sceneManager->CallLoadNextScene();
 	}
 
 	timer->Mark();

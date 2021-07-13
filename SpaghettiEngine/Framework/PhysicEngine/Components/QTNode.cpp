@@ -39,6 +39,7 @@ void QTNode::CheckSubNodeAndCallCreateCollision(Shape* shape, std::list<Collisio
 void QTNode::CreateCollisionListWithEdgeIndex(unsigned index, Shape* shape, std::list<Collision>& collisionList, unsigned shapeIndex)
 {
 	auto it = _shapes.begin();
+	std::advance(it, shapeIndex);
 	for (; it != _shapes.end(); ++it)
 	{
 		// If all then it could collide with all shape that is intersect with axises 
