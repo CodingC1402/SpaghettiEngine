@@ -1,5 +1,7 @@
 #include "QTNode.h"
 
+constexpr int DrawColor = 0x00FFFF00FF;
+
 // Right, Left, Down Up
 QTNode::QTNode(float xAxis, float yAxis, float width, float height, NodeType type)
 {
@@ -12,8 +14,13 @@ QTNode::QTNode(float xAxis, float yAxis, float width, float height, NodeType typ
 
 void QTNode::CreateCollisionList(std::list<Collision>& collisionList)
 {
-	for (auto& shape : _shapes)
-		CreateCollisionListWithShape(shape.first, shape.second, collisionList);
+	int offSetIndex = 0;
+	auto it = _shapes.begin();
+	while (offSetIndex < static_cast<int>(_shapes.size()))
+	{
+		CreateCollisionListWithShape((*it).first, (*it).second, collisionList, ++offSetIndex);
+		++it;
+	}
 
 	for (auto& node : _subNodes)
 		if (node.use_count() > 0)
@@ -26,14 +33,18 @@ void QTNode::CheckSubNodeAndCallCreateCollision(Shape* shape, std::list<Collisio
 	if (_subNodes[index].use_count() > 0)
 		_subNodes[index]->CreateCollisionListWithShape(shape, collisionList);
 }
-void QTNode::CreateCollisionListWithEdgeIndex(unsigned index, Shape* shape, std::list<Collision>& collisionList)
+
+void QTNode::CreateCollisionListWithEdgeIndex(unsigned index, Shape* shape, std::list<Collision>& collisionList, unsigned shapeIndex)
 {
-	for (auto& collideShape : _shapes)
+	auto it = _shapes.begin();
+	for (; it != _shapes.end(); ++it)
 	{
-		if (collideShape.second[index])
-			collisionList.push_back(Collision(shape, collideShape.first));
+		// If all then it could collide with all shape that is intersect with axises 
+		if (index == static_cast<unsigned>(EdgeType::All) || (*it).second[index])
+			collisionList.push_back(Collision(shape, (*it).first));
 	}
 }
+
 void QTNode::CreateCollisionListWithEdgeIndex(const std::vector<unsigned>& indexes, Shape* shape, std::list<Collision>& collisionList)
 {
 	bool isCollide = true;
@@ -41,11 +52,12 @@ void QTNode::CreateCollisionListWithEdgeIndex(const std::vector<unsigned>& index
 	{
 		isCollide = true;
 		for (const auto& index : indexes)
-			isCollide &= collideShape.second[index];
+			isCollide = isCollide && collideShape.second[index];
 		if (isCollide)
 			collisionList.push_back(Collision(shape, collideShape.first));
 	}
 }
+
 void QTNode::CreateCollisionListWithShape(Shape* shape, std::list<Collision>& collisionList)
 {
 	std::bitset<edgeNum> intersect;
@@ -54,11 +66,15 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, std::list<Collision>& co
 	CreateCollisionListWithShape(shape, intersect, collisionList);
 }
 
-void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList)
+void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList, unsigned startIndex)
 {
 	if (intersect.count() > 2)
 	{
-		// Right, Left, Down Up
+		NodeType node1 = NodeType::Invalid;
+		NodeType node2 = NodeType::Invalid;
+		unsigned bitIndex = 0;
+
+		// Right, Left, Down, Up
 		switch (intersect.to_ulong())
 		{
 		case 0b1111:
@@ -67,28 +83,33 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 				if (_subNodes[i].use_count() > 0)
 					_subNodes[i]->CreateCollisionListWithShape(shape, collisionList);
 			}
+			CreateCollisionListWithEdgeIndex(static_cast<unsigned>(EdgeType::All), shape, collisionList, startIndex);
+			return;
+		case 0b1011:
+			node1 = NodeType::UpRight;
+			node2 = NodeType::DownRight;
+			bitIndex = static_cast<unsigned>(EdgeType::Right);
 			break;
 		case 0b0111:
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpLeft);
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownLeft);
-			CreateCollisionListWithEdgeIndex(3u, shape, collisionList);
-			break;
-		case 0b1011:
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpRight);
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownRight);
-			CreateCollisionListWithEdgeIndex(2u, shape, collisionList);
-			break;
-		case 0b1101:
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpLeft);
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::UpRight);
-			CreateCollisionListWithEdgeIndex(1u, shape, collisionList);
+			node1 = NodeType::UpLeft;
+			node2 = NodeType::DownLeft;
+			bitIndex = static_cast<unsigned>(EdgeType::Left);
 			break;
 		case 0b1110:
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownLeft);
-			CheckSubNodeAndCallCreateCollision(shape, collisionList, NodeType::DownRight);
-			CreateCollisionListWithEdgeIndex(0u, shape, collisionList);
+			node1 = NodeType::DownLeft;
+			node2 = NodeType::DownRight;
+			bitIndex = static_cast<unsigned>(EdgeType::Down);
+			break;
+		case 0b1101:
+			node1 = NodeType::UpLeft;
+			node2 = NodeType::UpRight;
+			bitIndex = static_cast<unsigned>(EdgeType::Up);
 			break;
 		}
+
+		CheckSubNodeAndCallCreateCollision(shape, collisionList, node1);
+		CheckSubNodeAndCallCreateCollision(shape, collisionList, node2);
+		CreateCollisionListWithEdgeIndex(bitIndex, shape, collisionList, startIndex);
 	}
 	else
 	{
@@ -96,16 +117,16 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 		switch (_type)
 		{
 		case NodeType::DownLeft:
-			CreateCollisionListWithEdgeIndex({ 1, 2 }, shape, collisionList);
+			CreateCollisionListWithEdgeIndex({ 2, 1 }, shape, collisionList);
 			break;
 		case NodeType::DownRight:
-			CreateCollisionListWithEdgeIndex({ 0, 2 }, shape, collisionList);
+			CreateCollisionListWithEdgeIndex({ 3, 1 }, shape, collisionList);
 			break;
 		case NodeType::UpLeft:
-			CreateCollisionListWithEdgeIndex({ 1, 3 }, shape, collisionList);
+			CreateCollisionListWithEdgeIndex({ 2, 0 }, shape, collisionList);
 			break;
 		case NodeType::UpRight:
-			CreateCollisionListWithEdgeIndex({ 0, 3 }, shape, collisionList);
+			CreateCollisionListWithEdgeIndex({ 3, 0 }, shape, collisionList);
 			break;
 		}
 
@@ -117,7 +138,7 @@ void QTNode::CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNu
 
 void QTNode::Draw()
 {
-	DebugRenderer::DrawRectangle(Vector3(_yAxis - _width / 2.0f, _xAxis + _height / 2.0f, 0), _width, _height, Matrix4::GetDiagonalMatrix());
+	DebugRenderer::DrawRectangle(Vector3(_yAxis - _width / 2.0f, _xAxis + _height / 2.0f, 0), _width, _height, Matrix4::GetDiagonalMatrix(), DrawColor);
 	for (auto& node : _subNodes)
 	{
 		if (node.use_count() > 0)

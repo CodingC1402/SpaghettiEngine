@@ -2,20 +2,23 @@
 #include "DirectX9Graphic.h"
 #include "Setting.h"
 #include "Matrix.h"
+#include "QuadTree.h"
 #include "SMath.h"
 
-void DebugRenderer::DrawPolygon(const std::vector<Vector3>& vertexes, const Matrix4& matrix)
+constexpr unsigned TreeColor = 0x00FF00FFFF;
+
+void DebugRenderer::DrawPolygon(const std::vector<Vector3>& vertexes, const Matrix4& matrix, const Color& color)
 {
 	if constexpr (Setting::IsDebugMode())
 	{
 		auto copy = vertexes;
 		copy.reserve(static_cast<unsigned long long>(vertexes.size()) + 1_ut);
 		copy.push_back(vertexes.front());
-		_shapes.emplace_back(std::pair(std::move(copy), matrix));
+		_shapes.emplace_back(std::pair(std::move(copy), std::pair(matrix, color != 0 ? color : _renderColor)));
 	}
 }
 
-void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix)
+void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix, const Color& color)
 {
 	unsigned vertexesSize = SMath::Lerp(_minVertexNumberForCircle, _maxVertexNumberForCircle, radius / _radiusToReachMaxVertexNum);
 	Matrix4 rotationMatrix = SMath::GetZAxisRotateMatrix(360.0f / vertexesSize);
@@ -29,10 +32,10 @@ void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix)
 	}
 	vertexes.back() = vertexes.front();
 
-	_shapes.emplace_back(std::pair(std::move(vertexes), matrix));
+	_shapes.emplace_back(std::pair(std::move(vertexes), std::pair(matrix, color != 0 ? color : _renderColor)));
 }
 
-void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, const Matrix4& matrix)
+void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, const Matrix4& matrix, const Color& color)
 {
 	Vector3 topRight, bottomLeft, bottomRight;
 	topRight.x = topLeft.x + width;
@@ -45,7 +48,7 @@ void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, co
 	bottomLeft.x = topLeft.x;
 
 	std::vector<Vector3> vertexes = { topLeft, topRight, bottomRight, bottomLeft, topLeft };
-	_shapes.emplace_back(std::move(vertexes), matrix);
+	_shapes.emplace_back(std::move(vertexes), std::pair(matrix, color != 0 ? color : _renderColor));
 }
 
 void DebugRenderer::SetColor(const Color& color) noexcept
@@ -91,13 +94,14 @@ void DebugRenderer::Render(SDirectX9Graphic dxTurd, PCamera cameraScript)
 			size = shapeMatrix.first.size();
 			for (int i = 0; i < size; i++)
 			{
-				currentVec3 = shapeMatrix.first[i] * cameraScript->GetMatrixWithoutScaleY(shapeMatrix.second);
+				currentVec3 = shapeMatrix.first[i] * cameraScript->GetMatrixWithoutScaleY(shapeMatrix.second.first);
 				dxVertexes[i].x = static_cast<FLOAT>(currentVec3.x);
 				dxVertexes[i].y = static_cast<FLOAT>(currentVec3.y);
 			}
 
-			dxTurd->RenderPolygon(dxVertexes, size, _width, _renderColor);
+			dxTurd->RenderPolygon(dxVertexes, size, _width, shapeMatrix.second.second);
 		}
+
 		dxTurd->EndRenderLine();
 
 		delete[] dxVertexes;

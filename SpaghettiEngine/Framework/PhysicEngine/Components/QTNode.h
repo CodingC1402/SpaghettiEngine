@@ -18,7 +18,7 @@ public:
 		Down,
 		Left,
 		Right,
-		Sub
+		All
 	};
 	enum class NodeType
 	{
@@ -32,9 +32,11 @@ public:
 public:
 	QTNode(float xAxis, float yAxis, float width, float height, NodeType type);
 
+	// Use this to create all the possible collision.
 	void CreateCollisionList(std::list<Collision>& collisionList);
+
+	// Use this if you want to create a collision list from a shape that doesn't owned by the node.
 	void CreateCollisionListWithShape(Shape* shape, std::list<Collision>& collisionList);
-	void CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList);
 
 	void Draw();
 	void Insert(Shape* shape);
@@ -46,10 +48,17 @@ private:
 	void SetIntersectBitset(Shape* shape, std::bitset<edgeNum>& intersect);
 	void InsertToSub(Shape* shape, unsigned index);
 
+	void CreateCollisionListWithShape(Shape* shape, const std::bitset<edgeNum>& intersect, std::list<Collision>& collisionList, unsigned startIndex = 0);
 	void CheckSubNodeAndCallCreateCollision(Shape* shape, std::list<Collision>& collisionList, QTNode::NodeType type);
 
-	// Any shape that collide with the edge
-	void CreateCollisionListWithEdgeIndex(unsigned index, Shape* shape, std::list<Collision>& collisionList);
+	/// <summary>
+	/// Use this to create collision from a pair of shape that is on the edge
+	/// </summary>
+	/// <param name="index">The edge index in bitset that the function have to check</param>
+	/// <param name="shape"></param>
+	/// <param name="collisionList"></param>
+	/// <param name="shapeIndex">Tell the function where to start counting from</param>
+	void CreateCollisionListWithEdgeIndex(unsigned index, Shape* shape, std::list<Collision>& collisionList, unsigned shapeIndex = 0);
 	void CreateCollisionListWithEdgeIndex(const std::vector<unsigned>& indexes, Shape* shape, std::list<Collision>& collisionList);
 
 	[[nodiscard]] unsigned GetIndexFromBitSet(const std::bitset<edgeNum>& intersect) const noexcept;
