@@ -11,12 +11,6 @@
 PApp App::__instance = nullptr;
 constexpr float _loopCap = 0.00001f;
 
-App::~App() noexcept
-{
-	delete game;
-	game = nullptr;
-}
-
 BOOL App::Go()
 {
 	BOOL iResult = -1;
@@ -28,10 +22,9 @@ BOOL App::Go()
 		auto wndSize = Setting::GetResolution();
 		wnd = std::make_shared<GameWnd>(wndSize.width, wndSize.height, Setting::GetAppName());
 		wnd->Show();
-		Graphics::Init(Graphics::ColorFormat::RGB32Bit, wnd);
 
-		game = Game::GetInstance();
-		game->Init();
+		Graphics::Init(Graphics::ColorFormat::RGB32Bit, wnd);
+		Game::Init();
 
 		timer->Start();
 		running = true;
@@ -78,7 +71,7 @@ BOOL App::Go()
 
 void App::DoFrame() const
 {
-	game->Update();
+	Game::Update();
 	Graphics::Render();
 }
 
@@ -89,6 +82,7 @@ void App::CallQuit()
 
 void App::Quit() const
 {
+	Game::Quit();
 	__instance = nullptr;
 	delete this;
 }

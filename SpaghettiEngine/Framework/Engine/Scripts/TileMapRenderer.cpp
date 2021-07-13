@@ -6,6 +6,7 @@
 #include "LoadingJson.h"
 #include "Graphics.h"
 #include "SMath.h"
+#include "ScriptField.h"
 
 #include <fstream>
 #include <algorithm>
@@ -52,12 +53,13 @@ void TileMapRenderer::Load(nlohmann::json& inputObject)
 		json jsonFile;
 		file >> jsonFile;
 
-		width = jsonFile["Width"].get<int>();
-		height = jsonFile["Height"].get<int>();
-		tileWidth = jsonFile["TileWidth"].get<int>();
-		tileHeight = jsonFile["TileHeight"].get<int>();
-		_pixelWidth = static_cast<float>(width * tileWidth);
-		_pixelHeight = static_cast<float>(height * tileHeight);
+		using Fields::TileMapRenderer;
+		width			= jsonFile[TileMapRenderer::GetWidthField()		].get<int>();
+		height			= jsonFile[TileMapRenderer::GetHeightField()	].get<int>();
+		tileWidth		= jsonFile[TileMapRenderer::GetTileWidthField()	].get<int>();
+		tileHeight		= jsonFile[TileMapRenderer::GetTileHeightField()].get<int>();
+		_pixelWidth		= static_cast<float>(width * tileWidth);
+		_pixelHeight	= static_cast<float>(height * tileHeight);
 		
 		_tileSet = TileSetContainer::GetInstance()->GetResource(jsonFile[LoadingJson::Field::idField]);
 

@@ -8,10 +8,7 @@ class Polygon2DCollider : public Collider2DBase
 {
 public:
 	void OnFixedUpdate();
-
 	void Load(nlohmann::json& input) override;
-protected:
-	static constexpr auto _vertexesField = "Vertexes";
 private:
 	REGISTER_START(Polygon2DCollider);
 };

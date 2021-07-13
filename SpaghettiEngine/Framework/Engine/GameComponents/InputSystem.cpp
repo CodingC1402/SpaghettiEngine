@@ -3,6 +3,7 @@
 #include "SpaghettiEnginePath.h"
 #include "KeyBoard.h"
 #include "Mouse.h"
+#include "StringConverter.h"
 
 #include <sstream>
 #include <fstream>
@@ -26,6 +27,16 @@ SInput InputSystem::GetInput(const string& name) noexcept
 			return input;
 
 	return SInput();
+}
+
+std::string InputSystem::GetStrInput() noexcept
+{
+	return StringConverter::WStrToStr(__instance->charInput);
+}
+
+std::wstring InputSystem::GetWideStrInput() noexcept
+{
+	return __instance->charInput;
 }
 
 PInputSystem InputSystem::GetInstance()
@@ -63,6 +74,10 @@ void InputSystem::Update()
 			for (const auto& input : inputs)
 				input->Update(e);
 		}
+	}
+
+	while (!kb->IsCharEmpty())
+	{
 		charInput += kb->ReadChar();
 	}
 }
@@ -90,7 +105,7 @@ void InputSystem::Load()
 			auto type = input[TypeText].get<Input::Type>();
 			auto name = input[NameText].get<std::string>();
 			auto code = input[CodeText].get<KeyCode>();
-			inputs.push_back(Input::Create(code, name, type));
+			CreateInput(type, name, code);
 		}
 	}
 	catch (...)
@@ -101,6 +116,11 @@ void InputSystem::Load()
 		oss << L" is in the wrong format";
 		throw INPUTSYS_EXCEPT(oss.str());
 	}
+}
+
+void InputSystem::Unload()
+{
+	inputs.clear();
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(Input::Type, {
@@ -130,6 +150,11 @@ void InputSystem::Save()
 	oFile.open(SystemPath::InputPath, std::ios_base::trunc);
 	oFile << j;
 	oFile.close();
+}
+
+void InputSystem::CreateInput(const Input::Type& type, const std::string& name, const KeyCode& code)
+{
+	inputs.push_back(Input::Create(code, name, type));
 }
 
 InputSystem::InputSysException::InputSysException(int line, const char* file, std::wstring description) noexcept

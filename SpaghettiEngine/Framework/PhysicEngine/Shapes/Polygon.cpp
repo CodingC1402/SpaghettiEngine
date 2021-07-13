@@ -83,8 +83,8 @@ bool Polygon::PolygonCircleCollision(const Polygon& polygon, const Circle& circl
 
 	auto Vertexes = polygon.GetWorldVertexes();
 	// Check on normal of edges
-	unsigned numberOfVertex = Vertexes.size();
-	for (int i = 0; i < numberOfVertex; i++)
+	unsigned numberOfVertex = static_cast<unsigned>(Vertexes.size());
+	for (unsigned i = 0; i < numberOfVertex; i++)
 	{
 		float currentDis = (Vertexes[i] - circle.GetCenter()).GetPow2Magnitude();
 		if (currentDis < distance)
@@ -124,30 +124,24 @@ bool Polygon::PolygonCircleCollision(const Polygon& polygon, const Circle& circl
 
 Shape* Polygon::Clone() const
 {
-	Polygon* clonePoly = new Polygon();
+	Polygon* clonePoly = dynamic_cast<Polygon*>(Shape::Clone());
 
-	clonePoly->_center = _center;
-	clonePoly->_radius = _radius;
-	clonePoly->_centroid = _centroid;
-	clonePoly->_offSetMatrix = _offSetMatrix;
 	clonePoly->_vertexes = _vertexes;
 
 	return clonePoly;
 }
 
-void Polygon::UpdateParameter()
+bool Polygon::UpdateParameter()
 {
-	Matrix4 matrix = _body.lock()->GetWorldMatrix();
-	if (matrix == _worldMatrix)
-		return;
+	if (!Shape::UpdateParameter())
+		return false;
 
-	_worldMatrix = matrix;
 	_worldVertexes = _vertexes;
 	for (auto& vertex : _worldVertexes)
 		vertex = vertex * _offSetMatrix * _worldMatrix;
-	_center = _centroid * _offSetMatrix * _worldMatrix;
-}
 
+	return true;
+}
 
 bool Polygon::CheckCollideOnOneEdgeWithCircle(const Circle& circle, const Vector3& normal, float& penetration) const
 {
@@ -183,7 +177,6 @@ bool Polygon::CheckCollideOnOneEdgeWithCircle(const Circle& circle, const Vector
 	penetration = std::abs(smallerMax - biggerMin);
 	return true;
 }
-
 bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penetration, Vector3& normal) const
 {
 	const auto& vertexes = this->GetWorldVertexes();
@@ -213,7 +206,6 @@ bool Polygon::CheckCollideOnEachEdge(const Polygon& other, float& penetration, V
 	}
 	return true;
 }
-
 bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, float& edgePenetration, Vector3& edgeNormal) const
 {
 	edgeNormal.x = edge.y;
@@ -247,22 +239,7 @@ bool Polygon::CheckCollideOnOneEdge(const Vector3& edge, const Polygon& other, f
 void Polygon::SetVertexes(const std::vector<Vector3>& vertexes)
 {
 	_vertexes = vertexes;
-	Vector3 centroid;
-
-	for (const auto& vertex : vertexes)
-		centroid += vertex;
-	centroid /= static_cast<float>(vertexes.size());
-
-	float pow2Distance = 0;
-
-	for (float currentDisPow2; const auto& vertex : vertexes)
-	{
-		currentDisPow2 = (vertex - centroid).GetPow2Magnitude();
-		if (currentDisPow2 > pow2Distance)
-			pow2Distance = currentDisPow2;
-	}
-	_radius = std::sqrt(pow2Distance);
-	_centroid = centroid;
+	_broadPhase.SetVertexes(_vertexes);
 }
 
 const std::vector<Vector3>& Polygon::GetVertexes() const

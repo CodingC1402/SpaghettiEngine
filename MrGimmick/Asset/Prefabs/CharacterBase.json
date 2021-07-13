@@ -77,11 +77,13 @@
 			"ID": 3,
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
-				"Vertexes": [
-					[ -4, 0 ],
-					[ -4, 6 ],
-					[ 4, 6 ],
-					[ 4, 0 ]
+				"Polygons": [
+					[
+						-4, 0,
+						-4, 6,
+						 4, 6,
+						 4, 0 
+					]
 				]
 			}
 		},
@@ -97,8 +99,8 @@
 			"ID": 5,
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
-				"Mass": 4,
-				"GravityScale": 6,
+				"Mass": 2,
+				"GravityScale": 4,
 				"Material": 30001
 			}
 		},
@@ -130,11 +132,13 @@
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
-				"Vertexes": [
-					[ -2, 2 ],
-					[ -2, -4 ],
-					[ 2, -4 ],
-					[ 2, 2 ]
+				"Polygons": [
+					[
+						 3,  2,
+						 3, -6,
+						-3, -6,
+						-3,  2 
+					]
 				]
 			}
 		},
@@ -149,11 +153,13 @@
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
 				"Trigger": true,
-				"Vertexes": [
-					[ -1, -2 ],
-					[ -1, 2 ],
-					[ 1, 2 ],
-					[ 1, -2 ]
+				"Polygons": [
+					[
+						-1, -2,
+						-1,  2,
+						 1,  2,
+						 1, -2 
+					]
 				]
 			}
 		}

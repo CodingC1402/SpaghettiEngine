@@ -24,6 +24,8 @@ public:
 	
 	static KeyCode GetFirstKeyPressCode();
 	static SInput GetInput(const string& name) noexcept;
+	static std::string GetStrInput() noexcept;
+	static std::wstring GetWideStrInput() noexcept;
 protected:
 	~InputSystem() = default;
 	InputSystem();
@@ -31,7 +33,10 @@ protected:
 	void Update();
 
 	void Load();
+	void Unload();
 	void Save();
+
+	void CreateInput(const Input::Type& type, const std::string& name, const KeyCode& code);
 
 	static PInputSystem GetInstance();
 protected:

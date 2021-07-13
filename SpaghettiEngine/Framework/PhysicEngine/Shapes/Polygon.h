@@ -38,7 +38,7 @@ public:
 	[[nodiscard]] const std::vector<Vector3>& GetWorldVertexes() const;
 
 	Shape* Clone() const override;
-	void UpdateParameter() override;
+	bool UpdateParameter() override;
 protected:
 	bool CheckCollideOnOneEdgeWithCircle(const Circle& circle, const Vector3& normal, float& penetration) const ;
 	bool CheckCollideOnEachEdge(const Polygon& other, float& penetration, Vector3& normal) const;

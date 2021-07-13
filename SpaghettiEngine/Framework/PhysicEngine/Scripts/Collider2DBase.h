@@ -30,8 +30,4 @@ protected:
 	WBody2D _body;
 	bool _isTrigger = false;
 	std::vector<SShape> _shapes;
-
-	static constexpr auto _offSetXField = "OffSetX";
-	static constexpr auto _offSetYField = "OffSetY";
-	static constexpr auto _isTriggerField = "Trigger";
 };

@@ -2,6 +2,7 @@
 #include "Body2D.h"
 #include "Shape.h"
 #include "Macros.h"
+#include "QuadTree.h"
 #include "Collision.h"
 #include <deque>
 #include <set>
@@ -12,6 +13,7 @@ class GameObj;
 
 class Physic
 {
+	friend class Game;
 public:
 	//Return value is alpha used to interpolate render deltatime.
 	static bool Update();
@@ -41,6 +43,7 @@ public:
 protected:
 	Physic() = default;
 
+	static void Reset() noexcept;
 	static void Step();
 protected:
 	static inline float _stepInterpolation = 0.9f;
@@ -57,4 +60,6 @@ protected:
 
 	static inline std::list<Collision> _contacts;
 	static inline std::set<Body2D*> _collidedBody;
+
+	static inline QuadTree _quadTree;
 };

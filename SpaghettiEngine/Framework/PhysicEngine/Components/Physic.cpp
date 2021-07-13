@@ -4,7 +4,10 @@
 #include "SMath.h"
 #include "Circle.h"
 #include "GameObj.h"
+#include "Game.h"
 #include "ContainerUtil.h"
+#include "Setting.h"
+#include "DebugRenderer.h"
 
 bool Physic::Update()
 {
@@ -25,28 +28,50 @@ bool Physic::Update()
 			script->AfterPhysicUpdate();
 		}
 
-
 		_accumulator -= _step;
 
 		float interpolateNumber = _accumulator * (1 - _stepInterpolation);
 		interpolateNumber = interpolateNumber > _baseStep ? _baseStep : interpolateNumber;
 		_step = _baseStep * _stepInterpolation + interpolateNumber;
+
+		// Clear the line renderer for debugging.
+		if constexpr (Setting::IsDebugMode())
+		{
+			if (_accumulator < _step)
+			{
+				DebugRenderer::Clear();
+				_quadTree.Draw();
+			}
+		}
+		Game::FixUpdate();
+
 		isRunUpdate = true;
 	}
 	return isRunUpdate;
 }
 
+void Physic::Reset() noexcept
+{
+	_accumulator = 0;
+	_step = _baseStep;
+
+	if constexpr (Setting::IsDebugMode())
+		DebugRenderer::Clear();
+}
+
 void Physic::Step()
 {
 	_contacts.clear();
-	for (int i = 0; i < _shapes.size(); i++)
+	_quadTree.Insert(_shapes);
+	_quadTree.CreateCollisionList(_contacts);
+	
+	auto it = _contacts.begin();
+	while (it != _contacts.end())
 	{
-		for (int j = i + 1; j < _shapes.size(); j++)
-		{
-			Collision newCollide(_shapes[i], _shapes[j]);
-			if (newCollide.Solve())
-				_contacts.emplace_back(newCollide);
-		}
+		if (!(*it).Solve())
+			it = _contacts.erase(it);
+		else
+			++it;
 	}
 
 	for (auto& body : _body2D) {

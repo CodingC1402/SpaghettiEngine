@@ -7,13 +7,26 @@
 #include "Setting.h"
 #include "Tag.h"
 #include "DebugRenderer.h"
+#include "App.h"
 
-Game* Game::__instance = nullptr;
+constexpr auto fullScreenKey = "FullScreen";
+constexpr auto previousScreenKey = "PreviousScreen";
+constexpr auto nextScreenKey = "NextScreen";
+
+void Game::CallQuit()
+{
+	App::GetInstance()->CallQuit();
+}
 
 void Game::Init()
 {
+	InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, fullScreenKey, 0x7A); // F11
+	InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, nextScreenKey, 0xBE); // >
+	InputSystem::GetInstance()->CreateInput(Input::Type::KeyPress, previousScreenKey, 0xBC); // <
+
 	timer = GameTimer::GetInstance();
 	timer->Start();
+	//GameTimer::SetTimeScale(0.1f);
 
 	input = InputSystem::GetInstance();
 
@@ -22,9 +35,9 @@ void Game::Init()
 }
 
 static bool IwannaDie = false;
-void Game::Update() const
+void Game::Update()
 {
-	if (InputSystem::GetInstance()->GetInput("FullScreen")->Check())
+	if (InputSystem::GetInstance()->GetInput(fullScreenKey)->Check())
 	{
 		IwannaDie = !IwannaDie;
 		if (IwannaDie)
@@ -32,27 +45,37 @@ void Game::Update() const
 		else
 			Graphics::Window();
 	}
+	if (InputSystem::GetInstance()->GetInput(previousScreenKey)->Check())
+	{
+		sceneManager->CallLoadPreviousScene();
+	}
+	if (InputSystem::GetInstance()->GetInput(nextScreenKey)->Check())
+	{
+		sceneManager->CallLoadNextScene();
+	}
 
 	timer->Mark();
 
 	input->Update();
 	sceneManager->Update();
-	if (Physic::Update())
-	{
-		if constexpr (Setting::IsDebugMode())
-			DebugRenderer::Clear();
-		FixUpdate();
-	}
+	Physic::Update();
 }
 
-void Game::FixUpdate() const
+void Game::Quit()
+{
+	sceneManager->Unload();
+	App::GetInstance()->CallQuit();
+}
+
+void Game::FixUpdate()
 {
 	sceneManager->FixedUpdate();
 }
 
-void Game::End()
+void Game::ResetGameTimer() noexcept
 {
-	sceneManager->Unload();
+	GameTimer::ResetDeltaTime();
+	Physic::Reset();
 }
 
 Game::~Game()
@@ -61,11 +84,4 @@ Game::~Game()
 	delete timer;
 	input = nullptr;
 	timer = nullptr;
-}
-
-Game* Game::GetInstance()
-{
-	if (!__instance)
-		__instance = new Game();
-	return __instance;
 }

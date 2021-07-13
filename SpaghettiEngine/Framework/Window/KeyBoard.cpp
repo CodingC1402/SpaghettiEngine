@@ -23,7 +23,7 @@ wchar_t KeyBoard::ReadChar() noexcept
 {
 	if ( m_qCharBuffer.size() > 0u )
 	{
-		unsigned char ucCode = m_qCharBuffer.front();
+		auto ucCode = m_qCharBuffer.front();
 		m_qCharBuffer.pop();
 		return ucCode;
 	}

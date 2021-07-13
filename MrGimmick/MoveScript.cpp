@@ -121,10 +121,10 @@ void MoveScript::CheckDirection(const bool& keyRelease, const bool& keyDown, con
 {
 	if (keyDown)
 	{
-		totalVel = factor;
+		totalVel = static_cast<float>(factor);
 		if (isFlipped != (factor < 0))
 		{
-			GetGameObject()->GetTransform().SetScale(factor, 1, 1);
+			GetGameObject()->GetTransform().SetScale(static_cast<float>(factor), 1, 1);
 			isFlipped = (factor < 0);
 		}
 		directionMove = true;

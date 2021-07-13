@@ -281,9 +281,6 @@
     <ClInclude Include="Framework\Engine\Wrapper\Color.h">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\ThirdParty\polypartition.h">
-      <Filter>FrameWork\Engine\ThirdParty</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
@@ -326,9 +323,6 @@
     <ClInclude Include="Framework\Engine\AnimationComponents\AnimationNode.h">
       <Filter>FrameWork\Engine\AnimationComponents</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
-      <Filter>FrameWork\Engine\AnimationComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\BTs\TrueFalseLeafNode.h">
       <Filter>FrameWork\Engine\BTs</Filter>
     </ClInclude>
@@ -364,6 +358,21 @@
     </ClInclude>
     <ClInclude Include="Framework\Engine\Scripts\SoundSource.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Animator.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\ScriptField.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.h">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\QuadTree.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\QTNode.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -544,9 +553,6 @@
     <ClCompile Include="Framework\Engine\Wrapper\Color.cpp">
       <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\ThirdParty\polypartition.cpp">
-      <Filter>FrameWork\Engine\ThirdParty</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
@@ -589,9 +595,6 @@
     <ClCompile Include="Framework\Engine\AnimationComponents\AnimationNode.cpp">
       <Filter>FrameWork\Engine\AnimationComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
-      <Filter>FrameWork\Engine\AnimationComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\BTs\TrueFalseLeafNode.cpp">
       <Filter>FrameWork\Engine\BTs</Filter>
     </ClCompile>
@@ -627,6 +630,18 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\SoundSource.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Shapes\BroadPhaseShape.cpp">
+      <Filter>FrameWork\PhysicEngine\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\QuadTree.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\QTNode.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

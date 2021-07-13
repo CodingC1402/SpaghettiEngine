@@ -8,6 +8,7 @@
 #include "RigidBody2D.h"
 #include "Polygon2DCollider.h"
 #include "SoundSource.h"
+#include "Surface.h"
 
 #include "AnimationNode.h"
 #include "TrueFalseLeafNode.h"
@@ -45,6 +46,7 @@ void WinMain::RegisterSpaghettiScripts()
 	dummyScript = new RigidBody2D(nullptr);
 	dummyScript = new Polygon2DCollider(nullptr);
 	dummyScript = new SoundSource(nullptr);
+	dummyScript = new Surface(nullptr);
 
 	dummyNode = new AnimationNode();
 	dummyNode = new TrueLeaf();
