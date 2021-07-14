@@ -75,13 +75,13 @@ void Collision::SetStaticFriction(const float& f) noexcept
 }
 
 
-bool Collision::Solve()
+bool Collision::Solve(bool sendEvent)
 {
 	if (_bodyA == _bodyB)
 		return false;
  
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
-	if (isCollide)
+	if (isCollide && sendEvent)
 	{
 		// The normal is the unit vector that connect point from shapeA to shapeB
 		// so you have to * -1 on message for shapeB to reverse the unit vector to

@@ -43,6 +43,12 @@ void QuadTree::CreateCollisionList(std::list<Collision>& collisionList)
 	_root->CreateCollisionList(collisionList);
 }
 
+void QuadTree::CreateCollisionListWithShape(std::list<Collision>& collisionList, Shape* shape)
+{
+	if (_root.use_count() > 0)
+		_root->CreateCollisionListWithShape(shape, collisionList);
+}
+
 void QuadTree::Draw()
 {
 	if (_root.use_count() > 0)

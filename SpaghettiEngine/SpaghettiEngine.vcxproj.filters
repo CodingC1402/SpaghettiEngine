@@ -368,6 +368,9 @@
     <ClInclude Include="Framework\PhysicEngine\Components\QTNode.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\PhysicEngine\Components\PhysicCollide.h">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -629,6 +632,9 @@
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\QTNode.cpp">
+      <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\PhysicEngine\Components\PhysicCollide.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
   </ItemGroup>

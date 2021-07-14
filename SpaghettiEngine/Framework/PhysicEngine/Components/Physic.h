@@ -13,7 +13,14 @@ class GameObj;
 
 class Physic
 {
+	friend class Body2D;
+	friend class Collider2DBase;
 	friend class Game;
+	friend class PhysicScriptBase;
+	friend class PhysicComponent;
+	friend class Shape;
+	friend class RigidBody2D;
+	friend class PhysicCollide;
 public:
 	//Return value is alpha used to interpolate render deltatime.
 	static bool Update();
@@ -23,6 +30,11 @@ public:
 
 	static void SetGravity(const float& gravity);
 	[[nodiscard]] static const Vector3& GetGravity();
+private:
+	Physic() = default;
+
+	static void Reset() noexcept;
+	static void Step();
 
 	static void AddRigid2DScript(RigidBody2D* script);
 	static void RemoveRigid2DScript(RigidBody2D* script);
@@ -40,11 +52,8 @@ public:
 
 	static void AddGameObj(GameObj* gameObj);
 	static void RemoveGameObj(GameObj* gameObj);
-protected:
-	Physic() = default;
 
-	static void Reset() noexcept;
-	static void Step();
+	[[nodiscard]] static QuadTree& GetQuadTree();
 protected:
 	static inline float _stepInterpolation = 0.9f;
 	static inline float _baseStep = 0.02f;

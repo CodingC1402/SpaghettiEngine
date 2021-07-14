@@ -83,6 +83,7 @@
     <ClInclude Include="Framework\PhysicEngine\Components\Material.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\MaterialContainer.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Physic.h" />
+    <ClInclude Include="Framework\PhysicEngine\Components\PhysicCollide.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicComponent.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicMath.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\QTNode.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Framework\PhysicEngine\Components\Material.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\MaterialContainer.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Physic.cpp" />
+    <ClCompile Include="Framework\PhysicEngine\Components\PhysicCollide.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicComponent.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicMath.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\QTNode.cpp" />
