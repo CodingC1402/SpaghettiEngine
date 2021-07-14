@@ -23,7 +23,7 @@ void AttackMove::OnUpdate()
 	}
 	if (_starScript && _attackKey->CheckKeyRelease())
 	{
-		_starScript->Throw(Vector3(), _moveScript->IsFlipped());
+		_starScript->Throw(_rb->GetVelocity(), _moveScript->IsFlipped());
 		_starScript = nullptr;
 	}
 }
