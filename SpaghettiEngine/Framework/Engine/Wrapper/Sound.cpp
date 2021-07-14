@@ -287,17 +287,13 @@ Sound::Sound(Sound&& donor) noexcept : nBytes(donor.nBytes), pData(std::move(don
 {
 }
 
-void Sound::Play(float freqMod, float vol)
+PChannel& Sound::Play(float freqMod, float vol)
 {
-	if (activeChannelPtrs.size() != 0)
-	{
-		Sound::Stop();
-	}
-
 	SoundSystem::Get()->PlaySoundBuffer(*this, freqMod, vol);
+	return activeChannelPtrs.back();
 }
 
-void Sound::Resume()
+void Sound::ResumeSound()
 {
 	for (auto pChannel : activeChannelPtrs)
 	{
@@ -305,7 +301,7 @@ void Sound::Resume()
 	}
 }
 
-void Sound::Pause()
+void Sound::PauseSound()
 {
 	for (auto pChannel : activeChannelPtrs)
 	{
@@ -313,7 +309,7 @@ void Sound::Pause()
 	}
 }
 
-void Sound::Stop()
+void Sound::StopSound()
 {
 	for (auto pChannel : activeChannelPtrs)
 	{
@@ -321,7 +317,7 @@ void Sound::Stop()
 	}
 }
 
-void Sound::ChangeVolume(float vol)
+void Sound::ChangeVolumeSound(float vol)
 {
 	for (auto pChannel : activeChannelPtrs)
 	{
@@ -329,12 +325,57 @@ void Sound::ChangeVolume(float vol)
 	}
 }
 
-bool Sound::IsPlaying()
+bool Sound::IsSoundPlaying()
 {
-	if (activeChannelPtrs.size() != 0)
+	if (activeChannelPtrs.size() > 0)
 		return true;
 
 	return false;
+}
+
+void Sound::ResumeChannel(PChannel& chan)
+{
+	if (!IsChannelPlaying(chan))
+		return;
+
+	chan->Resume();
+}
+
+void Sound::PauseChannel(PChannel& chan)
+{
+	if (!IsChannelPlaying(chan))
+		return;
+
+	chan->Pause();
+}
+
+void Sound::StopChannel(PChannel& chan)
+{
+	if (!IsChannelPlaying(chan))
+		return;
+
+	chan->Stop();
+}
+
+void Sound::ChangeVolumeChannel(float vol, PChannel& chan)
+{
+	if (!chan)
+		return;
+
+	chan->ChangeVolume(vol);
+}
+
+bool Sound::IsChannelPlaying(PChannel chan)
+{
+	if (!chan)
+		return false;
+
+	std::vector<PChannel>::iterator it = std::find(activeChannelPtrs.begin(), activeChannelPtrs.end(), chan);
+
+	if (it != activeChannelPtrs.end())
+		return true;
+	else
+		return false;
 }
 
 Sound::~Sound()

@@ -8,6 +8,7 @@ void SoundSource::Load(nlohmann::json& inputObject)
 {
 	constexpr const char* ID = "ID";
 	constexpr const char* Name = "Name";
+	constexpr const char* Mode = "Mode";
 	constexpr const char* Loop = "Loop";
 	constexpr const char* Delay = "Delay";
 	constexpr const char* Volume = "Volume";
@@ -23,6 +24,10 @@ void SoundSource::Load(nlohmann::json& inputObject)
 		string name = inputObject[Name].get<std::string>();
 		index = _audio->GetIndexPosition(name);
 		fieldTracker++;
+		
+		mode = Overlap;
+		//mode = inputObject[Mode].get<SoundSource::Mode>();
+		//fieldTracker++;
 
 		isRepeat = inputObject[Loop].get<bool>();
 		fieldTracker++;
@@ -68,14 +73,14 @@ void SoundSource::Load(nlohmann::json& inputObject)
 
 void SoundSource::OnUpdate()
 {
-	if (isRepeat && !_audio->IsPlayingAt(index) && !isStop)
+	if (isRepeat && !_audio->IsSoundPlayingAt(index) && !isStop)
 	{
 		currentTime += GameTimer::GetDeltaTime();
 	}
 
 	if (currentTime > delay)
 	{
-		_audio->PlayAt(volume, index);
+		_audio->PlaySoundAt(volume, index);
 		currentTime = 0;
 	}
 }
@@ -83,26 +88,44 @@ void SoundSource::OnUpdate()
 void SoundSource::Play()
 {
 	isStop = false;
-	_audio->PlayAt(volume, index);
+	
+	if (!_channel)
+	{
+		_channel = _audio->PlaySoundAt(volume, index);
+		return;
+	}
+
+	switch (mode)
+	{
+	case SoundSource::Overlap:
+		_audio->StopChannelInSoundAt(index, _channel);
+		_channel = _audio->PlaySoundAt(volume, index);
+		break;
+	case SoundSource::Nothing:
+		break;
+	default:
+		break;
+	}
+
 }
 
 void SoundSource::Stop()
 {
 	isStop = true;
 	currentTime = 0;
-	_audio->StopAt(index);
+	_audio->StopChannelInSoundAt(index, _channel);
 }
 
 void SoundSource::Pause()
 {
 	isStop = true;
-	_audio->PauseAt(index);
+	_audio->PauseChannelInSoundAt(index, _channel);
 }
 
 void SoundSource::Resume()
 {
 	isStop = false;
-	_audio->ResumeAt(index);
+	_audio->ResumeChannelInSoundAt(index, _channel);
 }
 
 bool SoundSource::IsRepeat()
@@ -133,6 +156,11 @@ float SoundSource::GetVolume()
 void SoundSource::SetVolume(float v)
 {
 	volume = v;
+}
+
+void SoundSource::SetMode(PlayMode m)
+{
+	mode = m;
 }
 
 PScriptBase SoundSource::Clone() const

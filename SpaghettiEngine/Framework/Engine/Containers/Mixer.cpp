@@ -36,7 +36,6 @@ void Mixer::Load(const std::string& path)
 		json jsonFile;
 		file >> jsonFile;
 
-		rng = std::mt19937(std::random_device()());
 		std::string folder = "Asset/Audio/";
 		std::string extention = ".wav";
 		int index = 0;
@@ -103,90 +102,153 @@ int Mixer::GetIndexPosition(std::string name)
 	}
 }
 
-void Mixer::PlayAt(float vol, int pos)
+PChannel& Mixer::PlaySoundAt(float vol, int pos)
 {
-	if (pos >= _sounds.size())
+	if (pos >= _sounds.size() || pos < 0)
+	{
+		PChannel a = nullptr;
+		return a;
+	}
+
+	return _sounds[pos].Play(freqDist(rng), vol * masterVolume);
+}
+
+std::vector<PChannel> Mixer::PlayAllSounds(float vol)
+{
+	std::vector<PChannel> result;
+
+	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
+	{
+		result.push_back((*i).Play(freqDist(rng), vol * masterVolume));
+	}
+
+	return result;
+}
+
+void Mixer::ResumeChannelInSoundAt(int pos, PChannel& chan)
+{
+	if (pos >= _sounds.size() || pos < 0 || !chan)
 		return;
 
-	_sounds[pos].Play(freqDist(rng), vol * masterVolume);
+	_sounds[pos].ResumeChannel(chan);
 }
 
-void Mixer::PlayRandom(float vol)
+void Mixer::ResumeSoundAt(int pos)
 {
-	// Need to fix the random pos generator
-	_sounds[soundDist(rng)].Play(freqDist(rng), vol * masterVolume);
+	if (pos >= _sounds.size() || pos < 0)
+		return;
+
+	_sounds[pos].ResumeSound();
 }
 
-void Mixer::PlayAll(float vol)
+void Mixer::ResumeAllSounds()
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
-		(*i).Play(freqDist(rng), vol * masterVolume);
+		(*i).ResumeSound();
 	}
 }
 
-void Mixer::ResumeAt(int pos)
+void Mixer::PauseChannelInSoundAt(int pos, PChannel& chan)
 {
-	if (pos >= _sounds.size())
+	if (pos >= _sounds.size() || pos < 0 || !chan)
 		return;
 
-	_sounds[pos].Resume();
+	_sounds[pos].PauseChannel(chan);
 }
 
-void Mixer::ResumeAll()
+void Mixer::PauseSoundAt(int pos)
+{
+	if (pos >= _sounds.size() || pos < 0)
+		return;
+
+	_sounds[pos].PauseSound();
+}
+
+void Mixer::PauseAllSounds()
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
-		(*i).Resume();
+		(*i).PauseSound();
 	}
 }
 
-void Mixer::PauseAt(int pos)
+void Mixer::StopChannelInSoundAt(int pos, PChannel& chan)
 {
-	if (pos >= _sounds.size())
+	if (pos >= _sounds.size() || pos < 0 || !chan)
 		return;
 
-	_sounds[pos].Pause();
+	_sounds[pos].StopChannel(chan);
 }
 
-void Mixer::PauseAll()
+void Mixer::StopSoundAt(int pos)
+{
+	if (pos >= _sounds.size() || pos < 0)
+		return;
+
+	_sounds[pos].StopSound();
+}
+
+void Mixer::StopAllSounds()
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
-		(*i).Pause();
+		(*i).StopSound();
 	}
 }
 
-void Mixer::StopAt(int pos)
+void Mixer::ChangeVolumeChannelInSoundAt(float vol, int pos, PChannel& chan)
 {
-	if (pos >= _sounds.size())
+	if (pos >= _sounds.size() || pos < 0 || !chan)
 		return;
 
-	_sounds[pos].Stop();
+	_sounds[pos].ChangeVolumeChannel(vol, chan);
 }
 
-void Mixer::StopAll()
+void Mixer::ChangeVolumeSoundAt(float vol, int pos)
+{
+	if (pos >= _sounds.size() || pos < 0)
+		return;
+
+	_sounds[pos].ChangeVolumeSound(vol * masterVolume);
+}
+
+void Mixer::ChangeVolumeAllSounds(float vol)
 {
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
-		(*i).Stop();
+		(*i).ChangeVolumeSound(vol * masterVolume);
 	}
 }
 
-void Mixer::ChangeVolumeAt(float vol, int pos)
+bool Mixer::IsChannelPlayingInSoundAt(int pos, PChannel chan)
 {
-	if (pos >= _sounds.size())
-		return;
+	if (pos >= _sounds.size() || pos < 0 || !chan)
+		return false;
 
-	_sounds[pos].ChangeVolume(vol * masterVolume);
+	return _sounds[pos].IsChannelPlaying(chan);
 }
 
-void Mixer::ChangeVolumeAll(float vol)
+bool Mixer::IsSoundPlayingAt(int pos)
 {
+	if (pos >= _sounds.size() || pos < 0)
+		return false;
+
+	return _sounds[pos].IsSoundPlaying();
+}
+
+bool Mixer::IsAllSoundsPlaying()
+{
+	if (_sounds.size() == 0)
+		return false;
+
 	for (auto i = _sounds.begin(); i != _sounds.end(); i++)
 	{
-		(*i).ChangeVolume(vol * masterVolume);
+		if (!(*i).IsSoundPlaying())
+			return false;
 	}
+
+	return true;
 }
 
 void Mixer::ChangeMasterVolume(float vol)
@@ -197,11 +259,6 @@ void Mixer::ChangeMasterVolume(float vol)
 float Mixer::GetMasterVolume()
 {
 	return masterVolume;
-}
-
-bool Mixer::IsPlayingAt(int pos)
-{
-	return _sounds[pos].IsPlaying();
 }
 
 MixerContainer::MixerContainer()

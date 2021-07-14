@@ -118,7 +118,8 @@
 		{
 			"ID": 7,
 			"Inputs": {
-				"ScriptType": "PlaySoundScript"
+				"ScriptType": "PlaySoundScript",
+				"Layer": 0
 			}
 		},
 		{

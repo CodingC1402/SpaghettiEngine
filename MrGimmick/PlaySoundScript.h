@@ -18,6 +18,8 @@ protected:
 	SInputAll _stop1Input;
 	SInputAll _stop2Input;
 
+	int soundLayer;
+
 	SoundSource* _audio = nullptr;
 private:
 	REGISTER_START(PlaySoundScript);

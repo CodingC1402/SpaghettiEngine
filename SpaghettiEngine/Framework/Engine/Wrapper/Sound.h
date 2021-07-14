@@ -85,6 +85,9 @@ private:
 	static SoundSystem* __instance;
 };
 
+// A sound have multiple of channels 
+typedef class SoundSystem::Channel* PChannel;
+
 class Sound
 {
 	friend SoundSystem::Channel;
@@ -93,12 +96,19 @@ public:
 	Sound(const Sound&) = delete;
 	Sound(Sound&& donor) noexcept;
 
-	void Play(float freqMod, float vol);
-	void Resume();
-	void Pause();
-	void Stop();
-	void ChangeVolume(float vol);
-	bool IsPlaying();
+	PChannel& Play(float freqMod, float vol);
+
+	void ResumeSound();
+	void PauseSound();
+	void StopSound();
+	void ChangeVolumeSound(float vol);
+	bool IsSoundPlaying();
+
+	void ResumeChannel(PChannel& chan);
+	void PauseChannel(PChannel& chan);
+	void StopChannel(PChannel& chan);
+	void ChangeVolumeChannel(float vol, PChannel& chan);
+	bool IsChannelPlaying(PChannel chan);
 
 	~Sound();
 private:
@@ -108,5 +118,5 @@ private:
 	UINT32 nBytes = 0;
 	std::unique_ptr<BYTE[]> pData;
 	std::mutex mutex;
-	std::vector<SoundSystem::Channel*> activeChannelPtrs;
+	std::vector<PChannel> activeChannelPtrs;
 };

@@ -5,6 +5,12 @@
 class SoundSource : public ScriptBase
 {
 public:
+	enum PlayMode
+	{
+		Overlap,
+		Nothing
+	};
+public:
 	virtual void Load(nlohmann::json& inputObject) override;
 	virtual void OnUpdate() override;
 
@@ -22,12 +28,16 @@ public:
 	[[nodiscard]] float GetVolume();
 	void SetVolume(float v);
 
+	void SetMode(PlayMode m);
+
 	PScriptBase Clone() const override;
 protected:
+	PlayMode mode;
 	SMixer _audio;
+	PChannel _channel;
 	int index;
 	bool isRepeat = false;
-	bool isStop = false;
+	bool isStop = true;
 	float delay = 0;
 	float volume = 1.0f;
 	float currentTime = 0;
