@@ -34,19 +34,17 @@ void PlaySoundScript::OnUpdate()
 		{
 			_audio->Play();
 		}
-
-		if (_stop1Input->CheckKeyDown())
+		else if (_stop1Input->CheckKeyDown())
 		{
 			_audio->Stop();
 		}
 		break;
 	case 1:
-		if (_play2Input->CheckKeyDown())
+		if (_play1Input->CheckKeyDown())
 		{
 			_audio->Play();
 		}
-
-		if (_stop2Input->CheckKeyDown())
+		else if (_stop2Input->CheckKeyDown())
 		{
 			_audio->Stop();
 		}

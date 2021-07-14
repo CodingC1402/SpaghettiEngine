@@ -110,7 +110,7 @@ PChannel& Mixer::PlaySoundAt(float vol, int pos)
 		return a;
 	}
 
-	return _sounds[pos].Play(freqDist(rng), vol * masterVolume);
+	return _sounds[pos].Play(1.0f, vol * masterVolume);
 }
 
 std::vector<PChannel> Mixer::PlayAllSounds(float vol)

@@ -25,9 +25,8 @@ void SoundSource::Load(nlohmann::json& inputObject)
 		index = _audio->GetIndexPosition(name);
 		fieldTracker++;
 		
-		mode = Overlap;
-		//mode = inputObject[Mode].get<SoundSource::Mode>();
-		//fieldTracker++;
+		mode = inputObject[Mode].get<PlayMode>();
+		fieldTracker++;
 
 		isRepeat = inputObject[Loop].get<bool>();
 		fieldTracker++;
@@ -73,14 +72,14 @@ void SoundSource::Load(nlohmann::json& inputObject)
 
 void SoundSource::OnUpdate()
 {
-	if (isRepeat && !_audio->IsSoundPlayingAt(index) && !isStop)
+	if (isRepeat && !_audio->IsChannelPlayingInSoundAt(index, _channel) && !isStop)
 	{
 		currentTime += GameTimer::GetDeltaTime();
 	}
 
 	if (currentTime > delay)
 	{
-		_audio->PlaySoundAt(volume, index);
+		Play();
 		currentTime = 0;
 	}
 }
@@ -97,11 +96,11 @@ void SoundSource::Play()
 
 	switch (mode)
 	{
-	case SoundSource::Overlap:
+	case OVERLAP:
 		_audio->StopChannelInSoundAt(index, _channel);
 		_channel = _audio->PlaySoundAt(volume, index);
 		break;
-	case SoundSource::Nothing:
+	case NOTHING:
 		break;
 	default:
 		break;

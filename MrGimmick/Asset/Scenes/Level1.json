@@ -35,6 +35,12 @@
 					},
 					{
 						"ID": 2
+					},
+					{
+						"ID": 3
+					},
+					{
+						"ID": 4
 					}
 				]
 			}
@@ -55,6 +61,25 @@
 				"DrawLayer": 12,
 				"ScriptType": "TileMapRenderer",
 				"TileMapPath": "Asset/TileStuffs/stage1Foreground.json"
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "SoundSource",
+				"ID": 10001,
+				"Name": "se5",
+				"Mode": "Overlap",
+				"Loop": true,
+				"Delay": 1.0,
+				"Volume": 1.0
+			}
+		},
+		{
+			"ID": 4,
+			"Inputs": {
+				"ScriptType": "PlaySoundScript",
+				"Layer": 1
 			}
 		}
 	]

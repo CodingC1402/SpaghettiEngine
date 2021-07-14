@@ -110,6 +110,7 @@
 				"ScriptType": "SoundSource",
 				"ID": 10001,
 				"Name": "se5",
+				"Mode": "Overlap",
 				"Loop": true,
 				"Delay": 1.0,
 				"Volume": 1.0
