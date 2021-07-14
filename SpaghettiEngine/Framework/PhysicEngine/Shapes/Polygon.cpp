@@ -131,16 +131,12 @@ Shape* Polygon::Clone() const
 	return clonePoly;
 }
 
-bool Polygon::UpdateParameter()
+void Polygon::UpdateParameter(const Matrix4& matrix)
 {
-	if (!Shape::UpdateParameter())
-		return false;
-
+	Shape::UpdateParameter(matrix);
 	_worldVertexes = _vertexes;
 	for (auto& vertex : _worldVertexes)
 		vertex = vertex * _offSetMatrix * _worldMatrix;
-
-	return true;
 }
 
 bool Polygon::CheckCollideOnOneEdgeWithCircle(const Circle& circle, const Vector3& normal, float& penetration) const

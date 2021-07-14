@@ -55,7 +55,7 @@ public:
 
 	// Return whether they updated or not
 	virtual bool UpdateParameter();
-	void UpdateParameter(const Matrix4& matrix);
+	virtual void UpdateParameter(const Matrix4& matrix);
 
 	void RemoveFromPhysic();
 	void AddToPhysic();

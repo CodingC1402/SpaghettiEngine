@@ -1,6 +1,7 @@
 #pragma once
 #include "Macros.h"
 #include "Matrix.h"
+#include "json.hpp"
 
 struct D3DXVECTOR3;
 
@@ -9,6 +10,7 @@ class Vector3
 public:
 	Vector3() = default;
 	Vector3(const Vector3& vec) = default;
+	Vector3(const nlohmann::json& vectorJson);
 	Vector3(float x, float y, float z);
 
 	const float& operator[](unsigned index) const;

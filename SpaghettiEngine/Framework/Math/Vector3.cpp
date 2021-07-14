@@ -4,6 +4,13 @@
 #include <algorithm>
 #include <iterator>
 
+Vector3::Vector3(const nlohmann::json& vectorJson)
+{
+	x = vectorJson[0].get<float>();
+	y = vectorJson[1].get<float>();
+	z = vectorJson[2].get<float>();
+}
+
 Vector3::Vector3(float x, float y, float z)
 {
 	this->x = x;
