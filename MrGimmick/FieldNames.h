@@ -59,6 +59,14 @@ namespace Fields
 		static constexpr auto _spinAngle		= "SpinAngle";
 	};
 
+	class FeetScript
+	{
+	public:
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+		static constexpr auto _position = "Position";
+	};
+
 	class Platform
 	{
 	public:

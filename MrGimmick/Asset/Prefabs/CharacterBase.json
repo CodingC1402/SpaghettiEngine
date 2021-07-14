@@ -5,8 +5,7 @@
 			"Inputs": {
 				"Tag": "Character",
 				"GameObjects": [
-					{ "ID": 2 },
-					{ "ID": 3 }
+					{ "ID": 2 }
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
@@ -16,26 +15,13 @@
 					{ "ID": 2 },
 					{ "ID": 3 },
 					{ "ID": 4 },
-					{ "ID": 5 }
+					{ "ID": 5 },
+					{ "ID": 2001}
 				]
 			}
 		},
 		{
 			"ID": 2,
-			"Inputs": {
-				"Tag": "Feet",
-				"GameObjects": [],
-				"Transform": [ 0, -10, 0 ],
-				"Rotation": [ 0, 0, 0 ],
-				"Scale": [ 1, 1, 1 ],
-				"Scripts": [
-					{"ID": 2001},
-					{"ID": 2002}
-				]
-			}
-		},
-		{
-			"ID": 3,
 			"Inputs": {
 				"Tag": "Head",
 				"GameObjects": [],
@@ -62,8 +48,8 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "MoveScript",
-				"SpeedRamUp": 600,
-				"SpeedCap": 70,
+				"SpeedRamUp": 700,
+				"SpeedCap": 80,
 				"ReduceSpeed": 60,
 
 				"JumpStrength": 180,
@@ -105,22 +91,10 @@
 		{
 			"ID": 2001,
 			"Inputs": {
-				"ScriptType": "FeetScript"
-			}
-		},
-		{
-			"ID": 2002,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Trigger": true,
-				"Polygons": [
-					[
-						 2,  2,
-						 2, -5,
-						-2, -5,
-						-2,  2 
-					]
-				]
+				"ScriptType": "FeetScript",
+				"Position": [0, -12, 0],
+				"Width": 2,
+				"Height": 6
 			}
 		},
 		{
