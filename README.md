@@ -7,6 +7,10 @@ Keys:
 - < To load previous screen.
 - \> To load next screen.
 - F11 To fullscreen
+- / To enter debug mode.
+
+Note:
+- F10 will somehow pause the game : |
 
 Support:
 - Flyweight pattern for Texture, Prefab, Sprite, Animation.
