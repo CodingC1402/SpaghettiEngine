@@ -22,7 +22,7 @@ public:
 	void SetDynamicFriction(const float& f) noexcept;
 	void SetStaticFriction(const float& f) noexcept;
 
-	bool Solve();
+	bool Solve(bool sendEvent);
 	void Initialize();            // Recalculations for impulse solving
 	void ApplyImpulse();          // Solve impulse and apply
 	void PositionalCorrection();  // Naive correction of positional penetration

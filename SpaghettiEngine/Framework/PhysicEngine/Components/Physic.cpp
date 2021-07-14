@@ -68,7 +68,7 @@ void Physic::Step()
 	auto it = _contacts.begin();
 	while (it != _contacts.end())
 	{
-		if (!(*it).Solve())
+		if (!(*it).Solve(true))
 			it = _contacts.erase(it);
 		else
 			++it;
@@ -188,4 +188,9 @@ void Physic::AddGameObj(GameObj* gameObj)
 void Physic::RemoveGameObj(GameObj* gameObj)
 {
 	ContainerUtil::Erase(_gameObjs, gameObj);
+}
+
+QuadTree& Physic::GetQuadTree()
+{
+	return _quadTree;
 }

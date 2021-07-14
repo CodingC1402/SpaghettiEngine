@@ -8,9 +8,14 @@ Body2D* CollideEvent::GetBody() const noexcept
 	return _collideWith;
 }
 
-Vector3 CollideEvent::GetNormal() const noexcept
+const Vector3& CollideEvent::GetNormal() const noexcept
 {
 	return _collideNormal;
+}
+
+const Vector3& CollideEvent::GetDirection() const noexcept
+{
+	return _collideDir;
 }
 
 GameObj* CollideEvent::GetGameObject() const noexcept
@@ -75,12 +80,18 @@ void CollideEvent::SetToTrigger() noexcept
 	_isCollideWithTrigger = true;
 }
 
-void CollideEvent::Reset(Collider2DBase* collideScript, Body2D* collideWith, Collider2DBase* collideWithScript, const Vector3& normal)
+void CollideEvent::Reset(
+	Collider2DBase* collideScript, 
+	Body2D* collideWith, 
+	Collider2DBase* collideWithScript, 
+	const Vector3& normal,
+	const Vector3& direction)
 {
 	_collideWith = collideWith;
 	_collideScript = collideScript;
 	_collideWithScript = collideWithScript;
 	_collideNormal = normal;
+	_collideDir = direction;
 	_isCollisionHandled = false;
 	_isCollideWithTrigger = false;
 }

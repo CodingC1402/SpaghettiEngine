@@ -22,7 +22,8 @@ public:
 
 	[[nodiscard]] bool GetIsHandled() const noexcept;;
 	[[nodiscard]] bool IsCollideWithTrigger() const noexcept;
-	[[nodiscard]] Vector3 GetNormal() const noexcept;
+	[[nodiscard]] const Vector3& GetNormal() const noexcept;
+	[[nodiscard]] const Vector3& GetDirection() const noexcept;
 
 	[[nodiscard]] Collider2DBase* GetCollideWithScript() const noexcept;
 	[[nodiscard]] Collider2DBase* GetCollideScript() const noexcept;
@@ -37,9 +38,14 @@ protected:
 	void SetNormal(const Vector3& normal) noexcept;
 
 	void SetToTrigger() noexcept;
-	void Reset(Collider2DBase* collideScript, Body2D* collideWith, Collider2DBase* collideWithScript, const Vector3& normal);
+	void Reset(
+		Collider2DBase* collideScript, 
+		Body2D* collideWith, 
+		Collider2DBase* collideWithScript, 
+		const Vector3& normal,
+		const Vector3& direction);
 protected:
-	Body2D* _collideWith;
+	Body2D* _collideWith = nullptr;
 	bool _isCollideWithTrigger = false;
 	bool _isCollisionHandled = false;
 	Vector3	_collideNormal;

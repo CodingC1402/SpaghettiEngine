@@ -6,8 +6,6 @@
 #include "RigidBody2D.h"
 #include "Animator.h"
 
-typedef std::shared_ptr<InputAll> SInputAll;
-
 class MoveScript : public ScriptBase
 {
 public:
@@ -15,26 +13,40 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 
+#pragma region MoveCommand
+	void StartMoveLeft() noexcept;
+	void StartMoveRight() noexcept;
+
+	void StopMoveLeft() noexcept;
+	void StopMoveRight() noexcept;
+
+	void StartJump() noexcept;
+	void StopJump() noexcept;
+#pragma endregion
+
 	void SetGrounded(bool value) noexcept; // Manage by PlayerfeetScript
 	[[nodiscard]] bool GetGrounded() const noexcept;
-
 	[[nodiscard]] bool IsFlipped() const noexcept;
 
 	void SetAllowJump(bool value) noexcept;
 	[[nodiscard]] bool IsAllowJump() const noexcept;
-
-	void JumpAction();
-	void ResetJumpAction();
-	void MoveAction();
-	void CheckDirection(const bool& keyRelease, const bool& keyDown, const int& factor, bool& directionMove, float& totalVel) noexcept;
-
 	[[nodiscard]] bool IsWalking() const noexcept;
+	void ResetJumpAction();
 
 	PScriptBase Clone() const override;
 protected:
-	SInputAll _leftInput;
-	SInputAll _rightInput;
-	SInputAll _jumpInput;
+	void CheckDirection(const bool& keyDown, const int& factor, float& totalVel) noexcept;
+
+	void JumpAction();
+	void MoveAction();
+
+	void StopMove(const int& factor) noexcept;
+protected:
+#pragma region MoveCommand
+	bool _isMoveLeftCommand;
+	bool _isMoveRightCommand;
+	bool _isJumpCommand;
+#pragma endregion
 
 	BoolField _isRunningField;
 	BoolField _isGroundedField;
@@ -55,9 +67,6 @@ protected:
 
 	bool _isGrounded = false;
 	bool _isAllowJump = true;
-
-	bool _isWalkingLeft = false;
-	bool _isWalkingRight = false;
 
 	Vector3 _moveVec;
 	bool isFlipped = false;

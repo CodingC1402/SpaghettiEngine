@@ -75,20 +75,31 @@ void Collision::SetStaticFriction(const float& f) noexcept
 }
 
 
-bool Collision::Solve()
+bool Collision::Solve(bool sendEvent)
 {
 	if (_bodyA == _bodyB)
 		return false;
  
 	bool isCollide = (_collisionFunctions[static_cast<unsigned>(_shapeA->GetType())][static_cast<unsigned>(_shapeB->GetType())])(this);
-	if (isCollide)
+	if (isCollide && sendEvent)
 	{
 		// The normal is the unit vector that connect point from shapeA to shapeB
 		// so you have to * -1 on message for shapeB to reverse the unit vector to
 		// point from shapeB to shapeA.
 		// Remember that future me :D ? Or who ever copying this code ~~ god damn do it your self.
-		_shapeACollideTemplate.Reset(_shapeA->GetOwnerScript(), _shapeB->GetBody().lock().get(), _shapeB->GetOwnerScript(), _normal);
-		_shapeBCollideTemplate.Reset(_shapeB->GetOwnerScript(), _shapeA->GetBody().lock().get(), _shapeA->GetOwnerScript(), _normal * -1);
+		_shapeACollideTemplate.Reset(
+			_shapeA->GetOwnerScript(), 
+			_shapeB->GetBody().lock().get(), 
+			_shapeB->GetOwnerScript(), 
+			_normal, 
+			_shapeB->GetCenter() - _shapeA->GetCenter());
+
+		_shapeBCollideTemplate.Reset(
+			_shapeB->GetOwnerScript(), 
+			_shapeA->GetBody().lock().get(), 
+			_shapeA->GetOwnerScript(), 
+			_normal * -1,
+			_shapeA->GetCenter() - _shapeB->GetCenter());
 
 		if (_shapeA->IsTriggerOnly())
 			_shapeACollideTemplate.SetToTrigger();

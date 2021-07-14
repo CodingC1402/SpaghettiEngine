@@ -96,8 +96,6 @@ PScriptBase ScriptBase::Clone() const
 
 void ScriptBase::Load(nlohmann::json& input)
 {
-	if (_ownerObj == nullptr)
-		throw CORN_EXCEPT_WITH_DESCRIPTION(L"You can't have a script without an owner");
 }
 
 BaseComponent::Type ScriptBase::GetComponentType() const
