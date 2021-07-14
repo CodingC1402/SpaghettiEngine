@@ -62,11 +62,11 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "MoveScript",
-				"SpeedRamUp": 700,
-				"SpeedCap": 80,
+				"SpeedRamUp": 600,
+				"SpeedCap": 70,
 				"ReduceSpeed": 60,
 
-				"JumpStrength": 230,
+				"JumpStrength": 180,
 				"GSDropFactor": 4,
 				"GSMin": 1			
 			}
@@ -115,10 +115,10 @@
 				"Trigger": true,
 				"Polygons": [
 					[
-						 3,  2,
-						 3, -6,
-						-3, -6,
-						-3,  2 
+						 2,  2,
+						 2, -5,
+						-2, -5,
+						-2,  2 
 					]
 				]
 			}

@@ -18,9 +18,8 @@
 					"Field": "Scripts",
 					"Mode": "Append",
 					"Value": [
-						{
-							"ID": 1
-						}
+						{ "ID": 1 },
+						{ "ID": 2 }
 					]
 				},
 				{
@@ -48,6 +47,12 @@
 					}
 				],
 				"AppearOffSet": [0, 20, 0]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "PlayerControl"
 			}
 		}
 	]

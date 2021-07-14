@@ -8,11 +8,6 @@ void FeetScript::OnStart()
 	_moveScript = dynamic_cast<MoveScript*>(GetGameObject()->GetParent()->GetScriptContainer().GetItemType("MoveScript"));
 }
 
-void FeetScript::OnUpdate()
-{
-
-}
-
 void FeetScript::OnFixedUpdate()
 {
 	if (_isLastGrounded != _moveScript->GetGrounded())
@@ -25,9 +20,7 @@ void FeetScript::OnFixedUpdate()
 void FeetScript::OnCollide(CollideEvent& e)
 {
 	auto collideWith = e.GetGameObject();
-
-	auto normal = e.GetNormal();
-	if (collideWith->GetTag().Collide(Fields::SpecialTag::GetPlatformTag()) && normal.y < 0)
+	if (collideWith->GetTag().Collide(Fields::SpecialTag::GetPlatformTag()) && e.GetNormal().y < 0.25f)
 		_isLastGrounded = true;
 }
 

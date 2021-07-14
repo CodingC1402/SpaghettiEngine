@@ -7,6 +7,67 @@
 
 REGISTER_FINISH(MoveScript, ScriptBase) {}
 
+#pragma region MoveCommand
+void MoveScript::StartMoveLeft() noexcept
+{
+	_isMoveLeftCommand = true;
+}
+void MoveScript::StartMoveRight() noexcept
+{
+	_isMoveRightCommand = true;
+}
+void MoveScript::StopMoveLeft() noexcept
+{
+	if (!_isMoveLeftCommand)
+		return;
+	_isMoveLeftCommand = false;
+	StopMove(-1);
+}
+void MoveScript::StopMoveRight() noexcept
+{
+	if (!_isMoveRightCommand)
+		return;
+	_isMoveRightCommand = false;
+	StopMove(1);
+}
+void MoveScript::StartJump() noexcept
+{
+	if (_isJumpCommand)
+		return;
+	_isJumpCommand = true;
+
+	auto moveVec = _rigidBody->GetVelocity();
+	if (_isGrounded && _isAllowJump)
+	{
+		_isJumping = true;
+		_gravityScale = _rigidBody->GetGravityScale();
+		_baseGravityScale = _gravityScale;
+
+		moveVec.y = _jumpStrength;
+	}
+	_rigidBody->SetVelocity(moveVec);
+}
+void MoveScript::StopJump() noexcept
+{
+	if (!_isJumpCommand)
+		return;
+	_isJumpCommand = false;
+
+	if (_isJumping)
+		ResetJumpAction();
+}
+void MoveScript::StopMove(const int& factor) noexcept
+{
+	auto moveVec = _rigidBody->GetVelocity();
+	if (moveVec.x * factor > 0) // Moving same direction
+	{
+		moveVec.x -= factor * _reduceSpeed;
+		moveVec.x = moveVec.x * factor < 0 ? 0 : moveVec.x;
+	}
+	_rigidBody->SetVelocity(moveVec);
+}
+#pragma endregion
+
 void MoveScript::Load(nlohmann::json& input)
 {
 	_jumpStrength = input[Fields::Player::_jumpStrengthField].get<float>();
@@ -26,10 +87,6 @@ void MoveScript::OnStart()
 
 	_isRunningField = _animator->GetField<bool>(Fields::Player::_isRunning);
 	_isGroundedField = _animator->GetField<bool>(Fields::Player::_isGrounded);
-
-	_leftInput  =		std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_moveLeft));
-	_rightInput =		std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_moveRight));
-	_jumpInput  =		std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_jump));
 }
 
 void MoveScript::OnUpdate()
@@ -70,9 +127,6 @@ bool MoveScript::IsAllowJump() const noexcept
 
 void MoveScript::JumpAction()
 {
-	if (_isJumping && _jumpInput->CheckKeyRelease())
-		ResetJumpAction();
-
 	if (_isJumping)
 	{
 		if (_gravityScale <= _minGravityScale)
@@ -82,15 +136,6 @@ void MoveScript::JumpAction()
 			_gravityScale -= _gravityScale * _gsDropFactor * GameTimer::GetDeltaTime();
 			_rigidBody->SetGravityScale(_gravityScale);
 		}
-	}
-
-	if (_isGrounded && _isAllowJump && _jumpInput->CheckKeyPress())
-	{
-		_isJumping = true;
-		_gravityScale = _rigidBody->GetGravityScale();
-		_baseGravityScale = _gravityScale;
-
-		_moveVec.y = _jumpStrength;
 	}
 }
 
@@ -106,8 +151,8 @@ void MoveScript::ResetJumpAction()
 void MoveScript::MoveAction()
 {
 	float totalVel = 0.0f;
-	CheckDirection(_leftInput->CheckKeyRelease(), _leftInput->CheckKeyDown(), -1, _isWalkingLeft, totalVel);
-	CheckDirection(_rightInput->CheckKeyRelease(), _rightInput->CheckKeyDown(), 1, _isWalkingRight, totalVel);
+	CheckDirection(_isMoveLeftCommand, -1, totalVel);
+	CheckDirection(_isMoveRightCommand, 1, totalVel);
 
 	totalVel *= _speedRamUp * GameTimer::GetDeltaTime();
 	if (_moveVec.x * totalVel < 0.0f)
@@ -118,7 +163,7 @@ void MoveScript::MoveAction()
 	_isRunningField.lock()->SetValue(IsWalking());
 }
 
-void MoveScript::CheckDirection(const bool& keyRelease, const bool& keyDown, const int& factor, bool& directionMove, float& totalVel) noexcept
+void MoveScript::CheckDirection(const bool& keyDown, const int& factor, float& totalVel) noexcept
 {
 	if (keyDown)
 	{
@@ -128,22 +173,12 @@ void MoveScript::CheckDirection(const bool& keyRelease, const bool& keyDown, con
 			GetGameObject()->GetTransform().SetScale(static_cast<float>(factor), 1, 1);
 			isFlipped = (factor < 0);
 		}
-		directionMove = true;
-	}
-	else if (keyRelease)
-	{
-		directionMove = false;
-		if (_moveVec.x * factor > 0) // Moving same direction
-		{
-			_moveVec.x -= factor * _reduceSpeed;
-			_moveVec.x = _moveVec.x * factor < 0 ? 0 : _moveVec.x;
-		}
 	}
 }
 
 bool MoveScript::IsWalking() const noexcept
 {
-	return _isWalkingLeft ^ _isWalkingRight;
+	return _isMoveLeftCommand ^ _isMoveRightCommand;
 }
 
 PScriptBase MoveScript::Clone() const
