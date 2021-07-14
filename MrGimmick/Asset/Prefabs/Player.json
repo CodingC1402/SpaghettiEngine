@@ -19,7 +19,8 @@
 					"Mode": "Append",
 					"Value": [
 						{ "ID": 1 },
-						{ "ID": 2 }
+						{ "ID": 2 },
+						{ "ID": 3 }
 					]
 				},
 				{
@@ -53,6 +54,13 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "PlayerControl"
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "DebugControl",
+				"FlySpeed": 300
 			}
 		}
 	]

@@ -1,14 +1,15 @@
 #include "PlayerControl.h"
 #include "InputSystem.h"
 #include "InputAll.h"
+#include "FieldNames.h"
 
 REGISTER_FINISH(PlayerControl, ScriptBase) {}
 
 void PlayerControl::OnStart()
 {
-	_moveLeft = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("MoveLeft"));
-	_moveRight = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("MoveRight"));
-	_jump = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("Jump"));
+	_moveLeft = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_moveLeft));
+	_moveRight = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_moveRight));
+	_jump = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_jump));
 
 	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
 }
