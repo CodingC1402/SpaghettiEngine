@@ -37,9 +37,12 @@ namespace Fields
 	public:
 		static constexpr auto _moveLeft		= "MoveLeft";
 		static constexpr auto _moveRight	= "MoveRight";
+		static constexpr auto _moveUp		= "MoveUp";
+		static constexpr auto _moveDown		= "MoveDown";
 		static constexpr auto _jump			= "Jump";
 		static constexpr auto _attack		= "Attack";
 
+		static constexpr auto _enterDebug	= "EnterDebug";
 		static constexpr auto _fullScreen	= "FullScreen";
 	};
 
@@ -71,6 +74,12 @@ namespace Fields
 	{
 	public:
 		static inline const std::string _platform = "Platform";
+	};
+
+	class DebugControl
+	{
+	public:
+		static inline const std::string _debugFlySpeed = "FlySpeed";
 	};
 
 	class SpecialTag

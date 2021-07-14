@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="DebugControl.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="LevelSegment.cpp" />
     <ClCompile Include="MoveScript.cpp" />
@@ -206,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="DebugControl.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="LevelSegment.h" />
     <ClInclude Include="MoveScript.h" />

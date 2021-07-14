@@ -1,5 +1,8 @@
 #pragma once
 #include "Input.h"
+#include "Macros.h"
+
+CLASS_FORWARD_DECLARATION(InputAll);
 
 class InputAll : public Input
 {
