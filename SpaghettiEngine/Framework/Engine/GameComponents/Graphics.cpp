@@ -43,7 +43,7 @@ void Graphics::AddUIRender(PCanvas canvas)
 
 void Graphics::RemoveUIRender(PCanvas canvas)
 {
-	_canvasList.emplace_back(canvas);
+	_canvasList.remove(canvas);
 }
 
 void Graphics::SetSpriteTransform(const Matrix4& matrix)
@@ -68,7 +68,8 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 	auto dxCenter = center.ConvertToDxVector();
 	auto dxPos = position.ConvertToDxVector();
 
-	_turdGraphic->RenderSprite(sprite->GetSource()->GetImage(),
+	_turdGraphic->RenderSprite(
+		sprite->GetSource()->GetImage(),
 		srcRect,
 		dxCenter,
 		dxPos,
@@ -78,10 +79,15 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 
 void Graphics::DrawUI(const SSprite& sprite, const Vector3& position, const Color& color)
 {
-	_turdGraphic->RenderSprite(sprite->GetSource()->GetImage(),
-		sprite->GetSourceRect(),
-		Vector3().ConvertToDxVector(),
-		position.ConvertToDxVector(),
+	RECT srcRect = sprite->GetSourceRect();
+	auto dxCenter = Vector3(0, 0, 0).ConvertToDxVector();
+	auto dxPos = position.ConvertToDxVector();
+
+	_turdGraphic->RenderSprite(
+		sprite->GetSource()->GetImage(),
+		srcRect,
+		dxCenter,
+		dxPos,
 		color
 	);
 }
@@ -164,7 +170,7 @@ void Graphics::Init(const ColorFormat& colorFormat, SGameWnd window)
 
 
 void Graphics::Render()
-{
+{ 
 	if (_cameraList.empty())
 		return;
 
@@ -186,6 +192,10 @@ void Graphics::Render()
 		for (auto& layer : _renderBuffer2D)
 			for (auto renderScript2D = layer.begin(); renderScript2D != layer.end(); ++renderScript2D)
 				(*renderScript2D)->Draw(cameraScript);
+
+		ResetSpriteTransform();
+		for (auto& canvas : _canvasList)
+			canvas->Draw();
 		_turdGraphic->EndRenderSprite();
 
 		// Only available in debugMode cause why would you
@@ -193,13 +203,8 @@ void Graphics::Render()
 		if constexpr (Setting::IsDebugMode())
 		{
 			// The debug renderer will begin the line render session itself.
-			SetSpriteTransform(Matrix4::GetDiagonalMatrix());
 			DebugRenderer::Render(_turdGraphic, cameraScript);
 		}
-
-		ResetSpriteTransform();
-		for (auto& canvas : _canvasList)
-			canvas->Draw();
 
 		if (!_turdGraphic->EndRender())
 			_turdGraphic->ResetRender();

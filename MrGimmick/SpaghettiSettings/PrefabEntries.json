@@ -1,5 +1,10 @@
 [
   {
+    "ID": 99001,
+    "Path": "Asset/Prefabs/Hub.json"
+  },
+
+  {
     "ID": 90100,
     "Path": "Asset/Prefabs/Level1/Level1Map.json"
   },

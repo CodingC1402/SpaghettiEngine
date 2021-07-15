@@ -1,0 +1,63 @@
+{
+    "Prefabs": [
+
+    ],
+
+    "GameObjects": [
+        {
+			"ID": 1,
+			"Inputs": {
+				"Tag": "",
+                "IsRoot": true,
+				"GameObjects": [],
+				"Transform": [0, 0, 0],
+				"Rotation": [0, 0, 0],
+				"Scale": [1, 1, 1],
+				"Scripts": [
+					{"ID": 1}
+				]
+			}
+		}
+    ],
+
+    "Scripts": [
+        {
+            "ID": 1,
+            "Inputs": {
+                "ScriptType": "Canvas",
+                "Components": [
+                    {
+                        "Type": "RectangleUI",
+                        "Name": "HubBackground",
+                        "Position": [0, 192, 0],
+                        "Texture": 90001,
+                        "Index": 7,
+                        "Components": [
+                            {
+                                "Type": "RectangleUI",
+                                "Name": "ItemSlot1",
+                                "Position": [177, 5, 0],
+                                "Texture": 90001,
+                                "Index": 30
+                            },
+                            {
+                                "Type": "RectangleUI",
+                                "Name": "ItemSlot2",
+                                "Position": [200, 5, 0],
+                                "Texture": 90001,
+                                "Index": 31
+                            },
+                            {
+                                "Type": "RectangleUI",
+                                "Name": "ItemSlot3",
+                                "Position": [223, 5, 0],
+                                "Texture": 90001,
+                                "Index": 32
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
