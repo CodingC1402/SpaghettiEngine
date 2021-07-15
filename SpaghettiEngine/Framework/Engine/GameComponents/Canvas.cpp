@@ -32,11 +32,13 @@ void Canvas::Draw()
 void Canvas::AddComponent(SUIComponent component)
 {
 	_components.emplace(component->GetName(), component);
+	component->SetCanvas(this);
 }
 
 void Canvas::RemoveComponent(SUIComponent component)
 {
 	_components.erase(component->GetName());
+	component->SetCanvas(nullptr);
 }
 
 void Canvas::RemoveComponent(const std::string& name)

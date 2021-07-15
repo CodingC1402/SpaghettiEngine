@@ -71,15 +71,20 @@ void UIComponent::Load(nlohmann::json& input)
 	if (!input["Color"].empty())
 		_color = input["Color"].get<unsigned>();
 	else
-		_color = WHITE;
+		_color = Color(255, 255, 255, 255);
+
+	_position = input["Position"].empty() ? Vector3() : Vector3(input["Position"]);
 
 	for (auto& componentJson : input["Components"])
 	{
 		auto newComponent = UIFactory::Create(componentJson["Type"].get<std::string>());
 		newComponent->SetName(componentJson["Name"].get<std::string>());
 		_canvas->AddComponent(newComponent);
+
+		AddChild(newComponent.get());
+
 		newComponent->SetCanvas(_canvas);
-		newComponent->Load(input["Inputs"]);
+		newComponent->Load(componentJson);
 	}
 }
 
