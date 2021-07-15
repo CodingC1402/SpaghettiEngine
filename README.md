@@ -45,11 +45,14 @@ Support:
 - Tile set, tile map.
 - Animated tile.
 
+- UI Component.
+
 To do:
 - A* path finding.
 - Ridable platform.
+- Static enemies.
 - Enemy script.
 - Health script.
 - Main menu.
+- Enemy animation tree.
 - Settings.
-- UI Component.
