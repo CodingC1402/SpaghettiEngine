@@ -26,6 +26,15 @@ void SegmentTrigger::OnFixedUpdate()
 	}
 }
 
+void SegmentTrigger::Load(nlohmann::json& input)
+{
+}
+
+SegmentTrigger::State SegmentTrigger::GetState() const noexcept
+{
+	return _state;
+}
+
 void SegmentTrigger::SetState() noexcept
 {
 	if (_state != State::LoadingSegmentA)

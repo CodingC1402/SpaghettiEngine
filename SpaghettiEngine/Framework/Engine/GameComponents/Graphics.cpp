@@ -193,18 +193,20 @@ void Graphics::Render()
 			for (auto renderScript2D = layer.begin(); renderScript2D != layer.end(); ++renderScript2D)
 				(*renderScript2D)->Draw(cameraScript);
 
+		// Only available in debugMode cause why would you
+		// use this shit out side debug.
 		ResetSpriteTransform();
+		if constexpr (Setting::IsDebugMode())
+		{
+			_turdGraphic->EndRenderSprite();
+			// The debug renderer will begin the line render session itself.
+			DebugRenderer::Render(_turdGraphic, cameraScript);
+			_turdGraphic->StartRenderSprite();
+		}
+
 		for (auto& canvas : _canvasList)
 			canvas->Draw();
 		_turdGraphic->EndRenderSprite();
-
-		// Only available in debugMode cause why would you
-		// use this shit out side debug.
-		if constexpr (Setting::IsDebugMode())
-		{
-			// The debug renderer will begin the line render session itself.
-			DebugRenderer::Render(_turdGraphic, cameraScript);
-		}
 
 		if (!_turdGraphic->EndRender())
 			_turdGraphic->ResetRender();

@@ -383,6 +383,9 @@
     <ClInclude Include="Framework\Engine\GameComponents\RectangleUI.h">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\UIFields.h">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -656,6 +659,9 @@
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\RectangleUI.cpp">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\UIFields.cpp">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClCompile>
   </ItemGroup>

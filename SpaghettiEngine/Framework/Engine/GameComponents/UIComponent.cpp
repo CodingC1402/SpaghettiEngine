@@ -1,6 +1,7 @@
 #include "UIComponent.h"
 #include "Canvas.h"
 #include "Graphics.h"
+#include "UIFields.h"
 
 #include "RectangleUI.h"
 
@@ -68,17 +69,17 @@ void UIComponent::RemoveChild(UIComponent* component)
 
 void UIComponent::Load(nlohmann::json& input)
 {
-	if (!input["Color"].empty())
-		_color = input["Color"].get<unsigned>();
+	if (!input[UIField::Component::_color].empty())
+		_color = input[UIField::Component::_color].get<unsigned>();
 	else
 		_color = Color(255, 255, 255, 255);
 
-	_position = input["Position"].empty() ? Vector3() : Vector3(input["Position"]);
+	_position = input[UIField::Component::_position].empty() ? Vector3() : Vector3(input[UIField::Component::_position]);
 
-	for (auto& componentJson : input["Components"])
+	for (auto& componentJson : input[UIField::Component::_components])
 	{
-		auto newComponent = UIFactory::Create(componentJson["Type"].get<std::string>());
-		newComponent->SetName(componentJson["Name"].get<std::string>());
+		auto newComponent = UIFactory::Create(componentJson[UIField::Component::_type].get<std::string>());
+		newComponent->SetName(componentJson[UIField::Component::_name].get<std::string>());
 		_canvas->AddComponent(newComponent);
 
 		AddChild(newComponent.get());

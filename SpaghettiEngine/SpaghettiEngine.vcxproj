@@ -63,6 +63,7 @@
     <ClInclude Include="Framework\Engine\GameComponents\Tag.h" />
     <ClInclude Include="Framework\Engine\GameComponents\Transform.h" />
     <ClInclude Include="Framework\Engine\GameComponents\UIComponent.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\UIFields.h" />
     <ClInclude Include="Framework\Engine\Scripts\Animator.h" />
     <ClInclude Include="Framework\Engine\Scripts\Camera.h" />
     <ClInclude Include="Framework\Engine\Scripts\Render2DScriptBase.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Framework\Engine\GameComponents\Tag.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\UIComponent.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\UIFields.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Render2DScriptBase.cpp" />
