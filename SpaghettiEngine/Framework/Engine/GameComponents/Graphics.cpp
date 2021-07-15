@@ -1,14 +1,15 @@
 ﻿#include "CornDirectX.h"
-#include "Graphics.h"
-#include "GameWnd.h"
-#include "Monitor.h"
-#include "Setting.h"
-#include "json.hpp"
-#include "Setting.h"
-#include "Sprite.h"
-#include "Render2DScriptBase.h"
+#include "Canvas.h"
 #include "DirectX9Graphic.h"
 #include "DebugRenderer.h"
+#include "Graphics.h"
+#include "GameWnd.h"
+#include "json.hpp"
+#include "Monitor.h"
+#include "Render2DScriptBase.h"
+#include "Setting.h"
+#include "Setting.h"
+#include "Sprite.h"
 
 #include <fstream>
 #include <DirectXMath.h>
@@ -35,6 +36,16 @@ void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 	_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
+void Graphics::AddUIRender(PCanvas canvas)
+{
+	_canvasList.emplace_back(canvas);
+}
+
+void Graphics::RemoveUIRender(PCanvas canvas)
+{
+	_canvasList.emplace_back(canvas);
+}
+
 void Graphics::SetSpriteTransform(const Matrix4& matrix)
 {
 	auto dxMatrix = matrix.ConvertToDxMatrix();
@@ -44,6 +55,11 @@ void Graphics::SetSpriteTransform(const Matrix4& matrix)
 		dxMatrix._42 = std::round(dxMatrix._42);
 	}
 	_turdGraphic->SetRenderTransform(dxMatrix);
+}
+
+void Graphics::ResetSpriteTransform()
+{
+	_turdGraphic->SetRenderTransform(Matrix4::GetDiagonalMatrix().ConvertToDxMatrix());
 }
 
 void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Vector3& position, const Color& color)
@@ -56,6 +72,16 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 		srcRect,
 		dxCenter,
 		dxPos,
+		color
+	);
+}
+
+void Graphics::DrawUI(const SSprite& sprite, const Vector3& position, const Color& color)
+{
+	_turdGraphic->RenderSprite(sprite->GetSource()->GetImage(),
+		sprite->GetSourceRect(),
+		Vector3().ConvertToDxVector(),
+		position.ConvertToDxVector(),
 		color
 	);
 }
@@ -170,6 +196,9 @@ void Graphics::Render()
 			SetSpriteTransform(Matrix4::GetDiagonalMatrix());
 			DebugRenderer::Render(_turdGraphic, cameraScript);
 		}
+
+		for (auto& canvas : _canvasList)
+			canvas->Draw();
 
 		if (!_turdGraphic->EndRender())
 			_turdGraphic->ResetRender();
