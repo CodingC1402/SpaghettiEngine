@@ -14,6 +14,5 @@ void RectangleUI::Draw(Vector3 pos)
 void RectangleUI::Load(nlohmann::json& input)
 {
 	UIComponent::Load(input);
-
 	_sprite = TextureContainer::GetInstance()->GetResource(input["Texture"].get<CULL>())->GetSprite(input["Index"].get<unsigned>());
 }

@@ -197,6 +197,7 @@ void Graphics::Render()
 			DebugRenderer::Render(_turdGraphic, cameraScript);
 		}
 
+		ResetSpriteTransform();
 		for (auto& canvas : _canvasList)
 			canvas->Draw();
 

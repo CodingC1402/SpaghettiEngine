@@ -8,6 +8,9 @@ class Canvas : public ScriptBase
 	friend class UIComponent;
 	friend class Graphics;
 public:
+	void OnEnabled() override;
+	void OnDisabled() override;
+
 	void Load(nlohmann::json& input) override;
 	[[nodiscard]] UIComponent* GetComponent(const std::string& name) noexcept;
 private:

@@ -62,7 +62,7 @@ private:
 	template <typename T>
 	static std::shared_ptr<UIComponent> CreateFunction();
 private:
-	static std::unordered_map<std::string, std::shared_ptr<UIComponent>(*)()> _createFunction;
+	static inline std::unordered_map<std::string, std::shared_ptr<UIComponent>(*)()> _createFunction;
 };
 
 template<typename T>

@@ -2,6 +2,15 @@
 #include "Canvas.h"
 #include "Graphics.h"
 
+#include "RectangleUI.h"
+
+void UI_COMPONENT_REGISTER()
+{
+	UIComponent* dummyComponent;
+	dummyComponent = new RectangleUI();
+}
+
+
 std::shared_ptr<UIComponent> UIFactory::Create(const std::string& className)
 {
 	auto _uiComponent = _createFunction[className]();

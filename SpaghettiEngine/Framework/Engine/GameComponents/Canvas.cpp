@@ -1,4 +1,17 @@
 #include "Canvas.h"
+#include "Graphics.h"
+
+REGISTER_FINISH(Canvas, ScriptBase) {}
+
+void Canvas::OnEnabled()
+{
+	Graphics::AddUIRender(this);
+}
+
+void Canvas::OnDisabled()
+{
+	Graphics::RemoveUIRender(this);
+}
 
 void Canvas::Load(nlohmann::json& input)
 {
@@ -30,5 +43,3 @@ void Canvas::RemoveComponent(const std::string& name)
 {
 	_components.erase(name);
 }
-
-REGISTER_FINISH(Canvas, ScriptBase) {}
