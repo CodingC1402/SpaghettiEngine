@@ -15,6 +15,7 @@ void HealthScript::Load(nlohmann::json& input)
 	try
 	{
 		maxHealth = input[MaxHealth].get<int>();
+		currentHealth = maxHealth;
 		delayTime = input[Delay].get<float>();
 
 		for (auto j : input[HealthSource])
@@ -33,9 +34,6 @@ void HealthScript::OnStart()
 {
 	// Just for testing
 	_audio = GET_FIRST_SCRIPT_OF_TYPE(SoundSource);
-
-	_damageInput = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_jump));
-	_healInput = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_attack));
 	//
 }
 
@@ -49,13 +47,6 @@ void HealthScript::OnUpdate()
 		currentTime = 0;
 		isTakingDamage = false;
 	}
-
-	// Just for testing
-	if (_damageInput->CheckKeyDown())
-		TakeDamage(1.0f);
-	else if (_healInput->CheckKeyDown())
-		Heal(1.0f);
-	//
 }
 
 void HealthScript::OnCollide(CollideEvent& e)
@@ -140,6 +131,9 @@ void HealthScript::Heal(int hp)
 
 void HealthScript::TakeDamage(int hp)
 {
+	if (isTakingDamage)
+		return;
+
 	AddHealth(hp);
 	isTakingDamage = true;
 

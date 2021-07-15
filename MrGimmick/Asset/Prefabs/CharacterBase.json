@@ -136,8 +136,8 @@
 				"Delay": 1.0,
 				"HealthSource": [
 					{
-						"Tag": [ "Block" ],
-						"HealthPoint": 1
+						"Tag": [ "Block", "Platform" ],
+						"HealthPoint": -1
 					}
 				]
 			}

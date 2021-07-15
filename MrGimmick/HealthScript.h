@@ -3,9 +3,6 @@
 
 // Just for testing
 #include "SoundSource.h"
-#include "InputSystem.h"
-#include "InputAll.h"
-typedef std::shared_ptr<InputAll> SInputAll;
 //
 
 class HealthScript : public ScriptBase
@@ -33,16 +30,13 @@ protected:
 	void (*func)() = nullptr;
 	int currentHealth;
 	int maxHealth;
-	float currentTime = 0;
+	float currentTime;
 	float delayTime = 1.0f;
 	bool isTakingDamage = false;
 
 	// Just for testing
-	SInputAll _damageInput;
-	SInputAll _healInput;
-	//
-
 	SoundSource* _audio = nullptr;
+	//
 
 private:
 	REGISTER_START(HealthScript);
