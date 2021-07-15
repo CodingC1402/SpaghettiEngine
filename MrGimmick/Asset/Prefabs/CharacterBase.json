@@ -93,8 +93,8 @@
 			"Inputs": {
 				"ScriptType": "FeetScript",
 				"Position": [0, -12, 0],
-				"Width": 2,
-				"Height": 6
+				"Width": 4,
+				"Height": 8
 			}
 		},
 		{

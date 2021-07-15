@@ -1,6 +1,17 @@
 #include "BTs.h"
 #include "Macros.h"
+
+#include "AnimationTree.h"
+
 #include <fstream>
+
+void BEHAVIOR_TREE_REGISTER()
+{
+	BTs* dummyTree;
+
+	dummyTree = new BTs();
+	dummyTree = new AnimationTree();
+}
 
 BehaviorTreeFactory::TreeRegister<BTs> BTs::REGISTRY_KEY_BEHAVIOR_TREE("BTs");
 

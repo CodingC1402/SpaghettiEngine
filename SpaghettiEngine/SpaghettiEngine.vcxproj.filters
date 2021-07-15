@@ -30,9 +30,6 @@
     <Filter Include="FrameWork\Engine\GameComponents">
       <UniqueIdentifier>{b8a8026c-e864-449b-8f5e-6ac471cec9db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\Engine\Wrapper">
-      <UniqueIdentifier>{99059f9a-fab3-4233-a031-8395beb2a2d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\Engine\ThirdParty">
       <UniqueIdentifier>{6370c98c-a5cb-43b8-9c52-d2f55dddd67c}</UniqueIdentifier>
     </Filter>
@@ -77,6 +74,12 @@
     </Filter>
     <Filter Include="FrameWork\Engine\GameComponents\Input">
       <UniqueIdentifier>{61f820df-41b7-4ec4-9d25-79e48d1cd266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Math\Wrapper">
+      <UniqueIdentifier>{99059f9a-fab3-4233-a031-8395beb2a2d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\GameComponents\UIComponent">
+      <UniqueIdentifier>{398ec775-f57e-4c66-ad0d-86063a21587c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -168,13 +171,13 @@
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+      <Filter>FrameWork\Math\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\CornDirectX.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+      <Filter>FrameWork\Math\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+      <Filter>FrameWork\Math\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
@@ -279,7 +282,7 @@
       <Filter>FrameWork\PhysicEngine\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\Color.h">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+      <Filter>FrameWork\Math\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
@@ -371,6 +374,15 @@
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicCollide.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\Canvas.h">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\UIComponent.h">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\RectangleUI.h">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -446,10 +458,10 @@
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+      <Filter>FrameWork\Math\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+      <Filter>FrameWork\Math\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
@@ -548,7 +560,7 @@
       <Filter>FrameWork\PhysicEngine\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Color.cpp">
-      <Filter>FrameWork\Engine\Wrapper</Filter>
+      <Filter>FrameWork\Math\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
@@ -636,6 +648,15 @@
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicCollide.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\Canvas.cpp">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\UIComponent.cpp">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\RectangleUI.cpp">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

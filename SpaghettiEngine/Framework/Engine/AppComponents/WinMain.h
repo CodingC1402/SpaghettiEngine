@@ -9,6 +9,4 @@ public:
 		HINSTANCE	hPrevInstance,
 		PWSTR		pCmdLine,
 		int			nCmdShow);
-protected:
-	static void RegisterSpaghettiScripts();
 };

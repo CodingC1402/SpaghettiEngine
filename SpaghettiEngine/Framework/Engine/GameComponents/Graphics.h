@@ -24,6 +24,7 @@ typedef class LineRendererBase* PLineRendererBase;
 typedef class Render2DScriptBase* PRender2DScriptBase;
 typedef class Camera* PCamera;
 typedef class Graphics* PGraphics;
+typedef class Canvas* PCanvas;
 
 
 class Graphics
@@ -67,8 +68,13 @@ public:
 	static void AddRender2D(PRender2DScriptBase renderScript);
 	static void RemoveRender2D(PRender2DScriptBase renderScript);
 
+	static void AddUIRender(PCanvas canvas);
+	static void RemoveUIRender(PCanvas canvas);
+
 	static void SetSpriteTransform(const Matrix4& matrix);
+	static void ResetSpriteTransform();
 	static void DrawSprite(const SSprite& sprite, const Vector3& center = { 0, 0, 0 }, const Vector3& position = { 0, 0, 0 }, const Color& color = WHITE);
+	static void DrawUI(const SSprite& sprite, const Vector3& position = Vector3(), const Color& color = WHITE);
 	
 	static void AddCamera(PCamera camera);
 	static void RemoveCamera(PCamera camera);
@@ -94,6 +100,7 @@ protected:
 	static inline float _delayPerFrame;
 	static inline float _timeSinceLastFrame;
 
+	static inline std::list<PCanvas> _canvasList;
 	static inline std::list<PCamera> _cameraList;
 	static inline std::vector<std::list<PRender2DScriptBase>> _renderBuffer2D = std::move(std::vector<std::list<PRender2DScriptBase>>(32));
 

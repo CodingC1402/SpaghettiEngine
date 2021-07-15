@@ -1,11 +1,16 @@
 #include "Node.h"
-#include "SelectorNode.h"
-#include "ParalelNode.h"
-#include "SequenceNode.h"
-#include "ServiceNodes.h"
-#include "Condition.h"
 #include "BTs.h"
 #include "Macros.h"
+
+#pragma region NodeTypes
+#include "AnimationNode.h"
+#include "Condition.h"
+#include "ParalelNode.h"
+#include "SelectorNode.h"
+#include "SequenceNode.h"
+#include "ServiceNodes.h"
+#include "TrueFalseLeafNode.h"
+#pragma endregion
 
 using namespace BTField;
 
