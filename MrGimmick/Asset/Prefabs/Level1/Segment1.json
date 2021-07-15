@@ -1,33 +1,27 @@
 {
     "Prefabs": [
-        { 
-            "ID": 90100,
-            "Changes": [
-                {
-                    "ID": 1,
-                    "Type":  "GameObject",
-                    "Field": "Scripts",
-                    "Mode":  "Append",
-                    "Value": [
-                        {"ID": 1}
-                    ]
-                },
-				{
-					"ID": 1,
-					"Type":  "GameObject",
-					"Field": "GameObjects",
-					"Mode":  "Append",
-					"Value": [
-						{"ID": 1},
-						{"ID": 2}
-					]
-				}
-            ]
-        }
     ],
 	"GameObjects": [
 		{
 			"ID": 1,
+			"Name": "Stage1",
+			"Inputs": {
+				"IsRoot": false,
+				"Tag": "Platform",
+				"GameObjects": [
+					{"ID": 2},
+					{"ID": 3}
+				],
+				"Transform": [0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{"ID": 1}
+				]
+			}
+		},
+		{
+			"ID": 2,
 			"Name": "LeftToRightConvey",
 			"Inputs": {
 				"Tag": "Platform",
@@ -42,14 +36,15 @@
 			}
 		},
 		{
-			"ID": 2,
+			"ID": 3,
 			"Name": "RightToLeftConvey",
 			"Inputs": {
 				"Tag": "Platform",
 				"Transform": [0, 0, 0 ],
 				"Scale": [1, 1, 1],
 				"Rotation": [0, 0, 0],
-				"GameObjects": [],
+				"GameObjects": [
+				],
 				"Scripts": [
 					{"ID": 14},
 					{"ID": 15}

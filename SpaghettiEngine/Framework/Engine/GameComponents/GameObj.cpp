@@ -198,7 +198,7 @@ void GameObj::Load(nlohmann::json& input)
 	
 	try
 	{
-		_tag = std::move(Tag(input[Field::tagField]));
+		_tag = input[Field::tagField].empty() ? "" : std::move(Tag(input[Field::tagField]));
 		// use to check which field throw error
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::transformField;

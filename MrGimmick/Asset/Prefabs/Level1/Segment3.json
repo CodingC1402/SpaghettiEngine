@@ -1,18 +1,23 @@
 {
     "Prefabs": [
-        { 
-            "ID": 90100,
-            "Changes": [
-                {
-                    "ID": 1,
-                    "Type": "GameObject",
-                    "Field": "Scripts",
-                    "Mode": "Append",
-                    "Value": [
-                        {"ID": 1}
-                    ]
-                }
-            ]
+    ],
+    "GameObjects": [		
+        {
+            "ID": 1,
+            "IsDisabled": true,
+            "Name": "Stage1",
+            "Inputs": {
+                "IsRoot": false,
+                "Tag": "Platform",
+                "GameObjects": [
+                ],
+                "Transform": [0, 0, 0 ],
+                "Rotation": [ 0, 0, 0 ],
+                "Scale": [ 1, 1, 1 ],
+                "Scripts": [
+                    {"ID": 1}
+                ]
+            }
         }
     ],
     "Scripts": [
