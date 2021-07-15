@@ -18,7 +18,8 @@
 					{ "ID": 4 },
 					{ "ID": 5 },
 					{ "ID": 6 },
-					{ "ID": 7 }
+					{ "ID": 7 },
+					{ "ID": 8 }
 				]
 			}
 		},
@@ -79,10 +80,14 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-4, 0,
-						-4, 6,
-						 4, 6,
-						 4, 0 
+						-4,
+						0,
+						-4,
+						6,
+						4,
+						6,
+						4,
+						0
 					]
 				]
 			}
@@ -124,6 +129,20 @@
 			}
 		},
 		{
+			"ID": 8,
+			"Inputs": {
+				"ScriptType": "HealthScript",
+				"MaxHealth": 5,
+				"Delay": 1.0,
+				"HealthSource": [
+					{
+						"Tag": [ "Block" ],
+						"HealthPoint": 1
+					}
+				]
+			}
+		},
+		{
 			"ID": 2001,
 			"Inputs": {
 				"ScriptType": "FeetScript"
@@ -136,10 +155,14 @@
 				"Trigger": true,
 				"Polygons": [
 					[
-						 3,  2,
-						 3, -6,
-						-3, -6,
-						-3,  2 
+						3,
+						2,
+						3,
+						-6,
+						-3,
+						-6,
+						-3,
+						2
 					]
 				]
 			}
@@ -157,10 +180,14 @@
 				"Trigger": true,
 				"Polygons": [
 					[
-						-1, -2,
-						-1,  2,
-						 1,  2,
-						 1, -2 
+						-1,
+						-2,
+						-1,
+						2,
+						1,
+						2,
+						1,
+						-2
 					]
 				]
 			}
