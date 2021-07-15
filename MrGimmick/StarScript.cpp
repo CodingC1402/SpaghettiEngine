@@ -65,8 +65,11 @@ void StarScript::Throw(const Vector3& _playerVel, bool isFliped)
 
 	_polyCollider->Enable();
 	_rbBody->Enable();
-	Vector3 throwVel = _startVelocity + _playerVel;
+
+	Vector3 throwVel = _startVelocity;
 	throwVel.x *= isFliped ? -1 : 1;
+	throwVel += _playerVel;
+
 	_rbBody->SetVelocity(throwVel);
 }
 

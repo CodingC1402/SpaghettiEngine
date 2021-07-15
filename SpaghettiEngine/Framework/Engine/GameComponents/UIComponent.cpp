@@ -6,10 +6,8 @@
 
 void UI_COMPONENT_REGISTER()
 {
-	UIComponent* dummyComponent;
-	dummyComponent = new RectangleUI();
+	RectangleUI();
 }
-
 
 std::shared_ptr<UIComponent> UIFactory::Create(const std::string& className)
 {

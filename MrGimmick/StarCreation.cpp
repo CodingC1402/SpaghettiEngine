@@ -44,7 +44,12 @@ void StarCreation::OnUpdate()
 
 void StarCreation::Draw(PCamera script)
 {
-	auto transform = script->GetMatrix(GetWorldMatrix());
+	auto worldMatrix = Matrix4::GetDiagonalMatrix();
+	auto gameObjectWorldMatrix = GetWorldMatrix();
+	worldMatrix._41 = gameObjectWorldMatrix._41;
+	worldMatrix._42 = gameObjectWorldMatrix._42;
+
+	auto transform = script->GetMatrix(worldMatrix);
 	Graphics::SetSpriteTransform(transform);
 
 	Vector3 position(0, _radius, 0);

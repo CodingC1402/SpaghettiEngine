@@ -13,6 +13,7 @@ public:
 	Tag(const Tag& tag);
 	Tag(nlohmann::json& input);
 	Tag() = default;
+	Tag(Tag&&) = default;
 
 	Tag& operator= (const Tag& tag) noexcept;
 
