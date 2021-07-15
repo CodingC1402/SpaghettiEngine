@@ -5,10 +5,6 @@
   },
 
   {
-    "ID": 90100,
-    "Path": "Asset/Prefabs/Level1/Level1Map.json"
-  },
-  {
     "ID": 90101,
     "Path": "Asset/Prefabs/Level1/Segment1.json"
   },

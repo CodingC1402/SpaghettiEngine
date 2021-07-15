@@ -24,7 +24,6 @@ public:
 		LoadingSegmentB,
 	};
 public:
-	void OnCollide(CollideEvent& e) override;
 	void OnFixedUpdate() override;
 
 	void Load(nlohmann::json& input) override;
@@ -38,11 +37,12 @@ protected:
 
 	State _state = State::LoadingSegmentA;
 
-	SegmentTrigger* _previousTrigger = nullptr;
-	SegmentTrigger* _nextTrigger = nullptr;
+	GameObj* _segmentA = nullptr;
+	GameObj* _segmentB = nullptr;
 
-	LevelSegment* _segmentA = nullptr;
-	LevelSegment* _segmentB = nullptr;
+	Vector3 _center;
+	float _width;
+	float _height;
 private:
 	REGISTER_START(SegmentTrigger);
 };

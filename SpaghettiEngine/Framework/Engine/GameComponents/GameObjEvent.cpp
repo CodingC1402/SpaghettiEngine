@@ -44,6 +44,10 @@ void GameObj::OnFixedUpdate()
 	});
 }
 
+//=================================================================={NOTE}==================================================================//
+//
+// THIS IS NOT A MISTAKE, take a look at the note in file BaseComponent.cpp around the two enable and disable function.
+//
 void GameObj::OnEnabled()
 {
 	if (IsDisabled())
@@ -55,11 +59,10 @@ void GameObj::OnEnabled()
 	});
 
 	_children.IteratingWithLamda([](PGameObj child) {
-		child->OnEnabled();
 		child->SetParentDisability(false);
+		child->OnEnabled();
 	});
 }
-
 void GameObj::OnDisabled()
 {
 	if (IsDisabled())
@@ -75,6 +78,7 @@ void GameObj::OnDisabled()
 		child->SetParentDisability(true);
 	});
 }
+//=================================================================={NOTE}==================================================================//
 
 void GameObj::OnCollide(CollideEvent& e)
 {

@@ -8,6 +8,7 @@ REGISTER_FINISH(Surface, ScriptBase) {}
 
 void Surface::OnCollide(CollideEvent& e)
 {
+	// To make sure that the game object that send the event is the same as the owner of this script.
 	auto collideScript = e.GetCollideScript();
 	if (collideScript->GetGameObject() != GetGameObject())
 		return;

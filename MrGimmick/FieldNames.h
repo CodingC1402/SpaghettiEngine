@@ -73,13 +73,21 @@ namespace Fields
 	class Platform
 	{
 	public:
-		static inline const std::string _platform = "Platform";
+		static constexpr auto _platform = "Platform";
 	};
 
 	class DebugControl
 	{
 	public:
-		static inline const std::string _debugFlySpeed = "FlySpeed";
+		static constexpr auto _debugFlySpeed = "FlySpeed";
+	};
+	
+	class SegmentTrigger
+	{
+	public:
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
 	};
 
 	class SpecialTag
