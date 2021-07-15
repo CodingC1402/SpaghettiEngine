@@ -5,13 +5,23 @@
             "Changes": [
                 {
                     "ID": 1,
-                    "Type": "GameObject",
+                    "Type":  "GameObject",
                     "Field": "Scripts",
-                    "Mode": "Append",
+                    "Mode":  "Append",
                     "Value": [
                         {"ID": 1}
                     ]
-                }
+                },
+				{
+					"ID": 1,
+					"Type":  "GameObject",
+					"Field": "GameObjects",
+					"Mode":  "Append",
+					"Value": [
+						{"ID": 1},
+						{"ID": 2}
+					]
+				}
             ]
         }
     ],
@@ -21,8 +31,7 @@
 			"Name": "LeftToRightConvey",
 			"Inputs": {
 				"Tag": "Platform",
-				"IsRoot": true,
-				"Transform": [-1032, -376, 0 ],
+				"Transform": [0, 0, 0 ],
 				"Scale": [1, 1, 1],
 				"Rotation": [0, 0, 0],
 				"GameObjects": [],
@@ -37,8 +46,7 @@
 			"Name": "RightToLeftConvey",
 			"Inputs": {
 				"Tag": "Platform",
-				"IsRoot": true,
-				"Transform": [-1032, -376, 0 ],
+				"Transform": [0, 0, 0 ],
 				"Scale": [1, 1, 1],
 				"Rotation": [0, 0, 0],
 				"GameObjects": [],

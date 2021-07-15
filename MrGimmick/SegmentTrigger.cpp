@@ -1,5 +1,6 @@
 #include "SegmentTrigger.h"
 #include "FieldNames.h"
+#include "LoadingJson.h"
 
 REGISTER_FINISH(SegmentTrigger, ScriptBase) {}
 
@@ -28,6 +29,11 @@ void SegmentTrigger::OnFixedUpdate()
 
 void SegmentTrigger::Load(nlohmann::json& input)
 {
+	GameObj* objA = dynamic_cast<PGameObj>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0].get<CULL>()));
+	GameObj* objB = dynamic_cast<PGameObj>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][1].get<CULL>()));
+
+	_segmentA = dynamic_cast<LevelSegment*>(objA->GetScriptContainer().GetItemType(TYPE_NAME(LevelSegment)));
+	_segmentB = dynamic_cast<LevelSegment*>(objB->GetScriptContainer().GetItemType(TYPE_NAME(LevelSegment)));
 }
 
 SegmentTrigger::State SegmentTrigger::GetState() const noexcept
