@@ -92,9 +92,9 @@
 			"ID": 2001,
 			"Inputs": {
 				"ScriptType": "FeetScript",
-				"Position": [0, -12, 0],
+				"Position": [0, -11, 0],
 				"Width": 4,
-				"Height": 8
+				"Height": 6
 			}
 		},
 		{

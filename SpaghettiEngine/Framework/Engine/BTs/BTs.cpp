@@ -7,10 +7,8 @@
 
 void BEHAVIOR_TREE_REGISTER()
 {
-	BTs* dummyTree;
-
-	dummyTree = new BTs();
-	dummyTree = new AnimationTree();
+	BTs();
+	AnimationTree();
 }
 
 BehaviorTreeFactory::TreeRegister<BTs> BTs::REGISTRY_KEY_BEHAVIOR_TREE("BTs");
