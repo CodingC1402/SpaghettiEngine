@@ -27,6 +27,7 @@ public:
 	void OnCollide(CollideEvent& e) override;
 	void OnFixedUpdate() override;
 
+	void Load(nlohmann::json& input) override;
 	[[nodiscard]] State GetState() const noexcept;
 protected:
 	void SetState() noexcept;

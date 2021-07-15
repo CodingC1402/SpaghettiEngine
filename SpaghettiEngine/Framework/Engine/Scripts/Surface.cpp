@@ -1,5 +1,6 @@
 #include "Surface.h"
 #include "ScriptField.h"
+#include "Collider2DBase.h"
 #include "Physic.h"
 #include <functional>
 
@@ -7,9 +8,13 @@ REGISTER_FINISH(Surface, ScriptBase) {}
 
 void Surface::OnCollide(CollideEvent& e)
 {
+	auto collideScript = e.GetCollideScript();
+	if (collideScript->GetGameObject() != GetGameObject())
+		return;
+
 	auto obj = e.GetGameObject();
 	auto rb = obj->GetPhysicComponent().GetRigidBody2DScript();
-	if (!rb || GetGameObject()->GetTag().Collide(obj->GetTag()))
+	if (!rb)
 		return;
 
 	_collideNow.emplace(rb);

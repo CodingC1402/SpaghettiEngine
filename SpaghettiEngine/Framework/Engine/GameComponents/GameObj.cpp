@@ -222,7 +222,12 @@ void GameObj::Load(nlohmann::json& input)
 			fieldTracker = Field::gameObjectsField;
 
 		for (const auto& child : input[Field::gameObjectsField])
-			dynamic_cast<PGameObj>(GetOwner()->GetComponent(child[Field::idField].get<CULL>()))->SetParent(this);
+		{
+			GameObj* obj = dynamic_cast<PGameObj>(GetOwner()->GetComponent(child[Field::idField].get<CULL>()));
+			if (obj->_parent == nullptr)
+				obj->GetTransform().Translate(_transform.GetWorldTransform());
+			obj->SetParent(this);
+		}
 
 		if constexpr (Setting::IsDebugMode())
 			fieldTracker = Field::scriptsField;
