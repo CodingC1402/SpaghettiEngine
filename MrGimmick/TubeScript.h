@@ -8,15 +8,14 @@ private:
 	struct TubePackage
 	{
 	public:
-		~TubePackage();
 		TubePackage() = default;
 		TubePackage(GameObj* gameObj, bool isPoint1To2, const std::vector<Vector3>& path);
 	public:
-		bool		_point1ToPoint2 = false;
-		unsigned	_index = 0;
-		Vector3		_direction;
+		bool _point1ToPoint2 = false;
+		int	_index			 = 0;
+		Vector3	_direction;
 		GameObj* _gameObject = nullptr;
-		ScriptBase* _rb = nullptr;
+		RigidBody2D* _rb	 = nullptr;
 	};
 public:
 	void OnFixedUpdate();
