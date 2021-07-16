@@ -174,26 +174,22 @@ void TubeScript::Exit(TubePackage& package)
 TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const std::vector<Vector3>& path)
 {
 	_gameObject = gameObj;
-	Vector3 deltaFromDes;
 
 	if (isPoint1To2)
 	{
 		//front to back
 		_direction = path[1] - path.front();
 		_index = 1;
-		deltaFromDes = path.front() - _gameObject->GetTransform().GetWorldTransform();
 	}
 	else
 	{
 		// back to front
 		_direction = path[path.size() - 2] - path.back();
 		_index = path.size() - 2;
-		deltaFromDes = path.back() - _gameObject->GetTransform().GetWorldTransform();
 	}
 
 	_direction = _direction.GetUnitVector();
 	_point1ToPoint2 = isPoint1To2;
-	_gameObject->GetTransform().Translate(deltaFromDes);
 	_rb = dynamic_cast<RigidBody2D*>(_gameObject->GetScriptContainer().GetItemType(TYPE_NAME(RigidBody2D)));
 	_rb->SetVelocity(Vector3(0, 0, 0));
 }
