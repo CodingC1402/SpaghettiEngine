@@ -36,10 +36,10 @@ Tag& Fields::SpecialTag::GetEnemyTag()
 	return _enemyTag;
 }
 
-Tag& Fields::SpecialTag::GetStarOrCharacterTag()
+Tag& Fields::SpecialTag::GetPlayerAttack()
 {
 	Load();
-	return _starOrCharacter;
+	return _playerAttack;
 }
 
 void Fields::SpecialTag::Load()
@@ -53,7 +53,7 @@ void Fields::SpecialTag::Load()
 	_headTag		= Tag(Player::_head);
 	_feetTag		= Tag(Player::_feet);
 	_enemyTag		= Tag(Enemy::_enemy);
-	_starOrCharacter= Tag(std::string(Character::_character) + Tag::GetDelimeter() + Star::_star);
+	_playerAttack   = Tag(Player::_playerAttack);
 
 	_isLoaded = true;
 }

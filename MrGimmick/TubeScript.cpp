@@ -20,7 +20,7 @@ void TubeScript::OnFixedUpdate()
 		_center1,
 		_width1,
 		_height1,
-		Fields::SpecialTag::GetPlayerTag(),
+		Fields::SpecialTag::GetCharacterTag() | Fields::SpecialTag::GetPlayerAttack(),
 		PhysicCollide::FilterMode::Collide
 	);
 	PhysicCollide::GetCollidedWithRectangle(
@@ -29,7 +29,7 @@ void TubeScript::OnFixedUpdate()
 		_center2,
 		_width2,
 		_height2,
-		Fields::SpecialTag::GetCharacterTag(),
+		Fields::SpecialTag::GetCharacterTag() | Fields::SpecialTag::GetPlayerAttack(),
 		PhysicCollide::FilterMode::Collide
 	);
 
@@ -82,45 +82,50 @@ void TubeScript::OnFixedUpdate()
 
 	for (auto it = _packages.begin(); it != _packages.end();)
 	{
-		(*it)._gameObject->GetTransform().Translate((*it)._direction * _speed * Physic::GetStep());
-		Vector3 deltaFromDes = _path[(*it)._index] - (*it)._gameObject->GetTransform().GetWorldTransform();
-
-		if (deltaFromDes.Dot((*it)._direction) < 0)
-		{
-			bool needExit = false;
-			// Position correction.
-			(*it)._gameObject->GetTransform().Translate(deltaFromDes);
-
-			if ((*it)._point1ToPoint2)
-			{
-				(*it)._index++;
-				if ((*it)._index == _path.size())
-					needExit = true;
-				else
-					(*it)._direction = _path[(*it)._index] - _path[(*it)._index - 1];
-			}
-			else
-			{
-				(*it)._index--;
-				if ((*it)._index < 0)
-					needExit = true;
-				else
-					(*it)._direction = _path[(*it)._index] - _path[static_cast<long long>((*it)._index) + 1];
-			}
-
-			if (needExit)
-			{
-				Exit((*it));
-				it = _packages.erase(it);
-			}
-			else
-			{
-				(*it)._direction = (*it)._direction.GetUnitVector();
-				++it;
-			}
-		}
+		if ((*it)._baseComponentPtr.expired())
+			it = _packages.erase(it);
 		else
-			++it;
+		{
+			(*it)._gameObject->GetTransform().Translate((*it)._direction * _speed * Physic::GetStep());
+			Vector3 deltaFromDes = _path[(*it)._index] - (*it)._gameObject->GetTransform().GetWorldTransform();
+
+			if (deltaFromDes.Dot((*it)._direction) < 0)
+			{
+				bool needExit = false;
+				// Position correction.
+				(*it)._gameObject->GetTransform().Translate(deltaFromDes);
+
+				if ((*it)._point1ToPoint2)
+				{
+					(*it)._index++;
+					if ((*it)._index == _path.size())
+						needExit = true;
+					else
+						(*it)._direction = _path[(*it)._index] - _path[(*it)._index - 1];
+				}
+				else
+				{
+					(*it)._index--;
+					if ((*it)._index < 0)
+						needExit = true;
+					else
+						(*it)._direction = _path[(*it)._index] - _path[static_cast<long long>((*it)._index) + 1];
+				}
+
+				if (needExit)
+				{
+					Exit((*it));
+					it = _packages.erase(it);
+				}
+				else
+				{
+					(*it)._direction = (*it)._direction.GetUnitVector();
+					++it;
+				}
+			}
+			else
+				++it;
+		}
 	}
 
 	if constexpr (Setting::IsDebugMode())
@@ -190,6 +195,7 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 
 	_direction = _direction.GetUnitVector();
 	_point1ToPoint2 = isPoint1To2;
+	_baseComponentPtr = _gameObject->GetSharedPtr();
 	_rb = dynamic_cast<RigidBody2D*>(_gameObject->GetScriptContainer().GetItemType(TYPE_NAME(RigidBody2D)));
 	_rb->SetVelocity(Vector3(0, 0, 0));
 }

@@ -48,6 +48,20 @@ std::string Tag::GetDelimeter() noexcept
 	return _delimeter;
 }
 
+Tag Tag::operator|(const Tag& tag) const noexcept
+{
+	Tag rValue;
+	rValue._tagVar = _tagVar | tag._tagVar;
+	return rValue;
+}
+
+Tag Tag::operator&(const Tag& tag) const noexcept
+{
+	Tag rValue;
+	rValue._tagVar = _tagVar & tag._tagVar;
+	return rValue;
+}
+
 bool Tag::operator==(const Tag& tag) const noexcept
 {
 	return _tagVar == tag._tagVar;

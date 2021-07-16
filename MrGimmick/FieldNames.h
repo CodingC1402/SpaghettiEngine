@@ -13,6 +13,7 @@ namespace Fields
 	class Player
 	{
 	public:
+		static constexpr auto _playerAttack			= "PlayerAttack";
 		static constexpr auto _player				= "Player";
 		static constexpr auto _head					= "Head";
 		static constexpr auto _feet					= "Feet";
@@ -120,8 +121,7 @@ namespace Fields
 		[[nodiscard]] static Tag& GetHeadTag();
 		[[nodiscard]] static Tag& GetFeetTag();
 		[[nodiscard]] static Tag& GetEnemyTag();
-		[[nodiscard]] static Tag& GetStarOrCharacterTag();
-		
+		[[nodiscard]] static Tag& GetPlayerAttack();
 	private:
 		static void Load();
 	private:
@@ -131,7 +131,7 @@ namespace Fields
 		static inline Tag _headTag;
 		static inline Tag _feetTag;
 		static inline Tag _enemyTag;
-		static inline Tag _starOrCharacter;
+		static inline Tag _playerAttack;
 
 		static inline bool _isLoaded = false;
 	};

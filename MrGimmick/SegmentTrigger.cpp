@@ -15,7 +15,7 @@ void SegmentTrigger::OnFixedUpdate()
 		_center,
 		_width,
 		_height,
-		Fields::SpecialTag::GetStarOrCharacterTag(),
+		Fields::SpecialTag::GetCharacterTag() | Fields::SpecialTag::GetPlayerAttack(),
 		PhysicCollide::FilterMode::Collide
 	);
 

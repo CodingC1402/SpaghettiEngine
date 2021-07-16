@@ -15,6 +15,7 @@ private:
 		int	_index			 = 0;
 		Vector3	_direction;
 		GameObj* _gameObject = nullptr;
+		WBaseComponent _baseComponentPtr;
 		RigidBody2D* _rb	 = nullptr;
 	};
 public:
