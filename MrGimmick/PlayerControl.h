@@ -12,6 +12,9 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 
+	void OnDisabled() override;
+	void OnEnabled() override;
+
 	ScriptBase* Clone() const override;
 private:
 	SInputAll _moveLeft;

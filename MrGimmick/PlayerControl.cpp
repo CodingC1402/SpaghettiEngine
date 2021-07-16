@@ -32,6 +32,21 @@ void PlayerControl::OnUpdate()
 		_moveScript->StopJump();
 }
 
+void PlayerControl::OnDisabled()
+{
+	_moveScript->StopMoveLeft();
+	_moveScript->StopMoveRight();
+	_moveScript->StopJump();
+}
+
+void PlayerControl::OnEnabled()
+{
+	if (_moveLeft->CheckKeyDown())
+		_moveScript->StartMoveLeft();
+	if (_moveRight->CheckKeyDown())
+		_moveScript->StartMoveRight();
+}
+
 ScriptBase* PlayerControl::Clone() const
 {
 	auto clone = dynamic_cast<PlayerControl*>(ScriptBase::Clone());
