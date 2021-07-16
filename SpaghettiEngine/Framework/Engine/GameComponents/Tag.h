@@ -19,6 +19,8 @@ public:
 
 	[[nodiscard]] static std::string GetDelimeter() noexcept;
 
+	[[nodiscard]] Tag operator| (const Tag& tag) const noexcept;
+	[[nodiscard]] Tag operator& (const Tag& tag) const noexcept;
 	[[nodiscard]] bool operator==(const Tag& tag) const noexcept;
 	[[nodiscard]] bool operator!=(const Tag& tag) const noexcept;
 

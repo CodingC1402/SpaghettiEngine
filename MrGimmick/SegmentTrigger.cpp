@@ -15,9 +15,16 @@ void SegmentTrigger::OnFixedUpdate()
 		_center,
 		_width,
 		_height,
-		Fields::SpecialTag::GetPlayerTag(),
+		Fields::SpecialTag::GetCharacterTag() | Fields::SpecialTag::GetPlayerAttack(),
 		PhysicCollide::FilterMode::Collide
 	);
+
+	bool triggerSet = false;
+	for (auto& obj : gameObjList)
+		if (obj->GetTag().Contain(Fields::SpecialTag::GetPlayerTag()))
+			triggerSet = true;
+		else
+			obj->CallDestroy();
 
 	if constexpr (Setting::IsDebugMode())
 	{
@@ -28,7 +35,7 @@ void SegmentTrigger::OnFixedUpdate()
 			GetWorldMatrix());
 	}
 
-	if (gameObjList.size() > 0)
+	if (triggerSet)
 	{
 		_playerInside = true;
 		if (_shouldTrigger)

@@ -203,6 +203,7 @@
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
+    <ClCompile Include="TubeScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +218,7 @@
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />
+    <ClInclude Include="TubeScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

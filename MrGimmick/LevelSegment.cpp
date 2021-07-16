@@ -1,26 +1,25 @@
 #include "LevelSegment.h"
+#include "LoadingJson.h"
 #include "Polygon2DCollider.h"
 
 REGISTER_FINISH(LevelSegment, ScriptBase) {}
 
-void LevelSegment::OnStart()
+void LevelSegment::OnEnabled()
 {
-	_colliders = GET_ALL_SCRIPTS_OF_TYPE(Polygon2DCollider);
+	for (auto& enemy : _spawnPoint)
+		_currentEnemies.push_back(GetOwner()->Instantiate(_enemyPrefabs[enemy.first], enemy.second));
 }
 
-void LevelSegment::PlayerEnter()
+void LevelSegment::OnDisabled()
 {
-	for (auto& collider : _colliders)
-		collider->Enable();
-	//for (auto& enemy : _enemyPrefabs)
-	//	_currentEnemies.emplace_back(GetOwner()->Instantiate(enemy.first, enemy.second));
+	for (auto& enemy : _currentEnemies)
+		enemy->CallDestroy();
 }
 
-void LevelSegment::PlayerExit()
+void LevelSegment::Load(nlohmann::json& input)
 {
-	for (auto& collider : _colliders)
-		collider->Disable();
-	//for (auto& enemy : _currentEnemies)
-	//	enemy->CallDestroy();
-	//_currentEnemies.clear();
+	for (auto& obj : input[LoadingJson::Field::gameObjectsField])
+		_enemyPrefabs.push_back(dynamic_cast<GameObj*>(GetOwner()->GetComponent(obj[LoadingJson::Field::idField].get<CULL>())));
+
+
 }

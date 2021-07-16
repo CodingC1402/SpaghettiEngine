@@ -33,7 +33,7 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "StarScript",
-				"ExplodeTime": 7,
+				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
 				"StartVelocity": [160, 80]
@@ -46,10 +46,10 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-8, -10,
-						-8,   7,
-						8 ,   7,
-						8 , -10 
+						-6, -8,
+						-6,   5,
+						6 ,   5,
+						6 , -8 
 					]
 				]
 			}

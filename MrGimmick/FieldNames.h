@@ -13,6 +13,7 @@ namespace Fields
 	class Player
 	{
 	public:
+		static constexpr auto _playerAttack			= "PlayerAttack";
 		static constexpr auto _player				= "Player";
 		static constexpr auto _head					= "Head";
 		static constexpr auto _feet					= "Feet";
@@ -32,6 +33,12 @@ namespace Fields
 		static constexpr auto _appearOffSet			= "AppearOffSet";
 	};
 
+	class Enemy
+	{
+	public:
+		static constexpr auto _enemy = "Enemy";
+	};
+
 	class Input
 	{
 	public:
@@ -49,6 +56,7 @@ namespace Fields
 	class Star
 	{
 	public:
+		static constexpr auto _star				= "Star";
 		static constexpr auto _explodeTime		= "ExplodeTime";
 		static constexpr auto _explodeAnimTime	= "ExplodeAnimTime";
 		static constexpr auto _createAnimTime	= "CreateAnimTime";
@@ -90,6 +98,20 @@ namespace Fields
 		static constexpr auto _height = "Height";
 	};
 
+	class TubeScript
+	{
+	public:
+		static constexpr auto _pointA = "PointA";
+		static constexpr auto _pointB = "PointB";
+
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+
+		static constexpr auto _path = "Path";
+		static constexpr auto _speed = "Speed";
+	};
+
 	class SpecialTag
 	{
 	public:
@@ -98,6 +120,8 @@ namespace Fields
 		[[nodiscard]] static Tag& GetPlayerTag();
 		[[nodiscard]] static Tag& GetHeadTag();
 		[[nodiscard]] static Tag& GetFeetTag();
+		[[nodiscard]] static Tag& GetEnemyTag();
+		[[nodiscard]] static Tag& GetPlayerAttack();
 	private:
 		static void Load();
 	private:
@@ -106,6 +130,8 @@ namespace Fields
 		static inline Tag _playerTag;
 		static inline Tag _headTag;
 		static inline Tag _feetTag;
+		static inline Tag _enemyTag;
+		static inline Tag _playerAttack;
 
 		static inline bool _isLoaded = false;
 	};

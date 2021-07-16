@@ -49,6 +49,14 @@ void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, co
 	_shapes.emplace_back(std::move(vertexes), std::pair(matrix, TranslateColor(color)));
 }
 
+void DebugRenderer::DrawRectangleFromCenter(Vector3 center, float width, float height, const Matrix4& matrix, const Color& color)
+{
+	Vector3 topLeft;
+	topLeft.x = center.x - width / 2.0f;
+	topLeft.y = center.y + height / 2.0f;
+	DrawRectangle(topLeft, width, height, matrix, color);
+}
+
 void DebugRenderer::DrawLine(const Vector3& point1, const Vector3& point2, const Matrix4& matrix, const Color& color)
 {
 	std::vector<Vector3> vertexes = { point1, point2 };
