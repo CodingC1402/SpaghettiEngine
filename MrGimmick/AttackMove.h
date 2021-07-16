@@ -13,6 +13,8 @@ class AttackMove : public ScriptBase
 public:
 	void OnStart() override;
 	void OnUpdate() override;
+	void OnDisabled() override;
+
 	void Load(nlohmann::json& input);
 protected:
 	PGameObj		_starPrefab = nullptr;

@@ -16,6 +16,8 @@ void RigidBody2D::OnDisabled()
 	GetGameObject()->GetPhysicComponent().Remove2DBody(this);
 	Physic::RemoveRigid2DScript(this);
 	Physic::RemoveBody(_body.get());
+
+	_body->SetVelocity(Vector3(0, 0, 0));
 }
 
 void RigidBody2D::OnEnabled()

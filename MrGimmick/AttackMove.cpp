@@ -28,6 +28,15 @@ void AttackMove::OnUpdate()
 	}
 }
 
+void AttackMove::OnDisabled()
+{
+	if (_starScript)
+		_starScript->Throw(_rb->GetVelocity(), _moveScript->IsFlipped());
+	_starScript = nullptr;
+	if (!_currentStar.expired())
+		_currentStar.lock()->CallDestroy();
+}
+
 void AttackMove::Load(nlohmann::json& input)
 {
 	_starPrefab = dynamic_cast<GameObj*>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0][LoadingJson::Field::idField].get<CULL>()));

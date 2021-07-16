@@ -1,6 +1,8 @@
+#include "AttackMove.h"
 #include "TubeScript.h"
 #include "Physic.h"
 #include "PhysicCollide.h"
+#include "PlayerControl.h"
 #include "FieldNames.h"
 #include "RigidBody2D.h"
 #include "Setting.h"
@@ -171,6 +173,8 @@ void TubeScript::Exit(TubePackage& package)
 		else
 			_stopPoint1TillNoPlayer = true;
 		package._rb->Enable();
+		package._attackScript->Enable();
+		package._playerControl->Enable();
 	}
 	else if (!_isPlayerInTube)
 		package._gameObject->CallDestroy();
@@ -197,5 +201,12 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 	_point1ToPoint2 = isPoint1To2;
 	_baseComponentPtr = _gameObject->GetSharedPtr();
 	_rb = dynamic_cast<RigidBody2D*>(_gameObject->GetScriptContainer().GetItemType(TYPE_NAME(RigidBody2D)));
-	_rb->SetVelocity(Vector3(0, 0, 0));
+
+	if (_gameObject->GetTag().Contain(Fields::SpecialTag::GetPlayerTag()))
+	{
+		_attackScript = _gameObject->GetScriptContainer().GetItemType(TYPE_NAME(AttackMove));
+		_playerControl = _gameObject->GetScriptContainer().GetItemType(TYPE_NAME(PlayerControl));
+		_attackScript->Disable();
+		_playerControl->Disable();
+	}
 }
