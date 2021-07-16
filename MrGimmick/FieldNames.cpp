@@ -30,6 +30,18 @@ Tag& Fields::SpecialTag::GetFeetTag()
 	return _feetTag;
 }
 
+Tag& Fields::SpecialTag::GetEnemyTag()
+{
+	Load();
+	return _enemyTag;
+}
+
+Tag& Fields::SpecialTag::GetStarOrCharacterTag()
+{
+	Load();
+	return _starOrCharacter;
+}
+
 void Fields::SpecialTag::Load()
 {
 	if (_isLoaded)
@@ -40,6 +52,8 @@ void Fields::SpecialTag::Load()
 	_playerTag		= Tag(Player::_player);
 	_headTag		= Tag(Player::_head);
 	_feetTag		= Tag(Player::_feet);
+	_enemyTag		= Tag(Enemy::_enemy);
+	_starOrCharacter= Tag(std::string(Character::_character) + Tag::GetDelimeter() + Star::_star);
 
 	_isLoaded = true;
 }
