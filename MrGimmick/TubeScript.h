@@ -1,5 +1,6 @@
 #pragma once
 #include "ScriptBase.h"
+#include "PlayerControl.h"
 #include <vector>
 
 class TubeScript : public ScriptBase
@@ -18,7 +19,7 @@ private:
 		WBaseComponent _baseComponentPtr;
 		RigidBody2D* _rb	 = nullptr;
 		ScriptBase* _attackScript = nullptr;
-		ScriptBase* _playerControl = nullptr;
+		PlayerControl* _playerControl = nullptr;
 	};
 public:
 	void OnFixedUpdate();
