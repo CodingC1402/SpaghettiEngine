@@ -4,11 +4,22 @@
       "ID": 10001,
       "Changes": [
         {
-            "ID": 1,
-            "Prefabs": [0],
-            "Type" : "GameObject",
-            "Field": "Transform",
-            "Value": [-900, 100, 0]
+          "ID": 1,
+          "Prefabs": [ 0 ],
+          "Type": "GameObject",
+          "Field": "Transform",
+          "Value": [ -900, 100, 0 ]
+        }
+      ]
+    },
+    {
+      "ID": 20001,
+      "Changes": [
+        {
+          "ID": 1,
+          "Type": "GameObject",
+          "Field": "Transform",
+          "Value": [ -1000, 60, 0 ]
         }
       ]
     }

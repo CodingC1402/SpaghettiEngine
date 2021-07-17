@@ -7,7 +7,7 @@
     "ID": 10002,
     "Path": "Asset/Animations/ArrowBrickToRight.json"
   },
-  
+
   {
     "ID": 30000,
     "Path": "Asset/Animations/PlayerStanding.json"
@@ -52,5 +52,14 @@
   {
     "ID": 20003,
     "Path": "Asset/Animations/StarExplode.json"
+  },
+
+  {
+    "ID": 50001,
+    "Path": "Asset/Animations/CanonBallAnim.json"
+  },
+  {
+    "ID": 50002,
+    "Path": "Asset/Animations/CanonReload.json"
   }
 ]

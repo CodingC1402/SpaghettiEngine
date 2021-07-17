@@ -1,0 +1,49 @@
+{
+    "BlackBoard": [
+        {
+            "Name": "IsReloaded",
+            "Type": "bool",
+            "Value": true
+        }
+    ],
+
+    "Children": [
+        {
+            "Type": "Selector",
+            "Children": [
+                {
+                    "Type": "BoolCon",
+                  "Input": {
+                    "Field": "IsReloaded",
+                    "Type": "Equal",
+                    "Value": true
+                  },
+                    "Children": [
+                        {
+                            "Type": "AnimationNode", 
+                            "Input": {
+                                "ID": 50002
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Type": "BoolCon",
+                  "Input": {
+                    "Field": "IsReloaded",
+                    "Type": "Equal",
+                    "Value": true
+                  },
+                    "Children": [
+                        {
+                            "Type": "AnimationNode", 
+                            "Input": {
+                                "ID": 50002
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

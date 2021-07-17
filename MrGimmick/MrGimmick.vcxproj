@@ -193,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="DebugControl.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="LevelSegment.cpp" />
@@ -203,6 +204,7 @@
     <ClCompile Include="PlayerControl.cpp" />
     <ClCompile Include="RidableScript.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
+    <ClCompile Include="ShootScript.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
     <ClCompile Include="TubeScript.cpp" />
@@ -210,6 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="DebugControl.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="LevelSegment.h" />
@@ -220,6 +223,7 @@
     <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="RidableScript.h" />
     <ClInclude Include="SegmentTrigger.h" />
+    <ClInclude Include="ShootScript.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />
     <ClInclude Include="TubeScript.h" />
