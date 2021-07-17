@@ -4,44 +4,22 @@
 
 REGISTER_FINISH(RidableScript, ScriptBase) {}
 
-void RidableScript::OnStart()
+void RidableScript::OnEnabled()
 {
-	_lastPosition = GetGameObject()->GetTransform().GetTransform();
-}
-
-void RidableScript::OnUpdate()
-{
-	if (_isStand)
-	{
-		Vector3 currentPosition = GetGameObject()->GetTransform().GetTransform();
-		Vector3 tempVec = (currentPosition - _lastPosition);
-
-		auto& transform = _ridingObj->GetTransform();
-		transform.Translate(tempVec);
-	}
-	_isStand = false;
-	_lastPosition = GetGameObject()->GetTransform().GetTransform();
+	_oldPos = GetWorldTransform();
 }
 
 void RidableScript::OnFixedUpdate()
 {
-	
+	_delta = GetWorldTransform() - _oldPos;
+	for (auto& obj : _objects)
+		obj->GetTransform().Translate(_delta);
+	_oldPos = GetWorldTransform();
 }
 
 void RidableScript::OnCollide(CollideEvent& e)
 {
-	auto collideWith = e.GetGameObject();
-	
-	auto normal = e.GetNormal();
-	if (collideWith->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()) && normal.y > 0)
-	{
-		_isStand = true;
-		_moveScript = dynamic_cast<MoveScript*>(collideWith->GetParent()->GetScriptContainer().GetItemType("MoveScript"));
-		_ridingObj = collideWith->GetParent();
-	}
-}
-
-PScriptBase RidableScript::Clone() const
-{
-	return PScriptBase();
+	_objects.clear();
+	if (e.GetGameObject()->GetPhysicComponent().GetRigidBody2DScript() != nullptr)
+		_objects.insert(e.GetGameObject());
 }

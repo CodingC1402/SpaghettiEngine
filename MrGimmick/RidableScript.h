@@ -2,21 +2,18 @@
 #include "ScriptBase.h"
 #include "Debug.h"
 #include "MoveScript.h"
+#include <set>
 
 class RidableScript : public ScriptBase
 {
 public:
-	void OnStart() override;
-	void OnUpdate() override;
+	void OnEnabled() override;
 	void OnFixedUpdate() override;
 	void OnCollide(CollideEvent& e) override;
-	PScriptBase Clone() const override;
-
 private:
-	MoveScript* _moveScript = nullptr;
-	GameObj* _ridingObj;
-	bool _isStand = false;
-	Vector3 _lastPosition;
+	Vector3 _delta;
+	Vector3 _oldPos;
+	std::set<GameObj*> _objects;
 
 	REGISTER_START(RidableScript);
 };

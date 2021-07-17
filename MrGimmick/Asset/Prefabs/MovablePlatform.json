@@ -11,12 +11,9 @@
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					{
-						"ID": 1
-					},
-					{
-						"ID": 2
-					}
+					{ "ID": 1 },
+					{ "ID": 2 },
+                    { "ID": 3 }
 				]
 			}
 		}
@@ -47,6 +44,12 @@
                         -50, 10
                     ]
                 ]
+            }
+        },
+        {
+            "ID": 3,
+            "Inputs": {
+                "ScriptType": "RidableScript"
             }
         }
     ]
