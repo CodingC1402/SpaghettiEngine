@@ -3,6 +3,7 @@
 #include "InputAll.h"
 #include "MoveScript.h"
 #include "Macros.h"
+#include "Animator.h"
 
 CLASS_FORWARD_DECLARATION(InputAll);
 
@@ -14,6 +15,7 @@ public:
 
 	void OnDisabled() override;
 	void OnEnabled() override;
+	void SetIsInTube(bool value);
 
 	ScriptBase* Clone() const override;
 private:
@@ -21,6 +23,7 @@ private:
 	SInputAll _moveRight;
 	SInputAll _jump;
 
+	BoolField _isInTube;
 	MoveScript* _moveScript;
 
 	REGISTER_START(PlayerControl);

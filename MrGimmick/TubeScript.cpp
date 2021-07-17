@@ -168,13 +168,23 @@ void TubeScript::Exit(TubePackage& package)
 	if (package._gameObject->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{
 		_isPlayerInTube = false;
+		Vector3 vel;
 		if (package._point1ToPoint2)
+		{
 			_stopPoint2TillNoPlayer = true;
+			vel = _path.back() - _path[_path.size() - 2];
+		}
 		else
+		{
 			_stopPoint1TillNoPlayer = true;
+			vel = _path.front() -_path[1];
+		}
 		package._rb->Enable();
+		package._rb->SetVelocity(vel.GetUnitVector() * _speed);
+
 		package._attackScript->Enable();
 		package._playerControl->Enable();
+		package._playerControl->SetIsInTube(false);
 	}
 	else if (!_isPlayerInTube)
 		package._gameObject->CallDestroy();
@@ -183,19 +193,26 @@ void TubeScript::Exit(TubePackage& package)
 TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const std::vector<Vector3>& path)
 {
 	_gameObject = gameObj;
-
+	Vector3 deltaFromDes = _gameObject->GetTransform().GetWorldTransform();
 	if (isPoint1To2)
 	{
 		//front to back
-		_direction = path[1] - path.front();
 		_index = 1;
+		_direction = path[_index] - path.front();
+		deltaFromDes = path[0] - deltaFromDes;
 	}
 	else
 	{
 		// back to front
-		_direction = path[path.size() - 2] - path.back();
 		_index = path.size() - 2;
+		_direction = path[_index] - path.back();
+		deltaFromDes = path.back() - deltaFromDes;
 	}
+	if (abs(deltaFromDes.x) > abs(deltaFromDes.y))
+		deltaFromDes.x = 0;
+	else if (abs(deltaFromDes.x) < abs(deltaFromDes.y))
+		deltaFromDes.y = 0;
+	_gameObject->GetTransform().Translate(deltaFromDes);
 
 	_direction = _direction.GetUnitVector();
 	_point1ToPoint2 = isPoint1To2;
@@ -205,7 +222,8 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 	if (_gameObject->GetTag().Contain(Fields::SpecialTag::GetPlayerTag()))
 	{
 		_attackScript = _gameObject->GetScriptContainer().GetItemType(TYPE_NAME(AttackMove));
-		_playerControl = _gameObject->GetScriptContainer().GetItemType(TYPE_NAME(PlayerControl));
+		_playerControl = dynamic_cast<PlayerControl*>(_gameObject->GetScriptContainer().GetItemType(TYPE_NAME(PlayerControl)));
+		_playerControl->SetIsInTube(true);
 		_attackScript->Disable();
 		_playerControl->Disable();
 	}

@@ -1,0 +1,56 @@
+{
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"IsRoot": true,
+				"Tag": "Platform",
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 1 },
+					{ "ID": 2 },
+                    { "ID": 3 }
+				]
+			}
+		}
+    ],
+    "Scripts": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "MovableScript",
+				"Speed": 60,
+				"Path": [
+					[  100, 0, 0 ],
+					[  0, 100, 0 ],
+					[  100, 0, 0 ]
+				],
+				"IsLoop": true
+			}
+		},
+        {
+            "ID": 2,
+            "Inputs": {
+                "ScriptType": "Polygon2DCollider",
+                "Polygons": [
+                    [
+                        50, 10,
+                        50, -10,
+                        -50, -10,
+                        -50, 10
+                    ]
+                ]
+            }
+        },
+        {
+            "ID": 3,
+            "Inputs": {
+                "ScriptType": "RidableScript"
+            }
+        }
+    ]
+}

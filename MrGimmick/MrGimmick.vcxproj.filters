@@ -54,6 +54,12 @@
     <ClCompile Include="TubeScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RidableScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MovableScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MoveScript.h">
@@ -90,6 +96,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TubeScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RidableScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovableScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

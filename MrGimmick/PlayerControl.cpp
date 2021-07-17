@@ -12,6 +12,9 @@ void PlayerControl::OnStart()
 	_jump = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput(Fields::Input::_jump));
 
 	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
+
+	auto animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
+	_isInTube = animator->GetField<bool>(Fields::Player::_isInTube);
 }
 
 void PlayerControl::OnUpdate()
@@ -45,6 +48,11 @@ void PlayerControl::OnEnabled()
 		_moveScript->StartMoveLeft();
 	if (_moveRight->CheckKeyDown())
 		_moveScript->StartMoveRight();
+}
+
+void PlayerControl::SetIsInTube(bool value)
+{
+	_isInTube.lock()->SetValue(value);
 }
 
 ScriptBase* PlayerControl::Clone() const

@@ -112,6 +112,13 @@ namespace Fields
 		static constexpr auto _speed = "Speed";
 	};
 
+	class MovableObject {
+	public:
+		static constexpr auto _speed = "Speed";
+		static constexpr auto _path = "Path";
+		static constexpr auto _isLoop = "IsLoop";
+	};
+
 	class SpecialTag
 	{
 	public:
