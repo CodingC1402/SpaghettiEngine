@@ -16,10 +16,13 @@ public:
 	PScriptBase Clone() const override;
 private:
 	float _speed = 0;
-
 	int _factor = 1; // if return < 0 if go > 0
 
 	int _currentIndex = 0;
+
+	bool _isInDelay = false;
+	float _delay = 0;
+	float _counter = 0;
 
 	bool _isLoop = true;
 

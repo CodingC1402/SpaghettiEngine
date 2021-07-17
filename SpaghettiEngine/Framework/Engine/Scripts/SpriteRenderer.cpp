@@ -59,10 +59,10 @@ void SpriteRenderer::Load(nlohmann::json& inputObject)
 		fieldTracker = SpriteRenderer::GetIndexField();
 		const auto index = inputObject[SpriteRenderer::GetIndexField()].get<int>();
 
-		transformMatrix._41 = inputObject[SpriteRenderer::GetOffSetXField()] == nullptr ? 0 : inputObject[SpriteRenderer::GetOffSetXField()].get<float>();
-		transformMatrix._42 = inputObject[SpriteRenderer::GetOffSetYField()] == nullptr ? 0 : inputObject[SpriteRenderer::GetOffSetYField()].get<float>();
-		transformMatrix._11 = inputObject[SpriteRenderer::GetScaleXField() ] == nullptr ? 1 : inputObject[SpriteRenderer::GetScaleXField() ].get<float>();
-		transformMatrix._22 = inputObject[SpriteRenderer::GetScaleYField() ] == nullptr ? 1 : inputObject[SpriteRenderer::GetScaleYField() ].get<float>();
+		transformMatrix._41 = inputObject[SpriteRenderer::GetOffSetXField()].empty() ? 0 : inputObject[SpriteRenderer::GetOffSetXField()].get<float>();
+		transformMatrix._42 = inputObject[SpriteRenderer::GetOffSetYField()].empty() ? 0 : inputObject[SpriteRenderer::GetOffSetYField()].get<float>();
+		transformMatrix._11 = inputObject[SpriteRenderer::GetScaleXField() ].empty() ? 1 : inputObject[SpriteRenderer::GetScaleXField() ].get<float>();
+		transformMatrix._22 = inputObject[SpriteRenderer::GetScaleYField() ].empty() ? 1 : inputObject[SpriteRenderer::GetScaleYField() ].get<float>();
 
 		STexture texture = TextureContainer::GetInstance()->GetResource(textureID);
 		sprite = texture->GetSprite(index);

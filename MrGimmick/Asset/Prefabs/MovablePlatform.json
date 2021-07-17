@@ -13,7 +13,8 @@
 				"Scripts": [
 					{ "ID": 1 },
 					{ "ID": 2 },
-                    { "ID": 3 }
+                    { "ID": 3 },
+                    { "ID": 4 }
 				]
 			}
 		}
@@ -24,10 +25,9 @@
 			"Inputs": {
 				"ScriptType": "MovableScript",
 				"Speed": 60,
+                "Delay": 2,
 				"Path": [
-					[  100, 0, 0 ],
-					[  0, 100, 0 ],
-					[  100, 0, 0 ]
+					[  0, 48, 0 ]
 				],
 				"IsLoop": true
 			}
@@ -38,10 +38,10 @@
                 "ScriptType": "Polygon2DCollider",
                 "Polygons": [
                     [
-                        50, 10,
-                        50, -10,
-                        -50, -10,
-                        -50, 10
+                        -16, 8,
+                        16, 8,
+                        16, -8,
+                        -16, -8
                     ]
                 ]
             }
@@ -50,6 +50,14 @@
             "ID": 3,
             "Inputs": {
                 "ScriptType": "RidableScript"
+            }
+        },
+        {
+            "ID": 4,
+            "Inputs": {
+                "ScriptType": "SpriteRenderer",
+                "Texture": 40001,
+                "Index": 466
             }
         }
     ]
