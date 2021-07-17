@@ -42,6 +42,10 @@
     "Path": "Asset/Prefabs/Star.json"
   },
   {
+    "ID": 10005,
+    "Path": "Asset/Prefabs/MovablePlatform.json"
+  },
+  {
     "ID": 40004,
     "Path": "Asset/Prefabs/CharacterBase.json"
   }

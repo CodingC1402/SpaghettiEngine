@@ -196,10 +196,12 @@
     <ClCompile Include="DebugControl.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="LevelSegment.cpp" />
+    <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
     <ClCompile Include="HeadScript.cpp" />
     <ClCompile Include="PlayerControl.cpp" />
+    <ClCompile Include="RidableScript.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
@@ -211,10 +213,12 @@
     <ClInclude Include="DebugControl.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="LevelSegment.h" />
+    <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />
     <ClInclude Include="HeadScript.h" />
     <ClInclude Include="PlayerControl.h" />
+    <ClInclude Include="RidableScript.h" />
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />
