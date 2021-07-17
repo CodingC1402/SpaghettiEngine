@@ -15,11 +15,11 @@ void RidableScript::OnFixedUpdate()
 	for (auto& obj : _objects)
 		obj->GetTransform().Translate(_delta);
 	_oldPos = GetWorldTransform();
+	_objects.clear();
 }
 
 void RidableScript::OnCollide(CollideEvent& e)
 {
-	_objects.clear();
 	if (e.GetGameObject()->GetPhysicComponent().GetRigidBody2DScript() != nullptr)
 		_objects.insert(e.GetGameObject());
 }
