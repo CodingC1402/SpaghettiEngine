@@ -117,6 +117,7 @@ namespace Fields
 		static constexpr auto _speed = "Speed";
 		static constexpr auto _path = "Path";
 		static constexpr auto _isLoop = "IsLoop";
+		static constexpr auto _delay = "Delay";
 	};
 
 	class SpecialTag
