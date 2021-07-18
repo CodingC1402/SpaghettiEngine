@@ -50,7 +50,7 @@
       "ID": 3,
       "Inputs": {
         "ScriptType": "RigidBody2D",
-        "Mass": 8,
+        "Mass": 2,
         "GravityScale": 4,
         "Material": 30001
       }
@@ -61,14 +61,10 @@
         "ScriptType": "Polygon2DCollider",
         "Polygons": [
           [
-            -8,
-            -8,
-            -8,
-            8,
-            8,
-            8,
-            8,
-            -8
+            -8, -8,
+            -8, 8,
+            8, 8,
+            8, -8
           ]
         ]
       }

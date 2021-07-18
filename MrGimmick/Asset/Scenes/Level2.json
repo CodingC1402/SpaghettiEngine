@@ -11,17 +11,6 @@
           "Value": [ -900, 100, 0 ]
         }
       ]
-    },
-    {
-      "ID": 20001,
-      "Changes": [
-        {
-          "ID": 1,
-          "Type": "GameObject",
-          "Field": "Transform",
-          "Value": [ -900, 60, 0 ]
-        }
-      ]
     }
   ],
   "GameObjects": [

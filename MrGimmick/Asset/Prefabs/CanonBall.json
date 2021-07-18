@@ -3,7 +3,7 @@
 		{
 			"ID": 1,
 			"Inputs": {
-				"Tag": "Enemy",
+				"Tag": [ "Enemy", "Platform" ],
 				"IsRoot": false,
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
@@ -12,7 +12,8 @@
 					{ "ID": 1 },
 					{ "ID": 2 },
 					{ "ID": 3 },
-					{ "ID": 4 }
+					{ "ID": 4 },
+					{ "ID": 5 }
 				]
 			}
 		}
@@ -62,6 +63,12 @@
 				"Mass": 2,
 				"GravityScale": 4,
 				"Material": 40001
+			}
+		},
+		{
+			"ID": 5,
+			"Inputs": {
+				"ScriptType": "RidableScript"
 			}
 		}
 	]

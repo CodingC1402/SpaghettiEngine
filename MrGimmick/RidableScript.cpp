@@ -20,6 +20,6 @@ void RidableScript::OnFixedUpdate()
 
 void RidableScript::OnCollide(CollideEvent& e)
 {
-	if (e.GetGameObject()->GetPhysicComponent().GetRigidBody2DScript() != nullptr)
+	if (e.GetGameObject()->GetPhysicComponent().GetRigidBody2DScript() != nullptr && !e.GetGameObject()->GetTag().Contain(Tag("Platform")))
 		_objects.insert(e.GetGameObject());
 }

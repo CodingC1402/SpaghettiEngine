@@ -30,7 +30,7 @@ void ShootScript::OnUpdate()
 	{
 		_canonBallScriptList.front()->Throw(_rb->GetVelocity(), isFliped);
 		_canonBallScriptList.pop_front();
-
+	
 		_currentTime = 0;
 		_isReloadedField.lock()->SetValue(false);
 	}
@@ -44,7 +44,6 @@ void ShootScript::OnCollide(CollideEvent& e)
 	if (e.GetGameObject()->GetTag().Contain(Tag("Enemy")))
 		e.SetIsHandled(true);
 }
-
 void ShootScript::OnDisabled()
 {
 	if (!_canonBallScriptList.empty())
