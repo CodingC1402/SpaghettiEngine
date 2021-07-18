@@ -19,8 +19,6 @@ void ShootScript::OnUpdate()
 		auto ball = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
 		ball->SetParent(GetGameObject());
 
-		//_currentBall = std::dynamic_pointer_cast<GameObj>(ball->GetSharedPtr());
-
 		auto _canonBallScript = dynamic_cast<CanonBallScript*>(ball->GetScriptContainer().GetItemType(TYPE_NAME(CanonBallScript)));
 		_canonBallScriptList.push_back(_canonBallScript);
 	}
@@ -30,12 +28,9 @@ void ShootScript::OnUpdate()
 	}
 	if (_currentTime >= _reloadTime && !_canonBallScriptList.empty())
 	{
-		//_canonBallScriptList.push_back(_canonBallScript);
 		_canonBallScriptList.front()->Throw(_rb->GetVelocity(), isFliped);
 		_canonBallScriptList.pop_front();
-		//_canonBallScript->Throw(_rb->GetVelocity(), isFliped);
 
-		//_canonBallScript = nullptr;
 		_currentTime = 0;
 		_isReloadedField.lock()->SetValue(false);
 	}
@@ -44,13 +39,16 @@ void ShootScript::OnUpdate()
 
 }
 
+void ShootScript::OnCollide(CollideEvent& e)
+{
+	if (e.GetGameObject()->GetTag().Contain(Tag("Enemy")))
+		e.SetIsHandled(true);
+}
+
 void ShootScript::OnDisabled()
 {
-	//if (_canonBallScript)
-	//	_canonBallScript->Throw(_rb->GetVelocity(), isFliped);
-	//_canonBallScript = nullptr;
-	//if (!_currentBall.expired())
-	//	_currentBall.lock()->CallDestroy();
+	if (!_canonBallScriptList.empty())
+		_canonBallScriptList.clear();
 }
 
 void ShootScript::Load(nlohmann::json& input)

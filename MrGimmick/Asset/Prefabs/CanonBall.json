@@ -3,7 +3,7 @@
 		{
 			"ID": 1,
 			"Inputs": {
-				"Tag": "PlayerAttack",
+				"Tag": "Enemy",
 				"IsRoot": false,
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
@@ -44,14 +44,12 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-8,
-						-8,
-						-8,
-						8,
-						8,
-						8,
-						8,
-						-8
+						-8, -5,
+						-8, 8,
+						8, 8,
+						8, -5,
+						5, -8,
+						-5, -8
 					]
 				]
 			}

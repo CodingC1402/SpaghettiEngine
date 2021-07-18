@@ -9,6 +9,7 @@ class ShootScript : public ScriptBase
 public:
 	void OnStart() override;
 	void OnUpdate() override;
+	void OnCollide(CollideEvent& e) override;
 	void OnDisabled() override;
 
 	void Load(nlohmann::json& input);
@@ -21,7 +22,6 @@ protected:
 	Animator* _animator = nullptr;
 	RigidBody2D* _rb = nullptr;
 	std::list<CanonBallScript*> _canonBallScriptList;
-	//CanonBallScript* _canonBallScript = nullptr;
 
 	bool isFliped = false;
 

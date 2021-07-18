@@ -9,7 +9,7 @@
       "ID": 1,
       "Inputs": {
         "IsRoot": true,
-        "Tag": "PlayerAttack",
+        "Tag": "Platform",
         "GameObjects": [
         ],
         "Transform": [ 0, 0, 0 ],
@@ -50,7 +50,7 @@
       "ID": 3,
       "Inputs": {
         "ScriptType": "RigidBody2D",
-        "Mass": 2,
+        "Mass": 8,
         "GravityScale": 4,
         "Material": 30001
       }
