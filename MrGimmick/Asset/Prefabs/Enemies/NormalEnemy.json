@@ -1,0 +1,63 @@
+{
+    "Prefabs": [
+        {
+            "ID": 20001,
+            "Changes": [
+                {
+                    "ID": 1,
+                    "Type": "GameObject",
+                    "Field": "Transform",
+                    "Value": [900, 500, 0]
+                },
+                {
+                    "ID": 1,
+                    "Type": "GameObject",
+                    "Field": "Scripts",
+                    "Mode": "Append",
+                    "Value": [
+                        {"ID": 1}
+                    ]
+                },
+                {
+                    "ID": 4,
+                    "Type": "Script",
+                    "Field": "AnimationTree",
+					"Value": "Asset/AnimationTree/NormalEnemy.json"
+                },
+                {
+                    "ID": 1,
+                    "Type": "Script",
+                    "Field": "Polygons",
+                    "Value": [
+                        [
+                            -7, 7,
+                            7, 7,
+                            7, -5,
+                            4, -7,
+                            -4, -7,
+                            -7, -5 
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "Scripts": [
+        {
+            "ID": 1,
+            "Inputs": {
+                "ScriptType": "EnemyJumpScript",
+                "Wall": {
+                    "Center": [10, 0, 0],
+                    "Width": 5,
+                    "Height": 5
+                },
+                "Ground": {
+                    "Center": [10, -20, 0],
+                    "Width": 5,
+                    "Height": 30
+                }
+            }
+        }
+    ]
+}

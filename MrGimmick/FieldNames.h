@@ -120,6 +120,21 @@ namespace Fields
 		static constexpr auto _delay = "Delay";
 	};
 
+	class EnemyJumpScript {
+	public:
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+
+		static constexpr auto _wall = "Wall";
+		static constexpr auto _ground = "Ground";
+	};
+
+	class AIScript {
+	public:
+		static constexpr auto _behaviorTree = "BehaviorTree";
+	};
+
 	class SpecialTag
 	{
 	public:

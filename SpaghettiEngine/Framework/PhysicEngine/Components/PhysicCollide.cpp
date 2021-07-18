@@ -90,6 +90,8 @@ void PhysicCollide::GetCollidedWithShape(
 		case FilterMode::Contain:
 			tagResult = gameObjectCollideWith->GetTag().Contain(filter);
 			break;
+		case FilterMode::Equal:
+			tagResult = gameObjectCollideWith->GetTag() == filter;
 		case FilterMode::None:
 			tagResult = true;
 			break;
