@@ -6,7 +6,8 @@ REGISTER_FINISH(CanonBallScript, ScriptBase) {}
 
 void CanonBallScript::OnStart()
 {
-	_cirCollider = GET_FIRST_SCRIPT_OF_TYPE(CircleCollider);
+	_polyCollider = GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
+	//_cirCollider = GET_FIRST_SCRIPT_OF_TYPE(CircleCollider);
 	_rbBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
@@ -20,6 +21,7 @@ void CanonBallScript::OnUpdate()
 	//	_usableCounter += GameTimer::GetDeltaTime();
 	//	return;
 	//}
+
 	_usableCounter += GameTimer::GetDeltaTime();
 
 	if (_counterStarted)
@@ -34,7 +36,7 @@ void CanonBallScript::OnUpdate()
 		{
 			_explodedField.lock()->SetValue(true);
 			_rbBody->Disable();
-			_cirCollider->Disable();
+			_polyCollider->Disable();
 			if (_counter >= _explodeTime + _animExplodeTime)
 				GetGameObject()->CallDestroy();
 		}
@@ -54,18 +56,19 @@ void CanonBallScript::Load(nlohmann::json& input)
 
 void CanonBallScript::Throw(const Vector3& _playerVel, bool isFliped)
 {
-	//if (_usableCounter < _beforeUsable)
-	//{
-	//	GetGameObject()->CallDestroy();
-	//	return;
-	//}
+	if (_usableCounter < _beforeUsable)
+	{
+		GetGameObject()->CallDestroy();
+		return;
+	}
 	GetGameObject()->BecomeRootObject();
 
 	_counterStarted = true;
 	//_countUsable = false;
 
-	_cirCollider->Enable();
+	_polyCollider->Enable();
 	_rbBody->Enable();
+	_animator->Enable();
 
 	Vector3 throwVel = _startVelocity;
 	throwVel.x *= isFliped ? -1 : 1;

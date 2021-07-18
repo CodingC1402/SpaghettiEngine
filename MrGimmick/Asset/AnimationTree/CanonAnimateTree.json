@@ -3,7 +3,7 @@
         {
             "Name": "IsReloaded",
             "Type": "bool",
-            "Value": true
+            "Value": false
         }
     ],
 
@@ -16,7 +16,7 @@
                   "Input": {
                     "Field": "IsReloaded",
                     "Type": "Equal",
-                    "Value": true
+                    "Value": false
                   },
                     "Children": [
                         {
@@ -38,7 +38,7 @@
                         {
                             "Type": "AnimationNode", 
                             "Input": {
-                                "ID": 50002
+                                "ID": 50003
                             }
                         }
                     ]

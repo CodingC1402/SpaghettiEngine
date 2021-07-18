@@ -3,6 +3,7 @@
 #include "RigidBody2D.h"
 #include "Animator.h"
 #include "CircleCollider.h"
+#include "Polygon2DCollider.h"
 
 class CanonBallScript : public ScriptBase
 {
@@ -18,6 +19,7 @@ protected:
 	RigidBody2D* _rbBody = nullptr;
 	Animator* _animator = nullptr;
 	CircleCollider* _cirCollider = nullptr;
+	Polygon2DCollider* _polyCollider = nullptr;
 	BoolField _explodedField;
 
 	bool _counterStarted = false;
@@ -29,7 +31,7 @@ protected:
 
 	float _usableCounter = 0;
 	float _beforeUsable = 0;
-	//bool  _countUsable = false;
+	bool  _countUsable = false;
 
 	Vector3	_startVelocity;
 private:

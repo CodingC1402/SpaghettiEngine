@@ -61,13 +61,13 @@
         "ScriptType": "Polygon2DCollider",
         "Polygons": [
           [
-            -6,
             -8,
-            -6,
-            5,
-            6,
-            5,
-            6,
+            -8,
+            -8,
+            8,
+            8,
+            8,
+            8,
             -8
           ]
         ]

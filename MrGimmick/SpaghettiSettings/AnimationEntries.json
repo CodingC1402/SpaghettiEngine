@@ -61,5 +61,9 @@
   {
     "ID": 50002,
     "Path": "Asset/Animations/CanonReload.json"
+  },
+  {
+    "ID": 50003,
+    "Path": "Asset/Animations/CanonShoot.json"
   }
 ]

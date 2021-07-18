@@ -5,8 +5,6 @@
 			"Inputs": {
 				"Tag": "PlayerAttack",
 				"IsRoot": false,
-				"GameObjects": [
-				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
@@ -19,7 +17,7 @@
 			}
 		}
     ],
-    "Scripts": [
+	"Scripts": [
 		{
 			"ID": 1,
 			"IsDisabled": true,
@@ -36,15 +34,26 @@
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [100, 0]
+				"StartVelocity": [ 100, 0 ]
 			}
 		},
 		{
 			"ID": 3,
 			"IsDisabled": true,
 			"Inputs": {
-				"ScriptType": "CircleCollider",
-				"Radius": 8
+				"ScriptType": "Polygon2DCollider",
+				"Polygons": [
+					[
+						-8,
+						-8,
+						-8,
+						8,
+						8,
+						8,
+						8,
+						-8
+					]
+				]
 			}
 		},
 		{
@@ -54,8 +63,8 @@
 				"ScriptType": "RigidBody2D",
 				"Mass": 2,
 				"GravityScale": 4,
-				"Material": 20001
+				"Material": 40001
 			}
 		}
-    ]
+	]
 }
