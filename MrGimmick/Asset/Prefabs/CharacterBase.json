@@ -14,7 +14,6 @@
 					{ "ID": 1 },
 					{ "ID": 2 },
 					{ "ID": 3 },
-					{ "ID": 4 },
 					{ "ID": 5 },
 					{ "ID": 2001}
 				]
@@ -41,7 +40,7 @@
 			"Inputs": {
 				"ScriptType": "Animator",
 				"AnimationTree": "",
-				"DrawLayer": 1
+				"DrawLayer": 5
 			}
 		},
 		{
@@ -63,20 +62,14 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-4, 0,
-						-4, 6,
-						 4, 6,
-						 4, 0 
+						-3, -9,
+						-6, -6,
+						-6, 6,
+						 6, 6,
+						 6, -6,
+						 3, -9 
 					]
 				]
-			}
-		},
-		{
-			"ID": 4,
-			"Inputs": {
-				"ScriptType": "CircleCollider",
-				"Radius": 6,
-				"OffSetY": -4
 			}
 		},
 		{
@@ -93,7 +86,7 @@
 			"Inputs": {
 				"ScriptType": "FeetScript",
 				"Position": [0, -11, 0],
-				"Width": 4,
+				"Width": 6,
 				"Height": 6
 			}
 		},

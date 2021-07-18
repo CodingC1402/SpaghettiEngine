@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\BehaviralTree">
+      <UniqueIdentifier>{b6ce6924-c501-4891-9bde-84f24e9b9aab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BehaviralTree">
+      <UniqueIdentifier>{36a92a86-c16e-4a9b-a6ef-c2f9b09c7ba7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -22,9 +28,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StarScript.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackMove.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FeetScript.cpp">
@@ -58,6 +61,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MovableScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AIBTs.cpp">
+      <Filter>Source Files\BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackMove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchingLeaf.cpp">
+      <Filter>Source Files\BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="AIScript.cpp">
+      <Filter>Source Files\BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChasingLeaf.cpp">
+      <Filter>Source Files\BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyJumpScript.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,6 +129,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MovableScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AIBTs.h">
+      <Filter>Header Files\BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchingLeaf.h">
+      <Filter>Header Files\BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="AIScript.h">
+      <Filter>Header Files\BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChasingLeaf.h">
+      <Filter>Header Files\BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyJumpScript.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

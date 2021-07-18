@@ -20,7 +20,8 @@
 					"Value": [
 						{ "ID": 1 },
 						{ "ID": 2 },
-						{ "ID": 3 }
+						{ "ID": 3 },
+						{ "ID": 4 }
 					]
 				},
 				{
@@ -61,6 +62,13 @@
 			"Inputs": {
 				"ScriptType": "DebugControl",
 				"FlySpeed": 300
+			}
+		},
+		{
+			"ID": 4,
+			"Inputs": {
+				"ScriptType": "PlayerScript"
+				
 			}
 		}
 	]

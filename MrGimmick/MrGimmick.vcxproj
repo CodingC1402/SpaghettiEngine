@@ -192,8 +192,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIBTs.cpp" />
+    <ClCompile Include="AIScript.cpp" />
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="ChasingLeaf.cpp" />
     <ClCompile Include="DebugControl.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="LevelSegment.cpp" />
     <ClCompile Include="MovableScript.cpp" />
@@ -201,7 +206,9 @@
     <ClCompile Include="FeetScript.cpp" />
     <ClCompile Include="HeadScript.cpp" />
     <ClCompile Include="PlayerControl.cpp" />
+    <ClCompile Include="PlayerScript.cpp" />
     <ClCompile Include="RidableScript.cpp" />
+    <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="StarScript.cpp" />
@@ -209,8 +216,13 @@
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIBTs.h" />
+    <ClInclude Include="AIScript.h" />
     <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="ChasingLeaf.h" />
     <ClInclude Include="DebugControl.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="LevelSegment.h" />
     <ClInclude Include="MovableScript.h" />
@@ -218,7 +230,9 @@
     <ClInclude Include="FeetScript.h" />
     <ClInclude Include="HeadScript.h" />
     <ClInclude Include="PlayerControl.h" />
+    <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="RidableScript.h" />
+    <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="StarScript.h" />

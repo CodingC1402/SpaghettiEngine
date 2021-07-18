@@ -45,6 +45,15 @@
     "ID": 10005,
     "Path": "Asset/Prefabs/MovablePlatform.json"
   },
+
+  {
+    "ID": 20001,
+    "Path": "Asset/Prefabs/Enemies/BaseEnemy.json"
+  },
+  {
+    "ID": 20002,
+    "Path": "Asset/Prefabs/Enemies/NormalEnemy.json"
+  },
   {
     "ID": 40004,
     "Path": "Asset/Prefabs/CharacterBase.json"

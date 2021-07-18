@@ -52,5 +52,18 @@
   {
     "ID": 20003,
     "Path": "Asset/Animations/StarExplode.json"
+  },
+
+  {
+    "ID": 20101,
+    "Path": "Asset/Animations/Enemy/NormalEnemy/EnemyIdle.json"
+  },
+  {
+    "ID": 20102,
+    "Path": "Asset/Animations/Enemy/NormalEnemy/EnemyRunning.json"
+  },
+  {
+    "ID": 20103,
+    "Path": "Asset/Animations/Enemy/NormalEnemy/EnemyJump.json"
   }
 ]

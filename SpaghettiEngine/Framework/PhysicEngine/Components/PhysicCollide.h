@@ -10,6 +10,7 @@ public:
 	{
 		Contain,
 		Collide,
+		Equal,
 		None
 	};
 public:
