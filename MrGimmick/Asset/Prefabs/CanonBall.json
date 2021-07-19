@@ -34,7 +34,6 @@
 				"ScriptType": "CanonBallScript",
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
-				"BeforeUsable": 0.20,
 				"StartVelocity": [ 100, 0 ]
 			}
 		},

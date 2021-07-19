@@ -29,10 +29,6 @@ protected:
 
 	float _additionVel = 30; // Add speed each update  to replenish the x axis vel
 
-	float _usableCounter = 0;
-	float _beforeUsable = 0;
-	bool  _countUsable = false;
-
 	Vector3	_startVelocity;
 private:
 	REGISTER_START(CanonBallScript);

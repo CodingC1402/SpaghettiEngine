@@ -10,18 +10,15 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 	void OnCollide(CollideEvent& e) override;
-	void OnDisabled() override;
 
 	void Load(nlohmann::json& input);
 protected:
 	PGameObj		_starPrefab = nullptr;
-	WGameObj		_currentBall;
 
 	BoolField _isReloadedField;
 
 	Animator* _animator = nullptr;
 	RigidBody2D* _rb = nullptr;
-	std::list<CanonBallScript*> _canonBallScriptList;
 
 	bool isFliped = false;
 
