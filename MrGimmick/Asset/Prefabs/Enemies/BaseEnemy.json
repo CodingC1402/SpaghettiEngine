@@ -17,7 +17,8 @@
                     {"ID": 3},
                     {"ID": 4},
                     {"ID": 5},
-                    {"ID": 6}
+                    {"ID": 6},
+                    {"ID": 7}
 				]
 			}
 		}
@@ -35,9 +36,9 @@
             "ID": 2,
             "Inputs": {
                 "ScriptType": "FeetScript",
-                "Position": [0, -11, 0],
+                "Position": [0, -10, 0],
 				"Width": 4,
-				"Height": 6
+				"Height": 2
             }
         },
         {
@@ -69,6 +70,12 @@
         },
         {
             "ID": 6,
+            "Inputs": {
+                "ScriptType": "RidableScript"
+            }
+        },
+        {
+            "ID": 7,
             "Inputs": {
                 "ScriptType": "RigidBody2D",
                 "Mass": 2,

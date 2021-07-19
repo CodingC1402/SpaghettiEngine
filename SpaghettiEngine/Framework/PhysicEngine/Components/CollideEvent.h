@@ -17,10 +17,11 @@ class CollideEvent
 {
 	friend class Collision;
 public:
-	[[nodiscard]] Body2D* GetBody() const noexcept;;
-	[[nodiscard]] GameObj* GetGameObject() const noexcept;;
+	[[nodiscard]] Body2D* GetBody() const noexcept;
+	[[nodiscard]] GameObj* GetGameObject() const noexcept;
+	[[nodiscard]] GameObj* GetEventOwner() const noexcept;
 
-	[[nodiscard]] bool GetIsHandled() const noexcept;;
+	[[nodiscard]] bool GetIsHandled() const noexcept;
 	[[nodiscard]] bool IsCollideWithTrigger() const noexcept;
 	[[nodiscard]] const Vector3& GetNormal() const noexcept;
 	[[nodiscard]] const Vector3& GetDirection() const noexcept;

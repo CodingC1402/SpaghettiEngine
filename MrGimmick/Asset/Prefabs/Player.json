@@ -61,7 +61,7 @@
 			"ID": 3,
 			"Inputs": {
 				"ScriptType": "DebugControl",
-				"FlySpeed": 300
+				"FlySpeed": 400
 			}
 		},
 		{

@@ -20,7 +20,12 @@ const Vector3& CollideEvent::GetDirection() const noexcept
 
 GameObj* CollideEvent::GetGameObject() const noexcept
 {
-	return dynamic_cast<GameObj*>(GetBody()->GetGameObject()->GetSharedPtr().get());
+	return dynamic_cast<GameObj*>(GetBody()->GetGameObject());
+}
+
+GameObj* CollideEvent::GetEventOwner() const noexcept
+{
+	return dynamic_cast<GameObj*>(GetCollideScript()->GetGameObject());
 }
 
 bool CollideEvent::GetIsHandled() const noexcept

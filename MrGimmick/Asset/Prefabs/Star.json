@@ -5,7 +5,9 @@
 			"Inputs": {
 				"Tag": "PlayerAttack",
 				"IsRoot": false,
-				"GameObjects": [],
+				"GameObjects": [
+					{"ID": 2}
+				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
@@ -15,6 +17,22 @@
 					{ "ID": 3 },
 					{ "ID": 4 },
 					{ "ID": 5 }
+				]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"Tag": "",
+				"IsRoot": false,
+				"GameObjects": [],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 6 },
+					{ "ID": 7 },
+					{ "ID": 8 }
 				]
 			}
 		}
@@ -36,7 +54,7 @@
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [160, 80]
+				"StartVelocity": [120, -100]
 			}
 		},
 		{
@@ -77,6 +95,32 @@
 				"Mass": 2,
 				"GravityScale": 4,
 				"Material": 20001
+			}
+		},
+		{
+			"ID": 6,
+			"Inputs": {
+				"ScriptType": "RidableScript"
+			}
+		},
+		{
+			"ID": 7,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Polygons": [
+					[
+						-8, -10,
+						-8,   7,
+						8 ,   7,
+						8 , -10 
+					]
+				]
+			}
+		},
+		{
+			"ID": 8,
+			"Inputs": {
+				"ScriptType": "StarRidableScript"
 			}
 		}
     ]

@@ -20,6 +20,6 @@ void RidableScript::OnFixedUpdate()
 
 void RidableScript::OnCollide(CollideEvent& e)
 {
-	if (e.GetGameObject()->GetPhysicComponent().GetRigidBody2DScript() != nullptr)
+	if (e.GetGameObject()->GetPhysicComponent().GetRigidBody2DScript() != nullptr && e.GetNormal().y > 0.75f)
 		_objects.insert(e.GetGameObject());
 }
