@@ -80,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="StarRidableScript.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -142,6 +145,9 @@
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="SearchingLeaf.h">
       <Filter>BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="StarRidableScript.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

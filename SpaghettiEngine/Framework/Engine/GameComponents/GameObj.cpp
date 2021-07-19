@@ -25,15 +25,6 @@ PGameObj GameObj::Clone() const
 
 	cloneObj->_tag = _tag;
 	cloneObj->_name = _name;
-	cloneObj->_children = _children;
-
-	_scripts.IteratingWithLamda([&](PScriptBase script) {
-		cloneObj->GetScriptContainer().AddItem((script)->Clone());
-	});
-
-	_children.IteratingWithLamda([&](PGameObj child) {
-		cloneObj->GetChildContainer().AddItem((child)->Clone());
-	});
 
 	Vector3 rotation = GetTransform().GetWorldRotation();
 	Vector3 transform = GetTransform().GetWorldTransform();
@@ -42,6 +33,14 @@ PGameObj GameObj::Clone() const
 	cloneObj->GetTransform().SetRotation(rotation);
 	cloneObj->GetTransform().SetTransform(transform);
 	cloneObj->GetTransform().SetScale(scale);
+
+	_scripts.IteratingWithLamda([&](PScriptBase script) {
+		cloneObj->GetScriptContainer().AddItem((script)->Clone());
+	});
+
+	_children.IteratingWithLamda([&](PGameObj child) {
+		cloneObj->GetChildContainer().AddItem((child)->Clone());
+	});
 
 	return cloneObj;
 }

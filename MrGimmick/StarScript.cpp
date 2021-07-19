@@ -33,6 +33,9 @@ void StarScript::OnUpdate()
 		{
 			_explodedField.lock()->SetValue(true);
 			_rbBody->Disable();
+			// disable all child. 
+			GetGameObject()->GetChildContainer().IteratingWithLamda([](PGameObj obj) {obj->Disable(); });
+
 			_polyCollider->Disable();
 			if (_counter >= _explodeTime + _animExplodeTime)
 				GetGameObject()->CallDestroy();

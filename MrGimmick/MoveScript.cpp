@@ -70,13 +70,13 @@ void MoveScript::StopMove(const int& factor) noexcept
 
 void MoveScript::Load(nlohmann::json& input)
 {
-	_jumpStrength = input[Fields::Player::_jumpStrengthField].get<float>();
-	_speedCap =		input[Fields::Player::_speedCapField].get<float>();
-	_speedRamUp =	input[Fields::Player::_speedRamUpField].get<float>();
-	_reduceSpeed =	input[Fields::Player::_reduceSpeed].get<float>();
+	_jumpStrength	= input[Fields::Player::_jumpStrengthField].get<float>();
+	_speedCap		= input[Fields::Player::_speedCapField].get<float>();
+	_speedRamUp		= input[Fields::Player::_speedRamUpField].get<float>();
+	_reduceSpeed	= input[Fields::Player::_reduceSpeed].get<float>();
 
-	_gsDropFactor =	input[Fields::Player::_gsDropFactor].get<float>();
-	_minGravityScale = input[Fields::Player::_gsMin].get<float>();
+	_gsDropFactor	= input[Fields::Player::_gsDropFactor].get<float>();
+	_minGravityScale= input[Fields::Player::_gsMin].get<float>();
 }
 
 void MoveScript::OnStart()
