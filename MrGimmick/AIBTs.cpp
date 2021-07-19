@@ -6,12 +6,26 @@ REGISTER_BEHAVIOR_TREE_FINISH(AIBTs);
 void AIBTs::AssignMoveScript(MoveScript* script)
 {
 	_moveScript = script;
-	_owner = _moveScript->GetGameObject();
+}
+
+void AIBTs::SetGameObject(GameObj* obj) noexcept
+{
+	_owner = obj;
 }
 
 GameObj* AIBTs::GetGameObject() const noexcept
 {
 	return _owner;
+}
+
+void AIBTs::SetDeltaTime(float time) noexcept
+{
+	_deltaTime = time;
+}
+
+float AIBTs::GetDeltaTime() const noexcept
+{
+	return _deltaTime;
 }
 
 void AIBTs::MoveLeft()

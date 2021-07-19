@@ -15,20 +15,12 @@ void EnemyJumpScript::OnStart()
 
 void EnemyJumpScript::OnFixedUpdate()
 {
-    Vector3 groundScan = _groundScanRect;
-    Vector3 wallScan = _wallScanRect;
-    if (_moveScript->IsFlipped())
-    {
-        groundScan.x *= -1;
-        wallScan.x *= -1;
-    }
-
     // Check for collide ground
     std::set<GameObj*> gameObjGroundList;
     PhysicCollide::GetCollidedWithRectangle(
         GetGameObject(),
         gameObjGroundList,
-        groundScan,
+        _groundScanRect,
         _groundScanRectWidth,
         _groundScanRectHeight,
         Fields::SpecialTag::GetPlatformTag(),
@@ -39,7 +31,7 @@ void EnemyJumpScript::OnFixedUpdate()
     PhysicCollide::GetCollidedWithRectangle(
         GetGameObject(),
         gameObjWallList,
-        wallScan,
+        _wallScanRect,
         _wallScanRectWidth,
         _wallScanRectHeight,
         Fields::SpecialTag::GetPlatformTag(),
@@ -49,21 +41,29 @@ void EnemyJumpScript::OnFixedUpdate()
     // if not on ground or hit a wall
     if (gameObjGroundList.empty() || !gameObjWallList.empty())
     {
+        _jumpAgainAccumulative += Physic::GetStep();
+        if (_jumpAgainAccumulative > _jumpAgainDelay)
+        {
+            _jumpAgainAccumulative = 0;
+            _lastJump = false;
+        }
+
         if (!_lastJump)
         {
             _moveScript->StopJump();
+            _moveScript->StartJump();
             _lastJump = true;
         }
-        _moveScript->StartJump();
     }
     else
     {
+        _jumpAgainAccumulative = 0;
         _moveScript->StopJump();
         _lastJump = false;
     }
 
-    DebugRenderer::DrawRectangleFromCenter(groundScan, _groundScanRectWidth, _groundScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
-    DebugRenderer::DrawRectangleFromCenter(wallScan, _wallScanRectWidth, _wallScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
+    DebugRenderer::DrawRectangleFromCenter(_groundScanRect, _groundScanRectWidth, _groundScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
+    DebugRenderer::DrawRectangleFromCenter(_wallScanRect, _wallScanRectWidth, _wallScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
 }
 
 void EnemyJumpScript::Load(nlohmann::json& input)
@@ -77,4 +77,6 @@ void EnemyJumpScript::Load(nlohmann::json& input)
     _groundScanRect         = ground[Fields::EnemyJumpScript::_center];
     _groundScanRectWidth    = ground[Fields::EnemyJumpScript::_width].get<float>();
     _groundScanRectHeight   = ground[Fields::EnemyJumpScript::_height].get<float>();
+
+    _jumpAgainDelay = input[Fields::EnemyJumpScript::_resetDelay].get<float>();
 }

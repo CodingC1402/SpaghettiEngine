@@ -22,7 +22,7 @@
 		{
 			"ID": 2,
 			"Inputs": {
-				"Tag": "Head",
+				"Tag": "Character",
 				"GameObjects": [],
 				"Transform": [0, 6, 0],
 				"Rotation": [0, 0, 0],
@@ -76,7 +76,7 @@
 			"ID": 5,
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
-				"Mass": 2,
+				"Mass": 1,
 				"GravityScale": 4,
 				"Material": 30001
 			}

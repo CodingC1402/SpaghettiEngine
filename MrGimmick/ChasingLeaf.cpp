@@ -13,6 +13,11 @@ Node::State ChasingLeaf::Tick()
 
         _destination = _player->GetTransform().GetWorldTransform();
         _direction = _destination - tree->GetGameObject()->GetTransform().GetWorldTransform();
+        if (abs(_direction.x) < 4.0f)
+        {
+            tree->StopMove();
+            return State::Success;
+        }
 
         float distance = _direction.GetMagnitude();
         if (distance > _maxDistance)
@@ -26,11 +31,43 @@ Node::State ChasingLeaf::Tick()
         return State::Running;
     }
 
-    auto delta = _destination - tree->GetGameObject()->GetTransform().GetWorldTransform();
-    if (delta.Dot(_direction) < 0)
+    auto pos = tree->GetGameObject()->GetTransform().GetWorldTransform();
+    auto delta = _destination - pos;
+
+    if (auto distance = (_player->GetTransform().GetWorldTransform() - pos).GetMagnitude(); distance > _scanRadius)
+        return State::Failure;
+
+    _timeOutAccumulative += tree->GetDeltaTime();
+    if (delta.x * _direction.x < 0 || _timeOutAccumulative > _timeOut)
     {
+        _timeOutAccumulative = 0.0f;
         _player = nullptr;
         tree->StopMove();
-        return State::Success;
+        return State::Running;
     }
+}
+
+void ChasingLeaf::CustomLoad(nlohmann::json& input)
+{
+    _maxDistance = input[_maxDistanceField].get<float>();
+    _maxStuck = input[_maxStuckField].get<unsigned>();
+    _maxStuck = input[_maxStuckField].get<unsigned>();
+    _scanRadius = input[_radiusField].get<float>();
+    _timeOut = input[_timeOutField].get<float>();
+}
+
+SNode ChasingLeaf::Clone(WBTs tree)
+{
+    auto clone = std::dynamic_pointer_cast<ChasingLeaf>(Node::Clone(tree));
+
+    clone->_maxStuck        = _maxStuck;
+    clone->_stuckCounter    = _stuckCounter;
+    clone->_maxDistance     = _maxDistance;
+    clone->_scanRadius      = _scanRadius;
+    clone->_direction       = _direction;
+    clone->_destination     = _destination;
+    clone->_oldPos          = _oldPos;
+    clone->_player          = _player;
+
+    return clone;
 }

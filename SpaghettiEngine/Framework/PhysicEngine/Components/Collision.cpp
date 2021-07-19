@@ -109,8 +109,13 @@ bool Collision::Solve(bool sendEvent)
 		_shapeA->SendEvent(_shapeACollideTemplate);			    
 		_shapeB->SendEvent(_shapeBCollideTemplate);
 
-		bool ignoreCollision =	_shapeACollideTemplate.GetIsHandled() | _shapeACollideTemplate.IsCollideWithTrigger() | 
-								_shapeBCollideTemplate.GetIsHandled() | _shapeBCollideTemplate.IsCollideWithTrigger();
+		bool ignoreCollision =	_shapeACollideTemplate.GetIsHandled() || _shapeACollideTemplate.IsCollideWithTrigger() ||
+								_shapeBCollideTemplate.GetIsHandled() || _shapeBCollideTemplate.IsCollideWithTrigger();
+
+		if (_shapeA->GetBody().lock()->GetGameObject()->GetTag().Contain("Enemy") && _shapeB->GetBody().lock()->GetGameObject()->GetTag().Contain("Player"))
+		{
+			int i = 100;
+		}
 
 		if (ignoreCollision)
 			return false;

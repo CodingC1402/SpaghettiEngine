@@ -17,3 +17,17 @@ Node::State SearchingLeaf::Tick()
 	else
 		return State::Success;
 }
+
+void SearchingLeaf::CustomLoad(nlohmann::json& input)
+{
+	_scanRadius = input[SearchingLeaf::_radiusField].get<float>();
+}
+
+SNode SearchingLeaf::Clone(WBTs tree)
+{
+	auto clone = std::dynamic_pointer_cast<SearchingLeaf>(LeafNode::Clone(tree));
+
+	clone->_scanRadius = _scanRadius;
+
+	return clone;
+}

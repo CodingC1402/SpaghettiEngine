@@ -92,6 +92,7 @@ void PhysicCollide::GetCollidedWithShape(
 			break;
 		case FilterMode::Equal:
 			tagResult = gameObjectCollideWith->GetTag() == filter;
+			break;
 		case FilterMode::None:
 			tagResult = true;
 			break;
