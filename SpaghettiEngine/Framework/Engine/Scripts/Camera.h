@@ -10,7 +10,7 @@ class Camera : public ScriptBase
 public:
 	virtual Matrix4	GetMatrix(const Matrix4& originalMatrix);
 	virtual Matrix4 GetMatrixWithoutScaleY(const Matrix4& originalMatrix);
-	virtual void	OnFixedUpdate() override;
+	virtual void	OnLateUpdate() override;
 
 	virtual void	OnDisabled() override;
 	virtual void	OnEnabled() override;

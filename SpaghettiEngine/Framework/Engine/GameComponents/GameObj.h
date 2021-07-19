@@ -80,6 +80,7 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 	void OnFixedUpdate() override;
+	void OnLateUpdate() override;
 
 	void OnEnabled() override;
 	void OnDisabled() override;

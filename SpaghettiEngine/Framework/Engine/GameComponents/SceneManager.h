@@ -39,6 +39,8 @@ protected:
 	SceneManager();
 	void Update();
 	void FixedUpdate();
+	void LateUpdate();
+	void CleanUp();
 
 	void Load();
 	void Init();
