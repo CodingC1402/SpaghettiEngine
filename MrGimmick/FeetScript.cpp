@@ -4,6 +4,8 @@
 #include "DebugRenderer.h"
 #include "PhysicCollide.h"
 
+constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
+
 REGISTER_FINISH(FeetScript, ScriptBase) {}
 
 void FeetScript::OnStart()
@@ -33,7 +35,12 @@ void FeetScript::OnFixedUpdate()
 	if constexpr (Setting::IsDebugMode())
 	{
 		DebugRenderer::DrawRectangle(
-			Vector3(_position.x - _width / 2.0f, _position.y + _height / 2.0f, 0.0f), _width, _height, GetWorldMatrix());
+			Vector3(_position.x - _width / 2.0f, _position.y + _height / 2.0f, 0.0f), 
+			_width, 
+			_height, 
+			GetWorldMatrix(),
+			DEBUG_COLOR
+		);
 	}
 }
 

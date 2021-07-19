@@ -33,6 +33,14 @@ namespace Fields
 		static constexpr auto _appearOffSet			= "AppearOffSet";
 	};
 
+	class HeadScript
+	{
+	public:
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+	};
+
 	class Enemy
 	{
 	public:
