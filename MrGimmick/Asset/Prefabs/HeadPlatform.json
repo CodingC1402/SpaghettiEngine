@@ -1,0 +1,49 @@
+{
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+                "IsRoot": false,
+				"Tag": ["Platform"],
+                "Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"GameObjects": [
+				],
+				"Scripts": [
+                    {"ID": 1},
+                    {"ID": 2},
+                    {"ID": 3}
+				]
+			}
+		}
+    ],
+    "Scripts": [
+        {
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "Polygon2DCollider",
+				"Polygons": [
+					[
+						-8, 0,
+						-8,   7,
+						8 ,   7,
+						8 , 0 
+					]
+				]
+			}
+		},
+        {
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "RidableScript"
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "CollideTopScript"
+			}
+		}
+    ]
+}

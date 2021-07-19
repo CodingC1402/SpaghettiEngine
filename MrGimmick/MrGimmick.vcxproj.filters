@@ -80,8 +80,8 @@
     </ClCompile>
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="WinMain.cpp" />
-    <ClCompile Include="StarRidableScript.cpp">
-      <Filter>Player</Filter>
+    <ClCompile Include="CollideTopScript.cpp">
+      <Filter>Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,8 +146,8 @@
     <ClInclude Include="SearchingLeaf.h">
       <Filter>BehaviralTree</Filter>
     </ClInclude>
-    <ClInclude Include="StarRidableScript.h">
-      <Filter>Player</Filter>
+    <ClInclude Include="CollideTopScript.h">
+      <Filter>Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

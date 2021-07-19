@@ -7,7 +7,7 @@
                     "ID": 1,
                     "Type": "GameObject",
                     "Field": "Transform",
-                    "Value": [600, 500, 0]
+                    "Value": [-700, 500, 0]
                 },
                 {
                     "ID": 1,
@@ -45,6 +45,20 @@
                     "Type": "Script",
                     "Field": "SpeedCap",
                     "Value": 60
+                },
+                {
+                    "Prefabs": [0],
+                    "ID": 1,
+                    "Type": "Script",
+                    "Field": "Polygons",
+                    "Value": [
+                        [
+                            -7, 8,
+                            7, 8,
+                            7, -5,
+                            -7, -5
+                        ]
+                    ]
                 }
             ]
         }
@@ -56,12 +70,12 @@
                 "ScriptType": "EnemyJumpScript",
                 "ResetDelay": 2,
                 "Wall": {
-                    "Center": [10, 10, 0],
+                    "Center": [15, 10, 0],
                     "Width": 5,
                     "Height": 5
                 },
                 "Ground": {
-                    "Center": [10, -20, 0],
+                    "Center": [15, -20, 0],
                     "Width": 5,
                     "Height": 30
                 }

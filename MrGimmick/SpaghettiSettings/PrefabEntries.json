@@ -47,6 +47,10 @@
   },
 
   {
+    "ID": 20000,
+    "Path": "Asset/Prefabs/HeadPlatform.json"
+  },
+  {
     "ID": 20001,
     "Path": "Asset/Prefabs/Enemies/BaseEnemy.json"
   },

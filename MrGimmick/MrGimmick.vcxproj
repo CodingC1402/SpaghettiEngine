@@ -211,7 +211,7 @@
     <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="StarCreation.cpp" />
-    <ClCompile Include="StarRidableScript.cpp" />
+    <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="StarScript.cpp" />
     <ClCompile Include="TubeScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -236,7 +236,7 @@
     <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="StarCreation.h" />
-    <ClInclude Include="StarRidableScript.h" />
+    <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="StarScript.h" />
     <ClInclude Include="TubeScript.h" />
   </ItemGroup>
