@@ -59,6 +59,8 @@ void Game::Update()
 	input->Update();
 	sceneManager->Update();
 	Physic::Update();
+	sceneManager->LateUpdate();
+	sceneManager->CleanUp();
 }
 
 void Game::Quit()

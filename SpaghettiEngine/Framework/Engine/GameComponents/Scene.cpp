@@ -64,8 +64,13 @@ void Scene::FixedUpdate()
     _rootContainer.IteratingWithLamda([](PGameObj obj) {
         obj->OnFixedUpdate();
     });
+}
 
-    EraseTrashBin();
+void Scene::LateUpdate()
+{
+    _rootContainer.IteratingWithLamda([](PGameObj obj) {
+        obj->OnLateUpdate();
+    });
 }
 
 PGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)

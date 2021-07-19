@@ -110,6 +110,18 @@ void SceneManager::FixedUpdate()
 	constScene->FixedUpdate();
 }
 
+void SceneManager::LateUpdate()
+{
+	__instance->scenes[sceneIndex]->LateUpdate();
+	__instance->constScene->LateUpdate();
+}
+
+void SceneManager::CleanUp()
+{
+	__instance->scenes[sceneIndex]->EraseTrashBin();
+	__instance->constScene->EraseTrashBin();
+}
+
 PSceneManager SceneManager::GetInstance()
 {
 	if (!__instance)
