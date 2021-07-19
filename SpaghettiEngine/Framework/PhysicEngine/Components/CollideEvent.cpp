@@ -45,7 +45,7 @@ Collider2DBase* CollideEvent::GetCollideScript() const noexcept
 
 void CollideEvent::SetIsHandled(bool handled) noexcept
 {
-	_isCollisionHandled = handled;
+	_isCollisionHandled |= handled;
 }
 
 CollideEvent::CollideEvent(Body2D* collideWith)

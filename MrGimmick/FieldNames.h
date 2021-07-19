@@ -128,11 +128,13 @@ namespace Fields
 
 		static constexpr auto _wall = "Wall";
 		static constexpr auto _ground = "Ground";
+		static constexpr auto _resetDelay = "ResetDelay";
 	};
 
 	class AIScript {
 	public:
 		static constexpr auto _behaviorTree = "BehaviorTree";
+		static constexpr auto _delay = "Delay";
 	};
 
 	class SpecialTag

@@ -11,12 +11,15 @@ public:
 	void Load(nlohmann::json& input) override;
 private:
 	Vector3 _groundScanRect;
-	float	_groundScanRectWidth;
-	float	_groundScanRectHeight;
+	float	_groundScanRectWidth = 0;
+	float	_groundScanRectHeight = 0;
 
 	Vector3 _wallScanRect;
-	float	_wallScanRectWidth;
-	float	_wallScanRectHeight;
+	float	_wallScanRectWidth = 0;
+	float	_wallScanRectHeight = 0;
+
+	float	_jumpAgainDelay = 0;
+	float	_jumpAgainAccumulative = 0;
 
 	bool _lastJump = false;
 	MoveScript* _moveScript = nullptr;
