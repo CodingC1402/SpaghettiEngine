@@ -59,6 +59,18 @@
 					]
 				}
 			]
+		},
+		{ 
+			"ID": 20002,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
 		}
     ],
 	"GameObjects": [
@@ -76,7 +88,8 @@
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					{"ID": 1}
+					{"ID": 1},
+					{"ID": 2}
 				]
 			}
 		},
@@ -113,6 +126,52 @@
 		}
 	],
 	"Scripts": [
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "SegmentScript",
+				"GameObjects": [
+					{
+						"Prefabs": [4, 0],
+						"ID": 1
+					}
+				],
+				"EnemySpawns": [
+					{
+						"Index": 0,
+						"Position": [400, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [450, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [500, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [550, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [600, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [650, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [700, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [750, 600, 0]
+					}
+				]
+			}
+		},
 		{
 			"ID": 1,
 			"Inputs": {

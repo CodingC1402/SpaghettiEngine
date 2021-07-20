@@ -7,6 +7,7 @@
 #include "RigidBody2D.h"
 #include "Setting.h"
 #include "DebugRenderer.h"
+#include "Enemy.h"
 
 static constexpr unsigned DEBUG_RENDER_COLOR = 0xFFFF0077;
 REGISTER_FINISH(TubeScript, ScriptBase) {}
@@ -15,7 +16,6 @@ void TubeScript::OnFixedUpdate()
 {
 	std::set<GameObj*> listOfGameObject1;
 	std::set<GameObj*> listOfGameObject2;
-
 	PhysicCollide::GetCollidedWithRectangle(
 		GetGameObject(),
 		listOfGameObject1,
@@ -43,85 +43,55 @@ void TubeScript::OnFixedUpdate()
 
 	// To make sure that the player won't just go back in,
 	// this will disable one entry until the player no long exists near the tube.
-	if (_stopPoint1TillNoPlayer)
-	{
-		_stopPoint1TillNoPlayer = false;
-		for (auto& obj : listOfGameObject1)
-			if (obj->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
-			{
-				_stopPoint1TillNoPlayer = true;
-				listOfGameObject1.clear();
-				break;
-			}
-	}
-	if (_stopPoint2TillNoPlayer)
-	{
-		_stopPoint2TillNoPlayer = false;
-		for (auto& obj : listOfGameObject2)
-			if (obj->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
-			{
-				_stopPoint2TillNoPlayer = true;
-				listOfGameObject2.clear();
-				break;
-			}
-	}
-	else
-	{
-		int i = 100;
-	}
-	
-	for (auto& obj : listOfGameObject1)
-	{
-		_packages.push_back(TubePackage(obj, true, _path));
-		_packages.back()._rb->Disable();
-	}
+	StopPoint(_stopPoint1TillNoPlayer, listOfGameObject1);
+	StopPoint(_stopPoint2TillNoPlayer, listOfGameObject2);
 
-	for (auto& obj : listOfGameObject2)
-	{
-		_packages.push_back(TubePackage(obj, false, _path));
-		_packages.back()._rb->Disable();
-	}
+	// Create package for each end
+	CreatePackage(true, listOfGameObject1);
+	CreatePackage(false, listOfGameObject2);
 
+	TubePackage* package;
 	for (auto it = _packages.begin(); it != _packages.end();)
 	{
-		if ((*it)._baseComponentPtr.expired())
+		package = &(*it);
+		if (package->_baseComponentPtr.expired())
 			it = _packages.erase(it);
 		else
 		{
-			(*it)._gameObject->GetTransform().Translate((*it)._direction * _speed * Physic::GetStep());
-			Vector3 deltaFromDes = _path[(*it)._index] - (*it)._gameObject->GetTransform().GetWorldTransform();
+			package->_gameObject->GetTransform().Translate(package->_direction * _speed * Physic::GetStep());
+			Vector3 deltaFromDes = _path[package->_index] - package->_gameObject->GetTransform().GetWorldTransform();
 
-			if (deltaFromDes.Dot((*it)._direction) < 0)
+			if (deltaFromDes.Dot(package->_direction) < 0)
 			{
 				bool needExit = false;
 				// Position correction.
-				(*it)._gameObject->GetTransform().Translate(deltaFromDes);
+				package->_gameObject->GetTransform().Translate(deltaFromDes);
 
-				if ((*it)._point1ToPoint2)
+				if (package->_point1ToPoint2)
 				{
-					(*it)._index++;
-					if ((*it)._index == _path.size())
+					package->_index++;
+					if (package->_index == _path.size())
 						needExit = true;
 					else
-						(*it)._direction = _path[(*it)._index] - _path[(*it)._index - 1];
+						package->_direction = _path[package->_index] - _path[package->_index - 1];
 				}
 				else
 				{
-					(*it)._index--;
-					if ((*it)._index < 0)
+					package->_index--;
+					if (package->_index < 0)
 						needExit = true;
 					else
-						(*it)._direction = _path[(*it)._index] - _path[static_cast<long long>((*it)._index) + 1];
+						package->_direction = _path[package->_index] - _path[static_cast<long long>(package->_index) + 1];
 				}
 
 				if (needExit)
 				{
-					Exit((*it));
+					Exit(*package);
 					it = _packages.erase(it);
 				}
 				else
 				{
-					(*it)._direction = (*it)._direction.GetUnitVector();
+					package->_direction = package->_direction.GetUnitVector();
 					++it;
 				}
 			}
@@ -134,7 +104,7 @@ void TubeScript::OnFixedUpdate()
 	{
 		for (int i = 0; i < _path.size() - 1; i++)
 		{
-			DebugRenderer::DrawLine(_path[i], _path[i + 1], GetWorldMatrix(), DEBUG_RENDER_COLOR);
+			DebugRenderer::DrawLine(_path[i], _path[static_cast<long long>(i) + 1], GetWorldMatrix(), DEBUG_RENDER_COLOR);
 		}
 
 		DebugRenderer::DrawRectangle(_center1, _width1, _height1, GetWorldMatrix(), DEBUG_RENDER_COLOR);
@@ -179,6 +149,33 @@ ScriptBase* TubeScript::Clone() const
 	clone->_path = _path;
 
 	return clone;
+}
+
+void TubeScript::StopPoint(bool& stopFlag, std::set<GameObj*>& objList)
+{
+	if (stopFlag)
+	{
+		stopFlag = false;
+		for (auto& obj : objList)
+			if (obj->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
+			{
+				stopFlag = true;
+				objList.clear();
+				break;
+			}
+	}
+}
+
+void TubeScript::CreatePackage(bool flag, std::set<GameObj*>& objList)
+{
+	for (auto& obj : objList)
+	{
+		if (obj->GetPhysicComponent().GetRigidBody2DScript())
+		{
+			_packages.push_back(TubePackage(obj, flag, _path));
+			_packages.back()._rb->Disable();
+		}
+	}
 }
 
 void TubeScript::Exit(TubePackage& package)
@@ -244,5 +241,18 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 		_playerControl->SetIsInTube(true);
 		_attackScript->Disable();
 		_playerControl->Disable();
+	}
+	else
+	{
+		_gameObject->GetChildContainer().IteratingWithLamda([](PGameObj obj) {obj->Disable(); });
+		_gameObject->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
+			if (script->GetType() == TYPE_NAME(Polygon2DCollider))
+				script->Disable();
+		});
+		if (_gameObject->GetTag().Contain(Fields::SpecialTag::GetEnemyTag()))
+		{
+			auto enemyScript = dynamic_cast<Enemy*>(_gameObject->GetScriptContainer().GetItemType(TYPE_NAME(Enemy)));
+			enemyScript->SetIsInTube();
+		}
 	}
 }

@@ -1,7 +1,6 @@
 #include "PlayerScript.h"
-#include "LevelManager.h"
+#include "SegmentScript.h"
 #include "SpawnPoint.h"
-#include "LevelManager.h"
 #include "SceneManager.h"
 
 REGISTER_FINISH(PlayerScript, ScriptBase) {
@@ -19,7 +18,7 @@ void PlayerScript::OnDisabled()
 
 void PlayerScript::Respawn()
 {
-    LevelManager::GetCurrentScript()->Spawn();
+    SegmentScript::SpawnAll();
     auto delta = SpawnPoint::GetSpawnPointScript()->GetSpawnPosition() - GetGameObject()->GetTransform().GetWorldTransform();
     GetGameObject()->GetTransform().Translate(delta);
 

@@ -26,6 +26,8 @@ public:
 	void Load(nlohmann::json& input) override;
 	ScriptBase* Clone() const override;
 private:
+	void StopPoint(bool& stopFlag, std::set<GameObj*>& objList);
+	void CreatePackage(bool flag, std::set<GameObj*>& objList);
 	void Exit(TubePackage& package);
 private:
 	Vector3 _center1;

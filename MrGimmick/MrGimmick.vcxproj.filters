@@ -86,7 +86,7 @@
     <ClCompile Include="SpawnPoint.cpp">
       <Filter>StaticObjects</Filter>
     </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
+    <ClCompile Include="SegmentScript.cpp">
       <Filter>StaticObjects</Filter>
     </ClCompile>
     <ClCompile Include="ObjectRidable.cpp">
@@ -161,7 +161,7 @@
     <ClInclude Include="SpawnPoint.h">
       <Filter>StaticObjects</Filter>
     </ClInclude>
-    <ClInclude Include="LevelManager.h">
+    <ClInclude Include="SegmentScript.h">
       <Filter>StaticObjects</Filter>
     </ClInclude>
     <ClInclude Include="ObjectRidable.h">
