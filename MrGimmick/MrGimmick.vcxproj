@@ -197,6 +197,7 @@
     <ClCompile Include="AttackMove.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
     <ClCompile Include="DebugControl.cpp" />
+    <ClCompile Include="DropBombScript.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="AttackMove.h" />
     <ClInclude Include="ChasingLeaf.h" />
     <ClInclude Include="DebugControl.h" />
+    <ClInclude Include="DropBombScript.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />

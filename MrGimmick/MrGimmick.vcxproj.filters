@@ -87,6 +87,7 @@
       <Filter>BehaviralTree</Filter>
     </ClCompile>
     <ClCompile Include="ObjectRidable.cpp" />
+    <ClCompile Include="DropBombScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -157,5 +158,6 @@
       <Filter>BehaviralTree</Filter>
     </ClInclude>
     <ClInclude Include="ObjectRidable.h" />
+    <ClInclude Include="DropBombScript.h" />
   </ItemGroup>
 </Project>

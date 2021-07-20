@@ -65,5 +65,9 @@
   {
     "ID": 40004,
     "Path": "Asset/Prefabs/CharacterBase.json"
+  },
+  {
+    "ID": 50001,
+    "Path": "Asset/Prefabs/DropBomb.json"
   }
 ]
