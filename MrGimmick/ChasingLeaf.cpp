@@ -43,8 +43,8 @@ Node::State ChasingLeaf::Tick()
         _timeOutAccumulative = 0.0f;
         _player = nullptr;
         tree->StopMove();
-        return State::Running;
     }
+    return State::Running;
 }
 
 void ChasingLeaf::CustomLoad(nlohmann::json& input)

@@ -83,6 +83,10 @@
     <ClCompile Include="CollideTopScript.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="PatrolLeaf.cpp">
+      <Filter>BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectRidable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -149,5 +153,9 @@
     <ClInclude Include="CollideTopScript.h">
       <Filter>Character</Filter>
     </ClInclude>
+    <ClInclude Include="PatrolLeaf.h">
+      <Filter>BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectRidable.h" />
   </ItemGroup>
 </Project>

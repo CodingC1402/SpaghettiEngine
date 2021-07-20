@@ -163,6 +163,24 @@ void TubeScript::Load(nlohmann::json& input)
 	}
 }
 
+ScriptBase* TubeScript::Clone() const
+{
+	auto clone = dynamic_cast<TubeScript*>(ScriptBase::Clone());
+
+	clone->_center1 = _center1;
+	clone->_width1 = _width1;
+	clone->_height1 = _height1;
+
+	clone->_center2 = _center2;
+	clone->_width2 = _width2;
+	clone->_height2 = _height2;
+
+	clone->_speed = _speed;
+	clone->_path = _path;
+
+	return clone;
+}
+
 void TubeScript::Exit(TubePackage& package)
 {
 	if (package._gameObject->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
@@ -204,7 +222,7 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 	else
 	{
 		// back to front
-		_index = path.size() - 2;
+		_index = static_cast<int>(path.size()) - 2;
 		_direction = path[_index] - path.back();
 		deltaFromDes = path.back() - deltaFromDes;
 	}

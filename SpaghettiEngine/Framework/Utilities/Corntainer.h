@@ -14,6 +14,9 @@ public:
 	[[nodiscard]] std::list<T> GetAllItem();
 	[[nodiscard]] unsigned		GetSize();
 
+	// This is not random access so don't use this a lot
+	T& operator[] (unsigned index);
+
 	virtual void AddItem(T item) = 0;
 
 	virtual void RemoveAllItem();
@@ -50,6 +53,14 @@ template<typename T>
 inline unsigned Corntainer<T>::GetSize()
 {
 	return static_cast<unsigned>(_container.size());
+}
+
+template<typename T>
+inline T& Corntainer<T>::operator[](unsigned index)
+{
+	auto it= _container.begin();
+	std::advance(it, index);
+	return *it;
 }
 
 template<typename T>

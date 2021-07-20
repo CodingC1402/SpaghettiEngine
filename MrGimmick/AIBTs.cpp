@@ -28,6 +28,15 @@ float AIBTs::GetDeltaTime() const noexcept
 	return _deltaTime;
 }
 
+SBTs AIBTs::Clone()
+{
+	auto clone = std::dynamic_pointer_cast<AIBTs>(BTs::Clone());
+
+	clone->_deltaTime = _deltaTime;
+
+	return clone;
+}
+
 void AIBTs::MoveLeft()
 {
 	_moveScript->StopMoveRight();

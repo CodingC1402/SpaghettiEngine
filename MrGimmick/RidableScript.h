@@ -10,7 +10,7 @@ public:
 	void OnEnabled() override;
 	void OnFixedUpdate() override;
 	void OnCollide(CollideEvent& e) override;
-private:
+protected:
 	Vector3 _delta;
 	Vector3 _oldPos;
 	std::set<GameObj*> _objects;

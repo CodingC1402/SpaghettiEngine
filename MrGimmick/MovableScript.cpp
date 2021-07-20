@@ -51,7 +51,7 @@ void MovableScript::OnFixedUpdate() {
 	}
 
 	auto delta = _des - GetWorldTransform();
-	if (delta.Dot(_deltas[_currentIndex] * _factor) < 0 && _isLoop)
+	if (delta.Dot(_deltas[_currentIndex] * static_cast<float>(_factor)) < 0 && _isLoop)
 	{
 		// positional correction
 		GetGameObject()->GetTransform().Translate(delta);
@@ -65,10 +65,10 @@ void MovableScript::OnFixedUpdate() {
 		else if (_currentIndex == _deltas.size())
 		{
 			_factor = -1;
-			_currentIndex = _deltas.size() - 1;
+			_currentIndex = static_cast<int>(_deltas.size()) - 1;
 		}
 
-		_des = _deltas[_currentIndex] * _factor + GetWorldTransform();
+		_des = _deltas[_currentIndex] * static_cast<float>(_factor) + GetWorldTransform();
 		_direction = _deltas[_currentIndex].GetUnitVector();
 
 		if (!SMath::CompareFloat(_delay, 0))
@@ -79,7 +79,7 @@ void MovableScript::OnFixedUpdate() {
 	}
 	else
 	{
-		GetGameObject()->GetTransform().Translate(_direction * _speed * _factor * Physic::GetStep());
+		GetGameObject()->GetTransform().Translate(_direction * _speed * static_cast<float>(_factor) * Physic::GetStep());
 	}
 }
 

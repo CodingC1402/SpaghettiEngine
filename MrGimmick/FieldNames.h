@@ -41,6 +41,13 @@ namespace Fields
 		static constexpr auto _height = "Height";
 	};
 
+	class RidablePlatformUpDown
+	{
+	public:
+		static constexpr auto _delta = "Delta";
+		static constexpr auto _delay = "Delay";
+	};
+
 	class Enemy
 	{
 	public:

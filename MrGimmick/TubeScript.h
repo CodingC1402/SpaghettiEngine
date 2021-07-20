@@ -24,6 +24,7 @@ private:
 public:
 	void OnFixedUpdate();
 	void Load(nlohmann::json& input) override;
+	ScriptBase* Clone() const override;
 private:
 	void Exit(TubePackage& package);
 private:

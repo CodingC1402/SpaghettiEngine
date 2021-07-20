@@ -29,6 +29,18 @@
 					"Value": [632, 476, 0]
 				}
 			]
+		},
+		{ 
+			"ID": 20003,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "Transform",
+					"Value": [90, 476, 0]
+				}
+			]
 		}
 	],
 	"GameObjects": [
