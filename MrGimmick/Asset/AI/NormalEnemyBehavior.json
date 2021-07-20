@@ -8,13 +8,13 @@
                 {
                     "Type": "SearchingLeaf",
                     "Input": {
-                        "Radius": 300
+                        "Radius": 150
                     }
                 },
                 {
                     "Type": "ChasingLeaf",
                     "Input": {
-                        "Radius": 400,
+                        "Radius": 300,
                         "MaxStuck": 6,
                         "MaxDistance": 200,
                         "TimeOut": 2

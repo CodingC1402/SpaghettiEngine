@@ -146,6 +146,23 @@ namespace Fields
 		static constexpr auto _resetDelay = "ResetDelay";
 	};
 
+	class LevelManager
+	{
+	public:
+		static constexpr auto _enenySpawns = "EnemySpawns";
+		static constexpr auto _index = "Index";
+		static constexpr auto _position = "Position";
+	};
+
+	class SpawnPoint
+	{
+	public:
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+		static constexpr auto _spawnPoint = "SpawnPoint";
+	};
+
 	class AIScript {
 	public:
 		static constexpr auto _behaviorTree = "BehaviorTree";

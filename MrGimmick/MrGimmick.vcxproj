@@ -200,7 +200,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
-    <ClCompile Include="LevelSegment.cpp" />
     <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
@@ -212,6 +211,7 @@
     <ClCompile Include="RidableScript.cpp" />
     <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
+    <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="StarScript.cpp" />
@@ -227,7 +227,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
-    <ClInclude Include="LevelSegment.h" />
     <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />
@@ -239,6 +238,7 @@
     <ClInclude Include="RidableScript.h" />
     <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
+    <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="StarScript.h" />
