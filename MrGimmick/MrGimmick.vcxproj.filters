@@ -83,6 +83,7 @@
     <ClCompile Include="CollideTopScript.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="PatrolLeaf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -149,5 +150,6 @@
     <ClInclude Include="CollideTopScript.h">
       <Filter>Character</Filter>
     </ClInclude>
+    <ClInclude Include="PatrolLeaf.h" />
   </ItemGroup>
 </Project>
