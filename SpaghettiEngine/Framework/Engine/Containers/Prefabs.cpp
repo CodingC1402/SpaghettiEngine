@@ -148,7 +148,7 @@ SPrefabHierarchy Prefab::Append(nlohmann::json& out, unsigned int& index, nlohma
 						change[Field::levelField] = -1;
 
 					if (int level = change[Field::levelField].get<int>(), 
-						size = change[Field::prefabsField].get<std::vector<unsigned>>().size(); 
+						size = static_cast<int>(change[Field::prefabsField].get<std::vector<unsigned>>().size()); 
 						level < size - 1)
 					{
 						change[Field::levelField] = ++level;

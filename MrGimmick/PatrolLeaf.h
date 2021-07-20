@@ -8,6 +8,7 @@ class PatrolLeaf : public LeafNode
 public:
 	Node::State Tick() override;
 	void CustomLoad(nlohmann::json& input) override;
+	SNode Clone(WBTs tree) override;
 private:
 	std::vector<Vector3> _path;
 	Vector3 _direction;

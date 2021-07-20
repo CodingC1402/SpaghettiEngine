@@ -66,6 +66,23 @@ void EnemyJumpScript::OnFixedUpdate()
     DebugRenderer::DrawRectangleFromCenter(_wallScanRect, _wallScanRectWidth, _wallScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
 }
 
+ScriptBase* EnemyJumpScript::Clone() const
+{
+    auto clone = dynamic_cast<EnemyJumpScript*>(ScriptBase::Clone());
+        
+    clone->_groundScanRect = _groundScanRect;
+    clone->_groundScanRectWidth = _groundScanRectWidth;
+    clone->_groundScanRectHeight = _groundScanRectHeight;
+
+    clone->_wallScanRect = _wallScanRect;
+    clone->_wallScanRectHeight = _wallScanRectHeight;
+    clone->_wallScanRectWidth = _wallScanRectWidth;
+
+    clone->_jumpAgainDelay = _jumpAgainDelay;
+
+    return clone;
+}
+
 void EnemyJumpScript::Load(nlohmann::json& input)
 {
     auto& wall          = input[Fields::EnemyJumpScript::_wall];

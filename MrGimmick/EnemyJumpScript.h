@@ -8,6 +8,8 @@ public:
 	void OnStart() override;
 	void OnFixedUpdate() override;
 
+	ScriptBase* Clone() const override;
+
 	void Load(nlohmann::json& input) override;
 private:
 	Vector3 _groundScanRect;

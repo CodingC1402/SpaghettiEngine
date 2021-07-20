@@ -37,6 +37,7 @@ Node::State PatrolLeaf::Tick()
         {
             _walking = false;
             tree->StopMove();
+            _direction.x = 0;
             return State::Success;
         }
     }
@@ -50,4 +51,14 @@ void PatrolLeaf::CustomLoad(nlohmann::json& input)
     {
         _path.push_back(pos);
     }
+}
+
+SNode PatrolLeaf::Clone(WBTs tree)
+{
+    auto clone = std::dynamic_pointer_cast<PatrolLeaf>(LeafNode::Clone(tree));
+
+    clone->_path = _path;
+    clone->_delay = _delay;
+
+    return clone;
 }

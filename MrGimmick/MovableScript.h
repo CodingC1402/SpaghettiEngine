@@ -15,7 +15,7 @@ public:
 
 	PScriptBase Clone() const override;
 private:
-	float _speed = 0;
+	float _speed = 0.0f;
 	int _factor = 1; // if return < 0 if go > 0
 
 	int _currentIndex = 0;

@@ -58,5 +58,9 @@ PScriptBase FeetScript::Clone() const
 	clone->_isGrounded = _isGrounded;
 	clone->_isLastGrounded = _isLastGrounded;
 
+	clone->_height = _height;
+	clone->_width = _width;
+	clone->_position = _position;
+
 	return PScriptBase();
 }

@@ -17,6 +17,8 @@ public:
 	void SetDeltaTime(float time) noexcept;
 	[[nodiscard]] float GetDeltaTime() const noexcept;
 
+	[[nodiscard]] SBTs Clone() override;
+
 	void MoveLeft();
 	void MoveRight();
 	void StopMove();

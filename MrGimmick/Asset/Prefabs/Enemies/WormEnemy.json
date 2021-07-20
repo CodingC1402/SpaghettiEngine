@@ -19,12 +19,6 @@
                     ]
                 },
                 {
-                    "ID": 4,
-                    "Type": "Script",
-                    "Field": "AnimationTree",
-					"Value": "Asset/AnimationTree/WormAnimationTree.json"
-                },
-                {
                     "ID": 1,
                     "Type": "Script",
                     "Field": "Polygons",
@@ -33,17 +27,35 @@
                             -16, 3,
                             16, 3,
                             16, -3,
-                            10, -5,
-                            -10, -5,
+                            10, -7,
+                            -10, -7,
                             -16, -3 
                         ]
                     ]
                 },
                 {
+                    "ID": 4,
+                    "Type": "Script",
+                    "Field": "AnimationTree",
+					"Value": "Asset/AnimationTree/WormAnimationTree.json"
+                },
+                {
+                    "ID": 4,
+                    "Type": "Script",
+                    "Field": "DrawLayer",
+                    "Value": 5
+                },
+                {
                     "ID": 5,
                     "Type": "Script",
                     "Field": "SpeedCap",
-                    "Value": 60
+                    "Value": 20
+                },
+                {
+                    "ID": 5,
+                    "Type": "Script",
+                    "Field": "JumpStrength",
+                    "Value": 0
                 },
                 {
                     "Prefabs": [0],
@@ -54,8 +66,8 @@
                         [
                             -16, 4,
                             16, 4,
-                            16, -5,
-                            -16, -5
+                            16, 2,
+                            -16, 2
                         ]
                     ]
                 }

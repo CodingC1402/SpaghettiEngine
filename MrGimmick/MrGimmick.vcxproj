@@ -208,6 +208,7 @@
     <ClCompile Include="PatrolLeaf.cpp" />
     <ClCompile Include="PlayerControl.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="RidablePlatformUpDown.cpp" />
     <ClCompile Include="RidableScript.cpp" />
     <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
@@ -234,6 +235,7 @@
     <ClInclude Include="PatrolLeaf.h" />
     <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="RidablePlatformUpDown.h" />
     <ClInclude Include="RidableScript.h" />
     <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
