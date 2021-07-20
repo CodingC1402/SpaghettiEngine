@@ -5,8 +5,11 @@
 class ObjectRidable : public RidableScript
 {
 public:
+	void OnFixedUpdate() override;
 	void OnCollide(CollideEvent& e) override;
 private:
+	static inline ObjectRidable* __instance;
+
 	REGISTER_START(ObjectRidable);
 };
 

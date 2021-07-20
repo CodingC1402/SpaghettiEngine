@@ -43,6 +43,8 @@
             "ID": 2,
             "Inputs": {
                 "ScriptType": "FeetScript",
+                "GroundTag": ["Platform"],
+                "TagMode": "Equal",
                 "Position": [0, -10, 0],
 				"Width": 4,
 				"Height": 2

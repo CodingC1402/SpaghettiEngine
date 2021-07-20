@@ -24,7 +24,7 @@ void HeadScript::OnFixedUpdate()
 		_width,
 		_height,
 		Fields::SpecialTag::GetPlatformTag(),
-		PhysicCollide::FilterMode::Collide
+		PhysicCollide::FilterMode::Equal
 	);
 	_moveScript->SetAllowJump(gameObjList.empty());
 

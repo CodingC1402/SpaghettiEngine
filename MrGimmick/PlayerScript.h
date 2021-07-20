@@ -9,12 +9,14 @@ class PlayerScript : public ScriptBase
 public:
 	void OnEnabled() override;
 	void OnDisabled() override;
+
+	void Respawn();
  
 	[[nodiscard]] static GameObj* GetCurrentPlayer();
 private:
-	unsigned _score;
+	static inline unsigned _score = 0;
+	static inline unsigned _live = 100;
 
 	static inline WPlayerScript __currentInstance;
 	REGISTER_START(PlayerScript);
 };
-

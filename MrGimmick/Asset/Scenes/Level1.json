@@ -25,8 +25,8 @@
 					"Prefabs": [0],
 					"ID": 1,
 					"Type": "GameObject",
-					"Field": "Transform",
-					"Value": [632, 476, 0]
+					"Field": "IsRoot",
+					"Value": false
 				}
 			]
 		},
@@ -37,8 +37,8 @@
 					"Prefabs": [0],
 					"ID": 1,
 					"Type": "GameObject",
-					"Field": "Transform",
-					"Value": [90, 476, 0]
+					"Field": "IsRoot",
+					"Value": false
 				}
 			]
 		}
@@ -59,6 +59,9 @@
 					},
 					{
 						"ID": 2
+					},
+					{
+						"ID": 3
 					}
 				]
 			}
@@ -93,10 +96,6 @@
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					{"ID":101},
-					{"ID":102},
-					{"ID":103},
-					{"ID":104},
 					{"ID":201},
 					{"ID":202},
 					{"ID":203},
@@ -124,77 +123,51 @@
 			}
 		},
 		{
-			"ID": 101,
+			"ID": 3,
 			"Inputs": {
-				"ScriptType": "SegmentTrigger",
-				"Center": [1000, 384, 0],
-				"Width": 16,
-				"Height": 16,
+				"ScriptType": "LevelManager",
 				"GameObjects": [
 					{
-						"Prefabs":[1], 
+						"Prefabs": [6, 0],
 						"ID": 1
 					},
 					{
-						"Prefabs":[2], 
+						"Prefabs": [7, 0],
 						"ID": 1
 					}
-				]
-			}
-		},
-		{
-			"ID": 102,
-			"Inputs": {
-				"ScriptType": "SegmentTrigger",
-				"Center": [552, 200, 0],
-				"Width": 16,
-				"Height": 16,
-				"GameObjects": [
+				],
+				"EnemySpawns": [
 					{
-						"Prefabs":[2], 
-						"ID": 1
+						"Index": 0,
+						"Position": [400, 600, 0]
 					},
 					{
-						"Prefabs":[3], 
-						"ID": 1
-					}
-				]
-			}
-		},
-		{
-			"ID": 103,
-			"Inputs": {
-				"ScriptType": "SegmentTrigger",
-				"Center": [2024, 216, 0],
-				"Width": 16,
-				"Height": 16,
-				"GameObjects": [
-					{
-						"Prefabs":[3], 
-						"ID": 1
+						"Index": 0,
+						"Position": [450, 600, 0]
 					},
 					{
-						"Prefabs":[4], 
-						"ID": 1
-					}
-				]
-			}
-		},
-		{
-			"ID": 104,
-			"Inputs": {
-				"ScriptType": "SegmentTrigger",
-				"Center": [2024, 600, 0],
-				"Width": 16,
-				"Height": 16,
-				"GameObjects": [
-					{
-						"Prefabs":[4], 
-						"ID": 1
+						"Index": 0,
+						"Position": [500, 600, 0]
 					},
 					{
-						"Prefabs":[5], 
-						"ID": 1
+						"Index": 0,
+						"Position": [550, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [600, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [650, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [700, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [750, 600, 0]
 					}
 				]
 			}

@@ -66,9 +66,6 @@
     <ClCompile Include="MovableScript.cpp">
       <Filter>StaticObjects</Filter>
     </ClCompile>
-    <ClCompile Include="LevelSegment.cpp">
-      <Filter>StaticObjects</Filter>
-    </ClCompile>
     <ClCompile Include="FeetScript.cpp">
       <Filter>Character</Filter>
     </ClCompile>
@@ -86,7 +83,15 @@
     <ClCompile Include="PatrolLeaf.cpp">
       <Filter>BehaviralTree</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectRidable.cpp" />
+    <ClCompile Include="SpawnPoint.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectRidable.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -134,9 +139,6 @@
     <ClInclude Include="PlayerScript.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="LevelSegment.h">
-      <Filter>StaticObjects</Filter>
-    </ClInclude>
     <ClInclude Include="MoveScript.h">
       <Filter>Character</Filter>
     </ClInclude>
@@ -156,6 +158,14 @@
     <ClInclude Include="PatrolLeaf.h">
       <Filter>BehaviralTree</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectRidable.h" />
+    <ClInclude Include="SpawnPoint.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectRidable.h">
+      <Filter>Character</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

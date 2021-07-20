@@ -48,12 +48,12 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-3, -9,
+						-3, -10,
 						-6, -6,
 						-6, 6,
 						 6, 6,
 						 6, -6,
-						 3, -9 
+						 3, -10 
 					]
 				]
 			}
@@ -80,6 +80,8 @@
 			"ID": 2001,
 			"Inputs": {
 				"ScriptType": "FeetScript",
+				"GroundTag": ["Platform"],
+				"TagMode": "Collide",
 				"Position": [0, -11, 0],
 				"Width": 6,
 				"Height": 6
