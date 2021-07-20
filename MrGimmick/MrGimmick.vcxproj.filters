@@ -86,9 +86,7 @@
     <ClCompile Include="PatrolLeaf.cpp">
       <Filter>BehaviralTree</Filter>
     </ClCompile>
-    <ClCompile Include="RidablePlatformUpDown.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
+    <ClCompile Include="ObjectRidable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -158,8 +156,6 @@
     <ClInclude Include="PatrolLeaf.h">
       <Filter>BehaviralTree</Filter>
     </ClInclude>
-    <ClInclude Include="RidablePlatformUpDown.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
+    <ClInclude Include="ObjectRidable.h" />
   </ItemGroup>
 </Project>

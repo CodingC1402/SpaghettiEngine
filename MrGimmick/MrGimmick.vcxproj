@@ -205,10 +205,10 @@
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
     <ClCompile Include="HeadScript.cpp" />
+    <ClCompile Include="ObjectRidable.cpp" />
     <ClCompile Include="PatrolLeaf.cpp" />
     <ClCompile Include="PlayerControl.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
-    <ClCompile Include="RidablePlatformUpDown.cpp" />
     <ClCompile Include="RidableScript.cpp" />
     <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
@@ -232,10 +232,10 @@
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />
     <ClInclude Include="HeadScript.h" />
+    <ClInclude Include="ObjectRidable.h" />
     <ClInclude Include="PatrolLeaf.h" />
     <ClInclude Include="PlayerControl.h" />
     <ClInclude Include="PlayerScript.h" />
-    <ClInclude Include="RidablePlatformUpDown.h" />
     <ClInclude Include="RidableScript.h" />
     <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
