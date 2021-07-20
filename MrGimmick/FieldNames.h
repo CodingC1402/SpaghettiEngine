@@ -148,7 +148,7 @@ namespace Fields
 		static constexpr auto _resetDelay = "ResetDelay";
 	};
 
-	class LevelManager
+	class SegmentScript
 	{
 	public:
 		static constexpr auto _enenySpawns = "EnemySpawns";
