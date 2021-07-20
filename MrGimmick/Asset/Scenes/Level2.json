@@ -20,7 +20,7 @@
           "ID": 1,
           "Type": "GameObject",
           "Field": "Transform",
-          "Value": [ -900, 100, 0 ]
+          "Value": [ -800, 150, 0 ]
         }
       ]
     }

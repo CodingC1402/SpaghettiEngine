@@ -74,5 +74,14 @@
   {
     "ID": 20202,
     "Path": "Asset/Animations/Enemy/WormEnemy/EnemyRunning.json"
+  },
+
+  {
+    "ID": 50001,
+    "Path": "Asset/Animations/DropBombAnim.json"
+  },
+  {
+    "ID": 50002,
+    "Path": "Asset/Animations/DropAnim.json"
   }
 ]

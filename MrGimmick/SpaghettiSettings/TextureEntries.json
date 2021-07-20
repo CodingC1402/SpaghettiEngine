@@ -8,6 +8,10 @@
     "Path": "Asset/Textures/Enemies.png"
   },
   {
+    "ID": 20010,
+    "Path": "Asset/Textures/Objects.png"
+  },
+  {
     "ID": 30001,
     "Path": "Asset/Textures/Player.png"
   },

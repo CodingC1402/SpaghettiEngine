@@ -21,7 +21,7 @@
       "ID": 1,
       "Inputs": {
         "ScriptType": "Animator",
-        "AnimationTree": "Asset/AnimationTree/StarAnimateTree.json",
+        "AnimationTree": "Asset/AnimationTree/DropBombAnimateTree.json",
         "DrawLayer": 1
       }
     },
@@ -56,7 +56,10 @@
     {
       "ID": 4,
       "Inputs": {
-        "ScriptType": "DropBombScript"
+        "ScriptType": "DropBombScript",
+        "Width": 48,
+        "Height": 200,
+        "ExplodeTime": 0.5
       }
     }
   ]

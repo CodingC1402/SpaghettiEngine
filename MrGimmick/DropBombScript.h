@@ -10,6 +10,8 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 
+	void OnCollide(CollideEvent& e) override;
+
 	void Load(nlohmann::json& input) override;
 	PScriptBase Clone() const override;
 protected:
@@ -17,9 +19,15 @@ protected:
 	Animator* _animator = nullptr;
 	Polygon2DCollider* _polyCollider = nullptr;
 	
-	float _counter;
+	float _width;
+	float _height;
+	float _explodeTime;
+
+	bool _isStarted = false;
+	float _counter = 0;
 
 	BoolField _explodedField;
+	BoolField _dropField;
 private:
 	REGISTER_START(DropBombScript);
 };
