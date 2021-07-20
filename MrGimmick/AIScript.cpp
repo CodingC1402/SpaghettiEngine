@@ -40,5 +40,5 @@ ScriptBase* AIScript::Clone() const
 	clone->_accumulate = _accumulate;
 	clone->_behaviorTree = std::dynamic_pointer_cast<AIBTs>(_behaviorTree->Clone());
 
-	return nullptr;
+	return clone;
 }

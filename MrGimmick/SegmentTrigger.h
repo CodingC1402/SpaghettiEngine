@@ -1,6 +1,5 @@
 #pragma once
 #include "ScriptBase.h"
-#include "LevelSegment.h"
 
 //
 // +-------------------------+
@@ -14,6 +13,7 @@
 // +-------------------------+--+-+--------+----------------------+
 // Use to switch on and off between two segment to make sure that only the needed segment
 // is getting update.
+// Unused
 
 class SegmentTrigger : public ScriptBase
 {

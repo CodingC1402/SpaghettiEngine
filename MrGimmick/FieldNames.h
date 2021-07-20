@@ -91,6 +91,8 @@ namespace Fields
 		static constexpr auto _width = "Width";
 		static constexpr auto _height = "Height";
 		static constexpr auto _position = "Position";
+		static constexpr auto _groundTag = "GroundTag";
+		static constexpr auto _tagMode = "TagMode";
 	};
 
 	class Platform

@@ -51,7 +51,6 @@ void ChasingLeaf::CustomLoad(nlohmann::json& input)
 {
     _maxDistance = input[_maxDistanceField].get<float>();
     _maxStuck = input[_maxStuckField].get<unsigned>();
-    _maxStuck = input[_maxStuckField].get<unsigned>();
     _scanRadius = input[_radiusField].get<float>();
     _timeOut = input[_timeOutField].get<float>();
 }
@@ -66,6 +65,7 @@ SNode ChasingLeaf::Clone(WBTs tree)
     clone->_scanRadius      = _scanRadius;
     clone->_direction       = _direction;
     clone->_destination     = _destination;
+    clone->_timeOut         = _timeOut;
     clone->_oldPos          = _oldPos;
     clone->_player          = _player;
 

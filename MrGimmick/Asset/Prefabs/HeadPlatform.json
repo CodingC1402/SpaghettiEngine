@@ -4,7 +4,7 @@
 			"ID": 1,
 			"Inputs": {
                 "IsRoot": false,
-				"Tag": ["Platform"],
+				"Tag": ["Platform", "Character"],
                 "Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],

@@ -2,10 +2,17 @@
 #include "FieldNames.h"
 #include "LoadingJson.h"
 
+REGISTER_FINISH(LevelManager, ScriptBase) {}
+
 void LevelManager::OnStart()
 {
 	__currentLevelManager = this;
 	Spawn();
+}
+
+void LevelManager::OnEnabled()
+{
+
 }
 
 void LevelManager::Spawn()
@@ -39,7 +46,7 @@ void LevelManager::Load(nlohmann::json& input)
 
 	for (auto& spawn : input[Fields::LevelManager::_enenySpawns])
 	{
-		_spawnedEnemies.emplace_back(
+		_enemySpawns.emplace_back(
 			spawn[Fields::LevelManager::_index].get<unsigned>(),
 			spawn[Fields::LevelManager::_position]
 		);

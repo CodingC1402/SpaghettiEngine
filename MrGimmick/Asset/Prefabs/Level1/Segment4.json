@@ -4,7 +4,7 @@
     "GameObjects": [		
         {
             "ID": 1,
-            "IsDisabled": true,
+            "IsDisabled": false,
             "Name": "Stage1",
             "Inputs": {
                 "IsRoot": false,

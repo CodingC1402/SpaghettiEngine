@@ -1,6 +1,7 @@
 #include "EnemyJumpScript.h"
 #include "DebugRenderer.h"
 #include "DebugRenderer.h"
+#include "Setting.h"
 #include "PhysicCollide.h"
 #include "FieldNames.h"
 #include <set>
@@ -62,8 +63,11 @@ void EnemyJumpScript::OnFixedUpdate()
         _lastJump = false;
     }
 
-    DebugRenderer::DrawRectangleFromCenter(_groundScanRect, _groundScanRectWidth, _groundScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
-    DebugRenderer::DrawRectangleFromCenter(_wallScanRect, _wallScanRectWidth, _wallScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
+    if constexpr (Setting::IsDebugMode())
+    {
+        DebugRenderer::DrawRectangleFromCenter(_groundScanRect, _groundScanRectWidth, _groundScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
+        DebugRenderer::DrawRectangleFromCenter(_wallScanRect, _wallScanRectWidth, _wallScanRectHeight, GetWorldMatrix(), DEBUG_COLOR);
+    }
 }
 
 ScriptBase* EnemyJumpScript::Clone() const

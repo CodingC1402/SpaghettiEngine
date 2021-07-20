@@ -5,7 +5,6 @@
 #include <string>
 
 // To disable draw quad tree just remove this.
-#define DRAW_QUAD_TREE
 // To enable draw quad tree use this
 // #define DRAW_QUAD_TREE_GRID
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptBase.h"
 #include "MoveScript.h"
+#include "PhysicCollide.h"
 
 class FeetScript : public ScriptBase
 {
@@ -19,6 +20,9 @@ protected:
 	Vector3 _position;
 	float _width = 0.0f;
 	float _height = 0.0f;
+
+	Tag _groundTag;
+	PhysicCollide::FilterMode _tagMode;
 private:
 	REGISTER_START(FeetScript);
 };

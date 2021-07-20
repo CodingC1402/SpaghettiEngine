@@ -2,7 +2,6 @@
 #include "FieldNames.h"
 #include "Setting.h"
 #include "DebugRenderer.h"
-#include "PhysicCollide.h"
 
 constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 
@@ -22,8 +21,8 @@ void FeetScript::OnFixedUpdate()
 		_position, 
 		_width,
 		_height,
-		Fields::SpecialTag::GetPlatformTag(),
-		PhysicCollide::FilterMode::Collide
+		_groundTag,
+		_tagMode
 	);
 
 	if (!collidedGameObject.empty())
@@ -44,11 +43,18 @@ void FeetScript::OnFixedUpdate()
 	}
 }
 
+NLOHMANN_JSON_SERIALIZE_ENUM(PhysicCollide::FilterMode, {
+	{PhysicCollide::FilterMode::Collide, "Collide"},
+	{PhysicCollide::FilterMode::Contain, "Contain"},
+	{PhysicCollide::FilterMode::Equal, "Equal"},
+	})
 void FeetScript::Load(nlohmann::json& input)
 {
-	_width = input[Fields::FeetScript::_width].get<float>();
-	_height = input[Fields::FeetScript::_height].get<float>();
-	_position = input[Fields::FeetScript::_position];
+	_width		= input[Fields::FeetScript::_width].get<float>();
+	_height		= input[Fields::FeetScript::_height].get<float>();
+	_position	= input[Fields::FeetScript::_position];
+	_groundTag	= input[Fields::FeetScript::_groundTag];
+	_tagMode	= input[Fields::FeetScript::_tagMode];
 }
 
 PScriptBase FeetScript::Clone() const
@@ -62,5 +68,5 @@ PScriptBase FeetScript::Clone() const
 	clone->_width = _width;
 	clone->_position = _position;
 
-	return PScriptBase();
+	return clone;
 }

@@ -5,7 +5,7 @@
         {
 			"ID": 1,
 			"Name": "Stage1",
-            "IsDisabled": true,
+            "IsDisabled": false,
 			"Inputs": {
 				"IsRoot": false,
 				"Tag": "Platform",

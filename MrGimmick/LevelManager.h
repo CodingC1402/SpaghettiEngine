@@ -5,6 +5,7 @@ class LevelManager : public ScriptBase
 {
 public:
 	void OnStart() override;
+	void OnEnabled() override;
 	void Spawn();
 	void DeSpawn();
 	void Load(nlohmann::json& input) override;

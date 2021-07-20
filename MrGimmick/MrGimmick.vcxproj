@@ -200,6 +200,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />

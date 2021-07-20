@@ -20,4 +20,3 @@ private:
 	static inline WPlayerScript __currentInstance;
 	REGISTER_START(PlayerScript);
 };
-
