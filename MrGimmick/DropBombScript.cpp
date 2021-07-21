@@ -1,7 +1,7 @@
 #include "DropBombScript.h"
 #include "PhysicCollide.h"
 #include "GameTimer.h"
-
+#include "Graphics.h"
 REGISTER_FINISH(DropBombScript, ScriptBase) {}
 
 void DropBombScript::OnStart()

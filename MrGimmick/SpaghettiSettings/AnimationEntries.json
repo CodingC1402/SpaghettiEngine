@@ -7,7 +7,7 @@
     "ID": 10002,
     "Path": "Asset/Animations/ArrowBrickToRight.json"
   },
-  
+
   {
     "ID": 30000,
     "Path": "Asset/Animations/PlayerStanding.json"
@@ -74,6 +74,19 @@
   {
     "ID": 20202,
     "Path": "Asset/Animations/Enemy/WormEnemy/EnemyRunning.json"
+  },
+
+  {
+    "ID": 20301,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/EnemyIdle.json"
+  },
+  {
+    "ID": 20302,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/EnemyRunning.json"
+  },
+  {
+    "ID": 20303,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/EnemyJump.json"
   },
 
   {

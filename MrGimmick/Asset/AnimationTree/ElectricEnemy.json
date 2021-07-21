@@ -1,0 +1,137 @@
+{
+    "BlackBoard":
+    [
+        {
+            "Name": "IsDead",
+            "Type": "bool",
+            "Value": false
+        },
+        {
+            "Name": "IsGrounded",
+            "Type": "bool",
+            "Value": false
+        },
+        {
+            "Name": "IsRunning",
+            "Type": "bool",
+            "Value": false
+        }
+    ],
+
+    "Children": 
+    [
+        {
+            "Type": "Selector",
+            "Children": 
+            [
+                {
+                    "Type": "BoolCon",
+                    "Input": 
+                    {
+                        "Type": "Equal",
+                        "Field": "IsDead",
+                        "Value": true
+                    },
+                    "Children":
+                    [
+                        {
+                            "Type": "AnimationNode",
+                            "Input": {
+                                "ID": 20301
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Type": "BoolCon",
+                    "Input": 
+                    {
+                        "Type": "Equal",
+                        "Field": "IsDead",
+                        "Value": false
+                    },
+                    "Children":
+                    [
+                        {
+                            "Type": "Selector",
+                            "Children": [
+                                {
+                                    "Type": "BoolCon",
+                                    "Input":
+                                    {
+                                        "Type": "Equal",
+                                        "Field": "IsGrounded",
+                                        "Value": false
+                                    },
+                                    "Children": 
+                                    [
+                                        {
+                                            "Type": "AnimationNode",
+                                            "Input": {
+                                                "ID": 20303
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Type": "BoolCon",
+                                    "Input":
+                                    {
+                                        "Type": "Equal",
+                                        "Field": "IsGrounded",
+                                        "Value": true
+                                    },
+                                    "Children": 
+                                    [
+                                        {
+                                            "Type": "Selector",
+                                            "Children": 
+                                            [
+                                                {
+                                                    "Type": "BoolCon",
+                                                    "Input":
+                                                    {
+                                                        "Type": "Equal",
+                                                        "Field": "IsRunning",
+                                                        "Value": false
+                                                    },
+                                                    "Children": 
+                                                    [
+                                                        {
+                                                            "Type": "AnimationNode",
+                                                            "Input": {
+                                                                "ID": 20301
+                                                            }
+                                                        }
+                                                    ] 
+                                                },
+                                                {
+                                                    "Type": "BoolCon",
+                                                    "Input":
+                                                    {
+                                                        "Type": "Equal",
+                                                        "Field": "IsRunning",
+                                                        "Value": true
+                                                    },
+                                                    "Children": 
+                                                    [
+                                                        {
+                                                            "Type": "AnimationNode",
+                                                            "Input": {
+                                                                "ID": 20302
+                                                            }
+                                                        }
+                                                    ] 
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]   
+                }
+            ]
+        }
+    ]
+}

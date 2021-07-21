@@ -88,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="ObjectRidable.cpp" />
     <ClCompile Include="DropBombScript.cpp" />
+    <ClCompile Include="ElectricScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -159,5 +162,8 @@
     </ClInclude>
     <ClInclude Include="ObjectRidable.h" />
     <ClInclude Include="DropBombScript.h" />
+    <ClInclude Include="ElectricScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

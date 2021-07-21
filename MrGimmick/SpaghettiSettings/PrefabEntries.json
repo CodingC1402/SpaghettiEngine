@@ -63,6 +63,10 @@
     "Path": "Asset/Prefabs/Enemies/WormEnemy.json"
   },
   {
+    "ID": 20004,
+    "Path": "Asset/Prefabs/Enemies/ElectricEnemy.json"
+  },
+  {
     "ID": 40004,
     "Path": "Asset/Prefabs/CharacterBase.json"
   },
