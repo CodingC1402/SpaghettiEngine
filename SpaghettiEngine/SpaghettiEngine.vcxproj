@@ -79,6 +79,7 @@
     <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h" />
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h" />
     <ClInclude Include="Framework\Math\Matrix.h" />
+    <ClInclude Include="Framework\Math\Rectangle.h" />
     <ClInclude Include="Framework\Math\SMath.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Body2D.h" />
@@ -107,12 +108,15 @@
     <ClInclude Include="Framework\Utilities\ExMath.h" />
     <ClInclude Include="Framework\Utilities\Extra.h" />
     <ClInclude Include="Framework\Utilities\Macros.h" />
+    <ClInclude Include="Framework\Utilities\CMessageBox.h" />
     <ClInclude Include="Framework\Utilities\Monitor.h" />
     <ClInclude Include="Framework\Utilities\MultiThread.h" />
     <ClInclude Include="Framework\Utilities\Path.h" />
     <ClInclude Include="Framework\Utilities\Plane2D.h" />
+    <ClInclude Include="Framework\Utilities\Rect.h" />
     <ClInclude Include="Framework\Utilities\StringConverter.h" />
     <ClInclude Include="Framework\Utilities\StringUtil.h" />
+    <ClInclude Include="Framework\Utilities\System.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Framework\Window\CornException.h" />
     <ClInclude Include="Framework\Window\CornWnd.h" />
@@ -178,6 +182,7 @@
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp" />
     <ClCompile Include="Framework\Math\Matrix.cpp" />
+    <ClCompile Include="Framework\Math\Rectangle.cpp" />
     <ClCompile Include="Framework\Math\SMath.cpp" />
     <ClCompile Include="Framework\Math\Vector3.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Body2D.cpp" />
@@ -203,12 +208,15 @@
     <ClCompile Include="Framework\Utilities\Debug.cpp" />
     <ClCompile Include="Framework\Utilities\ExMath.cpp" />
     <ClCompile Include="Framework\Utilities\Extra.cpp" />
+    <ClCompile Include="Framework\Utilities\CMessageBox.cpp" />
     <ClCompile Include="Framework\Utilities\Monitor.cpp" />
     <ClCompile Include="Framework\Utilities\MultiThread.cpp" />
     <ClCompile Include="Framework\Utilities\Path.cpp" />
     <ClCompile Include="Framework\Utilities\Plane2D.cpp" />
+    <ClCompile Include="Framework\Utilities\Rect.cpp" />
     <ClCompile Include="Framework\Utilities\StringConverter.cpp" />
     <ClCompile Include="Framework\Utilities\StringUtil.cpp" />
+    <ClCompile Include="Framework\Utilities\System.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />
     <ClCompile Include="Framework\Window\CornException.cpp" />
     <ClCompile Include="Framework\Window\KeyBoard.cpp" />

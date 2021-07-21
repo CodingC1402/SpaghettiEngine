@@ -1,4 +1,4 @@
-﻿#include "CornDirectX.h"
+﻿#include "CornWnd.h"
 #include "Canvas.h"
 #include "DirectX9Graphic.h"
 #include "DebugRenderer.h"
@@ -214,7 +214,7 @@ void Graphics::Render()
 	}
 }
 #pragma region  Exception
-Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, HRESULT code) noexcept
+Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, long code) noexcept
 	:
 	CornException(line, file),
 	code(code)

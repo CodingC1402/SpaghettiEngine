@@ -386,6 +386,18 @@
     <ClInclude Include="Framework\Engine\GameComponents\UIFields.h">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Math\Rectangle.h">
+      <Filter>FrameWork\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\CMessageBox.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\System.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Rect.h">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -663,6 +675,18 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\UIFields.cpp">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Math\Rectangle.cpp">
+      <Filter>FrameWork\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\CMessageBox.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\System.cpp">
+      <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Rect.cpp">
+      <Filter>FrameWork\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

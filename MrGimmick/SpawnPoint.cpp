@@ -8,8 +8,8 @@ REGISTER_FINISH(SpawnPoint, ScriptBase) {}
 void SpawnPoint::Load(nlohmann::json& input)
 {
 	_center = input[Fields::SpawnPoint::_center];
-	_width = input[Fields::SpawnPoint::_width].get<unsigned>();
-	_height = input[Fields::SpawnPoint::_height].get<unsigned>();
+	_width = input[Fields::SpawnPoint::_width].get<float>();
+	_height = input[Fields::SpawnPoint::_height].get<float>();
 
 	_spawnPos = input[Fields::SpawnPoint::_spawnPoint];
 }

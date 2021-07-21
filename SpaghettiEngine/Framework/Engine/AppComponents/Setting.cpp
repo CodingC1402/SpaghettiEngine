@@ -77,6 +77,7 @@ void Setting::Load()
 		constexpr const char* CAPPEDLOOP = "CappedLoop";
 		constexpr const char* GRAVITY = "Gravity";
 		constexpr const char* PHYSICSTEP = "PhysicStep";
+		constexpr const char* PHYSICMAXSTEP = "PhysicMaxStep";
 		constexpr const char* TAGS = "Tags";
 		
 		json file;
@@ -85,6 +86,7 @@ void Setting::Load()
 		Tag::Load(file[TAGS]);
 		Physic::SetGravity(file[GRAVITY].get<float>());
 		Physic::SetStep(file[PHYSICSTEP].get<float>());
+		Physic::SetMaxStep(file[PHYSICMAXSTEP].empty() ? file[PHYSICSTEP].get<float>() : file[PHYSICMAXSTEP].get<float>());
 
 		resolution.width = file[RESOLUTION][WIDTH].get<int>();
 		resolution.height = file[RESOLUTION][HEIGHT].get<int>();

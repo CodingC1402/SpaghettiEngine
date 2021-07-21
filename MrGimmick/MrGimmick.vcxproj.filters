@@ -92,6 +92,9 @@
     <ClCompile Include="ObjectRidable.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="CameraBoundingBox.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="ObjectRidable.h">
       <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraBoundingBox.h">
+      <Filter>StaticObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

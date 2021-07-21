@@ -37,12 +37,32 @@ public:
 #pragma endregion
 
 #pragma region Setters
+	// World setter
+	void SetWorldRotation(const float& x, const float& y, const float& z);
+	// World setter
+	void SetWorldScale(const float& x, const float& y, const float& z);
+	// World setter
+	void SetWorldTransform(const float& x, const float& y, const float& z);
+	// World setter
+	void SetWorldRotation(const Vector3& vec3);
+	// World setter
+	void SetWorldScale(const Vector3& vec3);
+	// World setter
+	void SetWorldTransform(const Vector3& vec3);
+
+	// Local setter
 	void SetRotation(const float& x, const float& y, const float& z);
+	// Local setter
 	void SetScale(const float& x, const float& y, const float& z);
+	// Local setter
 	void SetTransform(const float& x, const float& y, const float& z);
+	// Local setter
 	void SetRotation(const Vector3& vec3);
+	// Local setter
 	void SetScale(const Vector3& vec3);
+	// Local setter
 	void SetTransform(const Vector3& vec3);
+
 	void Rotate(const float& x, const float& y, const float& z);
 	void Rotate(const Vector3& rotation);
 

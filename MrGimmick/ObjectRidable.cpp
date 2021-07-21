@@ -15,6 +15,9 @@ void ObjectRidable::OnFixedUpdate()
 
 void ObjectRidable::OnCollide(CollideEvent& e)
 {
+	if (e.GetEventOwner() != GetGameObject())
+		return;
+
 	if (__instance && e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{
 		e.SetIsHandled(true);
