@@ -9,6 +9,7 @@ namespace Fields
 	public:
 		static constexpr auto _behaviorTree = "BehaviorTree";
 		static constexpr auto _delay		= "Delay";
+		static constexpr auto _changes		= "Changes";
 	};
 	class CameraBoundingBox
 	{

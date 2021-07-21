@@ -1,5 +1,44 @@
 {
     "Prefabs": [
+        { 
+			"ID": 20002,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
+		},
+        { 
+			"ID": 20003,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				},
+                {
+                    "ID": 1,
+                    "Type": "Script",
+                    "Field": "Changes",
+                    "Value": [
+                        {
+                            "Nodes": [0, 0],
+                            "Field": "Path",
+                            "Value": [
+                                [1864, 0, 0],
+                                [1880, 0, 0]
+                            ]
+                        }
+                    ]
+                }
+			]
+		}
     ],
     "GameObjects": [		
         {
@@ -16,6 +55,7 @@
                 "Scale": [ 1, 1, 1 ],
                 "Scripts": [
                     {"ID": 1},
+                    {"ID": 2},
                     {"ID": 3},
                     {"ID": 4}
                 ]
@@ -23,6 +63,36 @@
         }
     ],
     "Scripts": [
+        {
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "SegmentScript",
+				"GameObjects": [
+					{
+						"Prefabs": [0, 0],
+						"ID": 1
+					},
+                    {
+						"Prefabs": [1, 0],
+						"ID": 1
+					}
+				],
+				"EnemySpawns": [
+					{
+						"Index": 1,
+						"Position": [1872, 280, 0]
+					},
+                    {
+						"Index": 0,
+						"Position": [1824, 328, 0]
+					},
+                    {
+                        "Index": 0,
+                        "Position": [1920, 536, 0]
+                    }
+				]
+			}
+		},
         {
             "ID": 3,
             "Inputs": {

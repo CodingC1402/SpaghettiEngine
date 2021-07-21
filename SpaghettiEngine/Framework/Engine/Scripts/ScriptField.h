@@ -13,6 +13,7 @@ namespace Fields
 	{
 	public:
 		static constexpr const char* GetAnimationTreeField() { return "AnimationTree"; }
+		static constexpr const char* GetChangesField() { return "Changes"; }
 	};
 
 	class Camera // Inherit from ScriptBase

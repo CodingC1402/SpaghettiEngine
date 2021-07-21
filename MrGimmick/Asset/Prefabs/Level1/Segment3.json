@@ -1,5 +1,32 @@
 {
     "Prefabs": [
+        { 
+			"ID": 20003,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				},
+                {
+                    "ID": 1,
+                    "Type": "Script",
+                    "Field": "Changes",
+                    "Value": [
+                        {
+                            "Nodes": [0, 0],
+                            "Field": "Path",
+                            "Value": [
+                                [744, 0, 0],
+                                [776, 0, 0]
+                            ]
+                        }
+                    ]
+                }
+			]
+		}
     ],
     "GameObjects": [		
         {
@@ -16,12 +43,31 @@
                 "Scale": [ 1, 1, 1 ],
                 "Scripts": [
                     {"ID": 1},
+                    {"ID": 2},
                     {"ID": 3}
                 ]
             }
         }
     ],
     "Scripts": [
+        {
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "SegmentScript",
+				"GameObjects": [
+					{
+						"Prefabs": [0, 0],
+						"ID": 1
+					}
+				],
+				"EnemySpawns": [
+					{
+						"Index": 0,
+						"Position": [736, 128, 0]
+					}
+				]
+			}
+		},
         {
             "ID": 3,
             "Inputs": {
