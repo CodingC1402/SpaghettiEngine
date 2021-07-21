@@ -77,6 +77,10 @@
   },
 
   {
+    "ID": 20300,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/ElectricIdle.json"
+  },
+  {
     "ID": 20301,
     "Path": "Asset/Animations/Enemy/ElectricEnemy/EnemyIdle.json"
   },

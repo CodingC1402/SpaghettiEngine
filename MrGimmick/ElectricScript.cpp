@@ -1,47 +1,75 @@
 #include "ElectricScript.h"
+#include "PhysicCollide.h"
 #include "GameTimer.h"
 #include "FieldNames.h"
 #include "Graphics.h"
 #include "Setting.h"
 #include "SMath.h"
 
-REGISTER_FINISH(ElectricScript, Render2DScriptBase) {}
+REGISTER_FINISH(ElectricScript, ScriptBase) {}
 
 void ElectricScript::OnStart()
 {
-	_currentSprite = _elcAnim->GetSpriteOfFrame(0); // Get First frame
-	_runningField = _animator->GetField<bool>("IsRunning");
+	_currentSprite = _elcAnim->GetSpriteOfFrame(_frame); // Get First frame
+	auto _animatorList = GET_ALL_SCRIPTS_OF_TYPE(Animator);
+	_movingAnimator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
+	for (auto ani : _animatorList)
+	{
+		//ani.get
+	}
+
+	_runningField = _movingAnimator->GetField<bool>("IsRunning");
 }
 
-void ElectricScript::OnUpdate()
+void ElectricScript::OnFixedUpdate()
 {
 	if (!_runningField.lock()->GetValue())
-		Graphics::DrawSprite(_currentSprite, GetWorldTransform());
-}
+	{
+		_idleCounter += GameTimer::GetDeltaTime();
+		auto oldFrame = _frame;
+		_animEnded = _elcAnim->Advance(_frame, _idleCounter);
+		if (oldFrame != _frame)
+		{
+			_currentSprite = _elcAnim->GetSpriteOfFrame(_frame);
+			if (_animEnded)
+				_frame--;
+		}
+	}
+	else
+		_currentSprite = nullptr;
 
-void ElectricScript::Draw(PCamera script)
-{
-	//auto worldMatrix = Matrix4::GetDiagonalMatrix();
-	//auto gameObjectWorldMatrix = GetWorldMatrix();
-	//worldMatrix._41 = gameObjectWorldMatrix._41;
-	//worldMatrix._42 = gameObjectWorldMatrix._42;
-	//
-	//auto transform = script->GetMatrix(worldMatrix);
-	//Graphics::SetSpriteTransform(transform);
-	//
-	//Graphics::DrawSprite(_currentSprite, _currentSprite->GetCenter());
+	if (_currentStar.expired())
+	{
+		std::set<GameObj*> _objs;
+
+		PhysicCollide::GetCollidedWithRectangle(GetGameObject(), _objs, Vector3(0, 0, 0), 48.0f, 48.0f, Tag("PlayerAttack"), PhysicCollide::FilterMode::Contain);
+
+		if (!_objs.empty())
+		{
+			for (auto obj : _objs)
+			{
+				if (!obj->GetTag().Contain("Platform"))
+				{
+					_currentStar = std::dynamic_pointer_cast<GameObj>(obj->GetSharedPtr());
+					obj->CallDestroy();
+					break;
+				}
+			}
+		}
+	}
+
 }
 
 void ElectricScript::Load(nlohmann::json& input)
 {
 	_elcAnim = AnimationContainer::GetInstance()->GetResource(input["ElectricAnim"].get<CULL>());
 
-	Render2DScriptBase::Load(input);
+	ScriptBase::Load(input);
 }
 
 PScriptBase ElectricScript::Clone() const
 {
-	auto clone = dynamic_cast<ElectricScript*>(Render2DScriptBase::Clone());
+	auto clone = dynamic_cast<ElectricScript*>(ScriptBase::Clone());
 
 	clone->_counter = _counter;
 

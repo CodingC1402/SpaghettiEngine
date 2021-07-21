@@ -2,6 +2,8 @@
 #include "PhysicCollide.h"
 #include "GameTimer.h"
 #include "Graphics.h"
+#include "FieldNames.h"
+
 REGISTER_FINISH(DropBombScript, ScriptBase) {}
 
 void DropBombScript::OnStart()
@@ -14,7 +16,7 @@ void DropBombScript::OnStart()
 	_dropField = _animator->GetField<bool>("IsDroped");
 }
 
-void DropBombScript::OnUpdate()
+void DropBombScript::OnFixedUpdate()
 {
 	std::set<GameObj*> _objs;
 
@@ -38,10 +40,18 @@ void DropBombScript::OnUpdate()
 
 void DropBombScript::OnCollide(CollideEvent& e)
 {
-	_rbBody->Disable();
-	_polyCollider->Disable();
-	_explodedField.lock()->SetValue(true);
-	_isStarted = true;
+	if (e.GetGameObject()->GetTag().Contain(Tag(Fields::SpecialTag::GetPlayerAttack())) && _currentStar.expired())
+	{
+		_currentStar = std::dynamic_pointer_cast<GameObj>(e.GetGameObject()->GetSharedPtr());
+		e.GetGameObject()->CallDestroy();
+	}
+	else
+	{
+		_rbBody->Disable();
+		_polyCollider->Disable();
+		_explodedField.lock()->SetValue(true);
+		_isStarted = true;
+	}
 }
 
 void DropBombScript::Load(nlohmann::json& input)
