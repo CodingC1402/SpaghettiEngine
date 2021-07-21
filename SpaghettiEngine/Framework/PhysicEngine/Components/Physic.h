@@ -28,6 +28,9 @@ public:
 	static void SetStep(const float& step);
 	[[nodiscard]] static float GetStep();
 
+	static void SetMaxStep(const float& step);
+	[[nodiscard]] static float GetMaxStep() noexcept;
+
 	static void SetGravity(const float& gravity);
 	[[nodiscard]] static const Vector3& GetGravity();
 private:
@@ -55,6 +58,7 @@ private:
 
 	[[nodiscard]] static QuadTree& GetQuadTree();
 protected:
+	static inline float _maxStep = 0.04f;
 	static inline float _stepInterpolation = 0.9f;
 	static inline float _baseStep = 0.02f;
 	static inline float _step = 0.02f;

@@ -33,13 +33,13 @@ public:
 	[[nodiscard]] std::wstring GetTypeWStr() const noexcept;
 	[[nodiscard]] std::string GetTextStr() const noexcept;
 	[[nodiscard]] std::string GetTypeStr() const noexcept;
-	[[nodiscard]] float GetFlag() const noexcept;
+	[[nodiscard]] long GetFlag() const noexcept;
 
 	void SetText(const std::wstring& text) noexcept;
 	void SetText(const std::string& text) noexcept;
 	void SetType(const std::wstring& type) noexcept;
 	void SetType(const std::string& type) noexcept;
-	void SetFlag(const float& flag) noexcept;
+	void SetFlag(const long& flag) noexcept;
 
 	void Show() const;
 private:

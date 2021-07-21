@@ -9,10 +9,10 @@
 					"Field": "Polygons",
 					"Value": [
 						[
-							-8, -4,
-							-8,   7,
-							8 ,   7,
-							8 , -4 
+							-8, -7,
+							-8,  7,
+							8 ,  7,
+							8 , -7 
 						]
 					]
 				}
@@ -61,7 +61,7 @@
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [120, -100]
+				"StartVelocity": [120, -120]
 			}
 		},
 		{
@@ -99,8 +99,8 @@
 			"IsDisabled": true,
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
-				"Mass": 2,
-				"GravityScale": 4,
+				"Mass": 1,
+				"GravityScale": 3,
 				"Material": 20001
 			}
 		}

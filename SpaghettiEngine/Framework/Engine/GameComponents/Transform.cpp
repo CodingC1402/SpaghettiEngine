@@ -105,6 +105,39 @@ void Transform::RemoveChild(PTransform child)
 
 	child->ForceRecalculateMatrixFull();
 }
+void Transform::SetWorldRotation(const float& x, const float& y, const float& z)
+{
+	SetWorldRotation(Vector3(x, y, z));
+}
+void Transform::SetWorldScale(const float& x, const float& y, const float& z)
+{
+	SetWorldScale(Vector3(x, y, z));
+}
+void Transform::SetWorldTransform(const float& x, const float& y, const float& z)
+{
+	SetWorldTransform(Vector3(x, y, z));
+}
+void Transform::SetWorldRotation(const Vector3& vec3)
+{
+	SetRotation(vec3 - (GetParent() ? GetParent()->GetWorldRotation() : Vector3()));
+}
+void Transform::SetWorldScale(const Vector3& vec3)
+{
+	if (GetParent())
+	{
+		auto parVec3 = GetParent()->GetWorldScale();
+		float scaleX = vec3.x / parVec3.x;
+		float scaleY = vec3.y / parVec3.y;
+		float scaleZ = vec3.z / parVec3.z;
+		SetScale(scaleX, scaleY, scaleZ);
+	}
+	else
+		SetScale(vec3);
+}
+void Transform::SetWorldTransform(const Vector3& vec3)
+{
+	SetTransform(vec3 - (GetParent() ? GetParent()->GetWorldTransform() : Vector3()));
+}
 void Transform::SetRotation(const float& x, const float& y, const float& z)
 {
 	SetRotation(Vector3(x, y, z));
