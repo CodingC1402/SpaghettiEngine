@@ -29,7 +29,7 @@ void AIScript::Load(nlohmann::json& input)
 	_delay = input[Fields::AIScript::_delay].get<float>();
 
 	_behaviorTree = MAKE_SHARE_BT(AIBTs);
-	_behaviorTree->Load(_treeFilePath);
+	_behaviorTree->Load(_treeFilePath, input[Fields::AIScript::_changes]);
 }
 
 ScriptBase* AIScript::Clone() const

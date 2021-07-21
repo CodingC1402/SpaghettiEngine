@@ -46,7 +46,8 @@ class BTs
 public:
 	virtual std::string GetType();
 
-	void Load(const std::string& path);
+	void ApplyChange(nlohmann::json& jsonFile, nlohmann::json& change);
+	void Load(const std::string& path, nlohmann::json& changes);
 	void AssignPtr(WBTs ptr);
 	BTs();
 	Node::State Tick();

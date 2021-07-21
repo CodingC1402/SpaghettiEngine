@@ -10,11 +10,11 @@ public:
 	void Load(nlohmann::json&) override;
 	ScriptBase* Clone() const override;
 private:
-	float _delay;
-	float _accumulate;
+	float _delay = 0.0f;
+	float _accumulate = 0.0f;
 
 	SAIBTs _behaviorTree;
-	MoveScript* _moveScript;
+	MoveScript* _moveScript = nullptr;
 
 	REGISTER_START(AIScript);
 };

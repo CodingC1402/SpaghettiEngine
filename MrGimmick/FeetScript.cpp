@@ -25,12 +25,7 @@ void FeetScript::OnFixedUpdate()
 		_tagMode
 	);
 
-	if (!collidedGameObject.empty())
-		_moveScript->SetGrounded(true);
-	else
-		_moveScript->SetGrounded(false);
-
-
+	_moveScript->SetGrounded(!collidedGameObject.empty());
 	if constexpr (Setting::IsDebugMode())
 	{
 		DebugRenderer::DrawRectangle(
@@ -53,7 +48,7 @@ void FeetScript::Load(nlohmann::json& input)
 	_width		= input[Fields::FeetScript::_width].get<float>();
 	_height		= input[Fields::FeetScript::_height].get<float>();
 	_position	= input[Fields::FeetScript::_position];
-	_groundTag	= input[Fields::FeetScript::_groundTag];
+	_groundTag	= Tag(input[Fields::FeetScript::_groundTag]);
 	_tagMode	= input[Fields::FeetScript::_tagMode];
 }
 
@@ -67,6 +62,9 @@ PScriptBase FeetScript::Clone() const
 	clone->_height = _height;
 	clone->_width = _width;
 	clone->_position = _position;
+
+	clone->_groundTag = _groundTag;
+	clone->_tagMode = _tagMode;
 
 	return clone;
 }
