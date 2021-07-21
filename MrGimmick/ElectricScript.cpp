@@ -10,33 +10,50 @@ REGISTER_FINISH(ElectricScript, ScriptBase) {}
 
 void ElectricScript::OnStart()
 {
-	_currentSprite = _elcAnim->GetSpriteOfFrame(_frame); // Get First frame
+	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
+	_behaviorTree->AssignMoveScript(_moveScript);
+	_behaviorTree->SetGameObject(GetGameObject());
+
 	auto _animatorList = GET_ALL_SCRIPTS_OF_TYPE(Animator);
-	_movingAnimator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
+
 	for (auto ani : _animatorList)
 	{
-		//ani.get
+		if (ani->GetName() == "Electric")
+			_electricAnimator = dynamic_cast<Animator*>(ani);
 	}
+	
+	_defendField = _electricAnimator->GetField<bool>("IsDefend");
+	_runningField = _electricAnimator->GetField<bool>("IsRunning");
+}
 
-	_runningField = _movingAnimator->GetField<bool>("IsRunning");
+void ElectricScript::OnUpdate()
+{
+	if (_counterStart)
+		_counter += GameTimer::GetDeltaTime();
+
+	if (_counter > _animationTime)
+	{
+		_defendField.lock()->SetValue(false);
+		_counterStart = false;
+		_counter = 0;
+		_time = 0;
+		_electricAnimator->Disable();
+	}
 }
 
 void ElectricScript::OnFixedUpdate()
 {
-	if (!_runningField.lock()->GetValue())
+	_runningField.lock()->SetValue(_moveScript->IsWalking());
+
+	if (_runningField.lock()->GetValue())
 	{
-		_idleCounter += GameTimer::GetDeltaTime();
-		auto oldFrame = _frame;
-		_animEnded = _elcAnim->Advance(_frame, _idleCounter);
-		if (oldFrame != _frame)
-		{
-			_currentSprite = _elcAnim->GetSpriteOfFrame(_frame);
-			if (_animEnded)
-				_frame--;
-		}
+		_time = 0;
+		_electricAnimator->Disable();
 	}
 	else
-		_currentSprite = nullptr;
+	{
+		_electricAnimator->Enable();
+	}
 
 	if (_currentStar.expired())
 	{
@@ -50,6 +67,10 @@ void ElectricScript::OnFixedUpdate()
 			{
 				if (!obj->GetTag().Contain("Platform"))
 				{
+					_behaviorTree->StopMove();
+					_counterStart = true;
+					_counter = 0;
+					_defendField.lock()->SetValue(true);
 					_currentStar = std::dynamic_pointer_cast<GameObj>(obj->GetSharedPtr());
 					obj->CallDestroy();
 					break;
@@ -57,12 +78,15 @@ void ElectricScript::OnFixedUpdate()
 			}
 		}
 	}
-
 }
 
 void ElectricScript::Load(nlohmann::json& input)
 {
-	_elcAnim = AnimationContainer::GetInstance()->GetResource(input["ElectricAnim"].get<CULL>());
+	std::string _treeFilePath = input[Fields::AIScript::_behaviorTree].get<std::string>();
+	_animationTime = input["AnimationTime"].get<float>();
+
+	_behaviorTree = MAKE_SHARE_BT(AIBTs);
+	_behaviorTree->Load(_treeFilePath);
 
 	ScriptBase::Load(input);
 }
@@ -72,9 +96,6 @@ PScriptBase ElectricScript::Clone() const
 	auto clone = dynamic_cast<ElectricScript*>(ScriptBase::Clone());
 
 	clone->_counter = _counter;
-
-	clone->_elcAnim = _elcAnim;
-	clone->_currentSprite = _currentSprite;
 
 	return clone;
 }

@@ -17,7 +17,8 @@
           "Value": [
             { "ID": 1 },
             { "ID": 2 },
-            { "ID": 3 }
+            { "ID": 3 },
+            { "ID": 4 }
           ]
         },
         {
@@ -97,14 +98,24 @@
       "Inputs": {
         "ScriptType": "AIScript",
         "Delay": 0,
-        "BehaviorTree": "Asset/AI/NormalEnemyBehavior.json"
+        "BehaviorTree": "Asset/AI/ElectricEnemyBehavior.json"
       }
     },
     {
       "ID": 3,
       "Inputs": {
         "ScriptType": "ElectricScript",
-        "ElectricAnim": 20300
+        "BehaviorTree": "Asset/AI/ElectricEnemyBehavior.json",
+        "AnimationTime": 0.4
+      }
+    },
+    {
+      "ID": 4,
+      "Name": "Electric",
+      "Inputs": {
+        "ScriptType": "Animator",
+        "AnimationTree": "Asset/AnimationTree/ElectricWaveAnimateTree.json",
+        "DrawLayer": 1
       }
     }
   ]

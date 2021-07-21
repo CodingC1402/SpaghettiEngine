@@ -1,0 +1,77 @@
+{
+  "BlackBoard": [
+    {
+      "Name": "IsDefend",
+      "Type": "bool",
+      "Value": false
+    },
+    {
+      "Name": "IsRunning",
+      "Type": "bool",
+      "Value": false
+    }
+  ],
+
+  "Children": [
+    {
+      "Type": "BoolCon",
+      "Input": {
+        "Type": "Equal",
+        "Field": "IsRunning",
+        "Value": false
+      },
+      "Children":
+      [
+        {
+          "Type": "Selector",
+          "Children": [
+            {
+              "Type": "BoolCon",
+              "Input": {
+                "Type": "Equal",
+                "Field": "IsDefend",
+                "Value": true
+              },
+              "Children": [
+                {
+                  "Type": "Sequence",
+                  "Children": [
+                    {
+                      "Type": "AnimationNode",
+                      "Input": {
+                        "ID": 20305
+                      }
+                    },
+                    {
+                      "Type": "AnimationNode",
+                      "Input": {
+                        "ID": 20304
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Type": "BoolCon",
+              "Input": {
+                "Type": "Equal",
+                "Field": "IsDefend",
+                "Value": false
+              },
+              "Children": [
+                {
+                  "Type": "AnimationNode",
+                  "Input": {
+                    "ID": 20304
+                  }
+                }
+              ]
+            }
+          ]
+            
+        }
+      ]
+    }
+  ]
+}
