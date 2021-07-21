@@ -18,7 +18,7 @@ void ObjectRidable::OnCollide(CollideEvent& e)
 	if (e.GetEventOwner() != GetGameObject())
 		return;
 
-	if (__instance && e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
+	if ((__instance && __instance != this) || e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetEnemyTag() | Fields::SpecialTag::GetPlayerAttack()))
 	{
 		e.SetIsHandled(true);
 		return;

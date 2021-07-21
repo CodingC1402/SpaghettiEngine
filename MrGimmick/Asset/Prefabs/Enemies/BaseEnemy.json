@@ -45,7 +45,7 @@
                 "ScriptType": "FeetScript",
                 "GroundTag": ["Platform"],
                 "TagMode": "Equal",
-                "Position": [0, -10, 0],
+                "Position": [0, -8, 0],
 				"Width": 4,
 				"Height": 2
             }
