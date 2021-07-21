@@ -48,7 +48,7 @@ protected:
 #ifdef _DEBUG
 	static constexpr bool _isDebugMode = true;
 #else
-	static constexpr bool _isDebugMode = false;
+	static constexpr bool _isDebugMode = true;
 #endif
 
 #ifdef DRAW_QUAD_TREE
