@@ -9,6 +9,9 @@ class ShootScript : public ScriptBase
 public:
 	void OnStart() override;
 	void OnUpdate() override;
+	void OnFixedUpdate() override;
+	void OnDisabled() override;
+
 	void OnCollide(CollideEvent& e) override;
 
 	void Load(nlohmann::json& input);
@@ -25,6 +28,7 @@ protected:
 	float _currentTime = 0;
 	float _reloadTime = 2.0f;
 
+	std::list<WGameObj> _firedCanonBalls;
 	Vector3			_appearOffSet;
 private:
 	REGISTER_START(ShootScript);

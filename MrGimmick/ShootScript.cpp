@@ -21,8 +21,9 @@ void ShootScript::OnUpdate()
 	if (_currentTime >= _reloadTime)
 	{
 		auto ball = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
-
 		auto _canonBallScript = dynamic_cast<CanonBallScript*>(ball->GetScriptContainer().GetItemType(TYPE_NAME(CanonBallScript)));
+		_firedCanonBalls.push_back(std::dynamic_pointer_cast<GameObj>(ball->GetSharedPtr()));
+
 		_canonBallScript->Throw(_rb->GetVelocity(), isFliped);
 
 		_currentTime = 0;
@@ -31,6 +32,24 @@ void ShootScript::OnUpdate()
 
 	_currentTime += GameTimer::GetDeltaTime();
 
+}
+
+void ShootScript::OnFixedUpdate()
+{
+	for (auto it = _firedCanonBalls.begin(); it != _firedCanonBalls.end();)
+	{
+		if (it->expired())
+			it = _firedCanonBalls.erase(it);
+		else
+			++it;
+	}
+}
+
+void ShootScript::OnDisabled()
+{
+	for (auto& obj : _firedCanonBalls)
+		if (!obj.expired())
+			obj.lock()->CallDestroy();
 }
 
 void ShootScript::OnCollide(CollideEvent& e)
