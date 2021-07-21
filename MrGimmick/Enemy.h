@@ -4,10 +4,11 @@
 class Enemy : public ScriptBase
 {
 public:
-	void OnStart() override;
 	void OnCollide(CollideEvent& e) override;
-
+	void Load(nlohmann::json& input) override;
 	void SetIsInTube();
+
+	ScriptBase* Clone() const override;
 	[[nodiscard]] bool IsInTube();
 private:
 	bool _isInTube = false;

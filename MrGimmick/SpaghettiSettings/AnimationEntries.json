@@ -74,5 +74,18 @@
   {
     "ID": 20202,
     "Path": "Asset/Animations/Enemy/WormEnemy/EnemyRunning.json"
+  },
+
+  {
+    "ID": 50001,
+    "Path": "Asset/Animations/CanonBallAnim.json"
+  },
+  {
+    "ID": 50002,
+    "Path": "Asset/Animations/CanonReload.json"
+  },
+  {
+    "ID": 50003,
+    "Path": "Asset/Animations/CanonShoot.json"
   }
 ]

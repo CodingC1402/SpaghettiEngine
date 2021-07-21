@@ -58,12 +58,20 @@ void ShootScript::OnCollide(CollideEvent& e)
 		e.SetIsHandled(true);
 }
 
+ScriptBase* ShootScript::Clone() const
+{
+	auto clone = dynamic_cast<ShootScript*>(ScriptBase::Clone());
+
+	clone->_starPrefab = _starPrefab;
+	clone->_reloadTime = _reloadTime;
+	clone->_appearOffSet = _appearOffSet;
+
+	return clone;
+}
+
 void ShootScript::Load(nlohmann::json& input)
 {
 	_starPrefab = dynamic_cast<GameObj*>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0][LoadingJson::Field::idField].get<CULL>()));
-	auto offSet = input[Fields::Player::_appearOffSet];
-	_appearOffSet.x = offSet[0].get<float>();
-	_appearOffSet.y = offSet[1].get<float>();
-	_appearOffSet.z = offSet[2].get<float>();
+	_appearOffSet = input[Fields::Player::_appearOffSet];
 	_reloadTime = input["ReloadTime"];
 }

@@ -13,10 +13,11 @@ public:
 	void OnDisabled() override;
 
 	void OnCollide(CollideEvent& e) override;
+	ScriptBase* Clone() const override;
 
 	void Load(nlohmann::json& input);
 protected:
-	PGameObj		_starPrefab = nullptr;
+	PGameObj _starPrefab = nullptr;
 
 	BoolField _isReloadedField;
 

@@ -6,10 +6,10 @@
 			"Field": "Polygons",
 			"Value": [
 				[
-					-8, 8,
-					8, 8,
-					8, 0,
-					-8, 0
+					-7, 8,
+					7, 8,
+					7, 0,
+					-7, 0
 				]
 			]
 		}
@@ -18,7 +18,7 @@
 		{
 			"ID": 1,
 			"Inputs": {
-				"Tag": [ "Enemy", "Platform" ],
+				"Tag": ["Enemy"],
 				"IsRoot": false,
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
@@ -55,7 +55,7 @@
 				"ScriptType": "CanonBallScript",
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
-				"StartVelocity": [ 100, 0 ]
+				"StartVelocity": [ 150, 0 ]
 			}
 		},
 		{
@@ -65,10 +65,10 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-8, -5,
-						-8, 6,
-						8, 6,
-						8, -5,
+						-7, -5,
+						-7, 6,
+						7, 6,
+						7, -5,
 						5, -8,
 						-5, -8
 					]
@@ -88,8 +88,9 @@
 		{
 			"ID": 5,
 			"Inputs": {
-				"ScriptType": "RidableScript"
+			  "ScriptType": "Enemy",
+			  "Ignore": ["Player", "Enemy", "StaticEnemy", "PlayerAttack"]
 			}
-		}
+		  }
 	]
 }

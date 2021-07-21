@@ -53,7 +53,12 @@
         {
             "ID": 3,
             "Inputs": {
-                "ScriptType": "Enemy"
+                "ScriptType": "Enemy",
+                "Ignore": [
+                    "Player",
+                    "PlayerAttack",
+                    "Enemy"
+                ]
             }
         },
         {
