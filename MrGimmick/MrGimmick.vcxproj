@@ -195,6 +195,7 @@
     <ClCompile Include="AIBTs.cpp" />
     <ClCompile Include="AIScript.cpp" />
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
     <ClCompile Include="DebugControl.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="AIBTs.h" />
     <ClInclude Include="AIScript.h" />
     <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="ChasingLeaf.h" />
     <ClInclude Include="DebugControl.h" />
     <ClInclude Include="Enemy.h" />

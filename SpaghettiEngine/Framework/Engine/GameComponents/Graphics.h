@@ -48,13 +48,13 @@ public:
 	class GraphicCodeException : public CornException
 	{
 	public:
-		GraphicCodeException(const int line, const char* file, HRESULT code) noexcept;
+		GraphicCodeException(const int line, const char* file, long code) noexcept;
 		virtual const wchar_t* GetType() const noexcept override;
 		virtual const wchar_t* What() const noexcept override;
 		virtual const wchar_t* Translate() const noexcept;
-		virtual HRESULT GetErrorCode() noexcept;
+		virtual long GetErrorCode() noexcept;
 	private:
-		HRESULT code;
+		long code;
 	};
 public:
 	Graphics(const Graphics&) = delete;

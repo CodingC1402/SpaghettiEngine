@@ -6,9 +6,11 @@
 #include <sstream>
 #include <fstream>
 #include <mutex>
-#include "SMath.h"
+
+#include "CMessageBox.h"
 #include "CornException.h"
-#include "CornWnd.h"
+#include "SMath.h"
+#include "System.h"
 #include "json.hpp"
 
 //============================================================{Resource Base}=====================================================//
@@ -217,8 +219,8 @@ void Container<T>::ResourceList::LoadEntriesList(const std::string& path)
 	}
 	catch (const CornException& e)
 	{
-		MessageBox(nullptr, e.What(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
-		exit(-1);
+		CMessageBox msg(e.What(), e.GetType(), CMessageBox::Flags::OK | CMessageBox::Flags::ICONEXCLAMATION);
+		System::Exit(-1);
 	}
 }
 
