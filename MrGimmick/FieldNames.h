@@ -48,6 +48,7 @@ namespace Fields
 	{
 	public:
 		static constexpr auto _enemy	= "Enemy";
+		static constexpr auto _ignore	= "Ignore";
 	};
 	class FeetScript
 	{
@@ -180,6 +181,7 @@ namespace Fields
 		[[nodiscard]] static Tag& GetHeadTag();
 		[[nodiscard]] static Tag& GetFeetTag();
 		[[nodiscard]] static Tag& GetEnemyTag();
+		[[nodiscard]] static Tag& GetStaticEnemyTag();
 		[[nodiscard]] static Tag& GetPlayerAttack();
 	private:
 		static void Load();
@@ -191,6 +193,7 @@ namespace Fields
 		static inline Tag _feetTag;
 		static inline Tag _enemyTag;
 		static inline Tag _playerAttack;
+		static inline Tag _staticEnemyTag;
 
 		static inline bool _isLoaded = false;
 	};

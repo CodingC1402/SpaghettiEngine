@@ -37,9 +37,9 @@ void SegmentScript::Spawn()
 		_spawnedEnemies.push_back(
 			std::dynamic_pointer_cast<GameObj>(GetOwner()->Instantiate(_prefabs[toSpawn.first], toSpawn.second)->GetSharedPtr())
 		);
-		if (IsDisabled())
-			DisableEnemies();
 	}
+	if (IsDisabled())
+		DisableEnemies();
 }
 
 void SegmentScript::DeSpawn()

@@ -8,8 +8,10 @@ void CollideTopScript::OnCollide(CollideEvent& e)
 	if (e.GetEventOwner() != GetGameObject())
 		return;
 
-	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerAttack()) ||
-		e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetEnemyTag()))
+	if (e.GetGameObject()->GetTag().Collide(
+		Fields::SpecialTag::GetPlayerAttack() | 
+		Fields::SpecialTag::GetEnemyTag() | 
+		Fields::SpecialTag::GetStaticEnemyTag()))
 	{
 		e.SetIsHandled(true);
 	}
