@@ -1,3 +1,5 @@
+// This have to goes first or else the fucking gdi will strike again
+#include "CameraBoundingBox.h"
 #include "DebugControl.h"
 #include "InputSystem.h"
 #include "FieldNames.h"
@@ -26,11 +28,13 @@ void DebugControl::OnUpdate()
 		{
 			_playerControlScript->Disable();
 			_rbScript->Disable();
+			CameraBoundingBox::TempShutDown();
 		}
 		else
 		{
 			_playerControlScript->Enable();
 			_rbScript->Enable();
+			CameraBoundingBox::TurnOn();
 		}
 	}
 }

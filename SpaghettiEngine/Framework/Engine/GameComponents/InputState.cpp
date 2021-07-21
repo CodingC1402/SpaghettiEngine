@@ -2,7 +2,7 @@
 #include "KeyBoard.h"
 #include "Mouse.h"
 
-InputKeyDown::InputKeyDown(const KeyCode& keyCode, const std::string& name) noexcept : Input(keyCode, name)
+InputKeyDown::InputKeyDown(const int& keyCode, const std::string& name) noexcept : Input(keyCode, name)
 {
 	type = Input::Type::KeyDown;
 }
@@ -16,7 +16,7 @@ void InputKeyDown::Update(const KeyBoardEvent& e) noexcept
 void InputKeyDown::Reset() noexcept
 {}
 
-InputKeyUp::InputKeyUp(const KeyCode& keyCode, const std::string& name) noexcept : Input(keyCode, name)
+InputKeyUp::InputKeyUp(const int& keyCode, const std::string& name) noexcept : Input(keyCode, name)
 {
 	type = Input::Type::KeyUp;
 }
@@ -30,7 +30,7 @@ void InputKeyUp::Update(const KeyBoardEvent& e) noexcept
 void InputKeyUp::Reset() noexcept
 {}
 
-InputKeyPress::InputKeyPress(const KeyCode& keyCode, const std::string& name) noexcept : Input(keyCode, name)
+InputKeyPress::InputKeyPress(const int& keyCode, const std::string& name) noexcept : Input(keyCode, name)
 {
 	type = Input::Type::KeyPress;
 }
@@ -43,7 +43,7 @@ void InputKeyPress::Update(const KeyBoardEvent& e) noexcept
 		isInputActive = true;
 }
 
-InputKeyRelease::InputKeyRelease(const KeyCode& keyCode, const std::string& name) noexcept : Input(keyCode, name)
+InputKeyRelease::InputKeyRelease(const int& keyCode, const std::string& name) noexcept : Input(keyCode, name)
 {
 	type = Type::KeyRelease;
 }

@@ -22,7 +22,7 @@ public:
 	InputSystem(const InputSystem&) = delete;
 	InputSystem& operator=(const InputSystem&) = delete;
 	
-	static KeyCode GetFirstKeyPressCode();
+	static int GetFirstKeyPressCode();
 	static SInput GetInput(const string& name) noexcept;
 	static std::string GetStrInput() noexcept;
 	static std::wstring GetWideStrInput() noexcept;
@@ -36,14 +36,13 @@ protected:
 	void Unload();
 	void Save();
 
-	void CreateInput(const Input::Type& type, const std::string& name, const KeyCode& code);
+	void CreateInput(const Input::Type& type, const std::string& name, const int& code);
 
 	static PInputSystem GetInstance();
 protected:
-	PKeyBoard kb;
-	PMouse mouse;
+	KeyBoard* kb;
+	Mouse* mouse;
 
-	KeyBoardEvent firstKeyPressEvent;
 	std::wstring charInput;
 	std::vector<SInput> inputs;
 

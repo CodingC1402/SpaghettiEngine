@@ -15,12 +15,58 @@
                 "Rotation": [ 0, 0, 0 ],
                 "Scale": [ 1, 1, 1 ],
                 "Scripts": [
-                    {"ID": 1}
+                    {"ID": 1},
+                    {"ID": 3},
+                    {"ID": 4}
                 ]
             }
         }
     ],
     "Scripts": [
+        {
+            "ID": 3,
+            "Inputs": {
+                "ScriptType": "CameraBoundingBox",
+                "Triggers": [
+                    {
+                        "Center": [1936, 368, 0],
+                        "Width": 240,
+                        "Height": 10
+                    },
+                    {
+                        "Center": [2024, 208, 0],
+                        "Width": 20,
+                        "Height": 10
+                    }
+                ],
+                "MaxX": 2048,
+                "MinX": 1792,
+                "MaxY": 384,
+                "MinY": 160
+            }
+        },
+        {
+            "ID": 4,
+            "Inputs": {
+                "ScriptType": "CameraBoundingBox",
+                "Triggers": [
+                    {
+                        "Center": [1936, 384, 0],
+                        "Width": 240,
+                        "Height": 10
+                    },
+                    {
+                        "Center": [2024, 576, 0],
+                        "Width": 20,
+                        "Height": 10
+                    }
+                ],
+                "MaxX": 2048,
+                "MinX": 1792,
+                "MaxY": 576,
+                "MinY": 352
+            }
+        },
 		{
 			"ID": 1,
 			"Inputs": {

@@ -32,11 +32,13 @@ void CameraBoundingBox::OnFixedUpdate()
 		if (!objList.empty())
 		{
 			_isPlayerInside = true;
-			if (__currentScript && !__currentScript->_isPlayerInside)
+			if ((__currentScript && !__currentScript->_isPlayerInside) || !__currentScript)
 				__currentScript = this;
 			break;
 		}
 	}
+
+	// Debug
 	if constexpr (Setting::IsDebugMode())
 	{
 		for (auto& rect : _triggerZones)
@@ -65,34 +67,19 @@ void CameraBoundingBox::OnLateUpdate()
 		return;
 
 	auto cameraScript = Graphics::GetActiveCamera();
-	Vector3 cameraPos = cameraScript->GetWorldTransform();
-	Vector3 playerPos = PlayerScript::GetCurrentPlayer()->GetTransform().GetWorldTransform();
-	cameraScript->GetGameObject()->GetTransform().Translate(playerPos - cameraPos);
 	cameraScript->RemoveFollow();
-	cameraPos = playerPos;
+
+	Vector3 playerPos = PlayerScript::GetCurrentPlayer()->GetTransform().GetWorldTransform();
+	Vector3 camPos = playerPos;
 
 	float screenWidth = Setting::GetResolution().width / 2.0f;
 	float screenHeight = Setting::GetResolution().height / 2.0f;
-	Vector3 bottomLeft = cameraPos;
-	bottomLeft.x -= screenWidth;
-	bottomLeft.y -= screenHeight;
-	Vector3 topRight = cameraPos;
-	topRight.x += screenWidth;
-	topRight.y += screenHeight;
+	camPos.x -= camPos.x + screenWidth > _maxX ? (camPos.x + screenWidth) - _maxX : 0;
+	camPos.x += camPos.x - screenWidth < _minX ? _minX - (camPos.x - screenWidth) : 0;
+	camPos.y -= camPos.y + screenHeight > _maxY ? (camPos.y + screenHeight) - _maxY : 0;
+	camPos.y += camPos.y - screenHeight < _minY ? _minY - (camPos.y - screenHeight) : 0;
 
-	float deltaX = 0;
-	float deltaY = 0;
-	if (bottomLeft.x < _minX)
-		deltaX = _minX - bottomLeft.x;
-	else if (topRight.x > _maxX)
-		deltaX = _maxX - topRight.x;
-
-	if (bottomLeft.y < _minY)
-		deltaY = _minY - bottomLeft.y;
-	else if (topRight.y > _maxY)
-		deltaY = _maxY - topRight.y;
-
-	cameraScript->GetGameObject()->GetTransform().Translate(Vector3(deltaX, deltaY, 0));
+	cameraScript->GetGameObject()->GetTransform().SetWorldTransform(camPos);
 }
 
 void CameraBoundingBox::OnDisabled()

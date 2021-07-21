@@ -82,14 +82,32 @@
 				"Tag": "Platform",
 				"GameObjects": [
 					{"ID": 2},
-					{"ID": 3}
+					{"ID": 3},
+					{
+						"Prefabs": [0],
+						"ID": 1
+					},
+					{
+						"Prefabs": [1],
+						"ID": 1
+					},
+					{
+						"Prefabs": [2],
+						"ID": 1
+					},
+					{
+						"Prefabs": [3],
+						"ID": 1
+					}
 				],
 				"Transform": [0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
 					{"ID": 1},
-					{"ID": 2}
+					{"ID": 2},
+					{"ID": 3},
+					{"ID": 4}
 				]
 			}
 		},
@@ -170,6 +188,50 @@
 						"Position": [750, 600, 0]
 					}
 				]
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "CameraBoundingBox",
+				"Triggers": [
+					{
+						"Center": [100, 476, 0],
+						"Width": 100,
+						"Height": 100
+					},
+					{
+						"Center": [1000, 394, 0],
+						"Width": 20,
+						"Height": 10
+					},
+					{
+						"Center": [592, 568, 0],
+						"Width": 824,
+						"Height": 16
+					}
+				],
+				"MaxX": 1024,
+				"MinX": 0,
+				"MaxY": 576,
+				"MinY": 352
+			}
+		},
+		{
+			"ID": 4,
+			"Inputs": {
+				"ScriptType": "CameraBoundingBox",
+				"Triggers": [
+					{
+						"Center": [592, 584, 0],
+						"Width": 824,
+						"Height": 16
+					}
+				],
+				"MaxX": 1024,
+				"MinX": 0,
+				"MaxY": 768,
+				"MinY": 544
 			}
 		},
 		{
