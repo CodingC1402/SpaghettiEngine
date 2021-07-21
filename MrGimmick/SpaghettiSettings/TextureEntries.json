@@ -20,6 +20,10 @@
     "Path": "Asset/Textures/Stage2.jpg"
   },
   {
+    "ID": 50001,
+    "Path": "Asset/Textures/Objects.png"
+  },
+  {
     "ID": 90001,
     "Path": "Asset/Textures/Hub.png"
   }

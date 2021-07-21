@@ -95,6 +95,12 @@
     <ClCompile Include="CameraBoundingBox.cpp">
       <Filter>StaticObjects</Filter>
     </ClCompile>
+    <ClCompile Include="ShootScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CanonBallScript.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -172,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="CameraBoundingBox.h">
       <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootScript.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CanonBallScript.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
