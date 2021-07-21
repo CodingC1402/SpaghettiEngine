@@ -22,7 +22,7 @@ bool InputAll::CheckKeyRelease() const noexcept
 	return _isKeyRelease;
 }
 
-InputAll::InputAll(const KeyCode& keyCode, const std::string& name) noexcept : Input(keyCode, name)
+InputAll::InputAll(const int& keyCode, const std::string& name) noexcept : Input(keyCode, name)
 {
 	type = Type::All;
 }

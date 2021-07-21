@@ -17,7 +17,7 @@ public:
 
 	// Check now will be a function that return whether this button have been interacted with;
 protected:
-	InputAll(const KeyCode& keyCode, const std::string& name) noexcept;
+	InputAll(const int& keyCode, const std::string& name) noexcept;
 	virtual void Update(const KeyBoardEvent& e) noexcept override;
 	virtual void Reset() noexcept override;
 protected:

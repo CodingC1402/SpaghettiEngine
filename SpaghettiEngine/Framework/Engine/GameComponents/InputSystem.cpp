@@ -15,7 +15,7 @@ constexpr const char* CodeText = "KeyCode";
 
 PInputSystem InputSystem::__instance = nullptr;
 
-KeyCode InputSystem::GetFirstKeyPressCode()
+int InputSystem::GetFirstKeyPressCode()
 {
 	return KeyCode();
 }
@@ -152,7 +152,7 @@ void InputSystem::Save()
 	oFile.close();
 }
 
-void InputSystem::CreateInput(const Input::Type& type, const std::string& name, const KeyCode& code)
+void InputSystem::CreateInput(const Input::Type& type, const std::string& name, const int& code)
 {
 	inputs.push_back(Input::Create(code, name, type));
 }

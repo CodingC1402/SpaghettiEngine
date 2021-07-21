@@ -24,7 +24,7 @@ private:
 	SInputAll _jump;
 
 	BoolField _isInTube;
-	MoveScript* _moveScript;
+	MoveScript* _moveScript = nullptr;
 
 	REGISTER_START(PlayerControl);
 };
