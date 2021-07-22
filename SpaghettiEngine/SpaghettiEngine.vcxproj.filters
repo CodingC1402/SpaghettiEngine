@@ -398,6 +398,9 @@
     <ClInclude Include="Framework\Utilities\Rect.h">
       <Filter>FrameWork\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\AnimationComponents\SkeletonNode.h">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -687,6 +690,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Utilities\Rect.cpp">
       <Filter>FrameWork\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\AnimationComponents\SkeletonNode.cpp">
+      <Filter>FrameWork\Engine\AnimationComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

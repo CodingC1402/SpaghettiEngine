@@ -1,10 +1,5 @@
 #include "SMath.h"
 
-float SMath::Lerp(const float& start, const float& end, const float t)
-{
-	return start + (end - start) * ((t > 1.0f ? 1.0f : t) < 0.0f ? 0.0f : t);
-}
-
 float SMath::ToRad(const float& degree)
 {
 	return degree * (pi / 180.0f);

@@ -1,5 +1,6 @@
 #pragma once
 #include "Macros.h"
+#include "json.hpp"
 
 typedef unsigned char Byte;
 typedef unsigned long Int32;
@@ -10,6 +11,7 @@ public:
 	Color() = default;
 	Color(Int32 color);
 	Color(Byte r, Byte g, Byte b, Byte a = 255);
+	Color(nlohmann::json& input);
 	Int32 GetDXColor() const;
 	operator Int32() const;
 

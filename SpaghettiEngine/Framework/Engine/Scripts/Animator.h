@@ -5,9 +5,10 @@
 class Animator : public Render2DScriptBase
 {
 public:
-	virtual void OnUpdate() override;
-	virtual void Load(nlohmann::json& inputObject) override;
-	virtual void Draw(PCamera camera) override;
+	void OnStart() override;
+	void OnUpdate() override;
+	void Load(nlohmann::json& inputObject) override;
+	void Draw(PCamera camera) override;
 
 	template<typename T>
 	void SetFieldValue(const std::string& fieldName, T value);
