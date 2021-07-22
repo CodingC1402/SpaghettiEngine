@@ -5,16 +5,19 @@
 #include "Macros.h"
 
 CLASS_FORWARD_DECLARATION(SkeletonNode);
+CLASS_FORWARD_DECLARATION(AnimationTree);
+typedef std::shared_ptr<Vector3> SVector3;
+typedef std::shared_ptr<Color> SColor;
 
 class SkeletonNode : public LeafNode
 {
 public:
 	struct Frame
 	{
-		Vector3 _rotation;
-		Vector3 _transform;
-		Vector3 _scale;
-		Color	_color;
+		SVector3 _rotation;
+		SVector3 _transform;
+		SVector3 _scale;
+		SColor	_color;
 		float _time;
 	};
 public:
@@ -26,11 +29,19 @@ public:
 
 	SNode Clone(WBTs tree) override;
 private:
+	void TransitionToNextFrame(SAnimationTree tree);
+	void StartAnimation(SAnimationTree tree);
+
+	void StoreOldFrame(SAnimationTree tree);
+	void RestoreOldFrame(SAnimationTree tree);
+private:
 	std::vector<Frame> _frames;
-	float _counter = 0;
-	bool _loop = false;
-	bool _isRunning = false;
-	unsigned _frameIndex = 0;
+	Frame		_oldFrame;
+	float		_counter	= 0;
+	bool		_loop		= false;
+	bool		_isRunning	= false;
+	bool		_isReset	= false;
+	unsigned	_frameIndex = 0;
 
 	static constexpr auto _framesField		= "Frames";
 	static constexpr auto _transformField	= "Transform";
@@ -39,6 +50,7 @@ private:
 	static constexpr auto _colorField		= "Color";
 	static constexpr auto _timeField		= "Time";
 	static constexpr auto _loopField		= "Loop";
+	static constexpr auto _resetField		= "Reset";
 
 	NODE_REGISTER(SkeletonNode);
 };
