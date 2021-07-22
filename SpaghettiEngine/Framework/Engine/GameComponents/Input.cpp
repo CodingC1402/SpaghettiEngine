@@ -10,7 +10,7 @@ bool Input::Check() noexcept
 	return isInputActive;
 }
 
-Input::Input(const KeyCode& keyCode, const std::string& name)  noexcept
+Input::Input(const int& keyCode, const std::string& name)  noexcept
 {
 	this->keyCode = keyCode;
 	this->name = name;
@@ -36,7 +36,7 @@ void Input::LostFocus() noexcept
 	isInputActive = false;
 }
 
-SInput Input::Create(const KeyCode& keyCode, const std::string& name, const Type& t) noexcept
+SInput Input::Create(const int& keyCode, const std::string& name, const Type& t) noexcept
 {
 	switch (t)
 	{

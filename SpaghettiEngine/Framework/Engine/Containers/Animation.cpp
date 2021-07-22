@@ -17,7 +17,7 @@ SSprite Animation::GetSpriteOfFrame(const unsigned int& frame) const
 
 bool Animation::Advance(unsigned int& frame, float& time)
 {
-	UINT nextFrame = frame;
+	unsigned nextFrame = frame;
 	while (time >= 0)
 	{
 		frame = nextFrame;

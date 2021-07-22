@@ -9,6 +9,7 @@ class Collider2DBase : public PhysicScriptBase
 public:
 	Collider2DBase(PScene owner, bool isDisabled = false);
 
+	void OnStart() override;
 	void OnEnabled() override;
 	void OnDisabled() override;
 	void OnChange();

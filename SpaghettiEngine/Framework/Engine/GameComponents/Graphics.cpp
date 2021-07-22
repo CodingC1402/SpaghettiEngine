@@ -1,14 +1,15 @@
-﻿#include "CornDirectX.h"
-#include "Graphics.h"
-#include "GameWnd.h"
-#include "Monitor.h"
-#include "Setting.h"
-#include "json.hpp"
-#include "Setting.h"
-#include "Sprite.h"
-#include "Render2DScriptBase.h"
+﻿#include "CornWnd.h"
+#include "Canvas.h"
 #include "DirectX9Graphic.h"
 #include "DebugRenderer.h"
+#include "Graphics.h"
+#include "GameWnd.h"
+#include "json.hpp"
+#include "Monitor.h"
+#include "Render2DScriptBase.h"
+#include "Setting.h"
+#include "Setting.h"
+#include "Sprite.h"
 
 #include <fstream>
 #include <DirectXMath.h>
@@ -35,6 +36,16 @@ void Graphics::RemoveRender2D(PRender2DScriptBase renderScript)
 	_renderBuffer2D[renderScript->GetDrawLayer()].remove(renderScript);
 }
 
+void Graphics::AddUIRender(PCanvas canvas)
+{
+	_canvasList.emplace_back(canvas);
+}
+
+void Graphics::RemoveUIRender(PCanvas canvas)
+{
+	_canvasList.remove(canvas);
+}
+
 void Graphics::SetSpriteTransform(const Matrix4& matrix)
 {
 	auto dxMatrix = matrix.ConvertToDxMatrix();
@@ -46,13 +57,34 @@ void Graphics::SetSpriteTransform(const Matrix4& matrix)
 	_turdGraphic->SetRenderTransform(dxMatrix);
 }
 
+void Graphics::ResetSpriteTransform()
+{
+	_turdGraphic->SetRenderTransform(Matrix4::GetDiagonalMatrix().ConvertToDxMatrix());
+}
+
 void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Vector3& position, const Color& color)
 {
 	RECT srcRect = sprite->GetSourceRect();
 	auto dxCenter = center.ConvertToDxVector();
 	auto dxPos = position.ConvertToDxVector();
 
-	_turdGraphic->RenderSprite(sprite->GetSource()->GetImage(),
+	_turdGraphic->RenderSprite(
+		sprite->GetSource()->GetImage(),
+		srcRect,
+		dxCenter,
+		dxPos,
+		color
+	);
+}
+
+void Graphics::DrawUI(const SSprite& sprite, const Vector3& position, const Color& color)
+{
+	RECT srcRect = sprite->GetSourceRect();
+	auto dxCenter = Vector3(0, 0, 0).ConvertToDxVector();
+	auto dxPos = position.ConvertToDxVector();
+
+	_turdGraphic->RenderSprite(
+		sprite->GetSource()->GetImage(),
 		srcRect,
 		dxCenter,
 		dxPos,
@@ -138,7 +170,7 @@ void Graphics::Init(const ColorFormat& colorFormat, SGameWnd window)
 
 
 void Graphics::Render()
-{
+{ 
 	if (_cameraList.empty())
 		return;
 
@@ -160,16 +192,21 @@ void Graphics::Render()
 		for (auto& layer : _renderBuffer2D)
 			for (auto renderScript2D = layer.begin(); renderScript2D != layer.end(); ++renderScript2D)
 				(*renderScript2D)->Draw(cameraScript);
-		_turdGraphic->EndRenderSprite();
 
 		// Only available in debugMode cause why would you
 		// use this shit out side debug.
+		ResetSpriteTransform();
 		if constexpr (Setting::IsDebugMode())
 		{
+			_turdGraphic->EndRenderSprite();
 			// The debug renderer will begin the line render session itself.
-			SetSpriteTransform(Matrix4::GetDiagonalMatrix());
 			DebugRenderer::Render(_turdGraphic, cameraScript);
+			_turdGraphic->StartRenderSprite();
 		}
+
+		for (auto& canvas : _canvasList)
+			canvas->Draw();
+		_turdGraphic->EndRenderSprite();
 
 		if (!_turdGraphic->EndRender())
 			_turdGraphic->ResetRender();
@@ -177,7 +214,7 @@ void Graphics::Render()
 	}
 }
 #pragma region  Exception
-Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, HRESULT code) noexcept
+Graphics::GraphicCodeException::GraphicCodeException(int line, const char* file, long code) noexcept
 	:
 	CornException(line, file),
 	code(code)

@@ -34,7 +34,7 @@ Matrix4 Camera::GetMatrixWithoutScaleY(const Matrix4& originalMatrix)
 	return originalMatrix * cameraMatrix;
 }
 
-void Camera::OnFixedUpdate()
+void Camera::OnLateUpdate()
 {
 	if (_followingPtr.use_count() > 0)
 	{

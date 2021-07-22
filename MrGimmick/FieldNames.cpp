@@ -30,6 +30,24 @@ Tag& Fields::SpecialTag::GetFeetTag()
 	return _feetTag;
 }
 
+Tag& Fields::SpecialTag::GetEnemyTag()
+{
+	Load();
+	return _enemyTag;
+}
+
+Tag& Fields::SpecialTag::GetStaticEnemyTag()
+{
+	Load();
+	return _staticEnemyTag;
+}
+
+Tag& Fields::SpecialTag::GetPlayerAttack()
+{
+	Load();
+	return _playerAttack;
+}
+
 void Fields::SpecialTag::Load()
 {
 	if (_isLoaded)
@@ -40,6 +58,9 @@ void Fields::SpecialTag::Load()
 	_playerTag		= Tag(Player::_player);
 	_headTag		= Tag(Player::_head);
 	_feetTag		= Tag(Player::_feet);
+	_enemyTag		= Tag(Enemy::_enemy);
+	_playerAttack   = Tag(Player::_playerAttack);
+	_staticEnemyTag	= Tag("StaticEnemy");
 
 	_isLoaded = true;
 }

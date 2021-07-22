@@ -1,0 +1,21 @@
+{
+    "Children": 
+    [
+        {
+            "Type": "Sequence",
+            "Children": 
+            [
+                {
+                    "Type": "PatrolLeaf",
+                    "Input": {
+                        "Path": [
+                            [50, 0, 0],
+                            [100, 0, 0]
+                        ],
+                        "Delay": 0.75
+                    }
+                }
+            ]
+        }
+    ]
+}

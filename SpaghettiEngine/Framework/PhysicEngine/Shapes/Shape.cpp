@@ -74,7 +74,7 @@ void Shape::SetOwnerScript(Collider2DBase* owner)
 
 Collider2DBase* Shape::GetOwnerScript() const noexcept
 {
-	return  _ownerScript;
+	return _ownerScript;
 }
 
 float Shape::GetInverseMass() const noexcept
@@ -133,9 +133,14 @@ bool Shape::UpdateParameter()
 	if (matrix == _worldMatrix)
 		return false;
 
+	UpdateParameter(matrix);
+	return true;
+}
+
+void Shape::UpdateParameter(const Matrix4& matrix)
+{
 	_worldMatrix = matrix;
 	_broadPhase.UpdateMatrix(_worldMatrix, _offSetMatrix);
-	return true;
 }
 
 void Shape::RemoveFromPhysic()

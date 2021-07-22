@@ -5,14 +5,91 @@
 
 namespace Fields
 {
+	class AIScript {
+	public:
+		static constexpr auto _behaviorTree = "BehaviorTree";
+		static constexpr auto _delay		= "Delay";
+		static constexpr auto _changes		= "Changes";
+	};
+	class CameraBoundingBox
+	{
+	public:
+		static constexpr auto _triggers = "Triggers";
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
+
+		static constexpr auto _maxX = "MaxX";
+		static constexpr auto _minX = "MinX";
+		static constexpr auto _maxY = "MaxY";
+		static constexpr auto _minY = "MinY";
+	};
 	class Character
 	{
 	public:
-		static constexpr auto _character			= "Character";
+		static constexpr auto _character = "Character";
+	};
+	class DebugControl
+	{
+	public:
+		static constexpr auto _debugFlySpeed = "FlySpeed";
+	};
+	class EnemyJumpScript {
+	public:
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
+
+		static constexpr auto _wall			= "Wall";
+		static constexpr auto _ground		= "Ground";
+		static constexpr auto _resetDelay	= "ResetDelay";
+	};
+	class Enemy
+	{
+	public:
+		static constexpr auto _enemy	= "Enemy";
+		static constexpr auto _ignore	= "Ignore";
+	};
+	class FeetScript
+	{
+	public:
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
+		static constexpr auto _position = "Position";
+		static constexpr auto _groundTag= "GroundTag";
+		static constexpr auto _tagMode	= "TagMode";
+	};
+	class HeadScript
+	{
+	public:
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
+	};
+	class Input
+	{
+	public:
+		static constexpr auto _moveLeft = "MoveLeft";
+		static constexpr auto _moveRight= "MoveRight";
+		static constexpr auto _moveUp	= "MoveUp";
+		static constexpr auto _moveDown = "MoveDown";
+		static constexpr auto _jump		= "Jump";
+		static constexpr auto _attack	= "Attack";
+
+		static constexpr auto _enterDebug = "EnterDebug";
+		static constexpr auto _fullScreen = "FullScreen";
+	};
+	class MovableObject {
+	public:
+		static constexpr auto _speed	= "Speed";
+		static constexpr auto _path		= "Path";
+		static constexpr auto _isLoop	= "IsLoop";
+		static constexpr auto _delay	= "Delay";
 	};
 	class Player
 	{
 	public:
+		static constexpr auto _playerAttack			= "PlayerAttack";
 		static constexpr auto _player				= "Player";
 		static constexpr auto _head					= "Head";
 		static constexpr auto _feet					= "Feet";
@@ -31,21 +108,21 @@ namespace Fields
 
 		static constexpr auto _appearOffSet			= "AppearOffSet";
 	};
-
-	class Input
+	class Platform
 	{
 	public:
-		static constexpr auto _moveLeft		= "MoveLeft";
-		static constexpr auto _moveRight	= "MoveRight";
-		static constexpr auto _jump			= "Jump";
-		static constexpr auto _attack		= "Attack";
-
-		static constexpr auto _fullScreen	= "FullScreen";
+		static constexpr auto _platform = "Platform";
 	};
-
+	class RidablePlatformUpDown
+	{
+	public:
+		static constexpr auto _delta = "Delta";
+		static constexpr auto _delay = "Delay";
+	};
 	class Star
 	{
 	public:
+		static constexpr auto _star				= "Star";
 		static constexpr auto _explodeTime		= "ExplodeTime";
 		static constexpr auto _explodeAnimTime	= "ExplodeAnimTime";
 		static constexpr auto _createAnimTime	= "CreateAnimTime";
@@ -58,11 +135,41 @@ namespace Fields
 		static constexpr auto _numberOfStar		= "NumberOfStar";
 		static constexpr auto _spinAngle		= "SpinAngle";
 	};
-
-	class Platform
+	class SegmentTrigger
 	{
 	public:
-		static inline const std::string _platform = "Platform";
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
+	};
+	class SegmentScript
+	{
+	public:
+		static constexpr auto _enenySpawns	= "EnemySpawns";
+		static constexpr auto _index		= "Index";
+		static constexpr auto _position		= "Position";
+	};
+
+	class SpawnPoint
+	{
+	public:
+		static constexpr auto _center		= "Center";
+		static constexpr auto _width		= "Width";
+		static constexpr auto _height		= "Height";
+		static constexpr auto _spawnPoint	= "SpawnPoint";
+	};
+	class TubeScript
+	{
+	public:
+		static constexpr auto _pointA	= "PointA";
+		static constexpr auto _pointB	= "PointB";
+
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
+
+		static constexpr auto _path		= "Path";
+		static constexpr auto _speed	= "Speed";
 	};
 
 	class SpecialTag
@@ -73,6 +180,9 @@ namespace Fields
 		[[nodiscard]] static Tag& GetPlayerTag();
 		[[nodiscard]] static Tag& GetHeadTag();
 		[[nodiscard]] static Tag& GetFeetTag();
+		[[nodiscard]] static Tag& GetEnemyTag();
+		[[nodiscard]] static Tag& GetStaticEnemyTag();
+		[[nodiscard]] static Tag& GetPlayerAttack();
 	private:
 		static void Load();
 	private:
@@ -81,6 +191,9 @@ namespace Fields
 		static inline Tag _playerTag;
 		static inline Tag _headTag;
 		static inline Tag _feetTag;
+		static inline Tag _enemyTag;
+		static inline Tag _playerAttack;
+		static inline Tag _staticEnemyTag;
 
 		static inline bool _isLoaded = false;
 	};

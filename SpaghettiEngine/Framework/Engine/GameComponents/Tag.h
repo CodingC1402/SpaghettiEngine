@@ -16,15 +16,11 @@ public:
 	Tag(Tag&&) = default;
 
 	Tag& operator= (const Tag& tag) noexcept;
-	
 
 	[[nodiscard]] static std::string GetDelimeter() noexcept;
 
-	[[nodiscard]] bool operator<(const Tag& tag) const noexcept;
-	[[nodiscard]] bool operator>(const Tag& tag) const noexcept;
-	[[nodiscard]] bool operator<=(const Tag& tag) const noexcept;
-	[[nodiscard]] bool operator>=(const Tag& tag) const noexcept;
-
+	[[nodiscard]] Tag operator| (const Tag& tag) const noexcept;
+	[[nodiscard]] Tag operator& (const Tag& tag) const noexcept;
 	[[nodiscard]] bool operator==(const Tag& tag) const noexcept;
 	[[nodiscard]] bool operator!=(const Tag& tag) const noexcept;
 

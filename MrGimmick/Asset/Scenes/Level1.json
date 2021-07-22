@@ -4,11 +4,11 @@
 			"ID": 10001,
 			"Changes": [
 				{
-					"Prefabs":[0],
+					"Prefabs":[0, 1],
 					"ID": 1,
 					"Type" : "GameObject",
 					"Field": "Transform",
-					"Value": [-900, 100, 0]
+					"Value": [100, 476, 0]
 				}
 			]
 		},
@@ -23,25 +23,56 @@
 			"ID": 1,
 			"Inputs": {
 				"IsRoot": true,
-				"Tag": "TileMap",
 				"GameObjects": [
+				],
+				"Transform": [ 1032, 376, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 1 },
+					{ "ID": 2 }
+				]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs":{
+				"IsRoot": true,
+				"GameObjects": [
+					{
+						"Prefabs":[1], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[2], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[3], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[4], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[5], 
+						"ID": 1
+					}
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-					{
-						"ID": 1
-					},
-					{
-						"ID": 2
-					},
-					{
-						"ID": 3
-					},
-					{
-						"ID": 4
-					}
+					{"ID":101},
+					{"ID":102},
+					{"ID":103},
+					{"ID":104},
+					{"ID":201},
+					{"ID":202},
+					{"ID":203},
+					{"ID":204},
+					{"ID":205}
 				]
 			}
 		}
@@ -64,22 +95,189 @@
 			}
 		},
 		{
-			"ID": 3,
+			"ID": 101,
 			"Inputs": {
-				"ScriptType": "SoundSource",
-				"ID": 10001,
-				"Name": "se5",
-				"Mode": "Overlap",
-				"Loop": true,
-				"Delay": 1.0,
-				"Volume": 1.0
+				"ScriptType": "SegmentTrigger",
+				"Center": [1000, 384, 0],
+				"Width": 16,
+				"Height": 16,
+				"GameObjects": [
+					{
+						"Prefabs":[1], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[2], 
+						"ID": 1
+					}
+				]
 			}
 		},
 		{
-			"ID": 4,
+			"ID": 102,
 			"Inputs": {
-				"ScriptType": "PlaySoundScript",
-				"Layer": 1
+				"ScriptType": "SegmentTrigger",
+				"Center": [552, 192, 0],
+				"Width": 16,
+				"Height": 16,
+				"GameObjects": [
+					{
+						"Prefabs":[2], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[3], 
+						"ID": 1
+					}
+				]
+			}
+		},
+		{
+			"ID": 103,
+			"Inputs": {
+				"ScriptType": "SegmentTrigger",
+				"Center": [2024, 200, 0],
+				"Width": 16,
+				"Height": 16,
+				"GameObjects": [
+					{
+						"Prefabs":[3], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[4], 
+						"ID": 1
+					}
+				]
+			}
+		},
+		{
+			"ID": 104,
+			"Inputs": {
+				"ScriptType": "SegmentTrigger",
+				"Center": [2024, 600, 0],
+				"Width": 16,
+				"Height": 16,
+				"GameObjects": [
+					{
+						"Prefabs":[4], 
+						"ID": 1
+					},
+					{
+						"Prefabs":[5], 
+						"ID": 1
+					}
+				]
+			}
+		},
+		{
+			"ID": 201,
+			"Inputs": {
+				"ScriptType": "TubeScript",
+				"PointA": {
+					"Center": [984, 432, 0],
+					"Width": 8,
+					"Height": 16
+				},
+				"PointB": {
+					"Center": [992, 368, 0],
+					"Width": 16,
+					"Height": 8
+				},
+				"Speed": 80,
+				"Path": [
+					976, 426,
+					1000, 426,
+					1000, 356
+				]
+			}
+		},
+		{
+			"ID": 202,
+			"Inputs": {
+				"ScriptType": "TubeScript",
+				"PointA": {
+					"Center": [544, 240, 0],
+					"Width": 16,
+					"Height": 8
+				},
+				"PointB": {
+					"Center": [544, 160, 0],
+					"Width": 16,
+					"Height": 8
+				},
+				"Speed": 80,
+				"Path": [
+					552, 248,
+					552, 144
+				]
+			}
+		},
+		{
+			"ID": 203,
+			"Inputs": {
+				"ScriptType": "TubeScript",
+				"PointA": {
+					"Center": [2008, 48, 0],
+					"Width": 8,
+					"Height": 16
+				},
+				"PointB": {
+					"Center": [2008, 240, 0],
+					"Width": 8,
+					"Height": 16
+				},
+				"Speed": 80,
+				"Path": [
+					2000, 42,
+					2024, 42,
+					2024, 234,
+					2000, 234
+				]
+			}
+		},
+		{
+			"ID": 204,
+			"Inputs": {
+				"ScriptType": "TubeScript",
+				"PointA": {
+					"Center": [1808, 368, 0],
+					"Width": 16,
+					"Height": 8
+				},
+				"PointB": {
+					"Center": [1824, 416, 0],
+					"Width": 8,
+					"Height": 16
+				},
+				"Speed": 80,
+				"Path": [
+					1816, 352,
+					1816, 410,
+					1840, 410
+				]
+			}
+		},
+		{
+			"ID": 205,
+			"Inputs": {
+				"ScriptType": "TubeScript",
+				"PointA": {
+					"Center": [2016, 528, 0],
+					"Width": 16,
+					"Height": 8
+				},
+				"PointB": {
+					"Center": [2008, 624, 0],
+					"Width": 8,
+					"Height": 16
+				},
+				"Speed": 80,
+				"Path": [
+					2024, 512,
+					2024, 618,
+					2000, 618
+				]
 			}
 		}
 	]

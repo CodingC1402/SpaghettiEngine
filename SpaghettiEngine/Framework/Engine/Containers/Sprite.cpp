@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "SMath.h"
+#include "CornDirectX.h"
 #include "Vector3.h"
 
 PTexture Sprite::GetSource() const
@@ -24,7 +25,7 @@ Vector3 Sprite::GetCenter() const
 
 RECT Sprite::GetSourceRect() const
 {
-	return srcRect;
+	return srcRect.GetDirectXRect();
 }
 
 Sprite::Sprite(const PTexture& source, const int& x, const int& y, const int& w, const int& h)

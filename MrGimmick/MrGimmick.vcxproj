@@ -92,12 +92,14 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <OmitFramePointers>false</OmitFramePointers>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <Optimization>Disabled</Optimization>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -123,6 +125,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,12 +147,14 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
-      <IntrinsicFunctions>false</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <OmitFramePointers>false</OmitFramePointers>
-      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <Optimization>Disabled</Optimization>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,6 +180,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -192,31 +198,69 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIBTs.cpp" />
+    <ClCompile Include="AIScript.cpp" />
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="CameraBoundingBox.cpp" />
+    <ClCompile Include="CanonBallScript.cpp" />
+    <ClCompile Include="ChasingLeaf.cpp" />
+    <ClCompile Include="DebugControl.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="HealthScript.cpp" />
-    <ClCompile Include="LevelSegment.cpp" />
+    <ClCompile Include="PlaySoundScript.cpp" />
+    <ClCompile Include="SegmentScript.cpp" />
+    <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
     <ClCompile Include="FeetScript.cpp" />
     <ClCompile Include="HeadScript.cpp" />
-    <ClCompile Include="PlaySoundScript.cpp" />
+    <ClCompile Include="ObjectRidable.cpp" />
+    <ClCompile Include="PatrolLeaf.cpp" />
+    <ClCompile Include="PlayerControl.cpp" />
+    <ClCompile Include="PlayerScript.cpp" />
+    <ClCompile Include="RidableScript.cpp" />
+    <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
+    <ClCompile Include="ShootScript.cpp" />
+    <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="StarCreation.cpp" />
+    <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="StarScript.cpp" />
+    <ClCompile Include="TubeScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AIBTs.h" />
+    <ClInclude Include="AIScript.h" />
     <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="CameraBoundingBox.h" />
+    <ClInclude Include="CanonBallScript.h" />
+    <ClInclude Include="ChasingLeaf.h" />
+    <ClInclude Include="DebugControl.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="HealthScript.h" />
-    <ClInclude Include="LevelSegment.h" />
+    <ClInclude Include="PlaySoundScript.h" />
+    <ClInclude Include="SegmentScript.h" />
+    <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />
     <ClInclude Include="FeetScript.h" />
     <ClInclude Include="HeadScript.h" />
-    <ClInclude Include="PlaySoundScript.h" />
+    <ClInclude Include="ObjectRidable.h" />
+    <ClInclude Include="PatrolLeaf.h" />
+    <ClInclude Include="PlayerControl.h" />
+    <ClInclude Include="PlayerScript.h" />
+    <ClInclude Include="RidableScript.h" />
+    <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
+    <ClInclude Include="ShootScript.h" />
+    <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="StarCreation.h" />
+    <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="StarScript.h" />
+    <ClInclude Include="TubeScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

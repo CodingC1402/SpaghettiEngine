@@ -9,10 +9,12 @@
   "PixelPerfectWorldPoint": true,
   "Gravity": 120,
   "PhysicStep": 0.01,
+  "PhysicMaxStep": 0.1,
   "Tags": [
     "Character",
     "Player",
     "Enemy",
+    "StaticEnemy",
     "Head",
     "Feet",
     "PlayerAttack",

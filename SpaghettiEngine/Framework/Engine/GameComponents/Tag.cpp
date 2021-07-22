@@ -48,24 +48,18 @@ std::string Tag::GetDelimeter() noexcept
 	return _delimeter;
 }
 
-bool Tag::operator<(const Tag& tag) const noexcept
+Tag Tag::operator|(const Tag& tag) const noexcept
 {
-	return _tagVar < tag._tagVar;
+	Tag rValue;
+	rValue._tagVar = _tagVar | tag._tagVar;
+	return rValue;
 }
 
-bool Tag::operator>(const Tag& tag) const noexcept
+Tag Tag::operator&(const Tag& tag) const noexcept
 {
-	return _tagVar > tag._tagVar;
-}
-
-bool Tag::operator<=(const Tag& tag) const noexcept
-{
-	return _tagVar <= tag._tagVar;
-}
-
-bool Tag::operator>=(const Tag& tag) const noexcept
-{
-	return _tagVar >= tag._tagVar;
+	Tag rValue;
+	rValue._tagVar = _tagVar & tag._tagVar;
+	return rValue;
 }
 
 bool Tag::operator==(const Tag& tag) const noexcept

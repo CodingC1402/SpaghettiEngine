@@ -24,6 +24,7 @@ public:
 	static void CallLoadNextScene();
 	static void CallLoadScene(unsigned index);
 	static void CallLoadPreviousScene();
+	static void CallReloadScene();
 
 	static SScene& GetConstScene();
 
@@ -39,6 +40,8 @@ protected:
 	SceneManager();
 	void Update();
 	void FixedUpdate();
+	void LateUpdate();
+	void CleanUp();
 
 	void Load();
 	void Init();
@@ -52,6 +55,7 @@ protected:
 
 	std::atomic_bool _isLoading = false;
 	bool _startedLoadNewScene = false;
+	bool _forceReload = false;
 
 	std::recursive_mutex _sceneLock;
 

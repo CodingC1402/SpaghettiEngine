@@ -8,6 +8,12 @@ Collider2DBase::Collider2DBase(PScene owner, bool isDisable)
 	PhysicScriptBase(owner, isDisable)
 {}
 
+void Collider2DBase::OnStart()
+{
+	for (auto& shape : _shapes)
+		shape->SetOwnerScript(this);
+}
+
 void Collider2DBase::OnEnabled()
 {
 	PhysicScriptBase::OnEnabled();

@@ -6,6 +6,24 @@ BaseComponent::BaseComponent(PScene owner, bool isDisabled)
     _isDisabled = isDisabled;
 }
 
+
+//============================================={NOTE}===============================================//
+// These two are not mistake, base on the decision table:
+// 
+// C\P    | Enable | Disable | Result
+// -------+--------+---------+-----------
+// Enable |   X    |         | OnEnabled
+// Disable|   X    |         | Nothing
+// Enable |        |    X    | OnDisabled
+// Disable|        |    X    | Nothing
+//
+// You can see that only when an object is enabled it would care about what the parent do,
+// that make sense but will cause error because the OnEnabled doesn't know whether it is
+// it own event or other so it check by using.
+// if (IsDisabled())
+// So to make thing work we have to set isDisabled first on Enable and after in Disable.
+// Got that future me?
+
 void BaseComponent::Disable()
 {
     if (_isDisabled)
@@ -13,14 +31,14 @@ void BaseComponent::Disable()
     OnDisabled();
     _isDisabled = true;
 }
-
 void BaseComponent::Enable()
 {
     if (!_isDisabled)
         return;
-    OnEnabled();
     _isDisabled = false;
+    OnEnabled();
 }
+//============================================={NOTE}===============================================//
 
 bool BaseComponent::IsDeleted() const
 {

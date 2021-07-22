@@ -1,11 +1,36 @@
 {
+	"Prefabs": [
+		{ 
+			"ID": 20000,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "Script",
+					"Field": "Polygons",
+					"Value": [
+						[
+							-8, -7,
+							-8,  7,
+							8 ,  7,
+							8 , -7 
+						]
+					]
+				}
+			]
+		}
+	],
     "GameObjects": [
 		{
 			"ID": 1,
 			"Inputs": {
 				"Tag": "PlayerAttack",
 				"IsRoot": false,
-				"GameObjects": [],
+				"GameObjects": [
+					{
+						"Prefabs": [0],
+						"ID": 1
+					}
+				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
@@ -33,10 +58,10 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "StarScript",
-				"ExplodeTime": 7,
+				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [160, 80]
+				"StartVelocity": [120, -120]
 			}
 		},
 		{
@@ -46,10 +71,10 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-8, -10,
-						-8,   7,
-						8 ,   7,
-						8 , -10 
+						-6, -8,
+						-6,   5,
+						6 ,   5,
+						6 , -8 
 					]
 				]
 			}
@@ -74,8 +99,8 @@
 			"IsDisabled": true,
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
-				"Mass": 2,
-				"GravityScale": 4,
+				"Mass": 1,
+				"GravityScale": 3,
 				"Material": 20001
 			}
 		}

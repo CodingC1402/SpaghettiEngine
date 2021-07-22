@@ -7,7 +7,7 @@ class HeadScript : public ScriptBase
 public:
 	void OnStart() override;
 	void OnFixedUpdate() override;
-	void OnCollide(CollideEvent& e) override;
+	void Load(nlohmann::json& input) override;
 
 	PScriptBase Clone() const override;
 protected:
@@ -21,8 +21,13 @@ protected:
 	// 
 	// 	Allow Jump
 	//
+
 	bool _isCollideWithPlatform = false;
 	MoveScript* _moveScript = nullptr;
+
+	Vector3 _center;
+	float _width = 0;
+	float _height = 0;
 private:
 	REGISTER_START(HeadScript);
 };

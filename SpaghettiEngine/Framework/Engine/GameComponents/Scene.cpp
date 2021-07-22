@@ -64,8 +64,13 @@ void Scene::FixedUpdate()
     _rootContainer.IteratingWithLamda([](PGameObj obj) {
         obj->OnFixedUpdate();
     });
+}
 
-    EraseTrashBin();
+void Scene::LateUpdate()
+{
+    _rootContainer.IteratingWithLamda([](PGameObj obj) {
+        obj->OnLateUpdate();
+    });
 }
 
 PGameObj Scene::Instantiate(GameObj* toClone, Vector3 worldPosition)
@@ -117,16 +122,20 @@ void Scene::Load()
             _callEnable = new std::stack<PScriptBase>();
 
         //Load script
+
+        bool isDisabled = false;
         for (auto& script : jsonFile[Field::scriptsField])
         {
+            isDisabled = script[Field::isDisabled].empty() ? false : script[Field::isDisabled].get<bool>();
             auto scriptType = script[Field::inputsField][Field::scriptTypeField].get<std::string>();
-            SBaseComponent newScript = CreateScriptBase(scriptType, false)->GetSharedPtr();
+            SBaseComponent newScript = CreateScriptBase(scriptType, isDisabled)->GetSharedPtr();
             SetUpAddComponent(newScript, script);
         }
         //Load object
         for (auto& gameObj : jsonFile[Field::gameObjectsField])
         {
-            SBaseComponent newObj = CreateGameObject(false)->GetSharedPtr();
+            isDisabled = gameObj[Field::isDisabled].empty() ? false : gameObj[Field::isDisabled].get<bool>();
+            SBaseComponent newObj = CreateGameObject(isDisabled)->GetSharedPtr();
 
             auto isRoot = gameObj[Field::inputsField][Field::isRootField];
             if (!isRoot.empty() &&  isRoot.get<bool>())

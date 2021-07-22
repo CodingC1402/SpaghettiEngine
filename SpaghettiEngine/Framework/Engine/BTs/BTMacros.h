@@ -13,4 +13,9 @@ namespace BTField
 	constexpr auto durationField = "Duration";
 	constexpr auto oncePerTickField = "OncePerTick";
 	constexpr auto loopField = "Loop";
+
+	//Behavior tree
+	static constexpr const char* changesField = "Changes";
+	static constexpr const char* nodesField = "Nodes";
+	static constexpr const char* indexField = "Index";
 }

@@ -1,11 +1,15 @@
 [
-    {
-      "ID": 20001,
-      "Path": "Asset/Materials/StarMaterial.json"
-    },
-    {
-      "ID": 30001,
-      "Path": "Asset/Materials/PlayerMaterial.json"
-    }
+  {
+    "ID": 20001,
+    "Path": "Asset/Materials/StarMaterial.json"
+  },
+  {
+    "ID": 30001,
+    "Path": "Asset/Materials/PlayerMaterial.json"
+  },
+  {
+    "ID": 40001,
+    "Path": "Asset/Materials/CanonBallMaterial.json"
+  }
 ]
   

@@ -1,51 +1,83 @@
 #include "SegmentTrigger.h"
 #include "FieldNames.h"
+#include "LoadingJson.h"
+#include "Setting.h"
+#include "DebugRenderer.h"
+#include "PhysicCollide.h"
 
 REGISTER_FINISH(SegmentTrigger, ScriptBase) {}
 
-void SegmentTrigger::OnCollide(CollideEvent& e)
-{
-	if (e.GetGameObject()->GetTag().Contain(Fields::Player::_player))
-		_playerInside = true;
-}
-
 void SegmentTrigger::OnFixedUpdate()
 {
-	if (_playerInside)
+	std::set<GameObj*> gameObjList;
+	PhysicCollide::GetCollidedWithRectangle(GetGameObject(),
+		gameObjList,
+		_center,
+		_width,
+		_height,
+		Fields::SpecialTag::GetCharacterTag() | Fields::SpecialTag::GetPlayerAttack(),
+		PhysicCollide::FilterMode::Collide
+	);
+
+	bool triggerSet = false;
+	for (auto& obj : gameObjList)
+		if (obj->GetTag().Contain(Fields::SpecialTag::GetPlayerTag()))
+			triggerSet = true;
+		else
+			obj->CallDestroy();
+
+	if constexpr (Setting::IsDebugMode())
 	{
+		DebugRenderer::DrawRectangle(
+			Vector3(_center.x - _width / 2.0f, _center.y + _height / 2.0f, 0), 
+			_width, 
+			_height, 
+			GetWorldMatrix());
+	}
+
+	if (triggerSet)
+	{
+		_playerInside = true;
 		if (_shouldTrigger)
 		{
 			SetState();
 			_shouldTrigger = false;
 		}
-		_playerInside = false;
 	}
 	else
 	{
+		_playerInside = false;
 		_shouldTrigger = true;
 	}
+}
+
+void SegmentTrigger::Load(nlohmann::json& input)
+{
+	_segmentA = dynamic_cast<PGameObj>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][0][LoadingJson::Field::idField].get<CULL>()));
+	_segmentB = dynamic_cast<PGameObj>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][1][LoadingJson::Field::idField].get<CULL>()));
+
+	_width = input[Fields::SegmentTrigger::_width].get<float>();
+	_height = input[Fields::SegmentTrigger::_height].get<float>();
+	_center = Vector3(input[Fields::SegmentTrigger::_center]);
+}
+
+SegmentTrigger::State SegmentTrigger::GetState() const noexcept
+{
+	return _state;
 }
 
 void SegmentTrigger::SetState() noexcept
 {
 	if (_state != State::LoadingSegmentA)
 	{
-		_segmentA->PlayerEnter();
-		_segmentB->PlayerExit();
+		_segmentA->Enable();
+		_segmentB->Disable();
 		_state = State::LoadingSegmentA;
-		if (_nextTrigger)
-			_nextTrigger->Disable();
-		if (_previousTrigger)
-			_previousTrigger->Enable();
 	}
 	else
 	{
-		_segmentB->PlayerEnter();
-		_segmentA->PlayerExit();
+		_segmentB->Enable();
+		_segmentA->Disable();
 		_state = State::LoadingSegmentB;
-		if (_nextTrigger)
-			_nextTrigger->Enable();
-		if (_previousTrigger)
-			_previousTrigger->Disable();
 	}
 }

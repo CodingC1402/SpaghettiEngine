@@ -52,5 +52,40 @@
   {
     "ID": 20003,
     "Path": "Asset/Animations/StarExplode.json"
+  },
+
+  {
+    "ID": 20101,
+    "Path": "Asset/Animations/Enemy/NormalEnemy/EnemyIdle.json"
+  },
+  {
+    "ID": 20102,
+    "Path": "Asset/Animations/Enemy/NormalEnemy/EnemyRunning.json"
+  },
+  {
+    "ID": 20103,
+    "Path": "Asset/Animations/Enemy/NormalEnemy/EnemyJump.json"
+  },
+
+  {
+    "ID": 20201,
+    "Path": "Asset/Animations/Enemy/WormEnemy/EnemyIdle.json"
+  },
+  {
+    "ID": 20202,
+    "Path": "Asset/Animations/Enemy/WormEnemy/EnemyRunning.json"
+  },
+
+  {
+    "ID": 50001,
+    "Path": "Asset/Animations/CanonBallAnim.json"
+  },
+  {
+    "ID": 50002,
+    "Path": "Asset/Animations/CanonReload.json"
+  },
+  {
+    "ID": 50003,
+    "Path": "Asset/Animations/CanonShoot.json"
   }
 ]

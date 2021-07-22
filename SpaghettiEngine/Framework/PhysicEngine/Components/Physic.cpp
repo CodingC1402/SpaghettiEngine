@@ -31,8 +31,8 @@ bool Physic::Update()
 		_accumulator -= _step;
 
 		float interpolateNumber = _accumulator * (1 - _stepInterpolation);
-		interpolateNumber = interpolateNumber > _baseStep ? _baseStep : interpolateNumber;
 		_step = _baseStep * _stepInterpolation + interpolateNumber;
+		_step = _step > _maxStep ? _maxStep : _step;
 
 		// Clear the line renderer for debugging.
 		if constexpr (Setting::IsDebugMode())
@@ -68,7 +68,7 @@ void Physic::Step()
 	auto it = _contacts.begin();
 	while (it != _contacts.end())
 	{
-		if (!(*it).Solve())
+		if (!(*it).Solve(true))
 			it = _contacts.erase(it);
 		else
 			++it;
@@ -125,6 +125,16 @@ void Physic::SetStep(const float& step)
 float Physic::GetStep()
 {
 	return _step;
+}
+
+void Physic::SetMaxStep(const float& step)
+{
+	_maxStep = step;
+}
+
+float Physic::GetMaxStep() noexcept
+{
+	return _maxStep;
 }
 
 void Physic::SetGravity(const float& gravity)
@@ -188,4 +198,9 @@ void Physic::AddGameObj(GameObj* gameObj)
 void Physic::RemoveGameObj(GameObj* gameObj)
 {
 	ContainerUtil::Erase(_gameObjs, gameObj);
+}
+
+QuadTree& Physic::GetQuadTree()
+{
+	return _quadTree;
 }

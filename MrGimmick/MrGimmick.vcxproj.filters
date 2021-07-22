@@ -1,49 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{3dcf1b5a-11af-495d-ade4-35535cec65d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="StaticObjects">
+      <UniqueIdentifier>{872328c3-c540-435e-af3c-9429f9b4477a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Player">
+      <UniqueIdentifier>{75e610b1-db69-49a5-9a4a-54c1bcae3bdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BehaviralTree">
+      <UniqueIdentifier>{36a92a86-c16e-4a9b-a6ef-c2f9b09c7ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{a9467769-8ddb-4028-b249-c12ae3163ccf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WinMain.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="EnemyJumpScript.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="MoveScript.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="StarScript.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackMove.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FeetScript.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StarCreation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HeadScript.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelSegment.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="TubeScript.cpp">
+      <Filter>StaticObjects</Filter>
     </ClCompile>
     <ClCompile Include="SegmentTrigger.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>StaticObjects</Filter>
     </ClCompile>
-    <ClCompile Include="FieldNames.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AttackMove.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="AIBTs.cpp">
+      <Filter>BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="AIScript.cpp">
+      <Filter>BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="ChasingLeaf.cpp">
+      <Filter>BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="SearchingLeaf.cpp">
+      <Filter>BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugControl.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerControl.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerScript.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="StarScript.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="StarCreation.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="RidableScript.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MovableScript.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="FeetScript.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="HeadScript.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveScript.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldNames.cpp" />
+    <ClCompile Include="WinMain.cpp" />
+    <ClCompile Include="CollideTopScript.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolLeaf.cpp">
+      <Filter>BehaviralTree</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnPoint.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SegmentScript.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectRidable.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraBoundingBox.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CanonBallScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootScript.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="PlaySoundScript.cpp">
       <Filter>Source Files</Filter>
@@ -53,32 +109,87 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MoveScript.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AIBTs.h">
+      <Filter>BehaviralTree</Filter>
     </ClInclude>
-    <ClInclude Include="AttackMove.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AIScript.h">
+      <Filter>BehaviralTree</Filter>
     </ClInclude>
-    <ClInclude Include="FieldNames.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ChasingLeaf.h">
+      <Filter>BehaviralTree</Filter>
     </ClInclude>
-    <ClInclude Include="FeetScript.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="EnemyJumpScript.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="StarCreation.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Enemy.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="StarScript.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HeadScript.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelSegment.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TubeScript.h">
+      <Filter>StaticObjects</Filter>
     </ClInclude>
     <ClInclude Include="SegmentTrigger.h">
-      <Filter>Header Files</Filter>
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="StarScript.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="StarCreation.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="RidableScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MovableScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackMove.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugControl.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerControl.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScript.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveScript.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="HeadScript.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="FeetScript.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldNames.h" />
+    <ClInclude Include="SearchingLeaf.h">
+      <Filter>BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="CollideTopScript.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolLeaf.h">
+      <Filter>BehaviralTree</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnPoint.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SegmentScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectRidable.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraBoundingBox.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CanonBallScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootScript.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PlaySoundScript.h">
       <Filter>Header Files</Filter>

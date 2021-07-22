@@ -5,8 +5,6 @@
 			"Inputs": {
 				"Tag": "Character",
 				"GameObjects": [
-					{ "ID": 2 },
-					{ "ID": 3 }
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
@@ -15,50 +13,20 @@
 					{ "ID": 1 },
 					{ "ID": 2 },
 					{ "ID": 3 },
-					{ "ID": 4 },
 					{ "ID": 5 },
 					{ "ID": 6 },
-					{ "ID": 7 },
-					{ "ID": 8 }
-				]
-			}
-		},
-		{
-			"ID": 2,
-			"Inputs": {
-				"Tag": "Feet",
-				"GameObjects": [],
-				"Transform": [ 0, -10, 0 ],
-				"Rotation": [ 0, 0, 0 ],
-				"Scale": [ 1, 1, 1 ],
-				"Scripts": [
-					{"ID": 2001},
-					{"ID": 2002}
-				]
-			}
-		},
-		{
-			"ID": 3,
-			"Inputs": {
-				"Tag": "Head",
-				"GameObjects": [],
-				"Transform": [0, 6, 0],
-				"Rotation": [0, 0, 0],
-				"Scale": [1, 1, 1],
-				"Scripts": [
-					{"ID": 3001},
-					{"ID": 3002}
+					{ "ID": 2001}
 				]
 			}
 		}
     ],
-	"Scripts": [
+    "Scripts": [
 		{
 			"ID": 1,
 			"Inputs": {
 				"ScriptType": "Animator",
 				"AnimationTree": "",
-				"DrawLayer": 1
+				"DrawLayer": 5
 			}
 		},
 		{
@@ -67,11 +35,11 @@
 				"ScriptType": "MoveScript",
 				"SpeedRamUp": 700,
 				"SpeedCap": 80,
-				"ReduceSpeed": 60,
+				"ReduceSpeed": 90,
 
-				"JumpStrength": 230,
+				"JumpStrength": 180,
 				"GSDropFactor": 4,
-				"GSMin": 1
+				"GSMin": 1			
 			}
 		},
 		{
@@ -80,31 +48,21 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-4,
-						0,
-						-4,
-						6,
-						4,
-						6,
-						4,
-						0
+						-3, -10,
+						-6, -6,
+						-6, 6,
+						 6, 6,
+						 6, -6,
+						 3, -10 
 					]
 				]
-			}
-		},
-		{
-			"ID": 4,
-			"Inputs": {
-				"ScriptType": "CircleCollider",
-				"Radius": 6,
-				"OffSetY": -4
 			}
 		},
 		{
 			"ID": 5,
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
-				"Mass": 2,
+				"Mass": 1,
 				"GravityScale": 4,
 				"Material": 30001
 			}
@@ -112,85 +70,22 @@
 		{
 			"ID": 6,
 			"Inputs": {
-				"ScriptType": "SoundSource",
-				"ID": 10001,
-				"Name": "se5",
-				"Mode": "Overlap",
-				"Loop": true,
-				"Delay": 1.0,
-				"Volume": 1.0
-			}
-		},
-		{
-			"ID": 7,
-			"Inputs": {
-				"ScriptType": "PlaySoundScript",
-				"Layer": 0
-			}
-		},
-		{
-			"ID": 8,
-			"Inputs": {
-				"ScriptType": "HealthScript",
-				"MaxHealth": 5,
-				"Delay": 1.0,
-				"HealthSource": [
-					{
-						"Tag": [ "Block", "Platform" ],
-						"HealthPoint": -1
-					}
-				]
+				"ScriptType": "HeadScript",
+				"Center": [0, 10, 0],
+				"Width": 5,
+				"Height": 4
 			}
 		},
 		{
 			"ID": 2001,
 			"Inputs": {
-				"ScriptType": "FeetScript"
-			}
-		},
-		{
-			"ID": 2002,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Trigger": true,
-				"Polygons": [
-					[
-						3,
-						2,
-						3,
-						-6,
-						-3,
-						-6,
-						-3,
-						2
-					]
-				]
-			}
-		},
-		{
-			"ID": 3001,
-			"Inputs": {
-				"ScriptType": "HeadScript"
-			}
-		},
-		{
-			"ID": 3002,
-			"Inputs": {
-				"ScriptType": "Polygon2DCollider",
-				"Trigger": true,
-				"Polygons": [
-					[
-						-1,
-						-2,
-						-1,
-						2,
-						1,
-						2,
-						1,
-						-2
-					]
-				]
+				"ScriptType": "FeetScript",
+				"GroundTag": ["Platform"],
+				"TagMode": "Collide",
+				"Position": [0, -11, 0],
+				"Width": 6,
+				"Height": 6
 			}
 		}
-	]
+    ]
 }

@@ -1,7 +1,38 @@
 ﻿#include "ScriptBase.h"
 
-ScriptTypes* ScriptFactory::map = nullptr;
+#pragma region ScriptTypes
+#include "Animator.h"
+#include "Camera.h"
+#include "Canvas.h"
+#include "CircleCollider.h"
+#include "Polygon2DCollider.h"
+#include "RigidBody2D.h"
+#include "SpriteRenderer.h"
+#include "Surface.h"
+#include "TileMapRenderer.h"
+#pragma endregion
 
+//
+// Theory: I think what happen is that the linker when linking the .h file and .cpp file
+// they find the function below and think that we might need the class in the future so it
+// added the class implementation the project that use this static lib.
+// Another point is that when you use the static constructor macro, somehow including
+// it is enough to make it register properly, might need future investigation in CLang
+// compiler.
+//
+void REGISTERFUNCTION()
+{
+	Animator(nullptr);
+	Camera(nullptr);
+	Canvas(nullptr);
+	CircleCollider(nullptr);
+	Polygon2DCollider(nullptr);
+	RigidBody2D(nullptr);
+	SpriteRenderer(nullptr);
+	Surface(nullptr);
+	TileMapRenderer(nullptr);
+}
+ScriptTypes* ScriptFactory::map = nullptr;
 
 ScriptTypes* ScriptFactory::GetMap()
 {
@@ -96,8 +127,6 @@ PScriptBase ScriptBase::Clone() const
 
 void ScriptBase::Load(nlohmann::json& input)
 {
-	if (_ownerObj == nullptr)
-		throw CORN_EXCEPT_WITH_DESCRIPTION(L"You can't have a script without an owner");
 }
 
 BaseComponent::Type ScriptBase::GetComponentType() const

@@ -7,6 +7,10 @@ Keys:
 - < To load previous screen.
 - \> To load next screen.
 - F11 To fullscreen
+- / To enter debug mode.
+
+Note:
+- F10 will somehow pause the game : |
 
 Support:
 - Flyweight pattern for Texture, Prefab, Sprite, Animation.
@@ -41,11 +45,14 @@ Support:
 - Tile set, tile map.
 - Animated tile.
 
+- UI Component.
+
 To do:
 - A* path finding.
 - Ridable platform.
+- Static enemies.
 - Enemy script.
 - Health script.
 - Main menu.
+- Enemy animation tree.
 - Settings.
-- UI Component.

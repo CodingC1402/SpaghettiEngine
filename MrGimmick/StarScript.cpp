@@ -33,6 +33,9 @@ void StarScript::OnUpdate()
 		{
 			_explodedField.lock()->SetValue(true);
 			_rbBody->Disable();
+			// disable all child. 
+			GetGameObject()->GetChildContainer().IteratingWithLamda([](PGameObj obj) {obj->Disable(); });
+
 			_polyCollider->Disable();
 			if (_counter >= _explodeTime + _animExplodeTime)
 				GetGameObject()->CallDestroy();
@@ -65,8 +68,11 @@ void StarScript::Throw(const Vector3& _playerVel, bool isFliped)
 
 	_polyCollider->Enable();
 	_rbBody->Enable();
-	Vector3 throwVel = _startVelocity + _playerVel;
+
+	Vector3 throwVel = _startVelocity;
 	throwVel.x *= isFliped ? -1 : 1;
+	throwVel += _playerVel;
+
 	_rbBody->SetVelocity(throwVel);
 }
 

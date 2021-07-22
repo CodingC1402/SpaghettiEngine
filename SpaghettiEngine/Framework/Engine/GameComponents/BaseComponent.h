@@ -30,6 +30,7 @@ public:
     virtual void OnStart() {}
     virtual void OnUpdate() {}
     virtual void OnFixedUpdate() {}
+    virtual void OnLateUpdate() {}
     virtual void OnEnd() {}
 
     virtual void OnDisabled() {}

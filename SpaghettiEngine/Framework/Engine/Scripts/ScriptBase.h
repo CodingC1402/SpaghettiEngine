@@ -46,7 +46,7 @@ struct DerivedRegister : public ScriptFactory {
 // Get first script of that type from parent game object of the game object owner.
 #define GET_FIRST_SCRIPT_OF_TYPE_FROM_PARENT(ScriptType) dynamic_cast<ScriptType*>(GetGameObject()->GetParent()->GetScriptContainer().GetItemType(#ScriptType))
 #define GET_FIRST_SCRIPT_OF_TYPE(ScriptType) dynamic_cast<ScriptType*>(GetGameObject()->GetScriptContainer().GetItemType(#ScriptType))
-#define GET_ALL_SCRIPTS_OF_TYPE(ScriptType) GetGameObject()->GetScriptContainer().GetAllItemType(#ScriptType)
+#define GET_ALL_SCRIPTS_OF_TYPE(ScriptType) GetGameObject()->GetScriptContainer().GetAllItemsType(#ScriptType)
 
 class ScriptBase : public BaseComponent
 {

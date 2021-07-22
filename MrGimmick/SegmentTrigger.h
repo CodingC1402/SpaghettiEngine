@@ -1,6 +1,5 @@
 #pragma once
 #include "ScriptBase.h"
-#include "LevelSegment.h"
 
 //
 // +-------------------------+
@@ -14,6 +13,7 @@
 // +-------------------------+--+-+--------+----------------------+
 // Use to switch on and off between two segment to make sure that only the needed segment
 // is getting update.
+// Unused
 
 class SegmentTrigger : public ScriptBase
 {
@@ -24,9 +24,9 @@ public:
 		LoadingSegmentB,
 	};
 public:
-	void OnCollide(CollideEvent& e) override;
 	void OnFixedUpdate() override;
 
+	void Load(nlohmann::json& input) override;
 	[[nodiscard]] State GetState() const noexcept;
 protected:
 	void SetState() noexcept;
@@ -37,11 +37,12 @@ protected:
 
 	State _state = State::LoadingSegmentA;
 
-	SegmentTrigger* _previousTrigger = nullptr;
-	SegmentTrigger* _nextTrigger = nullptr;
+	GameObj* _segmentA = nullptr;
+	GameObj* _segmentB = nullptr;
 
-	LevelSegment* _segmentA = nullptr;
-	LevelSegment* _segmentB = nullptr;
+	Vector3 _center;
+	float _width;
+	float _height;
 private:
 	REGISTER_START(SegmentTrigger);
 };

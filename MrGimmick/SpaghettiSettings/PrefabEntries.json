@@ -1,8 +1,9 @@
 [
   {
-    "ID": 90100,
-    "Path": "Asset/Prefabs/Level1/Level1Map.json"
+    "ID": 99001,
+    "Path": "Asset/Prefabs/Hub.json"
   },
+
   {
     "ID": 90101,
     "Path": "Asset/Prefabs/Level1/Segment1.json"
@@ -39,6 +40,35 @@
   {
     "ID": 10004,
     "Path": "Asset/Prefabs/Star.json"
+  },
+  {
+    "ID": 10005,
+    "Path": "Asset/Prefabs/MovablePlatform.json"
+  },
+
+  {
+    "ID": 20000,
+    "Path": "Asset/Prefabs/HeadPlatform.json"
+  },
+  {
+    "ID": 20001,
+    "Path": "Asset/Prefabs/Enemies/BaseEnemy.json"
+  },
+  {
+    "ID": 20002,
+    "Path": "Asset/Prefabs/Enemies/NormalEnemy.json"
+  },
+  {
+    "ID": 20003,
+    "Path": "Asset/Prefabs/Enemies/WormEnemy.json"
+  },
+  {
+    "ID": 20004,
+    "Path": "Asset/Prefabs/Enemies/Canon.json"
+  },
+  {
+    "ID": 20005,
+    "Path": "Asset/Prefabs/Enemies/CanonBall.json"
   },
   {
     "ID": 40004,

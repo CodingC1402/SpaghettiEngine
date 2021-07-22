@@ -1,36 +1,55 @@
 #include "HeadScript.h"
 #include "FieldNames.h"
+#include "PhysicCollide.h"
+#include "Setting.h"
+#include "DebugRenderer.h"
+#include <set>
+
+constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 
 REGISTER_FINISH(HeadScript, ScriptBase) {}
 
 void HeadScript::OnStart()
 {
-	_moveScript = GET_FIRST_SCRIPT_OF_TYPE_FROM_PARENT(MoveScript);
+	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
 }
 
 void HeadScript::OnFixedUpdate()
 {
-	_moveScript->SetAllowJump(!_isCollideWithPlatform);
-	_isCollideWithPlatform = false;
+	std::set<GameObj*> gameObjList;
+	PhysicCollide::GetCollidedWithRectangle(
+		GetGameObject(),
+		gameObjList,
+		_center,
+		_width,
+		_height,
+		Fields::SpecialTag::GetPlatformTag(),
+		PhysicCollide::FilterMode::Equal
+	);
+	_moveScript->SetAllowJump(gameObjList.empty());
+
+	if constexpr (Setting::IsDebugMode())
+	{
+		DebugRenderer::DrawRectangleFromCenter(_center, _width, _height, GetWorldMatrix(), DEBUG_COLOR);
+	}
 }
 
-void HeadScript::OnCollide(CollideEvent& e)
+void HeadScript::Load(nlohmann::json& input)
 {
-	// \...../ - Check if the shape collide with is above this.
-	//  \.../
-	//   \A/
+	ScriptBase::Load(input);
 
-	if (e.GetNormal().y >= 0.25f && e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlatformTag()))
-	{
-		_isCollideWithPlatform = true;
-		_moveScript->ResetJumpAction();
-	}
+	_center = input[Fields::HeadScript::_center];
+	_width = input[Fields::HeadScript::_width].get<float>();
+	_height = input[Fields::HeadScript::_height].get<float>();
 }
 
 PScriptBase HeadScript::Clone() const
 {
 	auto clone = dynamic_cast<HeadScript*>(ScriptBase::Clone());
 
+	clone->_center = _center;
+	clone->_width = _width;
+	clone->_height = _height;
 	clone->_isCollideWithPlatform = _isCollideWithPlatform;
 
 	return clone;

@@ -1,28 +1,122 @@
 {
     "Prefabs": [
-        { 
-            "ID": 90100,
-            "Changes": [
-                {
-                    "ID": 1,
-                    "Type": "GameObject",
-                    "Field": "Scripts",
-                    "Mode": "Append",
-                    "Value": [
-                        {"ID": 1}
-                    ]
-                }
-            ]
-        }
+		{
+			"ID": 10005,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "Transform",
+					"Value": [512, 680, 0]
+				}
+			]
+		},
+		{
+			"ID": 10005,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "Transform",
+					"Value": [208, 632, 0]
+				}
+			]
+		},
+		{
+			"ID": 10005,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "Transform",
+					"Value": [320, 680, 0]
+				},
+				{
+					"ID": 1,
+					"Type": "Script",
+					"Field": "Path",
+					"Value": [
+						[-64, 0, 0]
+					]
+				}
+			]
+		},
+		{
+			"ID": 10005,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "Transform",
+					"Value": [384, 680, 0]
+				},
+				{
+					"ID": 1,
+					"Type": "Script",
+					"Field": "Path",
+					"Value": [
+						[64, 0, 0]
+					]
+				}
+			]
+		},
+		{ 
+			"ID": 20002,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
+		}
     ],
 	"GameObjects": [
 		{
 			"ID": 1,
+			"Name": "Stage1",
+			"Inputs": {
+				"IsRoot": false,
+				"Tag": "Platform",
+				"GameObjects": [
+					{"ID": 2},
+					{"ID": 3},
+					{
+						"Prefabs": [0],
+						"ID": 1
+					},
+					{
+						"Prefabs": [1],
+						"ID": 1
+					},
+					{
+						"Prefabs": [2],
+						"ID": 1
+					},
+					{
+						"Prefabs": [3],
+						"ID": 1
+					}
+				],
+				"Transform": [0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{"ID": 1},
+					{"ID": 2},
+					{"ID": 3},
+					{"ID": 4}
+				]
+			}
+		},
+		{
+			"ID": 2,
 			"Name": "LeftToRightConvey",
 			"Inputs": {
 				"Tag": "Platform",
-				"IsRoot": true,
-				"Transform": [-1032, -376, 0 ],
+				"Transform": [0, 0, 0 ],
 				"Scale": [1, 1, 1],
 				"Rotation": [0, 0, 0],
 				"GameObjects": [],
@@ -33,15 +127,15 @@
 			}
 		},
 		{
-			"ID": 2,
+			"ID": 3,
 			"Name": "RightToLeftConvey",
 			"Inputs": {
 				"Tag": "Platform",
-				"IsRoot": true,
-				"Transform": [-1032, -376, 0 ],
+				"Transform": [0, 0, 0 ],
 				"Scale": [1, 1, 1],
 				"Rotation": [0, 0, 0],
-				"GameObjects": [],
+				"GameObjects": [
+				],
 				"Scripts": [
 					{"ID": 14},
 					{"ID": 15}
@@ -50,6 +144,96 @@
 		}
 	],
 	"Scripts": [
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "SegmentScript",
+				"GameObjects": [
+					{
+						"Prefabs": [4, 0],
+						"ID": 1
+					}
+				],
+				"EnemySpawns": [
+					{
+						"Index": 0,
+						"Position": [400, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [450, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [500, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [550, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [600, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [650, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [700, 600, 0]
+					},
+					{
+						"Index": 0,
+						"Position": [750, 600, 0]
+					}
+				]
+			}
+		},
+		{
+			"ID": 3,
+			"Inputs": {
+				"ScriptType": "CameraBoundingBox",
+				"Triggers": [
+					{
+						"Center": [100, 476, 0],
+						"Width": 100,
+						"Height": 100
+					},
+					{
+						"Center": [1000, 394, 0],
+						"Width": 20,
+						"Height": 10
+					},
+					{
+						"Center": [592, 568, 0],
+						"Width": 824,
+						"Height": 16
+					}
+				],
+				"MaxX": 1024,
+				"MinX": 0,
+				"MaxY": 576,
+				"MinY": 352
+			}
+		},
+		{
+			"ID": 4,
+			"Inputs": {
+				"ScriptType": "CameraBoundingBox",
+				"Triggers": [
+					{
+						"Center": [592, 584, 0],
+						"Width": 824,
+						"Height": 16
+					}
+				],
+				"MaxX": 1024,
+				"MinX": 0,
+				"MaxY": 768,
+				"MinY": 544
+			}
+		},
 		{
 			"ID": 1,
 			"Inputs": {
@@ -152,46 +336,46 @@
 						1008, 512
 					],
 					[
-						992 ,592,
-						992 ,576,
-						960 ,576,
-						960 ,592
+						976 ,592,
+						976 ,576,
+						944 ,576,
+						944 ,592
 					],
 					[
-						928, 624,
-						928, 608,
+						912, 624,
 						912, 608,
-						912, 624
+						896, 608,
+						896, 624
 					],
 					[
-						864, 624,
-						864, 608,
+						848, 624,
 						848, 608,
-						848, 624
+						832, 608,
+						832, 624
 					],
 					[
-						800, 624,
-						800, 608,
+						784, 624,
 						784, 608,
-						784, 624
+						768, 608,
+						768, 624
 					],
 					[
-						736, 624,
-						736, 608,
-						704, 608,
-						704, 624
+						720, 624,
+						720, 608,
+						688, 608,
+						688, 624
 					],
 					[
-						656, 624,
-						656, 608,
+						640, 624,
 						640, 608,
-						640, 624
+						624, 608,
+						624, 624
 					],
 					[
-						608, 672,
-						608, 656,
+						592, 672,
 						592, 656,
-						592, 672
+						576, 656,
+						576, 672
 					],
 					[
 						416, 464,
@@ -221,7 +405,7 @@
 				"IgnoreTag": [
 					"Surface"
 				],
-				"Velocity": 70,
+				"Velocity": 50,
 				"Direction": "Right"
 			}
 		},
@@ -246,7 +430,7 @@
 				"IgnoreTag": [
 					"Surface"
 				],
-				"Velocity": 70,
+				"Velocity": 50,
 				"Direction": "Left"
 			}
 		},

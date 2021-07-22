@@ -6,8 +6,23 @@
       "Type": "All"
     },
     {
+      "KeyCode": 38,
+      "Name": "MoveUp",
+      "Type": "All"
+    },
+    {
       "KeyCode": 39,
       "Name": "MoveRight",
+      "Type": "All"
+    },
+    {
+      "KeyCode": 40,
+      "Name": "MoveDown",
+      "Type": "All"
+    },
+    {
+      "KeyCode": 191,
+      "Name": "EnterDebug",
       "Type": "All"
     },
     {

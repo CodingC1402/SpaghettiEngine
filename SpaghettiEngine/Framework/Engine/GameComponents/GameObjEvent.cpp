@@ -44,6 +44,25 @@ void GameObj::OnFixedUpdate()
 	});
 }
 
+void GameObj::OnLateUpdate()
+{
+	if (IsDisabled())
+		return;
+
+	_scripts.IteratingWithLamda([](PScriptBase script) {
+		if (!script->IsDisabled())
+			script->OnLateUpdate();
+		});
+
+	_children.IteratingWithLamda([](PGameObj child) {
+		child->OnLateUpdate();
+		});
+}
+
+//=================================================================={NOTE}==================================================================//
+//
+// THIS IS NOT A MISTAKE, take a look at the note in file BaseComponent.cpp around the two enable and disable function.
+//
 void GameObj::OnEnabled()
 {
 	if (IsDisabled())
@@ -55,11 +74,10 @@ void GameObj::OnEnabled()
 	});
 
 	_children.IteratingWithLamda([](PGameObj child) {
-		child->OnEnabled();
 		child->SetParentDisability(false);
+		child->OnEnabled();
 	});
 }
-
 void GameObj::OnDisabled()
 {
 	if (IsDisabled())
@@ -75,6 +93,7 @@ void GameObj::OnDisabled()
 		child->SetParentDisability(true);
 	});
 }
+//=================================================================={NOTE}==================================================================//
 
 void GameObj::OnCollide(CollideEvent& e)
 {

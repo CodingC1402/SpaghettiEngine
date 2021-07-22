@@ -84,7 +84,7 @@ void SceneManager::Update()
 	//	}
 	//}
 
-	if (callLoadSceneIndex != sceneIndex)
+	if (callLoadSceneIndex != sceneIndex || _forceReload)
 	{
 		SM->scenes[sceneIndex]->Unload();
 
@@ -96,6 +96,7 @@ void SceneManager::Update()
 
 		CleanUpAfterLoad();
 		Game::ResetGameTimer();
+		_forceReload = false;
 	}
 
 	SM->scenes[sceneIndex]->Update();
@@ -109,6 +110,18 @@ void SceneManager::FixedUpdate()
 		scenes[sceneIndex]->FixedUpdate();
 	}
 	constScene->FixedUpdate();
+}
+
+void SceneManager::LateUpdate()
+{
+	__instance->scenes[sceneIndex]->LateUpdate();
+	__instance->constScene->LateUpdate();
+}
+
+void SceneManager::CleanUp()
+{
+	__instance->scenes[sceneIndex]->EraseTrashBin();
+	__instance->constScene->EraseTrashBin();
 }
 
 PSceneManager SceneManager::GetInstance()
@@ -191,6 +204,11 @@ int SceneManager::GetNumberOfScene()
 void SceneManager::CallLoadPreviousScene()
 {
 	GetInstance()->callLoadSceneIndex = GetInstance()->sceneIndex - 1;
+}
+
+void SceneManager::CallReloadScene()
+{
+	GetInstance()->_forceReload = true;
 }
 
 SScene& SceneManager::GetConstScene()
