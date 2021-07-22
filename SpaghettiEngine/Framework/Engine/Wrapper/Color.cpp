@@ -6,6 +6,11 @@ Color::Color(Int32 color)
 	_color = color;
 }
 
+Color::Color(const Color& color)
+{
+	_color = color._color;
+}
+
 Color::Color(Byte r, Byte g, Byte b, Byte a)
 {
 	_color |= static_cast<Int32>((a << _alphaMask) | (r << _redMask) | (g << _greenMask) | (b << _blueMask));

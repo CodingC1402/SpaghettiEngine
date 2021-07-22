@@ -10,8 +10,9 @@ struct Color
 public:
 	Color() = default;
 	Color(Int32 color);
-	Color(Byte r, Byte g, Byte b, Byte a = 255);
+	Color(const Color& color);
 	Color(nlohmann::json& input);
+	Color(Byte r, Byte g, Byte b, Byte a = 255);
 	Int32 GetDXColor() const;
 	operator Int32() const;
 
@@ -20,8 +21,8 @@ public:
 		return (_color >> _alphaMask) & _mask;
 	}
 	SET(alpha) {
-		_color |= (_mask << _alphaMask); 
-		_color &= (static_cast<Int32>(value & _mask) << _alphaMask);
+		_color &= ~(_mask << _alphaMask); 
+		_color |= (static_cast<Int32>(value & _mask) << _alphaMask);
 	}
 
 	PROPERTY(Byte, red);
@@ -29,8 +30,8 @@ public:
 		return (_color >> _redMask) & _mask;
 	}
 	SET(red) {
-		_color |= (_mask << _redMask);
-		_color &= (static_cast<Int32>(value & _mask) << _redMask);
+		_color &= ~(_mask << _redMask);
+		_color |= (static_cast<Int32>(value & _mask) << _redMask);
 	}
 
 	PROPERTY(Byte, green);
@@ -38,8 +39,8 @@ public:
 		return (_color >> _greenMask) & _mask;
 	}
 	SET(green) {
-		_color |= (_mask << _greenMask);
-		_color &= (static_cast<Int32>(value & _greenMask) << _greenMask);
+		_color &= ~(_mask << _greenMask);
+		_color |= (static_cast<Int32>(value & _mask) << _greenMask);
 	}
 
 	PROPERTY(Byte, blue);
@@ -47,8 +48,8 @@ public:
 		return (_color >> _blueMask) & _mask;
 	}
 	SET(blue) {
-		_color |= (_mask << _blueMask);
-		_color &= (static_cast<Int32>(value & _blueMask) << _blueMask);
+		_color &= ~(_mask << _blueMask);
+		_color |= (static_cast<Int32>(value & _mask) << _blueMask);
 	}
 protected:
 	static constexpr Byte _alphaMask = 24;
