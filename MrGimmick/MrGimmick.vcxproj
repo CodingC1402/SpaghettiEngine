@@ -100,6 +100,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <Optimization>Disabled</Optimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,6 +127,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,6 +157,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <Optimization>Disabled</Optimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -181,6 +184,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -208,6 +212,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
+    <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
@@ -239,6 +244,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
+    <ClInclude Include="HealthScript.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />

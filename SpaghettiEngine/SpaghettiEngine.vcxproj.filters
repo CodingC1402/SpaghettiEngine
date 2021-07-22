@@ -386,7 +386,7 @@
     <ClInclude Include="Framework\Engine\GameComponents\UIFields.h">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Math\Rectangle.h">
+    <ClInclude Include="Framework\Math\CRectangle.h">
       <Filter>FrameWork\Math</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Utilities\CMessageBox.h">
@@ -676,7 +676,7 @@
     <ClCompile Include="Framework\Engine\GameComponents\UIFields.cpp">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Math\Rectangle.cpp">
+    <ClCompile Include="Framework\Math\CRectangle.cpp">
       <Filter>FrameWork\Math</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Utilities\CMessageBox.cpp">

@@ -66,6 +66,20 @@ namespace Fields
 		static constexpr auto _width	= "Width";
 		static constexpr auto _height	= "Height";
 	};
+	class HealthScript
+	{
+	public:
+		static constexpr auto _maxHealth	= "MaxHealth";
+		static constexpr auto _health		= "Health";
+		static constexpr auto _iFrame		= "IFrame";
+		static constexpr auto _damageSource = "DamageSources";
+		static constexpr auto _tag			= "Tag";
+		static constexpr auto _damage		= "Damage";
+		static constexpr auto _hitBoxes		= "HitBoxes";
+		static constexpr auto _center		= "Center";
+		static constexpr auto _width		= "Width";
+		static constexpr auto _height		= "Height";
+	};
 	class Input
 	{
 	public:
@@ -107,6 +121,12 @@ namespace Fields
 		static constexpr auto _gsMin				= "GSMin";
 
 		static constexpr auto _appearOffSet			= "AppearOffSet";
+	};
+	class PlayerScript
+	{
+	public:
+		static constexpr auto _hurtTime = "HurtTime";
+		static constexpr auto _hurtVel = "HurtVelocity";
 	};
 	class Platform
 	{

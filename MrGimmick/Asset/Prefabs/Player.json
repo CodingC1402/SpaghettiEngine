@@ -21,7 +21,8 @@
 						{ "ID": 1 },
 						{ "ID": 2 },
 						{ "ID": 3 },
-						{ "ID": 4 }
+						{ "ID": 4 },
+						{ "ID": 5 }
 					]
 				},
 				{
@@ -67,8 +68,31 @@
 		{
 			"ID": 4,
 			"Inputs": {
-				"ScriptType": "PlayerScript"
-				
+				"ScriptType": "PlayerScript",
+				"HurtTime": 1.50,
+				"HurtVelocity": [-100, 100, 0]
+			}
+		},
+		{
+			"ID": 5,
+			"Inputs": {
+				"ScriptType": "HealthScript",
+				"MaxHealth": 4,
+				"Health": 4,
+				"IFrame": 2.75,
+				"HitBoxes": [
+					{
+						"Center": [0, -2, 0],
+						"Width": 12,
+						"Height": 12
+					}
+				],
+				"DamageSources": [
+					{
+						"Tag": ["Enemy"],
+						"Damage": 1
+					}
+				]
 			}
 		}
 	]
