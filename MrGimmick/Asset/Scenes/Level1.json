@@ -117,7 +117,7 @@
 			"ID": 102,
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
-				"Center": [552, 200, 0],
+				"Center": [552, 192, 0],
 				"Width": 16,
 				"Height": 16,
 				"GameObjects": [
@@ -136,7 +136,7 @@
 			"ID": 103,
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
-				"Center": [2024, 216, 0],
+				"Center": [2024, 200, 0],
 				"Width": 16,
 				"Height": 16,
 				"GameObjects": [
