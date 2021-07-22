@@ -93,6 +93,12 @@ namespace Fields
 		static constexpr auto _enterDebug = "EnterDebug";
 		static constexpr auto _fullScreen = "FullScreen";
 	};
+	class IFrameFlash
+	{
+	public:
+		static constexpr auto _flashDelay = "Delay";
+		static constexpr auto _flashAlpha = "Alpha";
+	};
 	class MovableObject {
 	public:
 		static constexpr auto _speed	= "Speed";

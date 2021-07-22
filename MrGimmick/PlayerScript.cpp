@@ -15,10 +15,17 @@ void PlayerScript::OnStart()
     _healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
     _rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
     _moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
+    _iFrameFlashScript = GET_FIRST_SCRIPT_OF_TYPE(IFrameFlash);
 
-    _healthScript->AddToEvent([&](const int& health, const int& delta) {
+    // Top now when it took damage;
+    _healthScript->AddToHealthEvent([&](const int& health, const int& delta) {
         this->TookDamage(health, delta);
     });
+    // To stop flash when iFrame stop
+    _healthScript->AddToIFrameEvent([&](const int& health) {
+        _iFrameFlashScript->StopFlash();
+    });
+
     _control = GET_FIRST_SCRIPT_OF_TYPE(PlayerControl);
     _isHurted = animator->GetField<bool>(Fields::Player::_isHurt);
 }
@@ -71,6 +78,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     {
         if (delta < 0)
         {
+            _iFrameFlashScript->StartFlash();
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
             _control->Disable();
@@ -154,8 +162,6 @@ void PlayerScript::EnableRigidBody()
         }
     );
 }
-
-
 
 void PlayerScript::Load(nlohmann::json& input)
 {

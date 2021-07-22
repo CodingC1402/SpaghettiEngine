@@ -104,6 +104,9 @@
     <ClCompile Include="HealthScript.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="IFrameFlash.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -189,6 +192,9 @@
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="HealthScript.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrameFlash.h">
       <Filter>Character</Filter>
     </ClInclude>
   </ItemGroup>

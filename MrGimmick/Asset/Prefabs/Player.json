@@ -22,7 +22,8 @@
 						{ "ID": 2 },
 						{ "ID": 3 },
 						{ "ID": 4 },
-						{ "ID": 5 }
+						{ "ID": 5 },
+						{ "ID": 6 }
 					]
 				},
 				{
@@ -94,6 +95,14 @@
 						"Damage": 1
 					}
 				]
+			}
+		},
+		{
+			"ID": 6,
+			"Inputs": {
+				"ScriptType": "IFrameFlash",
+				"Delay": 0.1,
+				"Alpha": 127
 			}
 		}
 	]

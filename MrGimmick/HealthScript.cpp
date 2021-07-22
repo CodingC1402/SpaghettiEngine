@@ -10,7 +10,15 @@ constexpr unsigned HITBOX_COLOR = 0xFFFF0000;
 
 void HealthScript::OnUpdate()
 {
-	_coolDown -= GameTimer::GetDeltaTime();
+	if (_coolDown > 0)
+	{
+		_coolDown -= GameTimer::GetDeltaTime();
+		if (_coolDown <= 0)
+		{
+			for (auto& fun : _iFrameDelegates)
+				fun(GetHealth());
+		}
+	}
 }
 
 void HealthScript::OnFixedUpdate()
@@ -53,7 +61,7 @@ void HealthScript::OnFixedUpdate()
 			{
 				_coolDown = _iFrame;
 				_health -= source.second;
-				for (auto& fun : _delegates)
+				for (auto& fun : _healthDelegates)
 					fun(_health, -static_cast<int>(source.second));
 				break;
 			}
@@ -97,14 +105,24 @@ ScriptBase* HealthScript::Clone() const
 	return clone;
 }
 
-void HealthScript::AddToEvent(const std::function<void(const int&, const int&)>& lamda)
+void HealthScript::AddToHealthEvent(const std::function<void(const int&, const int&)>& lamda)
 {
-	_delegates.push_back(lamda);
+	_healthDelegates.push_back(lamda);
 }
 
-void HealthScript::ClearEvent()
+void HealthScript::AddToIFrameEvent(const std::function<void(const int&)>& lamda)
 {
-	_delegates.clear();
+	_iFrameDelegates.push_back(lamda);
+}
+
+void HealthScript::ClearHealthEvent() noexcept
+{
+	_healthDelegates.clear();
+}
+
+void HealthScript::ClearIFrameEvent() noexcept
+{
+	_iFrameDelegates.clear();
 }
 
 int HealthScript::GetHealth() const noexcept
@@ -122,6 +140,11 @@ float HealthScript::GetIFrame() const noexcept
 	return _iFrame;
 }
 
+bool HealthScript::IsInIFrame() const noexcept
+{
+	return _coolDown > 0;
+}
+
 void HealthScript::SetHealth(int health) noexcept
 {
 	health = health > _maxHealth ? _maxHealth : health;
@@ -132,7 +155,7 @@ void HealthScript::SetHealth(int health) noexcept
 		return;
 	_health = health;
 
-	for (auto& fun : _delegates)
+	for (auto& fun : _healthDelegates)
 		fun(_health, delta);
 }
 
