@@ -21,7 +21,9 @@
 						{ "ID": 1 },
 						{ "ID": 2 },
 						{ "ID": 3 },
-						{ "ID": 4 }
+						{ "ID": 4 },
+						{ "ID": 5 },
+						{ "ID": 6 }
 					]
 				},
 				{
@@ -44,11 +46,11 @@
 				"ScriptType": "AttackMove",
 				"GameObjects": [
 					{
-						"Prefabs": [0],
+						"Prefabs": [ 0 ],
 						"ID": 1
 					}
 				],
-				"AppearOffSet": [0, 20, 0]
+				"AppearOffSet": [ 0, 20, 0 ]
 			}
 		},
 		{
@@ -68,7 +70,24 @@
 			"ID": 4,
 			"Inputs": {
 				"ScriptType": "PlayerScript"
-				
+			}
+		},
+		{
+			"ID": 5,
+			"Inputs": {
+				"ScriptType": "SoundSource",
+				"ID": 10001,
+				"Name": "se5",
+				"Mode": "Nothing",
+				"Loop": false,
+				"Delay": 1.0,
+				"Volume": 1.0
+			}
+		},
+		{
+			"ID": 6,
+			"Inputs": {
+				"ScriptType": "PlaySoundScript"
 			}
 		}
 	]

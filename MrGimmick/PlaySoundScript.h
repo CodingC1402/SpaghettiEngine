@@ -18,7 +18,7 @@ protected:
 	SInputAll _stop1Input;
 	SInputAll _stop2Input;
 
-	int soundLayer;
+	int soundLayer = 0;
 
 	SoundSource* _audio = nullptr;
 private:

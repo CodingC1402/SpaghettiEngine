@@ -5,14 +5,7 @@ REGISTER_FINISH(PlaySoundScript, ScriptBase) {}
 
 void PlaySoundScript::Load(nlohmann::json& input)
 {
-	try
-	{
-		soundLayer = input["Layer"].get<int>();
-	}
-	catch (...)
-	{
 
-	}
 }
 
 void PlaySoundScript::OnStart()
@@ -32,7 +25,7 @@ void PlaySoundScript::OnUpdate()
 	case 0:
 		if (_play1Input->CheckKeyDown())
 		{
-			//_audio->Play();
+			_audio->Play();
 		}
 		else if (_stop1Input->CheckKeyDown())
 		{

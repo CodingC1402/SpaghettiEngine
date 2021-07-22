@@ -7,6 +7,7 @@
 #include "CircleCollider.h"
 #include "Polygon2DCollider.h"
 #include "RigidBody2D.h"
+#include "SoundSource.h"
 #include "SpriteRenderer.h"
 #include "Surface.h"
 #include "TileMapRenderer.h"
@@ -28,6 +29,7 @@ void REGISTERFUNCTION()
 	CircleCollider(nullptr);
 	Polygon2DCollider(nullptr);
 	RigidBody2D(nullptr);
+	SoundSource(nullptr);
 	SpriteRenderer(nullptr);
 	Surface(nullptr);
 	TileMapRenderer(nullptr);

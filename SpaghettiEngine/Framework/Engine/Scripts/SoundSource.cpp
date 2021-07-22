@@ -101,6 +101,10 @@ void SoundSource::Play()
 		_channel = _audio->PlaySoundAt(volume, index);
 		break;
 	case NOTHING:
+		if (!_audio->IsChannelPlayingInSoundAt(index, _channel))
+		{
+			_channel = _audio->PlaySoundAt(volume, index);
+		}
 		break;
 	default:
 		break;
