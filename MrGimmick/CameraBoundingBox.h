@@ -1,6 +1,6 @@
 #pragma once
 #include "ScriptBase.h"
-#include "Rectangle.h"
+#include "CRectangle.h"
 
 class CameraBoundingBox : public ScriptBase
 {
@@ -15,7 +15,7 @@ public:
 	static void TurnOn();
 private:
 	// Trigger area
-	std::vector<Rectangle> _triggerZones;
+	std::vector<CRectangle> _triggerZones;
 	// Bounding box
 	float _minX = 0.0f;
 	float _maxX = 0.0f;
