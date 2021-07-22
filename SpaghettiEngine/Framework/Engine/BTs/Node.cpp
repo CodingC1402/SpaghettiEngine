@@ -9,6 +9,7 @@
 #include "SelectorNode.h"
 #include "SequenceNode.h"
 #include "ServiceNodes.h"
+#include "SkeletonNode.h"
 #include "TrueFalseLeafNode.h"
 #pragma endregion
 

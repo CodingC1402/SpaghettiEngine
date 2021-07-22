@@ -20,7 +20,13 @@ void Animator::Draw(PCamera camera)
 
 	Matrix4 transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
-	Graphics::DrawSprite(sprite, sprite->GetCenter());
+	Graphics::DrawSprite(sprite, sprite->GetCenter(), Vector3(0, 0, 0), _tree->GetColor());
+}
+
+void Animator::SetGameObject(const PGameObj& owner)
+{
+	Render2DScriptBase::SetGameObject(owner);
+	_tree->SetOwner(owner);
 }
 
 PScriptBase Animator::Clone() const

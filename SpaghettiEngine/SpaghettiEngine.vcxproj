@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Framework\Engine\AnimationComponents\AnimationNode.h" />
     <ClInclude Include="Framework\Engine\AnimationComponents\AnimationTree.h" />
+    <ClInclude Include="Framework\Engine\AnimationComponents\SkeletonNode.h" />
     <ClInclude Include="Framework\Engine\AppComponents\App.h" />
     <ClInclude Include="Framework\Engine\AppComponents\LoadingJson.h" />
     <ClInclude Include="Framework\Engine\AppComponents\Setting.h" />
@@ -128,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Framework\Engine\AnimationComponents\AnimationNode.cpp" />
     <ClCompile Include="Framework\Engine\AnimationComponents\AnimationTree.cpp" />
+    <ClCompile Include="Framework\Engine\AnimationComponents\SkeletonNode.cpp" />
     <ClCompile Include="Framework\Engine\AppComponents\App.cpp" />
     <ClCompile Include="Framework\Engine\AppComponents\LoadingJson.cpp" />
     <ClCompile Include="Framework\Engine\AppComponents\Setting.cpp" />

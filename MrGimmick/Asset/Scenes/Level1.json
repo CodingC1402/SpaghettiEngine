@@ -101,6 +101,7 @@
 		},
 		{
 			"ID": 101,
+			"Name": "SegmentTrigger 1-2",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [1000, 384, 0],
@@ -120,6 +121,7 @@
 		},
 		{
 			"ID": 102,
+			"Name": "SegmentTrigger 2-3",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [552, 192, 0],
@@ -139,6 +141,7 @@
 		},
 		{
 			"ID": 103,
+			"Name": "SegmentTrigger 3-4",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [2024, 200, 0],
@@ -158,6 +161,7 @@
 		},
 		{
 			"ID": 104,
+			"Name": "SegmentTrigger 4-5",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [2024, 600, 0],
@@ -177,6 +181,7 @@
 		},
 		{
 			"ID": 201,
+			"Name": "TubeSegment 1-2",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -199,6 +204,7 @@
 		},
 		{
 			"ID": 202,
+			"Name": "TubeSegment 2-3",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -220,6 +226,7 @@
 		},
 		{
 			"ID": 203,
+			"Name": "TubeSegment 3-4",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -243,6 +250,7 @@
 		},
 		{
 			"ID": 204,
+			"Name": "TubeSegment 4-4",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -265,6 +273,7 @@
 		},
 		{
 			"ID": 205,
+			"Name": "TubeSegment 4-5",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -287,7 +296,7 @@
 		},
 		{
 			"ID": 301,
-			"Name": "Segment1Spawn",
+			"Name": "SpawnPoint1",
 			"Inputs": {
 				"ScriptType": "SpawnPoint",
 				"Center": [100, 376, 0],
@@ -304,7 +313,7 @@
 		},
 		{
 			"ID": 302,
-			"Name": "Segment1Spawn",
+			"Name": "SpawnPoint2",
 			"Inputs": {
 				"ScriptType": "SpawnPoint",
 				"Center": [976, 320, 0],
@@ -321,7 +330,7 @@
 		},
 		{
 			"ID": 303,
-			"Name": "Segment1Spawn",
+			"Name": "SpawnPoint3",
 			"Inputs": {
 				"ScriptType": "SpawnPoint",
 				"Center": [1968, 232, 0],
@@ -338,7 +347,7 @@
 		},
 		{
 			"ID": 304,
-			"Name": "Segment1Spawn",
+			"Name": "SpawnPoint4",
 			"Inputs": {
 				"ScriptType": "SpawnPoint",
 				"Center": [1968, 616, 0],
@@ -355,7 +364,7 @@
 		},
 		{
 			"ID": 305,
-			"Name": "Segment1Spawn",
+			"Name": "SpawnPoint5",
 			"Inputs": {
 				"ScriptType": "SpawnPoint",
 				"Center": [1296, 616, 0],
