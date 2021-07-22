@@ -31,13 +31,15 @@ void ElectricScript::OnUpdate()
 	if (_counterStart)
 		_counter += GameTimer::GetDeltaTime();
 
+	_time += GameTimer::GetDeltaTime();
+
 	if (_counter > _animationTime)
 	{
 		_defendField.lock()->SetValue(false);
 		_counterStart = false;
 		_counter = 0;
 		_time = 0;
-		_electricAnimator->Disable();
+		//_electricAnimator->Disable();
 	}
 }
 
@@ -52,7 +54,18 @@ void ElectricScript::OnFixedUpdate()
 	}
 	else
 	{
-		_electricAnimator->Enable();
+		if (_time > _waitTime)
+		{
+			_time = 0;
+
+			if (_electricAnimator->IsDisabled())
+			{
+				_defendField.lock()->SetValue(false);
+				_electricAnimator->Enable();
+			}
+			else
+				_electricAnimator->Disable();
+		}
 	}
 
 	if (_currentStar.expired())
@@ -70,6 +83,9 @@ void ElectricScript::OnFixedUpdate()
 					_behaviorTree->StopMove();
 					_counterStart = true;
 					_counter = 0;
+					_time = 0;
+					_electricAnimator->Enable();
+
 					_defendField.lock()->SetValue(true);
 					_currentStar = std::dynamic_pointer_cast<GameObj>(obj->GetSharedPtr());
 					obj->CallDestroy();

@@ -28,7 +28,7 @@ protected:
 	float _counter = 0;
 	float _animationTime;
 
-	float _waitTime = 0.4;
+	float _waitTime = 1.0;
 	float _time = 0;
 private:
 	REGISTER_START(ElectricScript);
