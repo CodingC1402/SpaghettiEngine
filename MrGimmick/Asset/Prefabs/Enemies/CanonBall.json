@@ -53,7 +53,7 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "CanonBallScript",
-				"ExplodeTime": 5,
+				"ExplodeTime": 3.5,
 				"ExplodeAnimTime": 0.6,
 				"StartVelocity": [ 100, 0 ]
 			}

@@ -70,7 +70,8 @@
 			"Inputs": {
 				"ScriptType": "PlayerScript",
 				"HurtTime": 1.50,
-				"HurtVelocity": [-100, 100, 0]
+				"HurtVelocity": [-100, 100, 0],
+				"RespawnDelay": 2
 			}
 		},
 		{

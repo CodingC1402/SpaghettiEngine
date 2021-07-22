@@ -68,7 +68,7 @@ SegmentTrigger::State SegmentTrigger::GetState() const noexcept
 
 void SegmentTrigger::SetState() noexcept
 {
-	if (_state != State::LoadingSegmentA)
+	if (_segmentA->IsDisabled())
 	{
 		_segmentA->Enable();
 		_segmentB->Disable();

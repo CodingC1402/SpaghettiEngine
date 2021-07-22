@@ -86,7 +86,12 @@
 						"Center": [552, 208, 0],
 						"Width": 20,
 						"Height": 10
-					}
+					},
+                    {
+                        "Center": [976, 320, 0],
+                        "Width": 50,
+                        "Height": 32
+                    }
 				],
 				"MaxX": 1024,
 				"MinX": 512,

@@ -68,8 +68,13 @@
                 "ScriptType": "CameraBoundingBox",
                 "Triggers": [
                     {
-                        "Center": [1288, 624, 0],
-                        "Width": 10,
+                        "Center": [1968, 616, 0],
+                        "Width": 32,
+                        "Height": 16
+                    },
+                    {
+                        "Center": [1298, 624, 0],
+                        "Width": 20,
                         "Height": 32
                     },
                     {

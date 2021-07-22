@@ -130,6 +130,7 @@ void HealthScript::SetHealth(int health) noexcept
 	auto delta = health - _health;
 	if (delta == 0)
 		return;
+	_health = health;
 
 	for (auto& fun : _delegates)
 		fun(_health, delta);
