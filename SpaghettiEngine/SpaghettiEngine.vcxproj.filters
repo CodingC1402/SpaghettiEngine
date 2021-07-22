@@ -75,11 +75,11 @@
     <Filter Include="FrameWork\Engine\GameComponents\Input">
       <UniqueIdentifier>{61f820df-41b7-4ec4-9d25-79e48d1cd266}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FrameWork\Math\Wrapper">
-      <UniqueIdentifier>{99059f9a-fab3-4233-a031-8395beb2a2d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FrameWork\Engine\GameComponents\UIComponent">
       <UniqueIdentifier>{398ec775-f57e-4c66-ad0d-86063a21587c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Engine\Wrapper">
+      <UniqueIdentifier>{99059f9a-fab3-4233-a031-8395beb2a2d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,13 +171,13 @@
       <Filter>FrameWork\Engine\ThirdParty</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h">
-      <Filter>FrameWork\Math\Wrapper</Filter>
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\CornDirectX.h">
-      <Filter>FrameWork\Math\Wrapper</Filter>
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h">
-      <Filter>FrameWork\Math\Wrapper</Filter>
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\GameTimer.h">
       <Filter>FrameWork\Engine\GameComponents</Filter>
@@ -282,7 +282,7 @@
       <Filter>FrameWork\PhysicEngine\Scripts</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Engine\Wrapper\Color.h">
-      <Filter>FrameWork\Math\Wrapper</Filter>
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClInclude>
     <ClInclude Include="Framework\PhysicEngine\Components\CollideEvent.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
@@ -473,10 +473,10 @@
       <Filter>FrameWork\Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp">
-      <Filter>FrameWork\Math\Wrapper</Filter>
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp">
-      <Filter>FrameWork\Math\Wrapper</Filter>
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\GameTimer.cpp">
       <Filter>FrameWork\Engine\GameComponents</Filter>
@@ -575,7 +575,7 @@
       <Filter>FrameWork\PhysicEngine\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Wrapper\Color.cpp">
-      <Filter>FrameWork\Math\Wrapper</Filter>
+      <Filter>FrameWork\Engine\Wrapper</Filter>
     </ClCompile>
     <ClCompile Include="Framework\PhysicEngine\Components\CollideEvent.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>

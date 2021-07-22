@@ -113,6 +113,12 @@ ScriptBase* SegmentScript::Clone() const
 	return clone;
 }
 
+void SegmentScript::DisableAllSegment()
+{
+	for (auto& instance : __instances)
+		instance->GetGameObject()->Disable();
+}
+
 void SegmentScript::SpawnAll()
 {
 	for (auto& instance : __instances)

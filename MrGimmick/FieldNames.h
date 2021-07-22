@@ -127,6 +127,7 @@ namespace Fields
 	public:
 		static constexpr auto _hurtTime = "HurtTime";
 		static constexpr auto _hurtVel = "HurtVelocity";
+		static constexpr auto _respawnDelay = "RespawnDelay";
 	};
 	class Platform
 	{

@@ -4,7 +4,7 @@
 #include "SceneManager.h"
 #include "GameTimer.h"
 #include "FieldNames.h"
-#include "HealthScript.h"
+#include "Polygon2DCollider.h"
 
 REGISTER_FINISH(PlayerScript, ScriptBase) {
 };
@@ -12,13 +12,13 @@ REGISTER_FINISH(PlayerScript, ScriptBase) {
 void PlayerScript::OnStart()
 {
     auto animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
-    auto healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
+    _healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
     _rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
     _moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
 
-    healthScript->AddToEvent([&](const int& health, const int& delta) {
+    _healthScript->AddToEvent([&](const int& health, const int& delta) {
         this->TookDamage(health, delta);
-     });
+    });
     _control = GET_FIRST_SCRIPT_OF_TYPE(PlayerControl);
     _isHurted = animator->GetField<bool>(Fields::Player::_isHurt);
 }
@@ -35,6 +35,14 @@ void PlayerScript::OnDisabled()
 
 void PlayerScript::OnUpdate()
 {
+    if (_respawnCounter > 0)
+    {
+        _respawnCounter -= GameTimer::GetDeltaTime();
+        if (_respawnCounter <= 0)
+            Respawn();
+        return;
+    }
+
     if (_hurtCounter > 0)
     {
         _hurtCounter -= GameTimer::GetDeltaTime();
@@ -46,23 +54,56 @@ void PlayerScript::OnUpdate()
     }
 }
 
-void PlayerScript::TookDamage(const int& health, const int& damage)
+ScriptBase* PlayerScript::Clone() const
 {
-    _isHurted.lock()->SetValue(true);
-    _hurtCounter = _hurtTime;
-    _control->Disable();
+    auto clone = dynamic_cast<PlayerScript*>(ScriptBase::Clone());
 
-    auto vel = _rb->GetVelocity();
-    vel += _hurtVel * (_moveScript->IsFlipped() ? -1 : 1);
-    _rb->SetVelocity(vel);
+    clone->_hurtTime = _hurtTime;
+    clone->_hurtVel = _hurtVel;
+    clone->_respawnDelay = _respawnDelay;
+
+    return clone;
+}
+
+void PlayerScript::TookDamage(const int& health, const int& delta)
+{
+    if (health > 0)
+    {
+        if (delta < 0)
+        {
+            _isHurted.lock()->SetValue(true);
+            _hurtCounter = _hurtTime;
+            _control->Disable();
+
+            auto vel = _rb->GetVelocity();
+            vel += _hurtVel * (_moveScript->IsFlipped() ? -1 : 1);
+            _rb->SetVelocity(vel);
+        }
+        else if (delta > 0)
+        {
+            // TO DO
+        }
+    }
+    else
+    {
+        _respawnCounter = _respawnDelay;
+        DisableColliders();
+        DisableRigidBody();
+    }
 }
 
 void PlayerScript::Respawn()
 {
+    SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
-    auto delta = SpawnPoint::GetSpawnPointScript()->GetSpawnPosition() - GetGameObject()->GetTransform().GetWorldTransform();
-    GetGameObject()->GetTransform().Translate(delta);
+    GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());
+    auto segment = SpawnPoint::GetSpawnPointScript()->GetSegment();
+    segment->Enable();
 
+    EnableColliders();
+    EnableRigidBody();
+
+    _healthScript->SetHealth(_healthScript->GetMaxHealth());
     _live--;
     if (_live == 0)
     {
@@ -71,10 +112,56 @@ void PlayerScript::Respawn()
     }
 }
 
+void PlayerScript::DisableColliders()
+{
+    GetGameObject()->GetScriptContainer().IteratingWithLamda(
+        [&](PScriptBase script) {
+            if (script->GetType() == TYPE_NAME(Polygon2DCollider))
+            {
+                script->Disable();
+            }
+        }
+    );
+}
+
+void PlayerScript::EnableColliders()
+{
+    GetGameObject()->GetScriptContainer().IteratingWithLamda(
+        [&](PScriptBase script) {
+            if (script->GetType() == TYPE_NAME(Polygon2DCollider))
+            {
+                script->Enable();
+            }
+        }
+    );
+}
+
+void PlayerScript::DisableRigidBody()
+{
+    auto script = GetGameObject()->GetPhysicComponent().GetRigidBody2DScript();
+    if (script)
+        script->Disable();
+}
+
+void PlayerScript::EnableRigidBody()
+{
+    GetGameObject()->GetScriptContainer().IteratingWithLamda(
+        [&](PScriptBase script) {
+            if (script->GetType() == TYPE_NAME(RigidBody2D))
+            {
+                script->Enable();
+            }
+        }
+    );
+}
+
+
+
 void PlayerScript::Load(nlohmann::json& input)
 {
     _hurtTime = input[Fields::PlayerScript::_hurtTime].get<float>();
     _hurtVel = input[Fields::PlayerScript::_hurtVel];
+    _respawnDelay = input[Fields::PlayerScript::_respawnDelay].get<float>();
 }
 
 GameObj* PlayerScript::GetCurrentPlayer()
