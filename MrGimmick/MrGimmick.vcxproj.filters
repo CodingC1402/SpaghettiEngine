@@ -101,7 +101,6 @@
     <ClCompile Include="ShootScript.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="PlaySoundScript.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +186,6 @@
     <ClInclude Include="ShootScript.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="HealthScript.h" />
     <ClInclude Include="PlaySoundScript.h" />
   </ItemGroup>
 </Project>

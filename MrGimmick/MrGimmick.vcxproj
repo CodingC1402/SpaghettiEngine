@@ -208,7 +208,6 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
-    <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="PlaySoundScript.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
@@ -241,7 +240,6 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
-    <ClInclude Include="HealthScript.h" />
     <ClInclude Include="PlaySoundScript.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />
