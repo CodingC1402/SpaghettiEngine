@@ -9,6 +9,8 @@ public:
 	void OnUpdate() override;
 	void Load(nlohmann::json& inputObject) override;
 	void Draw(PCamera camera) override;
+	void SetColor(const Color& color) noexcept;
+	[[nodiscard]] Color GetColor() const noexcept;
 
 	template<typename T>
 	void SetFieldValue(const std::string& fieldName, T value);

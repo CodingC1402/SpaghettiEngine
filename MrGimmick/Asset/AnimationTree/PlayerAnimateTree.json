@@ -204,33 +204,10 @@
                                     "Children":
                                     [
                                         {
-                                            "Type": "Paralel",
-                                            "Children":
-                                            [
-                                                {
-                                                    "Type": "AnimationNode",
-                                                    "Input": {
-                                                        "ID": 30002
-                                                    }
-                                                },
-                                                {
-                                                    "Type": "SkeletonNode",
-                                                    "Input": {
-                                                        "Loop": true,
-                                                        "Reset": true,
-                                                        "Frames": [
-                                                            {
-                                                                "Color": [127, 255, 255, 255],
-                                                                "Time": 0.1
-                                                            },
-                                                            {
-                                                                "Color": [255, 255, 255, 255],
-                                                                "Time": 0.1
-                                                            }
-                                                        ]
-                                                    }
-                                                }
-                                            ]
+                                            "Type": "AnimationNode",
+                                            "Input": {
+                                                "ID": 30002
+                                            }
                                         }
                                     ]   
                                 }

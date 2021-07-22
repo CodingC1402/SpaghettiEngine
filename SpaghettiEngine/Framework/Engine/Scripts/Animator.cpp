@@ -39,6 +39,16 @@ PScriptBase Animator::Clone() const
 	return animClone;
 }
 
+void Animator::SetColor(const Color& color) noexcept
+{
+	_tree->SetColor(color);
+}
+
+Color Animator::GetColor() const noexcept
+{
+	return _tree->GetColor();
+}
+
 void Animator::Load(nlohmann::json& inputObject)
 {
 	try

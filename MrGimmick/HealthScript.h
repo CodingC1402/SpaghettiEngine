@@ -12,12 +12,17 @@ public:
 	void Load(nlohmann::json& input) override;
 	ScriptBase* Clone() const override;
 
-	void AddToEvent(const std::function<void(const int&, const int&)>& lamda);
-	void ClearEvent();
+	// Call when took damage
+	void AddToHealthEvent(const std::function<void(const int&, const int&)>& lamda);
+	// Call when stop iFrame
+	void AddToIFrameEvent(const std::function<void(const int&)>& lamda);
+	void ClearHealthEvent() noexcept;
+	void ClearIFrameEvent() noexcept;
 
 	[[nodiscard]] int GetHealth() const noexcept;
 	[[nodiscard]] int GetMaxHealth() const noexcept;
 	[[nodiscard]] float GetIFrame() const noexcept;
+	[[nodiscard]] bool IsInIFrame() const noexcept;
 
 	void SetHealth(int health) noexcept;
 	void SetMaxHealth(int health) noexcept;
@@ -33,7 +38,8 @@ private:
 	std::vector<std::pair<Tag, unsigned>> _damageSources;
 	Tag _masterTag;
 	// Max health and damage
-	std::list<std::function<void(const int&, const int&)>> _delegates;
+	std::list<std::function<void(const int&, const int&)>> _healthDelegates;
+	std::list<std::function<void(const int&)>> _iFrameDelegates;
 
 	REGISTER_START(HealthScript);
 };
