@@ -101,12 +101,8 @@
     <ClCompile Include="ShootScript.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="PlaySoundScript.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HealthScript.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="HealthScript.cpp" />
+    <ClCompile Include="PlaySoundScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -191,11 +187,7 @@
     <ClInclude Include="ShootScript.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="PlaySoundScript.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HealthScript.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="HealthScript.h" />
+    <ClInclude Include="PlaySoundScript.h" />
   </ItemGroup>
 </Project>
