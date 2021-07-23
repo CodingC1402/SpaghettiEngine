@@ -23,7 +23,6 @@ void ElectricScript::OnStart()
 	}
 	
 	_defendField = _electricAnimator->GetField<bool>("IsDefend");
-	_runningField = _electricAnimator->GetField<bool>("IsRunning");
 }
 
 void ElectricScript::OnUpdate()
@@ -39,15 +38,12 @@ void ElectricScript::OnUpdate()
 		_counterStart = false;
 		_counter = 0;
 		_time = 0;
-		//_electricAnimator->Disable();
 	}
 }
 
 void ElectricScript::OnFixedUpdate()
 {
-	_runningField.lock()->SetValue(_moveScript->IsWalking());
-
-	if (_runningField.lock()->GetValue())
+	if (_moveScript->IsWalking())
 	{
 		_time = 0;
 		_electricAnimator->Disable();

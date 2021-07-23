@@ -116,6 +116,9 @@
     <ClCompile Include="ElectricScript.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Crouching.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -213,6 +216,9 @@
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="DropBombScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Crouching.h">
       <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>

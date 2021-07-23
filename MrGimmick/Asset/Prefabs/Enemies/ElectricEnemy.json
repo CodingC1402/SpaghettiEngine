@@ -18,7 +18,8 @@
             { "ID": 1 },
             { "ID": 2 },
             { "ID": 3 },
-            { "ID": 4 }
+            { "ID": 4 },
+            { "ID": 5 }
           ]
         },
         {
@@ -114,7 +115,7 @@
       "Inputs": {
         "ScriptType": "ElectricScript",
         "BehaviorTree": "Asset/AI/ElectricEnemyBehavior.json",
-        "AnimationTime": 0.4
+        "AnimationTime": 0.3
       }
     },
     {
@@ -124,6 +125,13 @@
         "ScriptType": "Animator",
         "AnimationTree": "Asset/AnimationTree/ElectricWaveAnimateTree.json",
         "DrawLayer": 1
+      }
+    },
+    {
+      "ID": 5,
+      "Inputs": {
+        "ScriptType": "Crouching",
+        "BehaviorTree": "Asset/AI/ElectricEnemyBehavior.json"
       }
     }
   ]

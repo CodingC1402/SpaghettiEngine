@@ -12,9 +12,14 @@
             "Value": false
         },
         {
-            "Name": "IsRunning",
-            "Type": "bool",
-            "Value": false
+          "Name": "IsRunning",
+          "Type": "bool",
+          "Value": false
+        },
+        {
+          "Name": "IsCrouching",
+          "Type": "bool",
+          "Value": false
         }
     ],
 
@@ -125,10 +130,42 @@
                                                     "Children": 
                                                     [
                                                         {
-                                                            "Type": "AnimationNode",
-                                                            "Input": {
-                                                                "ID": 20301
-                                                            }
+                                                            "Type": "Selector",
+                                                            "Children": 
+                                                            [
+                                                                {
+                                                                    "Type": "BoolCon",
+                                                                    "Input": {
+                                                                      "Type": "Equal",
+                                                                      "Field": "IsCrouching",
+                                                                      "Value": false
+                                                                    },
+                                                                    "Children": [
+                                                                        {
+                                                                            "Type": "AnimationNode",
+                                                                            "Input": {
+                                                                              "ID": 20301
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "Type": "BoolCon",
+                                                                    "Input": {
+                                                                        "Type": "Equal",
+                                                                        "Field": "IsCrouching",
+                                                                        "Value": true
+                                                                    },
+                                                                    "Children": [
+                                                                        {
+                                                                            "Type": "AnimationNode",
+                                                                            "Input": {
+                                                                              "ID": 20300
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
                                                         }
                                                     ] 
                                                 },
