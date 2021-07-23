@@ -12,7 +12,18 @@
         }
       ]
     },
-    { "ID": 20002 }
+    { 
+      "ID": 20007,
+      "Changes": [
+        {
+          "ID": 1,
+          "Prefabs": [0],
+          "Type" : "GameObject",
+          "Field": "Transform",
+          "Value": [-800, 100, 0]
+        }
+      ]
+    }
   ],
   "GameObjects": [
     {

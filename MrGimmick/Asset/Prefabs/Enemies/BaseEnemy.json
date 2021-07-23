@@ -65,6 +65,7 @@
         },
         {
             "ID": 4,
+            "Name": "Moving",
             "Inputs": {
                 "ScriptType": "Animator",
                 "AnimationTree": "",

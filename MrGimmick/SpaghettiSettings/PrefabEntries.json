@@ -71,6 +71,14 @@
     "Path": "Asset/Prefabs/Enemies/CanonBall.json"
   },
   {
+    "ID": 20006,
+    "Path": "Asset/Prefabs/Enemies/DropBomb.json"
+  },
+  {
+    "ID": 20007,
+    "Path": "Asset/Prefabs/Enemies/ElectricEnemy.json"
+  },
+  {
     "ID": 40004,
     "Path": "Asset/Prefabs/CharacterBase.json"
   }
