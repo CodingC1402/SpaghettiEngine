@@ -115,7 +115,10 @@
       "Inputs": {
         "ScriptType": "ElectricScript",
         "BehaviorTree": "Asset/AI/ElectricEnemyBehavior.json",
-        "AnimationTime": 0.3
+        "AnimationTime": 0.3,
+        "Center": [ 0, 0, 0 ],
+        "Width": 32,
+        "Height": 32
       }
     },
     {
@@ -131,7 +134,10 @@
       "ID": 5,
       "Inputs": {
         "ScriptType": "Crouching",
-        "BehaviorTree": "Asset/AI/ElectricEnemyBehavior.json"
+        "BehaviorTree": "Asset/AI/ElectricEnemyBehavior.json",
+        "Center": [ 0, 5, 0 ],
+        "Width": 16,
+        "Height": 5
       }
     }
   ]

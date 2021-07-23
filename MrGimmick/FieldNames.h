@@ -44,6 +44,20 @@ namespace Fields
 	public:
 		static constexpr auto _debugFlySpeed = "FlySpeed";
 	};
+	class ElectricEnemy {
+	public:
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+
+		static constexpr auto _moving = "Moving";
+		static constexpr auto _electric = "Electric";
+
+		static constexpr auto _isDefend = "IsDefend";
+		static constexpr auto _isCrouching = "IsCrouching";
+
+		static constexpr auto _animationTime = "AnimationTime";
+	};
 	class EnemyJumpScript {
 	public:
 		static constexpr auto _center	= "Center";

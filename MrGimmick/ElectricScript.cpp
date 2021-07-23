@@ -7,6 +7,7 @@
 #include "SMath.h"
 
 REGISTER_FINISH(ElectricScript, ScriptBase) {}
+static constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 
 void ElectricScript::OnStart()
 {
@@ -18,11 +19,14 @@ void ElectricScript::OnStart()
 
 	for (auto ani : _animatorList)
 	{
-		if (ani->GetName() == "Electric")
+		if (ani->GetName() == Fields::ElectricEnemy::_moving)
+			_movingAnimator = dynamic_cast<Animator*>(ani);
+		if (ani->GetName() == Fields::ElectricEnemy::_electric)
 			_electricAnimator = dynamic_cast<Animator*>(ani);
 	}
-	
-	_defendField = _electricAnimator->GetField<bool>("IsDefend");
+
+	_defendField = _electricAnimator->GetField<bool>(Fields::ElectricEnemy::_isDefend);
+	_crouchingField = _movingAnimator->GetField<bool>(Fields::ElectricEnemy::_isCrouching);
 }
 
 void ElectricScript::OnUpdate()
@@ -68,13 +72,16 @@ void ElectricScript::OnFixedUpdate()
 	{
 		std::set<GameObj*> _objs;
 
-		PhysicCollide::GetCollidedWithRectangle(GetGameObject(), _objs, Vector3(0, 0, 0), 48.0f, 48.0f, Tag("PlayerAttack"), PhysicCollide::FilterMode::Contain);
+		PhysicCollide::GetCollidedWithRectangle(GetGameObject(), _objs, 
+			_rect.GetCenter(),
+			_rect.GetWidth(),
+			_rect.GetHeight(), Fields::SpecialTag::GetPlayerAttack(), PhysicCollide::FilterMode::Contain);
 
 		if (!_objs.empty())
 		{
 			for (auto obj : _objs)
 			{
-				if (!obj->GetTag().Contain("Platform"))
+				if (!obj->GetTag().Contain(Fields::SpecialTag::GetPlatformTag()) && !_crouchingField.lock()->GetValue())
 				{
 					_behaviorTree->StopMove();
 					_counterStart = true;
@@ -90,15 +97,30 @@ void ElectricScript::OnFixedUpdate()
 			}
 		}
 	}
+
+
+	if constexpr (Setting::IsDebugMode())
+	{
+		DebugRenderer::DrawRectangleFromCenter(
+			_rect.GetCenter(),
+			_rect.GetWidth(),
+			_rect.GetHeight(),
+			GetWorldMatrix(),
+			DEBUG_COLOR);
+	}
 }
 
 void ElectricScript::Load(nlohmann::json& input)
 {
 	std::string _treeFilePath = input[Fields::AIScript::_behaviorTree].get<std::string>();
-	_animationTime = input["AnimationTime"].get<float>();
+	_animationTime = input[Fields::ElectricEnemy::_animationTime].get<float>();
 
 	_behaviorTree = MAKE_SHARE_BT(AIBTs);
 	_behaviorTree->Load(_treeFilePath, input[Fields::AIScript::_changes]);
+
+	_rect.SetWidth(input[Fields::ElectricEnemy::_width].get<float>());
+	_rect.SetHeight(input[Fields::ElectricEnemy::_height].get<float>());
+	_rect.SetCenter(input[Fields::ElectricEnemy::_center]);
 
 	ScriptBase::Load(input);
 }

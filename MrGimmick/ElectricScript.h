@@ -4,6 +4,7 @@
 #include "Animator.h"
 #include "AIBTs.h"
 #include "MoveScript.h"
+#include "CRectangle.h"
 
 class ElectricScript : public ScriptBase
 {
@@ -18,10 +19,13 @@ protected:
 	WGameObj _currentStar;
 	SAIBTs _behaviorTree;
 
+	CRectangle _rect;
 	BoolField _defendField;
+	BoolField _crouchingField;
 
 	MoveScript* _moveScript = nullptr;
 	Animator* _electricAnimator = nullptr;
+	Animator* _movingAnimator = nullptr;
 
 	bool _counterStart = false;
 	float _counter = 0;

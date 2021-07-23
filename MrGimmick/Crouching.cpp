@@ -7,6 +7,7 @@
 #include "SMath.h"
 
 REGISTER_FINISH(Crouching, ScriptBase) {}
+static constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 
 void Crouching::OnStart()
 {
@@ -18,21 +19,24 @@ void Crouching::OnStart()
 
 	for (auto ani : _animatorList)
 	{
-		if (ani->GetName() == "Moving")
+		if (ani->GetName() == Fields::ElectricEnemy::_moving)
 			_movingAnimator = dynamic_cast<Animator*>(ani);
-		if (ani->GetName() == "Electric")
+		if (ani->GetName() == Fields::ElectricEnemy::_electric)
 			_electricAnimator = dynamic_cast<Animator*>(ani);
 	}
 
-	_defendField = _electricAnimator->GetField<bool>("IsDefend");
-	_crouchingField = _movingAnimator->GetField<bool>("IsCrouching");
+	_defendField = _electricAnimator->GetField<bool>(Fields::ElectricEnemy::_isDefend);
+	_crouchingField = _movingAnimator->GetField<bool>(Fields::ElectricEnemy::_isCrouching);
 }
 
 void Crouching::OnFixedUpdate()
 {
 	std::set<GameObj*> _objs;
 
-	PhysicCollide::GetCollidedWithRectangle(GetGameObject(), _objs, Vector3(0, 16, 0), 16.0f, 10.0f, Tag("Player"), PhysicCollide::FilterMode::Contain);
+	PhysicCollide::GetCollidedWithRectangle(GetGameObject(), _objs, 
+		_rect.GetCenter(),
+		_rect.GetWidth(),
+		_rect.GetHeight(), Fields::SpecialTag::GetPlayerTag(), PhysicCollide::FilterMode::Contain);
 
 	if (!_objs.empty())
 	{
@@ -51,6 +55,16 @@ void Crouching::OnFixedUpdate()
 	{
 		_crouchingField.lock()->SetValue(false);
 	}
+
+	if constexpr (Setting::IsDebugMode())
+	{
+		DebugRenderer::DrawRectangleFromCenter(
+			_rect.GetCenter(),
+			_rect.GetWidth(),
+			_rect.GetHeight(),
+			GetWorldMatrix(),
+			DEBUG_COLOR);
+	}
 }
 
 void Crouching::Load(nlohmann::json& input)
@@ -60,12 +74,18 @@ void Crouching::Load(nlohmann::json& input)
 	_behaviorTree = MAKE_SHARE_BT(AIBTs);
 	_behaviorTree->Load(_treeFilePath, input[Fields::AIScript::_changes]);
 
+	_rect.SetWidth(input[Fields::ElectricEnemy::_width].get<float>());
+	_rect.SetHeight(input[Fields::ElectricEnemy::_height].get<float>());
+	_rect.SetCenter(input[Fields::ElectricEnemy::_center]);
+
 	ScriptBase::Load(input);
 }
 
 PScriptBase Crouching::Clone() const
 {
 	auto clone = dynamic_cast<Crouching*>(ScriptBase::Clone());
+
+	clone->_rect = _rect;
 
 	return clone;
 }

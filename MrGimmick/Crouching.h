@@ -3,6 +3,7 @@
 #include "AIBTs.h"
 #include "Animator.h"
 #include "MoveScript.h"
+#include "CRectangle.h"
 
 class Crouching : public ScriptBase
 {
@@ -15,6 +16,7 @@ public:
 protected:
 	SAIBTs _behaviorTree;
 
+	CRectangle _rect;
 	BoolField _crouchingField;
 	BoolField _defendField;
 
