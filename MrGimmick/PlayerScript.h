@@ -40,6 +40,7 @@ private:
 	Vector3 _hurtVel;
 
 	PlayerControl* _control = nullptr;
+	Animator* _animator = nullptr;
 	MoveScript* _moveScript = nullptr;
 	RigidBody2D* _rb = nullptr;
 	HealthScript* _healthScript = nullptr;

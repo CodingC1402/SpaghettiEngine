@@ -36,6 +36,11 @@
     "ID": 30006,
     "Path": "Asset/Animations/PlayerInTube.json"
   },
+  {
+    "ID": 30007,
+    "Path": "Asset/Animations/PlayerDeadOrb.json"
+  },
+
 
   {
     "ID": 20000,
