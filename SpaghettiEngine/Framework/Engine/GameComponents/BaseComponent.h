@@ -41,7 +41,7 @@ public:
 
     virtual void OnCollide(CollideEvent& e) {};
 #pragma endregion
-
+    // Check if a gameObject have been marked for remove.
     [[nodiscard]] bool IsDeleted() const;
 
     [[nodiscard]] virtual bool IsDisabled() const;

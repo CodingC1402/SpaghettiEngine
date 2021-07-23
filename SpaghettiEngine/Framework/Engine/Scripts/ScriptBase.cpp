@@ -22,15 +22,15 @@
 //
 void REGISTERFUNCTION()
 {
-	Animator(nullptr);
-	Camera(nullptr);
-	Canvas(nullptr);
-	CircleCollider(nullptr);
-	Polygon2DCollider(nullptr);
-	RigidBody2D(nullptr);
-	SpriteRenderer(nullptr);
-	Surface(nullptr);
-	TileMapRenderer(nullptr);
+	Animator one(nullptr);
+	Camera two(nullptr);
+	Canvas three(nullptr);
+	CircleCollider four(nullptr);
+	Polygon2DCollider five(nullptr);
+	RigidBody2D six(nullptr);
+	SpriteRenderer seven(nullptr);
+	Surface eight(nullptr);
+	TileMapRenderer nine(nullptr);
 }
 ScriptTypes* ScriptFactory::map = nullptr;
 

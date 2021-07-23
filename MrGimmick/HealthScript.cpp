@@ -76,7 +76,7 @@ void HealthScript::Load(nlohmann::json& input)
 	_maxHealth = input[Fields::HealthScript::_maxHealth].get<unsigned>();
 	_health = input[Fields::HealthScript::_health].get<unsigned>();
 	_health = _health > _maxHealth ? _maxHealth : _health;
-	_iFrame = input[Fields::HealthScript::_iFrame].get<int>();
+	_iFrame = input[Fields::HealthScript::_iFrame].get<float>();
 	for (auto& source : input[Fields::HealthScript::_damageSource])
 	{
 		_damageSources.push_back(std::pair(Tag(source[Fields::HealthScript::_tag]), source[Fields::HealthScript::_damage]));

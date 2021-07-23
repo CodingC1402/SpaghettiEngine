@@ -14,8 +14,6 @@ public:
 	void Load(nlohmann::json& input) override;
 	PScriptBase Clone() const override;
 protected:
-	SAIBTs _behaviorTree;
-
 	CRectangle _rect;
 	BoolField _crouchingField;
 	BoolField _defendField;

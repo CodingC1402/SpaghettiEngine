@@ -12,9 +12,6 @@ static constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 void ElectricScript::OnStart()
 {
 	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
-	_behaviorTree->AssignMoveScript(_moveScript);
-	_behaviorTree->SetGameObject(GetGameObject());
-
 	auto _animatorList = GET_ALL_SCRIPTS_OF_TYPE(Animator);
 
 	for (auto ani : _animatorList)
@@ -83,7 +80,8 @@ void ElectricScript::OnFixedUpdate()
 			{
 				if (!obj->GetTag().Contain(Fields::SpecialTag::GetPlatformTag()) && !_crouchingField.lock()->GetValue())
 				{
-					_behaviorTree->StopMove();
+					_moveScript->StopMoveLeft();
+					_moveScript->StopMoveRight();
 					_counterStart = true;
 					_counter = 0;
 					_time = 0;
@@ -112,11 +110,7 @@ void ElectricScript::OnFixedUpdate()
 
 void ElectricScript::Load(nlohmann::json& input)
 {
-	std::string _treeFilePath = input[Fields::AIScript::_behaviorTree].get<std::string>();
 	_animationTime = input[Fields::ElectricEnemy::_animationTime].get<float>();
-
-	_behaviorTree = MAKE_SHARE_BT(AIBTs);
-	_behaviorTree->Load(_treeFilePath, input[Fields::AIScript::_changes]);
 
 	_rect.SetWidth(input[Fields::ElectricEnemy::_width].get<float>());
 	_rect.SetHeight(input[Fields::ElectricEnemy::_height].get<float>());
@@ -129,7 +123,8 @@ PScriptBase ElectricScript::Clone() const
 {
 	auto clone = dynamic_cast<ElectricScript*>(ScriptBase::Clone());
 
-	clone->_counter = _counter;
+	clone->_animationTime = _animationTime;
+	clone->_rect = _rect;
 
 	return clone;
 }

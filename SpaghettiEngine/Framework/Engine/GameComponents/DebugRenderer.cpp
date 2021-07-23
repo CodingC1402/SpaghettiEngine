@@ -33,6 +33,16 @@ void DebugRenderer::DrawCircle(const float& radius, const Matrix4& matrix, const
 	_shapes.emplace_back(std::move(vertexes), std::pair(matrix, TranslateColor(color)));
 }
 
+void DebugRenderer::DrawCircle(const float& radius, const Vector3& center, const Matrix4& matrix, const Color& color)
+{
+	auto newMatrix = matrix;
+	newMatrix._41 += center.x;
+	newMatrix._42 += center.y;
+	newMatrix._43 += center.z;
+
+	DrawCircle(radius, newMatrix, color);
+}
+
 void DebugRenderer::DrawRectangle(Vector3 topLeft, float width, float height, const Matrix4& matrix, const Color& color)
 {
 	Vector3 topRight, bottomLeft, bottomRight;

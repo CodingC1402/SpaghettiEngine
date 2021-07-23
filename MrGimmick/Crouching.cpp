@@ -12,9 +12,6 @@ static constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 void Crouching::OnStart()
 {
 	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
-	_behaviorTree->AssignMoveScript(_moveScript);
-	_behaviorTree->SetGameObject(GetGameObject());
-
 	auto _animatorList = GET_ALL_SCRIPTS_OF_TYPE(Animator);
 
 	for (auto ani : _animatorList)
@@ -42,7 +39,8 @@ void Crouching::OnFixedUpdate()
 	{
 		for (auto obj : _objs)
 		{
-			_behaviorTree->StopMove();
+			_moveScript->StopMoveLeft();
+			_moveScript->StopMoveRight();
 			_crouchingField.lock()->SetValue(true);
 		}
 
@@ -69,11 +67,6 @@ void Crouching::OnFixedUpdate()
 
 void Crouching::Load(nlohmann::json& input)
 {
-	std::string _treeFilePath = input[Fields::AIScript::_behaviorTree].get<std::string>();
-
-	_behaviorTree = MAKE_SHARE_BT(AIBTs);
-	_behaviorTree->Load(_treeFilePath, input[Fields::AIScript::_changes]);
-
 	_rect.SetWidth(input[Fields::ElectricEnemy::_width].get<float>());
 	_rect.SetHeight(input[Fields::ElectricEnemy::_height].get<float>());
 	_rect.SetCenter(input[Fields::ElectricEnemy::_center]);

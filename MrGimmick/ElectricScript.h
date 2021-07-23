@@ -17,7 +17,6 @@ public:
 	PScriptBase Clone() const override;
 protected:
 	WGameObj _currentStar;
-	SAIBTs _behaviorTree;
 
 	CRectangle _rect;
 	BoolField _defendField;

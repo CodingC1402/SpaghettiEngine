@@ -52,7 +52,7 @@ bool BaseComponent::IsDisabled() const
 
 bool BaseComponent::CallDestroy()
 {
-    if (_owner)
+    if (_owner && !IsDeleted())
     {
         _owner->AddToTrashBin(_this.lock());
         return true;
