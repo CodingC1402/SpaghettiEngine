@@ -37,8 +37,6 @@ public:
 	{
 		return start + (end - start) * ((t > 1.0f ? 1.0f : t) < 0.0f ? 0.0f : t);
 	}
-
-
 	template<typename T1, typename T2>
 	static constexpr auto Max(const T1& value1, const T2& value2)
 	{

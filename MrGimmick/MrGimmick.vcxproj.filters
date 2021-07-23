@@ -110,6 +110,12 @@
     <ClCompile Include="FootEnemyScript.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="DropBombScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -201,6 +207,12 @@
       <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="FootEnemyScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DropBombScript.h">
       <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>

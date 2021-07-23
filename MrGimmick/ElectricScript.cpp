@@ -102,7 +102,7 @@ void ElectricScript::Load(nlohmann::json& input)
 	_animationTime = input["AnimationTime"].get<float>();
 
 	_behaviorTree = MAKE_SHARE_BT(AIBTs);
-	_behaviorTree->Load(_treeFilePath);
+	_behaviorTree->Load(_treeFilePath, input[Fields::AIScript::_changes]);
 
 	ScriptBase::Load(input);
 }

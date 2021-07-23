@@ -77,15 +77,53 @@
   },
 
   {
+    "ID": 20201,
+    "Path": "Asset/Animations/Enemy/WormEnemy/EnemyIdle.json"
+  },
+  {
+    "ID": 20202,
+    "Path": "Asset/Animations/Enemy/WormEnemy/EnemyRunning.json"
+  },
+
+  {
+    "ID": 20301,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/EnemyIdle.json"
+  },
+  {
+    "ID": 20302,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/EnemyRunning.json"
+  },
+  {
+    "ID": 20303,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/EnemyJump.json"
+  },
+  {
+    "ID": 20304,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/ElectricIdle.json"
+  },
+  {
+    "ID": 20305,
+    "Path": "Asset/Animations/Enemy/ElectricEnemy/ElectricWave.json"
+  },
+
+  {
     "ID": 50001,
-    "Path": "Asset/Animations/CanonBallAnim.json"
+    "Path": "Asset/Animations/Enemy/Canon/CanonBallAnim.json"
   },
   {
     "ID": 50002,
-    "Path": "Asset/Animations/CanonReload.json"
+    "Path": "Asset/Animations/Enemy/Canon/CanonReload.json"
   },
   {
     "ID": 50003,
-    "Path": "Asset/Animations/CanonShoot.json"
+    "Path": "Asset/Animations/Enemy/Canon/CanonShoot.json"
+  },
+  {
+    "ID": 50004,
+    "Path": "Asset/Animations/Enemy/Canon/DropAnim.json"
+  },
+  {
+    "ID": 50005,
+    "Path": "Asset/Animations/Enemy/Canon/DropBombAnim.json"
   }
 ]
