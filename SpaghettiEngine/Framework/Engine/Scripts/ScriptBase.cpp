@@ -122,6 +122,9 @@ bool ScriptBase::IsDisabled() const noexcept
 PScriptBase ScriptBase::Clone() const
 {
 	auto cloneScript = GetOwner()->CreateScriptBase(GetType(), BaseComponent::IsDisabled());
+
+	cloneScript->SetName(GetName());
+
 	return cloneScript;
 }
 

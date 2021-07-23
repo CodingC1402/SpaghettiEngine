@@ -75,7 +75,7 @@ void BaseComponent::SetName(const std::string& name)
     _name = name;
 }
 
-std::string BaseComponent::GetName()
+std::string BaseComponent::GetName() const
 {
     return _name;
 }

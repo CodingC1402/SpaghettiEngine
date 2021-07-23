@@ -24,7 +24,7 @@ public:
     BaseComponent& operator=(const BaseComponent&&) = delete;
 
     void SetName(const std::string& name);
-    [[nodiscard]] std::string GetName();
+    [[nodiscard]] std::string GetName() const;
 
 #pragma region Events
     virtual void OnStart() {}
