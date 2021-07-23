@@ -1,4 +1,5 @@
 #include "AnimationTree.h"
+#include "GameObj.h"
 
 REGISTER_BEHAVIOR_TREE_FINISH(AnimationTree);
 
@@ -23,7 +24,27 @@ SSprite AnimationTree::GetCurrentSprite() const
 	return _currentSprite;
 }
 
+GameObj* AnimationTree::GetOwner() const noexcept
+{
+	return _ownerObj;
+}
+
+Color AnimationTree::GetColor() const noexcept
+{
+	return _color;
+}
+
 void AnimationTree::SetCurrentSprite(SSprite sprite)
 {
 	_currentSprite = sprite;
+}
+
+void AnimationTree::SetOwner(GameObj* owner) noexcept
+{
+	_ownerObj = owner;
+}
+
+void AnimationTree::SetColor(const Color& color) noexcept
+{
+	_color = color;
 }

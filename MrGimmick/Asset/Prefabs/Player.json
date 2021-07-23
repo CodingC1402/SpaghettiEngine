@@ -23,7 +23,8 @@
 						{ "ID": 3 },
 						{ "ID": 4 },
 						{ "ID": 5 },
-						{ "ID": 6 }
+						{ "ID": 6 },
+						{ "ID": 7 }
 					]
 				},
 				{
@@ -46,11 +47,11 @@
 				"ScriptType": "AttackMove",
 				"GameObjects": [
 					{
-						"Prefabs": [ 0 ],
+						"Prefabs": [0],
 						"ID": 1
 					}
 				],
-				"AppearOffSet": [ 0, 20, 0 ]
+				"AppearOffSet": [0, 20, 0]
 			}
 		},
 		{
@@ -69,25 +70,50 @@
 		{
 			"ID": 4,
 			"Inputs": {
-				"ScriptType": "PlayerScript"
+				"ScriptType": "PlayerScript",
+				"HurtTime": 1.50,
+				"HurtVelocity": [-100, 100, 0],
+				"RespawnDelay": 2
 			}
 		},
 		{
 			"ID": 5,
 			"Inputs": {
-				"ScriptType": "SoundSource",
-				"ID": 10001,
-				"Name": "se5",
-				"Mode": "Nothing",
-				"Loop": false,
-				"Delay": 1.0,
-				"Volume": 1.0
+				"ScriptType": "HealthScript",
+				"MaxHealth": 4,
+				"Health": 4,
+				"IFrame": 2.75,
+				"HitBoxes": [
+					{
+						"Center": [0, 0, 0],
+						"Width": 10,
+						"Height": 10
+					}
+				],
+				"DamageSources": [
+					{
+						"Tag": ["Enemy"],
+						"Damage": 1
+					}
+				]
 			}
 		},
 		{
 			"ID": 6,
 			"Inputs": {
-				"ScriptType": "PlaySoundScript"
+				"ScriptType": "IFrameFlash",
+				"Delay": 0.1,
+				"Alpha": 127
+			}
+		},
+		{
+			"ID": 7,
+			"Inputs": {
+				"ScriptType": "DeadAnimationScript",
+				"Animation": 30007,
+				"Time": 1,
+				"Distance": 400,
+				"Count": 12
 			}
 		}
 	]

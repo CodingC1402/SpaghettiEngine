@@ -6,8 +6,9 @@ class SpawnPoint : public ScriptBase
 public:
 	void Load(nlohmann::json& input) override;
 	void OnFixedUpdate() override;
-	void SetSpawnPoint(SpawnPoint* spawnPointScript);
+	static void SetSpawnPoint(SpawnPoint* spawnPointScript);
 	[[nodiscard]] Vector3 GetSpawnPosition();
+	[[nodiscard]] GameObj* GetSegment();
 
 	[[nodiscard]] static SpawnPoint* GetSpawnPointScript();
 private:
@@ -19,6 +20,9 @@ private:
 	// Spawn point
 	Vector3 _spawnPos;
 	bool _spawnPointSetted = false;
+
+	// Segment that this spawn point is in
+	GameObj* _segment = nullptr;
 
 	static inline SpawnPoint* __currentSpawn = nullptr;
 	REGISTER_START(SpawnPoint);

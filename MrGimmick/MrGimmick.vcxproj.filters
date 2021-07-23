@@ -16,6 +16,9 @@
     <Filter Include="Character">
       <UniqueIdentifier>{a9467769-8ddb-4028-b249-c12ae3163ccf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level1">
+      <UniqueIdentifier>{26fee250-993b-4b69-90a4-b5eaf4365452}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyJumpScript.cpp">
@@ -102,6 +105,30 @@
       <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="PlaySoundScript.cpp" />
+    <ClCompile Include="HealthScript.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="IFrameFlash.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="FootEnemyScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DropBombScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Crouching.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricSpawn.cpp">
+      <Filter>Level1</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadAnimationScript.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -187,5 +214,29 @@
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PlaySoundScript.h" />
+    <ClInclude Include="HealthScript.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="IFrameFlash.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="FootEnemyScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DropBombScript.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Crouching.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricSpawn.h">
+      <Filter>Level1</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadAnimationScript.h">
+      <Filter>Player</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

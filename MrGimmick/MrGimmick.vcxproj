@@ -100,6 +100,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <Optimization>Disabled</Optimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -126,6 +127,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,6 +157,7 @@
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <Optimization>Disabled</Optimization>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -181,6 +184,7 @@
       <OmitFramePointers>true</OmitFramePointers>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <Optimization>MaxSpeed</Optimization>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -204,11 +208,19 @@
     <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
+    <ClCompile Include="Crouching.cpp" />
+    <ClCompile Include="DeadAnimationScript.cpp" />
     <ClCompile Include="DebugControl.cpp" />
+    <ClCompile Include="DropBombScript.cpp" />
+    <ClCompile Include="ElectricScript.cpp" />
+    <ClCompile Include="ElectricSpawn.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="PlaySoundScript.cpp" />
+    <ClCompile Include="FootEnemyScript.cpp" />
+    <ClCompile Include="HealthScript.cpp" />
+    <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
@@ -236,11 +248,19 @@
     <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="ChasingLeaf.h" />
+    <ClInclude Include="Crouching.h" />
+    <ClInclude Include="DeadAnimationScript.h" />
     <ClInclude Include="DebugControl.h" />
+    <ClInclude Include="DropBombScript.h" />
+    <ClInclude Include="ElectricScript.h" />
+    <ClInclude Include="ElectricSpawn.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="PlaySoundScript.h" />
+    <ClInclude Include="FootEnemyScript.h" />
+    <ClInclude Include="HealthScript.h" />
+    <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />

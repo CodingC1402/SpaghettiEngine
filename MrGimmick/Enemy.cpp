@@ -3,6 +3,12 @@
 
 REGISTER_FINISH(Enemy, ScriptBase) {}
 
+void Enemy::OnDisabled()
+{
+	if (_isInTube)
+		GetGameObject()->CallDestroy();
+}
+
 void Enemy::OnCollide(CollideEvent& e)
 {
 	if (e.GetGameObject()->GetTag().Collide(_collideIgnore))

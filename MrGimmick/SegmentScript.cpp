@@ -61,11 +61,7 @@ void SegmentScript::EnableEnemies()
 void SegmentScript::DisableEnemies()
 {
 	LoopEnemies([](WGameObj obj) {
-		auto enemyScript = dynamic_cast<Enemy*>(obj.lock()->GetScriptContainer().GetItemType(TYPE_NAME(Enemy)));
-		if (enemyScript->IsInTube())
-			obj.lock()->CallDestroy();
-		else
-			obj.lock()->Disable();
+		obj.lock()->Disable();
 	});
 }
 
@@ -111,6 +107,12 @@ ScriptBase* SegmentScript::Clone() const
 	clone->_enemySpawns = _enemySpawns;
 
 	return clone;
+}
+
+void SegmentScript::DisableAllSegment()
+{
+	for (auto& instance : __instances)
+		instance->GetGameObject()->Disable();
 }
 
 void SegmentScript::SpawnAll()

@@ -70,7 +70,19 @@
                             -16, 2
                         ]
                     ]
-                }
+                },
+                {
+                    "ID": 7,
+                    "Type": "Script",
+                    "Field": "HitBoxes",
+                    "Value": [
+                      {
+                        "Center": [0, -2, 0],
+                        "Width": 28,
+                        "Height": 8
+                      }
+                    ]
+                  }
             ]
         }
     ],

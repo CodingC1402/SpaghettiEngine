@@ -19,7 +19,6 @@ unsigned short operator""_us(unsigned long long value);
 class SMath
 {
 public:
-	static float	Lerp(const float& start, const float& end, const float t);
 	static float	ToRad(const float& degree);
 	static bool		CompareFloat(float x, float y, float epsilon = 0.000001f);
 	static void		TransformVector3(Vector3& outVec, Vector3& inVec, Matrix4& transformMatrix);
@@ -33,6 +32,11 @@ public:
 	static Matrix4	GetYAxisRotateMatrix(const float& degree);
 	static Matrix4	GetZAxisRotateMatrix(const float& degree);
 
+	template<typename T>
+	static T Lerp(const T& start, const T& end, const float& t)
+	{
+		return start + (end - start) * ((t > 1.0f ? 1.0f : t) < 0.0f ? 0.0f : t);
+	}
 	template<typename T1, typename T2>
 	static constexpr auto Max(const T1& value1, const T2& value2)
 	{

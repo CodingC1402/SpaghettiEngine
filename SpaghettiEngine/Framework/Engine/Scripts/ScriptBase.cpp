@@ -23,16 +23,16 @@
 //
 void REGISTERFUNCTION()
 {
-	Animator(nullptr);
-	Camera(nullptr);
-	Canvas(nullptr);
-	CircleCollider(nullptr);
-	Polygon2DCollider(nullptr);
-	RigidBody2D(nullptr);
-	SoundSource(nullptr);
-	SpriteRenderer(nullptr);
-	Surface(nullptr);
-	TileMapRenderer(nullptr);
+	Animator one(nullptr);
+	Camera two(nullptr);
+	Canvas three(nullptr);
+	CircleCollider four(nullptr);
+	Polygon2DCollider five(nullptr);
+	RigidBody2D six(nullptr);
+	SpriteRenderer seven(nullptr);
+	Surface eight(nullptr);
+	TileMapRenderer nine(nullptr);
+	SoundSource ten(nullptr);
 }
 ScriptTypes* ScriptFactory::map = nullptr;
 
@@ -124,6 +124,9 @@ bool ScriptBase::IsDisabled() const noexcept
 PScriptBase ScriptBase::Clone() const
 {
 	auto cloneScript = GetOwner()->CreateScriptBase(GetType(), BaseComponent::IsDisabled());
+
+	cloneScript->SetName(GetName());
+
 	return cloneScript;
 }
 

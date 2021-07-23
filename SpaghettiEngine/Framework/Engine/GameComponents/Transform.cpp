@@ -144,7 +144,7 @@ void Transform::SetRotation(const float& x, const float& y, const float& z)
 }
 void Transform::SetRotation(const Vector3& vec3)
 {
-	if (_rotation == vec3)
+	if (_rotation != vec3)
 	{
 		_rotation = vec3;
 		SMath::Modulo(_rotation, 360.0f);

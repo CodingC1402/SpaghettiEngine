@@ -52,7 +52,7 @@ bool BaseComponent::IsDisabled() const
 
 bool BaseComponent::CallDestroy()
 {
-    if (_owner)
+    if (_owner && !IsDeleted())
     {
         _owner->AddToTrashBin(_this.lock());
         return true;
@@ -75,7 +75,7 @@ void BaseComponent::SetName(const std::string& name)
     _name = name;
 }
 
-std::string BaseComponent::GetName()
+std::string BaseComponent::GetName() const
 {
     return _name;
 }

@@ -99,7 +99,7 @@ void CameraBoundingBox::Load(nlohmann::json& input)
 		width	= trigger[Fields::CameraBoundingBox::_width].get<float>();
 		height	= trigger[Fields::CameraBoundingBox::_height].get<float>();
 
-		_triggerZones.push_back(Rectangle(center, width, height));
+		_triggerZones.push_back(CRectangle(center, width, height));
 	}
 
 	_minX = input[Fields::CameraBoundingBox::_minX].get<float>();

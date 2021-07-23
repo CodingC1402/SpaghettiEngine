@@ -24,7 +24,7 @@ public:
     BaseComponent& operator=(const BaseComponent&&) = delete;
 
     void SetName(const std::string& name);
-    [[nodiscard]] std::string GetName();
+    [[nodiscard]] std::string GetName() const;
 
 #pragma region Events
     virtual void OnStart() {}
@@ -41,7 +41,7 @@ public:
 
     virtual void OnCollide(CollideEvent& e) {};
 #pragma endregion
-
+    // Check if a gameObject have been marked for remove.
     [[nodiscard]] bool IsDeleted() const;
 
     [[nodiscard]] virtual bool IsDisabled() const;

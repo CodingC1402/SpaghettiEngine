@@ -20,6 +20,7 @@ public:
 
 	ScriptBase* Clone() const override;
 
+	static void DisableAllSegment();
 	static void SpawnAll();
 	static void DespawnAll();
 private:

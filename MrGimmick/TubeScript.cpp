@@ -248,7 +248,7 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 		_gameObject->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
 			if (script->GetType() == TYPE_NAME(Polygon2DCollider))
 				script->Disable();
-		});
+			});
 		if (_gameObject->GetTag().Contain(Fields::SpecialTag::GetEnemyTag()))
 		{
 			auto enemyScript = dynamic_cast<Enemy*>(_gameObject->GetScriptContainer().GetItemType(TYPE_NAME(Enemy)));

@@ -3,6 +3,7 @@
 #include "DebugControl.h"
 #include "InputSystem.h"
 #include "FieldNames.h"
+#include "Polygon2DCollider.h"
 #include "Physic.h"
 
 REGISTER_FINISH(DebugControl, ScriptBase) {}
@@ -28,12 +29,20 @@ void DebugControl::OnUpdate()
 		{
 			_playerControlScript->Disable();
 			_rbScript->Disable();
+			GetGameObject()->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
+				if (script->GetType() == TYPE_NAME(Polygon2DCollider))
+					script->Disable();
+			});
 			CameraBoundingBox::TempShutDown();
 		}
 		else
 		{
 			_playerControlScript->Enable();
 			_rbScript->Enable();
+			GetGameObject()->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
+				if (script->GetType() == TYPE_NAME(Polygon2DCollider))
+					script->Enable();
+			});
 			CameraBoundingBox::TurnOn();
 		}
 	}

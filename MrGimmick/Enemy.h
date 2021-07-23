@@ -4,6 +4,7 @@
 class Enemy : public ScriptBase
 {
 public:
+	void OnDisabled() override;
 	void OnCollide(CollideEvent& e) override;
 	void Load(nlohmann::json& input) override;
 	void SetIsInTube();

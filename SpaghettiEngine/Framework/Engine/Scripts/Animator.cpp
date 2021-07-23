@@ -7,6 +7,12 @@
 
 REGISTER_FINISH(Animator, Render2DScriptBase) {}
 
+void Animator::OnStart()
+{
+	Render2DScriptBase::OnStart();
+	_tree->SetOwner(GetGameObject());
+}
+
 void Animator::OnUpdate()
 {
 	_tree->Tick();
@@ -20,7 +26,7 @@ void Animator::Draw(PCamera camera)
 
 	Matrix4 transform = camera->GetMatrix(GetWorldMatrix());
 	Graphics::SetSpriteTransform(transform);
-	Graphics::DrawSprite(sprite, sprite->GetCenter());
+	Graphics::DrawSprite(sprite, sprite->GetCenter(), Vector3(0, 0, 0), _tree->GetColor());
 }
 
 PScriptBase Animator::Clone() const
@@ -31,6 +37,16 @@ PScriptBase Animator::Clone() const
 	animClone->_drawLayer = _drawLayer;
 
 	return animClone;
+}
+
+void Animator::SetColor(const Color& color) noexcept
+{
+	_tree->SetColor(color);
+}
+
+Color Animator::GetColor() const noexcept
+{
+	return _tree->GetColor();
 }
 
 void Animator::Load(nlohmann::json& inputObject)

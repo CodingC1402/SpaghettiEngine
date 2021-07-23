@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Framework\Engine\AnimationComponents\AnimationNode.h" />
     <ClInclude Include="Framework\Engine\AnimationComponents\AnimationTree.h" />
+    <ClInclude Include="Framework\Engine\AnimationComponents\SkeletonNode.h" />
     <ClInclude Include="Framework\Engine\AppComponents\App.h" />
     <ClInclude Include="Framework\Engine\AppComponents\LoadingJson.h" />
     <ClInclude Include="Framework\Engine\AppComponents\Setting.h" />
@@ -81,7 +82,7 @@
     <ClInclude Include="Framework\Engine\Wrapper\GameWnd.h" />
     <ClInclude Include="Framework\Engine\Wrapper\Sound.h" />
     <ClInclude Include="Framework\Math\Matrix.h" />
-    <ClInclude Include="Framework\Math\Rectangle.h" />
+    <ClInclude Include="Framework\Math\CRectangle.h" />
     <ClInclude Include="Framework\Math\SMath.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />
     <ClInclude Include="Framework\PhysicEngine\Components\Body2D.h" />
@@ -130,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="Framework\Engine\AnimationComponents\AnimationNode.cpp" />
     <ClCompile Include="Framework\Engine\AnimationComponents\AnimationTree.cpp" />
+    <ClCompile Include="Framework\Engine\AnimationComponents\SkeletonNode.cpp" />
     <ClCompile Include="Framework\Engine\AppComponents\App.cpp" />
     <ClCompile Include="Framework\Engine\AppComponents\LoadingJson.cpp" />
     <ClCompile Include="Framework\Engine\AppComponents\Setting.cpp" />
@@ -186,7 +188,7 @@
     <ClCompile Include="Framework\Engine\Wrapper\GameWnd.cpp" />
     <ClCompile Include="Framework\Engine\Wrapper\Sound.cpp" />
     <ClCompile Include="Framework\Math\Matrix.cpp" />
-    <ClCompile Include="Framework\Math\Rectangle.cpp" />
+    <ClCompile Include="Framework\Math\CRectangle.cpp" />
     <ClCompile Include="Framework\Math\SMath.cpp" />
     <ClCompile Include="Framework\Math\Vector3.cpp" />
     <ClCompile Include="Framework\PhysicEngine\Components\Body2D.cpp" />

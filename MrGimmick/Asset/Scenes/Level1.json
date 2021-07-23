@@ -72,7 +72,12 @@
 					{"ID":202},
 					{"ID":203},
 					{"ID":204},
-					{"ID":205}
+					{"ID":205},
+					{"ID":301},
+					{"ID":302},
+					{"ID":303},
+					{"ID":304},
+					{"ID":305}
 				]
 			}
 		}
@@ -96,6 +101,7 @@
 		},
 		{
 			"ID": 101,
+			"Name": "SegmentTrigger 1-2",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [1000, 384, 0],
@@ -115,6 +121,7 @@
 		},
 		{
 			"ID": 102,
+			"Name": "SegmentTrigger 2-3",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [552, 192, 0],
@@ -134,6 +141,7 @@
 		},
 		{
 			"ID": 103,
+			"Name": "SegmentTrigger 3-4",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [2024, 200, 0],
@@ -153,6 +161,7 @@
 		},
 		{
 			"ID": 104,
+			"Name": "SegmentTrigger 4-5",
 			"Inputs": {
 				"ScriptType": "SegmentTrigger",
 				"Center": [2024, 600, 0],
@@ -172,6 +181,7 @@
 		},
 		{
 			"ID": 201,
+			"Name": "TubeSegment 1-2",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -194,6 +204,7 @@
 		},
 		{
 			"ID": 202,
+			"Name": "TubeSegment 2-3",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -215,6 +226,7 @@
 		},
 		{
 			"ID": 203,
+			"Name": "TubeSegment 3-4",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -238,6 +250,7 @@
 		},
 		{
 			"ID": 204,
+			"Name": "TubeSegment 4-4",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -260,6 +273,7 @@
 		},
 		{
 			"ID": 205,
+			"Name": "TubeSegment 4-5",
 			"Inputs": {
 				"ScriptType": "TubeScript",
 				"PointA": {
@@ -277,6 +291,91 @@
 					2024, 512,
 					2024, 618,
 					2000, 618
+				]
+			}
+		},
+		{
+			"ID": 301,
+			"Name": "SpawnPoint1",
+			"Inputs": {
+				"ScriptType": "SpawnPoint",
+				"Center": [100, 376, 0],
+				"Width": 100,
+				"Height": 100,
+				"SpawnPoint": [96, 424, 0],
+				"GameObjects": [
+					{
+						"Prefabs":[1], 
+						"ID": 1
+					}
+				]
+			}
+		},
+		{
+			"ID": 302,
+			"Name": "SpawnPoint2",
+			"Inputs": {
+				"ScriptType": "SpawnPoint",
+				"Center": [976, 320, 0],
+				"Width": 50,
+				"Height": 32,
+				"SpawnPoint": [984, 312, 0],
+				"GameObjects": [
+					{
+						"Prefabs":[2], 
+						"ID": 1
+					}
+				]
+			}
+		},
+		{
+			"ID": 303,
+			"Name": "SpawnPoint3",
+			"Inputs": {
+				"ScriptType": "SpawnPoint",
+				"Center": [1968, 232, 0],
+				"Width": 32,
+				"Height": 16,
+				"SpawnPoint": [1968, 232, 0],
+				"GameObjects": [
+					{
+						"Prefabs":[4], 
+						"ID": 1
+					}
+				]
+			}
+		},
+		{
+			"ID": 304,
+			"Name": "SpawnPoint4",
+			"Inputs": {
+				"ScriptType": "SpawnPoint",
+				"Center": [1968, 616, 0],
+				"Width": 32,
+				"Height": 16,
+				"SpawnPoint": [1968, 616, 0],
+				"GameObjects": [
+					{
+						"Prefabs":[5], 
+						"ID": 1
+					}
+				]
+			}
+		},
+		{
+			"ID": 305,
+			"Name": "SpawnPoint5",
+			"Inputs": {
+				"ScriptType": "SpawnPoint",
+				"Center": [1296, 616, 0],
+				"Width": 32,
+				"Height": 16,
+				"SpawnPoint": [1304, 616, 0],
+				"GameObjects": [
+					{
+						"Prefabs":[5], 
+						"ID": 1
+					}
 				]
 			}
 		}

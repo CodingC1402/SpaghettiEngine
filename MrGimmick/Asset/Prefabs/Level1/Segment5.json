@@ -11,6 +11,17 @@
 					"Value": false
 				}
 			]
+		},
+        { 
+			"ID": 90106,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
 		}
     ],
     "GameObjects": [		
@@ -44,6 +55,10 @@
 					{
 						"Prefabs": [0, 0],
 						"ID": 1
+					},
+                    {
+						"Prefabs": [1],
+						"ID": 1
 					}
 				],
 				"EnemySpawns": [
@@ -58,6 +73,10 @@
                     {
                         "Index": 0,
                         "Position": [1296, 608, 0]
+                    },
+                    {
+                        "Index": 1,
+                        "Position": [0, 0, 0]
                     }
 				]
             }
@@ -68,8 +87,13 @@
                 "ScriptType": "CameraBoundingBox",
                 "Triggers": [
                     {
-                        "Center": [1288, 624, 0],
-                        "Width": 10,
+                        "Center": [1968, 616, 0],
+                        "Width": 32,
+                        "Height": 16
+                    },
+                    {
+                        "Center": [1298, 624, 0],
+                        "Width": 20,
                         "Height": 32
                     },
                     {
