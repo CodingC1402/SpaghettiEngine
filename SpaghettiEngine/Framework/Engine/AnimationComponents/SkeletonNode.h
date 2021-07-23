@@ -14,6 +14,9 @@ class SkeletonNode : public LeafNode
 public:
 	struct Frame
 	{
+	public:
+		void Reset();
+	public:
 		SVector3 _rotation;
 		SVector3 _transform;
 		SVector3 _scale;

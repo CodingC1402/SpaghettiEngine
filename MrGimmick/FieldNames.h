@@ -59,6 +59,13 @@ namespace Fields
 		static constexpr auto _groundTag= "GroundTag";
 		static constexpr auto _tagMode	= "TagMode";
 	};
+	class FootEnemyScript
+	{
+	public:
+		static constexpr auto _diedNode = "DiedNode";
+		static constexpr auto _hurtVel	= "HurtVelocity";
+		static constexpr auto _delay	= "Delay";
+	};
 	class HeadScript
 	{
 	public:

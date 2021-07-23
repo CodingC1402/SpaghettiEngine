@@ -101,6 +101,8 @@ ScriptBase* HealthScript::Clone() const
 	clone->_iFrame = _iFrame;
 	clone->_coolDown = _coolDown;
 	clone->_damageSources = _damageSources;
+	clone->_masterTag = _masterTag;
+	clone->_hitBoxes = _hitBoxes;
 
 	return clone;
 }
