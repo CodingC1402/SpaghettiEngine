@@ -1,0 +1,66 @@
+{
+  "GameObjects": [
+    {
+      "ID": 1,
+      "Inputs": {
+        "IsRoot": true,
+        "Transform": [ 0, 0, 0 ],
+        "Rotation": [ 0, 0, 0 ],
+        "Scale": [ 1, 1, 1 ],
+        "Scripts": [
+          { "ID": 1 },
+          { "ID": 2 },
+          { "ID": 3 },
+          { "ID": 4 }
+        ]
+      }
+    }
+  ],
+  "Scripts": [
+    {
+      "ID": 1,
+      "Inputs": {
+        "ScriptType": "Animator",
+        "AnimationTree": "Asset/AnimationTree/DropBombAnimateTree.json",
+        "DrawLayer": 1
+      }
+    },
+    {
+      "ID": 2,
+      "Inputs": {
+        "ScriptType": "Polygon2DCollider",
+        "Polygons": [
+          [
+            -8,
+            -8,
+            -8,
+            8,
+            8,
+            8,
+            8,
+            -8
+          ]
+        ]
+      }
+    },
+    {
+      "ID": 3,
+      "IsDisabled": true,
+      "Inputs": {
+        "ScriptType": "RigidBody2D",
+        "Mass": 2,
+        "GravityScale": 4,
+        "Material": 20001
+      }
+    },
+    {
+      "ID": 4,
+      "Inputs": {
+        "ScriptType": "DropBombScript",
+        "Width": 48,
+        "Height": 200,
+        "ExplodeTime": 0.5
+      }
+    }
+  ]
+}

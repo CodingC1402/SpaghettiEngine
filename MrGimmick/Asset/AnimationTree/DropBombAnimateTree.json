@@ -1,0 +1,85 @@
+{
+  "BlackBoard": [
+    {
+      "Name": "IsExploded",
+      "Type": "bool",
+      "Value": false
+    },
+    {
+      "Name": "IsDroped",
+      "Type": "bool",
+      "Value": false
+    }
+  ],
+
+    "Children": [
+        {
+            "Type": "Selector",
+            "Children": [
+                {
+                    "Type": "BoolCon",
+                    "Input": {
+                        "Field": "IsExploded",
+                        "Type": "Equal",
+                        "Value": false 
+                    },
+                    "Children": [
+                        {
+                          "Type": "Selector",
+                          "Children": [
+                            {
+                              "Type": "BoolCon",
+                              "Input": {
+                                "Field": "IsDroped",
+                                "Type": "Equal",
+                                "Value": false
+                              },
+                              "Children": [
+                                {
+                                  "Type": "AnimationNode",
+                                  "Input": {
+                                    "ID": 50001
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "Type": "BoolCon",
+                              "Input": {
+                                "Field": "IsDroped",
+                                "Type": "Equal",
+                                "Value": true
+                              },
+                              "Children": [
+                                {
+                                  "Type": "AnimationNode",
+                                  "Input": {
+                                    "ID": 50002
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                    ]
+                },
+                {
+                    "Type": "BoolCon",
+                    "Input": {
+                        "Field": "IsExploded",
+                        "Type": "Equal",
+                        "Value": true
+                    },
+                    "Children": [
+                        {
+                            "Type": "AnimationNode", 
+                            "Input": {
+                                "ID": 20003
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
