@@ -22,6 +22,17 @@
 					"Value": false
 				}
 			]
+        },
+        {
+            "ID": 20006,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
         }
     ],
     "GameObjects": [
@@ -58,6 +69,10 @@
                     {
 						"Prefabs": [1],
 						"ID": 1
+					},
+                    {
+						"Prefabs": [2],
+						"ID": 1
 					}
 				],
 				"EnemySpawns": [
@@ -68,7 +83,15 @@
                     {
 						"Index": 1,
 						"Position": [568, 320, 0]
-					}
+					},
+                    {
+                        "Index": 2,
+						"Position": [824, 336, 0]
+                    },
+                    {
+                        "Index": 2,
+						"Position": [872, 336, 0]
+                    }
 				]
 			}
 		},

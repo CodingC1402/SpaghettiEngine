@@ -15,6 +15,17 @@ const Vector3& CRectangle::GetCenter() const noexcept
 	return _center;
 }
 
+CRectangle& CRectangle::operator=(const CRectangle& rect) noexcept
+{
+	_center = rect._center;
+	_topRight = rect._topRight;
+	_bottomLeft = rect._bottomLeft;
+	_width = rect._width;
+	_height = rect._height;
+
+	return *this;
+}
+
 float CRectangle::GetMaxX() const noexcept
 {
 	return _topRight.x;

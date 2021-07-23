@@ -8,6 +8,7 @@ public:
 	[[nodiscard]] const Vector3& GetBottomLeft() const noexcept;
 	[[nodiscard]] const Vector3& GetTopRight() const noexcept;
 	[[nodiscard]] const Vector3& GetCenter() const noexcept;
+	[[nodiscard]] CRectangle& operator=(const CRectangle& rect) noexcept;
 
 	[[nodiscard]] float GetMaxX() const noexcept;
 	[[nodiscard]] float GetMaxY() const noexcept;
