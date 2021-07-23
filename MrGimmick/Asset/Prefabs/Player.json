@@ -23,7 +23,8 @@
 						{ "ID": 3 },
 						{ "ID": 4 },
 						{ "ID": 5 },
-						{ "ID": 6 }
+						{ "ID": 6 },
+						{ "ID": 7 }
 					]
 				},
 				{
@@ -103,6 +104,16 @@
 				"ScriptType": "IFrameFlash",
 				"Delay": 0.1,
 				"Alpha": 127
+			}
+		},
+		{
+			"ID": 7,
+			"Inputs": {
+				"ScriptType": "DeadAnimationScript",
+				"Animation": 30007,
+				"Time": 1,
+				"Distance": 400,
+				"Count": 12
 			}
 		}
 	]

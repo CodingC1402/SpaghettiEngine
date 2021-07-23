@@ -209,6 +209,7 @@
     <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
     <ClCompile Include="Crouching.cpp" />
+    <ClCompile Include="DeadAnimationScript.cpp" />
     <ClCompile Include="DebugControl.cpp" />
     <ClCompile Include="DropBombScript.cpp" />
     <ClCompile Include="ElectricScript.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="ChasingLeaf.h" />
     <ClInclude Include="Crouching.h" />
+    <ClInclude Include="DeadAnimationScript.h" />
     <ClInclude Include="DebugControl.h" />
     <ClInclude Include="DropBombScript.h" />
     <ClInclude Include="ElectricScript.h" />

@@ -125,6 +125,9 @@
     <ClCompile Include="ElectricSpawn.cpp">
       <Filter>Level1</Filter>
     </ClCompile>
+    <ClCompile Include="DeadAnimationScript.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -229,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="ElectricSpawn.h">
       <Filter>Level1</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadAnimationScript.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

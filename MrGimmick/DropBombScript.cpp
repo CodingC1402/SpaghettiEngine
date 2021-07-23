@@ -99,7 +99,7 @@ void DropBombScript::OnCollide(CollideEvent& e)
 		_currentStar = std::dynamic_pointer_cast<GameObj>(e.GetGameObject()->GetSharedPtr());
 		e.GetGameObject()->CallDestroy();
 	}
-	else
+	else if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlatformTag() || e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{
 		_rbBody->Disable();
 		_polyCollider->Disable();

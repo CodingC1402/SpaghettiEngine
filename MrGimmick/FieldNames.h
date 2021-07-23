@@ -188,6 +188,14 @@ namespace Fields
 		static constexpr auto _delta = "Delta";
 		static constexpr auto _delay = "Delay";
 	};
+	class DeadAnimationScript
+	{
+	public:
+		static constexpr auto _count = "Count";
+		static constexpr auto _time = "Time";
+		static constexpr auto _distance = "Distance";
+		static constexpr auto _animation = "Animation";
+	};
 	class Star
 	{
 	public:

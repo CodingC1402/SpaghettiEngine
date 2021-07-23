@@ -11,7 +11,7 @@ REGISTER_FINISH(PlayerScript, ScriptBase) {
 
 void PlayerScript::OnStart()
 {
-    auto animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
+    _animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
     _healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
     _rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
     _moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
@@ -22,7 +22,7 @@ void PlayerScript::OnStart()
     });
 
     _control = GET_FIRST_SCRIPT_OF_TYPE(PlayerControl);
-    _isHurted = animator->GetField<bool>(Fields::Player::_isHurt);
+    _isHurted = _animator->GetField<bool>(Fields::Player::_isHurt);
 }
 
 void PlayerScript::OnEnabled()
@@ -89,6 +89,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     else
     {
         _respawnCounter = _respawnDelay;
+        _animator->Disable();
         DisableColliders();
         DisableRigidBody();
     }
@@ -104,6 +105,7 @@ void PlayerScript::Respawn()
 
     EnableColliders();
     EnableRigidBody();
+    _animator->Enable();
 
     _healthScript->SetHealth(_healthScript->GetMaxHealth());
     _live--;
