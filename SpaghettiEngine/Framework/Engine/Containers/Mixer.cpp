@@ -2,6 +2,7 @@
 #include "json.hpp"
 #include "SpaghettiEnginePath.h"
 #include "StringConverter.h"
+#include "ScriptBase.h"
 #include <fstream>
 
 CONTAINER_REGISTER(MixerContainer, Mixer);
@@ -28,7 +29,6 @@ void Mixer::Load(const std::string& path)
 	constexpr const char* Sounds = "Sounds";
 	constexpr const char* Frequency = "Frequency";
 	constexpr const char* MasterVolume = "MasterVolume";
-	//constexpr const char* Loop = "Loop";
 
 	int fieldTracker = 0;
 	try
@@ -59,9 +59,6 @@ void Mixer::Load(const std::string& path)
 		fieldTracker++;
 
 		masterVolume = jsonFile[MasterVolume].get<float>();
-		//fieldTracker++;
-		//
-		//this->isLoop = jsonFile[Loop].get<bool>();
 	}
 	catch (...)
 	{
@@ -78,9 +75,6 @@ void Mixer::Load(const std::string& path)
 		case 2:
 			os << MasterVolume;
 			break;
-		//case 3:
-		//	os << Loop;
-		//	break;
 		}
 		os << std::endl;
 	
@@ -96,9 +90,9 @@ int Mixer::GetIndexPosition(std::string name)
 		auto it = _soundMap.find(name);
 		return it->second;
 	}
-	catch (...)
+	catch (const std::exception& e)
 	{
-
+		throw e.what();
 	}
 }
 

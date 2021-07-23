@@ -4,6 +4,8 @@
 #include "InputAll.h"
 #include "ScriptBase.h"
 
+// This script is for testing
+
 typedef std::shared_ptr<InputAll> SInputAll;
 
 class PlaySoundScript : public ScriptBase

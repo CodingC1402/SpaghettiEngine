@@ -34,7 +34,7 @@ namespace Fields
 		// The mixer id in unsigned long long
 		static constexpr const char* GetMixerField() { return "Mixer"; }
 		// The name of .wav sound file in mixer
-		static constexpr const char* GetNameField() { return "Name"; }
+		static constexpr const char* GetSoundNameField() { return "SoundName"; }
 
 		static constexpr const char* GetModeField() { return "Mode"; }
 		static constexpr const char* GetIsLoopField() { return "IsLoop"; }

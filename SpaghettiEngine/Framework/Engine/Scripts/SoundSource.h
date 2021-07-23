@@ -30,6 +30,7 @@ public:
 	[[nodiscard]] float GetVolume();
 	void SetVolume(float v);
 
+	[[nodiscard]] SoundSource::PlayMode GetMode();
 	void SetMode(PlayMode m);
 
 	PScriptBase Clone() const override;

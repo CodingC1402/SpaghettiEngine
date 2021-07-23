@@ -19,7 +19,7 @@ void SoundSource::Load(nlohmann::json& inputObject)
 		_audio = MixerContainer::GetInstance()->GetResource(inputObject[SoundSource::GetMixerField()].get<CULL>());
 		fieldTracker++;
 
-		string name = inputObject[SoundSource::GetNameField()].get<std::string>();
+		string name = inputObject[SoundSource::GetSoundNameField()].get<std::string>();
 		index = _audio->GetIndexPosition(name);
 		fieldTracker++;
 		
@@ -44,7 +44,7 @@ void SoundSource::Load(nlohmann::json& inputObject)
 			os << SoundSource::GetMixerField();
 			break;
 		case 1:
-			os << SoundSource::GetNameField();
+			os << SoundSource::GetSoundNameField();
 			break;
 		case 2:
 			os << SoundSource::GetModeField();
@@ -167,6 +167,11 @@ float SoundSource::GetVolume()
 void SoundSource::SetVolume(float v)
 {
 	volume = v;
+}
+
+SoundSource::PlayMode SoundSource::GetMode()
+{
+	return mode;
 }
 
 void SoundSource::SetMode(PlayMode m)

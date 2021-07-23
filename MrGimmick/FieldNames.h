@@ -196,6 +196,13 @@ namespace Fields
 		static constexpr auto _distance = "Distance";
 		static constexpr auto _animation = "Animation";
 	};
+	class SoundManager
+	{
+	public:
+		static constexpr auto _sounds = "Sounds";
+		static constexpr auto _soundName = "SoundName";
+		static constexpr auto _soundSource = "SoundSource";
+	};
 	class Star
 	{
 	public:

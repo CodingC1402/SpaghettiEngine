@@ -49,11 +49,11 @@
 				"ScriptType": "AttackMove",
 				"GameObjects": [
 					{
-						"Prefabs": [0],
+						"Prefabs": [ 0 ],
 						"ID": 1
 					}
 				],
-				"AppearOffSet": [0, 20, 0]
+				"AppearOffSet": [ 0, 20, 0 ]
 			}
 		},
 		{
@@ -74,7 +74,7 @@
 			"Inputs": {
 				"ScriptType": "PlayerScript",
 				"HurtTime": 1.50,
-				"HurtVelocity": [-100, 100, 0],
+				"HurtVelocity": [ -100, 100, 0 ],
 				"RespawnDelay": 2
 			}
 		},
@@ -87,14 +87,14 @@
 				"IFrame": 2.75,
 				"HitBoxes": [
 					{
-						"Center": [0, 0, 0],
+						"Center": [ 0, 0, 0 ],
 						"Width": 10,
 						"Height": 10
 					}
 				],
 				"DamageSources": [
 					{
-						"Tag": ["Enemy"],
+						"Tag": [ "Enemy" ],
 						"Damage": 1
 					}
 				]
@@ -121,13 +121,17 @@
 		{
 			"ID": 8,
 			"Inputs": {
-				"ScriptType": "SoundSource",
-				"Mixer": 10001,
-				"Name": "se5",
-				"Mode": "Nothing",
-				"IsLoop": false,
-				"Delay": 1.0,
-				"Volume": 1.0
+				"ScriptType": "SoundManager",
+				"Sounds": [
+					{
+						"Mixer": 10001,
+						"SoundName": "se5",
+						"Mode": "Nothing",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					}
+				]
 			}
 		},
 		{
