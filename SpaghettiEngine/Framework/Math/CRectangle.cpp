@@ -59,6 +59,7 @@ void CRectangle::SetCenter(const Vector3& center)
 
 void CRectangle::SetWidth(const float& width)
 {
+	_width = width;
 	_topRight.x = _center.x;
 	_bottomLeft.x = _center.x;
 
@@ -68,6 +69,7 @@ void CRectangle::SetWidth(const float& width)
 
 void CRectangle::SetHeight(const float& height)
 {
+	_height = height;
 	_topRight.y = _center.y;
 	_bottomLeft.y = _center.y;
 

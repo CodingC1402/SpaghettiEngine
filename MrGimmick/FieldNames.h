@@ -29,6 +29,16 @@ namespace Fields
 	public:
 		static constexpr auto _character = "Character";
 	};
+	class DropBombScript
+	{
+	public:
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+		static constexpr auto _center = "Center";
+		static constexpr auto _levelRadius = "LevelRadius";
+		static constexpr auto _totalFanLevel = "TotalFanLevel";
+		static constexpr auto _explodeTime = "ExplodeTime";
+	};
 	class DebugControl
 	{
 	public:

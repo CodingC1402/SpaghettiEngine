@@ -122,12 +122,21 @@
     "ID": 50003,
     "Path": "Asset/Animations/Enemy/Canon/CanonShoot.json"
   },
+
   {
     "ID": 50004,
-    "Path": "Asset/Animations/Enemy/Canon/DropAnim.json"
+    "Path": "Asset/Animations/Enemy/DropBomb/DropBombAnim1.json"
   },
   {
     "ID": 50005,
-    "Path": "Asset/Animations/Enemy/Canon/DropBombAnim.json"
+    "Path": "Asset/Animations/Enemy/DropBomb/DropBombAnim2.json"
+  },
+  {
+    "ID": 50006,
+    "Path": "Asset/Animations/Enemy/DropBomb/DropBombAnim3.json"
+  },
+  {
+    "ID": 50007,
+    "Path": "Asset/Animations/Enemy/DropBomb/DropAnim.json"
   }
 ]
