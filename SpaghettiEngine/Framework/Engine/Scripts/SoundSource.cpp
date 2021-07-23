@@ -84,6 +84,13 @@ void SoundSource::OnUpdate()
 	}
 }
 
+void SoundSource::OnDisabled()
+{
+	Stop();
+	_channel = nullptr;
+	ScriptBase::OnDisabled();
+}
+
 void SoundSource::Play()
 {
 	isStop = false;

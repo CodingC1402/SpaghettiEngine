@@ -19,6 +19,7 @@ class SoundSource : public ScriptBase
 public:
 	virtual void Load(nlohmann::json& inputObject) override;
 	virtual void OnUpdate() override;
+	virtual void OnDisabled() override;
 
 	virtual void Play();
 	virtual void Stop();
