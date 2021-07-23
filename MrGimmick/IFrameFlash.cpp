@@ -7,6 +7,16 @@ REGISTER_FINISH(IFrameFlash, ScriptBase) {}
 void IFrameFlash::OnStart()
 {
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
+	_healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
+	// To stop flash when iFrame stop
+	_healthScript->AddToIFrameEvent([&](const int& health) {
+		StopFlash();
+	});
+	// To start flash
+	_healthScript->AddToHealthEvent([&](const int& health, const int& delta) {
+		if (health > 0 && delta < 0)
+			StartFlash();
+	}); 
 }
 
 void IFrameFlash::OnUpdate()
@@ -43,4 +53,14 @@ void IFrameFlash::StopFlash()
 	_animator->SetColor(WHITE);
 	_flashDelayCounter = 0;
 	_isFlashed = false;
+}
+
+ScriptBase* IFrameFlash::Clone() const
+{
+	auto clone = dynamic_cast<IFrameFlash*>(ScriptBase::Clone());
+
+	clone->_flashDelay = _flashDelay;
+	clone->_reducedAlpha = _reducedAlpha;
+
+	return clone;
 }

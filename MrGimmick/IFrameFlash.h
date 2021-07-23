@@ -1,6 +1,7 @@
 #pragma once
 #include "ScriptBase.h"
 #include "Animator.h"
+#include "HealthScript.h"
 
 class IFrameFlash : public ScriptBase
 {
@@ -10,6 +11,8 @@ public:
 	void Load(nlohmann::json& input) override;
 	void StartFlash();
 	void StopFlash();
+
+	ScriptBase* Clone() const override;
 private:
 	bool _isFlashed = false;
 	bool _isRunning = false;
@@ -19,7 +22,7 @@ private:
 	float _flashDelayCounter = 0.0f;
 
 	Animator* _animator;
-
+	HealthScript* _healthScript;
 
 	REGISTER_START(IFrameFlash);
 };

@@ -107,6 +107,9 @@
     <ClCompile Include="IFrameFlash.cpp">
       <Filter>Character</Filter>
     </ClCompile>
+    <ClCompile Include="FootEnemyScript.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="IFrameFlash.h">
       <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="FootEnemyScript.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

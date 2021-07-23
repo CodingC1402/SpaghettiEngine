@@ -83,7 +83,9 @@ void SkeletonNode::CustomLoad(nlohmann::json& input)
 
 		newFrame._time		= frame[_timeField].empty()		 ? 0		  : frame[_timeField].get<float>();
 		newFrame._time		= newFrame._time < 0			 ? 0		  : newFrame._time;
+
 		_frames.push_back(newFrame);
+		newFrame.Reset();
 	}
 }
 
@@ -116,9 +118,9 @@ void SkeletonNode::TransitionToNextFrame(SAnimationTree tree)
 
 	_counter += GameTimer::GetDeltaTime();
 	float time = 0;
-	if (frame._time > 0)
+	if (nextFrame._time > 0)
 	{
-		time = _counter / frame._time;
+		time = _counter / nextFrame._time;
 
 		if (nextFrame._transform.use_count() > 0)
 			transform.SetWorldTransform(SMath::Lerp(*frame._transform.get(), *nextFrame._transform.get(), time));
@@ -217,4 +219,13 @@ void SkeletonNode::RestoreOldFrame(SAnimationTree tree)
 		if (_oldFrame._color.use_count() > 0)
 			tree->SetColor(*_oldFrame._color.get());
 	}
+}
+
+void SkeletonNode::Frame::Reset()
+{
+	_rotation.reset();
+	_transform.reset();
+	_scale.reset();
+	_color.reset();
+	_time = 0;
 }

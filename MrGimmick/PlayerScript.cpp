@@ -15,15 +15,10 @@ void PlayerScript::OnStart()
     _healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
     _rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
     _moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
-    _iFrameFlashScript = GET_FIRST_SCRIPT_OF_TYPE(IFrameFlash);
 
     // Top now when it took damage;
     _healthScript->AddToHealthEvent([&](const int& health, const int& delta) {
         this->TookDamage(health, delta);
-    });
-    // To stop flash when iFrame stop
-    _healthScript->AddToIFrameEvent([&](const int& health) {
-        _iFrameFlashScript->StopFlash();
     });
 
     _control = GET_FIRST_SCRIPT_OF_TYPE(PlayerControl);
@@ -78,14 +73,13 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     {
         if (delta < 0)
         {
-            _iFrameFlashScript->StartFlash();
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
             _control->Disable();
 
-            auto vel = _rb->GetVelocity();
-            vel += _hurtVel * (_moveScript->IsFlipped() ? -1 : 1);
-            _rb->SetVelocity(vel);
+            auto hurtVelCopy = _hurtVel;
+            hurtVelCopy.x *= _moveScript->IsFlipped() ? -1 : 1;
+            _rb->SetVelocity(hurtVelCopy);
         }
         else if (delta > 0)
         {
