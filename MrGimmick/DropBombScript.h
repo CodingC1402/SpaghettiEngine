@@ -3,6 +3,7 @@
 #include "RigidBody2D.h"
 #include "Animator.h"
 #include "Polygon2DCollider.h"
+#include "CRectangle.h"
 
 class DropBombScript : public ScriptBase
 {
@@ -20,14 +21,18 @@ protected:
 	RigidBody2D* _rbBody = nullptr;
 	Animator* _animator = nullptr;
 	Polygon2DCollider* _polyCollider = nullptr;
+	Polygon2DCollider* _afterExplodeCollider = nullptr;
 	
-	float _width;
-	float _height;
+	CRectangle _rect;
 	float _explodeTime;
 
 	bool _isStarted = false;
 	float _counter = 0;
 
+	float _levelRadius = 0.0f;
+	unsigned _totalFanLevel = 0;
+
+	UnsignedField _fanSpeed;
 	BoolField _explodedField;
 	BoolField _dropField;
 private:

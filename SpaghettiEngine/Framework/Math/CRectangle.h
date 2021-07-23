@@ -21,6 +21,7 @@ public:
 	void SetWidth(const float& width);
 	void SetHeight(const float& height);
 
+	CRectangle() = default;
 	CRectangle(const Vector3& center, const float& width, const float& height);
 private:
 	Vector3 _bottomLeft;

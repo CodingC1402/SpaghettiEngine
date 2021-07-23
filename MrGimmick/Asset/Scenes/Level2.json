@@ -13,14 +13,13 @@
       ]
     },
     { 
-      "ID": 20007,
+      "ID": 20006,
       "Changes": [
         {
           "ID": 1,
-          "Prefabs": [0],
           "Type" : "GameObject",
           "Field": "Transform",
-          "Value": [-800, 100, 0]
+          "Value": [-700, 100, 0]
         }
       ]
     }
