@@ -102,3 +102,10 @@ CRectangle::CRectangle(const Vector3& center, const float& width, const float& h
 	_bottomLeft.x -= _width / 2.0f;
 	_bottomLeft.y -= _height / 2.0f;
 }
+
+CRectangle::CRectangle(nlohmann::json& input)
+{
+	SetCenter(input[_centerField]);
+	SetWidth(input[_widthField].get<float>());
+	SetHeight(input[_heightField].get<float>());
+}

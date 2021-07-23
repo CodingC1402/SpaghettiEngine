@@ -212,6 +212,7 @@
     <ClCompile Include="DebugControl.cpp" />
     <ClCompile Include="DropBombScript.cpp" />
     <ClCompile Include="ElectricScript.cpp" />
+    <ClCompile Include="ElectricSpawn.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="DebugControl.h" />
     <ClInclude Include="DropBombScript.h" />
     <ClInclude Include="ElectricScript.h" />
+    <ClInclude Include="ElectricSpawn.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />

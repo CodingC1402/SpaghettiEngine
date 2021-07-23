@@ -16,6 +16,9 @@
     <Filter Include="Character">
       <UniqueIdentifier>{a9467769-8ddb-4028-b249-c12ae3163ccf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level1">
+      <UniqueIdentifier>{26fee250-993b-4b69-90a4-b5eaf4365452}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyJumpScript.cpp">
@@ -119,6 +122,9 @@
     <ClCompile Include="Crouching.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="ElectricSpawn.cpp">
+      <Filter>Level1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -220,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Crouching.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricSpawn.h">
+      <Filter>Level1</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

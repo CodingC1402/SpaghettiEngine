@@ -74,6 +74,17 @@ namespace Fields
 		static constexpr auto _enemy	= "Enemy";
 		static constexpr auto _ignore	= "Ignore";
 	};
+	class ElectricSpawn
+	{
+	public:
+		static constexpr auto _doorWay1 = "DoorWay1";
+		static constexpr auto _doorWay2 = "DoorWay2";
+		static constexpr auto _spawn	= "Spawn";
+
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
+	};
 	class FeetScript
 	{
 	public:

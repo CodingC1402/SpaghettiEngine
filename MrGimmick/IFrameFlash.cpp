@@ -39,7 +39,7 @@ void IFrameFlash::OnUpdate()
 void IFrameFlash::Load(nlohmann::json& input)
 {
 	_flashDelay = input[Fields::IFrameFlash::_flashDelay].get<float>();
-	_reducedAlpha = input[Fields::IFrameFlash::_flashAlpha].get<float>();
+	_reducedAlpha = input[Fields::IFrameFlash::_flashAlpha].get<Byte>();
 }
 
 void IFrameFlash::StartFlash()
