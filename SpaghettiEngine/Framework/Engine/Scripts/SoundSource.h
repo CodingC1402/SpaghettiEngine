@@ -3,19 +3,14 @@
 #include "ScriptBase.h"
 #include "LoadingJson.h"
 
-enum PlayMode
-{
-	OVERLAP,
-	NOTHING
-};
-
-NLOHMANN_JSON_SERIALIZE_ENUM(PlayMode, {
-	{OVERLAP, "Overlap"},
-	{NOTHING, "Nothing"}
-	})
-
 class SoundSource : public ScriptBase
 {
+public:
+	enum PlayMode
+	{
+		OVERLAP,
+		NOTHING
+	};
 public:
 	virtual void Load(nlohmann::json& inputObject) override;
 	virtual void OnUpdate() override;

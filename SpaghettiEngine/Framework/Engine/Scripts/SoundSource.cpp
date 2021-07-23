@@ -1,40 +1,38 @@
 #include "SoundSource.h"
-#include "LoadingJson.h"
+#include "ScriptField.h"
 #include "GameTimer.h"
 
 REGISTER_FINISH(SoundSource, ScriptBase) {}
 
+NLOHMANN_JSON_SERIALIZE_ENUM(SoundSource::PlayMode, {
+{SoundSource::PlayMode::OVERLAP, "Overlap"},
+{SoundSource::PlayMode::NOTHING, "Nothing"}
+	})
+
 void SoundSource::Load(nlohmann::json& inputObject)
 {
-	constexpr const char* ID = "ID";
-	constexpr const char* Name = "Name";
-	constexpr const char* Mode = "Mode";
-	constexpr const char* Loop = "Loop";
-	constexpr const char* Delay = "Delay";
-	constexpr const char* Volume = "Volume";
-
+	using Fields::SoundSource;
 	int fieldTracker = 0;
 	try
 	{
-		using LoadingJson::Field;
 
-		_audio = MixerContainer::GetInstance()->GetResource(inputObject[ID].get<CULL>());
+		_audio = MixerContainer::GetInstance()->GetResource(inputObject[SoundSource::GetMixerField()].get<CULL>());
 		fieldTracker++;
 
-		string name = inputObject[Name].get<std::string>();
+		string name = inputObject[SoundSource::GetNameField()].get<std::string>();
 		index = _audio->GetIndexPosition(name);
 		fieldTracker++;
 		
-		mode = inputObject[Mode].get<PlayMode>();
+		mode = inputObject[SoundSource::GetModeField()].get<PlayMode>();
 		fieldTracker++;
 
-		isRepeat = inputObject[Loop].get<bool>();
+		isRepeat = inputObject[SoundSource::GetIsLoopField()].get<bool>();
 		fieldTracker++;
 
-		delay = inputObject[Delay].get<float>();
+		delay = inputObject[SoundSource::GetDelayField()].get<float>();
 		fieldTracker++;
 
-		volume = inputObject[Volume].get<float>();
+		volume = inputObject[SoundSource::GetVolumeField()].get<float>();
 	}
 	catch (const CornException& e)
 	{
@@ -43,19 +41,22 @@ void SoundSource::Load(nlohmann::json& inputObject)
 		switch (fieldTracker)
 		{
 		case 0:
-			os << ID;
+			os << SoundSource::GetMixerField();
 			break;
 		case 1:
-			os << Name;
+			os << SoundSource::GetNameField();
 			break;
 		case 2:
-			os << Loop;
+			os << SoundSource::GetModeField();
 			break;
 		case 3:
-			os << Delay;
+			os << SoundSource::GetIsLoopField();
 			break;
 		case 4:
-			os << Volume;
+			os << SoundSource::GetDelayField();
+			break;
+		case 5:
+			os << SoundSource::GetVolumeField();
 			break;
 		}
 		os << std::endl;

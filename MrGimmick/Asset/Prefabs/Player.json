@@ -24,7 +24,9 @@
 						{ "ID": 4 },
 						{ "ID": 5 },
 						{ "ID": 6 },
-						{ "ID": 7 }
+						{ "ID": 7 },
+						{ "ID": 8 },
+						{ "ID": 9 }
 					]
 				},
 				{
@@ -114,6 +116,24 @@
 				"Time": 1,
 				"Distance": 400,
 				"Count": 12
+			}
+		},
+		{
+			"ID": 8,
+			"Inputs": {
+				"ScriptType": "SoundSource",
+				"Mixer": 10001,
+				"Name": "se5",
+				"Mode": "Nothing",
+				"IsLoop": false,
+				"Delay": 1.0,
+				"Volume": 1.0
+			}
+		},
+		{
+			"ID": 9,
+			"Inputs": {
+				"ScriptType": "PlaySoundScript"
 			}
 		}
 	]

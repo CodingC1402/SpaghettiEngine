@@ -25,7 +25,7 @@ void PlaySoundScript::OnUpdate()
 	case 0:
 		if (_play1Input->CheckKeyDown())
 		{
-			_audio->Play();
+			//_audio->Play();
 		}
 		else if (_stop1Input->CheckKeyDown())
 		{

@@ -129,6 +129,7 @@
     <ClCompile Include="DeadAnimationScript.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -238,5 +239,6 @@
     <ClInclude Include="DeadAnimationScript.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
 </Project>
