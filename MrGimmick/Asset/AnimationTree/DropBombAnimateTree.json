@@ -1,6 +1,11 @@
 {
   "BlackBoard": [
     {
+      "Name": "FanSpeed",
+      "Type": "unsigned",
+      "Value": 0
+    },
+    {
       "Name": "IsExploded",
       "Type": "bool",
       "Value": false
@@ -36,10 +41,57 @@
                               },
                               "Children": [
                                 {
-                                  "Type": "AnimationNode",
-                                  "Input": {
-                                    "ID": 50004
-                                  }
+                                  "Type": "Selector",
+                                  "Children": [
+                                    {
+                                      "Type": "UnsignedCon",
+                                      "Input": {
+                                        "Field":"FanSpeed",
+                                        "Type": "Equal",
+                                        "Value": 0
+                                      },
+                                      "Children": [
+                                        {
+                                          "Type": "AnimationNode",
+                                          "Input": {
+                                            "ID": 50004
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Type": "UnsignedCon",
+                                      "Input": {
+                                        "Field":"FanSpeed",
+                                        "Type": "Equal",
+                                        "Value": 1
+                                      },
+                                      "Children": [
+                                        {
+                                          "Type": "AnimationNode",
+                                          "Input": {
+                                            "ID": 50005
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "Type": "UnsignedCon",
+                                      "Input": {
+                                        "Field":"FanSpeed",
+                                        "Type": "GreaterOrEqual",
+                                        "Value": 2
+                                      },
+                                      "Children": [
+                                        {
+                                          "Type": "AnimationNode",
+                                          "Input": {
+                                            "ID": 50006
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
                                 }
                               ]
                             },
@@ -54,7 +106,7 @@
                                 {
                                   "Type": "AnimationNode",
                                   "Input": {
-                                    "ID": 50005
+                                    "ID": 50007
                                   }
                                 }
                               ]
