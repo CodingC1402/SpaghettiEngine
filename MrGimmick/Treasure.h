@@ -6,8 +6,8 @@
 class Treasure : public Render2DScriptBase
 {
 public:
-	void OnCollide(CollideEvent& e) override;
 	void OnUpdate() override;
+	void OnEnd() override;
 	void Draw(PCamera cam) override;
 	void Load(nlohmann::json& input) override;
 	
