@@ -243,6 +243,7 @@
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="AttackScript.cpp" />
+    <ClCompile Include="StarSound.cpp" />
     <ClCompile Include="TubeScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -288,6 +289,7 @@
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="AttackScript.h" />
+    <ClInclude Include="StarSound.h" />
     <ClInclude Include="TubeScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,6 +6,7 @@
 #include "FieldNames.h"
 #include "Polygon2DCollider.h"
 #include "PlayerScoreBoard.h"
+#include "PlayerSound.h"
 
 REGISTER_FINISH(PlayerScript, ScriptBase) {
 };
@@ -104,6 +105,8 @@ void PlayerScript::Respawn()
     PlayerScoreBoard::GetInstance()->DecreaseLive();
     if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
         return;
+
+    PlayerSound::GetCurrentPlayerSound()->PlayMusic();
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
     GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());

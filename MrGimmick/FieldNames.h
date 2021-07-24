@@ -219,6 +219,9 @@ namespace Fields
 		static constexpr auto _attack = "Attack";
 
 		static constexpr auto _starCreate = "StarCreate";
+		static constexpr auto _bounce = "Bounce";
+		static constexpr auto _explode = "Explode";
+
 	};
 	class Star
 	{

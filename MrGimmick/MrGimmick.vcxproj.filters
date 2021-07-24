@@ -21,8 +21,8 @@
     </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{ae7bc84c-1f2d-4221-9eef-b1c6bc2e518a}</UniqueIdentifier>
-	</Filter>
-	<Filter Include="UI">
+    </Filter>
+    <Filter Include="UI">
       <UniqueIdentifier>{cceed043-a865-438a-a47c-7b270747f3c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -142,8 +142,8 @@
     </ClCompile>
     <ClCompile Include="PlayerSound.cpp">
       <Filter>Sound</Filter>
-	</ClCompile>
-	<ClCompile Include="HealthUIComponent.cpp">
+    </ClCompile>
+    <ClCompile Include="HealthUIComponent.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="PlayerScoreBoard.cpp">
@@ -151,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="HealthBarScript.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="StarSound.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -268,8 +271,8 @@
     </ClInclude>
     <ClInclude Include="PlayerSound.h">
       <Filter>Sound</Filter>
-	</ClInclude>
-	<ClInclude Include="HealthUIComponent.h">
+    </ClInclude>
+    <ClInclude Include="HealthUIComponent.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="PlayerScoreBoard.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="HealthBarScript.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="StarSound.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

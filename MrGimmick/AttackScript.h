@@ -4,6 +4,7 @@
 #include "Animator.h"
 #include "Polygon2DCollider.h"
 #include "CRectangle.h"
+#include "StarSound.h"
 
 class AttackScript : public ScriptBase
 {
@@ -24,6 +25,8 @@ protected:
 	RigidBody2D* _rbBody			= nullptr;
 	Animator* _animator				= nullptr;
 	Polygon2DCollider* _polyCollider= nullptr;
+	StarSound* _sound				= nullptr;
+
 	BoolField _explodedField;
 	CRectangle _cancelZone;
 

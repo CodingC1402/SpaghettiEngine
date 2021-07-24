@@ -12,6 +12,7 @@ REGISTER_FINISH(AttackScript, ScriptBase) {}
 
 void AttackScript::OnStart()
 {
+	_sound			= GET_FIRST_SCRIPT_OF_TYPE(StarSound);
 	_polyCollider	= GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
 	_rbBody			= GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 
@@ -84,6 +85,7 @@ void AttackScript::Explode()
 	if (_exploded)
 		return;
 
+	_sound->PlayExplodeSound();
 	_counter = 0;
 	_explodedField.lock()->SetValue(true);
 	_rbBody->Disable();
@@ -132,6 +134,9 @@ void AttackScript::OnCollide(CollideEvent& e)
 {
 	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetCharacterTag()))
 		e.SetIsHandled(true);
+
+	if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlatformTag())
+		_sound->PlayBounceSound();
 }
 
 PScriptBase AttackScript::Clone() const

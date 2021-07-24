@@ -3,7 +3,11 @@
     "Asset/Audio/Player/Landing.wav",
     "Asset/Audio/Player/Jump.wav",
     "Asset/Audio/Player/Attack.wav",
-    "Asset/Audio/Player/StarCreate.wav"
+    "Asset/Audio/Player/StarCreate.wav",
+    "Asset/Audio/Player/Explode.wav",
+    "Asset/Audio/Player/Bounce.wav",
+
+    "Asset/Audio/Music/Music.wav"
   ],
   "Frequency": 0.037,
   "MasterVolume": 0.5
