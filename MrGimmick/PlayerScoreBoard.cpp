@@ -29,7 +29,10 @@ void PlayerScoreBoard::OnUpdate()
 			_score = _score < _aimedScore ? _aimedScore : _score;
 	}
 
-	_liveUI->SetText(std::to_string(_live));
+	if (_live >= 0)
+		_liveUI->SetText(std::to_string(_live));
+	else
+		_liveUI->SetText(std::to_string(0));
 	_scoreUI->SetText(std::to_string(_score));
 }
 
@@ -58,8 +61,13 @@ void PlayerScoreBoard::SetScore(unsigned score)
 void PlayerScoreBoard::DecreaseLive()
 {
 	_live--;
-	if (!_live)
+	if (_live < 0)
 		SceneManager::CallReloadScene();
+}
+
+int PlayerScoreBoard::GetLive() const noexcept
+{
+	return _live;
 }
 
 PlayerScoreBoard* PlayerScoreBoard::GetInstance()

@@ -6,6 +6,8 @@ class SpawnPoint : public ScriptBase
 public:
 	void Load(nlohmann::json& input) override;
 	void OnFixedUpdate() override;
+	void OnDisabled() override;
+
 	static void SetSpawnPoint(SpawnPoint* spawnPointScript);
 	[[nodiscard]] Vector3 GetSpawnPosition();
 	[[nodiscard]] GameObj* GetSegment();

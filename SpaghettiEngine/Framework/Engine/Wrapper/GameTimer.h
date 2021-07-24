@@ -31,6 +31,6 @@ protected:
 
 private:
 	// If each frame exceed this number then wrong delta time is the least of your problem : |
-	static constexpr float MAX_DELTA_TIME = 3;
+	static constexpr float MAX_DELTA_TIME = 1;
 	static PGameTimer __instance;
 };

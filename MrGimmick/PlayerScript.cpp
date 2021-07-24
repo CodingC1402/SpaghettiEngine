@@ -101,6 +101,9 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
 
 void PlayerScript::Respawn()
 {
+    PlayerScoreBoard::GetInstance()->DecreaseLive();
+    if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
+        return;
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
     GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());
@@ -112,7 +115,6 @@ void PlayerScript::Respawn()
     _animator->Enable();
 
     _healthScript->SetHealth(_healthScript->GetMaxHealth());
-    PlayerScoreBoard::GetInstance()->DecreaseLive();
 }
 
 void PlayerScript::DisableColliders()

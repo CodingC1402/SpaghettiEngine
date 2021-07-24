@@ -14,10 +14,11 @@ public:
 
 	void SetScore(unsigned score);
 	void DecreaseLive();
+	[[nodiscard]] int GetLive() const noexcept;
 
 	[[nodiscard]] static PlayerScoreBoard* GetInstance();
 private:
-	unsigned _live = 0;
+	int _live = 0;
 
 	unsigned _score = 0;
 	unsigned _aimedScore = 0;
