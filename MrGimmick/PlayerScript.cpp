@@ -15,6 +15,7 @@ void PlayerScript::OnStart()
     _healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
     _rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
     _moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
+    _attackMoveScript = GET_FIRST_SCRIPT_OF_TYPE(AttackMove);
 
     // Top now when it took damage;
     _healthScript->AddToHealthEvent([&](const int& health, const int& delta) {
@@ -51,6 +52,7 @@ void PlayerScript::OnUpdate()
         if (_hurtCounter <= 0)
         {
             _control->Enable();
+            _attackMoveScript->Enable();
             _isHurted.lock()->SetValue(false);
         }
     }
@@ -76,6 +78,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
             _control->Disable();
+            _attackMoveScript->Disable();
 
             auto hurtVelCopy = _hurtVel;
             hurtVelCopy.x *= _moveScript->IsFlipped() ? -1 : 1;

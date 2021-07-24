@@ -51,7 +51,12 @@
 						"ID": 1
 					}
 				],
-				"AppearOffSet": [0, 20, 0]
+				"AppearOffSet": [0, 20, 0],
+				"CancelZone": {
+					"Center": [0, 10, 0],
+					"Width": 3,
+					"Height": 3
+				}
 			}
 		},
 		{

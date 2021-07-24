@@ -1,6 +1,6 @@
 #pragma once
 #include "Render2DScriptBase.h"
-#include "StarScript.h"
+#include "AttackScript.h"
 #include "Animation.h"
 
 class StarCreation : public Render2DScriptBase
@@ -14,7 +14,7 @@ public:
 	void Load(nlohmann::json& input) override;
 	PScriptBase Clone() const override;
 protected:
-	StarScript* _starScript = nullptr;
+	AttackScript* _starScript = nullptr;
 	SAnimation _starAnim;
 	SSprite _currentSprite;
 

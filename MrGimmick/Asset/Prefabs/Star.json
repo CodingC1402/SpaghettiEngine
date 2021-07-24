@@ -57,11 +57,17 @@
 		{
 			"ID": 2,
 			"Inputs": {
-				"ScriptType": "StarScript",
+				"ScriptType": "AttackScript",
+				"MaxDistance": 200,
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [120, -120]
+				"StartVelocity": [120, -120],
+				"CancelZone": {
+					"Center": [0, 0, 0],
+					"Width": 3,
+					"Height": 3
+				}
 			}
 		},
 		{
