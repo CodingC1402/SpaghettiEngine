@@ -24,5 +24,7 @@ namespace UIField
 	public:
 		static constexpr auto _text = "Text";
 		static constexpr auto _textMap = "TextMap";
+		static constexpr auto _fill = "Fill";
+		static constexpr auto _size = "Size";
 	};
 }

@@ -57,8 +57,19 @@
                             {
                                 "Type": "UIString",
                                 "Name": "Score",
-                                "Text": "12345611",
+                                "Text": "123",
+                                "Fill": "0",
+                                "Size": 8,
                                 "Position": [16, 16, 0],
+                                "TextMap": 10001
+                            },
+                            {
+                                "Type": "UIString",
+                                "Name": "Lives",
+                                "Text": "2",
+                                "Fill": "0",
+                                "Size": 2,
+                                "Position": [96, 16, 0],
                                 "TextMap": 10001
                             }
                         ]

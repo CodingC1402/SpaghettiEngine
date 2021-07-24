@@ -23,5 +23,10 @@ private:
 	std::list<SSprite> _sprites;
 	STextMap _map;
 
+	// -1 for unlimited size
+	int _size;
+	char _fill;
+	SSprite _fillSprite;
+
 	REGISTER_UI_COMPONENT_START(UIString);
 };
