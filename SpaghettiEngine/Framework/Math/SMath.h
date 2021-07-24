@@ -33,6 +33,14 @@ public:
 	static Matrix4	GetZAxisRotateMatrix(const float& degree);
 
 	template<typename T>
+	static T Abs(const T& value)
+	{
+		if (value < 0)
+			return value * -1;
+		else
+			return value;
+	}
+	template<typename T>
 	static T Lerp(const T& start, const T& end, const float& t)
 	{
 		return start + (end - start) * ((t > 1.0f ? 1.0f : t) < 0.0f ? 0.0f : t);

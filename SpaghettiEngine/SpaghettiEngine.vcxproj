@@ -43,10 +43,10 @@
     <ClInclude Include="Framework\Engine\Containers\Prefabs.h" />
     <ClInclude Include="Framework\Engine\Containers\ResourceContainer.h" />
     <ClInclude Include="Framework\Engine\Containers\Sprite.h" />
+    <ClInclude Include="Framework\Engine\Containers\TextMap.h" />
     <ClInclude Include="Framework\Engine\Containers\Texture.h" />
     <ClInclude Include="Framework\Engine\Containers\TileSet.h" />
     <ClInclude Include="Framework\Engine\GameComponents\BaseComponent.h" />
-    <ClInclude Include="Framework\Engine\GameComponents\Canvas.h" />
     <ClInclude Include="Framework\Engine\GameComponents\ChildContainer.h" />
     <ClInclude Include="Framework\Engine\GameComponents\DebugRenderer.h" />
     <ClInclude Include="Framework\Engine\GameComponents\DirectX9Graphic.h" />
@@ -66,9 +66,11 @@
     <ClInclude Include="Framework\Engine\GameComponents\Transform.h" />
     <ClInclude Include="Framework\Engine\GameComponents\UIComponent.h" />
     <ClInclude Include="Framework\Engine\GameComponents\UIFields.h" />
+    <ClInclude Include="Framework\Engine\GameComponents\UIString.h" />
     <ClInclude Include="Framework\Engine\Scripts\Animator.h" />
     <ClInclude Include="Framework\Engine\Scripts\SoundSource.h" />
     <ClInclude Include="Framework\Engine\Scripts\Camera.h" />
+    <ClInclude Include="Framework\Engine\Scripts\Canvas.h" />
     <ClInclude Include="Framework\Engine\Scripts\Render2DScriptBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\ScriptBase.h" />
     <ClInclude Include="Framework\Engine\Scripts\ScriptField.h" />
@@ -151,10 +153,10 @@
     <ClCompile Include="Framework\Engine\Containers\Prefabs.cpp" />
     <ClCompile Include="Framework\Engine\Containers\ResourceContainer.cpp" />
     <ClCompile Include="Framework\Engine\Containers\Sprite.cpp" />
+    <ClCompile Include="Framework\Engine\Containers\TextMap.cpp" />
     <ClCompile Include="Framework\Engine\Containers\Texture.cpp" />
     <ClCompile Include="Framework\Engine\Containers\TileSet.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\BaseComponent.cpp" />
-    <ClCompile Include="Framework\Engine\GameComponents\Canvas.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\ChildContainer.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\DebugRenderer.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\DirectX9Graphic.cpp" />
@@ -175,9 +177,11 @@
     <ClCompile Include="Framework\Engine\GameComponents\Transform.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\UIComponent.cpp" />
     <ClCompile Include="Framework\Engine\GameComponents\UIFields.cpp" />
+    <ClCompile Include="Framework\Engine\GameComponents\UIString.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\SoundSource.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Camera.cpp" />
+    <ClCompile Include="Framework\Engine\Scripts\Canvas.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\Render2DScriptBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\ScriptBase.cpp" />
     <ClCompile Include="Framework\Engine\Scripts\SpriteRenderer.cpp" />

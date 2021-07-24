@@ -14,7 +14,9 @@
 				"Rotation": [0, 0, 0],
 				"Scale": [1, 1, 1],
 				"Scripts": [
-					{"ID": 1}
+					{"ID": 1},
+                    {"ID": 2},
+                    {"ID": 3}
 				]
 			}
 		}
@@ -53,10 +55,67 @@
                                 "Position": [223, 5, 0],
                                 "Texture": 90001,
                                 "Index": 32
+                            },
+                            {
+                                "Type": "UIString",
+                                "Name": "Score",
+                                "Text": "123",
+                                "Fill": "0",
+                                "Size": 8,
+                                "Position": [16, 16, 0],
+                                "TextMap": 10001
+                            },
+                            {
+                                "Type": "UIString",
+                                "Name": "Lives",
+                                "Text": "2",
+                                "Fill": "0",
+                                "Size": 2,
+                                "Position": [96, 16, 0],
+                                "TextMap": 10001
+                            },
+                            {
+                                "Type": "HealthUIComponent",
+                                "Name": "HealthBar",
+                                "Position": [125, 10, 0],
+                                "Texture": 90001,
+                                "Health": 2,
+                                "MaxHealth": 4,
+                                "Width": 10,
+                                "Spacing": 1,
+                                "MaxHealthSprites": [
+                                    { "Index": 18 },
+                                    { "Index": 21 },
+                                    { "Index": 24 },
+                                    { "Index": 27 }
+                                ],
+                                "HealthSprites": [
+                                    { "Index": 19 },
+                                    { "Index": 22 },
+                                    { "Index": 25 },
+                                    { "Index": 28 }
+                                ]
                             }
                         ]
                     }
                 ]
+            }
+        },
+        {
+            "ID": 2,
+            "Inputs": {
+                "ScriptType": "HealthBarScript",
+                "Scripts": [
+                ]
+            }
+        },
+        {
+            "ID": 3,
+            "Inputs": {
+                "ScriptType": "PlayerScoreBoard",
+                "MinDelta": 10,
+                "Rate": 0.50,
+                "Live": 2
             }
         }
     ]

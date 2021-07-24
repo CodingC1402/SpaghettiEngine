@@ -56,6 +56,11 @@ void SpawnPoint::OnFixedUpdate()
 		SetSpawnPoint(this);
 }
 
+void SpawnPoint::OnDisabled()
+{
+	__currentSpawn = __currentSpawn == this ? nullptr : __currentSpawn;
+}
+
 void SpawnPoint::SetSpawnPoint(SpawnPoint* spawnPointScript)
 {
 	if (__currentSpawn)

@@ -14,6 +14,7 @@ public:
 	void Load(nlohmann::json& input) override;
 	void Throw(const Vector3& _playerVel, bool isFlipped);
 	void OnCollide(CollideEvent& e) override;
+	void DisableBeforeExplode();
 	PScriptBase Clone() const override;
 protected:
 	RigidBody2D* _rbBody = nullptr;
@@ -22,6 +23,7 @@ protected:
 	Polygon2DCollider* _polyCollider = nullptr;
 	BoolField _explodedField;
 
+	bool _destroyed = false;
 	bool _counterStarted = false;
 	float _counter = 0;
 	float _explodeTime = 10; // In second

@@ -1,0 +1,10 @@
+[
+    {
+        "ID": 10001,
+        "Path": "Asset/TextMap/ScoreTextMap.json"
+    },
+    {
+        "ID": 10002,
+        "Path": "Asset/TextMap/MainTextMap.json"
+    }
+]

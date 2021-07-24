@@ -59,7 +59,7 @@ void GameTimer::Mark()
 	timer->Mark();
 	realTime	= timer->GetSystemTime();
 	gameTime	= timer->GetSystemTime() * timeScale;
-	deltaTime	= (timer->GetDeltaTime() >= MAX_DELTA_TIME ? MAX_DELTA_TIME : timer->GetDeltaTime()) * timeScale;
+	deltaTime	= (timer->GetDeltaTime() >= MAX_DELTA_TIME ? MAX_DELTA_TIME * timeScale : timer->GetDeltaTime()) * timeScale;
 
 	if (realTime >= timeCap)
 		realTime -= timeCap;

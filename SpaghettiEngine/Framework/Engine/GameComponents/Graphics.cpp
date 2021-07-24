@@ -149,7 +149,7 @@ void Graphics::Window()
 
 PCamera Graphics::GetActiveCamera()
 {
-	return *_cameraList.begin();
+	return _cameraList.empty() ? nullptr : _cameraList.front();
 }
 
 void Graphics::Init(const ColorFormat& colorFormat, SGameWnd window)

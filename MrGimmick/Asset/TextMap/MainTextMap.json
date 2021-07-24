@@ -1,0 +1,219 @@
+{
+    "Spacing": 0,
+    "Width": 8,
+    "Height": 8,
+    "Map": [
+        {
+            "Texture": 90001,
+            "Index": 8,
+            "Char": "0"
+        },
+        {
+            "Texture": 90001,
+            "Index": 9,
+            "Char": "1"
+        },
+        {
+            "Texture": 90001,
+            "Index": 10,
+            "Char": "2"
+        },
+        {
+            "Texture": 90001,
+            "Index": 11,
+            "Char": "3"
+        },
+        {
+            "Texture": 90001,
+            "Index": 12,
+            "Char": "4"
+        },
+        {
+            "Texture": 90001,
+            "Index": 13,
+            "Char": "5"
+        },
+        {
+            "Texture": 90001,
+            "Index": 14,
+            "Char": "6"
+        },
+        {
+            "Texture": 90001,
+            "Index": 15,
+            "Char": "7"
+        },
+        {
+            "Texture": 90001,
+            "Index": 16,
+            "Char": "8"
+        },
+        {
+            "Texture": 90001,
+            "Index": 17,
+            "Char": "9"
+        },
+        {
+            "Texture": 90002,
+            "Index": 0,
+            "Char": "a"
+        },
+        {
+            "Texture": 90002,
+            "Index": 0,
+            "Char": "a"
+        },
+
+        {
+            "Texture": 90002,
+            "Index": 0,
+            "Char": "a"
+        },
+        {
+            "Texture": 90002,
+            "Index": 1,
+            "Char": "b"
+        },
+        {
+            "Texture": 90002,
+            "Index": 2,
+            "Char": "c"
+        },
+        {
+            "Texture": 90002,
+            "Index": 3,
+            "Char": "d"
+        },
+        {
+            "Texture": 90002,
+            "Index": 4,
+            "Char": "e"
+        },
+        {
+            "Texture": 90002,
+            "Index": 5,
+            "Char": "f"
+        },
+        {
+            "Texture": 90002,
+            "Index": 6,
+            "Char": "g"
+        },
+        {
+            "Texture": 90002,
+            "Index": 7,
+            "Char": "h"
+        },
+        {
+            "Texture": 90002,
+            "Index": 8,
+            "Char": "i"
+        },
+        {
+            "Texture": 90002,
+            "Index": 9,
+            "Char": "j"
+        },
+        {
+            "Texture": 90002,
+            "Index": 10,
+            "Char": "k"
+        },
+        {
+            "Texture": 90002,
+            "Index": 11,
+            "Char": "l"
+        },
+        {
+            "Texture": 90002,
+            "Index": 12,
+            "Char": "m"
+        },
+        {
+            "Texture": 90002,
+            "Index": 13,
+            "Char": "n"
+        },
+        {
+            "Texture": 90002,
+            "Index": 14,
+            "Char": "o"
+        },
+        {
+            "Texture": 90002,
+            "Index": 15,
+            "Char": "p"
+        },
+        {
+            "Texture": 90002,
+            "Index": 16,
+            "Char": "q"
+        },
+        {
+            "Texture": 90002,
+            "Index": 17,
+            "Char": "r"
+        },
+        {
+            "Texture": 90002,
+            "Index": 18,
+            "Char": "s"
+        },
+        {
+            "Texture": 90002,
+            "Index": 19,
+            "Char": "t"
+        },
+        {
+            "Texture": 90002,
+            "Index": 20,
+            "Char": "u"
+        },
+        {
+            "Texture": 90002,
+            "Index": 21,
+            "Char": "v"
+        },
+        {
+            "Texture": 90002,
+            "Index": 22,
+            "Char": "w"
+        },
+        {
+            "Texture": 90002,
+            "Index": 23,
+            "Char": "x"
+        },
+        {
+            "Texture": 90002,
+            "Index": 24,
+            "Char": "y"
+        },
+        {
+            "Texture": 90002,
+            "Index": 25,
+            "Char": "z"
+        },
+
+        {
+            "Texture": 90002,
+            "Index": 26,
+            "Char": "/"
+        },
+        {
+            "Texture": 90002,
+            "Index": 27,
+            "Char": "("
+        },
+        {
+            "Texture": 90002,
+            "Index": 28,
+            "Char": ")"
+        },
+        {
+            "Texture": 90002,
+            "Index": 29,
+            "Char": "!"
+        }
+    ]
+}

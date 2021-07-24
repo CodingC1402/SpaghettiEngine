@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include "Setting.h"
 #include "SMath.h"
+#include "AttackScript.h"
 
 REGISTER_FINISH(ElectricScript, ScriptBase) {}
 static constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
@@ -89,7 +90,7 @@ void ElectricScript::OnFixedUpdate()
 
 					_defendField.lock()->SetValue(true);
 					_currentStar = std::dynamic_pointer_cast<GameObj>(obj->GetSharedPtr());
-					obj->CallDestroy();
+					dynamic_cast<AttackScript*>(obj->GetScriptContainer().GetItemType(TYPE_NAME(AttackScript)))->Explode();
 					break;
 				}
 			}

@@ -219,9 +219,12 @@
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="BaseSoundScript.cpp" />
     <ClCompile Include="FootEnemyScript.cpp" />
+    <ClCompile Include="HealthBarScript.cpp" />
     <ClCompile Include="HealthScript.cpp" />
+    <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="PlayerSound.cpp" />
+    <ClCompile Include="PlayerScoreBoard.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
@@ -239,7 +242,7 @@
     <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
-    <ClCompile Include="StarScript.cpp" />
+    <ClCompile Include="AttackScript.cpp" />
     <ClCompile Include="TubeScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -261,9 +264,12 @@
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="BaseSoundScript.h" />
     <ClInclude Include="FootEnemyScript.h" />
+    <ClInclude Include="HealthBarScript.h" />
     <ClInclude Include="HealthScript.h" />
+    <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="PlayerSound.h" />
+    <ClInclude Include="PlayerScoreBoard.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />
@@ -281,7 +287,7 @@
     <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />
-    <ClInclude Include="StarScript.h" />
+    <ClInclude Include="AttackScript.h" />
     <ClInclude Include="TubeScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

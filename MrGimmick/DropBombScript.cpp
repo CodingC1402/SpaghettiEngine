@@ -6,6 +6,7 @@
 #include "DebugRenderer.h"
 #include "PlayerScript.h"
 #include "Setting.h"
+#include "AttackScript.h"
 #include "SMath.h"
 
 REGISTER_FINISH(DropBombScript, ScriptBase) {}
@@ -94,10 +95,10 @@ void DropBombScript::OnFixedUpdate()
 
 void DropBombScript::OnCollide(CollideEvent& e)
 {
-	if (e.GetGameObject()->GetTag().Contain(Tag(Fields::SpecialTag::GetPlayerAttack())) && _currentStar.expired())
+	if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlayerAttack() && _currentStar.expired())
 	{
 		_currentStar = std::dynamic_pointer_cast<GameObj>(e.GetGameObject()->GetSharedPtr());
-		e.GetGameObject()->CallDestroy();
+		dynamic_cast<AttackScript*>(e.GetGameObject()->GetScriptContainer().GetItemType(TYPE_NAME(AttackScript)))->Explode();
 	}
 	else if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlatformTag() || e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{

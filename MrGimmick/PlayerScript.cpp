@@ -5,6 +5,7 @@
 #include "GameTimer.h"
 #include "FieldNames.h"
 #include "Polygon2DCollider.h"
+#include "PlayerScoreBoard.h"
 
 REGISTER_FINISH(PlayerScript, ScriptBase) {
 };
@@ -15,6 +16,7 @@ void PlayerScript::OnStart()
     _healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
     _rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
     _moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
+    _attackMoveScript = GET_FIRST_SCRIPT_OF_TYPE(AttackMove);
 
     // Top now when it took damage;
     _healthScript->AddToHealthEvent([&](const int& health, const int& delta) {
@@ -51,6 +53,7 @@ void PlayerScript::OnUpdate()
         if (_hurtCounter <= 0)
         {
             _control->Enable();
+            _attackMoveScript->Enable();
             _isHurted.lock()->SetValue(false);
         }
     }
@@ -76,6 +79,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
             _control->Disable();
+            _attackMoveScript->Disable();
 
             auto hurtVelCopy = _hurtVel;
             hurtVelCopy.x *= _moveScript->IsFlipped() ? -1 : 1;
@@ -97,6 +101,9 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
 
 void PlayerScript::Respawn()
 {
+    PlayerScoreBoard::GetInstance()->DecreaseLive();
+    if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
+        return;
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
     GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());
@@ -108,12 +115,6 @@ void PlayerScript::Respawn()
     _animator->Enable();
 
     _healthScript->SetHealth(_healthScript->GetMaxHealth());
-    _live--;
-    if (_live == 0)
-    {
-        _score = 0;
-        SceneManager::CallReloadScene();
-    }
 }
 
 void PlayerScript::DisableColliders()

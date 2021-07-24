@@ -1,6 +1,7 @@
 #include "CanonBallScript.h"
 #include "GameTimer.h"
 #include "FieldNames.h"
+#include "HealthScript.h"
 
 REGISTER_FINISH(CanonBallScript, ScriptBase) {}
 
@@ -9,9 +10,28 @@ void CanonBallScript::OnStart()
 	_polyCollider = GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
 	//_cirCollider = GET_FIRST_SCRIPT_OF_TYPE(CircleCollider);
 	_rbBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
+	auto healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
+	healthScript->AddToHealthEvent(
+		[&](const int& health, const int& delta) {
+			_destroyed = (delta < 0 && health == 0);
+			_counter = 0;
+		}
+	);
 
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 	_explodedField = _animator->GetField<bool>("IsExploded");
+}
+
+void CanonBallScript::DisableBeforeExplode()
+{
+	_explodedField.lock()->SetValue(true);
+	_rbBody->Disable();
+	_polyCollider->Disable();
+	GetGameObject()->GetChildContainer().IteratingWithLamda(
+		[&](PGameObj obj) {
+			obj->Disable();
+		}
+	);
 }
 
 void CanonBallScript::OnUpdate()
@@ -24,11 +44,15 @@ void CanonBallScript::OnUpdate()
 		vel.x += _additionVel * GameTimer::GetDeltaTime() * (vel.x < 0 ? -1 : 1);
 		_rbBody->SetVelocity(vel);
 
-		if (_counter >= _explodeTime)
+		if (_destroyed)
 		{
-			_explodedField.lock()->SetValue(true);
-			_rbBody->Disable();
-			_polyCollider->Disable();
+			DisableBeforeExplode();
+			if (_counter >= _animExplodeTime)
+				GetGameObject()->CallDestroy();
+		}
+		else if (_counter >= _explodeTime)
+		{
+			DisableBeforeExplode();
 			if (_counter >= _explodeTime + _animExplodeTime)
 				GetGameObject()->CallDestroy();
 		}

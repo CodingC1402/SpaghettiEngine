@@ -100,6 +100,7 @@ namespace Fields
 		static constexpr auto _diedNode = "DiedNode";
 		static constexpr auto _hurtVel	= "HurtVelocity";
 		static constexpr auto _delay	= "Delay";
+		static constexpr auto _point	= "Point";
 	};
 	class HeadScript
 	{
@@ -177,6 +178,13 @@ namespace Fields
 		static constexpr auto _hurtVel = "HurtVelocity";
 		static constexpr auto _respawnDelay = "RespawnDelay";
 	};
+	class PlayerScoreBoard
+	{
+	public:
+		static constexpr auto _live = "Live";
+		static constexpr auto _minDelta = "MinDelta";
+		static constexpr auto _increaseRate = "Rate";
+	};
 	class Platform
 	{
 	public:
@@ -221,6 +229,8 @@ namespace Fields
 		static constexpr auto _createAnimTime	= "CreateAnimTime";
 		static constexpr auto _beforeUsable		= "BeforeUsable";
 		static constexpr auto _startVelocity	= "StartVelocity";
+		static constexpr auto _maxDistance		= "MaxDistance";
+		static constexpr auto _cancelZone		= "CancelZone";
 
 		static constexpr auto _createTime		= "CreateTime";
 		static constexpr auto _smallStarAnim	= "SmallStarAnim";

@@ -18,12 +18,13 @@ public:
 private:
 	float _destroyDelay = 0.0f;
 	float _destroyCounter = 0.0f;
+	unsigned _point = 0;
 	Vector3 _hurtVel;
 
-	HealthScript* _healthScript;
-	MoveScript* _moveScript;
-	RigidBody2D* _rb;
-	Animator* _animator;
+	HealthScript* _healthScript = nullptr;
+	MoveScript* _moveScript = nullptr;
+	RigidBody2D* _rb = nullptr;
+	Animator* _animator = nullptr;
 
 	std::string _diedFieldName = "";
 	BoolField _isDead;

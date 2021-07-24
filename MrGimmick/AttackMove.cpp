@@ -2,8 +2,12 @@
 #include "LoadingJson.h"
 #include "FieldNames.h"
 #include "PlayerSound.h"
+#include "PhysicCollide.h"
+#include "Setting.h"
+#include "DebugRenderer.h"
 
 REGISTER_FINISH(AttackMove, ScriptBase) {}
+static constexpr auto DEBUG_COLOR = 0xFFFF0000;
 
 void AttackMove::OnStart()
 {
@@ -19,7 +23,7 @@ void AttackMove::OnUpdate()
 		auto star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
 
 		_currentStar = std::dynamic_pointer_cast<GameObj>(star->GetSharedPtr());
-		_starScript = dynamic_cast<StarScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
+		_starScript = dynamic_cast<AttackScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(AttackScript)));
 		_throwed = false;
 
 		PlayerSound::GetCurrentPlayerSound()->PlayStarCreateSound();
@@ -28,9 +32,48 @@ void AttackMove::OnUpdate()
 	{
 		_starScript->Throw(Vector3(), _moveScript->IsFlipped());
 		_starScript = nullptr;
+		_needPlatformCheck = true;
 		_throwed = true;
 	}
 }
+
+void AttackMove::OnFixedUpdate()
+{
+	if (_needPlatformCheck)
+	{
+		_needPlatformCheck = false;
+		std::set<GameObj*> objList;
+		PhysicCollide::GetCollidedWithRectangle(
+			GetGameObject(),
+			objList,
+			_cancelZone.GetCenter(),
+			_cancelZone.GetWidth(),
+			_cancelZone.GetHeight(),
+			Fields::SpecialTag::GetPlatformTag(),
+			PhysicCollide::FilterMode::Equal
+		);
+		if (!objList.empty())
+		{
+			if (!_currentStar.expired())
+			{
+				_currentStar.lock()->GetTransform().SetWorldTransform(GetWorldTransform() + _appearOffSet);
+			}
+			ForceThrow();
+		}
+	}
+
+	if constexpr (Setting::IsDebugMode())
+	{
+		DebugRenderer::DrawRectangleFromCenter(
+			_cancelZone.GetCenter(),
+			_cancelZone.GetWidth(),
+			_cancelZone.GetHeight(),
+			GetWorldMatrix(),
+			DEBUG_COLOR
+		);
+	}
+}
+
 
 void AttackMove::OnLateUpdate()
 {
@@ -41,11 +84,22 @@ void AttackMove::OnLateUpdate()
 
 void AttackMove::OnDisabled()
 {
+	ForceThrow();
+}
+
+void AttackMove::ForceThrow()
+{
 	if (_starScript)
+	{
 		_starScript->Throw(_rb->GetVelocity(), _moveScript->IsFlipped());
+		_starScript->Explode();
+	}
+	else if (!_currentStar.expired())
+	{
+		_starScript = dynamic_cast<AttackScript*>(_currentStar.lock()->GetScriptContainer().GetItemType(TYPE_NAME(AttackScript)));
+		_starScript->Explode();
+	}
 	_starScript = nullptr;
-	if (!_currentStar.expired())
-		_currentStar.lock()->CallDestroy();
 }
 
 void AttackMove::Load(nlohmann::json& input)
@@ -55,4 +109,5 @@ void AttackMove::Load(nlohmann::json& input)
 	_appearOffSet.x = offSet[0].get<float>();
 	_appearOffSet.y = offSet[1].get<float>();
 	_appearOffSet.z = offSet[2].get<float>();
+	_cancelZone = input[Fields::Star::_cancelZone];
 }
