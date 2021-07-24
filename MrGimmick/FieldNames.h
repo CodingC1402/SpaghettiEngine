@@ -199,9 +199,16 @@ namespace Fields
 	class SoundManager
 	{
 	public:
+		// Inputs
 		static constexpr auto _sounds = "Sounds";
 		static constexpr auto _soundName = "SoundName";
 		static constexpr auto _soundSource = "SoundSource";
+		// Sound file name
+		// Player
+		static constexpr auto _playerJumping = "PlayerJumping";
+		static constexpr auto _playerAttack = "PlayerAttack";
+		static constexpr auto _playerLanding = "PlayerLanding";
+
 	};
 	class Star
 	{

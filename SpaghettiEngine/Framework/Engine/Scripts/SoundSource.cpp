@@ -15,7 +15,6 @@ void SoundSource::Load(nlohmann::json& inputObject)
 	int fieldTracker = 0;
 	try
 	{
-
 		_audio = MixerContainer::GetInstance()->GetResource(inputObject[SoundSource::GetMixerField()].get<CULL>());
 		fieldTracker++;
 

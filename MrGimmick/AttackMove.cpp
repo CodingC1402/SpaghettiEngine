@@ -9,6 +9,7 @@ void AttackMove::OnStart()
 	_attackKey = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("Attack"));
 	_rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
+	_soundManager = GET_FIRST_SCRIPT_OF_TYPE(SoundManager);
 }
 
 void AttackMove::OnUpdate()
@@ -20,6 +21,8 @@ void AttackMove::OnUpdate()
 		_currentStar = std::dynamic_pointer_cast<GameObj>(star->GetSharedPtr());
 		_starScript = dynamic_cast<StarScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(StarScript)));
 		_throwed = false;
+
+		_soundManager->Play(Fields::SoundManager::_playerAttack);
 	}
 	if (_starScript && _attackKey->CheckKeyRelease())
 	{

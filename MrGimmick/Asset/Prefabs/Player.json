@@ -126,7 +126,23 @@
 					{
 						"Mixer": 10001,
 						"SoundName": "PlayerJumping",
-						"Mode": "Nothing",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "PlayerAttack",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "PlayerLanding",
+						"Mode": "Overlap",
 						"IsLoop": false,
 						"Delay": 1.0,
 						"Volume": 1.0
