@@ -219,6 +219,7 @@
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="FootEnemyScript.cpp" />
     <ClCompile Include="HealthScript.cpp" />
+    <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="FootEnemyScript.h" />
     <ClInclude Include="HealthScript.h" />
+    <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />

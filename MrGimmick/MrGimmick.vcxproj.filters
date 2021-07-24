@@ -19,6 +19,9 @@
     <Filter Include="Level1">
       <UniqueIdentifier>{26fee250-993b-4b69-90a4-b5eaf4365452}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{cceed043-a865-438a-a47c-7b270747f3c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyJumpScript.cpp">
@@ -128,6 +131,9 @@
     <ClCompile Include="DeadAnimationScript.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="HealthUIComponent.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -235,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="DeadAnimationScript.h">
       <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthUIComponent.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

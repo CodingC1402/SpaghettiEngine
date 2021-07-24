@@ -15,9 +15,9 @@ public:
 	[[nodiscard]] const float&		GetSpacing() const noexcept;
 private:
 	std::map<char, SSprite> _decoder;
-	float _width;
-	float _height;
-	float _spacing;
+	float _width = 0.0f;
+	float _height = 0.0f;
+	float _spacing = 0.0f;
 
 	static constexpr auto _widthField = "Width";
 	static constexpr auto _heightField = "Height";

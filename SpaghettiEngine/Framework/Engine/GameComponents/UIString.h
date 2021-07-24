@@ -24,8 +24,8 @@ private:
 	STextMap _map;
 
 	// -1 for unlimited size
-	int _size;
-	char _fill;
+	int _size = 0;
+	char _fill = 0;
 	SSprite _fillSprite;
 
 	REGISTER_UI_COMPONENT_START(UIString);
