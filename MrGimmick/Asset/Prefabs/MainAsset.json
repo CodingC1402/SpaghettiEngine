@@ -21,7 +21,21 @@
 			]
 		},
 		{
-			"ID": 99001
+			"ID": 99001,
+			"Changes": [
+				{
+					"ID": 2,
+					"Type": "Script",
+					"Field": "Scripts",
+					"Mode": "Append",
+					"Value": [
+						{
+							"Prefabs": [0],
+							"ID": 5
+						}
+					]
+				}
+			]
 		}
 	],
 	"GameObjects": 

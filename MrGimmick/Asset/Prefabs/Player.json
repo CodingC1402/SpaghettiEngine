@@ -85,8 +85,8 @@
 			"ID": 5,
 			"Inputs": {
 				"ScriptType": "HealthScript",
-				"MaxHealth": 4,
-				"Health": 4,
+				"MaxHealth": 2,
+				"Health": 2,
 				"IFrame": 2.75,
 				"HitBoxes": [
 					{

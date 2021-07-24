@@ -218,9 +218,11 @@
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="FootEnemyScript.cpp" />
+    <ClCompile Include="HealthBarScript.cpp" />
     <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
+    <ClCompile Include="PlayerScoreBoard.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
     <ClCompile Include="MoveScript.cpp" />
@@ -258,9 +260,11 @@
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="FootEnemyScript.h" />
+    <ClInclude Include="HealthBarScript.h" />
     <ClInclude Include="HealthScript.h" />
     <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
+    <ClInclude Include="PlayerScoreBoard.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />
     <ClInclude Include="MoveScript.h" />

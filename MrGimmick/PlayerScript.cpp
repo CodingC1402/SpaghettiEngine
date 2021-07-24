@@ -5,6 +5,7 @@
 #include "GameTimer.h"
 #include "FieldNames.h"
 #include "Polygon2DCollider.h"
+#include "PlayerScoreBoard.h"
 
 REGISTER_FINISH(PlayerScript, ScriptBase) {
 };
@@ -100,6 +101,9 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
 
 void PlayerScript::Respawn()
 {
+    PlayerScoreBoard::GetInstance()->DecreaseLive();
+    if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
+        return;
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
     GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());
@@ -111,12 +115,6 @@ void PlayerScript::Respawn()
     _animator->Enable();
 
     _healthScript->SetHealth(_healthScript->GetMaxHealth());
-    _live--;
-    if (_live == 0)
-    {
-        _score = 0;
-        SceneManager::CallReloadScene();
-    }
 }
 
 void PlayerScript::DisableColliders()
