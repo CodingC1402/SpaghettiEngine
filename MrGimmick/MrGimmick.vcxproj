@@ -222,6 +222,8 @@
     <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
+    <ClCompile Include="ItemBase.cpp" />
+    <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="PlayerScoreBoard.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
@@ -236,10 +238,12 @@
     <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="ShootScript.cpp" />
+    <ClCompile Include="SingleUseSegmentScript.cpp" />
     <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="AttackScript.cpp" />
+    <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="TubeScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -264,6 +268,8 @@
     <ClInclude Include="HealthScript.h" />
     <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
+    <ClInclude Include="ItemBase.h" />
+    <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="PlayerScoreBoard.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />
@@ -278,10 +284,12 @@
     <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="ShootScript.h" />
+    <ClInclude Include="SingleUseSegmentScript.h" />
     <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="AttackScript.h" />
+    <ClInclude Include="Treasure.h" />
     <ClInclude Include="TubeScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,7 +3,10 @@
     "ID": 99001,
     "Path": "Asset/Prefabs/Hub.json"
   },
-
+  {
+    "ID": 91100,
+    "Path": "Asset/Prefabs/Items/Treasure1.json"
+  },
   {
     "ID": 90101,
     "Path": "Asset/Prefabs/Level1/Segment1.json"

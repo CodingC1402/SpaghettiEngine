@@ -15,11 +15,11 @@ private:
 
 	SAnimation _anim;
 	SSprite _currentFrame;
-	unsigned _index;
-	float _animTimer;
+	unsigned _index = 0;
+	float _animTimer = 0;
 
 	Matrix4 _rotationMatrix;
-	unsigned _count;
+	unsigned _count = 0;
 
 	float _distance = 0.0f;
 	float _time = 0.0f;

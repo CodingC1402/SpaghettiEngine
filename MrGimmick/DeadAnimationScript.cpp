@@ -51,7 +51,7 @@ void DeadAnimationScript::Draw(PCamera cam)
 	pos.x = SMath::Lerp(0.0f, _distance, lerpTime);
 
 	Graphics::SetSpriteTransform(cam->GetMatrix(GetWorldMatrix()));
-	for (int i = 0; i < _count; i++)
+	for (unsigned i = 0; i < _count; i++)
 	{
 		Graphics::DrawSprite(
 			_currentFrame,

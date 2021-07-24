@@ -58,7 +58,7 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "AttackScript",
-				"MaxDistance": 150,
+				"MaxDistance": 200,
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,

@@ -1,0 +1,80 @@
+{
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"IsRoot": true,
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 1 },
+					{ "ID": 2 },
+                    { "ID": 3 },
+                    { "ID": 4 }
+				]
+			}
+		}
+    ],
+    "Scripts": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "Treasure",
+                "Texture": 60001,
+                "Point": 50000,
+                "Index": 0,
+                "BToS": {
+                    "Animation": 60001,
+                    "Positions": [
+                        [0, 20, 0],
+                        [16, -8, 0],
+                        [-16, -8, 0]
+                    ]
+                },
+                "SToB": {
+                    "Animation": 60002,
+                    "Positions": [
+                        [0, -20, 0],
+                        [16, 8, 0],
+                        [-16, 8, 0]
+                    ]
+                }
+			}
+		},
+        {
+            "ID": 2,
+            "Inputs": {
+              "ScriptType": "ItemBase",
+              "Mass": 8,
+              "GravityScale": 2,
+              "Material": 30001
+            }
+        },
+        {
+            "ID": 3,
+            "Inputs": {
+                "ScriptType": "Polygon2DCollider",
+                "Polygons": [
+                    [
+                        -11, -22,
+                        11, -22,
+                        11, 22,
+                        -11, 22
+                    ]
+                ]
+            }
+        },
+        {
+            "ID": 4,
+            "Inputs": {
+              "ScriptType": "RigidBody2D",
+              "Mass": 8,
+              "GravityScale": 2,
+              "Material": 30001
+            }
+        }
+    ]
+}

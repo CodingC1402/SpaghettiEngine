@@ -28,6 +28,10 @@
     "Path": "Asset/Textures/Objects.png"
   },
   {
+    "ID": 60001,
+    "Path": "Asset/Textures/Treasures.png"
+  },
+  {
     "ID": 90001,
     "Path": "Asset/Textures/Hub.png"
   },

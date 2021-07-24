@@ -5,7 +5,7 @@
 
 CLASS_FORWARD_DECLARATION(TextMap);
 
-class TextMap : Resource
+class TextMap : public Resource
 {
 public:
 	void Load(const std::string& path) override;

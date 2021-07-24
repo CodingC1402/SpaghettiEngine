@@ -23,12 +23,14 @@ public:
 	static void DisableAllSegment();
 	static void SpawnAll();
 	static void DespawnAll();
-private:
-	std::vector<GameObj*> _prefabs;
+protected:
+	// the bool indicate whether the prefabs is single use; true = single use
+	std::vector<std::pair<GameObj*, bool>> _prefabs;
 	// enemy to spawn and position to spawn.
 	std::vector<std::pair<unsigned, Vector3>> _enemySpawns;
 	std::vector<WGameObj> _spawnedEnemies;
-
 	static inline std::set<SegmentScript*> __instances;
+
+private:
 	REGISTER_START(SegmentScript);
 };

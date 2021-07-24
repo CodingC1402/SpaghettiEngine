@@ -71,6 +71,17 @@
 					"Value": false
 				}
 			]
+		},
+		{ 
+			"ID": 91100,
+			"Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
 		}
     ],
 	"GameObjects": [
@@ -107,7 +118,8 @@
 					{"ID": 1},
 					{"ID": 2},
 					{"ID": 3},
-					{"ID": 4}
+					{"ID": 4},
+					{"ID": 5}
 				]
 			}
 		},
@@ -145,7 +157,7 @@
 	],
 	"Scripts": [
 		{
-			"ID": 2,
+			"ID": 1,
 			"Inputs": {
 				"ScriptType": "SegmentScript",
 				"GameObjects": [
@@ -186,6 +198,24 @@
 					{
 						"Index": 0,
 						"Position": [750, 600, 0]
+					}
+				]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "SingleUseSegmentScript",
+				"GameObjects": [
+					{
+						"Prefabs": [5],
+						"ID": 1
+					}
+				],
+				"EnemySpawns": [
+					{
+						"Index": 0,
+						"Position": [80, 672, 0]
 					}
 				]
 			}
@@ -235,7 +265,7 @@
 			}
 		},
 		{
-			"ID": 1,
+			"ID": 5,
 			"Inputs": {
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [

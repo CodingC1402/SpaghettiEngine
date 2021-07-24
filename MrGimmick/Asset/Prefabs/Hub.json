@@ -115,7 +115,8 @@
                 "ScriptType": "PlayerScoreBoard",
                 "MinDelta": 10,
                 "Rate": 0.50,
-                "Live": 2
+                "Live": 99,
+                "NewLive": 10000
             }
         }
     ]

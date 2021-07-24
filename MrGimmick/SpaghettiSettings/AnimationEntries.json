@@ -143,5 +143,14 @@
   {
     "ID": 50007,
     "Path": "Asset/Animations/Enemy/DropBomb/DropAnim.json"
+  },
+
+  {
+    "ID": 60001,
+    "Path": "Asset/Animations/Treasure/StarBToS.json"
+  },
+  {
+    "ID": 60002,
+    "Path": "Asset/Animations/Treasure/StarSToB.json"
   }
 ]
