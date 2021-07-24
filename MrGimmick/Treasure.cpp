@@ -6,16 +6,6 @@
 
 REGISTER_FINISH(Treasure, Render2DScriptBase) {}
 
-void Treasure::OnCollide(CollideEvent& e)
-{
-	if (e.GetGameObject()->GetTag().Contain(Fields::SpecialTag::GetPlayerTag()) && !_isUsed)
-	{
-		_isUsed = true;
-		PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
-		GetGameObject()->CallDestroy();
-	}
-}
-
 void Treasure::OnUpdate()
 {
 	_smallCounter += GameTimer::GetDeltaTime();
@@ -23,6 +13,11 @@ void Treasure::OnUpdate()
 
 	_smallToBig->Advance(_smallIndex, _smallCounter);
 	_bigToSmall->Advance(_bigIndex, _bigCounter);
+}
+
+void Treasure::OnEnd()
+{
+	PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
 }
 
 void Treasure::Draw(PCamera cam)

@@ -7,6 +7,8 @@ void ItemBase::OnCollide(CollideEvent& e)
 {
 	if (e.GetGameObject()->GetTag() != Fields::SpecialTag::GetPlatformTag())
 	{
+		if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
+			GetGameObject()->CallDestroy();
 		e.SetIsHandled(true);
 	}
 }
