@@ -143,7 +143,18 @@
     <ClCompile Include="HealthBarScript.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="ItemBase.cpp" />
+    <ClCompile Include="PlayerInventory.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBase.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Treasure.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleUseSegmentScript.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -261,6 +272,17 @@
     <ClInclude Include="HealthBarScript.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="ItemBase.h" />
+    <ClInclude Include="PlayerInventory.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBase.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Treasure.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleUseSegmentScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -44,6 +44,14 @@ namespace Fields
 	public:
 		static constexpr auto _debugFlySpeed = "FlySpeed";
 	};
+	class DeadAnimationScript
+	{
+	public:
+		static constexpr auto _count = "Count";
+		static constexpr auto _time = "Time";
+		static constexpr auto _distance = "Distance";
+		static constexpr auto _animation = "Animation";
+	};
 	class ElectricEnemy {
 	public:
 		static constexpr auto _center = "Center";
@@ -197,14 +205,6 @@ namespace Fields
 		static constexpr auto _delta = "Delta";
 		static constexpr auto _delay = "Delay";
 	};
-	class DeadAnimationScript
-	{
-	public:
-		static constexpr auto _count = "Count";
-		static constexpr auto _time = "Time";
-		static constexpr auto _distance = "Distance";
-		static constexpr auto _animation = "Animation";
-	};
 	class Star
 	{
 	public:
@@ -236,6 +236,7 @@ namespace Fields
 		static constexpr auto _enenySpawns	= "EnemySpawns";
 		static constexpr auto _index		= "Index";
 		static constexpr auto _position		= "Position";
+		static constexpr auto _singleUse	= "SingleUse";
 	};
 
 	class SpawnPoint
@@ -258,6 +259,17 @@ namespace Fields
 
 		static constexpr auto _path		= "Path";
 		static constexpr auto _speed	= "Speed";
+	};
+	class Treasure
+	{
+	public:
+		static constexpr auto _texture = "Texture";
+		static constexpr auto _animation = "Animation";
+		static constexpr auto _index = "Index";
+		static constexpr auto _SToB = "SToB";
+		static constexpr auto _BToS = "BToS";
+		static constexpr auto _point = "Point";
+		static constexpr auto _positions = "Positions";
 	};
 
 	class SpecialTag

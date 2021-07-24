@@ -8,6 +8,7 @@
 #include "Prefabs.h"
 #include "Extra.h"
 #include "Game.h"
+#include "TextMap.h"
 #include "MaterialContainer.h"
 #include "TileSet.h"
 
@@ -167,6 +168,7 @@ void SceneManager::StartLoadScene(SScene current, SScene toLoad)
 
 void SceneManager::CleanUpAfterLoad()
 {
+	TextMapContainer::GetInstance()->UnloadUnusedResources();
 	PrefabsContainer::GetInstance()->UnloadUnusedResources();
 	AnimationContainer::GetInstance()->UnloadUnusedResources();
 	TileSetContainer::GetInstance()->UnloadUnusedResources();

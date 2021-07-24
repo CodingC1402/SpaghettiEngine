@@ -32,11 +32,16 @@ void SegmentScript::OnDisabled()
 void SegmentScript::Spawn()
 {
 	DeSpawn();
-	for (auto& toSpawn : _enemySpawns)
+	for (auto it = _enemySpawns.begin(); it != _enemySpawns.end();)
 	{
+		auto& toSpawn = *it;
 		_spawnedEnemies.push_back(
-			std::dynamic_pointer_cast<GameObj>(GetOwner()->Instantiate(_prefabs[toSpawn.first], toSpawn.second)->GetSharedPtr())
+			std::dynamic_pointer_cast<GameObj>(GetOwner()->Instantiate(_prefabs[toSpawn.first].first, toSpawn.second)->GetSharedPtr())
 		);
+		if (_prefabs[toSpawn.first].second)
+			it = _enemySpawns.erase(it);
+		else
+			++it;
 	}
 	if (IsDisabled())
 		DisableEnemies();
@@ -83,10 +88,13 @@ void SegmentScript::LoopEnemies(std::function<void(WGameObj)> function)
 
 void SegmentScript::Load(nlohmann::json& input)
 {
+	bool isSingleUse;
 	for (auto& prefab : input[LoadingJson::Field::gameObjectsField])
 	{
-		_prefabs.push_back(
-			dynamic_cast<GameObj*>(GetOwner()->GetComponent(prefab[LoadingJson::Field::idField].get<CULL>()))
+		isSingleUse = prefab[Fields::SegmentScript::_singleUse].empty() ? false : prefab[Fields::SegmentScript::_singleUse].get<bool>();
+		_prefabs.emplace_back(
+			dynamic_cast<GameObj*>(GetOwner()->GetComponent(prefab[LoadingJson::Field::idField].get<CULL>())),
+			isSingleUse
 		);
 	}
 
@@ -97,8 +105,6 @@ void SegmentScript::Load(nlohmann::json& input)
 			spawn[Fields::SegmentScript::_position]
 		);
 	}
-
-
 }
 
 ScriptBase* SegmentScript::Clone() const
