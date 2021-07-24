@@ -1,9 +1,8 @@
 {
   "Sounds": [
-    "Asset/Audio/Player/PlayerLanding.wav",
-    "Asset/Audio/Player/PlayerJumping.wav",
-    "Asset/Audio/Player/PlayerAttack.wav",
-
+    "Asset/Audio/Player/Landing.wav",
+    "Asset/Audio/Player/Jump.wav",
+    "Asset/Audio/Player/Attack.wav",
     "Asset/Audio/Player/StarCreate.wav"
   ],
   "Frequency": 0.037,

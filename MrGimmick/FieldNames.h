@@ -204,11 +204,13 @@ namespace Fields
 		static constexpr auto _soundName = "SoundName";
 		static constexpr auto _soundSource = "SoundSource";
 		// Sound file name
-		// Player
-		static constexpr auto _playerJumping = "PlayerJumping";
-		static constexpr auto _playerAttack = "PlayerAttack";
-		static constexpr auto _playerLanding = "PlayerLanding";
+		static constexpr auto _music = "Music";
+		static constexpr auto _jump = "Jump";
+		static constexpr auto _landing= "Landing";
+		static constexpr auto _dead = "Dead";
+		static constexpr auto _attack = "Attack";
 
+		static constexpr auto _starCreate = "StarCreate";
 	};
 	class Star
 	{

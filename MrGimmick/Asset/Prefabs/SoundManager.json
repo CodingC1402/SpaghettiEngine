@@ -4,6 +4,7 @@
 			"ID": 1,
 			"Inputs": {
 				"Tag": "Sound",
+				"IsRoot": true,
 				"GameObjects": [
 				],
 				"Transform": [ 0, 0, 0 ],
@@ -24,7 +25,7 @@
 				"Sounds": [
 					{
 						"Mixer": 10001,
-						"SoundName": "PlayerJumping",
+						"SoundName": "Jump",
 						"Mode": "Overlap",
 						"IsLoop": false,
 						"Delay": 1.0,
@@ -32,7 +33,7 @@
 					},
 					{
 						"Mixer": 10001,
-						"SoundName": "PlayerAttack",
+						"SoundName": "Attack",
 						"Mode": "Overlap",
 						"IsLoop": false,
 						"Delay": 1.0,
@@ -40,7 +41,7 @@
 					},
 					{
 						"Mixer": 10001,
-						"SoundName": "PlayerLanding",
+						"SoundName": "Landing",
 						"Mode": "Overlap",
 						"IsLoop": false,
 						"Delay": 1.0,
@@ -60,7 +61,7 @@
 		{
 			"ID": 2,
 			"Inputs": {
-				"ScriptType": "PlaySoundScript"
+				"ScriptType": "PlayerSound"
 			}
 		}
 	]
