@@ -134,6 +134,12 @@
     <ClCompile Include="HealthUIComponent.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerScoreBoard.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBarScript.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -243,6 +249,12 @@
       <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="HealthUIComponent.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerScoreBoard.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBarScript.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
