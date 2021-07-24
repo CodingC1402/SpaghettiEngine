@@ -12,6 +12,7 @@ public:
 	void OnEnabled() override;
 	void OnDisabled() override;
 
+	void IncreaseScore(unsigned value);
 	void SetScore(unsigned score);
 	void DecreaseLive();
 	[[nodiscard]] int GetLive() const noexcept;
@@ -20,7 +21,9 @@ public:
 private:
 	int _live = 0;
 
-	unsigned _score = 0;
+	float _score = 0;
+	float _delta = 0;
+
 	unsigned _aimedScore = 0;
 	unsigned _minDelta = 0;
 

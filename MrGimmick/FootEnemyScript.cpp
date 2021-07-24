@@ -4,6 +4,7 @@
 #include "Polygon2DCollider.h"
 #include "EnemyJumpScript.h"
 #include "AIScript.h"
+#include "PlayerScoreBoard.h"
 
 REGISTER_FINISH(FootEnemyScript, ScriptBase) {}
 
@@ -14,6 +15,7 @@ ScriptBase* FootEnemyScript::Clone() const
 	clone->_destroyDelay = _destroyDelay;
 	clone->_diedFieldName = _diedFieldName;
 	clone->_hurtVel = _hurtVel;
+	clone->_point = _point;
 
 	return clone;
 }
@@ -34,6 +36,8 @@ void FootEnemyScript::Died()
 			obj->Disable();
 		}
 	);
+
+	PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
 }
 
 void FootEnemyScript::OnStart()
@@ -76,4 +80,5 @@ void FootEnemyScript::Load(nlohmann::json& input)
 	_diedFieldName = input[Fields::FootEnemyScript::_diedNode].get<std::string>();
 	_destroyDelay = input[Fields::FootEnemyScript::_delay].get<float>();
 	_hurtVel = input[Fields::FootEnemyScript::_hurtVel];
+	_point = input[Fields::FootEnemyScript::_point];
 }

@@ -4,6 +4,7 @@
 #include "DebugRenderer.h"
 #include "Setting.h"
 #include "PlayerScript.h"
+#include "Graphics.h"
 #include "PhysicCollide.h"
 
 constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
@@ -34,7 +35,8 @@ void AttackScript::OnUpdate()
 		vel.x += _additionVel * GameTimer::GetDeltaTime() * (vel.x < 0 ? -1 : 1);
 		_rbBody->SetVelocity(vel);
 
-		auto distance = (GetWorldTransform() - PlayerScript::GetCurrentPlayer()->GetTransform().GetWorldTransform()).GetMagnitude();
+		auto camera = Graphics::GetActiveCamera();
+		auto distance = !camera ? _maxDistance  : (GetWorldTransform() - camera->GetWorldTransform()).GetMagnitude();
 		if (_exploded)
 		{
 			if (_counter > _animExplodeTime)

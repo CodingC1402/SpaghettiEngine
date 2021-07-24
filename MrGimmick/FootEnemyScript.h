@@ -18,6 +18,7 @@ public:
 private:
 	float _destroyDelay = 0.0f;
 	float _destroyCounter = 0.0f;
+	unsigned _point = 0;
 	Vector3 _hurtVel;
 
 	HealthScript* _healthScript = nullptr;

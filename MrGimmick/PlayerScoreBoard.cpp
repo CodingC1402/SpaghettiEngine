@@ -18,12 +18,8 @@ void PlayerScoreBoard::OnUpdate()
 {
 	if (_score != _aimedScore)
 	{
-		float delta = _aimedScore - _score;
-		delta *= _increaseRate * GameTimer::GetDeltaTime();
-		delta = SMath::Abs(delta) < _minDelta ? (_minDelta * (delta < 0 ? -1 : 1)) : delta;
-
-		_score += delta;
-		if (delta > 0)
+		_score += _delta * GameTimer::GetDeltaTime();
+		if (_delta > 0)
 			_score = _score > _aimedScore ? _aimedScore : _score;
 		else
 			_score = _score < _aimedScore ? _aimedScore : _score;
@@ -33,7 +29,7 @@ void PlayerScoreBoard::OnUpdate()
 		_liveUI->SetText(std::to_string(_live));
 	else
 		_liveUI->SetText(std::to_string(0));
-	_scoreUI->SetText(std::to_string(_score));
+	_scoreUI->SetText(std::to_string(static_cast<unsigned>(_score)));
 }
 
 void PlayerScoreBoard::Load(nlohmann::json& input)
@@ -53,9 +49,17 @@ void PlayerScoreBoard::OnDisabled()
 	__instance = __instance == this ? nullptr : __instance;
 }
 
+void PlayerScoreBoard::IncreaseScore(unsigned value)
+{
+	SetScore(_aimedScore + value);
+}
+
 void PlayerScoreBoard::SetScore(unsigned score)
 {
 	_aimedScore = score;
+	_delta = _aimedScore - _score;
+	_delta *= _increaseRate;
+	_delta = SMath::Abs(_delta) < _minDelta ? (_minDelta * (_delta < 0 ? -1 : 1)) : _delta;
 }
 
 void PlayerScoreBoard::DecreaseLive()

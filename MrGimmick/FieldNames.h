@@ -100,6 +100,7 @@ namespace Fields
 		static constexpr auto _diedNode = "DiedNode";
 		static constexpr auto _hurtVel	= "HurtVelocity";
 		static constexpr auto _delay	= "Delay";
+		static constexpr auto _point	= "Point";
 	};
 	class HeadScript
 	{
