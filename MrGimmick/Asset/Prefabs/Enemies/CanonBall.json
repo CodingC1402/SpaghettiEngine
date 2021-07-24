@@ -34,7 +34,8 @@
 					{ "ID": 2 },
 					{ "ID": 3 },
 					{ "ID": 4 },
-					{ "ID": 5 }
+					{ "ID": 5 },
+					{ "ID": 6 }
 				]
 			}
 		}
@@ -91,6 +92,28 @@
 			  "ScriptType": "Enemy",
 			  "Ignore": ["Player", "Enemy", "StaticEnemy", "PlayerAttack"]
 			}
-		  }
+		},
+		{
+            "ID": 6,
+            "Inputs": {
+                "ScriptType": "HealthScript",
+                "MaxHealth": 1,
+				"Health": 1,
+				"IFrame": 1.5,
+				"HitBoxes": [
+					{
+						"Center": [0, 0, 0],
+						"Width": 16,
+						"Height": 16
+					}
+				],
+				"DamageSources": [
+					{
+						"Tag": ["PlayerAttack"],
+						"Damage": 1
+					}
+				]
+            }
+        }
 	]
 }

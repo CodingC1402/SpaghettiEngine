@@ -9,7 +9,7 @@ REGISTER_FINISH(StarCreation, Render2DScriptBase) {}
 
 void StarCreation::OnStart()
 {
-	_starScript = GET_FIRST_SCRIPT_OF_TYPE(StarScript);
+	_starScript = GET_FIRST_SCRIPT_OF_TYPE(AttackScript);
 	_currentSprite = _starAnim->GetSpriteOfFrame(0); // Get First frame
 }
 

@@ -57,7 +57,7 @@
     <ClCompile Include="PlayerScript.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="StarScript.cpp">
+    <ClCompile Include="AttackScript.cpp">
       <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="StarCreation.cpp">
@@ -151,7 +151,7 @@
     <ClInclude Include="SegmentTrigger.h">
       <Filter>StaticObjects</Filter>
     </ClInclude>
-    <ClInclude Include="StarScript.h">
+    <ClInclude Include="AttackScript.h">
       <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="StarCreation.h">
