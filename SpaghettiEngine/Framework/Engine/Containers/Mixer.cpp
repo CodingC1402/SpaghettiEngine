@@ -1,5 +1,5 @@
 #include "Mixer.h"
-#include "json.hpp"
+#include "StringUtil.h"
 #include "SpaghettiEnginePath.h"
 #include "StringConverter.h"
 #include "ScriptBase.h"
@@ -36,8 +36,6 @@ void Mixer::Load(const std::string& path)
 		json jsonFile;
 		file >> jsonFile;
 
-		std::string folder = "Asset/Audio/";
-		std::string extention = ".wav";
 		int index = 0;
 
 		for (std::string sfilePath : jsonFile[Sounds])
@@ -45,8 +43,8 @@ void Mixer::Load(const std::string& path)
 			std::wstring path = StringConverter::StrToWStr(sfilePath);
 			_sounds.emplace_back(path);
 
-			std::string name = sfilePath.erase(sfilePath.find(folder), folder.length());
-			name = name.erase(name.find(extention), extention.length());
+			std::string name = StrUtil::Tokenize(sfilePath, "/").back();
+			name = StrUtil::Tokenize(name, ".").front();
 
 			_soundMap.insert(std::make_pair(name, index));
 			index++;

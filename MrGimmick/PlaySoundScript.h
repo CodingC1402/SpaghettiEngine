@@ -1,5 +1,5 @@
 #pragma once
-#include "SoundSource.h"
+#include "SoundManager.h"
 #include "InputSystem.h"
 #include "InputAll.h"
 #include "ScriptBase.h"
@@ -22,7 +22,7 @@ protected:
 
 	int soundLayer = 0;
 
-	SoundSource* _audio = nullptr;
+	SoundManager* _audio = nullptr;
 private:
 	REGISTER_START(PlaySoundScript);
 };

@@ -125,7 +125,7 @@
 				"Sounds": [
 					{
 						"Mixer": 10001,
-						"SoundName": "se5",
+						"SoundName": "PlayerJumping",
 						"Mode": "Nothing",
 						"IsLoop": false,
 						"Delay": 1.0,

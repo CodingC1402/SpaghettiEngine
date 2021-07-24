@@ -7,7 +7,7 @@ namespace SystemPath
 	static constexpr const char* SceneManagerPath = "SpaghettiSettings/SceneManager.json";
 	static constexpr const char* TextureEntriesPath = "SpaghettiSettings/TextureEntries.json";
 	static constexpr const char* AnimationEntriesPath = "SpaghettiSettings/AnimationEntries.json";
-	static constexpr const char* AudioEntriesPath = "SpaghettiSettings/AudioEntries.json";
+	static constexpr const char* AudioEntriesPath = "SpaghettiSettings/MixerEntries.json";
 	static constexpr const char* PrefabEntriesPath = "SpaghettiSettings/PrefabEntries.json";
 	static constexpr const char* TileSetPath = "SpaghettiSettings/TileSetEntries.json";
 	static constexpr const char* MaterialPath = "SpaghettiSettings/MaterialEntries.json";
