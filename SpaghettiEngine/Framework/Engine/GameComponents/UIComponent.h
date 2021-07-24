@@ -41,15 +41,15 @@ private:
 	void SetCanvas(PCanvas canvas);
 private:
 	std::set<UIComponent*> _children;
-	PCanvas _canvas;
+	PCanvas _canvas = nullptr;
 
 	Vector3 _position;
-	float _width;
-	float _height;
-	Color _color;
+	float _width = 0.0f;
+	float _height = 0.0f;
+	Color _color = 0x00000000;
 
 	std::string _componentName;
-	const std::string* _typeStr;
+	const std::string* _typeStr = nullptr;
 };
 
 class UIFactory
