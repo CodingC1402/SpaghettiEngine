@@ -65,7 +65,7 @@ void FootEnemyScript::OnUpdate()
 		_destroyCounter -= GameTimer::GetDeltaTime();
 		if (_destroyCounter <= 0.0f)
 		{
-			_animator->IsDisabled();
+			_animator->Disable();
 			GetGameObject()->CallDestroy();
 		}
 	}

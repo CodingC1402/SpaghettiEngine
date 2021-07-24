@@ -3,11 +3,13 @@
 #include "Graphics.h"
 #include "UIFields.h"
 
+#include "UIString.h"
 #include "RectangleUI.h"
 
 void UI_COMPONENT_REGISTER()
 {
-	RectangleUI();
+	RectangleUI shit1;
+	UIString shit2;
 }
 
 std::shared_ptr<UIComponent> UIFactory::Create(const std::string& className)
