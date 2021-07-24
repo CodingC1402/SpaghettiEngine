@@ -114,7 +114,7 @@
             "Inputs": {
                 "ScriptType": "PlayerScoreBoard",
                 "MinDelta": 10,
-                "Rate": 0.10,
+                "Rate": 0.50,
                 "Live": 2
             }
         }

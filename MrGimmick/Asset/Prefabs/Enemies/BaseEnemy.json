@@ -122,7 +122,8 @@
                 "ScriptType": "FootEnemyScript",
                 "DiedNode": "IsDead",
                 "HurtVelocity": [50, 100, 0],
-                "Delay": 1
+                "Delay": 1,
+                "Point": 120
             }
         }
     ]
