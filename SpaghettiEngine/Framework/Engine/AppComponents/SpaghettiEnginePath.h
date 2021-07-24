@@ -10,4 +10,5 @@ namespace SystemPath
 	static constexpr const char* PrefabEntriesPath = "SpaghettiSettings/PrefabEntries.json";
 	static constexpr const char* TileSetPath = "SpaghettiSettings/TileSetEntries.json";
 	static constexpr const char* MaterialPath = "SpaghettiSettings/MaterialEntries.json";
+	static constexpr const char* TextMapPath = "SpaghettiSettings/TextMapEntries.json";
 }

@@ -374,9 +374,6 @@
     <ClInclude Include="Framework\PhysicEngine\Components\PhysicCollide.h">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Engine\GameComponents\Canvas.h">
-      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Engine\GameComponents\UIComponent.h">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClInclude>
@@ -400,6 +397,15 @@
     </ClInclude>
     <ClInclude Include="Framework\Engine\AnimationComponents\SkeletonNode.h">
       <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\GameComponents\UIString.h">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\Canvas.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Containers\TextMap.h">
+      <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -667,9 +673,6 @@
     <ClCompile Include="Framework\PhysicEngine\Components\PhysicCollide.cpp">
       <Filter>FrameWork\PhysicEngine\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Engine\GameComponents\Canvas.cpp">
-      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Engine\GameComponents\UIComponent.cpp">
       <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
     </ClCompile>
@@ -693,6 +696,15 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\AnimationComponents\SkeletonNode.cpp">
       <Filter>FrameWork\Engine\AnimationComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\GameComponents\UIString.cpp">
+      <Filter>FrameWork\Engine\GameComponents\UIComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\Canvas.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Containers\TextMap.cpp">
+      <Filter>FrameWork\Engine\Containers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -20,10 +20,10 @@ private:
 	float _destroyCounter = 0.0f;
 	Vector3 _hurtVel;
 
-	HealthScript* _healthScript;
-	MoveScript* _moveScript;
-	RigidBody2D* _rb;
-	Animator* _animator;
+	HealthScript* _healthScript = nullptr;
+	MoveScript* _moveScript = nullptr;
+	RigidBody2D* _rb = nullptr;
+	Animator* _animator = nullptr;
 
 	std::string _diedFieldName = "";
 	BoolField _isDead;

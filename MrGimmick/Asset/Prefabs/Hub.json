@@ -53,6 +53,13 @@
                                 "Position": [223, 5, 0],
                                 "Texture": 90001,
                                 "Index": 32
+                            },
+                            {
+                                "Type": "UIString",
+                                "Name": "Score",
+                                "Text": "12345611",
+                                "Position": [16, 16, 0],
+                                "TextMap": 10001
                             }
                         ]
                     }

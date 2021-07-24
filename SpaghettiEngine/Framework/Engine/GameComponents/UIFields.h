@@ -18,4 +18,11 @@ namespace UIField
 		static constexpr auto _texture	= "Texture";
 		static constexpr auto _index	= "Index";
 	};
+
+	class UIString
+	{
+	public:
+		static constexpr auto _text = "Text";
+		static constexpr auto _textMap = "TextMap";
+	};
 }

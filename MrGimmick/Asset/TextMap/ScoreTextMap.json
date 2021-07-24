@@ -1,0 +1,57 @@
+{
+    "Spacing": 0,
+    "Width": 8,
+    "Height": 8,
+    "Map": [
+        {
+            "Texture": 90001,
+            "Index": 8,
+            "Char": "0"
+        },
+        {
+            "Texture": 90001,
+            "Index": 9,
+            "Char": "1"
+        },
+        {
+            "Texture": 90001,
+            "Index": 10,
+            "Char": "2"
+        },
+        {
+            "Texture": 90001,
+            "Index": 11,
+            "Char": "3"
+        },
+        {
+            "Texture": 90001,
+            "Index": 12,
+            "Char": "4"
+        },
+        {
+            "Texture": 90001,
+            "Index": 13,
+            "Char": "5"
+        },
+        {
+            "Texture": 90001,
+            "Index": 14,
+            "Char": "6"
+        },
+        {
+            "Texture": 90001,
+            "Index": 15,
+            "Char": "7"
+        },
+        {
+            "Texture": 90001,
+            "Index": 16,
+            "Char": "8"
+        },
+        {
+            "Texture": 90001,
+            "Index": 17,
+            "Char": "9"
+        }
+    ]
+}
