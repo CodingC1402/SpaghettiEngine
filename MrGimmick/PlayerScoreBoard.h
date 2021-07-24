@@ -27,6 +27,9 @@ private:
 	unsigned _aimedScore = 0;
 	unsigned _minDelta = 0;
 
+	unsigned _newLive = 0;
+	unsigned _gainedLive = 1;
+
 	UIString* _scoreUI = nullptr;
 	UIString* _liveUI = nullptr;
 

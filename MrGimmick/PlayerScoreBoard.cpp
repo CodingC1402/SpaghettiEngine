@@ -23,6 +23,12 @@ void PlayerScoreBoard::OnUpdate()
 			_score = _score > _aimedScore ? _aimedScore : _score;
 		else
 			_score = _score < _aimedScore ? _aimedScore : _score;
+
+		if (_score >= _newLive * _gainedLive)
+		{
+			_gainedLive++;
+			_live++;
+		}
 	}
 
 	if (_live >= 0)
@@ -37,6 +43,7 @@ void PlayerScoreBoard::Load(nlohmann::json& input)
 	_minDelta = input[Fields::PlayerScoreBoard::_minDelta].get<unsigned>();
 	_increaseRate = input[Fields::PlayerScoreBoard::_increaseRate].get<float>();
 	_live = input[Fields::PlayerScoreBoard::_live].get<unsigned>();
+	_newLive = input[Fields::PlayerScoreBoard::_newLive].get<unsigned>();
 }
 
 void PlayerScoreBoard::OnEnabled()

@@ -29,3 +29,8 @@ void ObjectRidable::OnCollide(CollideEvent& e)
 		__instance = this;
 	}
 }
+
+void ObjectRidable::OnDisabled()
+{
+	__instance = __instance == this ? nullptr : __instance;
+}

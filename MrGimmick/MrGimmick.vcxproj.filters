@@ -22,6 +22,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{cceed043-a865-438a-a47c-7b270747f3c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{7e6ba6ca-3c08-4e7f-9954-e2c5c97fe18b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyJumpScript.cpp">
@@ -140,6 +143,7 @@
     <ClCompile Include="HealthBarScript.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="ItemBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -257,5 +261,6 @@
     <ClInclude Include="HealthBarScript.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="ItemBase.h" />
   </ItemGroup>
 </Project>

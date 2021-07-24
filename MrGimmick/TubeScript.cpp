@@ -246,7 +246,7 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 	{
 		_gameObject->GetChildContainer().IteratingWithLamda([](PGameObj obj) {obj->Disable(); });
 		_gameObject->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
-			if (script->GetType() == TYPE_NAME(Polygon2DCollider))
+			if (script->GetType() != TYPE_NAME(Animator))
 				script->Disable();
 			});
 		if (_gameObject->GetTag().Contain(Fields::SpecialTag::GetEnemyTag()))

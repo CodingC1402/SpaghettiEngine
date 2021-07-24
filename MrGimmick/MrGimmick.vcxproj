@@ -222,6 +222,7 @@
     <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
+    <ClCompile Include="ItemBase.cpp" />
     <ClCompile Include="PlayerScoreBoard.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="HealthScript.h" />
     <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
+    <ClInclude Include="ItemBase.h" />
     <ClInclude Include="PlayerScoreBoard.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />

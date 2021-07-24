@@ -29,6 +29,8 @@ private:
 	std::vector<std::pair<unsigned, Vector3>> _enemySpawns;
 	std::vector<WGameObj> _spawnedEnemies;
 
+	// These will be manage by segment until it disappear, then it won't be re-spawn.
+	std::vector<WGameObj> _startingObj;
 	static inline std::set<SegmentScript*> __instances;
 	REGISTER_START(SegmentScript);
 };

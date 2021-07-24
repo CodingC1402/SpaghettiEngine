@@ -97,6 +97,8 @@ void SegmentScript::Load(nlohmann::json& input)
 			spawn[Fields::SegmentScript::_position]
 		);
 	}
+
+
 }
 
 ScriptBase* SegmentScript::Clone() const

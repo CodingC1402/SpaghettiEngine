@@ -18,7 +18,7 @@ void CollideTopScript::OnCollide(CollideEvent& e)
 
 	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{
-		if (e.GetNormal().y < 0.75)
+		if (e.GetNormal().y <= 0.25)
 			e.SetIsHandled(true);
 	}
 }
