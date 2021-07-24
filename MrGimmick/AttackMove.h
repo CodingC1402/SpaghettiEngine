@@ -25,7 +25,6 @@ protected:
 	RigidBody2D*	_rb = nullptr;
 	StarScript*		_starScript = nullptr;
 	MoveScript*		_moveScript = nullptr;
-	SoundManager*	_soundManager = nullptr;
 
 	Vector3			_appearOffSet;
 	SInputAll		_attackKey;

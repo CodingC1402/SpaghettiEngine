@@ -1,0 +1,67 @@
+{
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"Tag": "Sound",
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 1 },
+					{ "ID": 2 }
+				]
+			}
+		}
+    ],
+	"Scripts": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "SoundManager",
+				"Sounds": [
+					{
+						"Mixer": 10001,
+						"SoundName": "PlayerJumping",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "PlayerAttack",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "PlayerLanding",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "StarCreate",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					}
+				]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "PlaySoundScript"
+			}
+		}
+	]
+}

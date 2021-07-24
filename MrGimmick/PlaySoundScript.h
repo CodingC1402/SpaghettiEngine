@@ -15,10 +15,10 @@ public:
 	void OnStart() override;
 	void OnUpdate() override;
 protected:
-	SInputAll _play1Input;
-	SInputAll _play2Input;
-	SInputAll _stop1Input;
-	SInputAll _stop2Input;
+	SInputAll _moveLeftInput;
+	SInputAll _moveRightInput;
+	SInputAll _jumpInput;
+	SInputAll _attackInput;
 
 	int soundLayer = 0;
 
