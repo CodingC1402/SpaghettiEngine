@@ -22,7 +22,25 @@
 					"Value": false
 				}
 			]
-		}
+		},
+        {
+            "ID": 999,
+            "Changes": [
+				{
+					"ID": 1,
+					"Type": "Script",
+					"Field": "Polygons",
+					"Value": [
+                        [
+                            1312, 576,
+                            1664, 576,
+                            1664, 560,
+                            1312, 560
+                        ]
+                    ]
+				}
+            ]
+        }
     ],
     "GameObjects": [		
         {
@@ -33,6 +51,10 @@
                 "IsRoot": false,
                 "Tag": "Platform",
                 "GameObjects": [
+                    {
+                        "Prefabs": [2],
+                        "ID": 1
+                    }
                 ],
                 "Transform": [0, 0, 0 ],
                 "Rotation": [ 0, 0, 0 ],

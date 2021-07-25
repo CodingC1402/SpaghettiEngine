@@ -111,6 +111,11 @@
 					{
 						"Tag": ["PlayerAttack"],
 						"Damage": 1
+					},
+					{
+						"Tag": ["Pitfall"],
+						"Damage": 100,
+                        "IgnoreIFrame": true
 					}
 				]
             }

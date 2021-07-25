@@ -59,12 +59,48 @@
 					"Value": [1858, 83, 0]
 				}
             ]
+        },
+        {
+            "ID": 999,
+            "Changes": [
+				{
+					"ID": 1,
+					"Type": "Script",
+					"Field": "Polygons",
+					"Value": [
+                        [
+                            608, 16,
+                            640, 16,
+                            640, 0,
+                            608, 0
+                        ],
+                        [
+                            640, 16,
+                            672, 16,
+                            672, 0,
+                            640, 0
+                        ],
+                        [
+                            1024, 16,
+                            1136, 16,
+                            1136, 0,
+                            1024, 0
+                        ],
+                        [
+                            1856, 16,
+                            1968, 16,
+                            1968, 0,
+                            1856, 0
+                        ]
+                    ]
+				}
+            ]
         }
     ],
     "GameObjects": [		
         {
             "ID": 1,
-            "IsDisabled": false,
+            "IsDisabled": true,
             "Name": "Stage1",
             "Inputs": {
                 "IsRoot": false,
@@ -72,6 +108,10 @@
                 "GameObjects": [
                     {
                         "Prefabs": [3],
+                        "ID": 1
+                    },
+                    {
+                        "Prefabs": [4],
                         "ID": 1
                     }
                 ],

@@ -15,9 +15,16 @@ void Treasure::OnUpdate()
 	_bigToSmall->Advance(_bigIndex, _bigCounter);
 }
 
-void Treasure::OnEnd()
+void Treasure::OnCollide(CollideEvent& e)
 {
-	PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
+	if (!_point)
+		return;
+
+	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
+	{
+		PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
+		_point = 0;
+	}
 }
 
 void Treasure::Draw(PCamera cam)

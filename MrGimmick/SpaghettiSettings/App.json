@@ -11,6 +11,7 @@
   "PhysicStep": 0.01,
   "PhysicMaxStep": 0.1,
   "Tags": [
+    "Pitfall",
     "Character",
     "Player",
     "Enemy",

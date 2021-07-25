@@ -132,6 +132,7 @@ namespace Fields
 		static constexpr auto _health		= "Health";
 		static constexpr auto _iFrame		= "IFrame";
 		static constexpr auto _damageSource = "DamageSources";
+		static constexpr auto _ignoreIFrame = "IgnoreIFrame";
 		static constexpr auto _tag			= "Tag";
 		static constexpr auto _damage		= "Damage";
 		static constexpr auto _hitBoxes		= "HitBoxes";

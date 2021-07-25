@@ -85,7 +85,6 @@
       <Filter>Character</Filter>
     </ClCompile>
     <ClCompile Include="FieldNames.cpp" />
-    <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="CollideTopScript.cpp">
       <Filter>Character</Filter>
     </ClCompile>
@@ -160,6 +159,21 @@
     </ClCompile>
     <ClCompile Include="DistanceAnimator.cpp">
       <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoCallDestroy.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PitfallScript.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MaxHealthPotion.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnExplode.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +309,18 @@
     </ClInclude>
     <ClInclude Include="DistanceAnimator.h">
       <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoCallDestroy.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PitfallScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MaxHealthPotion.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnExplode.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

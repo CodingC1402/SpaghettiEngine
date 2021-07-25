@@ -1,0 +1,40 @@
+{
+	"Prefabs": [
+	],
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"Tag": "",
+				"IsRoot": false,
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 1 },
+					{ "ID": 2 }
+				]
+			}
+		}
+    ],
+    "Scripts": [
+		{
+			"ID": 1,
+			"IsDisabled": true,
+			"Inputs": {
+				"ScriptType": "Animator",
+				"AnimationTree": "Asset/AnimationTree/Explosion.json",
+				"DrawLayer": 2
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+                "ScriptType": "AutoCallDestroy",
+                "Delay": 2
+			}
+		}
+    ]
+}

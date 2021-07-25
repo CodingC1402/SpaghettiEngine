@@ -72,14 +72,18 @@ ScriptBase* PlayerScript::Clone() const
 
 void PlayerScript::TookDamage(const int& health, const int& delta)
 {
+    if (delta < 0)
+    {
+        _control->Disable();
+        _attackMoveScript->Disable();
+    }
+
     if (health > 0)
     {
         if (delta < 0)
         {
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
-            _control->Disable();
-            _attackMoveScript->Disable();
 
             auto hurtVelCopy = _hurtVel;
             hurtVelCopy.x *= _moveScript->IsFlipped() ? -1 : 1;
@@ -104,15 +108,20 @@ void PlayerScript::Respawn()
     PlayerScoreBoard::GetInstance()->DecreaseLive();
     if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
         return;
+
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
+
     GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());
     auto segment = SpawnPoint::GetSpawnPointScript()->GetSegment();
     segment->Enable();
 
     EnableColliders();
     EnableRigidBody();
+
     _animator->Enable();
+    _control->Enable();
+    _attackMoveScript->Enable();
 
     _healthScript->SetHealth(_healthScript->GetMaxHealth());
 }
