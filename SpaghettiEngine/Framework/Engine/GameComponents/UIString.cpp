@@ -9,7 +9,7 @@ void UIString::Draw(Vector3 pos)
 	auto _actualPos = pos + GetPosition();
 	GetSprites();
 
-	int _counter = _size < 0 ? 0 : _size - _text.size();
+	int _counter = _size < 0 ? 0 : _size - static_cast<int>(_text.size());
 	_counter = _counter < 0 ? 0 : _counter;
 	while (_counter > 0)
 	{

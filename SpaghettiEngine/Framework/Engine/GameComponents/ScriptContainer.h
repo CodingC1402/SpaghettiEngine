@@ -8,6 +8,7 @@ CLASS_FORWARD_DECLARATION(ScriptBase);
 
 class ScriptContainer : public Corntainer<PScriptBase>
 {
+	friend class GameObj;
 public:
 	ScriptContainer(PGameObj owner);
 
@@ -23,6 +24,9 @@ public:
 	void RemoveAllItem() override;
 	void RemoveItem(PScriptBase object) override;
 	void RemoveItemsType(const std::string& type);
+
+	void DisableAll();
+	void EnableAll();
 protected:
 	// Used to do all the operation needed when remove child
 	void RemoveScript(PScriptBase object);

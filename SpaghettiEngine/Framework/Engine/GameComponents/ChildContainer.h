@@ -23,6 +23,9 @@ public:
 	void RemoveItem(PGameObj object) override;
 	void RemoveItemsWithName(const std::string& name);
 	void RemoveItemsWithTag(const std::string& tag);
+
+	void DisableAll();
+	void EnableAll();
 protected:
 	// Call of the thing that needed so that other function can safely erase it from container.
 	void RemoveChild(PGameObj object);

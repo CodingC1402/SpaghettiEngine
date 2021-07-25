@@ -115,6 +115,20 @@ void ChildContainer::RemoveItemsWithTag(const std::string& tag)
 	}
 }
 
+void ChildContainer::DisableAll()
+{
+	auto children = GetAllItem();
+	for (auto& child : children)
+		child->Disable();
+}
+
+void ChildContainer::EnableAll()
+{
+	auto children = GetAllItem();
+	for (auto& child : children)
+		child->Enable();
+}
+
 void ChildContainer::RemoveChild(PGameObj object)
 {
 	bool childBefore = object->IsDisabled();

@@ -119,45 +119,30 @@ void PlayerScript::Respawn()
 
 void PlayerScript::DisableColliders()
 {
-    GetGameObject()->GetScriptContainer().IteratingWithLamda(
-        [&](PScriptBase script) {
-            if (script->GetType() == TYPE_NAME(Polygon2DCollider))
-            {
-                script->Disable();
-            }
-        }
-    );
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(Polygon2DCollider);
+    for (auto& script : scripts)
+        script->Disable();
 }
 
 void PlayerScript::EnableColliders()
 {
-    GetGameObject()->GetScriptContainer().IteratingWithLamda(
-        [&](PScriptBase script) {
-            if (script->GetType() == TYPE_NAME(Polygon2DCollider))
-            {
-                script->Enable();
-            }
-        }
-    );
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(Polygon2DCollider);
+    for (auto& script : scripts)
+        script->Enable();
 }
 
 void PlayerScript::DisableRigidBody()
 {
-    auto script = GetGameObject()->GetPhysicComponent().GetRigidBody2DScript();
-    if (script)
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(RigidBody2D);
+    for (auto& script : scripts)
         script->Disable();
 }
 
 void PlayerScript::EnableRigidBody()
 {
-    GetGameObject()->GetScriptContainer().IteratingWithLamda(
-        [&](PScriptBase script) {
-            if (script->GetType() == TYPE_NAME(RigidBody2D))
-            {
-                script->Enable();
-            }
-        }
-    );
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(RigidBody2D);
+    for (auto& script : scripts)
+        script->Enable();
 }
 
 void PlayerScript::Load(nlohmann::json& input)

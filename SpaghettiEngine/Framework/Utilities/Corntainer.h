@@ -21,10 +21,9 @@ public:
 
 	virtual void RemoveAllItem();
 	virtual void RemoveItem(T item);
-
+protected:
 	void IteratingWithLamda(const std::function<void(T)>& lamdaFun) const;
 	void IteratingWithLamdaEvent(const std::function<void(T, CollideEvent&)>& lamdaFun, CollideEvent& e) const;
-protected:
 
 	// Start of loops
 	ListIterator Begin() const;
