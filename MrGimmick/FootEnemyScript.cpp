@@ -33,7 +33,11 @@ void FootEnemyScript::Died()
 	}
 
 	GetGameObject()->GetChildContainer().DisableAll();
-	PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
+	if (PlayerScoreBoard::GetInstance())
+	{
+		PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
+	}
+
 }
 
 void FootEnemyScript::OnStart()

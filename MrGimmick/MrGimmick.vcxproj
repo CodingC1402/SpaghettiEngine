@@ -205,6 +205,7 @@
     <ClCompile Include="AIBTs.cpp" />
     <ClCompile Include="AIScript.cpp" />
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="AutoCallDestroy.cpp" />
     <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
@@ -226,6 +227,7 @@
     <ClCompile Include="ItemBase.cpp" />
     <ClCompile Include="MaxHealthPotion.cpp" />
     <ClCompile Include="MovingTrapDoor.cpp" />
+    <ClCompile Include="PitfallScript.cpp" />
     <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="PlayerScoreBoard.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
@@ -242,6 +244,7 @@
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="ShootScript.cpp" />
     <ClCompile Include="SingleUseSegmentScript.cpp" />
+    <ClCompile Include="SpawnExplode.cpp" />
     <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
@@ -254,6 +257,7 @@
     <ClInclude Include="AIBTs.h" />
     <ClInclude Include="AIScript.h" />
     <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="AutoCallDestroy.h" />
     <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="ChasingLeaf.h" />
@@ -275,6 +279,7 @@
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="MaxHealthPotion.h" />
     <ClInclude Include="MovingTrapDoor.h" />
+    <ClInclude Include="PitfallScript.h" />
     <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="PlayerScoreBoard.h" />
     <ClInclude Include="SegmentScript.h" />
@@ -291,6 +296,7 @@
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="ShootScript.h" />
     <ClInclude Include="SingleUseSegmentScript.h" />
+    <ClInclude Include="SpawnExplode.h" />
     <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />

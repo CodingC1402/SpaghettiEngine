@@ -23,6 +23,9 @@ void HealthScript::OnUpdate()
 
 void HealthScript::OnFixedUpdate()
 {
+	if (_health == 0)
+		return;
+
 	std::set<GameObj*> collideSet;
 	for (auto& rect : _hitBoxes)
 	{
@@ -62,6 +65,7 @@ void HealthScript::OnFixedUpdate()
 				{
 					_coolDown = _iFrame;
 					_health -= source._damage;
+					_health = _health < 0 ? 0 : _health;
 					tookDamage = true;
 					for (auto& fun : _healthDelegates)
 						fun(_health, -static_cast<int>(source._damage));

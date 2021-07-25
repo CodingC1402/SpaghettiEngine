@@ -4,6 +4,15 @@
     "Path": "Asset/Prefabs/Hub.json"
   },
   {
+    "ID": 666,
+    "Path": "Asset/Prefabs/Explosion.json"
+  },
+  {
+    "ID": 999,
+    "Path": "Asset/Prefabs/Traps/Pitfall.json"
+  },
+
+  {
     "ID": 91100,
     "Path": "Asset/Prefabs/Items/Treasure1.json"
   },

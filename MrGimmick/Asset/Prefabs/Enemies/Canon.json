@@ -2,6 +2,9 @@
   "Prefabs": [
     {
       "ID": 20005
+    },
+    {
+      "ID": 666
     }
   ],
   "GameObjects": [
@@ -18,7 +21,9 @@
           { "ID": 2 },
           { "ID": 3 },
           { "ID": 4 },
-          { "ID": 5 }
+          { "ID": 5 },
+          { "ID": 6 },
+          { "ID": 7 }
         ]
       }
     }
@@ -73,6 +78,41 @@
       "ID": 5,
       "Inputs": {
         "ScriptType": "Enemy"
+      }
+    },
+    {
+      "ID": 6,
+      "Inputs": {
+        "ScriptType": "SpawnExplode",
+        "GameObjects": [
+          {
+            "Prefabs": [1],
+            "ID": 1
+          }
+        ]
+      }
+    },
+    {
+      "ID": 7,
+      "Inputs": {
+        "ScriptType": "HealthScript",
+        "MaxHealth": 1,
+        "Health": 1,
+        "IFrame": 1.5,
+        "HitBoxes": [
+          {
+            "Center": [0, 0, 0],
+            "Width": 12,
+            "Height": 12
+          }
+        ],
+        "DamageSources": [
+          {
+            "Tag": ["Pitfall"],
+            "Damage": 100,
+            "IgnoreIFrame": true
+          }
+        ]
       }
     }
   ]
