@@ -31,6 +31,7 @@
     <ClInclude Include="Framework\Engine\BTs\BTs.h" />
     <ClInclude Include="Framework\Engine\BTs\Condition.h" />
     <ClInclude Include="Framework\Engine\BTs\BTMacros.h" />
+    <ClInclude Include="Framework\Engine\BTs\FieldSetter.h" />
     <ClInclude Include="Framework\Engine\BTs\Node.h" />
     <ClInclude Include="Framework\Engine\BTs\ObservePattern.h" />
     <ClInclude Include="Framework\Engine\BTs\ParalelNode.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="Framework\Engine\BTs\BlackBoard.cpp" />
     <ClCompile Include="Framework\Engine\BTs\BTs.cpp" />
     <ClCompile Include="Framework\Engine\BTs\Condition.cpp" />
+    <ClCompile Include="Framework\Engine\BTs\FieldSetter.cpp" />
     <ClCompile Include="Framework\Engine\BTs\Node.cpp" />
     <ClCompile Include="Framework\Engine\BTs\ObservePattern.cpp" />
     <ClCompile Include="Framework\Engine\BTs\ParalelNode.cpp" />

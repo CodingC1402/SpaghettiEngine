@@ -211,6 +211,7 @@
     <ClCompile Include="Crouching.cpp" />
     <ClCompile Include="DeadAnimationScript.cpp" />
     <ClCompile Include="DebugControl.cpp" />
+    <ClCompile Include="DistanceAnimator.cpp" />
     <ClCompile Include="DropBombScript.cpp" />
     <ClCompile Include="ElectricScript.cpp" />
     <ClCompile Include="ElectricSpawn.cpp" />
@@ -223,6 +224,7 @@
     <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="ItemBase.cpp" />
+    <ClCompile Include="MovingTrapDoor.cpp" />
     <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="PlayerScoreBoard.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
@@ -257,6 +259,7 @@
     <ClInclude Include="Crouching.h" />
     <ClInclude Include="DeadAnimationScript.h" />
     <ClInclude Include="DebugControl.h" />
+    <ClInclude Include="DistanceAnimator.h" />
     <ClInclude Include="DropBombScript.h" />
     <ClInclude Include="ElectricScript.h" />
     <ClInclude Include="ElectricSpawn.h" />
@@ -269,6 +272,7 @@
     <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="ItemBase.h" />
+    <ClInclude Include="MovingTrapDoor.h" />
     <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="PlayerScoreBoard.h" />
     <ClInclude Include="SegmentScript.h" />

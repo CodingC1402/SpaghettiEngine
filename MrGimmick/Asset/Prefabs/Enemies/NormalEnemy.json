@@ -23,7 +23,7 @@
                     "ID": 4,
                     "Type": "Script",
                     "Field": "AnimationTree",
-					          "Value": "Asset/AnimationTree/NormalEnemy.json"
+					"Value": "Asset/AnimationTree/NormalEnemy.json"
                 },
                 {
                     "ID": 1,

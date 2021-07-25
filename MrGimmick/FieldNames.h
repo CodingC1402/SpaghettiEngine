@@ -32,12 +32,12 @@ namespace Fields
 	class DropBombScript
 	{
 	public:
-		static constexpr auto _width = "Width";
-		static constexpr auto _height = "Height";
-		static constexpr auto _center = "Center";
-		static constexpr auto _levelRadius = "LevelRadius";
-		static constexpr auto _totalFanLevel = "TotalFanLevel";
-		static constexpr auto _explodeTime = "ExplodeTime";
+		static constexpr auto _width			= "Width";
+		static constexpr auto _height			= "Height";
+		static constexpr auto _center			= "Center";
+		static constexpr auto _levelRadius		= "LevelRadius";
+		static constexpr auto _totalFanLevel	= "TotalFanLevel";
+		static constexpr auto _explodeTime		= "ExplodeTime";
 	};
 	class DebugControl
 	{
@@ -47,22 +47,30 @@ namespace Fields
 	class DeadAnimationScript
 	{
 	public:
-		static constexpr auto _count = "Count";
-		static constexpr auto _time = "Time";
+		static constexpr auto _count		= "Count";
+		static constexpr auto _time			= "Time";
+		static constexpr auto _distance		= "Distance";
+		static constexpr auto _animation	= "Animation";
+	};
+	class DistanceAnimator
+	{
+	public:
 		static constexpr auto _distance = "Distance";
-		static constexpr auto _animation = "Animation";
+		static constexpr auto _sprites	= "Sprites";
+		static constexpr auto _texture	= "Texture";
+		static constexpr auto _index	= "Index";
 	};
 	class ElectricEnemy {
 	public:
-		static constexpr auto _center = "Center";
-		static constexpr auto _width = "Width";
-		static constexpr auto _height = "Height";
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
 
-		static constexpr auto _moving = "Moving";
+		static constexpr auto _moving	= "Moving";
 		static constexpr auto _electric = "Electric";
 
-		static constexpr auto _isDefend = "IsDefend";
-		static constexpr auto _isCrouching = "IsCrouching";
+		static constexpr auto _isDefend		= "IsDefend";
+		static constexpr auto _isCrouching	= "IsCrouching";
 
 		static constexpr auto _animationTime = "AnimationTime";
 	};

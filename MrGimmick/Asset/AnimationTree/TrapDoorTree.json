@@ -1,0 +1,62 @@
+{
+    "BlackBoard":
+    [
+        {
+            "Name": "Dispatched",
+            "Type": "bool",
+            "Value": false
+        }
+    ],
+
+    "Children":  [
+        {
+            "Type": "Sequence",
+            "Children": [
+                {
+                    "Type": "AnimationNode",
+                    "Input": {
+                        "ID": 50014
+                    }
+                },
+                {
+                    "Type": "BoolCon",
+                    "Input":  {
+                        "Type": "Equal",
+                        "Field": "Dispatched",
+                        "Value": true
+                    },
+                    "Children": [
+                        {
+                            "Type": "AnimationNode",
+                            "Input": {
+                                "ID": 50012
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Type": "Wait",
+                    "Input": {
+                        "Duration": 2000,
+                        "OncePerTick": false
+                    },
+                    "Children": [
+                        {
+                            "Type": "AnimationNode",
+                            "Input": {
+                                "ID": 50013
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Type": "BoolSetter",
+                    "Input":  {
+                        "Field": "Dispatched",
+                        "Value": false
+                    }
+                }
+            ]
+        }
+    ]
+}

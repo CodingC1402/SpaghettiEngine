@@ -146,6 +146,28 @@
   },
 
   {
+    "ID": 50010,
+    "Path": "Asset/Animations/Traps/TrapDoorBallGo.json"
+  },
+  {
+    "ID": 50011,
+    "Path": "Asset/Animations/Traps/TrapDoorBallReturn.json"
+  },
+  {
+    "ID": 50012,
+    "Path": "Asset/Animations/Traps/TrapDoorOpen.json"
+  },
+  {
+    "ID": 50013,
+    "Path": "Asset/Animations/Traps/TrapDoorClose.json"
+  },
+  {
+    "ID": 50014,
+    "Path": "Asset/Animations/Traps/TrapDoorIdle.json"
+  },
+
+
+  {
     "ID": 60001,
     "Path": "Asset/Animations/Treasure/StarBToS.json"
   },
