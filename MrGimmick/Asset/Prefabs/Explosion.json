@@ -22,7 +22,6 @@
     "Scripts": [
 		{
 			"ID": 1,
-			"IsDisabled": true,
 			"Inputs": {
 				"ScriptType": "Animator",
 				"AnimationTree": "Asset/AnimationTree/Explosion.json",
@@ -33,7 +32,7 @@
 			"ID": 2,
 			"Inputs": {
                 "ScriptType": "AutoCallDestroy",
-                "Delay": 2
+                "Delay": 0.6
 			}
 		}
     ]

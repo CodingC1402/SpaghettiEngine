@@ -109,8 +109,7 @@
         "DamageSources": [
           {
             "Tag": ["Pitfall"],
-            "Damage": 100,
-            "IgnoreIFrame": true
+            "Damage": 100
           }
         ]
       }

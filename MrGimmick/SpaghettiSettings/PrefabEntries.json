@@ -13,6 +13,11 @@
   },
 
   {
+    "ID": 901,
+    "Path": "Asset/Prefabs/Items/MaxHealthPotion.json"
+  },
+
+  {
     "ID": 91100,
     "Path": "Asset/Prefabs/Items/Treasure1.json"
   },

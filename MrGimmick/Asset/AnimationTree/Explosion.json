@@ -3,10 +3,30 @@
     ],
     "Children": [
         {
-            "Type": "AnimationNode",
-            "Input": {
-              "ID": 20003
-            }
+            "Type": "Sequence",
+            "Children": [
+                {
+                    "Type": "AnimationNode",
+                    "Input": {
+                      "ID": 20003
+                    }
+                },
+                {
+                    "Type": "Wait",
+                    "Input": {
+                      "Duration": 1000,
+                      "OncePerTick": false
+                    },
+                    "Children": [
+                        {
+                            "Type": "AnimationNode",
+                            "Input": {
+                              "ID": 20003
+                            }
+                        }
+                    ]
+                }
+            ]
         }
     ]
   }
