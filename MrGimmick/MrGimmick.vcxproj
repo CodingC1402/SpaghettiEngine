@@ -238,6 +238,7 @@
     <ClCompile Include="SearchingLeaf.cpp" />
     <ClCompile Include="SegmentTrigger.cpp" />
     <ClCompile Include="ShootScript.cpp" />
+    <ClCompile Include="SoundTriggerBox.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="StarCreation.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="SearchingLeaf.h" />
     <ClInclude Include="SegmentTrigger.h" />
     <ClInclude Include="ShootScript.h" />
+    <ClInclude Include="SoundTriggerBox.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="StarCreation.h" />
