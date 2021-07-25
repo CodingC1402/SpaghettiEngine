@@ -9,21 +9,31 @@ void SoundManager::OnStart()
 	//{
 	//	GetGameObject()->GetScriptContainer().AddItem(sound.second);
 	//}
-
-	GetGameObject()->GetScriptContainer().IteratingWithLamda(
-		[&](PScriptBase script) {
-			if (script->GetType() == TYPE_NAME(SoundSource))
+	for (auto script : GetGameObject()->GetScriptContainer().GetAllItem())
+	{
+		if (script->GetType() == TYPE_NAME(SoundSource))
+		{
+			auto it = _soundSources.find(script->GetName());
+			if (_soundSources.end() != it)
 			{
-				for (auto sound : _soundSources)
-				{
-					if (script->GetName() == sound.first)
-					{
-						sound.second = dynamic_cast<SoundSource*>(script);
-						break;
-					}
-				}
+				it->second = dynamic_cast<SoundSource*>(script);
 			}
-		});
+		}
+	}
+	//GetGameObject()->GetScriptContainer().IteratingWithLamda(
+	//	[&](PScriptBase script) {
+	//		if (script->GetType() == TYPE_NAME(SoundSource))
+	//		{
+	//			for (auto sound : _soundSources)
+	//			{
+	//				if (script->GetName() == sound.first)
+	//				{
+	//					sound.second = dynamic_cast<SoundSource*>(script);
+	//					break;
+	//				}
+	//			}
+	//		}
+	//	});
 }
 
 void SoundManager::OnDisabled()
