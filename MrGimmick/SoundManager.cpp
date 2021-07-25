@@ -5,10 +5,6 @@ REGISTER_FINISH(SoundManager, ScriptBase) {}
 
 void SoundManager::OnStart()
 {
-	//for (auto sound : _soundSources)
-	//{
-	//	GetGameObject()->GetScriptContainer().AddItem(sound.second);
-	//}
 	for (auto script : GetGameObject()->GetScriptContainer().GetAllItem())
 	{
 		if (script->GetType() == TYPE_NAME(SoundSource))
@@ -20,27 +16,14 @@ void SoundManager::OnStart()
 			}
 		}
 	}
-	//GetGameObject()->GetScriptContainer().IteratingWithLamda(
-	//	[&](PScriptBase script) {
-	//		if (script->GetType() == TYPE_NAME(SoundSource))
-	//		{
-	//			for (auto sound : _soundSources)
-	//			{
-	//				if (script->GetName() == sound.first)
-	//				{
-	//					sound.second = dynamic_cast<SoundSource*>(script);
-	//					break;
-	//				}
-	//			}
-	//		}
-	//	});
 }
 
 void SoundManager::OnDisabled()
 {
 	for (auto sound : _soundSources)
 	{
-		sound.second->Disable();
+		if (sound.second)
+			sound.second->Disable();
 	}
 }
 
@@ -48,7 +31,7 @@ void SoundManager::Load(nlohmann::json& input)
 {
 	for (auto sound : input[Fields::SoundManager::_sounds])
 	{
-		SoundSource* s = dynamic_cast<SoundSource*>(GetOwner()->CreateScriptBase(Fields::SoundManager::_soundSource, true));
+		SoundSource* s = dynamic_cast<SoundSource*>(GetOwner()->CreateScriptBase(Fields::SoundManager::_soundSource, false));
 		s->Load(sound);
 		s->SetName(sound[Fields::SoundManager::_soundName].get<std::string>());
 

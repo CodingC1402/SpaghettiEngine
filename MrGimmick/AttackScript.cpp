@@ -6,6 +6,7 @@
 #include "PlayerScript.h"
 #include "Graphics.h"
 #include "PhysicCollide.h"
+#include "PlayerSound.h"
 
 constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 REGISTER_FINISH(AttackScript, ScriptBase) {}
@@ -115,8 +116,10 @@ void AttackScript::Throw(const Vector3& _playerVel, bool isFliped)
 		GetGameObject()->CallDestroy();
 		return;
 	}
+	
+	PlayerSound::GetCurrentPlayerSound()->PlayAttackSound();
 	GetGameObject()->BecomeRootObject();
-
+	
 	_counterStarted = true;
 	_countUsable = false;
 

@@ -5,7 +5,7 @@ REGISTER_FINISH(PlayerSound, BaseSoundScript) {}
 
 void PlayerSound::OnStart()
 {
-	__currentInstance = std::dynamic_pointer_cast<PlayerSound>(GetSharedPtr());
+	//__currentInstance = std::dynamic_pointer_cast<PlayerSound>(GetSharedPtr());
 	BaseSoundScript::OnStart();
 	PlayMusic();
 }
@@ -18,6 +18,11 @@ void PlayerSound::OnEnabled()
 void PlayerSound::OnDisabled()
 {
 	__currentInstance.reset();
+	StopMusic();
+	StopJumpSound();
+	StopLandingSound();
+	StopStarCreateSound();
+	StopAttackSound();
 }
 
 void PlayerSound::PlayMusic()

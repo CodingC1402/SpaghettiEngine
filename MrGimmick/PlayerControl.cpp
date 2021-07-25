@@ -2,6 +2,7 @@
 #include "InputSystem.h"
 #include "InputAll.h"
 #include "FieldNames.h"
+#include "PlayerSound.h"
 
 REGISTER_FINISH(PlayerControl, ScriptBase) {}
 
@@ -30,7 +31,14 @@ void PlayerControl::OnUpdate()
 		_moveScript->StopMoveRight();
 
 	if (_jump->CheckKeyPress())
+	{
 		_moveScript->StartJump();
+
+		if (_moveScript->IsAllowJump() && _moveScript->GetGrounded())
+		{
+			PlayerSound::GetCurrentPlayerSound()->PlayJumpSound();
+		}
+	}
 	else if (_jump->CheckKeyRelease())
 		_moveScript->StopJump();
 }

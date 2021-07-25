@@ -18,6 +18,7 @@ public:
 	void OnEnabled() override;
 	void OnDisabled() override;
 	void OnUpdate() override;
+	void OnCollide(CollideEvent& e);
 	ScriptBase* Clone() const override;
 
 	void TookDamage(const int& health, const int& delta);

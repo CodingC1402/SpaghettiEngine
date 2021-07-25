@@ -60,6 +60,14 @@ void PlayerScript::OnUpdate()
     }
 }
 
+void PlayerScript::OnCollide(CollideEvent& e)
+{
+    //if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlatformTag())
+    //{
+    //    PlayerSound::GetCurrentPlayerSound()->PlayLandingSound();
+    //}
+}
+
 ScriptBase* PlayerScript::Clone() const
 {
     auto clone = dynamic_cast<PlayerScript*>(ScriptBase::Clone());
