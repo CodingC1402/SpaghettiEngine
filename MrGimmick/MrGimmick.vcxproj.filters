@@ -155,6 +155,12 @@
     <ClCompile Include="SingleUseSegmentScript.cpp">
       <Filter>StaticObjects</Filter>
     </ClCompile>
+    <ClCompile Include="MovingTrapDoor.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="DistanceAnimator.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -282,6 +288,12 @@
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="SingleUseSegmentScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingTrapDoor.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DistanceAnimator.h">
       <Filter>StaticObjects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -51,31 +51,11 @@ void MovableScript::OnFixedUpdate() {
 	}
 
 	auto delta = _des - GetWorldTransform();
-	if (delta.Dot(_deltas[_currentIndex] * static_cast<float>(_factor)) < 0 && _isLoop)
+	if (delta.Dot(_deltas[_currentIndex] * static_cast<float>(_factor)) <= 0)
 	{
 		// positional correction
 		GetGameObject()->GetTransform().Translate(delta);
-
-		_currentIndex += _factor;
-		if (_currentIndex < 0)
-		{
-			_factor = 1;
-			_currentIndex = 0;
-		}
-		else if (_currentIndex == _deltas.size())
-		{
-			_factor = -1;
-			_currentIndex = static_cast<int>(_deltas.size()) - 1;
-		}
-
-		_des = _deltas[_currentIndex] * static_cast<float>(_factor) + GetWorldTransform();
-		_direction = _deltas[_currentIndex].GetUnitVector();
-
-		if (!SMath::CompareFloat(_delay, 0))
-		{
-			_isInDelay = true;
-			return;
-		}
+		Arrived();
 	}
 	else
 	{
@@ -85,8 +65,42 @@ void MovableScript::OnFixedUpdate() {
 
 void MovableScript::OnStart()
 {
-	_des = _deltas[_currentIndex];
-	_direction = _des.GetUnitVector();
+	if (_isLoop)
+	{
+		_des = _deltas[_currentIndex];
+		_direction = _des.GetUnitVector();
+	}
+	else
+	{
+		_factor = -1;
+		_direction = (_deltas[_currentIndex]).GetUnitVector() * -1;
+	}
+}
+
+void MovableScript::AddArrivedEvent(const std::function<void(const Vector3& destination)>& fun)
+{
+	_delegate.push_back(fun);
+}
+
+void MovableScript::ClearEvent()
+{
+	_delegate.clear();
+}
+
+float MovableScript::GetDelay() const noexcept
+{
+	return _delay;
+}
+
+void MovableScript::Dispatch()
+{
+	_callDispatch = true;
+}
+
+void MovableScript::ForceDispatch()
+{
+	_counter = _delay;
+	Dispatch();
 }
 
 PScriptBase MovableScript::Clone() const
@@ -98,4 +112,40 @@ PScriptBase MovableScript::Clone() const
 	clone->_deltas = std::vector<Vector3>(_deltas);
 
 	return clone;
+}
+
+void MovableScript::Arrived()
+{
+	if (_needToCallEvent)
+	{
+		for (auto& fun : _delegate)
+			fun(GetWorldTransform());
+		_needToCallEvent = false;
+	}
+
+	if (!(_isLoop || _callDispatch))
+		return;
+
+	_needToCallEvent = true;
+	_callDispatch = false;
+	_currentIndex += _factor;
+	if (_currentIndex < 0)
+	{
+		_factor = 1;
+		_currentIndex = 0;
+	}
+	else if (_currentIndex == _deltas.size())
+	{
+		_factor = -1;
+		_currentIndex = static_cast<int>(_deltas.size()) - 1;
+	}
+
+	_des = _deltas[_currentIndex] * static_cast<float>(_factor) + GetWorldTransform();
+	_direction = _deltas[_currentIndex].GetUnitVector();
+
+	if (!SMath::CompareFloat(_delay, 0))
+	{
+		_isInDelay = true;
+		return;
+	}
 }

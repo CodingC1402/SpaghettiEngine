@@ -33,6 +33,11 @@
   },
 
   {
+    "ID": 80001,
+    "Path": "Asset/Prefabs/Traps/TrapDoor.json"
+  },
+
+  {
     "ID": 10001,
     "Path": "Asset/Prefabs/MainAsset.json"
   },

@@ -48,17 +48,32 @@
 					"Value": false
 				}
 			]
+        },
+        {
+            "ID": 80001,
+            "Changes": [
+				{
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "Transform",
+					"Value": [1858, 83, 0]
+				}
+            ]
         }
     ],
     "GameObjects": [		
         {
             "ID": 1,
-            "IsDisabled": true,
+            "IsDisabled": false,
             "Name": "Stage1",
             "Inputs": {
                 "IsRoot": false,
                 "Tag": "Platform",
                 "GameObjects": [
+                    {
+                        "Prefabs": [3],
+                        "ID": 1
+                    }
                 ],
                 "Transform": [0, 0, 0 ],
                 "Rotation": [ 0, 0, 0 ],
@@ -250,10 +265,16 @@
                         1984, 128
                     ],
                     [
-                        1840, 128,
-                        1984, 128,
-                        1984, 112,
+                        1840, 176,
+                        1856, 176,
+                        1856, 120,
                         1840, 112
+                    ],
+                    [
+                        1984, 176,
+                        1968, 176,
+                        1968, 120,
+                        1984, 112
                     ],
                     [
                         1792, 128,
