@@ -23,9 +23,6 @@ void HealthScript::OnUpdate()
 
 void HealthScript::OnFixedUpdate()
 {
-	if (_coolDown > 0)
-		return;
-
 	std::set<GameObj*> collideSet;
 	for (auto& rect : _hitBoxes)
 	{
@@ -50,24 +47,30 @@ void HealthScript::OnFixedUpdate()
 			);
 		}
 	}
+
 	if (collideSet.empty())
 		return;
 
+	bool tookDamage = false;
 	for (auto& source : _damageSources)
 	{
-		for (auto& obj : collideSet)
+		if (_coolDown <= 0 || source._ignoreIFrame)
 		{
-			if (obj->GetTag().Contain(source.first))
+			for (auto& obj : collideSet)
 			{
-				_coolDown = _iFrame;
-				_health -= source.second;
-				for (auto& fun : _healthDelegates)
-					fun(_health, -static_cast<int>(source.second));
-				break;
+				if (obj->GetTag().Contain(source._tag))
+				{
+					_coolDown = _iFrame;
+					_health -= source._damage;
+					tookDamage = true;
+					for (auto& fun : _healthDelegates)
+						fun(_health, -static_cast<int>(source._damage));
+					break;
+				}
 			}
+			if (tookDamage)
+				return;
 		}
-		if (_coolDown > 0)
-			return;
 	}
 }
 
@@ -79,8 +82,12 @@ void HealthScript::Load(nlohmann::json& input)
 	_iFrame = input[Fields::HealthScript::_iFrame].get<float>();
 	for (auto& source : input[Fields::HealthScript::_damageSource])
 	{
-		_damageSources.push_back(std::pair(Tag(source[Fields::HealthScript::_tag]), source[Fields::HealthScript::_damage]));
-		_masterTag = _masterTag | _damageSources.back().first;
+		_damageSources.push_back(DamageSource(
+			Tag(source[Fields::HealthScript::_tag]), 
+			source[Fields::HealthScript::_damage].get<unsigned>(),
+			source[Fields::HealthScript::_ignoreIFrame].empty() ? false : source[Fields::HealthScript::_ignoreIFrame].get<bool>()
+		));
+		_masterTag = _masterTag | _damageSources.back()._tag;
 	}
 	for (auto& hitbox : input[Fields::HealthScript::_hitBoxes])
 	{
@@ -172,4 +179,11 @@ void HealthScript::SetMaxHealth(int health) noexcept
 void HealthScript::SetIFrame(float frame) noexcept
 {
 	_iFrame = frame;
+}
+
+HealthScript::DamageSource::DamageSource(const Tag& tag, const unsigned& damage, bool ignoreIFrame)
+{
+	_tag = tag;
+	_damage = damage;
+	_ignoreIFrame = ignoreIFrame;
 }

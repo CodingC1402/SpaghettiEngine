@@ -224,6 +224,7 @@
     <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="ItemBase.cpp" />
+    <ClCompile Include="MaxHealthPotion.cpp" />
     <ClCompile Include="MovingTrapDoor.cpp" />
     <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="PlayerScoreBoard.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="ItemBase.h" />
+    <ClInclude Include="MaxHealthPotion.h" />
     <ClInclude Include="MovingTrapDoor.h" />
     <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="PlayerScoreBoard.h" />

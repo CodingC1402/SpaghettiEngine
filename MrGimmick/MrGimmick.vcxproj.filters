@@ -161,6 +161,7 @@
     <ClCompile Include="DistanceAnimator.cpp">
       <Filter>StaticObjects</Filter>
     </ClCompile>
+    <ClCompile Include="MaxHealthPotion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -296,5 +297,6 @@
     <ClInclude Include="DistanceAnimator.h">
       <Filter>StaticObjects</Filter>
     </ClInclude>
+    <ClInclude Include="MaxHealthPotion.h" />
   </ItemGroup>
 </Project>
