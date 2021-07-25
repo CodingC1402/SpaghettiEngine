@@ -73,7 +73,8 @@ void MovableScript::OnStart()
 	else
 	{
 		_factor = -1;
-		_direction = (_deltas[_currentIndex]).GetUnitVector() * -1;
+		_des = Vector3();
+		_direction = _deltas[_currentIndex] * _factor;
 	}
 }
 

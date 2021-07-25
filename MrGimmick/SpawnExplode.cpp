@@ -9,8 +9,9 @@ void SpawnExplode::OnStart()
 	auto script = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
 	script->AddToHealthEvent(
 		[&](const int& health, const int& delta) {
-			if (health == 0)
+			if (health == 0 && !_stop)
 			{
+				_stop = true;
 				GetOwner()->Instantiate(_prefab, GetWorldTransform());
 				GetGameObject()->Disable();
 				GetGameObject()->CallDestroy();
@@ -30,5 +31,5 @@ ScriptBase* SpawnExplode::Clone() const
 
 	clone->_prefab = _prefab;
 
-	return nullptr;
+	return clone;
 }
