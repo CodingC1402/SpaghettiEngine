@@ -114,7 +114,7 @@ void PlayerScript::Respawn()
     if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
         return;
 
-    PlayerSound::GetCurrentPlayerSound()->PlayMusic();
+    PlayerSound::GetCurrentPlayerSound()->PlayHB();
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
     GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());

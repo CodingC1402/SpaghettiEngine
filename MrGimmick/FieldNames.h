@@ -212,7 +212,11 @@ namespace Fields
 		static constexpr auto _soundName = "SoundName";
 		static constexpr auto _soundSource = "SoundSource";
 		// Sound file name
-		static constexpr auto _music = "Music";
+		// Music
+		static constexpr auto _happyBirthday = "HappyBirthday";
+		static constexpr auto _justFriends = "JustFriends";
+
+		// Character
 		static constexpr auto _jump = "Jump";
 		static constexpr auto _landing= "Landing";
 		static constexpr auto _dead = "Dead";
@@ -222,6 +226,15 @@ namespace Fields
 		static constexpr auto _bounce = "Bounce";
 		static constexpr auto _explode = "Explode";
 
+	};
+	class SoundTriggerBox
+	{
+	public:
+		static constexpr auto _triggers = "Triggers";
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+		static constexpr auto _music = "Music";
 	};
 	class Star
 	{

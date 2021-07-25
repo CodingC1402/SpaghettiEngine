@@ -56,8 +56,16 @@
 						"Volume": 1.0
 					},
 					{
-						"Mixer": 10001,
-						"SoundName": "Music",
+						"Mixer": 10002,
+						"SoundName": "HappyBirthday",
+						"Mode": "Nothing",
+						"IsLoop": true,
+						"Delay": 0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10002,
+						"SoundName": "JustFriends",
 						"Mode": "Nothing",
 						"IsLoop": true,
 						"Delay": 0,

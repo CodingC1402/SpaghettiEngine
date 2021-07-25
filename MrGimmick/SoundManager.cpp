@@ -88,6 +88,16 @@ void SoundManager::Resume(const std::string& name)
 		s->Resume();
 }
 
+bool SoundManager::IsPlaying(const std::string& name)
+{
+	auto s = FindInMapByName(name);
+
+	if (s)
+		return s->IsPlaying();
+
+	return false;
+}
+
 bool SoundManager::IsRepeat(const std::string& name)
 {
 	auto s = FindInMapByName(name);

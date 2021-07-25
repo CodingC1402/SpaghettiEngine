@@ -20,6 +20,7 @@ public:
 	virtual void Stop();
 	virtual void Pause();
 	virtual void Resume();
+	[[nodiscard]] bool IsPlaying();
 
 	[[nodiscard]] bool IsRepeat();
 	void SetRepeat(bool r);

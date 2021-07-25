@@ -34,8 +34,14 @@
 			      "Rotation": [ 0, 0, 0 ],
 			      "Scale": [ 1, 1, 1 ],
             "Scripts": [
+                {
+                  "ID": 1
+                },
               {
-                "ID": 1
+                "ID": 2
+              },
+              {
+                "ID": 3
               }
             ]
         }
@@ -48,11 +54,43 @@
         "ScriptType": "Polygon2DCollider",
         "Polygons": [
           [
-						16, 416,
-						400, 416,
-						400, 400,
-						0, 400
+            16,
+            416,
+            400,
+            416,
+            400,
+            400,
+            0,
+            400
           ]
+        ]
+      }
+    },
+    {
+      "ID": 2,
+      "Inputs": {
+        "ScriptType": "SoundTriggerBox",
+        "Music": "JustFriends",
+        "Triggers": [
+          {
+            "Center": [ 20, 400, 0 ],
+            "Width": 10,
+            "Height": 100
+          }
+        ]
+      }
+    },
+    {
+      "ID": 3,
+      "Inputs": {
+        "ScriptType": "SoundTriggerBox",
+        "Music": "HappyBirthday",
+        "Triggers": [
+          {
+            "Center": [ 100, 400, 0 ],
+            "Width": 10,
+            "Height": 100
+          }
         ]
       }
     }

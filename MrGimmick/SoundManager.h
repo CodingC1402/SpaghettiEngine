@@ -16,6 +16,7 @@ public:
 	void Stop(const std::string& name);
 	void Pause(const std::string& name);
 	void Resume(const std::string& name);
+	[[nodiscard]] bool IsPlaying(const std::string& name);
 
 	[[nodiscard]] bool IsRepeat(const std::string& name);
 	void SetRepeat(bool r, const std::string& name);

@@ -3,17 +3,24 @@
 #include "FieldNames.h"
 #include "PhysicCollide.h"
 #include "PlayerScript.h"
+#include "PlayerSound.h"
 #include "Setting.h"
 
 REGISTER_FINISH(SoundTriggerBox, ScriptBase) {}
-SoundTriggerBox* SoundTriggerBox::__currentScript = nullptr;
 
-constexpr unsigned BoundingBoxColor = 0xFFFFCC00;
+// Convert enum from json
+NLOHMANN_JSON_SERIALIZE_ENUM(SoundTriggerBox::Music, {
+{SoundTriggerBox::Music::HappyBirthday, Fields::SoundManager::_happyBirthday},
+{SoundTriggerBox::Music::JustFriends, Fields::SoundManager::_justFriends}
+	})
+
+//SoundTriggerBox* SoundTriggerBox::__currentScript = nullptr;
+
 constexpr unsigned TriggerZoneColor = 0xFFFF00FA;
 
 void SoundTriggerBox::OnFixedUpdate()
 {
-	_isPlayerInside = false;
+	//_isPlayerInside = false;
 	std::set<GameObj*> objList;
 	for (auto& rect : _triggerZones)
 	{
@@ -28,9 +35,10 @@ void SoundTriggerBox::OnFixedUpdate()
 		);
 		if (!objList.empty())
 		{
-			_isPlayerInside = true;
-			if ((__currentScript && !__currentScript->_isPlayerInside) || !__currentScript)
-				__currentScript = this;
+			PlayMusic();
+			//_isPlayerInside = true;
+			//if ((__currentScript && !__currentScript->_isPlayerInside) || !__currentScript)
+			//	__currentScript = this;
 			break;
 		}
 	}
@@ -53,8 +61,8 @@ void SoundTriggerBox::OnFixedUpdate()
 
 void SoundTriggerBox::OnDisabled()
 {
-	if (__currentScript == this)
-		__currentScript = nullptr;
+	//if (__currentScript == this)
+	//	__currentScript = nullptr;
 }
 
 void SoundTriggerBox::Load(nlohmann::json& input)
@@ -62,12 +70,39 @@ void SoundTriggerBox::Load(nlohmann::json& input)
 	Vector3 center;
 	float	width;
 	float	height;
-	for (auto& trigger : input[Fields::CameraBoundingBox::_triggers])
+
+	_musicTrack = input[Fields::SoundTriggerBox::_music].get<Music>();
+
+	for (auto& trigger : input[Fields::SoundTriggerBox::_triggers])
 	{
-		center = trigger[Fields::CameraBoundingBox::_center];
-		width = trigger[Fields::CameraBoundingBox::_width].get<float>();
-		height = trigger[Fields::CameraBoundingBox::_height].get<float>();
+		center = trigger[Fields::SoundTriggerBox::_center];
+		width = trigger[Fields::SoundTriggerBox::_width].get<float>();
+		height = trigger[Fields::SoundTriggerBox::_height].get<float>();
 
 		_triggerZones.push_back(CRectangle(center, width, height));
+	}
+}
+
+void SoundTriggerBox::PlayMusic()
+{
+	auto soundPlayer = PlayerSound::GetCurrentPlayerSound();
+	switch (_musicTrack)
+	{
+	case SoundTriggerBox::HappyBirthday:
+		if (!soundPlayer->IsPlayingHB())
+		{
+			soundPlayer->StopAllMusic();
+			soundPlayer->PlayHB();
+		}
+		break;
+	case SoundTriggerBox::JustFriends:
+		if (!soundPlayer->IsPlayingJF())
+		{
+			soundPlayer->StopAllMusic();
+			soundPlayer->PlayJF();
+		}
+		break;
+	default:
+		break;
 	}
 }

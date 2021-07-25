@@ -7,7 +7,7 @@ void PlayerSound::OnStart()
 {
 	//__currentInstance = std::dynamic_pointer_cast<PlayerSound>(GetSharedPtr());
 	BaseSoundScript::OnStart();
-	PlayMusic();
+	PlayHB();
 }
 
 void PlayerSound::OnEnabled()
@@ -18,21 +18,47 @@ void PlayerSound::OnEnabled()
 void PlayerSound::OnDisabled()
 {
 	__currentInstance.reset();
-	StopMusic();
+	StopAllMusic();
 	StopJumpSound();
 	StopLandingSound();
 	StopStarCreateSound();
 	StopAttackSound();
 }
 
-void PlayerSound::PlayMusic()
+void PlayerSound::PlayHB()
 {
-	_soundManager->Play(Fields::SoundManager::_music);
+	_soundManager->Play(Fields::SoundManager::_happyBirthday);
 }
 
-void PlayerSound::StopMusic()
+void PlayerSound::StopHB()
 {
-	_soundManager->Stop(Fields::SoundManager::_music);
+	_soundManager->Stop(Fields::SoundManager::_happyBirthday);
+}
+
+bool PlayerSound::IsPlayingHB()
+{
+	return _soundManager->IsPlaying(Fields::SoundManager::_happyBirthday);
+}
+
+void PlayerSound::PlayJF()
+{
+	_soundManager->Play(Fields::SoundManager::_justFriends);
+}
+
+void PlayerSound::StopJF()
+{
+	_soundManager->Stop(Fields::SoundManager::_justFriends);
+}
+
+bool PlayerSound::IsPlayingJF()
+{
+	return _soundManager->IsPlaying(Fields::SoundManager::_justFriends);
+}
+
+void PlayerSound::StopAllMusic()
+{
+	StopHB();
+	StopJF();
 }
 
 void PlayerSound::PlayJumpSound()

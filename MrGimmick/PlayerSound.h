@@ -10,8 +10,15 @@ public:
 	void OnEnabled() override;
 	void OnDisabled() override;
 
-	void PlayMusic();
-	void StopMusic();
+	void PlayHB();
+	void StopHB();
+	bool IsPlayingHB();
+
+	void PlayJF();
+	void StopJF();
+	bool IsPlayingJF();
+
+	void StopAllMusic();
 
 	void PlayJumpSound();
 	void StopJumpSound();

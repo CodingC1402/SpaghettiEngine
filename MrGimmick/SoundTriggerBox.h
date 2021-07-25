@@ -7,22 +7,25 @@ class SoundTriggerBox : public ScriptBase
 public:
 	enum Music
 	{
-		HB,
-		A
+		HappyBirthday,
+		JustFriends
 	};
 public:
 	void OnFixedUpdate() override;
-
 	void OnDisabled() override;
 	void Load(nlohmann::json& input) override;
+
+	void PlayMusic();
 private:
 	// Trigger area
 	std::vector<CRectangle> _triggerZones;
 
-	// Use to make sure that the script don't switch on and off when collide with player at the same time
-	bool _isPlayerInside = false;
+	Music _musicTrack;
 
-	static SoundTriggerBox* __currentScript;
+	// Use to make sure that the script don't switch on and off when collide with player at the same time
+	//bool _isPlayerInside = false;
+
+	//static SoundTriggerBox* __currentScript;
 	REGISTER_START(SoundTriggerBox);
 };
 

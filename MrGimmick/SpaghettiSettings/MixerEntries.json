@@ -2,5 +2,9 @@
   {
     "ID": 10001,
     "Path": "Asset/Audio/Player/Player.json"
+  },
+  {
+    "ID": 10002,
+    "Path": "Asset/Audio/Music/Music.json"
   }
 ]

@@ -138,6 +138,11 @@ void SoundSource::Resume()
 	_audio->ResumeChannelInSoundAt(index, _channel);
 }
 
+bool SoundSource::IsPlaying()
+{
+	return _audio->IsChannelPlayingInSoundAt(index, _channel);
+}
+
 bool SoundSource::IsRepeat()
 {
 	return isRepeat;
