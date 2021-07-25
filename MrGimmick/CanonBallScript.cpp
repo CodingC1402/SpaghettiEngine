@@ -27,11 +27,7 @@ void CanonBallScript::DisableBeforeExplode()
 	_explodedField.lock()->SetValue(true);
 	_rbBody->Disable();
 	_polyCollider->Disable();
-	GetGameObject()->GetChildContainer().IteratingWithLamda(
-		[&](PGameObj obj) {
-			obj->Disable();
-		}
-	);
+	GetGameObject()->GetChildContainer().DisableAll();
 }
 
 void CanonBallScript::OnUpdate()

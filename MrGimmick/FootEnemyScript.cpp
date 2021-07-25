@@ -25,18 +25,14 @@ void FootEnemyScript::Died()
 	_isDead.lock()->SetValue(true);
 	_destroyCounter = _destroyDelay;
 
-	GetGameObject()->GetScriptContainer().IteratingWithLamda(
-		[&](PScriptBase script) {
-			if (!(script == this || script == _animator || script == _rb))
-				script->Disable();
-		}
-	);
-	GetGameObject()->GetChildContainer().IteratingWithLamda(
-		[&](PGameObj obj) {
-			obj->Disable();
-		}
-	);
+	auto scripts = GetGameObject()->GetScriptContainer().GetAllItem();
+	for (auto& script : scripts)
+	{
+		if (!(script == this || script == _animator || script == _rb))
+			script->Disable();
+	}
 
+	GetGameObject()->GetChildContainer().DisableAll();
 	PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
 }
 

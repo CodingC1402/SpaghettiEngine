@@ -104,6 +104,19 @@ void ScriptContainer::RemoveItemsType(const std::string& type)
 	}
 }
 
+void ScriptContainer::DisableAll()
+{
+	auto scripts = GetAllItem();
+	for (auto& script : scripts)
+		script->Disable();
+}
+
+void ScriptContainer::EnableAll()
+{
+	auto scripts = GetAllItem();
+	for (auto& script : scripts)
+		script->Enable();
+}
 void ScriptContainer::RemoveScript(PScriptBase object)
 {
 	object->_ownerObj = nullptr;

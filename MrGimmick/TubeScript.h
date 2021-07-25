@@ -41,7 +41,7 @@ private:
 	bool _stopPoint1TillNoPlayer = false;
 	bool _stopPoint2TillNoPlayer = false;
 
-	bool _isPlayerInTube;
+	bool _isPlayerInTube = false;
 	float _speed = 0;
 	std::vector<Vector3> _path;
 	std::list<TubePackage> _packages;
