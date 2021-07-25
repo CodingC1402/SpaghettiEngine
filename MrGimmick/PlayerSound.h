@@ -6,6 +6,7 @@ CLASS_FORWARD_DECLARATION(PlayerSound);
 class PlayerSound : public BaseSoundScript
 {
 public:
+	void OnStart() override;
 	void OnEnabled() override;
 	void OnDisabled() override;
 

@@ -183,6 +183,7 @@ PScriptBase SoundSource::Clone() const
 	auto clone = dynamic_cast<SoundSource*>(ScriptBase::Clone());
 
 	clone->_audio = _audio;
+	clone->mode = mode;
 	clone->index = index;
 	clone->isRepeat = isRepeat;
 	clone->isStop = isStop;

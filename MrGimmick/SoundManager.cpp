@@ -5,6 +5,7 @@ REGISTER_FINISH(SoundManager, ScriptBase) {}
 
 void SoundManager::OnStart()
 {
+	//GetGameObject()->GetScriptContainer().IteratingWithLamda()
 	for (auto sound : _soundSources)
 	{
 		GetGameObject()->GetScriptContainer().AddItem(sound.second);
@@ -25,8 +26,8 @@ void SoundManager::Load(nlohmann::json& input)
 	{
 		SoundSource* s = dynamic_cast<SoundSource*>(GetOwner()->CreateScriptBase(Fields::SoundManager::_soundSource, true));
 		s->Load(sound);
-
-		_soundSources.insert(std::make_pair(sound[Fields::SoundManager::_soundName].get<std::string>(), s));
+		s->SetName(sound[Fields::SoundManager::_soundName].get<std::string>());
+		//_soundSources.insert(std::make_pair(sound[Fields::SoundManager::_soundName].get<std::string>(), s));
 	}
 }
 
