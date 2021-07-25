@@ -25,6 +25,9 @@
     <Filter Include="UI">
       <UniqueIdentifier>{cceed043-a865-438a-a47c-7b270747f3c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Item">
+      <UniqueIdentifier>{7e6ba6ca-3c08-4e7f-9954-e2c5c97fe18b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EnemyJumpScript.cpp">
@@ -85,7 +88,6 @@
       <Filter>Character</Filter>
     </ClCompile>
     <ClCompile Include="FieldNames.cpp" />
-    <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="CollideTopScript.cpp">
       <Filter>Character</Filter>
     </ClCompile>
@@ -157,6 +159,39 @@
     </ClCompile>
     <ClCompile Include="SoundTriggerBox.cpp">
       <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInventory.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBase.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Treasure.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleUseSegmentScript.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingTrapDoor.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="DistanceAnimator.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoCallDestroy.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="PitfallScript.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MaxHealthPotion.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnExplode.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +324,36 @@
     </ClInclude>
     <ClInclude Include="SoundTriggerBox.h">
       <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInventory.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBase.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Treasure.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleUseSegmentScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingTrapDoor.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="DistanceAnimator.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoCallDestroy.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="PitfallScript.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MaxHealthPotion.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnExplode.h">
+      <Filter>Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

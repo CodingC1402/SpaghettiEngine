@@ -92,7 +92,7 @@ void AttackScript::Explode()
 	_rbBody->Disable();
 	_polyCollider->Disable();
 	// disable all child. 
-	GetGameObject()->GetChildContainer().IteratingWithLamda([](PGameObj obj) {obj->Disable(); });
+	GetGameObject()->GetChildContainer().DisableAll();
 	_exploded = true;
 }
 

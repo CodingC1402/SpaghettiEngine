@@ -32,29 +32,45 @@ namespace Fields
 	class DropBombScript
 	{
 	public:
-		static constexpr auto _width = "Width";
-		static constexpr auto _height = "Height";
-		static constexpr auto _center = "Center";
-		static constexpr auto _levelRadius = "LevelRadius";
-		static constexpr auto _totalFanLevel = "TotalFanLevel";
-		static constexpr auto _explodeTime = "ExplodeTime";
+		static constexpr auto _width			= "Width";
+		static constexpr auto _height			= "Height";
+		static constexpr auto _center			= "Center";
+		static constexpr auto _levelRadius		= "LevelRadius";
+		static constexpr auto _totalFanLevel	= "TotalFanLevel";
+		static constexpr auto _explodeTime		= "ExplodeTime";
 	};
 	class DebugControl
 	{
 	public:
 		static constexpr auto _debugFlySpeed = "FlySpeed";
 	};
+	class DeadAnimationScript
+	{
+	public:
+		static constexpr auto _count		= "Count";
+		static constexpr auto _time			= "Time";
+		static constexpr auto _distance		= "Distance";
+		static constexpr auto _animation	= "Animation";
+	};
+	class DistanceAnimator
+	{
+	public:
+		static constexpr auto _distance = "Distance";
+		static constexpr auto _sprites	= "Sprites";
+		static constexpr auto _texture	= "Texture";
+		static constexpr auto _index	= "Index";
+	};
 	class ElectricEnemy {
 	public:
-		static constexpr auto _center = "Center";
-		static constexpr auto _width = "Width";
-		static constexpr auto _height = "Height";
+		static constexpr auto _center	= "Center";
+		static constexpr auto _width	= "Width";
+		static constexpr auto _height	= "Height";
 
-		static constexpr auto _moving = "Moving";
+		static constexpr auto _moving	= "Moving";
 		static constexpr auto _electric = "Electric";
 
-		static constexpr auto _isDefend = "IsDefend";
-		static constexpr auto _isCrouching = "IsCrouching";
+		static constexpr auto _isDefend		= "IsDefend";
+		static constexpr auto _isCrouching	= "IsCrouching";
 
 		static constexpr auto _animationTime = "AnimationTime";
 	};
@@ -116,6 +132,7 @@ namespace Fields
 		static constexpr auto _health		= "Health";
 		static constexpr auto _iFrame		= "IFrame";
 		static constexpr auto _damageSource = "DamageSources";
+		static constexpr auto _ignoreIFrame = "IgnoreIFrame";
 		static constexpr auto _tag			= "Tag";
 		static constexpr auto _damage		= "Damage";
 		static constexpr auto _hitBoxes		= "HitBoxes";
@@ -182,6 +199,7 @@ namespace Fields
 	{
 	public:
 		static constexpr auto _live = "Live";
+		static constexpr auto _newLive = "NewLive";
 		static constexpr auto _minDelta = "MinDelta";
 		static constexpr auto _increaseRate = "Rate";
 	};
@@ -195,14 +213,6 @@ namespace Fields
 	public:
 		static constexpr auto _delta = "Delta";
 		static constexpr auto _delay = "Delay";
-	};
-	class DeadAnimationScript
-	{
-	public:
-		static constexpr auto _count = "Count";
-		static constexpr auto _time = "Time";
-		static constexpr auto _distance = "Distance";
-		static constexpr auto _animation = "Animation";
 	};
 	class SoundManager
 	{
@@ -267,6 +277,7 @@ namespace Fields
 		static constexpr auto _enenySpawns	= "EnemySpawns";
 		static constexpr auto _index		= "Index";
 		static constexpr auto _position		= "Position";
+		static constexpr auto _singleUse	= "SingleUse";
 	};
 
 	class SpawnPoint
@@ -289,6 +300,17 @@ namespace Fields
 
 		static constexpr auto _path		= "Path";
 		static constexpr auto _speed	= "Speed";
+	};
+	class Treasure
+	{
+	public:
+		static constexpr auto _texture = "Texture";
+		static constexpr auto _animation = "Animation";
+		static constexpr auto _index = "Index";
+		static constexpr auto _SToB = "SToB";
+		static constexpr auto _BToS = "BToS";
+		static constexpr auto _point = "Point";
+		static constexpr auto _positions = "Positions";
 	};
 
 	class SpecialTag

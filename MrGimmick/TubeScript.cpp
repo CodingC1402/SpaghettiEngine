@@ -73,7 +73,7 @@ void TubeScript::OnFixedUpdate()
 					if (package->_index == _path.size())
 						needExit = true;
 					else
-						package->_direction = _path[package->_index] - _path[package->_index - 1];
+						package->_direction = _path[package->_index] - _path[static_cast<long long>(package->_index) - 1];
 				}
 				else
 				{
@@ -128,7 +128,7 @@ void TubeScript::Load(nlohmann::json& input)
 	{
 		_path.push_back(Vector3(
 			input[Fields::TubeScript::_path][i],
-			input[Fields::TubeScript::_path][i + 1],
+			input[Fields::TubeScript::_path][static_cast<long long>(i) + 1],
 			0));
 	}
 }
@@ -244,11 +244,15 @@ TubeScript::TubePackage::TubePackage(GameObj* gameObj, bool isPoint1To2, const s
 	}
 	else
 	{
-		_gameObject->GetChildContainer().IteratingWithLamda([](PGameObj obj) {obj->Disable(); });
-		_gameObject->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
-			if (script->GetType() == TYPE_NAME(Polygon2DCollider))
+		auto objects = _gameObject->GetChildContainer().GetAllItem();
+		for (auto& obj : objects)
+			obj->Disable();
+
+		auto scripts = _gameObject->GetScriptContainer().GetAllItem();
+		for (auto& script : scripts)
+			if (script->GetType() != TYPE_NAME(Animator))
 				script->Disable();
-			});
+
 		if (_gameObject->GetTag().Contain(Fields::SpecialTag::GetEnemyTag()))
 		{
 			auto enemyScript = dynamic_cast<Enemy*>(_gameObject->GetScriptContainer().GetItemType(TYPE_NAME(Enemy)));

@@ -7,6 +7,16 @@
 class HealthScript : public ScriptBase
 {
 public:
+	class DamageSource
+	{
+	public:
+		DamageSource(const Tag& tag, const unsigned& damage, bool ignoreIFrame = false);
+	public:
+		Tag _tag;
+		unsigned _damage = 0;
+		bool _ignoreIFrame = false;
+	};
+public:
 	void OnUpdate() override;
 	void OnFixedUpdate() override;
 	void Load(nlohmann::json& input) override;
@@ -35,7 +45,7 @@ private:
 	float _coolDown = 0;
 
 	std::vector<CRectangle> _hitBoxes;
-	std::vector<std::pair<Tag, unsigned>> _damageSources;
+	std::vector<DamageSource> _damageSources;
 	Tag _masterTag;
 	// Max health and damage
 	std::list<std::function<void(const int&, const int&)>> _healthDelegates;

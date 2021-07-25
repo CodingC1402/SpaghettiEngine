@@ -413,6 +413,9 @@
     <ClInclude Include="Framework\Engine\Containers\TextMap.h">
       <Filter>FrameWork\Engine\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\BTs\FieldSetter.h">
+      <Filter>FrameWork\Engine\BTs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Window\Window.cpp">
@@ -717,6 +720,9 @@
     </ClCompile>
     <ClCompile Include="Framework\Engine\Containers\TextMap.cpp">
       <Filter>FrameWork\Engine\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\BTs\FieldSetter.cpp">
+      <Filter>FrameWork\Engine\BTs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

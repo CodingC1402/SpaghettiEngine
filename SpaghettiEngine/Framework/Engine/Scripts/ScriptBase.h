@@ -47,6 +47,8 @@ struct DerivedRegister : public ScriptFactory {
 #define GET_FIRST_SCRIPT_OF_TYPE_FROM_PARENT(ScriptType) dynamic_cast<ScriptType*>(GetGameObject()->GetParent()->GetScriptContainer().GetItemType(#ScriptType))
 #define GET_FIRST_SCRIPT_OF_TYPE(ScriptType) dynamic_cast<ScriptType*>(GetGameObject()->GetScriptContainer().GetItemType(#ScriptType))
 #define GET_ALL_SCRIPTS_OF_TYPE(ScriptType) GetGameObject()->GetScriptContainer().GetAllItemsType(#ScriptType)
+#define GET_REF_OBJECT(index) dynamic_cast<GameObj*>(GetOwner()->GetComponent(input[LoadingJson::Field::gameObjectsField][index][LoadingJson::Field::idField].get<CULL>()))
+#define GET_REF_SCRIPT(index) dynamic_cast<ScriptBase*>(GetOwner()->GetComponent(input[LoadingJson::Field::scriptsField][index][LoadingJson::Field::idField].get<CULL>()))
 
 class ScriptBase : public BaseComponent
 {

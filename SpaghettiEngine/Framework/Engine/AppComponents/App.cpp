@@ -14,7 +14,7 @@ constexpr float _loopCap = 0.00001f;
 BOOL App::Go()
 {
 	BOOL iResult = -1;
-
+	 
 	try
 	{
 		timer = STimer(Timer::Create());

@@ -3,7 +3,24 @@
     "ID": 99001,
     "Path": "Asset/Prefabs/Hub.json"
   },
+  {
+    "ID": 666,
+    "Path": "Asset/Prefabs/Explosion.json"
+  },
+  {
+    "ID": 999,
+    "Path": "Asset/Prefabs/Traps/Pitfall.json"
+  },
 
+  {
+    "ID": 901,
+    "Path": "Asset/Prefabs/Items/MaxHealthPotion.json"
+  },
+
+  {
+    "ID": 91100,
+    "Path": "Asset/Prefabs/Items/Treasure1.json"
+  },
   {
     "ID": 90101,
     "Path": "Asset/Prefabs/Level1/Segment1.json"
@@ -27,6 +44,11 @@
   {
     "ID": 90106,
     "Path": "Asset/Prefabs/Level1/CastleDoors.json"
+  },
+
+  {
+    "ID": 80001,
+    "Path": "Asset/Prefabs/Traps/TrapDoor.json"
   },
 
   {

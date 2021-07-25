@@ -205,12 +205,14 @@
     <ClCompile Include="AIBTs.cpp" />
     <ClCompile Include="AIScript.cpp" />
     <ClCompile Include="AttackMove.cpp" />
+    <ClCompile Include="AutoCallDestroy.cpp" />
     <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
     <ClCompile Include="Crouching.cpp" />
     <ClCompile Include="DeadAnimationScript.cpp" />
     <ClCompile Include="DebugControl.cpp" />
+    <ClCompile Include="DistanceAnimator.cpp" />
     <ClCompile Include="DropBombScript.cpp" />
     <ClCompile Include="ElectricScript.cpp" />
     <ClCompile Include="ElectricSpawn.cpp" />
@@ -224,6 +226,11 @@
     <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="PlayerSound.cpp" />
+    <ClCompile Include="ItemBase.cpp" />
+    <ClCompile Include="MaxHealthPotion.cpp" />
+    <ClCompile Include="MovingTrapDoor.cpp" />
+    <ClCompile Include="PitfallScript.cpp" />
+    <ClCompile Include="PlayerInventory.cpp" />
     <ClCompile Include="PlayerScoreBoard.cpp" />
     <ClCompile Include="SegmentScript.cpp" />
     <ClCompile Include="MovableScript.cpp" />
@@ -240,11 +247,14 @@
     <ClCompile Include="ShootScript.cpp" />
     <ClCompile Include="SoundTriggerBox.cpp" />
     <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SingleUseSegmentScript.cpp" />
+    <ClCompile Include="SpawnExplode.cpp" />
     <ClCompile Include="SpawnPoint.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="AttackScript.cpp" />
     <ClCompile Include="StarSound.cpp" />
+    <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="TubeScript.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -252,12 +262,14 @@
     <ClInclude Include="AIBTs.h" />
     <ClInclude Include="AIScript.h" />
     <ClInclude Include="AttackMove.h" />
+    <ClInclude Include="AutoCallDestroy.h" />
     <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="ChasingLeaf.h" />
     <ClInclude Include="Crouching.h" />
     <ClInclude Include="DeadAnimationScript.h" />
     <ClInclude Include="DebugControl.h" />
+    <ClInclude Include="DistanceAnimator.h" />
     <ClInclude Include="DropBombScript.h" />
     <ClInclude Include="ElectricScript.h" />
     <ClInclude Include="ElectricSpawn.h" />
@@ -271,6 +283,11 @@
     <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="PlayerSound.h" />
+    <ClInclude Include="ItemBase.h" />
+    <ClInclude Include="MaxHealthPotion.h" />
+    <ClInclude Include="MovingTrapDoor.h" />
+    <ClInclude Include="PitfallScript.h" />
+    <ClInclude Include="PlayerInventory.h" />
     <ClInclude Include="PlayerScoreBoard.h" />
     <ClInclude Include="SegmentScript.h" />
     <ClInclude Include="MovableScript.h" />
@@ -287,11 +304,14 @@
     <ClInclude Include="ShootScript.h" />
     <ClInclude Include="SoundTriggerBox.h" />
     <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SingleUseSegmentScript.h" />
+    <ClInclude Include="SpawnExplode.h" />
     <ClInclude Include="SpawnPoint.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="AttackScript.h" />
     <ClInclude Include="StarSound.h" />
+    <ClInclude Include="Treasure.h" />
     <ClInclude Include="TubeScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

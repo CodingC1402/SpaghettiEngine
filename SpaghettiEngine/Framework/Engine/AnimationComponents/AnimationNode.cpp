@@ -16,8 +16,8 @@ Node::State AnimationNode::Tick()
 
     if (ended)
     {
-        return Node::State::Success;
         Reset();
+        return Node::State::Success;
     }
     else
         return Node::State::Running;

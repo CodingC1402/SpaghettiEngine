@@ -81,14 +81,18 @@ ScriptBase* PlayerScript::Clone() const
 
 void PlayerScript::TookDamage(const int& health, const int& delta)
 {
+    if (delta < 0)
+    {
+        _control->Disable();
+        _attackMoveScript->Disable();
+    }
+
     if (health > 0)
     {
         if (delta < 0)
         {
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
-            _control->Disable();
-            _attackMoveScript->Disable();
 
             auto hurtVelCopy = _hurtVel;
             hurtVelCopy.x *= _moveScript->IsFlipped() ? -1 : 1;
@@ -115,60 +119,50 @@ void PlayerScript::Respawn()
         return;
 
     PlayerSound::GetCurrentPlayerSound()->PlayHB();
+
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();
+
     GetGameObject()->GetTransform().SetWorldTransform(SpawnPoint::GetSpawnPointScript()->GetSpawnPosition());
     auto segment = SpawnPoint::GetSpawnPointScript()->GetSegment();
     segment->Enable();
 
     EnableColliders();
     EnableRigidBody();
+
     _animator->Enable();
+    _control->Enable();
+    _attackMoveScript->Enable();
 
     _healthScript->SetHealth(_healthScript->GetMaxHealth());
 }
 
 void PlayerScript::DisableColliders()
 {
-    GetGameObject()->GetScriptContainer().IteratingWithLamda(
-        [&](PScriptBase script) {
-            if (script->GetType() == TYPE_NAME(Polygon2DCollider))
-            {
-                script->Disable();
-            }
-        }
-    );
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(Polygon2DCollider);
+    for (auto& script : scripts)
+        script->Disable();
 }
 
 void PlayerScript::EnableColliders()
 {
-    GetGameObject()->GetScriptContainer().IteratingWithLamda(
-        [&](PScriptBase script) {
-            if (script->GetType() == TYPE_NAME(Polygon2DCollider))
-            {
-                script->Enable();
-            }
-        }
-    );
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(Polygon2DCollider);
+    for (auto& script : scripts)
+        script->Enable();
 }
 
 void PlayerScript::DisableRigidBody()
 {
-    auto script = GetGameObject()->GetPhysicComponent().GetRigidBody2DScript();
-    if (script)
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(RigidBody2D);
+    for (auto& script : scripts)
         script->Disable();
 }
 
 void PlayerScript::EnableRigidBody()
 {
-    GetGameObject()->GetScriptContainer().IteratingWithLamda(
-        [&](PScriptBase script) {
-            if (script->GetType() == TYPE_NAME(RigidBody2D))
-            {
-                script->Enable();
-            }
-        }
-    );
+    auto scripts = GET_ALL_SCRIPTS_OF_TYPE(RigidBody2D);
+    for (auto& script : scripts)
+        script->Enable();
 }
 
 void PlayerScript::Load(nlohmann::json& input)

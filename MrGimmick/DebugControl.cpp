@@ -29,20 +29,18 @@ void DebugControl::OnUpdate()
 		{
 			_playerControlScript->Disable();
 			_rbScript->Disable();
-			GetGameObject()->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
-				if (script->GetType() == TYPE_NAME(Polygon2DCollider))
-					script->Disable();
-			});
+			auto scripts = GET_ALL_SCRIPTS_OF_TYPE(TYPE_NAME(Polygon2DCollider));
+			for (auto& script : scripts)
+				script->Disable();
 			CameraBoundingBox::TempShutDown();
 		}
 		else
 		{
 			_playerControlScript->Enable();
 			_rbScript->Enable();
-			GetGameObject()->GetScriptContainer().IteratingWithLamda([](PScriptBase script) {
-				if (script->GetType() == TYPE_NAME(Polygon2DCollider))
-					script->Enable();
-			});
+			auto scripts = GET_ALL_SCRIPTS_OF_TYPE(TYPE_NAME(Polygon2DCollider));
+			for (auto& script : scripts)
+				script->Enable();
 			CameraBoundingBox::TurnOn();
 		}
 	}

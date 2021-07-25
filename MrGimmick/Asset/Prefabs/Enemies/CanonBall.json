@@ -56,7 +56,7 @@
 				"ScriptType": "CanonBallScript",
 				"ExplodeTime": 3.5,
 				"ExplodeAnimTime": 0.6,
-				"StartVelocity": [ 100, 0 ]
+				"StartVelocity": [ 200, 0 ]
 			}
 		},
 		{
@@ -82,7 +82,7 @@
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
 				"Mass": 2,
-				"GravityScale": 4,
+				"GravityScale":5,
 				"Material": 40001
 			}
 		},
@@ -111,6 +111,11 @@
 					{
 						"Tag": ["PlayerAttack"],
 						"Damage": 1
+					},
+					{
+						"Tag": ["Pitfall"],
+						"Damage": 100,
+                        "IgnoreIFrame": true
 					}
 				]
             }

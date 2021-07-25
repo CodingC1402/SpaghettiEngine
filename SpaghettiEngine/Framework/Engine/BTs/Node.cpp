@@ -11,6 +11,7 @@
 #include "ServiceNodes.h"
 #include "SkeletonNode.h"
 #include "TrueFalseLeafNode.h"
+#include "FieldSetter.h"
 #pragma endregion
 
 using namespace BTField;

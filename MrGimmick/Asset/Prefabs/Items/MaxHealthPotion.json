@@ -1,0 +1,72 @@
+{
+	"GameObjects": 
+	[
+		{
+			"ID": 1,
+			"Inputs": {
+				"IsRoot": true,
+				"Tag": ["Platform"],
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+                    { "ID": 1 },
+                    { "ID": 2 },
+                    { "ID": 3 },
+                    { "ID": 4 },
+                    { "ID": 5 }
+                ]
+			}
+		}
+	],
+	"Scripts": [
+        {
+            "ID": 1,
+            "Inputs": {
+                "ScriptType": "SpriteRenderer",
+                "DrawLayer": 1,
+                "Texture": 90001,
+                "Index": 1
+            }
+        },
+        {
+            "ID": 2,
+            "Inputs": {
+                "ScriptType": "ItemBase"
+            }
+        },
+        {
+            "ID": 3,
+            "Inputs": {
+                "ScriptType": "MaxHealthPotion",
+                "HealthIncrease": 1
+            }
+        },
+        {
+            "ID": 4,
+            "Inputs": {
+                "ScriptType": "Polygon2DCollider",
+                "Trigger": true,
+                "Polygons": [
+                    [
+                        7, 8,
+                        7, -8,
+                        -7, -8,
+                        -7, 8
+                    ]
+                ]
+            }
+        },
+        {
+            "ID": 5,
+            "Inputs": {
+              "ScriptType": "RigidBody2D",
+              "Mass": 4,
+              "GravityScale": 2,
+              "Material": 30001
+            }
+        }
+	]
+}
