@@ -180,6 +180,7 @@ namespace Fields
 		static constexpr auto _isRunning			= "IsRunning";
 
 		static constexpr auto _reduceSpeed			= "ReduceSpeed";
+		static constexpr auto _maxSpeed				= "MaxSpeed";
 		static constexpr auto _speedCapField		= "SpeedCap";
 		static constexpr auto _jumpStrengthField	= "JumpStrength";
 		static constexpr auto _speedRamUpField		= "SpeedRamUp";

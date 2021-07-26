@@ -65,6 +65,9 @@ protected:
 	float _gsDropFactor = 2; // how much gravity scale drop in 1 sec
 	bool _isJumping = false; // Use to check if it's in a jumping phase
 
+	// For any direction
+	float _maxSpeed = 0.0f;
+
 	bool _isGrounded = false;
 	bool _isAllowJump = true;
 
