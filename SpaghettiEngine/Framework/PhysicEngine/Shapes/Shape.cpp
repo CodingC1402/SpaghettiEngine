@@ -28,6 +28,7 @@ Shape* Shape::Clone() const
 
 	cloneShape->_broadPhase = _broadPhase;
 	cloneShape->_offSetMatrix = _offSetMatrix;
+	cloneShape->_isTriggerOnly = _isTriggerOnly;
 
 	return cloneShape;
 }

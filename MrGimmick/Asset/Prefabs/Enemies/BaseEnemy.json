@@ -110,6 +110,14 @@
 					}
 				],
 				"DamageSources": [
+                    {
+						"Tag": ["FireBall"],
+						"Damage": 2
+					},
+                    {
+						"Tag": ["Bomb"],
+						"Damage": 3
+					},
 					{
 						"Tag": ["PlayerAttack"],
 						"Damage": 1

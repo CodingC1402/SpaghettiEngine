@@ -8,6 +8,7 @@
 #include "Setting.h"
 #include "AttackScript.h"
 #include "SMath.h"
+#include "HealthScript.h"
 
 REGISTER_FINISH(DropBombScript, ScriptBase) {}
 static constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
@@ -26,6 +27,15 @@ void DropBombScript::OnStart()
 			_polyCollider = dynamic_cast<Polygon2DCollider*>(script);
 	}
 	_rbBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
+	auto healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
+	healthScript->AddToHealthEvent(
+		[&](const int& health, const int& delta) {
+			if (health <= 0)
+			{
+				Explode();
+			}
+		}
+	);
 
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 	_explodedField = _animator->GetField<bool>("IsExploded");
@@ -102,12 +112,22 @@ void DropBombScript::OnCollide(CollideEvent& e)
 	}
 	else if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlatformTag() || e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{
-		_rbBody->Disable();
-		_polyCollider->Disable();
-		_afterExplodeCollider->Enable();
-		_explodedField.lock()->SetValue(true);
-		_isStarted = true;
+		Explode();
 	}
+}
+
+void DropBombScript::Explode()
+{
+	if (_exploded)
+		return;
+	_exploded = true;
+
+	_rbBody->Disable();
+	_polyCollider->Disable();
+	_afterExplodeCollider->Enable();
+	_dropField.lock()->SetValue(true);
+	_explodedField.lock()->SetValue(true);
+	_isStarted = true;
 }
 
 void DropBombScript::Load(nlohmann::json& input)

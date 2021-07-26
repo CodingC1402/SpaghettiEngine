@@ -54,6 +54,24 @@
     "Path": "Asset/Animations/SpecialAttacks/HealthPotion/Explode.json"
   },
 
+  {
+    "ID": 40200,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/SmallFire.json"
+  },
+  {
+    "ID": 40201,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/Create.json"
+  },
+  {
+    "ID": 40202,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/Idle.json"
+  },
+  {
+    "ID": 40203,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/Explode.json"
+  },
+
+
 
   {
     "ID": 20000,

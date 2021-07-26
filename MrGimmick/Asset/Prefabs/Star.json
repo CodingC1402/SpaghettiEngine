@@ -62,7 +62,7 @@
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [120, 0],
+				"StartVelocity": [120, 0, 0],
 				"AddSpeed": 0,
 				"CancelZone": {
 					"Center": [0, 0, 0],
