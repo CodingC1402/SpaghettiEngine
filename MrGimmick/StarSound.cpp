@@ -10,12 +10,14 @@ REGISTER_FINISH(StarSound, BaseSoundScript) {}
 
 void StarSound::PlayBounceSound()
 {
+	_soundManager->Play(Fields::SoundManager::_bounceExtra);
 	_soundManager->Play(Fields::SoundManager::_bounce);
 }
 
 void StarSound::StopBounceSound()
 {
 	_soundManager->Stop(Fields::SoundManager::_bounce);
+	_soundManager->Stop(Fields::SoundManager::_bounceExtra);
 }
 
 void StarSound::PlayExplodeSound()

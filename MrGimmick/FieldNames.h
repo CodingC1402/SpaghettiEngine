@@ -235,7 +235,8 @@ namespace Fields
 		static constexpr auto _takeDamage = "TakeDamage";
 
 		static constexpr auto _starCreate = "StarCreate";
-		static constexpr auto _bounce = "Bounce";
+		static constexpr auto _bounce = "Bounce";		
+		static constexpr auto _bounceExtra = "BounceExtra";
 		static constexpr auto _explode = "Explode";
 
 	};

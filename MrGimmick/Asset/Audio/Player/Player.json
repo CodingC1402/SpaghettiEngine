@@ -6,6 +6,7 @@
     "Asset/Audio/Player/StarCreate.wav",
     "Asset/Audio/Player/Explode.wav",
     "Asset/Audio/Player/Bounce.wav",
+    "Asset/Audio/Player/BounceExtra.wav",
     "Asset/Audio/Player/TakeDamage.wav",
     "Asset/Audio/Player/Dead.wav"
   ],

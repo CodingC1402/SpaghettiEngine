@@ -135,6 +135,14 @@
 						"Mode": "Overlap",
 						"IsLoop": false,
 						"Delay": 1.0,
+						"Volume": 0.5
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "BounceExtra",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
 						"Volume": 1.0
 					}
 				]
