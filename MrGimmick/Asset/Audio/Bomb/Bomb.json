@@ -1,0 +1,10 @@
+{
+  "Sounds": [
+    "Asset/Audio/Bomb/Attack.wav",
+    "Asset/Audio/Bomb/Explode.wav",
+    "Asset/Audio/Bomb/Bounce.wav",
+    "Asset/Audio/Bomb/BounceExtra.wav"
+  ],
+  "Frequency": 0.037,
+  "MasterVolume": 0.6
+}

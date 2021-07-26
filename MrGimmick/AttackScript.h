@@ -4,7 +4,7 @@
 #include "Animator.h"
 #include "Polygon2DCollider.h"
 #include "CRectangle.h"
-#include "StarSound.h"
+#include "AttackSound.h"
 #include <vector>
 #include <functional>
 
@@ -32,7 +32,7 @@ protected:
 	RigidBody2D* _rbBody			= nullptr;
 	Animator* _animator				= nullptr;
 	Polygon2DCollider* _polyCollider= nullptr;
-	StarSound* _sound				= nullptr;
+	AttackSound* _sound				= nullptr;
 
 	BoolField _explodedField;
 	CRectangle _cancelZone;

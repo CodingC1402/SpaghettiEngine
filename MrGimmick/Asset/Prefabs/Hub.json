@@ -111,8 +111,8 @@
                                 ],
                                 "Inventory": [
                                     "Bomb",
-                                    "Bomb",
-                                    "Bomb"
+                                    "FireBall",
+                                    "HealthPotion"
                                 ]
                             }
                         ]

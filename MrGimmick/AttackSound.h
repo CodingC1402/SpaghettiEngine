@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseSoundScript.h"
 
-class StarSound : public BaseSoundScript
+class AttackSound : public BaseSoundScript
 {
 public:
 	void PlayBounceSound();
@@ -9,7 +9,11 @@ public:
 
 	void PlayExplodeSound();
 	void StopExplodeSound();
+
+	void PlayAttackSound();
+	void StopAttackSound();
+
 	ScriptBase* Clone() const override;
 private:
-	REGISTER_START(StarSound);
+	REGISTER_START(AttackSound);
 };

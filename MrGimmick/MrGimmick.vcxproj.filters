@@ -154,7 +154,7 @@
     <ClCompile Include="HealthBarScript.cpp">
       <Filter>UI</Filter>
     </ClCompile>
-    <ClCompile Include="StarSound.cpp">
+    <ClCompile Include="AttackSound.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="SoundTriggerBox.cpp">
@@ -355,7 +355,7 @@
     <ClInclude Include="HealthBarScript.h">
       <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="StarSound.h">
+    <ClInclude Include="AttackSound.h">
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="SoundTriggerBox.h">

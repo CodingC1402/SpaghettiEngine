@@ -127,15 +127,7 @@
 				"ScriptType": "SoundManager",
 				"Sounds": [
 					{
-						"Mixer": 10001,
-						"SoundName": "Explode",
-						"Mode": "Overlap",
-						"IsLoop": false,
-						"Delay": 1.0,
-						"Volume": 1.0
-					},
-					{
-						"Mixer": 10001,
+						"Mixer": 10004,
 						"SoundName": "Bounce",
 						"Mode": "Overlap",
 						"IsLoop": false,
@@ -143,8 +135,16 @@
 						"Volume": 1.0
 					},
 					{
-						"Mixer": 10001,
+						"Mixer": 10004,
 						"SoundName": "BounceExtra",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10004,
+						"SoundName": "Attack",
 						"Mode": "Overlap",
 						"IsLoop": false,
 						"Delay": 1.0,
@@ -156,7 +156,7 @@
 		{
 			"ID": 7,
 			"Inputs": {
-				"ScriptType": "StarSound"
+				"ScriptType": "AttackSound"
 			}
 		}
   ]

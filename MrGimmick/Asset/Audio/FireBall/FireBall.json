@@ -1,0 +1,8 @@
+{
+  "Sounds": [
+    "Asset/Audio/FireBall/Attack.wav",
+    "Asset/Audio/FireBall/Explode.wav"
+  ],
+  "Frequency": 0.037,
+  "MasterVolume": 1.0
+}

@@ -6,14 +6,13 @@
 #include "PlayerScript.h"
 #include "Graphics.h"
 #include "PhysicCollide.h"
-#include "PlayerSound.h"
 
 constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 REGISTER_FINISH(AttackScript, ScriptBase) {}
 
 void AttackScript::OnStart()
 {
-	_sound			= GET_FIRST_SCRIPT_OF_TYPE(StarSound);
+	_sound			= GET_FIRST_SCRIPT_OF_TYPE(AttackSound);
 	_polyCollider	= GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
 	_rbBody			= GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 
@@ -86,7 +85,7 @@ void AttackScript::Explode()
 	if (_exploded)
 		return;
 
-	_sound->PlayBounceSound();
+	_sound->PlayExplodeSound();
 	_exploded = true;
 	_counter = 0;
 	_explodedField.lock()->SetValue(true);
@@ -122,7 +121,7 @@ void AttackScript::Throw(const Vector3& _playerVel, bool isFliped)
 		return;
 	}
 	
-	PlayerSound::GetCurrentPlayerSound()->PlayAttackSound();
+	_sound->PlayAttackSound();
 	GetGameObject()->BecomeRootObject();
 	
 	_counterStarted = true;

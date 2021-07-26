@@ -1,0 +1,9 @@
+{
+  "Sounds": [
+    "Asset/Audio/Star/Attack.wav",
+    "Asset/Audio/Star/Bounce.wav",
+    "Asset/Audio/Star/BounceExtra.wav"
+  ],
+  "Frequency": 0.037,
+  "MasterVolume": 0.6
+}

@@ -264,7 +264,7 @@
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="AttackScript.cpp" />
-    <ClCompile Include="StarSound.cpp" />
+    <ClCompile Include="AttackSound.cpp" />
     <ClCompile Include="TrapDoorSound.cpp" />
     <ClCompile Include="Treasure.cpp" />
     <ClCompile Include="TubeScript.cpp" />
@@ -333,7 +333,7 @@
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="AttackScript.h" />
-    <ClInclude Include="StarSound.h" />
+    <ClInclude Include="AttackSound.h" />
     <ClInclude Include="TrapDoorSound.h" />
     <ClInclude Include="Treasure.h" />
     <ClInclude Include="TubeScript.h" />
