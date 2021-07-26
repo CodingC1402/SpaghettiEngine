@@ -53,7 +53,6 @@ public:
 	GameObj(PScene owner, bool isDisabled = false);
 
 	[[nodiscard]] const Tag&		GetTag() const;
-	[[nodiscard]] string			GetName() const;
 	[[nodiscard]] ChildContainer&	GetChildContainer();
 	[[nodiscard]] ScriptContainer&	GetScriptContainer();
 	[[nodiscard]] PGameObj			GetParent() const;
@@ -72,7 +71,6 @@ public:
 
 	// Set parent, can set to nullptr to remove from the gameLoop, to become root object use BecomeRootObject()
 	void SetParent(PGameObj parent);
-	void SetName(const std::string& name);
 	void SetTag(const Tag& tag);
 
 	void Load(nlohmann::json& input) override;
@@ -110,7 +108,6 @@ private:
 
 	bool _loaded = false;
 	Tag _tag;
-	string _name;
 
 	ChildContainer _children;
 	ScriptContainer _scripts;

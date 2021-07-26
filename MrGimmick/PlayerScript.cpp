@@ -17,6 +17,7 @@ void PlayerScript::OnStart()
     _rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
     _moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
     _attackMoveScript = GET_FIRST_SCRIPT_OF_TYPE(AttackMove);
+    _deadAnim = GET_FIRST_SCRIPT_OF_TYPE(DeadAnimationScript);
 
     // Top now when it took damage;
     _healthScript->AddToHealthEvent([&](const int& health, const int& delta) {
@@ -96,6 +97,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     }
     else
     {
+        _deadAnim->Start();
         _respawnCounter = _respawnDelay;
         _animator->Disable();
         DisableColliders();

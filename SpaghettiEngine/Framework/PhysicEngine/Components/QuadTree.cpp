@@ -34,6 +34,10 @@ void QuadTree::Insert(std::deque<Shape*>& shapes)
 	_root = std::make_shared<QTNode>((minY + maxY) / 2.0f, (minX + maxX) / 2.0f, maxX - minX, maxY - minY, QTNode::NodeType::Root);
 	for (auto& shape : shapes)
 	{
+		if (shape->GetBroadPhase().GetHeight() == 0 || shape->GetBroadPhase().GetWidth() == 0)
+		{
+			int i = 100;
+		}
 		_root->Insert(shape);
 	}
 }

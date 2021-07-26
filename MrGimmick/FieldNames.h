@@ -51,6 +51,7 @@ namespace Fields
 		static constexpr auto _time			= "Time";
 		static constexpr auto _distance		= "Distance";
 		static constexpr auto _animation	= "Animation";
+		static constexpr auto _loopTime		= "LoopTime";
 	};
 	class DistanceAnimator
 	{

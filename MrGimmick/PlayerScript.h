@@ -8,6 +8,7 @@
 #include "HealthScript.h"
 #include "AttackMove.h"
 #include "IFrameFlash.h"
+#include "DeadAnimationScript.h"
 
 CLASS_FORWARD_DECLARATION(PlayerScript);
 
@@ -46,6 +47,7 @@ private:
 	MoveScript* _moveScript			= nullptr;
 	RigidBody2D* _rb				= nullptr;
 	HealthScript* _healthScript		= nullptr;
+	DeadAnimationScript* _deadAnim	= nullptr;
 
 	static inline unsigned _score = 0;
 	static inline unsigned _live = 100;

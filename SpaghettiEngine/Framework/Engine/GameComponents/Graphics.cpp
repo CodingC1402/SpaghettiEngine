@@ -53,6 +53,7 @@ void Graphics::SetSpriteTransform(const Matrix4& matrix)
 	{
 		dxMatrix._41 = std::round(dxMatrix._41);
 		dxMatrix._42 = std::round(dxMatrix._42);
+		dxMatrix._43 = std::round(dxMatrix._43);
 	}
 	_turdGraphic->SetRenderTransform(dxMatrix);
 }
@@ -67,6 +68,13 @@ void Graphics::DrawSprite(const SSprite& sprite, const Vector3& center, const Ve
 	RECT srcRect = sprite->GetSourceRect();
 	auto dxCenter = center.ConvertToDxVector();
 	auto dxPos = position.ConvertToDxVector();
+
+	if (Setting::IsWorldPointPixelPerfect())
+	{
+		dxPos.x = std::round(dxPos.x);
+		dxPos.y = std::round(dxPos.y);
+		dxPos.z = std::round(dxPos.z);
+	}
 
 	_turdGraphic->RenderSprite(
 		sprite->GetSource()->GetImage(),

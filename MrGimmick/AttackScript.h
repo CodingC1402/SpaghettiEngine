@@ -23,6 +23,7 @@ public:
 	
 	// Bool is used to know whether the attack have been canceled
 	void AddEvent(const std::function<void(bool)>& newEvent);
+	void AddExplodeEvent(const std::function<void()>& newEvent);
 	void ClearEvent();
 protected:
 	void SetCreated();
@@ -48,6 +49,7 @@ protected:
 
 	Vector3	_startVelocity;
 	std::vector< std::function<void(bool)>> _throwedDelegate;
+	std::vector< std::function<void()>> _explodeDelegate;
 private:
 	REGISTER_START(AttackScript);
 };
