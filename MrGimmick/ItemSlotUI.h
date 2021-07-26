@@ -11,7 +11,8 @@ public:
 	{
 		FireBall,
 		Bomb,
-		HealthPotion
+		HealthPotion,
+		NoItem
 	};
 public:
 	void Draw(Vector3 pos) override;

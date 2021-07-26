@@ -61,6 +61,8 @@ unsigned ItemSlotUI::GetItemCount() const
 
 ItemSlotUI::Item ItemSlotUI::GetFirstItem() const
 {
+	if (_items.empty())
+		return Item::NoItem;
 	return _items.front();
 }
 

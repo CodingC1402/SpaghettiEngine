@@ -75,7 +75,7 @@
         "Center": [0, -70, 0],
         "Width": 16,
         "Height": 150,
-        "ExplodeTime": 0.60,
+        "ExplodeTime": 1,
         "LevelRadius": 50,
         "TotalFanLevel": 3
       }

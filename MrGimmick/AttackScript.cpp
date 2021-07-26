@@ -83,14 +83,13 @@ void AttackScript::Explode()
 {
 	if (_exploded)
 		return;
-
+	_exploded = true;
 	_counter = 0;
 	_explodedField.lock()->SetValue(true);
 	_rbBody->Disable();
 	_polyCollider->Disable();
 	// disable all child. 
 	GetGameObject()->GetChildContainer().DisableAll();
-	_exploded = true;
 }
 
 void AttackScript::Load(nlohmann::json& input)

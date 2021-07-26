@@ -49,7 +49,7 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "MovableScript",
-				"Speed": 10,
+				"Speed": 20,
                 "Delay": 5,
 				"Path": [
 					[  56, 0, 0 ]

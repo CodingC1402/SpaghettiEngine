@@ -41,6 +41,19 @@
     "Path": "Asset/Animations/PlayerDeadOrb.json"
   },
 
+  {
+    "ID": 40101,
+    "Path": "Asset/Animations/SpecialAttacks/HealthPotion/Create.json"
+  },
+  {
+    "ID": 40102,
+    "Path": "Asset/Animations/SpecialAttacks/HealthPotion/Idle.json"
+  },
+  {
+    "ID": 40103,
+    "Path": "Asset/Animations/SpecialAttacks/HealthPotion/Explode.json"
+  },
+
 
   {
     "ID": 20000,
