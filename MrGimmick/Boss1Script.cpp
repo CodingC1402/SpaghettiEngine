@@ -96,8 +96,8 @@ void Boss1Script::OnDisabled()
 	{
 		if (!obj.expired())
 			obj.lock()->CallDestroy();
-		_created.clear();
 	}
+	_created.clear();
 	_healthScript->SetHealth(_healthScript->GetMaxHealth());
 }
 
