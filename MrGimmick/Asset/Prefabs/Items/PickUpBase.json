@@ -5,7 +5,7 @@
 			"ID": 1,
 			"Inputs": {
 				"IsRoot": true,
-				"Tag": ["Platform"],
+				"Tag": ["Pickup"],
 				"GameObjects": [
 				],
 				"Transform": [ 0, 0, 0 ],
@@ -15,8 +15,7 @@
                     { "ID": 1 },
                     { "ID": 2 },
                     { "ID": 3 },
-                    { "ID": 4 },
-                    { "ID": 5 }
+                    { "ID": 4 }
                 ]
 			}
 		}
@@ -34,18 +33,11 @@
         {
             "ID": 2,
             "Inputs": {
-                "ScriptType": "ItemBase"
+                "ScriptType": "Pickups"
             }
         },
         {
             "ID": 3,
-            "Inputs": {
-                "ScriptType": "MaxHealthPotion",
-                "HealthIncrease": 1
-            }
-        },
-        {
-            "ID": 4,
             "Inputs": {
                 "ScriptType": "Polygon2DCollider",
                 "Polygons": [
@@ -59,7 +51,7 @@
             }
         },
         {
-            "ID": 5,
+            "ID": 4,
             "Inputs": {
               "ScriptType": "RigidBody2D",
               "Mass": 4,

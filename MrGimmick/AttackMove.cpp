@@ -5,6 +5,7 @@
 #include "PhysicCollide.h"
 #include "Setting.h"
 #include "DebugRenderer.h"
+#include "PlayerInventory.h"
 
 REGISTER_FINISH(AttackMove, ScriptBase) {}
 static constexpr auto DEBUG_COLOR = 0xFFFF0000;
@@ -12,6 +13,7 @@ static constexpr auto DEBUG_COLOR = 0xFFFF0000;
 void AttackMove::OnStart()
 {
 	_attackKey = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("Attack"));
+	_specialKey = std::dynamic_pointer_cast<InputAll>(InputSystem::GetInput("MoveUp"));
 	_rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
 }
@@ -20,7 +22,15 @@ void AttackMove::OnUpdate()
 {
 	if (_attackKey->CheckKeyPress() && _currentStar.expired())
 	{
-		auto star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
+		PGameObj star = nullptr;
+		if (_specialKey->CheckKeyDown())
+		{
+			star = PlayerInventory::GetInstance()->UseItem();
+		}
+		if (!star)
+			star = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
+		else
+			star->GetTransform().SetWorldTransform(GetWorldTransform() + _appearOffSet);
 
 		_currentStar = std::dynamic_pointer_cast<GameObj>(star->GetSharedPtr());
 		_starScript = dynamic_cast<AttackScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(AttackScript)));

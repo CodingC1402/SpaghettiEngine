@@ -180,6 +180,7 @@ namespace Fields
 		static constexpr auto _isRunning			= "IsRunning";
 
 		static constexpr auto _reduceSpeed			= "ReduceSpeed";
+		static constexpr auto _maxSpeed				= "MaxSpeed";
 		static constexpr auto _speedCapField		= "SpeedCap";
 		static constexpr auto _jumpStrengthField	= "JumpStrength";
 		static constexpr auto _speedRamUpField		= "SpeedRamUp";
@@ -201,6 +202,7 @@ namespace Fields
 		static constexpr auto _live = "Live";
 		static constexpr auto _newLive = "NewLive";
 		static constexpr auto _minDelta = "MinDelta";
+		static constexpr auto _maxDelta = "MaxDelta";
 		static constexpr auto _increaseRate = "Rate";
 	};
 	class Platform
@@ -265,6 +267,7 @@ namespace Fields
 		static constexpr auto _startVelocity	= "StartVelocity";
 		static constexpr auto _maxDistance		= "MaxDistance";
 		static constexpr auto _cancelZone		= "CancelZone";
+		static constexpr auto _addSpeed			= "AddSpeed";
 
 		static constexpr auto _createTime		= "CreateTime";
 		static constexpr auto _smallStarAnim	= "SmallStarAnim";

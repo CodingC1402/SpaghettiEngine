@@ -33,6 +33,7 @@ protected:
 
 	Vector3			_appearOffSet;
 	SInputAll		_attackKey;
+	SInputAll		_specialKey;
 private:
 	REGISTER_START(AttackMove);
 };

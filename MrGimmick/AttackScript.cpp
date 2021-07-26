@@ -87,13 +87,13 @@ void AttackScript::Explode()
 		return;
 
 	_sound->PlayBounceSound();
+	_exploded = true;
 	_counter = 0;
 	_explodedField.lock()->SetValue(true);
 	_rbBody->Disable();
 	_polyCollider->Disable();
 	// disable all child. 
 	GetGameObject()->GetChildContainer().DisableAll();
-	_exploded = true;
 }
 
 void AttackScript::Load(nlohmann::json& input)
@@ -103,6 +103,7 @@ void AttackScript::Load(nlohmann::json& input)
 	_beforeUsable = input[Fields::Star::_beforeUsable].get<float>();
 	_maxDistance = input[Fields::Star::_maxDistance].get<float>();
 	_cancelZone = input[Fields::Star::_cancelZone];
+	_additionVel = input[Fields::Star::_addSpeed].get<float>();
 
 	auto& startVel = input[Fields::Star::_startVelocity];
 	_startVelocity.x = startVel[0].get<float>();
@@ -114,6 +115,8 @@ void AttackScript::Throw(const Vector3& _playerVel, bool isFliped)
 	if (_usableCounter < _beforeUsable)
 	{
 		GetGameObject()->CallDestroy();
+		for (auto& fun : _throwedDelegate)
+			fun(true);
 		return;
 	}
 	
@@ -131,6 +134,9 @@ void AttackScript::Throw(const Vector3& _playerVel, bool isFliped)
 	throwVel += _playerVel;
 
 	_rbBody->SetVelocity(throwVel);
+
+	for (auto& fun : _throwedDelegate)
+		fun(false);
 }
 
 void AttackScript::OnCollide(CollideEvent& e)
@@ -154,8 +160,19 @@ PScriptBase AttackScript::Clone() const
 	clone->_animExplodeTime = _animExplodeTime;
 	clone->_startVelocity	= _startVelocity;
 	clone->_maxDistance		= _maxDistance;
+	clone->_additionVel		= _additionVel;
 
 	return clone;
+}
+
+void AttackScript::AddEvent(const std::function<void(bool)>& newEvent)
+{
+	_throwedDelegate.push_back(newEvent);
+}
+
+void AttackScript::ClearEvent()
+{
+	_throwedDelegate.clear();
 }
 
 void AttackScript::SetCreated()

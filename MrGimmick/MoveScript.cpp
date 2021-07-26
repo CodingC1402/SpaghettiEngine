@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "SMath.h"
 #include "FieldNames.h"
+#include "SMath.h"
 
 REGISTER_FINISH(MoveScript, ScriptBase) {}
 
@@ -76,6 +77,7 @@ void MoveScript::Load(nlohmann::json& input)
 
 	_gsDropFactor	= input[Fields::Player::_gsDropFactor].get<float>();
 	_minGravityScale= input[Fields::Player::_gsMin].get<float>();
+	_maxSpeed		= input[Fields::Player::_maxSpeed].get<float>();
 }
 
 void MoveScript::OnStart()
@@ -94,6 +96,11 @@ void MoveScript::OnUpdate()
 
 	JumpAction();
 	MoveAction();
+
+	if (SMath::Abs(_moveVec.x) > _maxSpeed)
+		_moveVec.x = _moveVec.x < 0 ? -_maxSpeed : _maxSpeed;
+	if (SMath::Abs(_moveVec.y) > _maxSpeed)
+		_moveVec.y = _moveVec.y < 0 ? -_maxSpeed : _maxSpeed;
 
 	_rigidBody->SetVelocity(_moveVec);
 }
@@ -187,6 +194,7 @@ PScriptBase MoveScript::Clone() const
 	clone->_speedCap = _speedCap;
 	clone->_jumpStrength = _jumpStrength;
 	clone->_speedRamUp = _speedRamUp;
+	clone->_maxSpeed = _maxSpeed;
 
 	clone->_moveVec = _moveVec;
 	clone->isFlipped = isFlipped;

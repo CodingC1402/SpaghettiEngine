@@ -5,6 +5,8 @@
 #include "Polygon2DCollider.h"
 #include "CRectangle.h"
 #include "StarSound.h"
+#include <vector>
+#include <functional>
 
 class AttackScript : public ScriptBase
 {
@@ -19,6 +21,10 @@ public:
 	void Throw(const Vector3& _playerVel, bool isFlipped);
 	void OnCollide(CollideEvent& e) override;
 	PScriptBase Clone() const override;
+	
+	// Bool is used to know whether the attack have been canceled
+	void AddEvent(const std::function<void(bool)>& newEvent);
+	void ClearEvent();
 protected:
 	void SetCreated();
 protected:
@@ -37,13 +43,14 @@ protected:
 	float _animExplodeTime	= 1;
 
 	float _maxDistance		= 0;
-	float _additionVel		= 30; // Add speed each update  to replenish the x axis vel
+	float _additionVel		= 100; // Add speed each update  to replenish the x axis vel
 
 	float _usableCounter	= 0;
 	float _beforeUsable		= 0;
 	bool  _countUsable		= false;
 
 	Vector3	_startVelocity;
+	std::vector< std::function<void(bool)>> _throwedDelegate;
 private:
 	REGISTER_START(AttackScript);
 };

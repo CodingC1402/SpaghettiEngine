@@ -19,22 +19,21 @@ public:
 
 	[[nodiscard]] static PlayerScoreBoard* GetInstance();
 private:
-	int _live = 0;
-
-	float _score = 0;
-	float _delta = 0;
-
-	unsigned _aimedScore = 0;
 	unsigned _minDelta = 0;
-
-	unsigned _newLive = 0;
-	unsigned _gainedLive = 1;
 
 	UIString* _scoreUI = nullptr;
 	UIString* _liveUI = nullptr;
 
 	// percent per second
-	float _increaseRate = 0;
+	static inline float _increaseRate = 0;
+	static inline float _score = 0;
+	static inline float _delta = 0;
+	static inline unsigned _newLive = 0;
+	static inline unsigned _newLiveScore = 0;
+	static inline unsigned _gainedLive = 1;
+	static inline int _live = 0;
+
+	unsigned _aimedScore = 0;
 
 	static inline PlayerScoreBoard* __instance = nullptr;
 	REGISTER_START(PlayerScoreBoard);

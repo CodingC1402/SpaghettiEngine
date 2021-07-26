@@ -13,8 +13,24 @@
   },
 
   {
+    "ID": 900,
+    "Path": "Asset/Prefabs/Items/PickUpBase.json"
+  },
+  {
     "ID": 901,
     "Path": "Asset/Prefabs/Items/MaxHealthPotion.json"
+  },
+  {
+    "ID": 902,
+    "Path": "Asset/Prefabs/Items/FireballPotion.json"
+  },
+  {
+    "ID": 903,
+    "Path": "Asset/Prefabs/Items/BombPotion.json"
+  },
+  {
+    "ID": 904,
+    "Path": "Asset/Prefabs/Items/HealthPotion.json"
   },
 
   {
@@ -71,6 +87,20 @@
     "ID": 10005,
     "Path": "Asset/Prefabs/MovablePlatform.json"
   },
+
+  {
+    "ID": 10006,
+    "Path": "Asset/Prefabs/SpecialAttacks/FireBall.json"
+  },
+  {
+    "ID": 10007,
+    "Path": "Asset/Prefabs/SpecialAttacks/Bomb.json"
+  },
+  {
+    "ID": 10008,
+    "Path": "Asset/Prefabs/SpecialAttacks/HealthPotion.json"
+  },
+
 
   {
     "ID": 20000,

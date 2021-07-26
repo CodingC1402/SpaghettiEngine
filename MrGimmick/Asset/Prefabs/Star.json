@@ -39,14 +39,12 @@
 					{ "ID": 2 },
 					{ "ID": 3 },
 					{ "ID": 4 },
-					{ "ID": 5 },
-					{ "ID": 6 },
-					{ "ID": 7 }
+					{ "ID": 5 }
 				]
 			}
 		}
     ],
-	"Scripts": [
+    "Scripts": [
 		{
 			"ID": 1,
 			"IsDisabled": true,
@@ -64,9 +62,10 @@
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [ 120, -120 ],
+				"StartVelocity": [120, 0],
+				"AddSpeed": 0,
 				"CancelZone": {
-					"Center": [ 0, 0, 0 ],
+					"Center": [0, 0, 0],
 					"Width": 3,
 					"Height": 3
 				}
@@ -79,14 +78,12 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-6,
-						-8,
-						-6,
-						5,
-						6,
-						5,
-						6,
-						-8
+						-6, 0,
+						-6,   5,
+						6 ,   5,
+						6 , 0,
+						4, -8,
+						-4, -8 
 					]
 				]
 			}
@@ -95,8 +92,8 @@
 			"ID": 4,
 			"Inputs": {
 				"ScriptType": "StarCreation",
-				"GameObjects": [
-					{ "ID": 1 }
+				"GameObjects":[
+					{"ID": 1}
 				],
 				"DrawLayer": 1,
 				"CreateTime": 1,
@@ -112,47 +109,9 @@
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
 				"Mass": 1,
-				"GravityScale": 3,
+				"GravityScale": 6,
 				"Material": 20001
 			}
-		},
-		{
-			"ID": 6,
-			"Inputs": {
-				"ScriptType": "SoundManager",
-				"Sounds": [
-					{
-						"Mixer": 10001,
-						"SoundName": "Explode",
-						"Mode": "Overlap",
-						"IsLoop": false,
-						"Delay": 1.0,
-						"Volume": 1.0
-					},
-					{
-						"Mixer": 10001,
-						"SoundName": "Bounce",
-						"Mode": "Overlap",
-						"IsLoop": false,
-						"Delay": 1.0,
-						"Volume": 0.5
-					},
-					{
-						"Mixer": 10001,
-						"SoundName": "BounceExtra",
-						"Mode": "Overlap",
-						"IsLoop": false,
-						"Delay": 1.0,
-						"Volume": 1.0
-					}
-				]
-			}
-		},
-		{
-			"ID": 7,
-			"Inputs": {
-				"ScriptType": "StarSound"
-			}
 		}
-	]
+    ]
 }

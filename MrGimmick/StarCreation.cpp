@@ -15,7 +15,6 @@ void StarCreation::OnStart()
 
 void StarCreation::OnUpdate()
 {
-
 	_counter += GameTimer::GetDeltaTime();
 
 	// Control animation
