@@ -8,6 +8,7 @@
     "Asset/Audio/Player/Tresure.wav",
     "Asset/Audio/Player/MaxHealthUp.wav",
     "Asset/Audio/Player/LiveUp.wav",
+    "Asset/Audio/Player/PickUp.wav",
 
     "Asset/Audio/Player/Attack.wav",
     "Asset/Audio/Player/Explode.wav",

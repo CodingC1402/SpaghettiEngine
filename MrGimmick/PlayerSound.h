@@ -55,6 +55,9 @@ public:
 
 	void PlayMaxHealthUpSound();
 	void StopMaxHealthUpSound();
+
+	void PlayPickUpSound();
+	void StopPickUpSound();
 #pragma endregion
 
 

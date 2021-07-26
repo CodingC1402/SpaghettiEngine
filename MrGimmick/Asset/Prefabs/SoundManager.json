@@ -96,6 +96,14 @@
 						"Volume": 1.0
 					},
 					{
+						"Mixer": 10001,
+						"SoundName": "PickUp",
+						"Mode": "Nothing",
+						"IsLoop": false,
+						"Delay": 3.0,
+						"Volume": 1.0
+					},
+					{
 						"Mixer": 10002,
 						"SoundName": "HappyBirthday",
 						"Mode": "Nothing",

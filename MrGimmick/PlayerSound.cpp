@@ -176,6 +176,16 @@ void PlayerSound::StopMaxHealthUpSound()
 {
 	_soundManager->Stop(Fields::SoundManager::_maxHealthUp);
 }
+
+void PlayerSound::PlayPickUpSound()
+{
+	_soundManager->Play("PickUp");
+}
+
+void PlayerSound::StopPickUpSound()
+{
+	_soundManager->Stop("PickUp");
+}
 #pragma endregion
 
 
