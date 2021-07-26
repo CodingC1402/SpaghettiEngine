@@ -73,7 +73,8 @@ void ElectricScript::OnFixedUpdate()
 		PhysicCollide::GetCollidedWithRectangle(GetGameObject(), _objs, 
 			_rect.GetCenter(),
 			_rect.GetWidth(),
-			_rect.GetHeight(), Fields::SpecialTag::GetPlayerAttack(), PhysicCollide::FilterMode::Contain);
+			_rect.GetHeight(), Fields::SpecialTag::GetPlayerAttack(), 
+			PhysicCollide::FilterMode::Contain);
 
 		if (!_objs.empty())
 		{

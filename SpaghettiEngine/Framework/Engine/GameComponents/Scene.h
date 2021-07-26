@@ -39,11 +39,12 @@ public:
     class Entry
     {
     public:
-        Entry(json& loadJson, SBaseComponent& component);
+        Entry(json& loadJson, SBaseComponent& component, bool isGameObj);
         void Load();
     public:
         SBaseComponent _component;
         json _loadJson;
+        bool _isGameObj = false;
     };
 public:
     // Create game object and tell smart pointer what to use
@@ -71,7 +72,7 @@ protected:
     void FixedUpdate();
     void LateUpdate();
 
-    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json);
+    void SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, bool isGameObj);
 
     // Compile script to create needed gameObject and scripts
     void Load();

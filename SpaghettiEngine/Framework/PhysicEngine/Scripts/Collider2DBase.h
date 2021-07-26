@@ -23,7 +23,6 @@ public:
 	[[nodiscard]] bool IsTrigger() const;
 
 	PScriptBase Clone() const override;
-	~Collider2DBase();
 protected:
 	void ChangeBody(WBody2D body);
 	void SetOwnerForShapes();

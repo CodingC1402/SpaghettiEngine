@@ -16,8 +16,8 @@
           { "ID": 5 },
           { "ID": 6 },
           { "ID": 7 },
-          { "ID": 8 }
-
+          { "ID": 8 },
+          { "ID": 9 }
         ]
       }
     }
@@ -130,6 +130,33 @@
       "Inputs": {
         "ScriptType": "DropBombSound"
       }
-    }
+    },
+    {
+			"ID": 9,
+			"Inputs": {
+				"ScriptType": "HealthScript",
+				"MaxHealth": 4,
+				"Health": 1,
+				"IFrame": 2.75,
+				"HitBoxes": [
+					{
+						"Center": [0, 0, 0],
+						"Width": 4,
+						"Height": 4
+					}
+				],
+				"DamageSources": [
+					{
+						"Tag": ["FireBall"],
+						"Damage": 1
+					},
+					{
+						"Tag": ["Pitfall"],
+						"Damage": 100,
+						"IgnoreIFrame": true
+					}
+				]
+			}
+		}
   ]
 }

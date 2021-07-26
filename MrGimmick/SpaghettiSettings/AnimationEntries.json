@@ -42,6 +42,10 @@
   },
 
   {
+    "ID": 40100,
+    "Path": "Asset/Animations/SpecialAttacks/HealthPotion/SmallHealth.json"
+  },
+  {
     "ID": 40101,
     "Path": "Asset/Animations/SpecialAttacks/HealthPotion/Create.json"
   },
@@ -53,6 +57,41 @@
     "ID": 40103,
     "Path": "Asset/Animations/SpecialAttacks/HealthPotion/Explode.json"
   },
+
+  {
+    "ID": 40200,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/SmallFire.json"
+  },
+  {
+    "ID": 40201,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/Create.json"
+  },
+  {
+    "ID": 40202,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/Idle.json"
+  },
+  {
+    "ID": 40203,
+    "Path": "Asset/Animations/SpecialAttacks/FireBall/Explode.json"
+  },
+
+  {
+    "ID": 40300,
+    "Path": "Asset/Animations/SpecialAttacks/Bomb/SmallBomb.json"
+  },
+  {
+    "ID": 40301,
+    "Path": "Asset/Animations/SpecialAttacks/Bomb/Create.json"
+  },
+  {
+    "ID": 40302,
+    "Path": "Asset/Animations/SpecialAttacks/Bomb/Idle.json"
+  },
+  {
+    "ID": 40303,
+    "Path": "Asset/Animations/SpecialAttacks/Bomb/Explode.json"
+  },
+
 
 
   {

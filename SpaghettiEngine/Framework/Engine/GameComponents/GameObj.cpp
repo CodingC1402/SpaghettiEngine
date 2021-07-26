@@ -24,7 +24,7 @@ PGameObj GameObj::Clone() const
 	auto cloneObj = GetOwner()->CreateGameObject(BaseComponent::IsDisabled());
 
 	cloneObj->_tag = _tag;
-	cloneObj->_name = _name;
+	cloneObj->SetName(GetName());
 
 	Vector3 rotation = GetTransform().GetWorldRotation();
 	Vector3 transform = GetTransform().GetWorldTransform();
@@ -70,10 +70,6 @@ void GameObj::SetParent(PGameObj parent)
 	else
 		_parent->GetChildContainer().RemoveItem(this);
 }
-void GameObj::SetName(const std::string& name)
-{
-	_name = name;
-}
 void GameObj::SetTag(const Tag& tag)
 {
 	_tag = tag;
@@ -116,10 +112,6 @@ void GameObj::SetParentInternally(PGameObj obj)
 const Tag& GameObj::GetTag() const
 {
 	return _tag;
-}
-std::string GameObj::GetName() const
-{
-	return _name;
 }
 ChildContainer& GameObj::GetChildContainer()
 {

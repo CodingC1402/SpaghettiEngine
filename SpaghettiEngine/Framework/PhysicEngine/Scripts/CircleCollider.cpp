@@ -6,15 +6,14 @@
 #include "ScriptField.h"
 
 REGISTER_FINISH(CircleCollider, Collider2DBase)
-{
-	_shapes.push_back(std::make_shared<Circle>());
-}
+{}
 
 void CircleCollider::OnFixedUpdate()
 {
 	if constexpr (Setting::IsDebugMode())
 	{
 		auto circle = std::dynamic_pointer_cast<Circle>(_shapes[0]);
+
 		auto worldMatrix = GetWorldMatrix();
 		worldMatrix._41 += circle->GetOffSetX();
 		worldMatrix._42 += circle->GetOffSetY();
@@ -25,10 +24,10 @@ void CircleCollider::OnFixedUpdate()
 
 void CircleCollider::Load(nlohmann::json& input)
 {
+	_shapes.push_back(std::make_shared<Circle>());
 	auto circle = std::dynamic_pointer_cast<Circle>(_shapes[0]);
 	if (input[Fields::CircleCollider::GetRadiusField()] != nullptr)
 		circle->SetRadius(input[Fields::CircleCollider::GetRadiusField()].get<float>());
 
 	Collider2DBase::Load(input);
 }
-

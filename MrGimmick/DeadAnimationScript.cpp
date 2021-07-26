@@ -1,23 +1,15 @@
 #include "DeadAnimationScript.h"
 #include "FieldNames.h"
-#include "HealthScript.h"
 #include "Graphics.h"
 #include "GameTimer.h"
+#include "Setting.h"
 #include "SMath.h"
 
 REGISTER_FINISH(DeadAnimationScript, Render2DScriptBase) {}
 
 void DeadAnimationScript::OnStart()
 {
-	auto healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
-	healthScript->AddToHealthEvent(
-		[&](const int& health, const int& delta)
-		{
-			if (delta < 0)
-				_isStarted = (health == 0);
-		}
-	);
-	_currentFrame = _anim->GetSpriteOfFrame(_index);
+	Reset();
 }
 
 void DeadAnimationScript::OnUpdate()
@@ -28,16 +20,20 @@ void DeadAnimationScript::OnUpdate()
 	_timeCounter += GameTimer::GetDeltaTime();
 	_animTimer += GameTimer::GetDeltaTime();
 
-	_anim->Advance(_index, _animTimer);
-	_currentFrame = _anim->GetSpriteOfFrame(_index);
+	if (_anim->Advance(_index, _animTimer))
+	{
+		_currentFrame = _anim->GetSpriteOfFrame(_index);
+		_index -= 2;
+	}
+	else
+		_currentFrame = _anim->GetSpriteOfFrame(_index);
 
 	if (_timeCounter / _time >= 1.0f)
 	{
-		_isStarted = false;
-		_index = 0;
-		_animTimer = 0;
-		_currentFrame = _anim->GetSpriteOfFrame(_index);
-		_timeCounter = 0;
+		Reset();
+		_currentLoop--;
+		if (_currentLoop > 0)
+			_isStarted = true;
 	}
 }
 
@@ -70,4 +66,34 @@ void DeadAnimationScript::Load(nlohmann::json& input)
 	_time = input[Fields::DeadAnimationScript::_time].get<float>();
 	_distance = input[Fields::DeadAnimationScript::_distance].get<float>();
 	_anim = AnimationContainer::GetInstance()->GetResource(input[Fields::DeadAnimationScript::_animation].get<CULL>());
+	_loopTime = input[Fields::DeadAnimationScript::_loopTime].get<unsigned>();
+}
+
+void DeadAnimationScript::Start()
+{
+	_isStarted = true;
+	_currentLoop = _loopTime;
+}
+
+void DeadAnimationScript::Reset()
+{
+	_isStarted = false;
+	_index = 0;
+	_animTimer = 0;
+	_currentFrame = _anim->GetSpriteOfFrame(_index);
+	_timeCounter = 0;
+}
+
+ScriptBase* DeadAnimationScript::Clone() const
+{
+	auto clone = dynamic_cast<DeadAnimationScript*>(ScriptBase::Clone());
+
+	clone->_count = _count;
+	clone->_rotationMatrix = _rotationMatrix;
+	clone->_time = _time;
+	clone->_distance = _distance;
+	clone->_anim = _anim;
+	clone->_loopTime = _loopTime;
+
+	return clone;
 }

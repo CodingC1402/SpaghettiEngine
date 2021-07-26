@@ -13,7 +13,7 @@ public:
 	void OnFixedUpdate() override;
 
 	void OnCollide(CollideEvent& e) override;
-
+	void Explode();
 	void Load(nlohmann::json& input) override;
 	PScriptBase Clone() const override;
 protected:
@@ -26,8 +26,9 @@ protected:
 	Polygon2DCollider* _afterExplodeCollider = nullptr;
 	
 	CRectangle _rect;
-	float _explodeTime;
+	float _explodeTime = 0.0f;
 
+	bool _exploded = false;
 	bool _isStarted = false;
 	float _counter = 0;
 

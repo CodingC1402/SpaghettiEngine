@@ -206,6 +206,7 @@
     <ClCompile Include="AIScript.cpp" />
     <ClCompile Include="AttackMove.cpp" />
     <ClCompile Include="AutoCallDestroy.cpp" />
+    <ClCompile Include="BombScript.cpp" />
     <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="CanonSound.cpp" />
@@ -223,6 +224,7 @@
     <ClCompile Include="BaseEnemySound.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="BaseSoundScript.cpp" />
+    <ClCompile Include="FireBallScript.cpp" />
     <ClCompile Include="FootEnemyScript.cpp" />
     <ClCompile Include="HealthBarScript.cpp" />
     <ClCompile Include="HealthPotionScript.cpp" />
@@ -271,6 +273,7 @@
     <ClInclude Include="AIScript.h" />
     <ClInclude Include="AttackMove.h" />
     <ClInclude Include="AutoCallDestroy.h" />
+    <ClInclude Include="BombScript.h" />
     <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="CanonSound.h" />
@@ -288,6 +291,7 @@
     <ClInclude Include="BaseEnemySound.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="BaseSoundScript.h" />
+    <ClInclude Include="FireBallScript.h" />
     <ClInclude Include="FootEnemyScript.h" />
     <ClInclude Include="HealthBarScript.h" />
     <ClInclude Include="HealthPotionScript.h" />

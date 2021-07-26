@@ -94,6 +94,8 @@ void AttackScript::Explode()
 	_polyCollider->Disable();
 	// disable all child. 
 	GetGameObject()->GetChildContainer().DisableAll();
+	for (auto& fun : _explodeDelegate)
+		fun();
 }
 
 void AttackScript::Load(nlohmann::json& input)
@@ -168,6 +170,11 @@ PScriptBase AttackScript::Clone() const
 void AttackScript::AddEvent(const std::function<void(bool)>& newEvent)
 {
 	_throwedDelegate.push_back(newEvent);
+}
+
+void AttackScript::AddExplodeEvent(const std::function<void()>& newEvent)
+{
+	_explodeDelegate.push_back(newEvent);
 }
 
 void AttackScript::ClearEvent()

@@ -25,6 +25,12 @@
                     "Type": "Script",
                     "Field": "ExplodeAnimTime",
                     "Value": 0.4
+                },
+                {
+                    "ID": 4,
+                    "Type": "Script",
+                    "Field": "SmallStarAnim",
+                    "Value": 40100
                 }
             ]
         }

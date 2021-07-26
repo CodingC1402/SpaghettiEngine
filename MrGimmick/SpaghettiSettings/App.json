@@ -20,6 +20,8 @@
     "Feet",
     "PlayerAttack",
     "Platform",
-    "Pickup"
+    "Pickup",
+    "FireBall",
+    "Bomb"
   ]
 }
