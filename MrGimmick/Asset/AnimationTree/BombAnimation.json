@@ -1,0 +1,79 @@
+{
+    "BlackBoard": [
+        {
+            "Name": "IsExploded",
+            "Type": "bool",
+            "Value": false
+        }
+    ],
+
+    "Children": [
+        {
+            "Type": "Selector",
+            "Children": [
+                {
+                    "Type": "BoolCon",
+                    "Input": {
+                        "Field": "IsExploded",
+                        "Type": "Equal",
+                        "Value": false 
+                    },
+                    "Children": [
+                        {
+                            "Type": "Sequence",
+                            "Children":[
+                                {
+                                    "Type": "AnimationNode", 
+                                    "Input": {
+                                        "ID": 40301
+                                    }
+                                },
+                                {
+                                    "Type": "AnimationNode", 
+                                    "Input": {
+                                        "ID": 40302
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "Type": "BoolCon",
+                    "Input": {
+                        "Field": "IsExploded",
+                        "Type": "Equal",
+                        "Value": true
+                    },
+                    "Children": [
+                        {
+                            "Type": "Sequence",
+                            "Children": [
+                                {
+                                    "Type": "AnimationNode", 
+                                    "Input": {
+                                        "ID": 40303
+                                    }
+                                },
+                                {
+                                    "Type": "Wait",
+                                    "Input": {
+                                        "Duration": 1000
+                                    },
+                                    "Children": [
+                                        {
+                                            "Type": "AnimationNode", 
+                                            "Input": {
+                                                "ID": 40303
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
