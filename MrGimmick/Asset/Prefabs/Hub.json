@@ -16,7 +16,8 @@
 				"Scripts": [
 					{"ID": 1},
                     {"ID": 2},
-                    {"ID": 3}
+                    {"ID": 3},
+                    {"ID": 4}
 				]
 			}
 		}
@@ -35,27 +36,6 @@
                         "Texture": 90001,
                         "Index": 7,
                         "Components": [
-                            {
-                                "Type": "RectangleUI",
-                                "Name": "ItemSlot1",
-                                "Position": [177, 5, 0],
-                                "Texture": 90001,
-                                "Index": 30
-                            },
-                            {
-                                "Type": "RectangleUI",
-                                "Name": "ItemSlot2",
-                                "Position": [200, 5, 0],
-                                "Texture": 90001,
-                                "Index": 31
-                            },
-                            {
-                                "Type": "RectangleUI",
-                                "Name": "ItemSlot3",
-                                "Position": [223, 5, 0],
-                                "Texture": 90001,
-                                "Index": 32
-                            },
                             {
                                 "Type": "UIString",
                                 "Name": "Score",
@@ -95,6 +75,33 @@
                                     { "Index": 25 },
                                     { "Index": 28 }
                                 ]
+                            },
+                            {
+                                "Type": "ItemSlotUI",
+                                "Name": "Inventory",
+                                "Position": [177, 5, 0],
+                                "Width": 22,
+                                "Spacing": 2,
+                                "Items": [
+                                    {
+                                        "Item": "HealthPotion",
+                                        "Texture": 90001,
+                                        "UseIndex": 33,
+                                        "UnuseIndex": 30
+                                    },
+                                    {
+                                        "Item": "Bomb",
+                                        "Texture": 90001,
+                                        "UseIndex": 34,
+                                        "UnuseIndex": 31
+                                    },
+                                    {
+                                        "Item": "FireBall",
+                                        "Texture": 90001,
+                                        "UseIndex": 35,
+                                        "UnuseIndex": 32
+                                    }
+                                ]
                             }
                         ]
                     }
@@ -117,6 +124,12 @@
                 "Rate": 0.50,
                 "Live": 99,
                 "NewLive": 10000
+            }
+        },
+        {
+            "ID": 4,
+            "Inputs": {
+                "ScriptType": "PlayerInventory"
             }
         }
     ]

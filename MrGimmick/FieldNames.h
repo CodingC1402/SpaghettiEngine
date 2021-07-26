@@ -225,6 +225,7 @@ namespace Fields
 		static constexpr auto _startVelocity	= "StartVelocity";
 		static constexpr auto _maxDistance		= "MaxDistance";
 		static constexpr auto _cancelZone		= "CancelZone";
+		static constexpr auto _addSpeed			= "AddSpeed";
 
 		static constexpr auto _createTime		= "CreateTime";
 		static constexpr auto _smallStarAnim	= "SmallStarAnim";
