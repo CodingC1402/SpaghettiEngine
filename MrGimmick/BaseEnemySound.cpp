@@ -16,12 +16,12 @@ void BaseEnemySound::OnStart()
 
 void BaseEnemySound::PlayDeadSound()
 {
-	_soundManager->Play(Fields::SoundManager::_dead);
+	_soundManager->Play(Fields::SoundManager::_explode);
 }
 
 void BaseEnemySound::StopDeadSound()
 {
-	_soundManager->Stop(Fields::SoundManager::_dead);
+	_soundManager->Stop(Fields::SoundManager::_explode);
 }
 
 void BaseEnemySound::Play(const int& health, const int& delta)

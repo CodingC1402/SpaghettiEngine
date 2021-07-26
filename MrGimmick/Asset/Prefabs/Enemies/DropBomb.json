@@ -108,7 +108,7 @@
         "Sounds": [
           {
             "Mixer": 10003,
-            "SoundName": "Dead",
+            "SoundName": "Explode",
             "Mode": "Nothing",
             "IsLoop": false,
             "Delay": 1.0,
