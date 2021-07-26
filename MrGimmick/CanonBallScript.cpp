@@ -2,6 +2,7 @@
 #include "GameTimer.h"
 #include "FieldNames.h"
 #include "HealthScript.h"
+#include "LootTable.h"
 
 REGISTER_FINISH(CanonBallScript, ScriptBase) {}
 
@@ -13,8 +14,12 @@ void CanonBallScript::OnStart()
 	auto healthScript = GET_FIRST_SCRIPT_OF_TYPE(HealthScript);
 	healthScript->AddToHealthEvent(
 		[&](const int& health, const int& delta) {
-			_destroyed = (delta < 0 && health == 0);
-			_counter = 0;
+			if (health <= 0)
+			{
+				_destroyed = true;
+				_counter = 0;
+				LootTable::GetInstance()->SpawnRandom(GetWorldTransform());
+			}
 		}
 	);
 

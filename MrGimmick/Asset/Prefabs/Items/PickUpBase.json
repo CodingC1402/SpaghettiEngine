@@ -33,7 +33,8 @@
         {
             "ID": 2,
             "Inputs": {
-                "ScriptType": "Pickups"
+                "ScriptType": "Pickups",
+                "Time": 9999999
             }
         },
         {

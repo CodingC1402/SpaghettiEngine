@@ -229,6 +229,7 @@
     <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="ItemBase.cpp" />
     <ClCompile Include="ItemSlotUI.cpp" />
+    <ClCompile Include="LootTable.cpp" />
     <ClCompile Include="MaxHealthPotion.cpp" />
     <ClCompile Include="MovingTrapDoor.cpp" />
     <ClCompile Include="Pickups.cpp" />
@@ -287,6 +288,7 @@
     <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="ItemSlotUI.h" />
+    <ClInclude Include="LootTable.h" />
     <ClInclude Include="MaxHealthPotion.h" />
     <ClInclude Include="MovingTrapDoor.h" />
     <ClInclude Include="Pickups.h" />

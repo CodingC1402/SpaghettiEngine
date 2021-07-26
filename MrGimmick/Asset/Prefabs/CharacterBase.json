@@ -33,7 +33,7 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "MoveScript",
-				"SpeedRamUp": 500,
+				"SpeedRamUp": 400,
 				"SpeedCap": 70,
 				"ReduceSpeed": 90,
 				"MaxSpeed": 180,

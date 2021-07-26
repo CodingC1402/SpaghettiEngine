@@ -14,17 +14,6 @@
                 {
                     "ID": 1,
                     "Type": "GameObject",
-                    "Field": "GameObjects",
-                    "Mode": "Append",
-                    "Value": [
-                        {
-                            "ID": 1
-                        }
-                    ]
-                },
-                {
-                    "ID": 1,
-                    "Type": "GameObject",
                     "Field": "Scripts",
                     "Mode": "Append",
                     "Value": [
@@ -82,7 +71,6 @@
         {
 			"ID": 1,
             "Name": "Explosion",
-            "IsDisabled": true,
 			"Inputs": {
 				"Tag": [
                     "Bomb"
@@ -94,7 +82,8 @@
 				"Scale": [1, 1, 1],
 				"Scripts": [
                     {"ID": 2},
-                    {"ID": 3}
+                    {"ID": 3},
+                    {"ID": 4}
 				]
 			}
 		}
@@ -103,11 +92,15 @@
         {
             "ID": 1,
             "Inputs": {
-                "ScriptType": "BombScript"
+                "ScriptType": "BombScript",
+                "GameObjects": [
+                    {"ID": 1}
+                ]
             }
         },
         {
             "ID": 2,
+            "Name": "Explosion",
             "Inputs": {
                 "ScriptType": "Polygon2DCollider",
                 "Trigger": true,
@@ -135,6 +128,13 @@
 				"LoopTime": 3,
 				"Count": 15
 			}
-		}
+		},
+        {
+            "ID": 4,
+            "Inputs": {
+                "ScriptType": "AutoCallDestroy",
+                "Delay": 1
+            }
+        }
     ]
 }

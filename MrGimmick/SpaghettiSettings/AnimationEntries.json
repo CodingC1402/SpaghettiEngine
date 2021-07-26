@@ -226,5 +226,30 @@
   {
     "ID": 60002,
     "Path": "Asset/Animations/Treasure/StarSToB.json"
+  },
+
+  {
+    "ID": 90001,
+    "Path": "Asset/Animations/Boss/Level1/Idle.json"
+  },
+  {
+    "ID": 90002,
+    "Path": "Asset/Animations/Boss/Level1/Jump.json"
+  },
+  {
+    "ID": 90003,
+    "Path": "Asset/Animations/Boss/Level1/Moving.json"
+  },
+  {
+    "ID": 90004,
+    "Path": "Asset/Animations/Boss/Level1/AntenaAttack.json"
+  },
+  {
+    "ID": 90005,
+    "Path": "Asset/Animations/Boss/Level1/AntenaIdle.json"
+  },
+  {
+    "ID": 90006,
+    "Path": "Asset/Animations/Boss/Level1/AntenaHurt.json"
   }
 ]
