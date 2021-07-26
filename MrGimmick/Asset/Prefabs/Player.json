@@ -121,9 +121,10 @@
 			"Inputs": {
 				"ScriptType": "DeadAnimationScript",
 				"Animation": 30007,
-				"Time": 1,
-				"Distance": 400,
-				"Count": 12
+				"Time": 2,
+				"Distance": 300,
+				"LoopTime": 1,
+				"Count": 14
 			}
 		}
 	]

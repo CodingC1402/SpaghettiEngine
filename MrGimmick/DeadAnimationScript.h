@@ -10,6 +10,10 @@ public:
 	void OnUpdate() override;
 	void Draw(PCamera cam) override;
 	void Load(nlohmann::json& input) override;
+
+	void Start();
+	void Reset();
+	ScriptBase* Clone() const override;
 private:
 	bool _isStarted = false;
 
@@ -20,6 +24,9 @@ private:
 
 	Matrix4 _rotationMatrix;
 	unsigned _count = 0;
+
+	unsigned _loopTime = 0;
+	unsigned _currentLoop = 0;
 
 	float _distance = 0.0f;
 	float _time = 0.0f;
