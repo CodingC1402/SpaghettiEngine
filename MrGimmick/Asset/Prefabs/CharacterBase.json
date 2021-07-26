@@ -33,9 +33,10 @@
 			"ID": 2,
 			"Inputs": {
 				"ScriptType": "MoveScript",
-				"SpeedRamUp": 700,
-				"SpeedCap": 80,
+				"SpeedRamUp": 500,
+				"SpeedCap": 70,
 				"ReduceSpeed": 90,
+				"MaxSpeed": 180,
 
 				"JumpStrength": 180,
 				"GSDropFactor": 4,

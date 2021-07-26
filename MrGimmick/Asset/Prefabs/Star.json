@@ -62,8 +62,8 @@
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [100, 0],
-				"AddSpeed": 60,
+				"StartVelocity": [120, 0],
+				"AddSpeed": 0,
 				"CancelZone": {
 					"Center": [0, 0, 0],
 					"Width": 3,
@@ -78,10 +78,12 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-6, -8,
+						-6, 0,
 						-6,   5,
 						6 ,   5,
-						6 , -8 
+						6 , 0,
+						4, -8,
+						-4, -8 
 					]
 				]
 			}

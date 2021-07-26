@@ -28,5 +28,5 @@ protected:
 	float _dynamicFriction;
 	float _restitution;
 protected:
-	static inline SMaterial _defaultMaterial = std::make_shared<Material>(0.1f, 0.1f, 0.0f);
+	static inline SMaterial _defaultMaterial = std::make_shared<Material>(0.0f, 0.0f, 0.0f);
 };
