@@ -7,18 +7,20 @@
 				"IsRoot": true,
 				"Tag": ["Platform"],
 				"GameObjects": [
-                    { "ID": 2}
+          { "ID": 2 }
 				],
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
 				"Scripts": [
-                    { "ID": 1 },
-                    { "ID": 2 },
-                    { "ID": 3 },
-                    { "ID": 4 },
-                    { "ID": 5 }
-                ]
+          { "ID": 1 },
+          { "ID": 2 },
+          { "ID": 3 },
+          { "ID": 4 },
+          { "ID": 5 },
+          { "ID": 7 },
+          { "ID": 8 }
+        ]
 			}
 		},
         {
@@ -36,81 +38,115 @@
 			}
 		}
 	],
-	"Scripts": [
-        {
-            "ID": 1,
-            "Inputs": {
-                "ScriptType": "Animator",
-                "DrawLayer": 1,
-                "AnimationTree": "Asset/AnimationTree/TrapDoorTree.json"
-            }
-        },
-		{
-			"ID": 2,
-			"Inputs": {
-				"ScriptType": "MovableScript",
-				"Speed": 20,
-                "Delay": 5,
-				"Path": [
-					[  56, 0, 0 ]
-				],
-				"IsLoop": false
-			}
-		},
-        {
-            "ID": 3,
-            "Inputs": {
-                "ScriptType": "RidableScript"
-            }
-        },
-        {
-            "ID": 4,
-            "Inputs": {
-                "ScriptType": "MovingTrapDoor",
-                "Center": [0, -18, 0],
-                "Width": 32,
-                "Height": 4
-            }
-        },
-        {
-            "ID": 5,
-            "Inputs": {
-                "ScriptType": "Polygon2DCollider",
-                "Polygons": [
-                    [
-                        -17, -19,
-                        -17, -24,
-                        16, -24,
-                        16, -19
-                    ]
-                ]
-            }
-        },
-        {
-            "ID": 6,
-            "Inputs": {
-                "ScriptType": "DistanceAnimator",
-                "DrawLayer": 1,
-                "Distance": 4,
-                "Sprites": [
-                    {
-                        "Texture": 50001,
-                        "Index": 9
-                    },
-                    {
-                        "Texture": 50001,
-                        "Index": 10
-                    },
-                    {
-                        "Texture": 50001,
-                        "Index": 11
-                    },
-                    {
-                        "Texture": 50001,
-                        "Index": 12
-                    }
-                ]
-            }
-        }
-	]
+  "Scripts": [
+    {
+      "ID": 1,
+      "Inputs": {
+        "ScriptType": "Animator",
+        "DrawLayer": 1,
+        "AnimationTree": "Asset/AnimationTree/TrapDoorTree.json"
+      }
+    },
+    {
+      "ID": 2,
+      "Inputs": {
+        "ScriptType": "MovableScript",
+        "Speed": 20,
+        "Delay": 5,
+        "Path": [
+          [ 56, 0, 0 ]
+        ],
+        "IsLoop": false
+      }
+    },
+    {
+      "ID": 3,
+      "Inputs": {
+        "ScriptType": "RidableScript"
+      }
+    },
+    {
+      "ID": 4,
+      "Inputs": {
+        "ScriptType": "MovingTrapDoor",
+        "Center": [ 0, -18, 0 ],
+        "Width": 32,
+        "Height": 4
+      }
+    },
+    {
+      "ID": 5,
+      "Inputs": {
+        "ScriptType": "Polygon2DCollider",
+        "Polygons": [
+          [
+            -17,
+            -19,
+            -17,
+            -24,
+            16,
+            -24,
+            16,
+            -19
+          ]
+        ]
+      }
+    },
+    {
+      "ID": 7,
+      "Inputs": {
+        "ScriptType": "SoundManager",
+        "Sounds": [
+          {
+            "Mixer": 10003,
+            "SoundName": "OpenTrap",
+            "Mode": "Nothing",
+            "IsLoop": false,
+            "Delay": 1.0,
+            "Volume": 1.0
+          },
+          {
+            "Mixer": 10003,
+            "SoundName": "Tick",
+            "Mode": "Overlap",
+            "IsLoop": false,
+            "Delay": 1.0,
+            "Volume": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "ID": 8,
+      "Inputs": {
+        "ScriptType": "TrapDoorSound"
+      }
+    },
+    {
+      "ID": 6,
+      "Inputs": {
+        "ScriptType": "DistanceAnimator",
+        "DrawLayer": 1,
+        "Distance": 4,
+        "Sprites": [
+          {
+            "Texture": 50001,
+            "Index": 9
+          },
+          {
+            "Texture": 50001,
+            "Index": 10
+          },
+          {
+            "Texture": 50001,
+            "Index": 11
+          },
+          {
+            "Texture": 50001,
+            "Index": 12
+          }
+        ]
+      }
+    }
+  ]
 }

@@ -217,6 +217,52 @@ namespace Fields
 		static constexpr auto _delta = "Delta";
 		static constexpr auto _delay = "Delay";
 	};
+	class SoundManager
+	{
+	public:
+		// Inputs
+		static constexpr auto _sounds = "Sounds";
+		static constexpr auto _soundName = "SoundName";
+		static constexpr auto _soundSource = "SoundSource";
+		// Sound file name
+		// Music
+		static constexpr auto _happyBirthday = "HappyBirthday";
+		static constexpr auto _justFriends = "JustFriends";
+		static constexpr auto _aporia = "Aporia";
+
+		// Character
+		static constexpr auto _jump = "Jump";
+		static constexpr auto _landing= "Landing";
+		static constexpr auto _dead = "Dead";
+		static constexpr auto _attack = "Attack";
+		static constexpr auto _takeDamage = "TakeDamage";
+
+		// Character Attack
+		static constexpr auto _starCreate = "StarCreate";
+		static constexpr auto _bounce = "Bounce";		
+		static constexpr auto _bounceExtra = "BounceExtra";
+		static constexpr auto _explode = "Explode";
+		static constexpr auto _shoot = "Shoot";
+		static constexpr auto _electric = "Electric";
+		static constexpr auto _electricWave = "ElectricWave";
+
+		// Others
+		static constexpr auto _tresure = "Tresure";
+		static constexpr auto _maxHealthUp= "MaxHealthUp";
+		static constexpr auto _liveUp = "LiveUp";
+		static constexpr auto _drop = "Drop";
+		static constexpr auto _openTrap = "OpenTrap";
+		static constexpr auto _tick = "Tick";
+	};
+	class SoundTriggerBox
+	{
+	public:
+		static constexpr auto _triggers = "Triggers";
+		static constexpr auto _center = "Center";
+		static constexpr auto _width = "Width";
+		static constexpr auto _height = "Height";
+		static constexpr auto _music = "Music";
+	};
 	class Star
 	{
 	public:
@@ -310,4 +356,4 @@ namespace Fields
 
 		static inline bool _isLoaded = false;
 	};
-}
+};

@@ -21,7 +21,7 @@ public:
 	Animation();
 	
 	[[nodiscard]] size_t GetNumberOfFrames() const noexcept;
-	[[nodiscard]]SSprite GetSpriteOfFrame(const unsigned int& frame) const;
+	[[nodiscard]] SSprite GetSpriteOfFrame(const unsigned int& frame) const;
 	void Load(const std::string& path) override;
 
 	// Return whether the frame is at the end or not

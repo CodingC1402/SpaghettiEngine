@@ -8,6 +8,7 @@ REGISTER_FINISH(CanonBallScript, ScriptBase) {}
 
 void CanonBallScript::OnStart()
 {
+	_sound = GET_FIRST_SCRIPT_OF_TYPE(BaseEnemySound);
 	_polyCollider = GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
 	//_cirCollider = GET_FIRST_SCRIPT_OF_TYPE(CircleCollider);
 	_rbBody = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
@@ -29,6 +30,7 @@ void CanonBallScript::OnStart()
 
 void CanonBallScript::DisableBeforeExplode()
 {
+	_sound->PlayDeadSound();
 	_explodedField.lock()->SetValue(true);
 	_rbBody->Disable();
 	_polyCollider->Disable();

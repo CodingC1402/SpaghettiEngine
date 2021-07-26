@@ -1,0 +1,30 @@
+[
+  {
+    "ID": 10001,
+    "Path": "Asset/Audio/Player/Player.json"
+  },
+  {
+    "ID": 10002,
+    "Path": "Asset/Audio/Music/Music.json"
+  },
+  {
+    "ID": 10003,
+    "Path": "Asset/Audio/Enemy/Enemy.json"
+  },
+  {
+    "ID": 10004,
+    "Path": "Asset/Audio/Star/Star.json"
+  },
+  {
+    "ID": 10005,
+    "Path": "Asset/Audio/Bomb/Bomb.json"
+  },
+  {
+    "ID": 10006,
+    "Path": "Asset/Audio/FireBall/FireBall.json"
+  },
+  {
+    "ID": 10007,
+    "Path": "Asset/Audio/HealthPotion/HealthPotion.json"
+  }
+]

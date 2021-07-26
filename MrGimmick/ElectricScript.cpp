@@ -12,6 +12,7 @@ static constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 
 void ElectricScript::OnStart()
 {
+	_sound = GET_FIRST_SCRIPT_OF_TYPE(ElectricSound);
 	_moveScript = GET_FIRST_SCRIPT_OF_TYPE(MoveScript);
 	auto _animatorList = GET_ALL_SCRIPTS_OF_TYPE(Animator);
 
@@ -56,10 +57,11 @@ void ElectricScript::OnFixedUpdate()
 		{
 			_time = 0;
 
-			if (_electricAnimator->IsDisabled())
+			if (_electricAnimator->IsDisabled() && !_crouchingField.lock()->GetValue())
 			{
 				_defendField.lock()->SetValue(false);
 				_electricAnimator->Enable();
+				_sound->PlayElectricSound();
 			}
 			else
 				_electricAnimator->Disable();
@@ -88,6 +90,7 @@ void ElectricScript::OnFixedUpdate()
 					_counter = 0;
 					_time = 0;
 					_electricAnimator->Enable();
+					_sound->PlayElectricWaveSound();
 
 					_defendField.lock()->SetValue(true);
 					_currentStar = std::dynamic_pointer_cast<GameObj>(obj->GetSharedPtr());

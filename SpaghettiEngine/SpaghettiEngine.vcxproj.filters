@@ -356,6 +356,12 @@
     <ClInclude Include="Framework\Engine\Scripts\Surface.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Engine\Containers\Mixer.h">
+      <Filter>FrameWork\Engine\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Engine\Scripts\SoundSource.h">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClInclude>
     <ClInclude Include="Framework\Engine\Scripts\Animator.h">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClInclude>
@@ -659,6 +665,12 @@
       <Filter>FrameWork\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\Surface.cpp">
+      <Filter>FrameWork\Engine\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Containers\Mixer.cpp">
+      <Filter>FrameWork\Engine\Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Engine\Scripts\SoundSource.cpp">
       <Filter>FrameWork\Engine\Scripts</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Engine\Scripts\Animator.cpp">

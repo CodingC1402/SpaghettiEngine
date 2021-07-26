@@ -12,14 +12,14 @@
             "Value": false
         },
         {
-          "Name": "IsRunning",
-          "Type": "bool",
-          "Value": false
+            "Name": "IsRunning",
+            "Type": "bool",
+            "Value": false
         },
         {
-          "Name": "IsCrouching",
-          "Type": "bool",
-          "Value": false
+            "Name": "IsCrouching",
+            "Type": "bool",
+            "Value": false
         }
     ],
 

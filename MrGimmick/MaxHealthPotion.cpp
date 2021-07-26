@@ -2,6 +2,7 @@
 #include "PlayerScript.h"
 #include "FieldNames.h"
 #include "HealthScript.h"
+#include "PlayerSound.h"
 
 REGISTER_FINISH(MaxHealthPotion, ScriptBase) {}
 
@@ -12,6 +13,7 @@ void MaxHealthPotion::OnCollide(CollideEvent& e)
 
 	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{
+		PlayerSound::GetCurrentPlayerSound()->PlayMaxHealthUpSound();
 		auto script = dynamic_cast<HealthScript*>(e.GetGameObject()->GetScriptContainer().GetItemType(TYPE_NAME(HealthScript)));
 		script->SetMaxHealth(script->GetMaxHealth() + _healthIncrease);
 		script->SetHealth(script->GetMaxHealth());
