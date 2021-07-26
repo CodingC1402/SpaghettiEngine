@@ -127,8 +127,8 @@
             "ID": 3,
             "Inputs": {
                 "ScriptType": "PlayerScoreBoard",
-                "MinDelta": 10,
-                "Rate": 0.50,
+                "MinDelta": 100,
+                "Rate": 0.1,
                 "Live": 99,
                 "NewLive": 10000
             }

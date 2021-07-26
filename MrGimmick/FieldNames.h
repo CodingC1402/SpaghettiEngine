@@ -202,6 +202,7 @@ namespace Fields
 		static constexpr auto _live = "Live";
 		static constexpr auto _newLive = "NewLive";
 		static constexpr auto _minDelta = "MinDelta";
+		static constexpr auto _maxDelta = "MaxDelta";
 		static constexpr auto _increaseRate = "Rate";
 	};
 	class Platform
