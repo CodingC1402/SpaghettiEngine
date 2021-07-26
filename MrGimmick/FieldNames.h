@@ -349,4 +349,4 @@ namespace Fields
 
 		static inline bool _isLoaded = false;
 	};
-}
+};
