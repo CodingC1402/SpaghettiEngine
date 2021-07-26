@@ -232,6 +232,7 @@ namespace Fields
 		static constexpr auto _landing= "Landing";
 		static constexpr auto _dead = "Dead";
 		static constexpr auto _attack = "Attack";
+		static constexpr auto _takeDamage = "TakeDamage";
 
 		static constexpr auto _starCreate = "StarCreate";
 		static constexpr auto _bounce = "Bounce";

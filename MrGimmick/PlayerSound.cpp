@@ -7,7 +7,7 @@ void PlayerSound::OnStart()
 {
 	//__currentInstance = std::dynamic_pointer_cast<PlayerSound>(GetSharedPtr());
 	BaseSoundScript::OnStart();
-	PlayHB();
+	PlayHappyBirthday();
 }
 
 void PlayerSound::OnEnabled()
@@ -26,51 +26,51 @@ void PlayerSound::OnDisabled()
 }
 
 #pragma region HappyBirthday
-void PlayerSound::PlayHB()
+void PlayerSound::PlayHappyBirthday()
 {
 	_soundManager->Play(Fields::SoundManager::_happyBirthday);
 }
 
-void PlayerSound::StopHB()
+void PlayerSound::StopHappyBirthday()
 {
 	_soundManager->Stop(Fields::SoundManager::_happyBirthday);
 }
 
-bool PlayerSound::IsPlayingHB()
+bool PlayerSound::IsPlayingHappyBirthday()
 {
 	return _soundManager->IsPlaying(Fields::SoundManager::_happyBirthday);
 }
 #pragma endregion
 
 #pragma region JustFriends
-void PlayerSound::PlayJF()
+void PlayerSound::PlayJustFriends()
 {
 	_soundManager->Play(Fields::SoundManager::_justFriends);
 }
 
-void PlayerSound::StopJF()
+void PlayerSound::StopJustFriends()
 {
 	_soundManager->Stop(Fields::SoundManager::_justFriends);
 }
 
-bool PlayerSound::IsPlayingJF()
+bool PlayerSound::IsPlayingJustFriends()
 {
 	return _soundManager->IsPlaying(Fields::SoundManager::_justFriends);
 }
 #pragma endregion
 
 #pragma region Aporia
-void PlayerSound::PlayAP()
+void PlayerSound::PlayAporia()
 {
 	_soundManager->Play(Fields::SoundManager::_aporia);
 }
 
-void PlayerSound::StopAP()
+void PlayerSound::StopAporia()
 {
 	_soundManager->Stop(Fields::SoundManager::_aporia);
 }
 
-bool PlayerSound::IsPlayingAP()
+bool PlayerSound::IsPlayingAporia()
 {
 	return _soundManager->IsPlaying(Fields::SoundManager::_aporia);
 }
@@ -79,9 +79,9 @@ bool PlayerSound::IsPlayingAP()
 
 void PlayerSound::StopAllMusic()
 {
-	StopHB();
-	StopJF();
-	StopAP();
+	StopHappyBirthday();
+	StopJustFriends();
+	StopAporia();
 }
 
 void PlayerSound::PlayJumpSound()
@@ -122,6 +122,16 @@ void PlayerSound::PlayAttackSound()
 void PlayerSound::StopAttackSound()
 {
 	_soundManager->Stop(Fields::SoundManager::_attack);
+}
+
+void PlayerSound::PlayTakeDamageSound()
+{
+	_soundManager->Play(Fields::SoundManager::_takeDamage);
+}
+
+void PlayerSound::StopTakeDamageSound()
+{
+	_soundManager->Stop(Fields::SoundManager::_takeDamage);
 }
 
 PlayerSound* PlayerSound::GetCurrentPlayerSound()

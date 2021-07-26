@@ -91,6 +91,8 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     {
         if (delta < 0)
         {
+            PlayerSound::GetCurrentPlayerSound()->PlayTakeDamageSound();
+
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
 
@@ -105,6 +107,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     }
     else
     {
+        PlayerSound::GetCurrentPlayerSound()->PlayTakeDamageSound();
         PlayerSound::GetCurrentPlayerSound()->StopAllMusic();
         _respawnCounter = _respawnDelay;
         _animator->Disable();
@@ -119,7 +122,7 @@ void PlayerScript::Respawn()
     if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
         return;
 
-    PlayerSound::GetCurrentPlayerSound()->PlayHB();
+    PlayerSound::GetCurrentPlayerSound()->PlayHappyBirthday();
 
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();

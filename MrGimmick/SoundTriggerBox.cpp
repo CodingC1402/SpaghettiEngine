@@ -90,24 +90,24 @@ void SoundTriggerBox::PlayMusic()
 	switch (_musicTrack)
 	{
 	case SoundTriggerBox::HappyBirthday:
-		if (!soundPlayer->IsPlayingHB())
+		if (!soundPlayer->IsPlayingHappyBirthday())
 		{
 			soundPlayer->StopAllMusic();
-			soundPlayer->PlayHB();
+			soundPlayer->PlayHappyBirthday();
 		}
 		break;
 	case SoundTriggerBox::JustFriends:
-		if (!soundPlayer->IsPlayingJF())
+		if (!soundPlayer->IsPlayingJustFriends())
 		{
 			soundPlayer->StopAllMusic();
-			soundPlayer->PlayJF();
+			soundPlayer->PlayJustFriends();
 		}
 		break;
 	case SoundTriggerBox::Aporia:
-		if (!soundPlayer->IsPlayingAP())
+		if (!soundPlayer->IsPlayingAporia())
 		{
 			soundPlayer->StopAllMusic();
-			soundPlayer->PlayAP();
+			soundPlayer->PlayAporia();
 		}
 		break;
 	default:

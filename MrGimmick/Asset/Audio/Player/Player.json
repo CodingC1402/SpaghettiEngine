@@ -5,7 +5,8 @@
     "Asset/Audio/Player/Attack.wav",
     "Asset/Audio/Player/StarCreate.wav",
     "Asset/Audio/Player/Explode.wav",
-    "Asset/Audio/Player/Bounce.wav"
+    "Asset/Audio/Player/Bounce.wav",
+    "Asset/Audio/Player/TakeDamage.wav"
   ],
   "Frequency": 0.037,
   "MasterVolume": 0.6

@@ -6,10 +6,6 @@ class BaseSoundScript : public ScriptBase
 {
 public:
 	void OnStart() override;
-
-	virtual void PlayDeadSound();
-	virtual void StopDeadSound();
-
 	PScriptBase Clone() const override;
 protected:
 	SoundManager* _soundManager = nullptr;

@@ -10,19 +10,21 @@ public:
 	void OnEnabled() override;
 	void OnDisabled() override;
 
-	void PlayHB();
-	void StopHB();
-	bool IsPlayingHB();
+#pragma region Music
+	void PlayHappyBirthday();
+	void StopHappyBirthday();
+	bool IsPlayingHappyBirthday();
 
-	void PlayJF();
-	void StopJF();
-	bool IsPlayingJF();
+	void PlayJustFriends();
+	void StopJustFriends();
+	bool IsPlayingJustFriends();
 
-	void PlayAP();
-	void StopAP();
-	bool IsPlayingAP();
+	void PlayAporia();
+	void StopAporia();
+	bool IsPlayingAporia();
 
 	void StopAllMusic();
+#pragma endregion
 
 	void PlayJumpSound();
 	void StopJumpSound();
@@ -35,6 +37,9 @@ public:
 
 	void PlayAttackSound();
 	void StopAttackSound();
+
+	void PlayTakeDamageSound();
+	void StopTakeDamageSound();
 
 	[[nodiscard]] static PlayerSound* GetCurrentPlayerSound();
 protected:
