@@ -1,6 +1,7 @@
 #include "AttackMove.h"
 #include "LoadingJson.h"
 #include "FieldNames.h"
+#include "PlayerSound.h"
 #include "PhysicCollide.h"
 #include "Setting.h"
 #include "DebugRenderer.h"
@@ -34,6 +35,8 @@ void AttackMove::OnUpdate()
 		_currentStar = std::dynamic_pointer_cast<GameObj>(star->GetSharedPtr());
 		_starScript = dynamic_cast<AttackScript*>(star->GetScriptContainer().GetItemType(TYPE_NAME(AttackScript)));
 		_throwed = false;
+
+		PlayerSound::GetCurrentPlayerSound()->PlayStarCreateSound();
 	}
 	if (_starScript && _attackKey->CheckKeyRelease())
 	{

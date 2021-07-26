@@ -19,6 +19,9 @@
     <Filter Include="Level1">
       <UniqueIdentifier>{26fee250-993b-4b69-90a4-b5eaf4365452}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{ae7bc84c-1f2d-4221-9eef-b1c6bc2e518a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{cceed043-a865-438a-a47c-7b270747f3c8}</UniqueIdentifier>
     </Filter>
@@ -133,6 +136,15 @@
     <ClCompile Include="DeadAnimationScript.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="BaseSoundScript.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
     <ClCompile Include="HealthUIComponent.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -141,6 +153,12 @@
     </ClCompile>
     <ClCompile Include="HealthBarScript.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackSound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundTriggerBox.cpp">
+      <Filter>StaticObjects</Filter>
     </ClCompile>
     <ClCompile Include="PlayerInventory.cpp">
       <Filter>UI</Filter>
@@ -175,6 +193,9 @@
     <ClCompile Include="SpawnExplode.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="BaseEnemySound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
     <ClCompile Include="ItemSlotUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -186,6 +207,15 @@
     </ClCompile>
     <ClCompile Include="SpecialAttackScript.cpp">
       <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CanonSound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="DropBombSound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="TrapDoorSound.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
     <ClCompile Include="FireBallScript.cpp">
       <Filter>Item</Filter>
@@ -204,6 +234,11 @@
     </ClCompile>
     <ClCompile Include="LoadNextScene.cpp">
       <Filter>StaticObjects</Filter>
+    <ClCompile Include="EnemySound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricSound.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +348,15 @@
     <ClInclude Include="DeadAnimationScript.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="BaseSoundScript.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
     <ClInclude Include="HealthUIComponent.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -321,6 +365,12 @@
     </ClInclude>
     <ClInclude Include="HealthBarScript.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackSound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundTriggerBox.h">
+      <Filter>StaticObjects</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInventory.h">
       <Filter>UI</Filter>
@@ -352,6 +402,9 @@
     <ClInclude Include="SpawnExplode.h">
       <Filter>Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="BaseEnemySound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
     <ClInclude Include="ItemSlotUI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -363,6 +416,15 @@
     </ClInclude>
     <ClInclude Include="HealthPotionScript.h">
       <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CanonSound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="DropBombSound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapDoorSound.h">
+      <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="FireBallScript.h">
       <Filter>Item</Filter>
@@ -381,6 +443,11 @@
     </ClInclude>
     <ClInclude Include="LoadNextScene.h">
       <Filter>StaticObjects</Filter>
+    <ClInclude Include="EnemySound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricSound.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

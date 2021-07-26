@@ -15,7 +15,9 @@
           { "ID": 4 },
           { "ID": 5 },
           { "ID": 6 },
-          { "ID": 7 }
+          { "ID": 7 },
+          { "ID": 8 },
+          { "ID": 9 }
         ]
       }
     }
@@ -35,10 +37,14 @@
         "ScriptType": "Polygon2DCollider",
         "Polygons": [
           [
-            -4, -4,
-            -4, 4,
-            4, 4,
-            4, -4
+            -4,
+            -4,
+            -4,
+            4,
+            4,
+            4,
+            4,
+            -4
           ]
         ]
       }
@@ -51,10 +57,14 @@
         "ScriptType": "Polygon2DCollider",
         "Polygons": [
           [
-            -8, 8,
-            -8, -8,
-            8, -8,
-            8, 8
+            -8,
+            8,
+            -8,
+            -8,
+            8,
+            -8,
+            8,
+            8
           ]
         ]
       }
@@ -73,7 +83,7 @@
       "ID": 5,
       "Inputs": {
         "ScriptType": "DropBombScript",
-        "Center": [0, -70, 0],
+        "Center": [ 0, -70, 0 ],
         "Width": 16,
         "Height": 150,
         "ExplodeTime": 1,
@@ -84,15 +94,45 @@
     {
       "ID": 6,
       "Inputs": {
-          "ScriptType": "Enemy",
-          "Ignore": [
-              "Player",
-              "Enemy"
-          ]
+        "ScriptType": "Enemy",
+        "Ignore": [
+          "Player",
+          "Enemy"
+        ]
       }
     },
     {
-			"ID": 7,
+      "ID": 7,
+      "Inputs": {
+        "ScriptType": "SoundManager",
+        "Sounds": [
+          {
+            "Mixer": 10003,
+            "SoundName": "Explode",
+            "Mode": "Nothing",
+            "IsLoop": false,
+            "Delay": 1.0,
+            "Volume": 1.0
+          },
+          {
+            "Mixer": 10003,
+            "SoundName": "Drop",
+            "Mode": "Nothing",
+            "IsLoop": false,
+            "Delay": 1.0,
+            "Volume": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "ID": 8,
+      "Inputs": {
+        "ScriptType": "DropBombSound"
+      }
+    },
+    {
+			"ID": 9,
 			"Inputs": {
 				"ScriptType": "HealthScript",
 				"MaxHealth": 4,

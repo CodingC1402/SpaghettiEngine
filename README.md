@@ -46,9 +46,6 @@ Support:
 - Animated tile.
 
 - UI Component.
-
-To do:
-- A* path finding.
 - Ridable platform.
 - Static enemies.
 - Enemy script.
@@ -56,3 +53,8 @@ To do:
 - Main menu.
 - Enemy animation tree.
 - Settings.
+
+To do:
+- Add 3 avalible items in inventory
+- Add boss
+- Add sound

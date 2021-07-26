@@ -8,7 +8,7 @@
 					"ID": 1,
 					"Type" : "GameObject",
 					"Field": "Transform",
-					"Value": [100, 476, 0]
+					"Value": [ 100, 476, 0 ]
 				}
 			]
 		},

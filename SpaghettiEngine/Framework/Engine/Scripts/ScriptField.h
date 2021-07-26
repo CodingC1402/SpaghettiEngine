@@ -28,6 +28,20 @@ namespace Fields
 		static constexpr const char* GetDrawLayerField() { return "DrawLayer"; }
 	};
 
+	class SoundSource // Inherit from ScriptBase
+	{
+	public:
+		// The mixer id in unsigned long long
+		static constexpr const char* GetMixerField() { return "Mixer"; }
+		// The name of .wav sound file in mixer
+		static constexpr const char* GetSoundNameField() { return "SoundName"; }
+
+		static constexpr const char* GetModeField() { return "Mode"; }
+		static constexpr const char* GetIsLoopField() { return "IsLoop"; }
+		static constexpr const char* GetDelayField() { return "Delay"; }
+		static constexpr const char* GetVolumeField() { return "Volume"; }
+	};
+
 	class SpriteRenderer // Inherit from Render2DScriptBase
 	{
 	public:

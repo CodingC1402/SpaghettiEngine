@@ -12,6 +12,7 @@ REGISTER_FINISH(AttackScript, ScriptBase) {}
 
 void AttackScript::OnStart()
 {
+	_sound			= GET_FIRST_SCRIPT_OF_TYPE(AttackSound);
 	_polyCollider	= GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
 	_rbBody			= GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 
@@ -83,6 +84,8 @@ void AttackScript::Explode()
 {
 	if (_exploded)
 		return;
+
+	_sound->PlayExplodeSound();
 	_exploded = true;
 	_counter = 0;
 	_explodedField.lock()->SetValue(true);
@@ -117,8 +120,10 @@ void AttackScript::Throw(const Vector3& _playerVel, bool isFliped)
 			fun(true);
 		return;
 	}
+	
+	_sound->PlayAttackSound();
 	GetGameObject()->BecomeRootObject();
-
+	
 	_counterStarted = true;
 	_countUsable = false;
 
@@ -139,6 +144,9 @@ void AttackScript::OnCollide(CollideEvent& e)
 {
 	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetCharacterTag()))
 		e.SetIsHandled(true);
+
+	if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlatformTag())
+		_sound->PlayBounceSound();
 }
 
 PScriptBase AttackScript::Clone() const

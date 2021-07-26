@@ -68,6 +68,29 @@
                     "Type": "Script",
                     "Field": "GravityScale",
                     "Value": 0
+                },
+                {
+                    "ID": 6,
+                    "Type": "Script",
+                    "Field": "Sounds",
+                    "Value": [
+                        {
+                            "Mixer": 10006,
+                            "SoundName": "Explode",
+                            "Mode": "Overlap",
+                            "IsLoop": false,
+                            "Delay": 1.0,
+                            "Volume": 1.0
+                        },
+                        {
+                            "Mixer": 10006,
+                            "SoundName": "Attack",
+                            "Mode": "Overlap",
+                            "IsLoop": false,
+                            "Delay": 1.0,
+                            "Volume": 1.0
+                        }
+                    ]
                 }
             ]
         }

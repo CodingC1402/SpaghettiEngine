@@ -3,6 +3,7 @@
 #include "CanonBallScript.h"
 #include "RigidBody2D.h"
 #include "Animator.h"
+#include "CanonSound.h"
 
 class ShootScript : public ScriptBase
 {
@@ -23,6 +24,7 @@ protected:
 
 	Animator* _animator = nullptr;
 	RigidBody2D* _rb = nullptr;
+	CanonSound* _sound = nullptr;
 
 	bool isFliped = false;
 

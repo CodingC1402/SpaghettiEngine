@@ -11,6 +11,7 @@ constexpr unsigned DEBUG_COLOR = 0xFFFF0000;
 
 void MovingTrapDoor::OnStart()
 {
+	_sound = GET_FIRST_SCRIPT_OF_TYPE(TrapDoorSound);
 	auto animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 	_dispatchedField = animator->GetField<bool>("Dispatched");
 	_polygonCollider = GET_FIRST_SCRIPT_OF_TYPE(Polygon2DCollider);
@@ -59,9 +60,19 @@ void MovingTrapDoor::OnFixedUpdate()
 		);
 		if (!objList.empty())
 		{
+			_isStartTick = true;
 			_movableScript->ForceDispatch();
 			_dispatched = 2;
 		}
+	}
+
+	if (_isStartTick)
+		_tick += GameTimer::GetDeltaTime();
+
+	if (_tick > 0.15)
+	{
+		_sound->PlayTickSound();
+		_tick = 0;
 	}
 }
 
@@ -83,6 +94,9 @@ void MovingTrapDoor::Arrived()
 {
 	if (_dispatched == 2)
 	{
+		_isStartTick = false;
+		_sound->StopTickSound();
+		_sound->PlayOpenTrapSound();
 		_dispatchedField.lock()->SetValue(true);
 		_movableScript->Dispatch();
 		_polygonCollider->Disable();

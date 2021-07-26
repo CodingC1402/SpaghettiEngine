@@ -6,6 +6,7 @@
 #include "FieldNames.h"
 #include "Polygon2DCollider.h"
 #include "PlayerScoreBoard.h"
+#include "PlayerSound.h"
 
 REGISTER_FINISH(PlayerScript, ScriptBase) {
 };
@@ -60,6 +61,14 @@ void PlayerScript::OnUpdate()
     }
 }
 
+void PlayerScript::OnCollide(CollideEvent& e)
+{
+    //if (e.GetGameObject()->GetTag() == Fields::SpecialTag::GetPlatformTag())
+    //{
+    //    PlayerSound::GetCurrentPlayerSound()->PlayLandingSound();
+    //}
+}
+
 ScriptBase* PlayerScript::Clone() const
 {
     auto clone = dynamic_cast<PlayerScript*>(ScriptBase::Clone());
@@ -83,6 +92,8 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     {
         if (delta < 0)
         {
+            PlayerSound::GetCurrentPlayerSound()->PlayTakeDamageSound();
+
             _isHurted.lock()->SetValue(true);
             _hurtCounter = _hurtTime;
 
@@ -97,7 +108,12 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     }
     else
     {
+        PlayerSound::GetCurrentPlayerSound()->PlayTakeDamageSound();
+        PlayerSound::GetCurrentPlayerSound()->PlayDeadSound();
+        PlayerSound::GetCurrentPlayerSound()->StopAllMusic();
+
         _deadAnim->Start();
+
         _respawnCounter = _respawnDelay;
         _animator->Disable();
         DisableColliders();
@@ -110,6 +126,8 @@ void PlayerScript::Respawn()
     PlayerScoreBoard::GetInstance()->DecreaseLive();
     if (PlayerScoreBoard::GetInstance()->GetLive() < 0)
         return;
+
+    PlayerSound::GetCurrentPlayerSound()->PlayHappyBirthday();
 
     SegmentScript::DisableAllSegment();
     SegmentScript::SpawnAll();

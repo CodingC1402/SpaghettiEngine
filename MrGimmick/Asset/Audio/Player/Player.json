@@ -1,0 +1,20 @@
+{
+  "Sounds": [
+    "Asset/Audio/Player/Landing.wav",
+    "Asset/Audio/Player/Jump.wav",
+    "Asset/Audio/Player/StarCreate.wav",
+    "Asset/Audio/Player/TakeDamage.wav",
+    "Asset/Audio/Player/Dead.wav",
+    "Asset/Audio/Player/Tresure.wav",
+    "Asset/Audio/Player/MaxHealthUp.wav",
+    "Asset/Audio/Player/LiveUp.wav",
+    "Asset/Audio/Player/PickUp.wav",
+
+    "Asset/Audio/Player/Attack.wav",
+    "Asset/Audio/Player/Explode.wav",
+    "Asset/Audio/Player/Bounce.wav",
+    "Asset/Audio/Player/BounceExtra.wav"
+  ],
+  "Frequency": 0.037,
+  "MasterVolume": 0.6
+}

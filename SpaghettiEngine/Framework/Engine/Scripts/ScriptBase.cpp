@@ -7,6 +7,7 @@
 #include "CircleCollider.h"
 #include "Polygon2DCollider.h"
 #include "RigidBody2D.h"
+#include "SoundSource.h"
 #include "SpriteRenderer.h"
 #include "Surface.h"
 #include "TileMapRenderer.h"
@@ -28,9 +29,10 @@ void REGISTERFUNCTION()
 	CircleCollider four(nullptr);
 	Polygon2DCollider five(nullptr);
 	RigidBody2D six(nullptr);
-	SpriteRenderer seven(nullptr);
-	Surface eight(nullptr);
-	TileMapRenderer nine(nullptr);
+	SoundSource seven(nullptr);
+	SpriteRenderer eight(nullptr);
+	Surface nine(nullptr);
+	TileMapRenderer ten(nullptr);
 }
 ScriptTypes* ScriptFactory::map = nullptr;
 

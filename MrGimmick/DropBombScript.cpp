@@ -41,6 +41,7 @@ void DropBombScript::OnStart()
 	_explodedField = _animator->GetField<bool>("IsExploded");
 	_dropField = _animator->GetField<bool>("IsDroped");
 	_fanSpeed = _animator->GetField<unsigned>("FanSpeed");
+	_sound = GET_FIRST_SCRIPT_OF_TYPE(DropBombSound);
 }
 
 void DropBombScript::OnFixedUpdate()
@@ -122,6 +123,7 @@ void DropBombScript::Explode()
 		return;
 	_exploded = true;
 
+	_sound->PlayDropSound();
 	_rbBody->Disable();
 	_polyCollider->Disable();
 	_afterExplodeCollider->Enable();

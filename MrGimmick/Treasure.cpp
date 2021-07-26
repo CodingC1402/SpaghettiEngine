@@ -3,6 +3,7 @@
 #include "PlayerScoreBoard.h"
 #include "GameTimer.h"
 #include "Graphics.h"
+#include "PlayerSound.h"
 
 REGISTER_FINISH(Treasure, Render2DScriptBase) {}
 
@@ -22,6 +23,7 @@ void Treasure::OnCollide(CollideEvent& e)
 
 	if (e.GetGameObject()->GetTag().Collide(Fields::SpecialTag::GetPlayerTag()))
 	{
+		PlayerSound::GetCurrentPlayerSound()->PlayTresureSound();
 		PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
 		_point = 0;
 	}

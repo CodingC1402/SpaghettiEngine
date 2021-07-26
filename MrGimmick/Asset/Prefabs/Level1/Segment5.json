@@ -76,7 +76,8 @@
                     {"ID": 2},
                     {"ID": 3},
                     {"ID": 4},
-                    {"ID": 5}
+                    {"ID": 5},
+                    {"ID": 6}
                 ]
             }
         }
@@ -140,40 +141,54 @@
             }
         },
         {
-            "ID": 4,
+          "ID": 4,
+          "Inputs": {
+            "ScriptType": "CameraBoundingBox",
+            "Triggers": [
+              {
+                "Center": [ 1272, 624, 0 ],
+                "Width": 10,
+                "Height": 32
+              }
+            ],
+            "MaxX": 1280,
+            "MinX": 1024,
+            "MaxY": 768,
+            "MinY": 544
+          }
+        },
+        {
+            "ID": 5,
             "Inputs": {
-                "ScriptType": "CameraBoundingBox",
-                "Triggers": [
+                "ScriptType": "SingleUseSegmentScript",
+                "GameObjects": [
                     {
-                        "Center": [1272, 624, 0],
-                        "Width": 10,
-                        "Height": 32
+                        "Prefabs": [3, 0],
+                        "ID": 1
                     }
-                ],
-                "MaxX": 1280,
-                "MinX": 1024,
-				"MaxY": 768,
-				"MinY": 544
+                ],  
+                "EnemySpawns": [
+                    {
+                        "Index": 0,
+                        "Position": [1104, 656, 0]
+                    }
+                ]
             }
         },
         {
-			"ID": 5,
-			"Inputs": {
-				"ScriptType": "SingleUseSegmentScript",
-				"GameObjects": [
-					{
-						"Prefabs": [3, 0],
-						"ID": 1
-					}
-				],  
-				"EnemySpawns": [
-					{
-						"Index": 0,
-						"Position": [1104, 656, 0]
-					}
-				]
-			}
-		},
+          "ID": 6,
+          "Inputs": {
+            "ScriptType": "SoundTriggerBox",
+            "Music": "Aporia",
+            "Triggers": [
+              {
+                "Center": [ 1272, 624, 0 ],
+                "Width": 12,
+                "Height": 32
+              }
+            ]
+          }
+        },
 		{
 			"ID": 1,
 			"Inputs": {

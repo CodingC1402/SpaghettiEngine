@@ -7,6 +7,7 @@ REGISTER_FINISH(ShootScript, ScriptBase) {}
 
 void ShootScript::OnStart()
 {
+	_sound = GET_FIRST_SCRIPT_OF_TYPE(CanonSound);
 	_rb = GET_FIRST_SCRIPT_OF_TYPE(RigidBody2D);
 	_animator = GET_FIRST_SCRIPT_OF_TYPE(Animator);
 	_isReloadedField = _animator->GetField<bool>("IsReloaded");
@@ -20,6 +21,8 @@ void ShootScript::OnUpdate()
 	}
 	if (_currentTime >= _reloadTime)
 	{
+		_sound->PlayShootSound();
+
 		auto ball = GetOwner()->Instantiate(_starPrefab, GetWorldTransform() + _appearOffSet);
 		auto _canonBallScript = dynamic_cast<CanonBallScript*>(ball->GetScriptContainer().GetItemType(TYPE_NAME(CanonBallScript)));
 		_firedCanonBalls.push_back(std::dynamic_pointer_cast<GameObj>(ball->GetSharedPtr()));

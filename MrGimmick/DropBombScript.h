@@ -4,6 +4,7 @@
 #include "Animator.h"
 #include "Polygon2DCollider.h"
 #include "CRectangle.h"
+#include "DropBombSound.h"
 
 class DropBombScript : public ScriptBase
 {
@@ -18,6 +19,7 @@ public:
 protected:
 	WGameObj _currentStar;
 
+	DropBombSound* _sound = nullptr;
 	RigidBody2D* _rbBody = nullptr;
 	Animator* _animator = nullptr;
 	Polygon2DCollider* _polyCollider = nullptr;
