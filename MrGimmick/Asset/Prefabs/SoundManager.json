@@ -70,6 +70,14 @@
 						"IsLoop": true,
 						"Delay": 0,
 						"Volume": 1.0
+					},
+					{
+						"Mixer": 10002,
+						"SoundName": "Aporia",
+						"Mode": "Nothing",
+						"IsLoop": true,
+						"Delay": 0,
+						"Volume": 1.0
 					}
 				]
 			}

@@ -84,7 +84,7 @@
       "ID": 3,
       "Inputs": {
         "ScriptType": "SoundTriggerBox",
-        "Music": "HappyBirthday",
+        "Music": "Aporia",
         "Triggers": [
           {
             "Center": [ 100, 400, 0 ],

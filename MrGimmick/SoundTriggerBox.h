@@ -8,7 +8,8 @@ public:
 	enum Music
 	{
 		HappyBirthday,
-		JustFriends
+		JustFriends,
+		Aporia
 	};
 public:
 	void OnFixedUpdate() override;

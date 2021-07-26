@@ -25,6 +25,7 @@ void PlayerSound::OnDisabled()
 	StopAttackSound();
 }
 
+#pragma region HappyBirthday
 void PlayerSound::PlayHB()
 {
 	_soundManager->Play(Fields::SoundManager::_happyBirthday);
@@ -39,7 +40,9 @@ bool PlayerSound::IsPlayingHB()
 {
 	return _soundManager->IsPlaying(Fields::SoundManager::_happyBirthday);
 }
+#pragma endregion
 
+#pragma region JustFriends
 void PlayerSound::PlayJF()
 {
 	_soundManager->Play(Fields::SoundManager::_justFriends);
@@ -54,11 +57,31 @@ bool PlayerSound::IsPlayingJF()
 {
 	return _soundManager->IsPlaying(Fields::SoundManager::_justFriends);
 }
+#pragma endregion
+
+#pragma region Aporia
+void PlayerSound::PlayAP()
+{
+	_soundManager->Play(Fields::SoundManager::_aporia);
+}
+
+void PlayerSound::StopAP()
+{
+	_soundManager->Stop(Fields::SoundManager::_aporia);
+}
+
+bool PlayerSound::IsPlayingAP()
+{
+	return _soundManager->IsPlaying(Fields::SoundManager::_aporia);
+}
+#pragma endregion
+
 
 void PlayerSound::StopAllMusic()
 {
 	StopHB();
 	StopJF();
+	StopAP();
 }
 
 void PlayerSound::PlayJumpSound()

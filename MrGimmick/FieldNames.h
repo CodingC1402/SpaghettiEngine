@@ -225,6 +225,7 @@ namespace Fields
 		// Music
 		static constexpr auto _happyBirthday = "HappyBirthday";
 		static constexpr auto _justFriends = "JustFriends";
+		static constexpr auto _aporia = "Aporia";
 
 		// Character
 		static constexpr auto _jump = "Jump";

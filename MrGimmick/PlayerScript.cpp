@@ -105,6 +105,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     }
     else
     {
+        PlayerSound::GetCurrentPlayerSound()->StopAllMusic();
         _respawnCounter = _respawnDelay;
         _animator->Disable();
         DisableColliders();

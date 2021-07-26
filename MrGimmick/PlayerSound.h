@@ -18,6 +18,10 @@ public:
 	void StopJF();
 	bool IsPlayingJF();
 
+	void PlayAP();
+	void StopAP();
+	bool IsPlayingAP();
+
 	void StopAllMusic();
 
 	void PlayJumpSound();

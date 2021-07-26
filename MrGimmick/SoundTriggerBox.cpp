@@ -11,12 +11,13 @@ REGISTER_FINISH(SoundTriggerBox, ScriptBase) {}
 // Convert enum from json
 NLOHMANN_JSON_SERIALIZE_ENUM(SoundTriggerBox::Music, {
 {SoundTriggerBox::Music::HappyBirthday, Fields::SoundManager::_happyBirthday},
-{SoundTriggerBox::Music::JustFriends, Fields::SoundManager::_justFriends}
+{SoundTriggerBox::Music::JustFriends, Fields::SoundManager::_justFriends},
+{SoundTriggerBox::Music::Aporia, Fields::SoundManager::_aporia}
 	})
 
 //SoundTriggerBox* SoundTriggerBox::__currentScript = nullptr;
 
-constexpr unsigned TriggerZoneColor = 0xFFFF00FA;
+constexpr unsigned TriggerZoneColor = 0xFFFF0000;
 
 void SoundTriggerBox::OnFixedUpdate()
 {
@@ -100,6 +101,13 @@ void SoundTriggerBox::PlayMusic()
 		{
 			soundPlayer->StopAllMusic();
 			soundPlayer->PlayJF();
+		}
+		break;
+	case SoundTriggerBox::Aporia:
+		if (!soundPlayer->IsPlayingAP())
+		{
+			soundPlayer->StopAllMusic();
+			soundPlayer->PlayAP();
 		}
 		break;
 	default:

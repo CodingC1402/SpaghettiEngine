@@ -1,7 +1,8 @@
 {
   "Sounds": [
     "Asset/Audio/Music/HappyBirthday.wav",
-    "Asset/Audio/Music/JustFriends.wav"
+    "Asset/Audio/Music/JustFriends.wav",
+    "Asset/Audio/Music/Aporia.wav"
   ],
   "Frequency": 0.037,
   "MasterVolume": 0.2
