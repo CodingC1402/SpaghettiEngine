@@ -216,12 +216,15 @@
     </ClCompile>
     <ClCompile Include="TrapDoorSound.cpp">
       <Filter>Sound</Filter>
-	</ClCompile>
-	<ClCompile Include="FireBallScript.cpp">
+    </ClCompile>
+    <ClCompile Include="FireBallScript.cpp">
       <Filter>Item</Filter>
     </ClCompile>
     <ClCompile Include="BombScript.cpp">
       <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySound.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -408,12 +411,15 @@
     </ClInclude>
     <ClInclude Include="TrapDoorSound.h">
       <Filter>Sound</Filter>
-	</ClInclude>
-	<ClInclude Include="FireBallScript.h">
+    </ClInclude>
+    <ClInclude Include="FireBallScript.h">
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="BombScript.h">
       <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySound.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

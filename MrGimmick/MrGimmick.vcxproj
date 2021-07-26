@@ -222,6 +222,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyJumpScript.cpp" />
     <ClCompile Include="BaseEnemySound.cpp" />
+    <ClCompile Include="EnemySound.cpp" />
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="BaseSoundScript.cpp" />
     <ClCompile Include="FireBallScript.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyJumpScript.h" />
     <ClInclude Include="BaseEnemySound.h" />
+    <ClInclude Include="EnemySound.h" />
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="BaseSoundScript.h" />
     <ClInclude Include="FireBallScript.h" />
