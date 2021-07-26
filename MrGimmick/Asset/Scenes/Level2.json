@@ -13,65 +13,6 @@
       ]
     },
     { 
-      "ID": 90106,
-      "Changes": [
-        {
-          "ID": 1,
-          "Type": "GameObject",
-          "Field": "Transform",
-          "Value": [ -700, 100, 0 ]
-        }
-      ]
-    },
-    { 
-      "ID": 902,
-      "Changes": [
-        {
-          "Prefabs": [0],
-          "ID": 1,
-          "Type": "GameObject",
-          "Field": "Transform",
-          "Value": [ -750, 100, 0 ]
-        }
-      ]
-    },
-    { 
-      "ID": 903,
-      "Changes": [
-        {
-          "Prefabs": [0],
-          "ID": 1,
-          "Type": "GameObject",
-          "Field": "Transform",
-          "Value": [ -800, 100, 0 ]
-        }
-      ]
-    },
-    { 
-      "ID": 904,
-      "Changes": [
-        {
-          "Prefabs": [0],
-          "ID": 1,
-          "Type": "GameObject",
-          "Field": "Transform",
-          "Value": [ -850, 100, 0 ]
-        }
-      ]
-    },
-    { 
-      "ID": 904,
-      "Changes": [
-        {
-          "Prefabs": [0],
-          "ID": 1,
-          "Type": "GameObject",
-          "Field": "Transform",
-          "Value": [ -900, 100, 0 ]
-        }
-      ]
-    },
-    { 
 			"ID": 90199,
       "Changes": [
         {

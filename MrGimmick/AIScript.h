@@ -9,6 +9,7 @@ public:
 	void OnFixedUpdate() override;
 	void Load(nlohmann::json&) override;
 	ScriptBase* Clone() const override;
+	SAIBTs GetBTS();
 private:
 	float _delay = 0.0f;
 	float _accumulate = 0.0f;
