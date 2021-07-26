@@ -206,6 +206,7 @@
     <ClCompile Include="AIScript.cpp" />
     <ClCompile Include="AttackMove.cpp" />
     <ClCompile Include="AutoCallDestroy.cpp" />
+    <ClCompile Include="BombScript.cpp" />
     <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="AIScript.h" />
     <ClInclude Include="AttackMove.h" />
     <ClInclude Include="AutoCallDestroy.h" />
+    <ClInclude Include="BombScript.h" />
     <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="ChasingLeaf.h" />

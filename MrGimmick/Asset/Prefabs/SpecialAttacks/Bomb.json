@@ -8,6 +8,7 @@
                     "Type": "GameObject",
                     "Field": "Tag",
                     "Value": [
+                        "PlayerAttack"
                     ]
                 },
                 {
@@ -16,14 +17,13 @@
                     "Field": "Scripts",
                     "Mode": "Append",
                     "Value": [
-                        { "ID": 1 }
                     ]
                 },
                 {
                     "ID": 1,
                     "Type": "Script",
                     "Field": "AnimationTree",
-                    "Value": "Asset/AnimationTree/FireBallAnimation.json"
+                    "Value": "Asset/AnimationTree/BombAnimation.json"
                 },
                 {
                     "ID": 2,
@@ -34,20 +34,20 @@
                 {
                     "ID": 2,
                     "Type": "Script",
-                    "Field": "StartVelocity",
-                    "Value": [80, 0, 0]
+                    "Field": "ExplodeTime",
+                    "Value": 3
                 },
                 {
-                    "ID": 3,
+                    "ID": 2,
                     "Type": "Script",
-                    "Field": "Trigger",
-                    "Value": true
+                    "Field": "StartVelocity",
+                    "Value": [80, 0, 0]
                 },
                 {
                     "ID": 4,
                     "Type": "Script",
                     "Field": "SmallStarAnim",
-                    "Value": 40200
+                    "Value": 40300
                 },
                 {
                     "ID": 5,
@@ -59,17 +59,11 @@
                     "ID": 5,
                     "Type": "Script",
                     "Field": "Material",
-                    "Value": 40001
+                    "Value": 20002
                 }
             ]
         }
     ],
     "Scripts": [
-        {
-            "ID": 1,
-            "Inputs": {
-                "ScriptType": "FireBallScript"
-            }
-        }
     ]
 }
