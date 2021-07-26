@@ -40,7 +40,10 @@ void PlayerInventory::Load(nlohmann::json& input)
 
 GameObj* PlayerInventory::UseItem()
 {
-	return GetOwner()->Instantiate(_prefabs[_ui->GetFirstItem()], Vector3());
+	auto type = _ui->GetFirstItem();
+	if (type == ItemType::NoItem)
+		return nullptr;
+	return GetOwner()->Instantiate(_prefabs[type], Vector3());
 }
 
 bool PlayerInventory::AddItem(ItemType type)
@@ -52,6 +55,11 @@ bool PlayerInventory::AddItem(ItemType type)
 		_ui->AddItem(type);
 		return true;
 	}
+}
+
+void PlayerInventory::RemoveTopItem()
+{
+	_ui->UseFirstItem();
 }
 
 PlayerInventory* PlayerInventory::GetInstance()

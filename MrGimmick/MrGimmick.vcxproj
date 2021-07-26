@@ -221,6 +221,7 @@
     <ClCompile Include="FieldNames.cpp" />
     <ClCompile Include="FootEnemyScript.cpp" />
     <ClCompile Include="HealthBarScript.cpp" />
+    <ClCompile Include="HealthPotionScript.cpp" />
     <ClCompile Include="HealthScript.cpp" />
     <ClCompile Include="HealthUIComponent.cpp" />
     <ClCompile Include="IFrameFlash.cpp" />
@@ -248,6 +249,7 @@
     <ClCompile Include="SingleUseSegmentScript.cpp" />
     <ClCompile Include="SpawnExplode.cpp" />
     <ClCompile Include="SpawnPoint.cpp" />
+    <ClCompile Include="SpecialAttackScript.cpp" />
     <ClCompile Include="StarCreation.cpp" />
     <ClCompile Include="CollideTopScript.cpp" />
     <ClCompile Include="AttackScript.cpp" />
@@ -275,6 +277,7 @@
     <ClInclude Include="FieldNames.h" />
     <ClInclude Include="FootEnemyScript.h" />
     <ClInclude Include="HealthBarScript.h" />
+    <ClInclude Include="HealthPotionScript.h" />
     <ClInclude Include="HealthScript.h" />
     <ClInclude Include="HealthUIComponent.h" />
     <ClInclude Include="IFrameFlash.h" />
@@ -302,6 +305,7 @@
     <ClInclude Include="SingleUseSegmentScript.h" />
     <ClInclude Include="SpawnExplode.h" />
     <ClInclude Include="SpawnPoint.h" />
+    <ClInclude Include="SpecialAttackScript.h" />
     <ClInclude Include="StarCreation.h" />
     <ClInclude Include="CollideTopScript.h" />
     <ClInclude Include="AttackScript.h" />

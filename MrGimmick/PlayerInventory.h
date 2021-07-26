@@ -17,6 +17,7 @@ public:
 	GameObj* UseItem();
 	// Return false if the inventory is full
 	bool AddItem(ItemType type);
+	void RemoveTopItem();
 
 	static PlayerInventory* GetInstance();
 private:

@@ -1,8 +1,15 @@
 {
     "Prefabs": [
-
+        {
+            "ID": 10006
+        },
+        {
+            "ID": 10007
+        },
+        {
+            "ID": 10008
+        }
     ],
-
     "GameObjects": [
         {
 			"ID": 1,
@@ -129,7 +136,24 @@
         {
             "ID": 4,
             "Inputs": {
-                "ScriptType": "PlayerInventory"
+                "ScriptType": "PlayerInventory",
+                "GameObjects": [
+                    {
+                        "Prefabs": [0, 0],
+                        "Type": "FireBall",
+                        "ID": 1
+                    },
+                    {
+                        "Prefabs": [1, 0],
+                        "Type": "Bomb",
+                        "ID": 1
+                    },
+                    {
+                        "Prefabs": [2, 0],
+                        "Type": "HealthPotion",
+                        "ID": 1
+                    }
+                ]
             }
         }
     ]

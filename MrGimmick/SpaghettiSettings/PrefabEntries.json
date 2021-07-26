@@ -89,6 +89,20 @@
   },
 
   {
+    "ID": 10006,
+    "Path": "Asset/Prefabs/SpecialAttacks/FireBall.json"
+  },
+  {
+    "ID": 10007,
+    "Path": "Asset/Prefabs/SpecialAttacks/Bomb.json"
+  },
+  {
+    "ID": 10008,
+    "Path": "Asset/Prefabs/SpecialAttacks/HealthPotion.json"
+  },
+
+
+  {
     "ID": 20000,
     "Path": "Asset/Prefabs/HeadPlatform.json"
   },
