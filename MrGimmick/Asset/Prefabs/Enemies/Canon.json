@@ -128,6 +128,14 @@
             "IsLoop": false,
             "Delay": 1.0,
             "Volume": 1.0
+          },
+          {
+            "Mixer": 10003,
+            "SoundName": "Shoot",
+            "Mode": "Overlap",
+            "IsLoop": false,
+            "Delay": 1.0,
+            "Volume": 1.0
           }
         ]
       }
@@ -135,7 +143,7 @@
     {
       "ID": 9,
       "Inputs": {
-        "ScriptType": "BaseEnemySound"
+        "ScriptType": "CanonSound"
       }
     }
   ]

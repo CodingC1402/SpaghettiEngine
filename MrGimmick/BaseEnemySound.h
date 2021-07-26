@@ -5,11 +5,12 @@
 class BaseEnemySound : public BaseSoundScript
 {
 public:
-	void OnStart() override;
-	void OnDisabled() override;
+	virtual void OnStart() override;
 
-	void PlayDeadSound();
-	void StopDeadSound();
+	virtual void PlayDeadSound();
+	virtual void StopDeadSound();
+
+	virtual void Play(const int& health, const int& delta);
 
 	ScriptBase* Clone() const override;
 protected:

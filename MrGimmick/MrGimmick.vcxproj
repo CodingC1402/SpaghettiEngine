@@ -208,6 +208,7 @@
     <ClCompile Include="AutoCallDestroy.cpp" />
     <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="CanonBallScript.cpp" />
+    <ClCompile Include="CanonSound.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
     <ClCompile Include="Crouching.cpp" />
     <ClCompile Include="DeadAnimationScript.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="AutoCallDestroy.h" />
     <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="CanonBallScript.h" />
+    <ClInclude Include="CanonSound.h" />
     <ClInclude Include="ChasingLeaf.h" />
     <ClInclude Include="Crouching.h" />
     <ClInclude Include="DeadAnimationScript.h" />

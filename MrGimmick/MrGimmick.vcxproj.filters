@@ -195,8 +195,8 @@
     </ClCompile>
     <ClCompile Include="BaseEnemySound.cpp">
       <Filter>Sound</Filter>
-	</ClCompile>
-	<ClCompile Include="ItemSlotUI.cpp">
+    </ClCompile>
+    <ClCompile Include="ItemSlotUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Pickups.cpp">
@@ -207,6 +207,9 @@
     </ClCompile>
     <ClCompile Include="SpecialAttackScript.cpp">
       <Filter>Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CanonSound.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,8 +375,8 @@
     </ClInclude>
     <ClInclude Include="BaseEnemySound.h">
       <Filter>Sound</Filter>
-	</ClInclude>
-	<ClInclude Include="ItemSlotUI.h">
+    </ClInclude>
+    <ClInclude Include="ItemSlotUI.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Pickups.h">
@@ -384,6 +387,9 @@
     </ClInclude>
     <ClInclude Include="HealthPotionScript.h">
       <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="CanonSound.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
