@@ -215,6 +215,7 @@
     <ClCompile Include="DebugControl.cpp" />
     <ClCompile Include="DistanceAnimator.cpp" />
     <ClCompile Include="DropBombScript.cpp" />
+    <ClCompile Include="DropBombSound.cpp" />
     <ClCompile Include="ElectricScript.cpp" />
     <ClCompile Include="ElectricSpawn.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -278,6 +279,7 @@
     <ClInclude Include="DebugControl.h" />
     <ClInclude Include="DistanceAnimator.h" />
     <ClInclude Include="DropBombScript.h" />
+    <ClInclude Include="DropBombSound.h" />
     <ClInclude Include="ElectricScript.h" />
     <ClInclude Include="ElectricSpawn.h" />
     <ClInclude Include="Enemy.h" />

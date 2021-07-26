@@ -1,6 +1,7 @@
 {
   "Sounds": [
     "Asset/Audio/Enemy/Dead.wav",
+    "Asset/Audio/Enemy/Drop.wav",
     "Asset/Audio/Enemy/Shoot.wav"
   ],
   "Frequency": 0.037,
