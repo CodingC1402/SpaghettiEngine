@@ -90,10 +90,10 @@ void Scene::DestroyComponent(PBaseComponent component)
     component->Destroy();
 }
 
-void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json)
+void Scene::SetUpAddComponent(SBaseComponent& component, nlohmann::json& json, bool isGameObj)
 {
     using LoadingJson::Field;
-    _tempComponentContainer->emplace(json[Field::idField].get<CULL>(), Entry(json[Field::inputsField], component));
+    _tempComponentContainer->emplace(json[Field::idField].get<CULL>(), Entry(json[Field::inputsField], component, isGameObj));
 
     if (!json[Field::nameField].empty())
         component->SetName(json[Field::nameField].get<std::string>());
@@ -129,7 +129,7 @@ void Scene::Load()
             isDisabled = script[Field::isDisabled].empty() ? false : script[Field::isDisabled].get<bool>();
             auto scriptType = script[Field::inputsField][Field::scriptTypeField].get<std::string>();
             SBaseComponent newScript = CreateScriptBase(scriptType, isDisabled)->GetSharedPtr();
-            SetUpAddComponent(newScript, script);
+            SetUpAddComponent(newScript, script, false);
         }
         //Load object
         for (auto& gameObj : jsonFile[Field::gameObjectsField])
@@ -141,7 +141,7 @@ void Scene::Load()
             if (!isRoot.empty() &&  isRoot.get<bool>())
                 AddToRoot(dynamic_cast<PGameObj>(newObj.get()));
 
-            SetUpAddComponent(newObj, gameObj);
+            SetUpAddComponent(newObj, gameObj, true);
         }
     }
     catch (const CornException&)
@@ -165,7 +165,13 @@ void Scene::LoadComponent()
 {
     for (auto& val : *_tempComponentContainer | std::views::values)
     {
-        val.Load();
+        if (val._isGameObj)
+            val.Load();
+    }
+    for (auto& val : *_tempComponentContainer | std::views::values)
+    {
+        if (!val._isGameObj)
+            val.Load();
     }
 
     _tempComponentContainer->clear();
@@ -232,10 +238,11 @@ void Scene::RemoveFromRoot(const PGameObj& object)
     _rootContainer.RemoveItem(object);
 }
 
-Scene::Entry::Entry(json& loadJson, SBaseComponent& component)
+Scene::Entry::Entry(json& loadJson, SBaseComponent& component, bool isGameObj)
     :
     _component(component),
-    _loadJson(loadJson)
+    _loadJson(loadJson),
+    _isGameObj(isGameObj)
 {}
 
 void Scene::Entry::Load()
