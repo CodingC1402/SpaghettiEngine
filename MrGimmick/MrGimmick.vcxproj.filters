@@ -187,6 +187,9 @@
     <ClCompile Include="SpecialAttackScript.cpp">
       <Filter>Item</Filter>
     </ClCompile>
+    <ClCompile Include="FireBallScript.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -344,6 +347,9 @@
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="HealthPotionScript.h">
+      <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="FireBallScript.h">
       <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>

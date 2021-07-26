@@ -108,6 +108,11 @@
                                         "UseIndex": 35,
                                         "UnuseIndex": 32
                                     }
+                                ],
+                                "Inventory": [
+                                    "FireBall",
+                                    "FireBall",
+                                    "FireBall"
                                 ]
                             }
                         ]

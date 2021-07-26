@@ -100,6 +100,7 @@ PScriptBase Collider2DBase::Clone() const
 {
 	auto clone = dynamic_cast<Collider2DBase*>(PhysicScriptBase::Clone());
 
+	clone->_isTrigger = _isTrigger;
 	SShape clonedShape;
 	for (const auto& shape : _shapes)
 	{
@@ -108,10 +109,6 @@ PScriptBase Collider2DBase::Clone() const
 	}
 
 	return clone;
-}
-
-Collider2DBase::~Collider2DBase()
-{
 }
 
 void Collider2DBase::ChangeBody(WBody2D body)
