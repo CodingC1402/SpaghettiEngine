@@ -36,7 +36,43 @@
 					]
 				}
 			]
-		}
+		},
+		{ 
+			"ID": 902,
+			"Changes": [
+			  {
+				"Prefabs": [0],
+				"ID": 1,
+				"Type": "GameObject",
+				"Field": "IsRoot",
+				"Value": false
+			  }
+			]
+		  },
+		  { 
+			"ID": 903,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
+		  },
+		  { 
+			"ID": 904,
+			"Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
+		  }
 	],
 	"GameObjects": 
 	[
@@ -58,10 +94,32 @@
 				"Transform": [ 0, 0, 0 ],
 				"Rotation": [ 0, 0, 0 ],
 				"Scale": [ 1, 1, 1 ],
-				"Scripts": []
+				"Scripts": [
+					{ "ID": 1 }
+				]
 			}
 		}
 	],
 	"Scripts": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "LootTable",
+				"GameObjects": [
+					{
+						"Prefabs": [3, 0],
+						"ID": 1
+					},
+					{
+						"Prefabs": [4, 0],
+						"ID": 1
+					},
+					{
+						"Prefabs": [5, 0],
+						"ID": 1
+					}
+				]
+			}
+		}
 	]
 }

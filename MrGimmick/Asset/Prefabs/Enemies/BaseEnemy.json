@@ -78,7 +78,7 @@
                 "ScriptType": "MoveScript",
                 "SpeedRamUp": 500,
 				"SpeedCap": 50,
-				"ReduceSpeed": 60,
+				"ReduceSpeed": 70,
                 "MaxSpeed": 170,
 
 				"JumpStrength": 170,

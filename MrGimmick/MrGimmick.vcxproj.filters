@@ -193,6 +193,9 @@
     <ClCompile Include="BombScript.cpp">
       <Filter>Item</Filter>
     </ClCompile>
+    <ClCompile Include="LootTable.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -357,6 +360,9 @@
     </ClInclude>
     <ClInclude Include="BombScript.h">
       <Filter>Item</Filter>
+    </ClInclude>
+    <ClInclude Include="LootTable.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

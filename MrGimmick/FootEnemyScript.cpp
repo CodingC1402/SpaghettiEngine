@@ -5,6 +5,7 @@
 #include "EnemyJumpScript.h"
 #include "AIScript.h"
 #include "PlayerScoreBoard.h"
+#include "LootTable.h"
 
 REGISTER_FINISH(FootEnemyScript, ScriptBase) {}
 
@@ -38,6 +39,10 @@ void FootEnemyScript::Died()
 		PlayerScoreBoard::GetInstance()->IncreaseScore(_point);
 	}
 
+	if (LootTable::GetInstance())
+	{
+		LootTable::GetInstance()->SpawnRandom(GetWorldTransform());
+	}
 }
 
 void FootEnemyScript::OnStart()

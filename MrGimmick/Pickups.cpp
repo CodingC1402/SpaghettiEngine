@@ -1,7 +1,15 @@
 #include "Pickups.h"
 #include "FieldNames.h"
+#include "GameTimer.h"
 
 REGISTER_FINISH(Pickups, ScriptBase) {}
+
+void Pickups::OnUpdate()
+{
+	_time -= GameTimer::GetDeltaTime();
+	if (_time <= 0)
+		GetGameObject()->CallDestroy();
+}
 
 void Pickups::OnCollide(CollideEvent& e)
 {
@@ -28,6 +36,12 @@ NLOHMANN_JSON_SERIALIZE_ENUM(ItemSlotUI::Item, {
 void Pickups::Load(nlohmann::json& input)
 {
 	_type = input["Type"];
+	_time = input["Time"];
+}
+
+void Pickups::SetTime(unsigned time)
+{
+	_time = time;
 }
 
 ScriptBase* Pickups::Clone() const

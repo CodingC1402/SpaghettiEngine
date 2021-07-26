@@ -76,7 +76,7 @@
 			"ID": 4,
 			"Inputs": {
 				"ScriptType": "PlayerScript",
-				"HurtTime": 1.50,
+				"HurtTime": 1.0,
 				"HurtVelocity": [-50, 50, 0],
 				"RespawnDelay": 2
 			}
@@ -85,9 +85,9 @@
 			"ID": 5,
 			"Inputs": {
 				"ScriptType": "HealthScript",
-				"MaxHealth": 4,
-				"Health": 1,
-				"IFrame": 2.75,
+				"MaxHealth": 2,
+				"Health": 2,
+				"IFrame": 2,
 				"HitBoxes": [
 					{
 						"Center": [0, 0, 0],
