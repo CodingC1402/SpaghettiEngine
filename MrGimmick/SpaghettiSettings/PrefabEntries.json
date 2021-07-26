@@ -13,8 +13,24 @@
   },
 
   {
+    "ID": 900,
+    "Path": "Asset/Prefabs/Items/PickUpBase.json"
+  },
+  {
     "ID": 901,
     "Path": "Asset/Prefabs/Items/MaxHealthPotion.json"
+  },
+  {
+    "ID": 902,
+    "Path": "Asset/Prefabs/Items/FireballPotion.json"
+  },
+  {
+    "ID": 903,
+    "Path": "Asset/Prefabs/Items/BombPotion.json"
+  },
+  {
+    "ID": 904,
+    "Path": "Asset/Prefabs/Items/HealthPotion.json"
   },
 
   {

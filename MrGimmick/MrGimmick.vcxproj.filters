@@ -175,6 +175,12 @@
     <ClCompile Include="SpawnExplode.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="ItemSlotUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Pickups.cpp">
+      <Filter>Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -321,6 +327,12 @@
     </ClInclude>
     <ClInclude Include="SpawnExplode.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemSlotUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Pickups.h">
+      <Filter>Item</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

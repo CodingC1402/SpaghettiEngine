@@ -62,7 +62,8 @@
 				"ExplodeTime": 5,
 				"ExplodeAnimTime": 0.6,
 				"BeforeUsable": 0.20,
-				"StartVelocity": [120, -120],
+				"StartVelocity": [100, 0],
+				"AddSpeed": 60,
 				"CancelZone": {
 					"Center": [0, 0, 0],
 					"Width": 3,
@@ -106,7 +107,7 @@
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
 				"Mass": 1,
-				"GravityScale": 3,
+				"GravityScale": 6,
 				"Material": 20001
 			}
 		}

@@ -1,0 +1,21 @@
+{
+    "Prefabs": [
+        {
+            "ID": 900,
+            "Changes": [
+                {
+                    "ID": 1,
+                    "Type": "Script",
+                    "Field": "Index",
+                    "Value": 3
+                },
+                {
+                    "ID": 2,
+                    "Type": "Script",
+                    "Field": "Type",
+                    "Value": "Bomb"
+                }
+            ]
+        }
+    ]
+}
