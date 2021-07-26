@@ -108,6 +108,7 @@ void PlayerScript::TookDamage(const int& health, const int& delta)
     else
     {
         PlayerSound::GetCurrentPlayerSound()->PlayTakeDamageSound();
+        PlayerSound::GetCurrentPlayerSound()->PlayDeadSound();
         PlayerSound::GetCurrentPlayerSound()->StopAllMusic();
         _respawnCounter = _respawnDelay;
         _animator->Disable();

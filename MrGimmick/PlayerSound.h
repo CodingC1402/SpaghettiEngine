@@ -41,6 +41,9 @@ public:
 	void PlayTakeDamageSound();
 	void StopTakeDamageSound();
 
+	void PlayDeadSound();
+	void StopDeadSound();
+
 	[[nodiscard]] static PlayerSound* GetCurrentPlayerSound();
 protected:
 	static inline WPlayerSound __currentInstance;

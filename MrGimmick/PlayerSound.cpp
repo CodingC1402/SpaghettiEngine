@@ -134,6 +134,16 @@ void PlayerSound::StopTakeDamageSound()
 	_soundManager->Stop(Fields::SoundManager::_takeDamage);
 }
 
+void PlayerSound::PlayDeadSound()
+{
+	_soundManager->Play(Fields::SoundManager::_dead);
+}
+
+void PlayerSound::StopDeadSound()
+{
+	_soundManager->Stop(Fields::SoundManager::_dead);
+}
+
 PlayerSound* PlayerSound::GetCurrentPlayerSound()
 {
 	return __currentInstance.expired() ? nullptr : __currentInstance.lock().get();
