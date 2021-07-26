@@ -26,6 +26,7 @@ public:
 	void StopAllMusic();
 #pragma endregion
 
+#pragma region Movement
 	void PlayJumpSound();
 	void StopJumpSound();
 
@@ -43,6 +44,19 @@ public:
 
 	void PlayDeadSound();
 	void StopDeadSound();
+#pragma endregion
+
+#pragma region Others
+	void PlayLiveUpSound();
+	void StopLiveUpSound();
+
+	void PlayTresureSound();
+	void StopTresureSound();
+
+	void PlayMaxHealthUpSound();
+	void StopMaxHealthUpSound();
+#pragma endregion
+
 
 	[[nodiscard]] static PlayerSound* GetCurrentPlayerSound();
 protected:

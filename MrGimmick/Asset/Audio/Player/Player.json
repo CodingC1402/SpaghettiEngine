@@ -8,7 +8,10 @@
     "Asset/Audio/Player/Bounce.wav",
     "Asset/Audio/Player/BounceExtra.wav",
     "Asset/Audio/Player/TakeDamage.wav",
-    "Asset/Audio/Player/Dead.wav"
+    "Asset/Audio/Player/Dead.wav",
+    "Asset/Audio/Player/Tresure.wav",
+    "Asset/Audio/Player/MaxHealthUp.wav",
+    "Asset/Audio/Player/LiveUp.wav"
   ],
   "Frequency": 0.037,
   "MasterVolume": 0.6

@@ -234,11 +234,16 @@ namespace Fields
 		static constexpr auto _attack = "Attack";
 		static constexpr auto _takeDamage = "TakeDamage";
 
+		// Player Attack
 		static constexpr auto _starCreate = "StarCreate";
 		static constexpr auto _bounce = "Bounce";		
 		static constexpr auto _bounceExtra = "BounceExtra";
 		static constexpr auto _explode = "Explode";
 
+		// Others
+		static constexpr auto _tresure = "Tresure";
+		static constexpr auto _maxHealthUp= "MaxHealthUp";
+		static constexpr auto _liveUp = "LiveUp";
 	};
 	class SoundTriggerBox
 	{

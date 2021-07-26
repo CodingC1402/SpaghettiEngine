@@ -84,6 +84,7 @@ void PlayerSound::StopAllMusic()
 	StopAporia();
 }
 
+#pragma region Movement
 void PlayerSound::PlayJumpSound()
 {
 	_soundManager->Play(Fields::SoundManager::_jump);
@@ -143,6 +144,40 @@ void PlayerSound::StopDeadSound()
 {
 	_soundManager->Stop(Fields::SoundManager::_dead);
 }
+#pragma endregion
+
+#pragma region Others
+void PlayerSound::PlayLiveUpSound()
+{
+	_soundManager->Play(Fields::SoundManager::_liveUp);
+}
+
+void PlayerSound::StopLiveUpSound()
+{
+	_soundManager->Stop(Fields::SoundManager::_liveUp);
+}
+
+void PlayerSound::PlayTresureSound()
+{
+	_soundManager->Play(Fields::SoundManager::_tresure);
+}
+
+void PlayerSound::StopTresureSound()
+{
+	_soundManager->Stop(Fields::SoundManager::_tresure);
+}
+
+void PlayerSound::PlayMaxHealthUpSound()
+{
+	_soundManager->Play(Fields::SoundManager::_maxHealthUp);
+}
+
+void PlayerSound::StopMaxHealthUpSound()
+{
+	_soundManager->Stop(Fields::SoundManager::_maxHealthUp);
+}
+#pragma endregion
+
 
 PlayerSound* PlayerSound::GetCurrentPlayerSound()
 {

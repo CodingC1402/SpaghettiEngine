@@ -37,7 +37,7 @@
 				"SpeedCap": 80,
 				"ReduceSpeed": 90,
 
-				"JumpStrength": 180,
+				"JumpStrength": 400,
 				"GSDropFactor": 4,
 				"GSMin": 1			
 			}

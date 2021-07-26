@@ -72,6 +72,30 @@
 						"Volume": 1.0
 					},
 					{
+						"Mixer": 10001,
+						"SoundName": "Tresure",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "MaxHealthUp",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "LiveUp",
+						"Mode": "Nothing",
+						"IsLoop": false,
+						"Delay": 3.0,
+						"Volume": 1.0
+					},
+					{
 						"Mixer": 10002,
 						"SoundName": "HappyBirthday",
 						"Mode": "Nothing",
