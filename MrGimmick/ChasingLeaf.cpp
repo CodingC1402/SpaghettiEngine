@@ -28,6 +28,13 @@ Node::State ChasingLeaf::Tick()
         else if (_direction.x < 0)
             tree->MoveLeft();
 
+        if (distance < _range)
+        {
+            tree->StopMove();
+            return State::Success;
+        }
+
+
         return State::Running;
     }
 
@@ -53,6 +60,10 @@ void ChasingLeaf::CustomLoad(nlohmann::json& input)
     _maxStuck = input[_maxStuckField].get<unsigned>();
     _scanRadius = input[_radiusField].get<float>();
     _timeOut = input[_timeOutField].get<float>();
+    if (input[_rangeField].empty())
+        _range = 0;
+    else
+        _range = input[_rangeField].get<float>();
 }
 
 SNode ChasingLeaf::Clone(WBTs tree)
@@ -68,6 +79,7 @@ SNode ChasingLeaf::Clone(WBTs tree)
     clone->_timeOut         = _timeOut;
     clone->_oldPos          = _oldPos;
     clone->_player          = _player;
+    clone->_range           = _range;
 
     return clone;
 }

@@ -207,6 +207,8 @@
     <ClCompile Include="AttackMove.cpp" />
     <ClCompile Include="AutoCallDestroy.cpp" />
     <ClCompile Include="BombScript.cpp" />
+    <ClCompile Include="Boss1Script.cpp" />
+    <ClCompile Include="BossInvisibleWall.cpp" />
     <ClCompile Include="CameraBoundingBox.cpp" />
     <ClCompile Include="CanonBallScript.cpp" />
     <ClCompile Include="ChasingLeaf.cpp" />
@@ -229,6 +231,7 @@
     <ClCompile Include="IFrameFlash.cpp" />
     <ClCompile Include="ItemBase.cpp" />
     <ClCompile Include="ItemSlotUI.cpp" />
+    <ClCompile Include="LoadNextScene.cpp" />
     <ClCompile Include="LootTable.cpp" />
     <ClCompile Include="MaxHealthPotion.cpp" />
     <ClCompile Include="MovingTrapDoor.cpp" />
@@ -266,6 +269,8 @@
     <ClInclude Include="AttackMove.h" />
     <ClInclude Include="AutoCallDestroy.h" />
     <ClInclude Include="BombScript.h" />
+    <ClInclude Include="Boss1Script.h" />
+    <ClInclude Include="BossInvisibleWall.h" />
     <ClInclude Include="CameraBoundingBox.h" />
     <ClInclude Include="CanonBallScript.h" />
     <ClInclude Include="ChasingLeaf.h" />
@@ -288,6 +293,7 @@
     <ClInclude Include="IFrameFlash.h" />
     <ClInclude Include="ItemBase.h" />
     <ClInclude Include="ItemSlotUI.h" />
+    <ClInclude Include="LoadNextScene.h" />
     <ClInclude Include="LootTable.h" />
     <ClInclude Include="MaxHealthPotion.h" />
     <ClInclude Include="MovingTrapDoor.h" />

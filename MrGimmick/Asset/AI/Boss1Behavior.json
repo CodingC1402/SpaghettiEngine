@@ -1,0 +1,53 @@
+{
+    "BlackBoard":
+    [
+        {
+            "Name": "ReadyAttack",
+            "Type": "bool",
+            "Value": false
+        }
+    ],
+
+    "Children": 
+    [
+        {
+            "Type": "Sequence",
+            "Children": 
+            [
+                {
+                    "Type": "BoolCon",
+                    "Input":  {
+                        "Type": "Equal",
+                        "Field": "ReadyAttack",
+                        "Value": false
+                    },
+                    "Children": [
+                        {
+                            "Type": "SearchingLeaf",
+                            "Input": {
+                                "Radius": 150
+                            }
+                        }
+                    ]
+                },
+                {
+                    "Type": "ChasingLeaf",
+                    "Input": {
+                        "Radius": 300,
+                        "MaxStuck": 6,
+                        "MaxDistance": 200,
+                        "TimeOut": 2,
+                        "Range": 100
+                    }
+                },
+                {
+                    "Type": "BoolSetter",
+                    "Input":  {
+                        "Field": "ReadyAttack",
+                        "Value": true
+                    }
+                }
+            ]
+        }
+    ]
+}

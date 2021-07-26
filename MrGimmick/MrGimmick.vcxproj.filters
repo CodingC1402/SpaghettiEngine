@@ -196,6 +196,15 @@
     <ClCompile Include="LootTable.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="BossInvisibleWall.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss1Script.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadNextScene.cpp">
+      <Filter>StaticObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -363,6 +372,15 @@
     </ClInclude>
     <ClInclude Include="LootTable.h">
       <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BossInvisibleWall.h">
+      <Filter>StaticObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss1Script.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadNextScene.h">
+      <Filter>StaticObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

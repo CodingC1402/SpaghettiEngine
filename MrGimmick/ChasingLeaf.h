@@ -16,6 +16,7 @@ private:
 	unsigned _maxStuck;
 	float _maxDistance = 0;
 	float _scanRadius = 0;
+	float _range = 0;
 
 	float _timeOut = 0;
 	float _timeOutAccumulative = 0;
@@ -28,6 +29,7 @@ private:
 	static constexpr auto _maxStuckField = "MaxStuck";
 	static constexpr auto _maxDistanceField = "MaxDistance";
 	static constexpr auto _timeOutField = "TimeOut";
+	static constexpr auto _rangeField = "Range";
 	NODE_REGISTER(ChasingLeaf);
 };
 

@@ -42,3 +42,8 @@ ScriptBase* AIScript::Clone() const
 
 	return clone;
 }
+
+SAIBTs AIScript::GetBTS()
+{
+	return _behaviorTree;
+}

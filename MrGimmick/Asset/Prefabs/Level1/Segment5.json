@@ -32,20 +32,32 @@
 					"Field": "Polygons",
 					"Value": [
                         [
-                            1312, 576,
-                            1664, 576,
+                            1040, 560,
                             1664, 560,
-                            1312, 560
+                            1664, 544,
+                            1040, 544
                         ]
                     ]
 				}
             ]
-        }
+        },
+        { 
+			"ID": 90199,
+            "Changes": [
+              {
+                "Prefabs": [0],
+                "ID": 1,
+                "Type": "GameObject",
+                "Field": "Transform",
+                "Value": [ -700, 100, 0 ]
+              }
+            ]
+		}
     ],
     "GameObjects": [		
         {
             "ID": 1,
-            "IsDisabled": true,
+            "IsDisabled": false,
             "Name": "Stage1",
             "Inputs": {
                 "IsRoot": false,
@@ -63,7 +75,8 @@
                     {"ID": 1},
                     {"ID": 2},
                     {"ID": 3},
-                    {"ID": 4}
+                    {"ID": 4},
+                    {"ID": 5}
                 ]
             }
         }
@@ -92,10 +105,6 @@
 						"Index": 0,
 						"Position": [1360, 608, 0]
 					},
-                    {
-                        "Index": 0,
-                        "Position": [1296, 608, 0]
-                    },
                     {
                         "Index": 1,
                         "Position": [0, 0, 0]
@@ -147,6 +156,24 @@
 				"MinY": 544
             }
         },
+        {
+			"ID": 5,
+			"Inputs": {
+				"ScriptType": "SingleUseSegmentScript",
+				"GameObjects": [
+					{
+						"Prefabs": [3, 0],
+						"ID": 1
+					}
+				],  
+				"EnemySpawns": [
+					{
+						"Index": 0,
+						"Position": [1104, 656, 0]
+					}
+				]
+			}
+		},
 		{
 			"ID": 1,
 			"Inputs": {

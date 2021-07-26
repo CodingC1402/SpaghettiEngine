@@ -23,7 +23,17 @@
                     "Field": "Scripts",
                     "Mode": "Append",
                     "Value": [
-                        {"ID": 1}
+                        {"ID": 1},
+                        {"ID": 2}
+                    ]
+                },
+                {
+                    "ID": 1,
+                    "Type": "GameObject",
+                    "Field": "Tag",
+                    "Value": [
+                        "Enemy",
+                        "Boss"
                     ]
                 },
                 {
@@ -63,7 +73,13 @@
                     "ID": 6,
                     "Type": "Script",
                     "Field": "GravityScale",
-                    "Value": 2
+                    "Value": 5
+                },
+                {
+                    "ID": 6,
+                    "Type": "Script",
+                    "Field": "Material",
+                    "Value": 40001
                 },
                 {
                     "ID": 7,
@@ -94,8 +110,85 @@
                     "Type": "Script",
                     "Field": "Point",
                     "Value": 5000
+                },
+                {
+                    "ID": 8,
+                    "Type": "Script",
+                    "Field": "HurtVelocity",
+                    "Value": [250, 150, 0]
                 }
             ]
+        },
+        {
+            "ID": 20002,
+            "Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
+        },
+        {
+            "ID": 20007,
+            "Changes": [
+				{
+					"Prefabs": [0],
+					"ID": 1,
+					"Type": "GameObject",
+					"Field": "IsRoot",
+					"Value": false
+				}
+			]
+        }
+    ],
+    "GameObjects": [
+        {
+            "ID": 1,
+            "Inputs": {
+				"IsRoot": false,
+				"GameObjects": [
+				],
+				"Transform": [0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+                    {"ID": 3},
+                    {"ID": 4}
+				]
+            }
+        },
+        {
+            "ID": 2,
+            "Inputs": {
+				"IsRoot": true,
+				"GameObjects": [
+				],
+				"Transform": [0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+                    {"ID": 5},
+                    {"ID": 6}
+				]
+            }
+        },
+        {
+            "ID": 3,
+            "Inputs": {
+				"IsRoot": true,
+				"GameObjects": [
+				],
+				"Transform": [0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+                    {"ID": 7},
+                    {"ID": 8}
+				]
+            }
         }
     ],
     "Scripts": [
@@ -104,7 +197,86 @@
             "Inputs": {
                 "ScriptType": "AIScript",
                 "Delay": 0,
-                "BehaviorTree": "Asset/AI/NormalEnemyBehavior.json"
+                "BehaviorTree": "Asset/AI/Boss1Behavior.json"
+            }
+        },
+        {
+            "ID": 2,
+            "Inputs": {
+                "ScriptType": "Boss1Script",
+                "GameObjects": [
+                    {
+                        "Prefabs": [1, 0],
+                        "ID": 1
+                    },
+                    {
+                        "Prefabs": [2, 0],
+                        "ID": 1
+                    },
+                    {
+                        "ID": 1
+                    }
+                ]
+            }
+        },
+        {
+            "ID": 3,
+            "Inputs": {
+                "ScriptType": "LoadNextScene"
+            }
+        },
+        {
+            "ID": 4,
+            "Inputs": {
+                "ScriptType": "Polygon2DCollider",
+                "Polygons": [
+                    [
+                        1040, 592,
+                        1184, 592,
+                        1184, 576,
+                        1040, 576
+                    ]
+                ]
+            }
+        },
+        {
+            "ID": 5,
+            "Inputs": {
+                "ScriptType": "Polygon2DCollider",
+                "Polygons": [
+                    [
+                        1056, 736,
+                        1072, 736,
+                        1072, 640,
+                        1056, 640
+                    ]
+                ]
+            }
+        },
+        {
+            "ID": 6,
+            "Inputs": {
+                "ScriptType": "BossInvisibleWall"
+            }
+        },
+        {
+            "ID": 7,
+            "Inputs": {
+                "ScriptType": "Polygon2DCollider",
+                "Polygons": [
+                    [
+                        1152, 736,
+                        1168, 736,
+                        1168, 640,
+                        1152, 640
+                    ]
+                ]
+            }
+        },
+        {
+            "ID": 8,
+            "Inputs": {
+                "ScriptType": "BossInvisibleWall"
             }
         }
     ]
