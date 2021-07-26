@@ -35,7 +35,9 @@
 					{ "ID": 3 },
 					{ "ID": 4 },
 					{ "ID": 5 },
-					{ "ID": 6 }
+					{ "ID": 6 },
+					{ "ID": 7 },
+					{ "ID": 8 }
 				]
 			}
 		}
@@ -66,12 +68,18 @@
 				"ScriptType": "Polygon2DCollider",
 				"Polygons": [
 					[
-						-7, -5,
-						-7, 6,
-						7, 6,
-						7, -5,
-						5, -8,
-						-5, -8
+						-7,
+						-5,
+						-7,
+						6,
+						7,
+						6,
+						7,
+						-5,
+						5,
+						-8,
+						-5,
+						-8
 					]
 				]
 			}
@@ -82,43 +90,65 @@
 			"Inputs": {
 				"ScriptType": "RigidBody2D",
 				"Mass": 2,
-				"GravityScale":5,
+				"GravityScale": 5,
 				"Material": 40001
 			}
 		},
 		{
 			"ID": 5,
 			"Inputs": {
-			  "ScriptType": "Enemy",
-			  "Ignore": ["Player", "Enemy", "StaticEnemy", "PlayerAttack"]
+				"ScriptType": "Enemy",
+				"Ignore": [ "Player", "Enemy", "StaticEnemy", "PlayerAttack" ]
 			}
 		},
 		{
-            "ID": 6,
-            "Inputs": {
-                "ScriptType": "HealthScript",
-                "MaxHealth": 1,
+			"ID": 6,
+			"Inputs": {
+				"ScriptType": "HealthScript",
+				"MaxHealth": 1,
 				"Health": 1,
 				"IFrame": 1.5,
 				"HitBoxes": [
 					{
-						"Center": [0, 0, 0],
+						"Center": [ 0, 0, 0 ],
 						"Width": 16,
 						"Height": 16
 					}
 				],
 				"DamageSources": [
 					{
-						"Tag": ["PlayerAttack"],
+						"Tag": [ "PlayerAttack" ],
 						"Damage": 1
 					},
 					{
-						"Tag": ["Pitfall"],
+						"Tag": [ "Pitfall" ],
 						"Damage": 100,
-                        "IgnoreIFrame": true
+						"IgnoreIFrame": true
 					}
 				]
-            }
-        }
+			}
+		},
+		{
+			"ID": 7,
+			"Inputs": {
+				"ScriptType": "SoundManager",
+				"Sounds": [
+					{
+						"Mixer": 10003,
+						"SoundName": "Dead",
+						"Mode": "Nothing",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					}
+				]
+			}
+		},
+		{
+			"ID": 8,
+			"Inputs": {
+				"ScriptType": "BaseEnemySound"
+			}
+		}
 	]
 }

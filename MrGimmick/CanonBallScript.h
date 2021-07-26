@@ -4,6 +4,7 @@
 #include "Animator.h"
 #include "CircleCollider.h"
 #include "Polygon2DCollider.h"
+#include "BaseEnemySound.h"
 
 class CanonBallScript : public ScriptBase
 {
@@ -21,6 +22,8 @@ protected:
 	Animator* _animator = nullptr;
 	CircleCollider* _cirCollider = nullptr;
 	Polygon2DCollider* _polyCollider = nullptr;
+	BaseEnemySound* _sound = nullptr;
+
 	BoolField _explodedField;
 
 	bool _destroyed = false;

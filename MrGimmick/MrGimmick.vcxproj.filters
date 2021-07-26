@@ -214,6 +214,9 @@
     <ClCompile Include="DropBombSound.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
+    <ClCompile Include="TrapDoorSound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -395,6 +398,9 @@
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="DropBombSound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapDoorSound.h">
       <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>

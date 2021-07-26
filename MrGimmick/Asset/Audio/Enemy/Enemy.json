@@ -2,7 +2,9 @@
   "Sounds": [
     "Asset/Audio/Enemy/Dead.wav",
     "Asset/Audio/Enemy/Drop.wav",
-    "Asset/Audio/Enemy/Shoot.wav"
+    "Asset/Audio/Enemy/Shoot.wav",
+    "Asset/Audio/Enemy/OpenTrap.wav",
+    "Asset/Audio/Enemy/Tick.wav"
   ],
   "Frequency": 0.037,
   "MasterVolume": 0.6

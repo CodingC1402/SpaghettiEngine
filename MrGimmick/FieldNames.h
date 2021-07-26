@@ -248,6 +248,8 @@ namespace Fields
 		static constexpr auto _maxHealthUp= "MaxHealthUp";
 		static constexpr auto _liveUp = "LiveUp";
 		static constexpr auto _drop = "Drop";
+		static constexpr auto _openTrap = "OpenTrap";
+		static constexpr auto _tick = "Tick";
 	};
 	class SoundTriggerBox
 	{
