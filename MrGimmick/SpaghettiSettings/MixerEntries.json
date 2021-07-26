@@ -6,5 +6,9 @@
   {
     "ID": 10002,
     "Path": "Asset/Audio/Music/Music.json"
+  },
+  {
+    "ID": 10003,
+    "Path": "Asset/Audio/Enemy/Enemy.json"
   }
 ]

@@ -193,6 +193,9 @@
     <ClCompile Include="SpawnExplode.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="BaseEnemySound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -354,6 +357,9 @@
     </ClInclude>
     <ClInclude Include="SpawnExplode.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemySound.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

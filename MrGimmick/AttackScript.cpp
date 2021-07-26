@@ -86,6 +86,7 @@ void AttackScript::Explode()
 	if (_exploded)
 		return;
 
+	_sound->PlayBounceSound();
 	_counter = 0;
 	_explodedField.lock()->SetValue(true);
 	_rbBody->Disable();

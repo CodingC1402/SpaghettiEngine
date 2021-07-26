@@ -3,11 +3,6 @@
 
 REGISTER_FINISH(StarSound, BaseSoundScript) {}
 
-//void StarSound::OnStart()
-//{
-//	_soundManager = GET_FIRST_SCRIPT_OF_TYPE(SoundManager);
-//}
-
 void StarSound::PlayBounceSound()
 {
 	_soundManager->Play(Fields::SoundManager::_bounceExtra);
