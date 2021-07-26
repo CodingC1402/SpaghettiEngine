@@ -226,6 +226,9 @@
     <ClCompile Include="EnemySound.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
+    <ClCompile Include="ElectricSound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIBTs.h">
@@ -419,6 +422,9 @@
       <Filter>Item</Filter>
     </ClInclude>
     <ClInclude Include="EnemySound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricSound.h">
       <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>

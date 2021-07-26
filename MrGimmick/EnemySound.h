@@ -4,8 +4,8 @@
 class EnemySound: public BaseEnemySound
 {
 public:
-	void PlayDeadSound();
-	void StopDeadSound();
+	virtual void PlayDeadSound();
+	virtual void StopDeadSound();
 
 	ScriptBase* Clone() const override;
 private:

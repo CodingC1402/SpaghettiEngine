@@ -2,6 +2,8 @@
   "Sounds": [
     "Asset/Audio/Enemy/Dead.wav",
     "Asset/Audio/Enemy/Drop.wav",
+    "Asset/Audio/Enemy/Electric.wav",
+    "Asset/Audio/Enemy/ElectricWave.wav",
     "Asset/Audio/Enemy/Explode.wav",
     "Asset/Audio/Enemy/Shoot.wav",
     "Asset/Audio/Enemy/OpenTrap.wav",

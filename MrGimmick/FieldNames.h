@@ -243,6 +243,8 @@ namespace Fields
 		static constexpr auto _bounceExtra = "BounceExtra";
 		static constexpr auto _explode = "Explode";
 		static constexpr auto _shoot = "Shoot";
+		static constexpr auto _electric = "Electric";
+		static constexpr auto _electricWave = "ElectricWave";
 
 		// Others
 		static constexpr auto _tresure = "Tresure";
