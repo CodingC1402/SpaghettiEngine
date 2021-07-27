@@ -49,6 +49,7 @@ ScriptBase* Pickups::Clone() const
 	auto clone = dynamic_cast<Pickups*>(ScriptBase::Clone());
 
 	clone->_type = _type;
+	clone->_time = _time;
 
 	return clone;
 }

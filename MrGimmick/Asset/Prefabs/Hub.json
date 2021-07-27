@@ -110,9 +110,6 @@
                                     }
                                 ],
                                 "Inventory": [
-                                    "Bomb",
-                                    "FireBall",
-                                    "HealthPotion"
                                 ]
                             }
                         ]
