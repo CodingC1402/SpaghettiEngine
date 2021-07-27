@@ -15,11 +15,12 @@
           "Field": "Scripts",
           "Mode": "Append",
           "Value": [
-            { "ID": 1 },
             { "ID": 2 },
             { "ID": 3 },
             { "ID": 4 },
-            { "ID": 5 }
+            { "ID": 5 },
+            { "ID": 6 }
+
           ]
         },
         {
@@ -75,9 +76,40 @@
           "Field": "HitBoxes",
           "Value": [
             {
-              "Center": [0, -4, 0],
+              "Center": [ 0, -4, 0 ],
               "Width": 12,
               "Height": 12
+            }
+          ]
+        },
+        {
+          "ID": 9,
+          "Type": "Script",
+          "Field": "Sounds",
+          "Value": [
+            {
+              "Mixer": 10003,
+              "SoundName": "Electric",
+              "Mode": "Overlap",
+              "IsLoop": false,
+              "Delay": 1.0,
+              "Volume": 1.0
+            },
+            {
+              "Mixer": 10003,
+              "SoundName": "ElectricWave",
+              "Mode": "Overlap",
+              "IsLoop": false,
+              "Delay": 1.0,
+              "Volume": 1.0
+            },
+            {
+              "Mixer": 10003,
+              "SoundName": "Dead",
+              "Mode": "Nothing",
+              "IsLoop": false,
+              "Delay": 1.0,
+              "Volume": 1.0
             }
           ]
         }
@@ -136,6 +168,12 @@
         "Center": [ 0, 5, 0 ],
         "Width": 12,
         "Height": 5
+      }
+    },
+    {
+      "ID": 6,
+      "Inputs": {
+        "ScriptType": "ElectricSound"
       }
     }
   ]

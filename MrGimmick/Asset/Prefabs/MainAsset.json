@@ -30,7 +30,7 @@
 					"Mode": "Append",
 					"Value": [
 						{
-							"Prefabs": [0],
+							"Prefabs": [ 0 ],
 							"ID": 5
 						}
 					]
@@ -72,7 +72,10 @@
 					"Value": false
 				}
 			]
-		  }
+		  },
+		{
+			"ID": 50001
+		}
 	],
 	"GameObjects": 
 	[

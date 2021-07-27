@@ -11,6 +11,7 @@
 #include "TextMap.h"
 #include "MaterialContainer.h"
 #include "TileSet.h"
+#include "Mixer.h"
 
 #include <fstream>
 #include <future>
@@ -174,6 +175,7 @@ void SceneManager::CleanUpAfterLoad()
 	TileSetContainer::GetInstance()->UnloadUnusedResources();
 	TextureContainer::GetInstance()->UnloadUnusedResources();
 	MaterialContainer::GetInstance()->UnloadUnusedResources();
+	MixerContainer::GetInstance()->UnloadUnusedResources();
 }
 
 void SceneManager::CallLoadNextScene()

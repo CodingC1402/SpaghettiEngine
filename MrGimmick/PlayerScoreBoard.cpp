@@ -4,6 +4,7 @@
 #include "SMath.h"
 #include "SceneManager.h"
 #include "Canvas.h"
+#include "PlayerSound.h"
 
 REGISTER_FINISH(PlayerScoreBoard, ScriptBase) {}
 
@@ -26,6 +27,7 @@ void PlayerScoreBoard::OnUpdate()
 
 		if (_score >= _newLiveScore)
 		{
+			PlayerSound::GetCurrentPlayerSound()->PlayLiveUpSound();
 			_gainedLive++;
 			_newLiveScore += _newLive * _gainedLive;
 			_live++;

@@ -1,6 +1,7 @@
 #include "PlayerInventory.h"
 #include "LoadingJson.h"
 #include "Canvas.h"
+#include "PlayerSound.h"
 
 REGISTER_FINISH(PlayerInventory, ScriptBase) {}
 
@@ -52,6 +53,7 @@ bool PlayerInventory::AddItem(ItemType type)
 		return false;
 	else
 	{
+		PlayerSound::GetCurrentPlayerSound()->PlayPickUpSound();
 		_ui->AddItem(type);
 		return true;
 	}

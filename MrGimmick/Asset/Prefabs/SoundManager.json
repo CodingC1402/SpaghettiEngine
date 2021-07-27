@@ -1,0 +1,140 @@
+{
+    "GameObjects": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"Tag": "Sound",
+				"IsRoot": true,
+				"GameObjects": [
+				],
+				"Transform": [ 0, 0, 0 ],
+				"Rotation": [ 0, 0, 0 ],
+				"Scale": [ 1, 1, 1 ],
+				"Scripts": [
+					{ "ID": 1 },
+					{ "ID": 2 }
+				]
+			}
+		}
+    ],
+	"Scripts": [
+		{
+			"ID": 1,
+			"Inputs": {
+				"ScriptType": "SoundManager",
+				"Sounds": [
+					{
+						"Mixer": 10001,
+						"SoundName": "Jump",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "Attack",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "Landing",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "StarCreate",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "TakeDamage",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "Dead",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "Tresure",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "MaxHealthUp",
+						"Mode": "Overlap",
+						"IsLoop": false,
+						"Delay": 1.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "LiveUp",
+						"Mode": "Nothing",
+						"IsLoop": false,
+						"Delay": 3.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10001,
+						"SoundName": "PickUp",
+						"Mode": "Nothing",
+						"IsLoop": false,
+						"Delay": 3.0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10002,
+						"SoundName": "HappyBirthday",
+						"Mode": "Nothing",
+						"IsLoop": true,
+						"Delay": 0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10002,
+						"SoundName": "JustFriends",
+						"Mode": "Nothing",
+						"IsLoop": true,
+						"Delay": 0,
+						"Volume": 1.0
+					},
+					{
+						"Mixer": 10002,
+						"SoundName": "Aporia",
+						"Mode": "Nothing",
+						"IsLoop": true,
+						"Delay": 0,
+						"Volume": 1.0
+					}
+				]
+			}
+		},
+		{
+			"ID": 2,
+			"Inputs": {
+				"ScriptType": "PlayerSound"
+			}
+		}
+	]
+}

@@ -5,6 +5,7 @@
 #include "AIBTs.h"
 #include "MoveScript.h"
 #include "CRectangle.h"
+#include "ElectricSound.h"
 
 class ElectricScript : public ScriptBase
 {
@@ -25,6 +26,7 @@ protected:
 	MoveScript* _moveScript = nullptr;
 	Animator* _electricAnimator = nullptr;
 	Animator* _movingAnimator = nullptr;
+	ElectricSound* _sound = nullptr;
 
 	bool _counterStart = false;
 	float _counter = 0;
