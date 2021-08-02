@@ -54,7 +54,6 @@ Support:
 - Enemy animation tree.
 - Settings.
 
-To do:
 - Add 3 avalible items in inventory
 - Add boss
 - Add sound
